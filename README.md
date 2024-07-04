@@ -1,4 +1,5 @@
 # Heavy Industry
+### Heavy Industry IS IN A PRE-RELEASE STATE RIGHT NOW - BROKEN, UNFINISHED OR UNBALANCED CONTENT MAY BE PRESENT!
 - Mindustry Heavy Industry Java Mod
 - English | [中文](README_zh_CN.md)
 ## Matters Needing Attention
