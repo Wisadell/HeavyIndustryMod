@@ -2,6 +2,7 @@
 ### Heavy Industry IS IN A PRE-RELEASE STATE RIGHT NOW - BROKEN, UNFINISHED OR UNBALANCED CONTENT MAY BE PRESENT!
 - Mindustry Heavy Industry Java Mod
 - English | [中文](README_zh_CN.md)
+- Github : https://github.com/Artulo-JavaAdapter/Heavy-Industry
 ## Matters Needing Attention
 - Supports Desktop and Android platforms.
 - This Mod is a Java class Mod, therefore it does not support running on the iOS side.
