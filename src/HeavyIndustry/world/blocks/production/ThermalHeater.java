@@ -24,6 +24,7 @@ public class ThermalHeater extends ThermalGenerator {
         rotate = true;
         canOverdrive = false;
         drawArrow = true;
+        buildType = ThermalHeaterBuild::new;
     }
 
     @Override

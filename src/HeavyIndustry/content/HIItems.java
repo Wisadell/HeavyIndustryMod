@@ -4,6 +4,11 @@ import arc.graphics.Color;
 import mindustry.type.Item;
 
 public class HIItems {
+    public static Item rareEarth = new Item("rare-earth", Color.valueOf("b1bd99")){{
+        hardness = 1;
+        radioactivity = 0.1f;
+        buildable = false;
+    }};
     public static Item nanocore = new Item("nanocore", Color.valueOf("76d081")){{
         cost = -0.75f;
         hardness = 6;
@@ -15,9 +20,6 @@ public class HIItems {
         healthScaling = 0.25f;
         radioactivity = 4;
         explosiveness = 1.8f;
-        frames = 10;
-        transitionFrames = 3;
-        frameTime = 3;
     }};
     public static Item uranium = new Item("uranium", Color.valueOf("a5b2c2")){{
         cost = 4;

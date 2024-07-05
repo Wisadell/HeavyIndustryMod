@@ -1,18 +1,31 @@
 package HeavyIndustry.content;
 
+import HeavyIndustry.world.entity.bullet.CtrlMissileBulletType;
 import arc.graphics.Color;
+import arc.graphics.g2d.Lines;
+import arc.math.Interp;
+import arc.struct.Seq;
 import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.Liquids;
 import mindustry.content.StatusEffects;
 import mindustry.content.UnitTypes;
+import mindustry.entities.Effect;
 import mindustry.entities.bullet.BasicBulletType;
 import mindustry.entities.bullet.ContinuousFlameBulletType;
 import mindustry.entities.bullet.ContinuousLaserBulletType;
+import mindustry.entities.bullet.LiquidBulletType;
 import mindustry.entities.bullet.RailBulletType;
 import mindustry.entities.bullet.ShrapnelBulletType;
+import mindustry.entities.effect.ExplosionEffect;
 import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.WaveEffect;
+import mindustry.entities.effect.WrapEffect;
+import mindustry.entities.part.FlarePart;
+import mindustry.entities.part.ShapePart;
+import mindustry.graphics.Drawf;
+import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.LiquidStack;
 import mindustry.type.PayloadStack;
@@ -20,8 +33,10 @@ import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.LaserTurret;
+import mindustry.world.blocks.defense.turrets.LiquidTurret;
 import mindustry.world.blocks.defense.turrets.PowerTurret;
 import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.payloads.Constructor;
 import mindustry.world.blocks.payloads.PayloadConveyor;
 import mindustry.world.blocks.payloads.PayloadRouter;
 import mindustry.world.blocks.power.ConsumeGenerator;
@@ -38,6 +53,8 @@ import mindustry.world.blocks.units.UnitAssembler;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
 
+import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.type.ItemStack.with;
 
 public class HIOverride {
@@ -116,93 +133,77 @@ public class HIOverride {
         Blocks.coreShard.buildVisibility = BuildVisibility.shown;
         Blocks.reinforcedContainer.itemCapacity = 160;
         //turret
-        ((ItemTurret) Blocks.fuse).ammo(
-                Items.titanium, new ShrapnelBulletType(){{
-                    length = 100;
-                    damage = 66f;
-                    ammoMultiplier = 4f;
-                    width = 17f;
-                    reloadMultiplier = 1.3f;
-                }},
-                Items.thorium, new ShrapnelBulletType(){{
-                    length = 100;
-                    damage = 105f;
-                    ammoMultiplier = 5f;
-                    toColor = Pal.thoriumPink;
-                    shootEffect = smokeEffect = Fx.thoriumShoot;
-                }},
-                HIItems.uranium, new ShrapnelBulletType(){{
-                    length = 100;
-                    damage = 135f;
-                    ammoMultiplier = 6f;
-                    toColor = Color.valueOf("a5b2c2");
-                    shootEffect = smokeEffect = HIFx.uraniumShoot;
-                }}
-        );
-        ((ItemTurret) Blocks.foreshadow).ammo(
-                Items.surgeAlloy, new RailBulletType(){{
-                    shootEffect = Fx.railShoot;
-                    length = 600;
-                    pointEffectSpace = 60;
-                    pierceEffect = Fx.railHit;
-                    pointEffect = Fx.railTrail;
-                    hitEffect = Fx.massiveExplosion;
-                    ammoMultiplier = 1;
-                    smokeEffect = Fx.smokeCloud;
-                    damage = 1450f;
-                    pierceDamageFactor = 0.5f;
-                    buildingDamageMultiplier = 0.3f;
-                }}
-        );
+        ((LiquidTurret) Blocks.wave).ammoTypes.put(HILiquids.nitratedOil, new LiquidBulletType(HILiquids.nitratedOil){{
+            drag = 0.01f;
+            layer = Layer.bullet - 2f;
+        }});
+        ((LiquidTurret) Blocks.wave).ammoTypes.put(HILiquids.nanofluid, new LiquidBulletType(HILiquids.nanofluid){{
+            drag = 0.01f;
+        }});
+        ((ItemTurret) Blocks.salvo).ammoTypes.put(HIItems.uranium, new BasicBulletType(5f, 39, "bullet"){{
+            width = 10f;
+            height = 13f;
+            pierceCap = 2;
+            pierceArmor = true;
+            shootEffect = Fx.shootBig;
+            smokeEffect = Fx.shootBigSmoke;
+            ammoMultiplier = 4;
+            lifetime = 50f;
+        }});
+        ((ItemTurret) Blocks.fuse).ammoTypes.put(HIItems.uranium, new ShrapnelBulletType(){{
+            length = 100;
+            damage = 135f;
+            ammoMultiplier = 6f;
+            toColor = Color.valueOf("a5b2c2");
+            shootEffect = smokeEffect = HIFx.uraniumShoot;
+        }});
+        ((LiquidTurret) Blocks.tsunami).ammoTypes.put(HILiquids.nitratedOil, new LiquidBulletType(HILiquids.nitratedOil){{
+            lifetime = 49f;
+            speed = 4f;
+            knockback = 1.3f;
+            puddleSize = 8f;
+            orbSize = 4f;
+            drag = 0.001f;
+            ammoMultiplier = 0.4f;
+            statusDuration = 60f * 4f;
+            damage = 0.2f;
+            layer = Layer.bullet - 2f;
+        }});
+        ((LiquidTurret) Blocks.tsunami).ammoTypes.put(HILiquids.nanofluid, new LiquidBulletType(HILiquids.nanofluid){{
+            lifetime = 49f;
+            speed = 4f;
+            knockback = 1.3f;
+            puddleSize = 8f;
+            orbSize = 4f;
+            drag = 0.001f;
+            ammoMultiplier = 0.4f;
+            statusDuration = 60f * 4f;
+            damage = 0.2f;
+        }});
+        ((ItemTurret) Blocks.foreshadow).ammo(Items.surgeAlloy, new RailBulletType(){{
+            shootEffect = Fx.railShoot;
+            length = 600;
+            pointEffectSpace = 60;
+            pierceEffect = Fx.railHit;
+            pointEffect = Fx.railTrail;
+            hitEffect = Fx.massiveExplosion;
+            ammoMultiplier = 1;
+            smokeEffect = Fx.smokeCloud;
+            damage = 1450f;
+            pierceDamageFactor = 0.5f;
+            buildingDamageMultiplier = 0.3f;
+        }});
         ((ItemTurret) Blocks.spectre).range = 280f;
-        ((ItemTurret) Blocks.spectre).ammo(
-                Items.graphite, new BasicBulletType(7.5f, 60){{
-                    hitSize = 4.8f;
-                    width = 15f;
-                    height = 21f;
-                    shootEffect = Fx.shootBig;
-                    ammoMultiplier = 4;
-                    reloadMultiplier = 1.7f;
-                    knockback = 0.3f;
-                }},
-                Items.thorium, new BasicBulletType(8f, 90){{
-                    hitSize = 5;
-                    width = 16f;
-                    height = 23f;
-                    shootEffect = Fx.shootBig;
-                    pierceCap = 2;
-                    pierceBuilding = true;
-                    knockback = 0.7f;
-                    ammoMultiplier = 1;
-                }},
-                HIItems.uranium, new BasicBulletType(9f, 120){{
-                    hitSize = 5;
-                    width = 16f;
-                    height = 23f;
-                    shootEffect = Fx.shootBig;
-                    pierceCap = 2;
-                    pierceBuilding = true;
-                    knockback = 0.7f;
-                    ammoMultiplier = 1;
-                }},
-                Items.pyratite, new BasicBulletType(7f, 80){{
-                    hitSize = 5;
-                    width = 16f;
-                    height = 21f;
-                    frontColor = Pal.lightishOrange;
-                    backColor = Pal.lightOrange;
-                    status = StatusEffects.burning;
-                    hitEffect = new MultiEffect(Fx.hitBulletSmall, Fx.fireHit);
-                    shootEffect = Fx.shootBig;
-                    makeFire = true;
-                    pierceCap = 2;
-                    pierceBuilding = true;
-                    knockback = 0.6f;
-                    ammoMultiplier = 3;
-                    splashDamage = 20f;
-                    splashDamageRadius = 25f;
-                }}
-        );
+        ((ItemTurret) Blocks.spectre).ammoTypes.put(HIItems.uranium, new BasicBulletType(9f, 100){{
+            hitSize = 5;
+            width = 16f;
+            height = 23f;
+            shootEffect = Fx.shootBig;
+            pierceCap = 3;
+            pierceArmor = pierceBuilding = true;
+            knockback = 0.7f;
+            ammoMultiplier = 1;
+        }});
         ((LaserTurret) Blocks.meltdown).range = 245;
         ((LaserTurret) Blocks.meltdown).shootType = new ContinuousLaserBulletType(96){{
             length = 250f;
@@ -215,6 +216,7 @@ public class HIOverride {
             incendAmount = 1;
             ammoMultiplier = 1f;
         }};
+        //turret-erekir
         Blocks.breach.armor = 2;
         Blocks.diffuse.armor = 3;
         Blocks.sublimate.armor = 4;
@@ -251,32 +253,126 @@ public class HIOverride {
         Blocks.malign.armor = 19;
         ((PowerTurret) Blocks.malign).minWarmup = 0.98f;
         ((PowerTurret) Blocks.malign).warmupMaintainTime = 45f;
+        //units
+        ((PayloadConveyor) Blocks.payloadConveyor).payloadLimit = 3.25f;
+        ((PayloadRouter) Blocks.payloadRouter).payloadLimit = 3.25f;
         //units-erekir
-        ((PayloadConveyor)Blocks.payloadConveyor).payloadLimit = 3.25f;
-        ((PayloadRouter)Blocks.payloadRouter).payloadLimit = 3.25f;
-        ((PayloadConveyor)Blocks.reinforcedPayloadConveyor).payloadLimit = 3.25f;
-        ((PayloadRouter)Blocks.reinforcedPayloadRouter).payloadLimit = 3.25f;
-        ((UnitAssembler) Blocks.tankAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.dominate, 60f * 90f * 4f, PayloadStack.list(UnitTypes.precept, 4, Blocks.carbideWallLarge, 20, Blocks.reinforcedSurgeWallLarge, 10)));
-        ((UnitAssembler) Blocks.shipAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.havoc, 60f * 90f * 4f, PayloadStack.list(UnitTypes.obviate, 4, Blocks.carbideWallLarge, 20, Blocks.reinforcedSurgeWallLarge, 5)));
-        ((UnitAssembler) Blocks.mechAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.oracle, 60f * 90f * 4f, PayloadStack.list(UnitTypes.anthicus, 4, Blocks.carbideWallLarge, 20, Blocks.reinforcedSurgeWallLarge, 15)));
+        ((PayloadConveyor) Blocks.reinforcedPayloadConveyor).payloadLimit = 3.25f;
+        ((PayloadRouter) Blocks.reinforcedPayloadRouter).payloadLimit = 3.25f;
+        ((Constructor) Blocks.constructor).filter = Seq.with();
+        ((UnitAssembler) Blocks.tankAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.dominate, 60f * 90f * 4f, PayloadStack.list(UnitTypes.precept, 4, Blocks.shieldedWall, 20)));
+        ((UnitAssembler) Blocks.shipAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.havoc, 60f * 90f * 4f, PayloadStack.list(UnitTypes.obviate, 4, Blocks.shieldedWall, 20)));
+        ((UnitAssembler) Blocks.mechAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.oracle, 60f * 90f * 4f, PayloadStack.list(UnitTypes.anthicus, 4, Blocks.shieldedWall, 20)));
     }
     public static void overrideUnit(){
         UnitTypes.quell.targetAir = true;
-        UnitTypes.quell.weapons.get(0).bullet.collidesAir = true;
-        UnitTypes.quell.weapons.get(0).bullet.spawnUnit.targetAir = true;
-        UnitTypes.quell.weapons.get(0).bullet.spawnUnit.weapons.get(0).bullet.collidesAir = true;
+        UnitTypes.quell.weapons.get(0).bullet = new CtrlMissileBulletType("quell-missile", -1, -1){{
+            shootEffect = Fx.shootBig;
+            smokeEffect = Fx.shootBigSmoke2;
+            speed = 4.3f;
+            keepVelocity = false;
+            maxRange = 6f;
+            lifetime = 60f * 1.6f;
+            damage = 100;
+            splashDamage = 100;
+            splashDamageRadius = 25;
+            buildingDamageMultiplier = 0.5f;
+            hitEffect = despawnEffect = Fx.massiveExplosion;
+            trailColor = Pal.sapBulletBack;
+        }};
+        UnitTypes.quell.weapons.get(0).shake = 1;
         UnitTypes.disrupt.targetAir = true;
-        UnitTypes.disrupt.weapons.get(0).bullet.collidesAir = true;
-        UnitTypes.disrupt.weapons.get(0).bullet.spawnUnit.targetAir = true;
-        UnitTypes.disrupt.weapons.get(0).bullet.spawnUnit.weapons.get(0).bullet.collidesAir = true;
+        UnitTypes.disrupt.weapons.get(0).bullet = new CtrlMissileBulletType("disrupt-missile", -1, -1){{
+            shootEffect = Fx.sparkShoot;
+            smokeEffect = Fx.shootSmokeTitan;
+            hitColor = Pal.suppress;
+            maxRange = 5f;
+            speed = 4.6f;
+            keepVelocity = false;
+            homingDelay = 10f;
+            trailColor = Pal.sapBulletBack;
+            trailLength = 8;
+            hitEffect = despawnEffect = new ExplosionEffect(){{
+                lifetime = 50f;
+                waveStroke = 5f;
+                waveLife = 8f;
+                waveColor = Color.white;
+                sparkColor = smokeColor = Pal.suppress;
+                waveRad = 40f;
+                smokeSize = 4f;
+                smokes = 7;
+                smokeSizeBase = 0f;
+                sparks = 10;
+                sparkRad = 40f;
+                sparkLen = 6f;
+                sparkStroke = 2f;
+            }};
+            damage = 135;
+            splashDamage = 135;
+            splashDamageRadius = 25;
+            buildingDamageMultiplier = 0.5f;
+            parts.add(new ShapePart(){{
+                layer = Layer.effect;
+                circle = true;
+                y = -3.5f;
+                radius = 1.6f;
+                color = Pal.suppress;
+                colorTo = Color.white;
+                progress = PartProgress.life.curve(Interp.pow5In);
+            }});
+        }};
+        UnitTypes.disrupt.weapons.get(0).shake = 1f;
+        UnitTypes.anthicus.weapons.get(0).bullet = new CtrlMissileBulletType("anthicus-missile", -1, -1){{
+            shootEffect = new MultiEffect(Fx.shootBigColor, new Effect(9, e -> {
+                color(Color.white, e.color, e.fin());
+                stroke(0.7f + e.fout());
+                Lines.square(e.x, e.y, e.fin() * 5f, e.rotation + 45f);
+                Drawf.light(e.x, e.y, 23f, e.color, e.fout() * 0.7f);
+            }), new WaveEffect(){{
+                colorFrom = colorTo = Pal.techBlue;
+                sizeTo = 15f;
+                lifetime = 12f;
+                strokeFrom = 3f;
+            }});
+            smokeEffect = Fx.shootBigSmoke2;
+            speed = 3.7f;
+            keepVelocity = false;
+            inaccuracy = 2f;
+            maxRange = 6;
+            trailWidth = 2;
+            trailColor = Pal.techBlue;
+            low = true;
+            absorbable = true;
+            damage = 110;
+            splashDamage = 110;
+            splashDamageRadius = 25;
+            buildingDamageMultiplier = 0.8f;
+            despawnEffect = hitEffect = new MultiEffect(Fx.massiveExplosion, new WrapEffect(Fx.dynamicSpikes, Pal.techBlue, 24f), new WaveEffect(){{
+                colorFrom = colorTo = Pal.techBlue;
+                sizeTo = 40f;
+                lifetime = 12f;
+                strokeFrom = 4f;
+            }});
+            parts.add(new FlarePart(){{
+                progress = PartProgress.life.slope().curve(Interp.pow2In);
+                radius = 0f;
+                radiusTo = 35f;
+                stroke = 3f;
+                rotation = 45f;
+                y = -5f;
+                followRotation = true;
+            }});
+        }};
+        UnitTypes.anthicus.weapons.get(0).shake = 2;
+        UnitTypes.anthicus.weapons.get(0).reload = 120;
         UnitTypes.tecta.armor = 11;
-        UnitTypes.collaris.armor = 13;
+        UnitTypes.collaris.armor = 15;
     }
     public static void overrideLiquids(){
-        Liquids.hydrogen.flammability = 1.5f;
-        Liquids.hydrogen.explosiveness = 0.5f;
+        Liquids.hydrogen.explosiveness = 1;
         Liquids.ozone.flammability = 0;
         Liquids.ozone.explosiveness = 0;
+        Liquids.neoplasm.capPuddles = true;
     }
     public static void overrideItem(){
         Items.graphite.hardness = 2;

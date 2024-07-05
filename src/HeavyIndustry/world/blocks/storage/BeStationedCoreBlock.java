@@ -7,10 +7,11 @@ import mindustry.world.Tile;
 import mindustry.world.blocks.storage.CoreBlock;
 
 public class BeStationedCoreBlock extends CoreBlock {
-    public int maxCoreQuantity = 1;
+    public int maxCoreQuantity;
 
     public BeStationedCoreBlock(String name) {
         super(name);
+        maxCoreQuantity = 3;
     }
 
     @Override

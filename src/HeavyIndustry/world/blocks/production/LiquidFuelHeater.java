@@ -8,6 +8,7 @@ public class LiquidFuelHeater extends HeatProducer {
     public LiquidFuelHeater(String name) {
         super(name);
         hasLiquids = true;
+        buildType = LiquidFuelHeaterBuild::new;
     }
 
     @Override

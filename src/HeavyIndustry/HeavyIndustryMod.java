@@ -18,10 +18,10 @@ public class HeavyIndustryMod extends Mod{
         Log.info("Loaded HeavyIndustry constructor.");
         Events.on(ClientLoadEvent.class, e -> {
             Time.runTask(10f, () -> {
-                BaseDialog dialog = new BaseDialog("[green]Heavy Industry Mod");
+                BaseDialog dialog = new BaseDialog("Heavy Industry Mod");
                 dialog.buttons.button("@close", dialog::hide).size(100f, 50f);
                 dialog.cont.pane(table -> {
-                    table.image(Core.atlas.find(name("img-3"))).left().row();
+                    table.image(Core.atlas.find(name("img"))).left().row();
                     table.add("Test Page").left().growX().wrap().pad(4).labelAlign(Align.left).row();
                     Label flabel1 = new FLabel(" Current version of mod: 1.1.0.1");
                     table.add(flabel1).left().row();
@@ -37,7 +37,6 @@ public class HeavyIndustryMod extends Mod{
         HISounds.load();
         HIAttribute.load();
         HIStatusEffects.load();
-        HIBullets.load();
         HIUnitTypes.load();
         HIBlocks.load();
         HIOverride.overrideBlocks();
@@ -47,5 +46,4 @@ public class HeavyIndustryMod extends Mod{
         HISectorPresets.load();
         HITechTree.load();
     }
-
 }

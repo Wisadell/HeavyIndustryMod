@@ -18,11 +18,6 @@ public class HITechTree {
     public static TechNode context = null;
     public static void load() {
         //items,liquids
-        addToNode(Liquids.water, () -> {
-            nodeProduce(Liquids.cyanogen, () -> {});
-            nodeProduce(Liquids.ozone, () -> {});
-            nodeProduce(HILiquids.methane, () -> {});
-        });
         addToNode(Liquids.oil, () -> nodeProduce(HILiquids.nitratedOil, () -> {}));
         addToNode(Items.silicon, () -> nodeProduce(HIItems.nanocore, () -> nodeProduce(HILiquids.nanofluid, () -> {})));
         addToNode(Items.thorium, () -> nodeProduce(HIItems.uranium, () -> nodeProduce(HIItems.chromium, () -> {})));
@@ -37,7 +32,10 @@ public class HITechTree {
                 node(chromiumDoor, () -> node(chromiumDoorLarge));
             });
         }));
-        addToNode(surgeWall, () -> node(heavyAlloyWall, () -> node(heavyAlloyWallLarge)));
+        addToNode(surgeWall, () -> node(heavyAlloyWall, () -> {
+            node(heavyAlloyWallLarge);
+            node(nanoCompositeWall, () -> node(nanoCompositeWallLarge));
+        }));
         //drill
         addToNode(waterExtractor, () -> {
             node(largeWaterExtractor);
@@ -48,8 +46,8 @@ public class HITechTree {
             node(beamDrill);
         });
         //drill-erekir
-        addToNode(cliffCrusher, () -> node(largeCliffCrusher, Seq.with(new OnSector(lake)), () -> {}));
-        addToNode(largePlasmaBore, () -> node(heavyPlasmaBore));
+        addToNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
+        addToNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
         //distribution
         addToNode(junction, () -> node(invertedJunction));
         addToNode(plastaniumConveyor, () -> node(stackHelper));
@@ -62,13 +60,12 @@ public class HITechTree {
             node(chromiumInvertedJunction);
         }));
         //distribution-erekir
-        addToNode(ductRouter, () -> node(reinforcedSorter, () -> {
-            node(reinforcedInvertedSorter);
-            node(reinforcedOverflowGate, () -> node(reinforcedUnderflowGate));
-        }));
         addToNode(armoredDuct, () -> {
             node(armoredDuctBridge);
-            node(waveDuct, () -> node(waveDuctBridge));
+            node(waveDuct, () -> {
+                node(waveDuctRouter, () -> node(overflowWaveDuct, () -> node(underflowWaveDuct)));
+                node(waveDuctBridge);
+            });
         });
         addToNode(ductUnloader, () -> node(rapidDuctUnloader));
         //liquid
@@ -91,7 +88,7 @@ public class HITechTree {
         addToNode(thoriumReactor, () -> node(uraniumReactor));
         addToNode(batteryLarge, () -> node(armoredCoatedBattery));
         //power-erekir
-        addToNode(turbineCondenser, () -> node(liquidConsumeGenerator));
+        addToNode(turbineCondenser, () -> node(liquidConsumeGenerator, ItemStack.with(Items.beryllium, 2200, Items.graphite, 2400, Items.silicon, 2300, Items.tungsten, 1600, Items.oxide, 60), () -> {}));
         //production
         addToNode(kiln, () -> node(largeKiln, Seq.with(new SectorComplete(windsweptIslands)), () -> {}));
         addToNode(pulverizer, () -> node(largePulverizer, () -> {
@@ -117,30 +114,33 @@ public class HITechTree {
         }));
         //production-erekir
         addToNode(siliconArcFurnace, () -> {
-            node(chemicalSiliconSmelter);
+            node(chemicalSiliconSmelter, ItemStack.with(Items.graphite, 2800, Items.silicon, 1000, Items.tungsten, 2400, Items.oxide, 50), () -> {});
             node(ventHeater);
         });
         addToNode(electricHeater, () -> {
-            node(largeElectricHeater);
+            node(largeElectricHeater, ItemStack.with(Items.tungsten, 3000, Items.oxide, 2400, Items.carbide, 800), () -> {});
             node(liquidFuelHeater);
         });
-        addToNode(oxidationChamber, () -> node(largeOxidationChamber));
-        addToNode(surgeCrucible, () -> node(largeSurgeCrucible));
-        addToNode(carbideCrucible, () -> node(largeCarbideCrucible));
+        addToNode(oxidationChamber, () -> node(largeOxidationChamber, ItemStack.with(Items.tungsten, 3600, Items.graphite, 4400, Items.silicon, 4400, Items.beryllium, 6400, Items.oxide, 600, Items.carbide, 1400), () -> {}));
+        addToNode(surgeCrucible, () -> node(largeSurgeCrucible, ItemStack.with(Items.graphite, 4400, Items.silicon, 4000, Items.tungsten, 4800, Items.oxide, 960, Items.surgeAlloy, 1600), () -> {}));
+        addToNode(carbideCrucible, () -> node(largeCarbideCrucible, ItemStack.with(Items.thorium, 6000, Items.tungsten, 8000, Items.oxide, 1000, Items.carbide, 1200), () -> {}));
+        addToNode(phaseSynthesizer, () -> node(largePhaseSynthesizer));
         //defense
         addToNode(mendProjector, () -> node(mendDome));
         //defense-erekir
-        addToNode(radar, () -> node(largeRadar));
+        addToNode(radar, () -> node(largeRadar, ItemStack.with(Items.graphite, 3600, Items.silicon, 3200, Items.beryllium, 600, Items.tungsten, 200, Items.oxide, 10), () -> {}));
         //storage
-        addToNode(coreShard, () -> node(coreBeStationed));
-        addToNode(router, () -> node(bin));
+        addToNode(coreShard, () -> node(coreBeStationed, ItemStack.with(Items.copper, 500, Items.lead, 350, Items.silicon, 200), () -> {}));
+        addToNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> {}));
         addToNode(vault, () -> node(cargo));
         addToNode(unloader, () -> node(rapidUnloader));
         //unit
-        addToNode(tetrativeReconstructor, () -> node(titanReconstructor, () -> node(experimentalUnitFactory, Seq.with(new Research(suzerain), new Research(supernova), new Research(cancer), new Research(sunlit), new Research(windstorm), new Research(harpoon), new Research(killerWhale), new SectorComplete(bombardmentWarzone)), () -> {})));
+        addToNode(tetrativeReconstructor, () -> node(titanReconstructor, () -> node(experimentalUnitFactory, Seq.with(new SectorComplete(bombardmentWarzone)), () -> {})));
         //unit-erekir
-        addToNode(unitRepairTower, () -> node(largeUnitRepairTower, Seq.with(new OnSector(siege)), () -> {}));
+        addToNode(unitRepairTower, () -> node(largeUnitRepairTower, ItemStack.with(Items.graphite, 2400, Items.silicon, 3000, Items.tungsten, 2600, Items.oxide, 1200, Items.carbide, 600), Seq.with(new OnSector(siege)), () -> {}));
         addToNode(basicAssemblerModule, () -> node(seniorAssemblerModule));
+        //logic
+        addToNode(memoryCell, () -> node(buffrerdMemoryCell, () -> node(buffrerdMemoryBank)));
         //turret
         addToNode(segment, () -> node(dissipation));
         addToNode(duo, () -> {
@@ -150,7 +150,7 @@ public class HITechTree {
             }));
             node(cloudbreaker);
         });
-        addToNode(tsunami, () -> node(furnace, Seq.with(new SectorComplete(nuclearComplex)), () -> {}));
+        addToNode(spectre, () -> node(minigun));
         addToNode(meltdown, () -> {
             node(frost, Seq.with(new SectorComplete(fallenStronghold)), () -> {});
             node(thermoelectricIon, Seq.with(new SectorComplete(bombardmentWarzone)), () -> {});

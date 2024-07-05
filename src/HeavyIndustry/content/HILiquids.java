@@ -2,6 +2,8 @@ package HeavyIndustry.content;
 
 import arc.graphics.Color;
 import arc.math.Interp;
+import mindustry.content.Liquids;
+import mindustry.content.StatusEffects;
 import mindustry.entities.effect.ParticleEffect;
 import mindustry.type.Liquid;
 
@@ -16,32 +18,25 @@ public class HILiquids {
         particleSpacing = 10;
         particleEffect = new ParticleEffect(){{
             particles = 5;
-            baseLength = 1;
-            length = 13;
+            baseLength = sizeFrom = 1f;
+            length = 13f;
             region = name("diamond");
             sizeInterp = Interp.pow5In;
-            lifetime = 22;
-            sizeFrom = 1;
-            sizeTo = 0;
+            lifetime = 22f;
+            sizeTo = 0f;
             colorFrom = Color.valueOf("96e6a0");
             colorTo = Color.valueOf("62ae7f");
         }};
+        effect = StatusEffects.electrified;
+        coolant = true;
     }};
-    public static Liquid nitratedOil = new Liquid("nitrated-oil", Color.valueOf("333333")){{
+    public static Liquid nitratedOil = new Liquid("nitrated-oil", Color.valueOf("3c3e45")){{
         temperature = 0.5f;
         viscosity = 0.8f;
         flammability = 0.8f;
         explosiveness = 3.2f;
-        coolant = false;
-    }};
-    public static Liquid methane = new Liquid("methane", Color.valueOf("fbd367")){{
-        gas = true;
-        temperature = 0.5f;
-        viscosity = 0.5f;
-        heatCapacity = 0.5f;
-        flammability = 1f;
-        explosiveness = 1.5f;
-        boilPoint = -1f;
+        effect = StatusEffects.tarred;
+        canStayOn.add(Liquids.water);
         coolant = false;
     }};
 }

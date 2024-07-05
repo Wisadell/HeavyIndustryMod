@@ -23,6 +23,7 @@ public class StackHelper extends Block {
         update = true;
         solid = true;
         group = BlockGroup.transportation;
+        buildType = StackHelperBuild::new;
     }
 
     @Override

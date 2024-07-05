@@ -12,6 +12,8 @@ public class HISounds {
     public static Sound dd1;
     public static Sound fj;
     public static Sound jg1;
+    public static Sound flak;
+    public static Sound gauss;
     public static Sound largeBeam;
 
     public HISounds() {
@@ -23,6 +25,8 @@ public class HISounds {
         dd1 = loadSound("dd1.ogg");
         fj = loadSound("fj.ogg");
         jg1 = loadSound("jg1.ogg");
+        flak = loadSound("flak.ogg");
+        gauss = loadSound("gauss.ogg");
         largeBeam = loadSound("largeBeam.ogg");
     }
 
@@ -37,6 +41,8 @@ public class HISounds {
         dd1 = new Sound();
         fj = new Sound();
         jg1 = new Sound();
+        flak = new Sound();
+        gauss = new Sound();
         largeBeam = new Sound();
     }
 }

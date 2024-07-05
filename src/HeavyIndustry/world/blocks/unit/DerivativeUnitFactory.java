@@ -46,6 +46,7 @@ public class DerivativeUnitFactory extends UnitFactory {
         ambientSound = Sounds.bioLoop;
         ambientSoundVolume = 0.1f;
         flags = EnumSet.of(BlockFlag.factory);
+        buildType = DerivativeFactoryBuildBuild::new;
     }
 
     @Override
@@ -84,10 +85,10 @@ public class DerivativeUnitFactory extends UnitFactory {
     public boolean canPlaceOn(Tile tile, Team team, int rotation){
         //same as UnitAssembler
         Rect rect = getRect(Tmp.r1, tile.worldx() + offset, tile.worldy() + offset, rotation).grow(0.1f);
-        return !indexer.getFlagged(team, BlockFlag.factory).contains(b -> b instanceof DerivativeBuild && getRect(Tmp.r2, b.x, b.y, b.rotation).overlaps(rect));
+        return !indexer.getFlagged(team, BlockFlag.factory).contains(b -> b instanceof DerivativeFactoryBuildBuild && getRect(Tmp.r2, b.x, b.y, b.rotation).overlaps(rect));
     }
 
-    public class DerivativeBuild extends UnitFactoryBuild{
+    public class DerivativeFactoryBuildBuild extends UnitFactoryBuild{
         public Vec2 v1 = new Vec2();
         public Vec2 v2 = new Vec2();
         public Vec2 offset = new Vec2(), end = new Vec2();

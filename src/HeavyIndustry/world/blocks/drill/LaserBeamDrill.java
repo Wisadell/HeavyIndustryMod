@@ -53,6 +53,7 @@ public class LaserBeamDrill extends Drill {
         ambientSoundVolume = 0.18f;
         drillEffect = Fx.none;
         updateEffectChance = 0.2f;
+        buildType = BeamDrillBuild::new;
     }
 
     @Override

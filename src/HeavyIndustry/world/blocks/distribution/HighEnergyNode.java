@@ -26,6 +26,7 @@ public class HighEnergyNode extends ItemBridge {
 
     public HighEnergyNode(String name) {
         super(name);
+        buildType = HighEnergyNodeBuild::new;
     }
 
     @Override
@@ -72,7 +73,6 @@ public class HighEnergyNode extends ItemBridge {
             Building other = world.build(link);
             if(other != null && !linkValid(tile, other.tile)){
                 link = -1;
-                //return;
             }
             super.updateTile();
         }
