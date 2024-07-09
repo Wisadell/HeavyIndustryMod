@@ -2,7 +2,7 @@
 ### 重工业目前处于预发布状态-可能会出现损坏、未完成或不平衡的内容！
 - 像素工厂 重工业 Java 模组
 - [English](README.md) | 中文
-- Github : https://github.com/Artulo-JavaAdapter/Heavy-Industry
+- Github : https://github.com/Wisadell/Heavy-Industry
 ## 注意事项
 - 支持Desktop与Android平台。
 - 此Mod是Java类Mod，因此不支持在iOS平台运行。
