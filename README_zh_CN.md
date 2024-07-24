@@ -24,4 +24,4 @@
 - 您还可以试试其他Mindustry知名的高质量模组
 - Extra-Utilities更多实用设备模组 : https://github.com/guiYMOUR/mindustry-Extra-Utilities-mod
 - New-Horizon新视界模组 : https://github.com/Yuria-Shikibe/NewHorizonMod
-- Saturation-Firepower饱和火力模组 : https://github.com/Cry0flu1d/Saturation-Firepower
+- Saturation-Firepower饱和火力模组 : https://github.com/RA2EXE/Saturation-Firepower 注意：模组内容对象由中文命名，可能暂时不支持外国英文设备
