@@ -128,6 +128,7 @@ public class HIPlanets {
             allowLaunchSchematics = true;
             enemyCoreSpawnReplace = true;
             allowLaunchLoadout = true;
+            clearSectorOnLose = true;
             prebuildBase = false;
             ruleSetter = r -> {
                 r.waveTeam = Team.crux;

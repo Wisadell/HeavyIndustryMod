@@ -32,7 +32,7 @@ public class DrawFunc {
         Draw.reset();
     }
 
-    //NP
+    //N
     public static final float sinScl = 1f;
     public static void link(Buildingc from, Buildingc to, Color color){
         float

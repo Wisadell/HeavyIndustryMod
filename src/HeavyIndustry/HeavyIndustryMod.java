@@ -75,7 +75,7 @@ public class HeavyIndustryMod extends Mod{
     }
 
     @Override
-    public void init() {
+    public void init(){
         super.init();
         HIResearchDialog dialog = new HIResearchDialog();
         ResearchDialog research = Vars.ui.research;

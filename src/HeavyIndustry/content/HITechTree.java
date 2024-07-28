@@ -100,10 +100,7 @@ public class HITechTree {
             node(uraniumSynthesizer, Seq.with(new OnSector(chernobog)), () -> {});
             node(chromiumSynthesizer, Seq.with(new OnSector(chernobog)), () -> {});
         }));
-        addToNode(melter, () -> {
-            node(largeMelter);
-            node(titaniumAlloyFactory, () -> node(multipleTitaniumAlloyFactory));
-        });
+        addToNode(melter, () -> node(largeMelter));
         addToNode(surgeSmelter, () -> node(heavyAlloySmelter));
         addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(chernobog)), () -> {}));
         addToNode(cryofluidMixer, () -> {

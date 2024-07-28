@@ -1,6 +1,8 @@
 package HeavyIndustry.gen;
 
-import HeavyIndustry.HeavyIndustryMod;
+import arc.Core;
+import arc.assets.AssetDescriptor;
+import arc.assets.loaders.SoundLoader;
 import arc.audio.Sound;
 import mindustry.Vars;
 
@@ -22,26 +24,38 @@ public class HISounds {
     }
 
     public static void load() {
-        ct1 = loadSound("ct1.ogg");
-        dbz1 = loadSound("dbz1.ogg");
-        dd1 = loadSound("dd1.ogg");
-        fj = loadSound("fj.ogg");
-        jg1 = loadSound("jg1.ogg");
-        flak = loadSound("flak.ogg");
-        flak2 = loadSound("flak2.ogg");
-        gauss = loadSound("gauss.ogg");
-        fissure = loadSound("fissure.ogg");
-        largeBeam = loadSound("largeBeam.ogg");
-        hailRain = loadSound("hailRain.ogg");
-        bigHailstoneHit = loadSound("bigHailstoneHit.ogg");
+        ct1 = loadSound("ct1");
+        dbz1 = loadSound("dbz1");
+        dd1 = loadSound("dd1");
+        fj = loadSound("fj");
+        jg1 = loadSound("jg1");
+        flak = loadSound("flak");
+        flak2 = loadSound("flak2");
+        gauss = loadSound("gauss");
+        fissure = loadSound("fissure");
+        largeBeam = loadSound("largeBeam");
+        hailRain = loadSound("hailRain");
+        bigHailstoneHit = loadSound("bigHailstoneHit");
     }
 
-    public static Sound loadSound(String name) {
-        return new Sound(HeavyIndustryMod.modInfo.root.child("sounds").child(name));
+    private static Sound loadSound(String soundName){
+        if(!Vars.headless) {
+            String name = "sounds/" + soundName;
+            String path = Vars.tree.get(name + ".ogg").exists() ? name + ".ogg" : name + ".mp3";
+
+            Sound sound = new Sound();
+
+            AssetDescriptor<?> desc = Core.assets.load(path, Sound.class, new SoundLoader.SoundParameter(sound));
+            desc.errored = Throwable::printStackTrace;
+
+            return sound;
+
+        } else {
+            return new Sound();
+        }
     }
 
     static {
-        HeavyIndustryMod.modInfo = Vars.mods.getMod(HeavyIndustryMod.class);
         ct1 = new Sound();
         dbz1 = new Sound();
         dd1 = new Sound();

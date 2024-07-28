@@ -28,7 +28,6 @@ import mindustry.entities.part.ShapePart;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
-import mindustry.type.Category;
 import mindustry.type.LiquidStack;
 import mindustry.type.PayloadStack;
 import mindustry.world.blocks.defense.Wall;
@@ -50,12 +49,7 @@ import mindustry.world.blocks.production.BurstDrill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.production.HeatCrafter;
 import mindustry.world.blocks.production.Pump;
-import mindustry.world.blocks.production.Separator;
 import mindustry.world.blocks.units.UnitAssembler;
-import mindustry.world.draw.DrawDefault;
-import mindustry.world.draw.DrawLiquidTile;
-import mindustry.world.draw.DrawMulti;
-import mindustry.world.draw.DrawRegion;
 import mindustry.world.meta.Attribute;
 import mindustry.world.meta.BuildVisibility;
 
@@ -118,17 +112,6 @@ public class HIOverride {
         //Blocks-Power-Erekir
         ((VariableReactor) Blocks.fluxReactor).powerProduction = 180f;
         //Blocks-Production
-        Blocks.disassembler = new Separator("disassembler"){{
-            requirements(Category.crafting, with(Items.plastanium, 40, Items.titanium, 100, Items.silicon, 150, Items.thorium, 80));
-            results = with(Items.copper, 1, Items.lead, 1, Items.graphite, 1, Items.titanium, 1, Items.thorium, 1);
-            hasPower = true;
-            craftTime = 10f;
-            size = 3;
-            itemCapacity = 20;
-            consumePower(4f);
-            consumeLiquid(Liquids.slag, 12f / 60f);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 3, true), new DrawDefault());
-        }};
         Blocks.phaseWeaver.itemCapacity = 30;
         //Blocks-Production-Erekir
         Blocks.oxidationChamber.canOverdrive = true;

@@ -1,12 +1,10 @@
 package HeavyIndustry.content;
 
-import static java.util.Objects.hash;
-
 import HeavyIndustry.entities.PositionLightning;
 import HeavyIndustry.graphics.Drawm;
 import HeavyIndustry.graphics.HIPal;
 import HeavyIndustry.math.Math3D;
-import HeavyIndustry.util.struct.Vec2Seq;
+import HeavyIndustry.struct.Vec2Seq;
 import HeavyIndustry.world.drawer.DrawFunc;
 import HeavyIndustry.entities.bullet.HailStoneBulletType;
 import arc.Core;
@@ -29,6 +27,7 @@ import mindustry.graphics.Pal;
 
 import static HeavyIndustry.HeavyIndustryMod.name;
 import static HeavyIndustry.graphics.HIPal.*;
+import static java.util.Objects.hash;
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.circle;
 import static arc.graphics.g2d.Lines.lineAngle;
@@ -161,7 +160,7 @@ public class HIFx {
         float r = e.rotation;
         Fill.circle(e.x, e.y, r * e.foutpow());
     }).layer(Layer.bullet - 1f);
-    //NP
+    //N
     public static final float EFFECT_BOTTOM = Layer.bullet - 0.11f;
     private static final Rand rand = new Rand();
     public static final IntMap<Effect> same = new IntMap<>();

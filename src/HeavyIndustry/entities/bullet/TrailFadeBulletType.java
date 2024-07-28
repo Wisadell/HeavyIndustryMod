@@ -12,7 +12,7 @@ import mindustry.gen.Bullet;
 import mindustry.gen.Hitboxc;
 import HeavyIndustry.content.HIFx;
 import HeavyIndustry.entities.PositionLightning;
-import HeavyIndustry.util.struct.Vec2Seq;
+import HeavyIndustry.struct.Vec2Seq;
 
 public class TrailFadeBulletType extends AccelBulletType {
     public int tracers = 2;

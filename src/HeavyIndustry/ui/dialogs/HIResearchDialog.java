@@ -34,7 +34,7 @@ import java.util.*;
 import static mindustry.Vars.*;
 import static mindustry.gen.Tex.*;
 
-public class HIResearchDialog extends BaseDialog{
+public class HIResearchDialog extends BaseDialog {
     public static boolean debugShowRequirements = false;
 
     public final float nodeSize = Scl.scl(60f);

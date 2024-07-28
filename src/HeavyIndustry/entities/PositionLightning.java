@@ -1,7 +1,7 @@
 package HeavyIndustry.entities;
 
 import HeavyIndustry.content.HIFx;
-import HeavyIndustry.util.struct.Vec2Seq;
+import HeavyIndustry.struct.Vec2Seq;
 import HeavyIndustry.entities.bullet.EffectBulletType;
 import arc.func.Cons;
 import arc.graphics.Color;
