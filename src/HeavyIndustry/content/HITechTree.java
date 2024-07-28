@@ -76,7 +76,7 @@ public class HITechTree {
         addToNode(phaseConduit, () -> node(highEnergyLiquidNode));
         addToNode(platedConduit, () -> node(chromiumArmorConduit, () -> {
             node(chromiumLiquidBridge);
-            node(chromiumArmorLiquidTank);
+            node(chromiumArmorLiquidContainer, () -> node(chromiumArmorLiquidTank));
         }));
         //liquid-erekir
         addToNode(reinforcedLiquidRouter, () -> {
@@ -100,7 +100,10 @@ public class HITechTree {
             node(uraniumSynthesizer, Seq.with(new OnSector(chernobog)), () -> {});
             node(chromiumSynthesizer, Seq.with(new OnSector(chernobog)), () -> {});
         }));
-        addToNode(melter, () -> node(largeMelter));
+        addToNode(melter, () -> {
+            node(largeMelter);
+            node(titaniumAlloyFactory, () -> node(multipleTitaniumAlloyFactory));
+        });
         addToNode(surgeSmelter, () -> node(heavyAlloySmelter));
         addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(chernobog)), () -> {}));
         addToNode(cryofluidMixer, () -> {
@@ -167,11 +170,10 @@ public class HITechTree {
             node(rend, () -> node(fissure));
             node(minigun);
         });
-        addToNode(cyclone, () -> node(splitPlum));
         addToNode(meltdown, () -> {
             node(frost, Seq.with(new SectorComplete(fallenStronghold)), () -> {});
             node(thermoelectricIon, Seq.with(new SectorComplete(bombardmentWarzone)), () -> {});
-            node(concentration);
+            node(judgement);
         });
         addToNode(foreshadow, () -> {
             node(fiammetta);

@@ -153,7 +153,7 @@ public class HIBlocks {
             //distribution-erekir
             armoredDuctBridge,waveDuct,waveDuctBridge,waveDuctRouter,overflowWaveDuct,underflowWaveDuct,rapidDuctUnloader,
             //liquid
-            turboPump,highEnergyLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidTank,
+            turboPump,highEnergyLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
             //liquid-erekir
             liquidSorter,liquidValve,smallReinforcedPump,largeReinforcedPump,
             //power
@@ -162,7 +162,7 @@ public class HIBlocks {
             liquidConsumeGenerator,
             //production
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,largeCoalCentrifuge,blastSiliconSmelter,
-            nanocoreConstructor,nanocorePrinter,activator,highEnergyPhaseWeaver,energizer,largeEnergizer,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
+            titaniumAlloyFactory,multipleTitaniumAlloyFactory,nanocoreConstructor,nanocorePrinter,activator,highEnergyPhaseWeaver,energizer,largeEnergizer,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,
             //defense
@@ -179,8 +179,8 @@ public class HIBlocks {
             buffrerdMemoryCell,buffrerdMemoryBank,
             //turret
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,caelum,cloudbreaker,minigun,
-            rend,fissure,splitPlum,
-            frost,concentration,thermoelectricIon,fiammetta,wisadel,spark,fireworks,
+            rend,fissure,
+            frost,judgement,thermoelectricIon,fiammetta,wisadel,spark,fireworks,
             //turret-erekir
             tracer,shadow;
     public static void load(){
@@ -598,7 +598,7 @@ public class HIBlocks {
             buildCostMultiplier = 0.8f;
         }};
         reinforcedDrill = new Drill("reinforced-drill"){{
-            requirements(Category.production, with(Items.graphite, 100, Items.silicon, 120, Items.thorium, 50, Items.plastanium, 40, Items.surgeAlloy, 15));
+            requirements(Category.production, with(Items.graphite, 100, Items.silicon, 120, Items.thorium, 50, HIItems.titaniumAlloy, 35));
             size = 3;
             health = 590;
             armor = 3;
@@ -828,6 +828,15 @@ public class HIBlocks {
             arrowSpacing = 6;
             bridgeWidth = 8;
             ((ArmoredConduit) chromiumArmorConduit).bridgeReplacement = this;
+        }};
+        chromiumArmorLiquidContainer = new LiquidRouter("chromium-armor-liquid-container"){{
+            requirements(Category.liquid, with(Items.metaglass, 15, HIItems.chromium, 6));
+            size = 2;
+            health = 950;
+            armor = 8;
+            liquidCapacity = 1200;
+            underBullets = true;
+            buildCostMultiplier = 0.8f;
         }};
         chromiumArmorLiquidTank = new LiquidRouter("chromium-armor-liquid-tank"){{
             requirements(Category.liquid, with(Items.metaglass, 40, HIItems.chromium, 16));
@@ -1203,6 +1212,44 @@ public class HIBlocks {
             consumeItems(with(Items.coal, 5, Items.sand, 8, Items.blastCompound, 1));
             consumePower(9.5f);
         }};
+        titaniumAlloyFactory = new GenericCrafter("titanium-alloy-factory"){{
+            requirements(Category.crafting, with(Items.silicon, 45, Items.lead, 115, Items.graphite, 25, Items.titanium, 100, Items.thorium, 35));
+            size = 2;
+            health = 320;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawArcSmelt(){{
+                midColor = flameColor = HIPal.titaniumAlloyPurple.cpy().lerp(Color.lightGray, 0.3f);
+                flameRad /= 1.585f;
+                particleStroke /= 1.35f;
+                particleLen /= 1.25f;
+            }}, new DrawDefault());
+            craftTime = 60f;
+            outputItem = new ItemStack(HIItems.titaniumAlloy, 2);
+            updateEffect = Fx.smeltsmoke;
+            craftEffect = HIFx.square(HIPal.titaniumAlloyPurple.cpy().lerp(Color.lightGray, 0.3f), 32f, 5, 22f, 4);
+            consumePower(3f);
+            consumeItems(ItemStack.with(Items.titanium, 1, Items.thorium, 1, Items.graphite, 1));
+        }};
+        multipleTitaniumAlloyFactory = new GenericCrafter("multiple-titanium-alloy-factory"){{
+            requirements(Category.crafting, with(Items.copper, 100, Items.lead, 120, Items.silicon, 80, HIItems.titaniumAlloy, 60));
+            size = 3;
+            health = 540;
+            hasLiquids = true;
+            craftTime = 60f;
+            outputItems = with(HIItems.titaniumAlloy, 8, Items.scrap, 1);
+            itemCapacity = 30;
+            liquidCapacity = 30;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water), new DrawRotator(), new DrawRegion("-middle"), new DrawCrucibleFlame(){{
+                alpha = 0.375f;
+                particles = 20;
+                particleSize = 2f;
+                particleRad = 6f;
+                flameColor = HIPal.titaniumAlloyPurple;
+                midColor = HIPal.titaniumAlloyPurple.cpy().lerp(Color.white, 0.1f);
+            }}, new DrawDefault());
+            consumePower(5f);
+            consumeItems(ItemStack.with(Items.titanium, 3, Items.thorium, 2, Items.graphite, 2));
+            consumeLiquid(Liquids.water, 0.125f);
+        }};
         nanocoreConstructor = new GenericCrafter("nanocore-constructor"){{
             requirements(Category.crafting, with(Items.copper, 120, Items.lead, 110, Items.titanium, 45, Items.silicon, 35));
             size = 2;
@@ -1563,7 +1610,7 @@ public class HIBlocks {
             consumeItems(ItemStack.with(Items.titanium, 8, Items.phaseFabric, 1));
         }};
         heavyAlloySmelter = new GenericCrafter("heavy-alloy-smelter"){{
-            requirements(Category.crafting, with(Items.lead, 80, Items.graphite, 120, Items.silicon, 60, HIItems.highEnergyFabric, 10, HIItems.chromium, 30));
+            requirements(Category.crafting, with(Items.lead, 80, Items.silicon, 60, HIItems.titaniumAlloy, 40, HIItems.highEnergyFabric, 10));
             size = 3;
             health = 850;
             craftTime = 80f;
@@ -1839,7 +1886,7 @@ public class HIBlocks {
 
             @Override
             public boolean canPlaceOn(Tile tile, Team team, int rotation){
-                return Vars.state.teams.cores(team).size < 8;
+                return Vars.state.teams.cores(team).size < 5;
             }
         };
         bin = new StorageBlock("bin"){{
@@ -1868,7 +1915,7 @@ public class HIBlocks {
         }};
         //unit
         titanReconstructor = new Reconstructor("titan-reconstructor"){{
-            requirements(Category.units, with(Items.lead, 4000, Items.silicon, 3000, Items.plastanium, 1500, Items.surgeAlloy, 1200, HIItems.highEnergyFabric, 300, HIItems.chromium, 800));
+            requirements(Category.units, with(Items.lead, 4000, Items.silicon, 3000, Items.plastanium, 1500, Items.surgeAlloy, 1200, HIItems.titaniumAlloy, 500, HIItems.highEnergyFabric, 300, HIItems.chromium, 800));
             size = 11;
             liquidCapacity = 360f;
             scaledHealth = 100f;
@@ -1884,10 +1931,10 @@ public class HIBlocks {
             );
             consumePower(35f);
             consumeLiquid(Liquids.cryofluid, 4f);
-            consumeItems(ItemStack.with(Items.silicon, 1200, HIItems.highEnergyFabric, 100, HIItems.uranium, 200, HIItems.chromium, 300));
+            consumeItems(ItemStack.with(HIItems.titaniumAlloy, 250, HIItems.highEnergyFabric, 100, HIItems.uranium, 200, HIItems.chromium, 300));
         }};
         experimentalUnitFactory = new DerivativeUnitFactory("experimental-unit-factory"){{
-            requirements(Category.units, with(Items.silicon, 2500, Items.plastanium, 1500, Items.surgeAlloy, 1000, HIItems.nanocore, 800, HIItems.highEnergyFabric, 400, HIItems.heavyAlloy, 600));
+            requirements(Category.units, with(Items.silicon, 2500, Items.plastanium, 1500, Items.surgeAlloy, 1000, HIItems.titaniumAlloy, 1200, HIItems.nanocore, 800, HIItems.highEnergyFabric, 400, HIItems.heavyAlloy, 600));
             size = 5;
             liquidCapacity = 60f;
             floating = true;
@@ -2435,7 +2482,7 @@ public class HIBlocks {
             consumePower(6f);
         }};
         caelum = new ItemTurret("caelum"){{
-            requirements(Category.turret, with(Items.copper, 600, Items.graphite, 500, Items.titanium, 200, Items.silicon, 200, Items.plastanium, 300));
+            requirements(Category.turret, with(Items.graphite, 500, Items.silicon, 200, HIItems.titaniumAlloy, 100, Items.plastanium, 300));
             ammo(
                     Items.blastCompound, new FlakBulletType(6f, 33f){{
                         splashDamageRadius = 64f;
@@ -2767,7 +2814,7 @@ public class HIBlocks {
             coolant = consumeCoolant(0.3f);
         }};
         minigun = new MinigunTurret("minigun"){{
-            requirements(Category.turret, with(Items.copper, 350, Items.graphite, 300, Items.titanium, 150, Items.plastanium, 175, Items.thorium, 170, Items.surgeAlloy, 120));
+            requirements(Category.turret, with(Items.copper, 350, Items.graphite, 300, Items.titanium, 150, Items.plastanium, 175, HIItems.titaniumAlloy, 120));
             ammo(Items.copper, new BasicBulletType(11f, 19f){{
                 width = 5f;
                 height = 7f;
@@ -3061,154 +3108,6 @@ public class HIBlocks {
                 barrels = new float[]{6.5f, 3f, 0f};
             }});
         }};
-        splitPlum = new ShootMatchTurret("split-plum"){{
-            requirements(Category.turret, with(Items.graphite, 180, Items.silicon, 360, Items.surgeAlloy, 120, Items.phaseFabric, 80));
-            ammo(Items.phaseFabric, new TrailFadeBulletType(4f, 580f, "circle-bullet"){{
-                velocityBegin = 8.8f;
-                velocityIncrease = -8.15f;
-                accelerateBegin = 0.1f;
-                accelerateEnd = 0.925f;
-                accelInterp = Interp.pow2Out;
-                lifetime = 92f;
-                backColor = lightColor = lightningColor = trailColor = hitColor = HIPal.ancient;
-                frontColor = HIPal.ancientLight;
-                impact = true;
-                knockback = 3f;
-                status = HIStatusEffects.breakdown;
-                statusDuration = 120f;
-                hitSize = 12f;
-                lightning = 2;
-                lightningLengthRand = 5;
-                lightningLength = 3;
-                lightningDamage = damage / 10f;
-                reloadMultiplier = 0.5f;
-                ammoMultiplier = 2f;
-                width = 155f;
-                height = 7;
-                shrinkX = 0.45f;
-                shrinkY = -2.48f;
-                shrinkInterp = Interp.reverse;
-                pierce = true;
-                pierceCap = 4;
-                tracers = 1;
-                tracerUpdateSpacing = 3;
-                tracerFadeOffset = 5;
-                tracerRandX = 16f;
-                tracerStrokeOffset = 6;
-                addBeginPoint = true;
-                smokeEffect = HIFx.hugeSmokeGray;
-                shootEffect = new EffectWrapper(HIFx.shootLine(30f, 120f), backColor);
-                hitEffect = HIFx.square45_6_45;
-                despawnEffect = new Effect(35f, 70f, e -> {
-                    Draw.color(e.color, Color.white, e.fout() * 0.7f);
-                    for(int i : Mathf.signs){
-                        Drawf.tri(e.x, e.y, height * 1.5f * e.fout(), width * 0.885f * e.fout(), e.rotation + i * 90);
-                        Drawf.tri(e.x, e.y, height * 0.8f * e.fout(), width * 0.252f * e.fout(), e.rotation + 90 + i * 90);
-                    }
-                });
-            }
-                @Override
-                public void hitEntity(Bullet b, Hitboxc entity, float health){
-                    super.hitEntity(b, entity, health);
-                    b.fdata += 1;
-                    if(b.fdata > pierceCap){
-                        b.hit = true;
-                        b.remove();
-                    }
-                }
-                @Override
-                public void update(Bullet b){
-                    super.update(b);
-                    b.collided.clear();
-                }
-            }, Items.surgeAlloy, new AccelBulletType(2.85f, 280f){{
-                frontColor = HIPal.ancientLight;
-                backColor = lightningColor = trailColor = hitColor = lightColor = HIPal.ancient;
-                lifetime = 92f;
-                knockback = 2f;
-                ammoMultiplier = 6f;
-                accelerateBegin = 0.1f;
-                accelerateEnd = 0.85f;
-                despawnSound = hitSound = Sounds.dullExplosion;
-                velocityBegin = 6f;
-                velocityIncrease = -4f;
-                homingDelay = 20f;
-                homingPower = 0.05f;
-                homingRange = 120f;
-                status = HIStatusEffects.breakdown;
-                statusDuration = 120f;
-                despawnHit = pierceBuilding = true;
-                hitShake = despawnShake = 5f;
-                lightning = 1;
-                lightningCone = 360;
-                lightningLengthRand = 12;
-                lightningLength = 4;
-                width = 10f;
-                height = 35f;
-                pierceCap = 8;
-                shrinkX = shrinkY = 0;
-                reloadMultiplier = 1.75f;
-                lightningDamage = damage * 0.8f;
-                hitEffect = HIFx.hitSparkLarge;
-                despawnEffect = HIFx.square45_6_45;
-                shootEffect = new EffectWrapper(HIFx.shootLine(22, 20f), backColor);
-                smokeEffect = HIFx.hugeSmokeGray;
-                trailEffect = HIFx.trailToGray;
-                trailLength = 15;
-                trailWidth = 2f;
-                drawSize = 300f;
-            }});
-            shooter(Items.phaseFabric, new ShootSpread(){{
-                shots = 15;
-                spread = 8;
-            }}, Items.surgeAlloy, new ShootAlternate(){{
-                shots = 3;
-                shotDelay = 5;
-                spread = 11f;
-            }});
-            health = 6000;
-            armor = 15;
-            range = 360f;
-            recoil = 6.0F;
-            size = 4;
-            shake = 12.0F;
-            reload = 60.0F;
-            rotateSpeed = 2.4f;
-            shootSound = HISounds.flak2;
-            shootCone = 35f;
-            ammoPerShot = 6;
-            maxAmmo = 30;
-            cooldownTime = 65f;
-            squareSprite = false;
-            drawer = new DrawTurret("reinforced-"){{parts.add(new RegionPart("-top"){{
-                layerOffset = 0.1f;
-                heatLayerOffset = 0;
-            }}, new RegionPart("-back"){{
-                mirror = true;
-                layerOffset = 0.1f;
-                moveX = 1.5f;
-                moveY = -1.5f;
-                progress = PartProgress.recoil;
-                heatLayerOffset = 0;
-            }}, new RegionPart("-panel"){{
-                layerOffset = 0.1f;
-                moveX = 0;
-                moveY = 2.75f;
-                heatProgress = PartProgress.warmup;
-                progress = HIPartProgress.recoilWarmup;
-                heatLayerOffset = 0;
-            }});
-            }};
-            warmupMaintainTime = 45f;
-            shootWarmupSpeed = 0.04f;
-            minWarmup = 0.85f;
-            outlineColor = Pal.darkOutline;
-            canOverdrive = false;
-            coolant = consumeCoolant(15f / 60f);
-            coolantMultiplier = 2f;
-            consumePowerCond(12f, TurretBuild::isActive);
-            unitSort = UnitSorts.weakest;
-        }};
         frost = new PowerTurret("frost"){{
             requirements(Category.turret, with(Items.silicon, 600, Items.metaglass, 400, Items.plastanium, 350, HIItems.chromium, 220, HIItems.highEnergyFabric, 120));
             consumePower(12f);
@@ -3354,8 +3253,8 @@ public class HIBlocks {
             squareSprite = false;
             buildCostMultiplier = 0.8f;
         }};
-        concentration = new ContinuousTurret("concentration"){{
-            requirements(Category.turret, with(Items.silicon, 800, Items.metaglass, 400, Items.surgeAlloy, 600, HIItems.highEnergyFabric, 350, HIItems.heavyAlloy, 250));
+        judgement = new ContinuousTurret("judgement"){{
+            requirements(Category.turret, with(Items.silicon, 800, Items.metaglass, 400, Items.surgeAlloy, 600, HIItems.titaniumAlloy, 450, HIItems.highEnergyFabric, 350, HIItems.heavyAlloy, 250));
             shootType = new PointLaserBulletType(){{
                 damage = 100f;
                 hitEffect = HIFx.hitSpark;
@@ -3569,7 +3468,7 @@ public class HIBlocks {
             consumeLiquid(HILiquids.nanofluid, 12f / 60f);
         }};
         thermoelectricIon = new PowerTurret("thermoelectric-ion"){{
-            requirements(Category.turret, with(Items.lead, 1100,Items.silicon, 1200, Items.plastanium, 600, Items.surgeAlloy, 220, HIItems.highEnergyFabric, 200));
+            requirements(Category.turret, with(Items.lead, 1100,Items.silicon, 1200, Items.plastanium, 600, Items.surgeAlloy, 220, HIItems.titaniumAlloy, 550, HIItems.highEnergyFabric, 200));
             size = 5;
             health = 3650;
             armor = 8;
@@ -3951,7 +3850,7 @@ public class HIBlocks {
             buildCostMultiplier = 0.5f;
         }};
         wisadel = new ItemTurret("wisadel"){{
-            requirements(Category.turret, with(Items.silicon, 1500, Items.plastanium, 1200, Items.surgeAlloy, 800, HIItems.highEnergyFabric, 400, HIItems.heavyAlloy, 600));
+            requirements(Category.turret, with(Items.silicon, 1500, Items.plastanium, 1200, Items.surgeAlloy, 700, HIItems.titaniumAlloy, 800, HIItems.highEnergyFabric, 400, HIItems.heavyAlloy, 600));
             ammo(HIItems.highEnergyFabric, new TrailFadeBulletType(32f, 350f, "missile-large"){{
                 ammoMultiplier = 1f;
                 shootEffect = smokeEffect = Fx.none;
@@ -4169,7 +4068,7 @@ public class HIBlocks {
             squareSprite = false;
         }};
         fireworks = new MultiBulletTurret("fireworks"){{
-            requirements(Category.turret, with(Items.silicon, 600, Items.graphite, 600, Items.plastanium, 550, HIItems.uranium, 400, HIItems.heavyAlloy, 300));
+            requirements(Category.turret, with(Items.silicon, 600, Items.graphite, 800, HIItems.titaniumAlloy, 500, HIItems.uranium, 400, HIItems.heavyAlloy, 300));
             ammo(Items.blastCompound, new BulletType[]{
                     new FireWorkBulletType(120, 5, name("mb-fireworks"), Color.valueOf("FF8097"), 6 * 8){{
                         outline = true;
