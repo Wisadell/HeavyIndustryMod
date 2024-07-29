@@ -15,7 +15,7 @@ import HeavyIndustry.world.blocks.power.WindGenerator;
 import HeavyIndustry.world.blocks.production.LaserBeamDrill;
 import HeavyIndustry.world.blocks.distribution.InvertedJunction;
 import HeavyIndustry.world.blocks.distribution.StackHelper;
-import HeavyIndustry.world.blocks.distribution.HighEnergyNode;
+import HeavyIndustry.world.blocks.distribution.NodeBridge;
 import HeavyIndustry.world.blocks.liquid.SortLiquidRouter;
 import HeavyIndustry.world.blocks.heat.LiquidFuelHeater;
 import HeavyIndustry.world.blocks.heat.ThermalHeater;
@@ -743,7 +743,7 @@ public class HIBlocks {
             size = 1;
             health = 60;
         }};
-        highEnergyItemNode = new HighEnergyNode("high-energy-item-node"){{
+        highEnergyItemNode = new NodeBridge("high-energy-item-node"){{
             requirements(Category.distribution, with( Items.lead, 30, HIItems.chromium , 10, Items.silicon, 15, HIItems.highEnergyFabric, 10));
             size = 1;
             health = 320;
@@ -860,7 +860,7 @@ public class HIBlocks {
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPumpLiquid(), new DrawDefault());
             buildCostMultiplier = 0.8f;
         }};
-        highEnergyLiquidNode = new HighEnergyNode("high-energy-liquid-node"){{
+        highEnergyLiquidNode = new NodeBridge("high-energy-liquid-node"){{
             requirements(Category.liquid, with(Items.metaglass, 20, HIItems.chromium , 10, Items.silicon, 15, HIItems.highEnergyFabric, 10));
             size = 1;
             health = 320;
@@ -961,7 +961,7 @@ public class HIBlocks {
             size = 3;
             health = 1450;
             outputsPower = true;
-            powerProduction = 62.5f;
+            powerProduction = 58f;
             itemDuration = 360;
             itemCapacity = 30;
             liquidCapacity = 60;
