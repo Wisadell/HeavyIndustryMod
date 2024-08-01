@@ -36,6 +36,7 @@ import mindustry.world.blocks.defense.turrets.ItemTurret;
 import mindustry.world.blocks.defense.turrets.LaserTurret;
 import mindustry.world.blocks.defense.turrets.LiquidTurret;
 import mindustry.world.blocks.defense.turrets.PowerTurret;
+import mindustry.world.blocks.distribution.MassDriver;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.payloads.Constructor;
 import mindustry.world.blocks.power.ConsumeGenerator;
@@ -79,6 +80,8 @@ public class HIOverride {
         ((Wall) Blocks.surgeWall).lightningChance = ((Wall) Blocks.surgeWallLarge).lightningChance = 0.1f;
         ((Wall) Blocks.surgeWall).lightningDamage = ((Wall) Blocks.surgeWallLarge).lightningDamage = 25f;
         ((Wall) Blocks.reinforcedSurgeWallLarge).lightningChance = 0.1f;
+        //Blocks-Distribution
+        ((MassDriver) Blocks.massDriver).reload = 150f;
         //Blocks-Liquid
         ((Pump) Blocks.impulsePump).pumpAmount = 0.3f;
         Blocks.phaseConduit.liquidCapacity = 16;

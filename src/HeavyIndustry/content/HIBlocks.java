@@ -27,16 +27,16 @@ import HeavyIndustry.world.blocks.defense.turrets.MultiBulletTurret;
 import HeavyIndustry.world.blocks.units.DerivativeUnitFactory;
 import HeavyIndustry.world.blocks.logic.CopyMemoryBlock;
 import HeavyIndustry.world.blocks.defense.RegenWall;
-import HeavyIndustry.world.drawer.Draw3dSpin;
-import HeavyIndustry.world.drawer.RunningLight;
-import HeavyIndustry.world.drawer.PartBow;
-import HeavyIndustry.world.drawer.DrawRotator;
-import HeavyIndustry.world.drawer.DrawFunc;
-import HeavyIndustry.world.drawer.DrawFrostWing;
-import HeavyIndustry.world.drawer.BowHalo;
-import HeavyIndustry.world.drawer.DrawScanLine;
-import HeavyIndustry.world.drawer.DrawPowerLight;
-import HeavyIndustry.world.drawer.DrawPrinter;
+import HeavyIndustry.world.draw.Draw3dSpin;
+import HeavyIndustry.world.draw.RunningLight;
+import HeavyIndustry.world.draw.PartBow;
+import HeavyIndustry.world.draw.DrawRotator;
+import HeavyIndustry.world.draw.DrawFunc;
+import HeavyIndustry.world.draw.DrawFrostWing;
+import HeavyIndustry.world.draw.BowHalo;
+import HeavyIndustry.world.draw.DrawScanLine;
+import HeavyIndustry.world.draw.DrawPowerLight;
+import HeavyIndustry.world.draw.DrawPrinter;
 import HeavyIndustry.world.meta.HIAttribute;
 import arc.Core;
 import arc.graphics.Blending;
@@ -3809,7 +3809,7 @@ public class HIBlocks {
         }};
         wisadel = new ItemTurret("wisadel"){{
             requirements(Category.turret, with(Items.silicon, 1500, Items.plastanium, 1200, Items.surgeAlloy, 700, HIItems.highEnergyFabric, 400, HIItems.heavyAlloy, 600));
-            ammo(HIItems.highEnergyFabric, new TrailFadeBulletType(32f, 350f, "missile-large"){{
+            ammo(HIItems.highEnergyFabric, new TrailFadeBulletType(36f, 350f, "missile-large"){{
                 ammoMultiplier = 1f;
                 shootEffect = smokeEffect = Fx.none;
                 width = 16f;
@@ -3821,7 +3821,7 @@ public class HIBlocks {
                 pierceArmor = true;
                 homingPower = 1f;
                 homingRange = 80f;
-                lifetime = 22f;
+                lifetime = 19f;
                 trailWidth = 3f;
                 trailLength = 9;
                 trailChance = 1f;

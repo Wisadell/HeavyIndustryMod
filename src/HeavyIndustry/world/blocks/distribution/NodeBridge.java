@@ -1,6 +1,6 @@
 package HeavyIndustry.world.blocks.distribution;
 
-import HeavyIndustry.world.drawer.DrawNodeBridge;
+import HeavyIndustry.world.draw.DrawNodeBridge;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.Lines;
 import arc.graphics.g2d.TextureRegion;

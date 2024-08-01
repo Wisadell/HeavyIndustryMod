@@ -5,7 +5,7 @@ import HeavyIndustry.graphics.Drawm;
 import HeavyIndustry.graphics.HIPal;
 import HeavyIndustry.math.Math3D;
 import HeavyIndustry.struct.Vec2Seq;
-import HeavyIndustry.world.drawer.DrawFunc;
+import HeavyIndustry.world.draw.DrawFunc;
 import HeavyIndustry.entities.bullet.HailStoneBulletType;
 import arc.Core;
 import arc.graphics.Color;

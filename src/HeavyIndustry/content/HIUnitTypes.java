@@ -2,10 +2,10 @@ package HeavyIndustry.content;
 
 import HeavyIndustry.gen.HISounds;
 import HeavyIndustry.graphics.HIPal;
-import HeavyIndustry.world.drawer.AimPart;
-import HeavyIndustry.world.drawer.BowHalo;
-import HeavyIndustry.world.drawer.DrawFunc;
-import HeavyIndustry.world.drawer.PartBow;
+import HeavyIndustry.world.draw.AimPart;
+import HeavyIndustry.world.draw.BowHalo;
+import HeavyIndustry.world.draw.DrawFunc;
+import HeavyIndustry.world.draw.PartBow;
 import HeavyIndustry.entities.effect.EffectWrapper;
 import HeavyIndustry.entities.bullet.AccelBulletType;
 import HeavyIndustry.entities.bullet.CtrlMissileBulletType;

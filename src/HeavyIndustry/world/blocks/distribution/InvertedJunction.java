@@ -1,6 +1,6 @@
 package HeavyIndustry.world.blocks.distribution;
 
-import HeavyIndustry.world.drawer.DrawInvertedJunction;
+import HeavyIndustry.world.draw.DrawInvertedJunction;
 import arc.Core;
 import arc.graphics.Color;
 import arc.graphics.g2d.*;
