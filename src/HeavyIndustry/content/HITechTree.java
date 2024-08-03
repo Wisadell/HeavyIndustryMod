@@ -44,7 +44,7 @@ public class HITechTree {
             node(slagExtractor);
         });
         addToNode(blastDrill, () -> {
-            node(reinforcedDrill, Seq.with(new SectorComplete(planetaryTerminal)), () -> {});
+            node(cuttingDrill, Seq.with(new SectorComplete(planetaryTerminal)), () -> {});
             node(beamDrill);
         });
         addToNode(oilExtractor, () -> node(reinforcedOilExtractor));

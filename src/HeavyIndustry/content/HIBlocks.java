@@ -140,7 +140,7 @@ public class HIBlocks {
             //wall
             armoredWall,armoredWallLarge,uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,
             //drill
-            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,reinforcedDrill,beamDrill,
+            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,
             //distribution
@@ -237,21 +237,27 @@ public class HIBlocks {
             playerUnmineable = true;
             wall = softRareEarthWall;
         }};
-        softRareEarthWall = new StaticWall("soft-rare-earth-wall"){{
-            variants = 2;
-        }};
         patternRareEarth = new Floor("pattern-rare-earth", 4){{
             itemDrop = HIItems.rareEarth;
             playerUnmineable = true;
+            wall = softRareEarthWall;
+        }};
+        softRareEarthWall = new StaticWall("soft-rare-earth-wall"){{
+            variants = 2;
+            itemDrop = HIItems.rareEarth;
         }};
         pooledNanofluid = new Floor("pooled-nanofluid", 0){{
+            status = HIStatusEffects.nanoRepair;
+            statusDuration = 60f;
+            drownTime = 160f;
             speedMultiplier = 0.6f;
             liquidDrop = HILiquids.nanofluid;
             isLiquid = true;
             cacheLayer = HICacheLayer.nanofluid;
-            albedo = 0.9f;
-            supportsOverlay = true;
             liquidMultiplier = 0.5f;
+            emitLight = true;
+            lightRadius = 30f;
+            lightColor = Color.green.cpy().a(0.19f);
         }};
         stoneWater = new Floor("stone-water", 3){{
             speedMultiplier = 0.6f;
@@ -593,12 +599,12 @@ public class HIBlocks {
             consumeLiquid(Liquids.water, 0.3f);
             buildCostMultiplier = 0.8f;
         }};
-        reinforcedDrill = new Drill("reinforced-drill"){{
+        cuttingDrill = new Drill("cutting-drill"){{
             requirements(Category.production, with(Items.graphite, 100, Items.silicon, 120, Items.thorium, 50, Items.plastanium, 40, Items.surgeAlloy, 30));
             size = 3;
             health = 590;
             armor = 3;
-            hasPower = true;
+            hasPower = drawRim = true;
             tier = 8;
             rotateSpeed = 1.5f;
             warmupSpeed = 0.06f;
