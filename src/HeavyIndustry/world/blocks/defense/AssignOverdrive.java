@@ -60,7 +60,7 @@ public class AssignOverdrive extends OverdriveProjector{
         addBar("boost", (AssignOverdriveBuild entity) -> new Bar(() -> Core.bundle.format("bar.boost", (int)(entity.realBoost() * 100)), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
     }
 
-    public class AssignOverdriveBuild extends OverdriveBuild implements LinkGroupc{
+    public class AssignOverdriveBuild extends OverdriveBuild implements LinkGroupc {
         protected IntSeq targets = new IntSeq(maxLink);
 
         @Override

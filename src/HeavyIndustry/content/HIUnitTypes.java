@@ -1225,8 +1225,6 @@ public class HIUnitTypes {
                 inaccuracy = 1.3f;
                 shootSound = HISounds.flak;
                 bullet = new AccelBulletType(200, "missile-large"){{
-                    status = HIStatusEffects.breakdown;
-                    statusDuration = 320f;
                     lightOpacity = 0.7f;
                     healPercent = 20f;
                     reflectable = false;

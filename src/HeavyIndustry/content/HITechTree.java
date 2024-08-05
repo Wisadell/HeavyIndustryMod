@@ -44,7 +44,7 @@ public class HITechTree {
             node(slagExtractor);
         });
         addToNode(blastDrill, () -> {
-            node(cuttingDrill, Seq.with(new SectorComplete(planetaryTerminal)), () -> {});
+            node(cuttingDrill, Seq.with(new SectorComplete(impact0078)), () -> {});
             node(beamDrill);
         });
         addToNode(oilExtractor, () -> node(reinforcedOilExtractor));
@@ -169,7 +169,6 @@ public class HITechTree {
         });
         addToNode(meltdown, () -> {
             node(frost, Seq.with(new SectorComplete(fallenStronghold)), () -> {});
-            node(thermoelectricIon, Seq.with(new SectorComplete(bombardmentWarzone)), () -> {});
             node(judgement);
         });
         addToNode(foreshadow, () -> {
@@ -179,7 +178,7 @@ public class HITechTree {
         //turret-erekir
         addToNode(disperse, () -> node(tracer, Seq.with(new OnSector(stronghold)), () -> {}));
         addToNode(lustre, () -> node(shadow));
-        //T6
+        //tier6
         addToNode(reign, () -> node(suzerain));
         addToNode(corvus, () -> node(supernova));
         addToNode(toxopid, () -> node(cancer));
@@ -187,7 +186,7 @@ public class HITechTree {
         addToNode(oct, () -> node(windstorm));
         addToNode(omura, () -> node(harpoon));
         addToNode(navanax, () -> node(killerWhale));
-        //erekir-T6
+        //erekir-tier6
         addToNode(conquer, () -> node(dominate));
         addToNode(collaris, () -> node(oracle));
         addToNode(disrupt, () -> node(havoc));
