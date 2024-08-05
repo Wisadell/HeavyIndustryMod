@@ -40,10 +40,26 @@ import static mindustry.content.Fx.v;
 public class HIFx {
     public static final Vec2 vec = new Vec2(), vec2 = new Vec2();
     public static Effect uraniumShoot = new Effect(12, e -> {
-        color(Color.white, Color.valueOf("a5b2c2"), e.fin());
+        color(Color.white, uraniumGrey, e.fin());
         stroke(e.fout() * 1.2f + 0.5f);
         randLenVectors(e.id, 7, 25f * e.finpow(), e.rotation, 50f, (x, y) -> lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fin() * 5f + 2f));
     });
+
+    public static Effect casing(float life){
+        return new Effect(life, e -> {
+            color(Pal.lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
+            alpha(e.fout(0.5f));
+            float rot = Math.abs(e.rotation) + 90f;
+            int i = -Mathf.sign(e.rotation);
+            float len = (2f + e.finpow() * 10f) * i;
+            float lr = rot + e.fin() * 20f * i;
+            rect(Core.atlas.find("casing"),
+                    e.x + trnsx(lr, len) + Mathf.randomSeedRange(e.id + i + 7, 3f * e.fin()),
+                    e.y + trnsy(lr, len) + Mathf.randomSeedRange(e.id + i + 8, 3f * e.fin()),
+                    2f, 3f, rot + e.fin() * 50f * i
+            );
+        }).layer(Layer.bullet);
+    }
 
     public static Effect ellipse(float startRad, int num, float lifetime, Color color){
         return ellipse(startRad, 2, num, lifetime, color);

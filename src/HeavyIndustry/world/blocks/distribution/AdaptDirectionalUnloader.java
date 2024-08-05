@@ -18,7 +18,6 @@ public class AdaptDirectionalUnloader extends DirectionalUnloader {
     }
 
     public class AdaptDirectionalUnloaderBuild extends DirectionalUnloaderBuild{
-
         private float counter;
 
         @Override

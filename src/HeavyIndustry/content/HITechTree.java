@@ -105,7 +105,7 @@ public class HITechTree {
         addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(chernobog)), () -> {}));
         addToNode(cryofluidMixer, () -> {
             node(largeCryofluidMixer, Seq.with(new SectorComplete(impact0078)), () -> {});
-            node(activator);
+            node(nanocoreActivator);
         });
         addToNode(pyratiteMixer, () -> node(largePyratiteMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
         addToNode(blastMixer, () -> node(largeBlastMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
@@ -117,8 +117,8 @@ public class HITechTree {
         addToNode(siliconSmelter, () -> node(nanocoreConstructor, Seq.with(new SectorComplete(impact0078)), () -> node(nanocorePrinter)));
         addToNode(sporePress, () -> node(nitrificationReactor, () -> node(nitratedOilSedimentationTank)));
         addToNode(phaseWeaver, () -> {
-            node(energizer, Seq.with(new SectorComplete(impact0078)), () -> {
-                node(largeEnergizer);
+            node(highEnergyEnergizer, Seq.with(new SectorComplete(impact0078)), () -> {
+                node(highEnergyReactor);
                 node(highEnergyFabricFusionInstrument);
             });
             node(highEnergyPhaseWeaver);

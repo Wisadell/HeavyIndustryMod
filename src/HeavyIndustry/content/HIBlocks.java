@@ -6,6 +6,7 @@ import HeavyIndustry.entities.bullet.CtrlMissileBulletType;
 import HeavyIndustry.entities.bullet.FireWorkBulletType;
 import HeavyIndustry.entities.bullet.TrailFadeBulletType;
 import HeavyIndustry.entities.bullet.AimToPosBulletType;
+import HeavyIndustry.entities.effect.EffectWrapper;
 import HeavyIndustry.gen.HISounds;
 import HeavyIndustry.graphics.HICacheLayer;
 import HeavyIndustry.graphics.HIPal;
@@ -28,6 +29,7 @@ import HeavyIndustry.world.blocks.units.DerivativeUnitFactory;
 import HeavyIndustry.world.blocks.logic.CopyMemoryBlock;
 import HeavyIndustry.world.blocks.defense.RegenWall;
 import HeavyIndustry.world.draw.Draw3dSpin;
+import HeavyIndustry.world.draw.DrawFactories;
 import HeavyIndustry.world.draw.RunningLight;
 import HeavyIndustry.world.draw.PartBow;
 import HeavyIndustry.world.draw.DrawRotator;
@@ -129,7 +131,7 @@ public class HIBlocks {
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
             stoneVent,basaltVent,basaltWall,basaltGraphiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,
-            pooledNanofluid,
+            nanofluid,
             stoneWater,shaleWater,basaltWater,frozenWater,aghatiteWater,greniteWater,albasterWater,quartzSandWater,
             deadGrass,frozenSoil,albaster,albasterTiles,albasterCrater,aghatite,aghatitePebbles,quartzSand,grenite,coastalGrenite,blueIce,blueIcePieces,blueSnow,blueSnowdrifts,
             deadThickets,frozenSoilWall,albasterWall,aghatiteWall,quartzSandWall,greniteWall,blueIceWall,blueSnowWall,
@@ -158,7 +160,7 @@ public class HIBlocks {
             liquidConsumeGenerator,
             //production
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,largeCoalCentrifuge,blastSiliconSmelter,
-            nanocoreConstructor,nanocorePrinter,activator,highEnergyPhaseWeaver,energizer,largeEnergizer,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
+            nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,
             //defense
@@ -246,7 +248,7 @@ public class HIBlocks {
             variants = 2;
             itemDrop = HIItems.rareEarth;
         }};
-        pooledNanofluid = new Floor("pooled-nanofluid", 0){{
+        nanofluid = new Floor("pooled-nanofluid", 0){{
             status = HIStatusEffects.nanoRepair;
             statusDuration = 60f;
             drownTime = 160f;
@@ -604,9 +606,8 @@ public class HIBlocks {
             size = 3;
             health = 590;
             armor = 3;
-            hasPower = drawRim = true;
+            hasPower = true;
             tier = 8;
-            rotateSpeed = 1.5f;
             warmupSpeed = 0.06f;
             itemCapacity = 10;
             drillTime = 250f;
@@ -1064,7 +1065,7 @@ public class HIBlocks {
         }};
         //production
         largeKiln = new GenericCrafter("large-kiln"){{
-            requirements(Category.crafting, with(Items.lead, 85, Items.graphite, 55, Items.titanium, 30, Items.silicon, 65));
+            requirements(Category.crafting, with(Items.lead, 85, Items.graphite, 55, Items.thorium, 30, Items.silicon, 65));
             size = 3;
             itemCapacity = 20;
             craftTime = 45;
@@ -1101,7 +1102,7 @@ public class HIBlocks {
         largeMelter = new GenericCrafter("large-melter"){{
             requirements(Category.crafting, with(Items.lead, 60, Items.graphite, 45, Items.silicon, 30, Items.titanium, 20));
             size = 2;
-            hasPower = hasLiquids = true;
+            hasLiquids = true;
             itemCapacity = 20;
             liquidCapacity = 30;
             craftTime = 12;
@@ -1129,8 +1130,6 @@ public class HIBlocks {
         }};
         largePyratiteMixer = new GenericCrafter("large-pyratite-mixer"){{
             requirements(Category.crafting, with(Items.copper, 100, Items.lead, 50, Items.titanium, 25, Items.silicon, 20));
-            hasItems = true;
-            hasPower = true;
             outputItem = new ItemStack(Items.pyratite, 3);
             envEnabled |= Env.space;
             size = 3;
@@ -1139,8 +1138,6 @@ public class HIBlocks {
         }};
         largeBlastMixer = new GenericCrafter("large-blast-mixer"){{
             requirements(Category.crafting, with(Items.lead, 60, Items.titanium, 40, Items.silicon, 20));
-            hasItems = true;
-            hasPower = true;
             outputItem = new ItemStack(Items.blastCompound, 3);
             size = 3;
             envEnabled |= Env.space;
@@ -1166,8 +1163,8 @@ public class HIBlocks {
             consumeLiquid(Liquids.water, 36f / 60f);
         }};
         largePlastaniumCompressor = new GenericCrafter("large-plastanium-compressor"){{
-            requirements(Category.crafting, with(Items.silicon, 150, Items.lead, 220, Items.graphite, 120, Items.titanium, 150, Items.thorium, 80));
-            hasItems = hasPower = hasLiquids = true;
+            requirements(Category.crafting, with(Items.silicon, 150, Items.lead, 220, Items.graphite, 120, Items.titanium, 150, Items.thorium, 100));
+            hasLiquids = true;
             itemCapacity = 20;
             liquidCapacity = 80f;
             craftTime = 60f;
@@ -1187,7 +1184,7 @@ public class HIBlocks {
             requirements(Category.crafting, with(Items.titanium, 70, Items.graphite, 80, Items.silicon, 30, Items.lead, 60));
             health = 360;
             size = 3;
-            hasPower = hasItems = hasLiquids = true;
+            hasLiquids = true;
             liquidCapacity = 60;
             itemCapacity =  20;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 6, true), new DrawDefault());
@@ -1296,7 +1293,7 @@ public class HIBlocks {
             consumeLiquid(Liquids.cryofluid, 6f / 60f);
             consumeItems(ItemStack.with(Items.titanium, 6, Items.silicon, 9));
         }};
-        activator = new GenericCrafter("activator"){{
+        nanocoreActivator = new GenericCrafter("nanocore-activator"){{
             requirements(Category.crafting, with(Items.titanium, 90, Items.silicon, 80, HIItems.nanocore, 30, Items.plastanium, 60));
             size = 2;
             health = 360;
@@ -1339,10 +1336,9 @@ public class HIBlocks {
             consumePower(7f);
             consumeItems(ItemStack.with(Items.sand, 15, Items.thorium, 5));
         }};
-        energizer = new GenericCrafter("energizer"){{
-            requirements(Category.crafting, with(Items.lead, 40,Items.silicon, 65, Items.plastanium, 30));
-            size = 2;
-            craftTime = 120f;
+        highEnergyEnergizer = new GenericCrafter("high-energy-energizer"){{
+            requirements(Category.crafting, with(Items.lead, 40, Items.silicon, 65, Items.plastanium, 30, Items.surgeAlloy, 20));
+            size = 3;
             outputItem = new ItemStack(HIItems.highEnergyFabric, 1);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCrucibleFlame(){{
                 flameColor = midColor = HIPal.highEnergyYellow;
@@ -1350,7 +1346,7 @@ public class HIBlocks {
                 circleSpace = 1f;
                 alpha = 0.3f;
                 particles = 18;
-            }}, new DrawDefault());
+            }}, new DrawDefault(), new DrawRegion("-mid"), new DrawRegion("-top"));
             updateEffectChance = 0.1f;
             lightColor = HIPal.highEnergyYellow;
             updateEffect = HIFx.squareRand(lightColor, 4f, 8f);
@@ -1361,124 +1357,31 @@ public class HIBlocks {
             });
             consumePower(6);
             consumeItem(Items.phaseFabric, 1);
+            buildCostMultiplier = 0.8f;
         }};
-        largeEnergizer = new GeneratorCrafter("large-energizer"){{
+        highEnergyReactor = new GeneratorCrafter("high-energy-reactor"){{
             requirements(Category.crafting, with(HIItems.chromium, 260, Items.silicon, 220, Items.plastanium, 180, Items.surgeAlloy, 140, HIItems.nanocore, 120, HIItems.highEnergyFabric, 80));
-            size = 4;
+            size = 5;
             hasLiquids = true;
-            outputsPower = true;
             itemCapacity = 40;
             liquidCapacity = 30f;
             powerProduction = 72f;
+            lightColor = HIPal.highEnergyYellow;
+            craftEffect = Fx.plasticExplosionFlak;
+            craftTime = 90f;
             outputItems = new ItemStack[]{new ItemStack(HIItems.highEnergyFabric, 10), new ItemStack(Items.thorium, 2)};
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(HILiquids.nanofluid), new DrawArcSmelt(){{
-                midColor = Color.valueOf("fff1d2");
-                flameColor = Color.valueOf("eec591");
-                flameRad = 8;
-                circleSpace = 2;
-                flameRadiusScl = 8;
-                flameRadiusMag = 0.6f;
-                circleStroke = 1.5f;
-                alpha = 0.6f;
-                particles = 23;
-                particleLife = 13f;
-                particleRad = 15f;
-                particleStroke = 0.5f;
-                particleLen = 6f;
-            }}, new DrawSpikes(){{
-                rotateSpeed = 16;
-                amount = 5;
-                stroke = 0.6f;
-                length = 14f;
-                radius = 1f;
-                color = Color.valueOf("ffd197");
-            }}, new DrawSpikes(){{
-                rotateSpeed = -6f;
-                amount = 6;
-                stroke = 0.9f;
-                length = 14f;
-                radius = 1f;
-                color = Color.valueOf("ffd197");
-            }}, new DrawSpikes(){{
-                rotateSpeed = 1f;
-                amount = 2;
-                stroke = 1.3f;
-                length = 14f;
-                radius = 1f;
-                color = Color.valueOf("ffd197");
-            }}, new DrawDefault(), new DrawLiquidRegion(HILiquids.nanofluid){{
-                suffix = "-liquid";
-            }}, new DrawFade(){{
-                scale = 8f;
-                alpha = 0.8f;
-            }});
-            craftTime = 100;
-            craftEffect = new MultiEffect(new WaveEffect(){{
-                interp = Interp.circleOut;
-                lifetime = 50;
-                sizeFrom = strokeTo = 0;
-                sizeTo = 46;
-                strokeFrom = 9;
-                colorFrom = Color.valueOf("fff1d2a8");
-                colorTo = Color.valueOf("ffd197a8");
-            }}, new WaveEffect(){{
-                interp = Interp.circleOut;
-                startDelay = 8;
-                lifetime = 30;
-                sizeFrom = strokeTo = 0;
-                sizeTo = 46;
-                strokeFrom = 9;
-                colorFrom = Color.valueOf("fff1d2a8");
-                colorTo = Color.valueOf("ffd197a8");
-            }});
-            updateEffect = new WaveEffect(){{
-                interp = Interp.circleOut;
-                lifetime = 45;
-                sizeFrom = strokeTo = 0;
-                sizeTo = 12;
-                strokeFrom = 9;
-                colorFrom = Color.valueOf("fff1d2");
-                colorTo = Color.valueOf("ffd197");
+            drawer = new DrawFactories(){{
+                liquidColor = HILiquids.nanofluid.color;
+                drawRotator = 1f;
+                drawTop = false;
+                pressorSet = new float[]{(craftTime / 6f), -4.2f, 45, 0};
             }};
-            destroyBullet = new BasicBulletType(12, 0){{
-                instantDisappear = pierceArmor = true;
-                collides = hittable = absorbable = scaledSplashDamage = false;
-                splashDamageRadius = 65;
-                splashDamage = 200;
-                lightningDamage = 83;
-                lightning = 6;
-                lightningLength = 14;
-                lightningLengthRand = 8;
-                lifetime = 90;
-                hitShake = 8;
-                hitSound = Sounds.plasmaboom;
-                hitSoundVolume = 3;
-                hitColor = Color.valueOf("ffd19788");
-                hitEffect = new MultiEffect(new WrapEffect(){{
-                    effect = Fx.dynamicSpikes;
-                    color = Color.valueOf("ffd197");
-                    rotation = 70;
-                }}, Fx.titanExplosion, Fx.titanSmoke);
-                fragBullets = 1;
-                fragRandomSpread = 0;
-                fragSpread = 90;
-                fragBullet = new ShrapnelBulletType(){{
-                    serrationLenScl = 7;
-                    serrationSpaceOffset = 20;
-                    serrationFadeOffset = 0;
-                    serrationWidth = serrations = 6;
-                    width = 16;
-                    length = 76;
-                    fromColor = toColor = HIPal.highEnergyYellow;
-                    despawnEffect = Fx.none;
-                    lifetime = 15;
-                    damage = 35;
-                }};
-            }};
+            lightLiquid = HILiquids.nanofluid;
             consumeItems(ItemStack.with(Items.phaseFabric, 10, HIItems.uranium, 1));
             consumeLiquid(HILiquids.nanofluid, 18f / 60f);
             ambientSound = Sounds.electricHum;
             ambientSoundVolume = 0.68f;
+            buildCostMultiplier = 0.4f;
         }};
         highEnergyFabricFusionInstrument = new GenericCrafter("high-energy-fabric-fusion-instrument"){{
             requirements(Category.crafting, with(Items.silicon, 100, Items.plastanium, 80, Items.phaseFabric, 60, HIItems.chromium, 80, HIItems.nanocore, 40));
@@ -1546,11 +1449,7 @@ public class HIBlocks {
             craftTime = 30;
             outputItem = new ItemStack(HIItems.uranium, 1);
             craftEffect = Fx.smeltsmoke;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawCultivator(){{
-                bottomColor = HIPal.uraniumGrey.cpy().lerp(Color.gray, 0.1f);
-                plantColor = HIPal.uraniumGrey;
-                plantColorLight = HIPal.uraniumGrey.cpy().lerp(Color.white, 0.1f);
-            }}, new DrawDefault(), new DrawGlowRegion(){{
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawGlowRegion(){{
                 alpha = 1f;
                 color = HIPal.uraniumGrey.cpy().lerp(Color.white, 0.1f);
             }});
@@ -2802,13 +2701,13 @@ public class HIBlocks {
                 ammoMultiplier = 5;
                 lifetime = 23f;
                 makeFire = true;
-            }}, Items.silicon, new BasicBulletType(13f, 21f){{
+            }}, Items.silicon, new BasicBulletType(12f, 21f){{
                 width = 5f;
                 height = 8f;
                 homingPower = 0.07f;
                 reloadMultiplier = 1.3f;
                 ammoMultiplier = 5;
-                lifetime = 92f;
+                lifetime = 24f;
             }}, Items.thorium, new BasicBulletType(15f, 47f){{
                 width = 6f;
                 height = 11f;
@@ -2849,7 +2748,7 @@ public class HIBlocks {
                         4f, 0f, 0f
                 };
             }};
-            ammoUseEffect = Fx.casing2;
+            ammoUseEffect = HIFx.casing(32f);
         }};
         rend = new ItemTurret("rend"){{
             requirements(Category.turret, with(Items.copper, 30, Items.lead, 60, Items.graphite, 40, Items.titanium, 50));
@@ -3218,7 +3117,7 @@ public class HIBlocks {
             buildCostMultiplier = 0.8f;
         }};
         judgement = new ContinuousTurret("judgement"){{
-            requirements(Category.turret, with(Items.silicon, 800, Items.metaglass, 400, Items.plastanium, 600, Items.surgeAlloy, 450, HIItems.highEnergyFabric, 350, HIItems.heavyAlloy, 250));
+            requirements(Category.turret, with(Items.silicon, 1200, Items.metaglass, 400, Items.plastanium, 800, Items.surgeAlloy, 650, HIItems.highEnergyFabric, 550, HIItems.heavyAlloy, 400));
             shootType = new PointLaserBulletType(){{
                 damage = 100f;
                 hitEffect = HIFx.hitSpark;
@@ -3472,7 +3371,7 @@ public class HIBlocks {
                     length = 100f;
                     baseLength = -100f;
                     lifetime = 60f;
-                    colorFrom = Color.valueOf("f2ff9c40");
+                    colorFrom = HIPal.echoFlameYellow.cpy().a(2.5f);
                     colorTo = HIPal.echoFlameYellow;
                 }}, new ParticleEffect(){{
                     sizeInterp = Interp.pow3In;
@@ -3498,8 +3397,8 @@ public class HIBlocks {
                     sizeTo = baseLength = 0f;
                     length = 60f;
                     lifetime = 125f;
-                    colorFrom = Color.valueOf("f2ff9c80");
-                    colorTo = Color.valueOf("f2ff9c40");
+                    colorFrom = HIPal.echoFlameYellow.cpy().a(5f);
+                    colorTo = HIPal.echoFlameYellow.cpy().a(2.5f);
                 }};
                 despawnEffect = new ParticleEffect(){{
                     particles = 15;
@@ -3523,7 +3422,7 @@ public class HIBlocks {
                     strokeFrom = 50f;
                     strokeTo = 0f;
                     colorFrom = HIPal.echoFlameYellow;
-                    colorTo = Color.valueOf("f2ff9c40");
+                    colorTo = HIPal.echoFlameYellow.cpy().a(2.5f);
                 }}, new ParticleEffect(){{
                     particles = 30;
                     sizeFrom = 8f;
@@ -3814,8 +3713,8 @@ public class HIBlocks {
             buildCostMultiplier = 0.5f;
         }};
         wisadel = new ItemTurret("wisadel"){{
-            requirements(Category.turret, with(Items.silicon, 1500, Items.plastanium, 1200, Items.surgeAlloy, 700, HIItems.highEnergyFabric, 400, HIItems.heavyAlloy, 600));
-            ammo(HIItems.highEnergyFabric, new TrailFadeBulletType(36f, 350f, "missile-large"){{
+            requirements(Category.turret, with(Items.silicon, 1500, Items.plastanium, 1000, Items.surgeAlloy, 900, HIItems.highEnergyFabric, 700, HIItems.heavyAlloy, 1200));
+            ammo(HIItems.highEnergyFabric, new TrailFadeBulletType(60f, 350f, "missile-large"){{
                 ammoMultiplier = 1f;
                 shootEffect = smokeEffect = Fx.none;
                 width = 16f;
@@ -3827,7 +3726,7 @@ public class HIBlocks {
                 pierceArmor = true;
                 homingPower = 1f;
                 homingRange = 80f;
-                lifetime = 19f;
+                lifetime = 12.8f;
                 trailWidth = 3f;
                 trailLength = 9;
                 trailChance = 1f;
@@ -3894,7 +3793,7 @@ public class HIBlocks {
                         Fill.circle(e.x + x, e.y + y, 5f * e.foutpow());
                         Draw.z(zs);
                     });
-                }));
+                }), EffectWrapper.wrap(HIFx.square45_6_45_Charge, backColor));
                 chargeSound = Sounds.lasercharge;
                 despawnEffect = hitEffect = new MultiEffect(new Effect(60, 100, e -> {
                     float rad = splashDamageRadius;
@@ -3925,7 +3824,7 @@ public class HIBlocks {
             }});
             size = 5;
             armor = 36;
-            health = 16200;
+            health = 18700;
             drawer = new DrawMulti(new DrawTurret(){{parts.addAll(new RegionPart("-behind"){{
                 progress = PartProgress.warmup;
                 moveY = 7f;
@@ -4271,7 +4170,7 @@ public class HIBlocks {
                         shootEffect = Fx.none;
                         smokeEffect = Fx.shootSmallFlame;
                         despawnEffect = Fx.none;
-                        trailColor = Color.valueOf("c0ecff");
+                        trailColor = HIPal.tracerBlue;
                         trailLength = 8;
                         hitEffect = new MultiEffect(new ParticleEffect(){{
                             particles = 23;
@@ -4282,14 +4181,14 @@ public class HIBlocks {
                             interp = sizeInterp = Interp.pow10Out;
                             region = name("diamond");
                             lifetime = 85;
-                            colorFrom = Color.valueOf("c0ecff");
-                            colorTo = Color.valueOf("c0ecff00");
+                            colorFrom = HIPal.tracerBlue;
+                            colorTo = HIPal.tracerBlue.cpy().a(0f);
                         }}, new WaveEffect(){{
                             lifetime = 11;
                             sizeFrom = strokeTo = 0;
                             sizeTo = 75;
                             strokeFrom = 5;
-                            colorFrom = colorTo = Color.valueOf("c0ecff");
+                            colorFrom = colorTo = HIPal.tracerBlue;
                         }});
                         fragLifeMin = 0.3f;
                         fragBullets = 4;
@@ -4311,24 +4210,24 @@ public class HIBlocks {
                                 length = 35f;
                                 region = name("diamond");
                                 lifetime = 25f;
-                                colorFrom = colorTo = Color.valueOf("c0ecff");
+                                colorFrom = colorTo = HIPal.tracerBlue;
                             }}, new WaveEffect(){{
                                 lifetime = 15f;
                                 sizeFrom = strokeTo = 0f;
                                 sizeTo = 35f;
                                 strokeFrom = 2f;
-                                colorFrom = colorTo = Color.valueOf("c0ecff");
+                                colorFrom = colorTo = HIPal.tracerBlue;
                             }});
                             despawnEffect = new ParticleEffect(){{
                                 particles = 1;
                                 sizeFrom = 3f;
                                 sizeTo = length = baseLength = 0f;
                                 lifetime = 8f;
-                                colorFrom = colorTo = Color.valueOf("c0ecff");
+                                colorFrom = colorTo = HIPal.tracerBlue;
                             }};
                             sprite = name("tracer-bullet");
                             frontColor = Color.white;
-                            backColor = trailColor = Color.valueOf("c0ecff");
+                            backColor = trailColor = HIPal.tracerBlue;
                             trailLength = 11;
                             trailWidth = 2f;
                             shrinkX = shrinkY = 0f;
@@ -4386,7 +4285,7 @@ public class HIBlocks {
                     shapeRotation = 45;
                     shapes = 1;
                     color = Color.white;
-                    colorTo = Color.valueOf("c0ecff");
+                    colorTo = HIPal.tracerBlue;
                     layer = 110;
                     tri = true;
                     radiusTo = 10;
@@ -4398,15 +4297,15 @@ public class HIBlocks {
                     rotateSpeed = radius = triLength = haloRadius = haloRotation = 0;
                     shapeRotation = -45;
                     shapes = 1;
-                    color = Color.valueOf("ffffff00");
-                    colorTo = Color.valueOf("c0ecff");
+                    color = Color.white.cpy().a(0f);
+                    colorTo = HIPal.tracerBlue;
                     layer = 110;
                     tri = true;
                     radiusTo = 10;
                     triLengthTo = 16;
                 }}, new ShapePart(){{
                     progress = PartProgress.warmup;
-                    colorTo = color = Color.valueOf("c0ecff");
+                    colorTo = color = HIPal.tracerBlue;
                     layer = 110;
                     stroke = radius = 0;
                     strokeTo = 2;
@@ -4415,8 +4314,8 @@ public class HIBlocks {
                 }}, new HaloPart(){{
                     progress = PartProgress.warmup;
                     shapes = 4;
-                    color = Color.valueOf("ffffff00");
-                    colorTo = Color.valueOf("c0ecff");
+                    color = Color.white.cpy().a(0f);
+                    colorTo = HIPal.tracerBlue;
                     layer = 110;
                     tri = true;
                     radius = triLength = haloRadius = haloRotation = 0;
@@ -4431,8 +4330,8 @@ public class HIBlocks {
                     rotateSpeed = radius = triLength = haloRadius = haloRotation = 0;
                     shapeRotation = -135;
                     shapes = 1;
-                    color = Color.valueOf("ffffff00");
-                    colorTo = Color.valueOf("c0ecff");
+                    color = Color.white.cpy().a(0f);
+                    colorTo = HIPal.tracerBlue;
                     layer = 110;
                     tri = true;
                     radiusTo = 10;
@@ -4444,8 +4343,8 @@ public class HIBlocks {
                     rotateSpeed = radius = triLength = haloRadius = haloRotation = 0;
                     shapeRotation = 135;
                     shapes = 1;
-                    color = Color.valueOf("ffffff00");
-                    colorTo = Color.valueOf("c0ecff");
+                    color = Color.white.cpy().a(0f);
+                    colorTo = HIPal.tracerBlue;
                     layer = 110;
                     tri = true;
                     radiusTo = 10;

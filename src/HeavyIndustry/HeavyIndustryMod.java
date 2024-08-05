@@ -32,7 +32,7 @@ public class HeavyIndustryMod extends Mod{
                 BaseDialog dialog = new BaseDialog("@mod.heavy-industry.name");
                 dialog.buttons.button("@close", dialog::hide).size(100f, 50f);
                 dialog.cont.pane(table -> {
-                    table.image(Core.atlas.find(name("img"))).left().row();
+                    table.image(Core.atlas.find(name("img"))).left().size(600, 600).pad(3).row();
                     table.add("@mod.heavy-industry.version").left().growX().wrap().pad(4).labelAlign(Align.left).row();
                     Label flabel1 = new FLabel("@mod.heavy-industry.author");
                     table.add(flabel1).left().row();
