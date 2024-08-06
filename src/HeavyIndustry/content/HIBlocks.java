@@ -49,9 +49,8 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
-import static arc.graphics.g2d.Draw.*;
-
 import static HeavyIndustry.HeavyIndustryMod.*;
+import static arc.graphics.g2d.Draw.*;
 import static arc.math.Angles.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
@@ -107,8 +106,8 @@ public class HIBlocks {
             buffrerdMemoryCell,buffrerdMemoryBank,
             //turret
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,cloudbreaker,minigun,
-            rend,fissure,
-            frost,judgement,fiammetta,wisadel,spark,fireworks,
+            spike,fissure,
+            hurricane,frost,judgement,fiammetta,wisadel,spark,fireworks,
             //turret-erekir
             tracer,shadow;
     public static void load(){
@@ -2515,7 +2514,7 @@ public class HIBlocks {
             }};
             ammoUseEffect = HIFx.casing(32f);
         }};
-        rend = new ItemTurret("rend"){{
+        spike = new ItemTurret("spike"){{
             requirements(Category.turret, with(Items.copper, 30, Items.lead, 60, Items.graphite, 40, Items.titanium, 50));
             health = 960;
             range = 200;
@@ -2736,6 +2735,49 @@ public class HIBlocks {
                 barrels = new float[]{6.5f, 3f, 0f};
             }});
         }};
+        hurricane = new PowerTurret("hurricane"){{
+            requirements(Category.turret, with(Items.lead, 80, Items.graphite, 100, Items.silicon, 250, Items.plastanium, 120, Items.phaseFabric, 150));
+            size = 3;
+            health = 960;
+            range = 300f;
+            reload = 12f;
+            shoot = new ShootAlternate(){{
+                spread = 7f;
+            }};
+            shootCone = 24f;
+            shootType = new PositionLightningBulletType(50f){{
+                lightningColor = hitColor = HIPal.lightSkyBack;
+                maxRange = rangeOverride = 250f;
+                hitEffect = HIFx.hitSpark;
+                smokeEffect = Fx.shootBigSmoke2;
+            }};
+            drawer = new DrawTurret(){{
+                parts.add(new RegionPart(){{
+                    drawRegion = false;
+                    mirror = true;
+                    moveY = -2.75f;
+                    progress = PartProgress.recoil;
+                    children.add(new RegionPart("-shooter"){{
+                        heatLayerOffset = 0.001f;
+                        heatColor = HIPal.thurmixRed.cpy().a(0.85f);
+                        progress = PartProgress.warmup;
+                        mirror = outline = true;
+                        moveX = 2f;
+                        moveY = 2f;
+                        moveRot = 11.25f;
+                    }});
+                }}, new RegionPart("-up"){{
+                    layerOffset = 0.3f;
+                    turretHeatLayer += layerOffset + 0.1f;
+                    heatColor = HIPal.thurmixRed.cpy().a(0.85f);
+                    outline = false;
+                }});
+            }};
+            warmupMaintainTime = 120f;
+            rotateSpeed = 3f;
+            coolant = new ConsumeCoolant(0.15f);
+            consumePowerCond(35f, TurretBuild::isActive);
+        }};
         frost = new PowerTurret("frost"){{
             requirements(Category.turret, with(Items.silicon, 600, Items.metaglass, 400, Items.plastanium, 350, HIItems.chromium, 220, HIItems.highEnergyFabric, 120));
             consumePower(12f);
@@ -2901,7 +2943,7 @@ public class HIBlocks {
                 trailLength = 8;
             }
                 private final Color tmpColor = new Color();
-                private final Color from = color, to = HIPal.highEnergyYellow;
+                private final Color from = color, to = HIPal.tracerBlue;
                 private final static float chargeReload = 65f;
                 private final static float lerpReload = 10f;
 

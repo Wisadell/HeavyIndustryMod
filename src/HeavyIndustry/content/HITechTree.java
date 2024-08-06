@@ -163,8 +163,9 @@ public class HITechTree {
             }));
             node(cloudbreaker);
         });
+        addToNode(arc, () -> node(hurricane));
         addToNode(salvo, () -> {
-            node(rend, () -> node(fissure));
+            node(spike, () -> node(fissure));
             node(minigun);
         });
         addToNode(meltdown, () -> {

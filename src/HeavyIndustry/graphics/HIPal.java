@@ -37,6 +37,13 @@ public class HIPal {
     public static Color ancient = Items.surgeAlloy.color.cpy().lerp(Pal.accent, 0.115f);
     public static Color ancientHeat = Color.red.cpy().mul(1.075f);
     public static Color ancientLight = ancient.cpy().lerp(Color.white, 0.7f);
+    public static Color lightSky = Color.valueOf("#8db0ff");
+    public static Color lightSkyBack = lightSky.cpy().lerp(Color.white, 0.2f);
+    public static Color lightSkyMiddle = lightSky.cpy().lerp(Color.white, 0.6f);
+    public static Color lightSkyFront = lightSky.cpy().lerp(Color.white, 0.77f);
+    public static Color thurmixRed = Color.valueOf("#ff9492");
+    public static Color thurmixRedLight = Color.valueOf("#ffced0");
+    public static Color thurmixRedDark = thurmixRed.cpy().lerp(Color.black, 0.9f);
     public static Color rainBowRed = Color.valueOf("ff8787");
     public static Color MIKU = Color.valueOf("39c5bb");
     public static Color EC1 = new Color();

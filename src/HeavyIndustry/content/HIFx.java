@@ -237,6 +237,17 @@ public class HIFx {
         }));
     }
 
+    public static Effect shootLineSmall(Color color){
+        return get("shootLineSmall", color,new Effect(37f, e -> {
+            color(color, Color.white, e.fout() * 0.7f);
+            randLenVectors(e.id, 4, 8 + 32 * e.fin(), e.rotation, 22F, (x, y) -> {
+                Lines.stroke(1.25f * e.fout(0.2f));
+                lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fout() * 6f + 3);
+                Drawf.light(e.x + x, e.y + y, e.fout() * 13f + 3, color, 0.7f);
+            });
+        }));
+    }
+
     public static Effect square(Color color, float lifetime, int num, float range, float size){
         return new Effect(lifetime, e -> {
             Draw.color(color);
@@ -355,6 +366,25 @@ public class HIFx {
             });
         }));
     }
+
+    public static Effect lightningHitLarge(Color color){
+        return get("lightningHitLarge", color, new Effect(50f, 180f, e -> {
+            color(color);
+            Drawf.light(e.x, e.y, e.fout() * 90f, color, 0.7f);
+            e.scaled(25f, t -> {
+                stroke(3f * t.fout());
+                circle(e.x, e.y, 3f + t.fin(Interp.pow3Out) * 80f);
+            });
+            Fill.circle(e.x, e.y, e.fout() * 8f);
+            randLenVectors(e.id + 1, 4, 1f + 60f * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 5f));
+
+            color(Color.gray);
+            Angles.randLenVectors(e.id, 8, 2.0F + 30.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4.0F + 0.5F));
+        }));
+    }
+
+    public static Effect boolSelector = new Effect(0, 0, e -> {});
+
     public static Effect lightningHitSmall = new Effect(Fx.chainLightning.lifetime, e -> {
         color(Color.white, e.color, e.fin() + 0.25f);
 
