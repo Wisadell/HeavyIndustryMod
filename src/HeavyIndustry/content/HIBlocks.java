@@ -1,131 +1,60 @@
 package HeavyIndustry.content;
 
-import HeavyIndustry.entities.PositionLightning;
-import HeavyIndustry.entities.bullet.AdaptedLightningBulletType;
-import HeavyIndustry.entities.bullet.CtrlMissileBulletType;
-import HeavyIndustry.entities.bullet.FireWorkBulletType;
-import HeavyIndustry.entities.bullet.TrailFadeBulletType;
-import HeavyIndustry.entities.bullet.AimToPosBulletType;
-import HeavyIndustry.entities.effect.EffectWrapper;
-import HeavyIndustry.gen.HISounds;
-import HeavyIndustry.graphics.HICacheLayer;
-import HeavyIndustry.graphics.HIPal;
-import HeavyIndustry.world.blocks.defense.AssignOverdrive;
-import HeavyIndustry.world.blocks.distribution.MultiRouter;
-import HeavyIndustry.world.blocks.power.WindGenerator;
-import HeavyIndustry.world.blocks.production.LaserBeamDrill;
-import HeavyIndustry.world.blocks.distribution.InvertedJunction;
-import HeavyIndustry.world.blocks.distribution.StackHelper;
-import HeavyIndustry.world.blocks.distribution.NodeBridge;
-import HeavyIndustry.world.blocks.liquid.SortLiquidRouter;
-import HeavyIndustry.world.blocks.heat.LiquidFuelHeater;
-import HeavyIndustry.world.blocks.heat.ThermalHeater;
-import HeavyIndustry.world.blocks.production.GeneratorCrafter;
-import HeavyIndustry.world.blocks.distribution.AdaptDirectionalUnloader;
-import HeavyIndustry.world.blocks.storage.AdaptUnloader;
-import HeavyIndustry.world.blocks.defense.turrets.MinigunTurret;
-import HeavyIndustry.world.blocks.defense.turrets.MultiBulletTurret;
-import HeavyIndustry.world.blocks.units.DerivativeUnitFactory;
-import HeavyIndustry.world.blocks.logic.CopyMemoryBlock;
-import HeavyIndustry.world.blocks.defense.RegenWall;
-import HeavyIndustry.world.draw.Draw3dSpin;
-import HeavyIndustry.world.draw.DrawFactories;
-import HeavyIndustry.world.draw.RunningLight;
-import HeavyIndustry.world.draw.PartBow;
-import HeavyIndustry.world.draw.DrawRotator;
-import HeavyIndustry.world.draw.DrawFunc;
-import HeavyIndustry.world.draw.DrawFrostWing;
-import HeavyIndustry.world.draw.BowHalo;
-import HeavyIndustry.world.draw.DrawScanLine;
-import HeavyIndustry.world.draw.DrawPowerLight;
-import HeavyIndustry.world.draw.DrawPrinter;
-import HeavyIndustry.world.meta.HIAttribute;
+import HeavyIndustry.entities.*;
+import HeavyIndustry.entities.bullet.*;
+import HeavyIndustry.entities.effect.*;
+import HeavyIndustry.gen.*;
+import HeavyIndustry.graphics.*;
+import HeavyIndustry.world.blocks.defense.*;
+import HeavyIndustry.world.blocks.distribution.*;
+import HeavyIndustry.world.blocks.power.*;
+import HeavyIndustry.world.blocks.production.*;
+import HeavyIndustry.world.blocks.liquid.*;
+import HeavyIndustry.world.blocks.heat.*;
+import HeavyIndustry.world.blocks.storage.*;
+import HeavyIndustry.world.blocks.defense.turrets.*;
+import HeavyIndustry.world.blocks.units.*;
+import HeavyIndustry.world.blocks.logic.*;
+import HeavyIndustry.world.draw.*;
+import HeavyIndustry.world.meta.*;
 import arc.Core;
-import arc.graphics.Blending;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.math.Rand;
-import arc.math.geom.Position;
-import arc.math.geom.Vec2;
-import arc.math.Interp;
-import arc.math.geom.Vec3;
-import arc.util.Time;
-import arc.util.Tmp;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.*;
-import mindustry.entities.Effect;
-import mindustry.entities.Lightning;
-import mindustry.entities.Sized;
-import mindustry.entities.UnitSorts;
+import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
-import mindustry.game.Team;
+import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.graphics.CacheLayer;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
-import mindustry.graphics.Trail;
+import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.world.Block;
-import mindustry.world.Tile;
-import mindustry.world.blocks.defense.AutoDoor;
-import mindustry.world.blocks.defense.ForceProjector;
-import mindustry.world.blocks.defense.MendProjector;
-import mindustry.world.blocks.defense.Radar;
-import mindustry.world.blocks.defense.Wall;
+import mindustry.world.*;
+import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
-import mindustry.world.blocks.distribution.ArmoredConveyor;
-import mindustry.world.blocks.distribution.Conveyor;
-import mindustry.world.blocks.distribution.Duct;
-import mindustry.world.blocks.distribution.DuctBridge;
-import mindustry.world.blocks.distribution.DuctRouter;
-import mindustry.world.blocks.distribution.ItemBridge;
-import mindustry.world.blocks.distribution.Junction;
-import mindustry.world.blocks.distribution.OverflowDuct;
-import mindustry.world.blocks.distribution.StackConveyor;
-import mindustry.world.blocks.distribution.StackRouter;
-import mindustry.world.blocks.environment.Floor;
-import mindustry.world.blocks.environment.OreBlock;
-import mindustry.world.blocks.environment.OverlayFloor;
-import mindustry.world.blocks.environment.Prop;
-import mindustry.world.blocks.environment.StaticWall;
-import mindustry.world.blocks.environment.SteamVent;
-import mindustry.world.blocks.environment.TallBlock;
+import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.heat.*;
-import mindustry.world.blocks.liquid.ArmoredConduit;
-import mindustry.world.blocks.liquid.LiquidBridge;
-import mindustry.world.blocks.liquid.LiquidRouter;
-import mindustry.world.blocks.power.Battery;
-import mindustry.world.blocks.power.ConsumeGenerator;
-import mindustry.world.blocks.power.LightBlock;
-import mindustry.world.blocks.power.NuclearReactor;
-import mindustry.world.blocks.power.PowerNode;
+import mindustry.world.blocks.liquid.*;
+import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.storage.CoreBlock;
-import mindustry.world.blocks.storage.StorageBlock;
+import mindustry.world.blocks.storage.*;
 import mindustry.world.blocks.units.*;
-import mindustry.world.consumers.ConsumeCoolant;
-import mindustry.world.consumers.ConsumeLiquidFlammable;
+import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
-import mindustry.world.draw.DrawHeatRegion;
 import mindustry.world.meta.*;
 
-import static arc.graphics.g2d.Draw.alpha;
-import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Draw.*;
 
-import static HeavyIndustry.HeavyIndustryMod.name;
-import static arc.math.Angles.randLenVectors;
-import static mindustry.Vars.headless;
-import static mindustry.Vars.tilesize;
-import static mindustry.type.ItemStack.with;
+import static HeavyIndustry.HeavyIndustryMod.*;
+import static arc.math.Angles.*;
+import static mindustry.Vars.*;
+import static mindustry.type.ItemStack.*;
 
 public class HIBlocks {
     public static Block
@@ -177,7 +106,7 @@ public class HIBlocks {
             //logic
             buffrerdMemoryCell,buffrerdMemoryBank,
             //turret
-            dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,caelum,cloudbreaker,minigun,
+            dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,cloudbreaker,minigun,
             rend,fissure,
             frost,judgement,fiammetta,wisadel,spark,fireworks,
             //turret-erekir
@@ -1193,12 +1122,12 @@ public class HIBlocks {
             consumePower(1.8f);
         }};
         largeSurgeSmelter = new GenericCrafter("large-surge-smelter"){{
-            requirements(Category.crafting, with(Items.lead, 120, Items.silicon, 100, HIItems.uranium, 80, Items.surgeAlloy, 10));
+            requirements(Category.crafting, with(Items.lead, 180, Items.silicon, 100, Items.metaglass, 60, Items.thorium, 150, Items.surgeAlloy, 30));
             size = 4;
             itemCapacity = 30;
             craftTime = 90f;
             craftEffect = Fx.smeltsmoke;
-            outputItem = new ItemStack(Items.surgeAlloy, 5);
+            outputItem = new ItemStack(Items.surgeAlloy, 3);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawPowerLight(Color.valueOf("f3e979")), new DrawFlame(Color.valueOf("ffef99")));
             consumePower(6);
             consumeItems(ItemStack.with(Items.copper, 5, Items.lead, 6, Items.titanium, 5, Items.silicon, 4));
@@ -1210,12 +1139,18 @@ public class HIBlocks {
             itemCapacity = 50;
             craftTime = 30f;
             outputItem = new ItemStack(Items.silicon, 10);
-            craftEffect = Fx.smeltsmoke;
-            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+            craftEffect = new RadialEffect(Fx.surgeCruciSmoke, 9, 45, 6);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawGlowRegion("-glow1"){{
+                alpha = 1f;
+                glowScale = 3f;
+            }}, new DrawGlowRegion("-glow2"){{
+                alpha = 0.9f;
+                glowScale = 3f;
+            }});
             ambientSound = Sounds.smelter;
             ambientSoundVolume = 0.21f;
             consumeItems(with(Items.coal, 5, Items.sand, 8, Items.blastCompound, 1));
-            consumePower(9.5f);
+            consumePower(4f);
         }};
         nanocoreConstructor = new GenericCrafter("nanocore-constructor"){{
             requirements(Category.crafting, with(Items.copper, 120, Items.lead, 110, Items.titanium, 45, Items.silicon, 35));
@@ -1720,9 +1655,9 @@ public class HIBlocks {
             cooldownLiquid = 6f;
             cooldownBrokenBase = 9f;
             itemConsumer = consumeItem(Items.phaseFabric).boost();
-            phaseUseTime = 180.0F;
-            phaseRadiusBoost = 100.0f;
-            phaseShieldBoost = 15000.0f;
+            phaseUseTime = 180f;
+            phaseRadiusBoost = 100f;
+            phaseShieldBoost = 15000f;
             consumePower(15f);
         }};
         //defense-erekir
@@ -2341,174 +2276,6 @@ public class HIBlocks {
             canOverdrive = false;
             shootSound = HISounds.dd1;
             consumePower(6f);
-        }};
-        caelum = new ItemTurret("caelum"){{
-            requirements(Category.turret, with(Items.graphite, 500, Items.silicon, 300, Items.thorium, 150, Items.plastanium, 200));
-            ammo(
-                    Items.blastCompound, new FlakBulletType(6f, 33f){{
-                        splashDamageRadius = 64f;
-                        splashDamage = 255f;
-                        knockback = 10;
-                        hitSize = 50;
-                        shrinkY = 0;
-                        hitSound = Sounds.explosionbig;
-                        hitSoundVolume = 2;
-                        lifetime = 145;
-                        status = StatusEffects.blasted;
-                        homingDelay = 15;
-                        homingPower = 0.08f;
-                        homingRange = 120;
-                        width = 15;
-                        height = 55;
-                        sprite = name("missile");
-                        backColor = Color.valueOf("ff7055");
-                        frontColor = Color.valueOf("e3e3e3");
-                        trailLength = 40;
-                        trailWidth = 2;
-                        trailColor = Color.valueOf("ffffff80");
-                        trailChance = 1;
-                        trailInterval = 16;
-                        trailEffect = new ParticleEffect(){{
-                            particles = 3;
-                            length = 16;
-                            baseLength = 1;
-                            lifetime = 45;
-                            colorFrom = colorTo = Color.valueOf("e3e3e380");
-                            sizeFrom = 3;
-                            sizeTo = 0;
-                        }};
-                        hitShake = 5;
-                        ammoMultiplier = 4;
-                        reloadMultiplier = 1.7f;
-                        shootEffect = Fx.shootTitan;
-                        smokeEffect = Fx.shootPyraFlame;
-                        hitEffect = new MultiEffect(new ParticleEffect(){{
-                            particles = 18;
-                            sizeFrom = 10;
-                            sizeTo = 0;
-                            length = 35;
-                            baseLength = 43;
-                            lifetime = 35;
-                            colorFrom = colorTo = Color.valueOf("737373");
-                        }}, new ParticleEffect(){{
-                            particles = 32;
-                            line = true;
-                            sizeFrom = 9;
-                            sizeTo = 0;
-                            length = 43;
-                            baseLength = 33;
-                            lifetime = 22;
-                            colorFrom = Color.white;
-                            colorTo = Color.valueOf("ffe176");
-                        }}, new WaveEffect(){{
-                            lifetime = 15;
-                            sizeFrom = 1;
-                            sizeTo = 70;
-                            strokeFrom = 8;
-                            strokeTo = 0;
-                            colorFrom = Color.valueOf("ffe176");
-                            colorTo = Color.white;
-                        }});
-                    }},
-                    HIItems.uranium, new BasicBulletType(10f, 360f, name("rocket")){{
-                        collidesGround = false;
-                        status = StatusEffects.melting;
-                        statusDuration = 180;
-                        pierceArmor = true;
-                        hitShake = 2;
-                        homingDelay = 15;
-                        homingPower = 0.12f;
-                        homingRange = 160;
-                        lifetime = 98;
-                        hitSound = Sounds.shotgun;
-                        hitSoundVolume = 0.2f;
-                        width = 15;
-                        height = 53;
-                        shrinkY = 0;
-                        ammoMultiplier = 1;
-                        backColor = Color.valueOf("a5b2c2");
-                        frontColor = Color.valueOf("e3e3e3");
-                        trailLength = 20;
-                        trailWidth = 1.7f;
-                        trailColor = Color.white;
-                        trailChance = 1f;
-                        trailInterval = 1f;
-                        trailRotation = true;
-                        trailEffect = new ParticleEffect(){{
-                            particles = 2;
-                            length = -40f;
-                            baseLength = 0f;
-                            lifetime = 15f;
-                            cone = 20f;
-                            colorFrom = Color.valueOf("e3e3e380");
-                            colorTo = Color.valueOf("e3e3e300");
-                            sizeFrom = 1f;
-                            sizeTo = 5f;
-                        }};
-                        shootEffect = Fx.shootTitan;
-                        smokeEffect = Fx.shootPyraFlame;
-                        hitEffect = new MultiEffect(new ParticleEffect(){{
-                            particles = 9;
-                            sizeFrom = 3f;
-                            sizeTo = 0f;
-                            length = 33f;
-                            baseLength = 6f;
-                            lifetime = 25f;
-                            colorFrom = colorTo = Color.valueOf("737373");
-                        }}, new ParticleEffect(){{
-                            particles = 15;
-                            line = true;
-                            sizeFrom = 4f;
-                            sizeTo = lenFrom = 0f;
-                            lenTo = 10f;
-                            length = 83f;
-                            baseLength = 3f;
-                            lifetime = 10f;
-                            colorFrom = Color.white;
-                            colorTo = Color.valueOf("ffe176");
-                        }}, new WaveEffect(){{
-                            lifetime = 10f;
-                            sizeFrom = 1f;
-                            sizeTo = strokeFrom = strokeTo = 0f;
-                            colorFrom = Color.valueOf("ffe176");
-                            colorTo = Color.white;
-                        }});
-                    }}
-            );
-            size = 4;
-            health = 3500;
-            reload = 26f;
-            range = 640f;
-            maxAmmo = 20;
-            ammoPerShot = 2;
-            recoil = 4f;
-            ammoUseEffect = new ParticleEffect(){{
-                particles = 9;
-                interp = Interp.pow10Out;
-                sizeInterp = Interp.pow5In;
-                sizeFrom = 5.5f;
-                sizeTo = 0f;
-                length = 30f;
-                baseLength = 0;
-                lifetime = 55f;
-                colorFrom = colorTo = Color.valueOf("73737360");
-                layer = 49f;
-            }};
-            canOverdrive = false;
-            shoot = new ShootAlternate(18){{
-                barrels = 2;
-            }};
-            xRand = 4;
-            liquidCapacity = 30;
-            coolant = consumeCoolant(0.5f);
-            coolantMultiplier = 1f;
-            shootSound = HISounds.dd1;
-            targetGround = false;
-            targetAir = true;
-            inaccuracy = 7.77f;
-            shootCone = 270;
-            shake = 4;
-            rotateSpeed = 1.65f;
         }};
         cloudbreaker = new ItemTurret("cloudbreaker"){{
             requirements(Category.turret, with(Items.graphite, 230, Items.titanium, 220, Items.thorium, 150));
@@ -3512,7 +3279,7 @@ public class HIBlocks {
             buildCostMultiplier = 0.5f;
         }};
         wisadel = new ItemTurret("wisadel"){{
-            requirements(Category.turret, with(Items.silicon, 1500, Items.plastanium, 1000, Items.surgeAlloy, 900, HIItems.highEnergyFabric, 700, HIItems.heavyAlloy, 1200));
+            requirements(Category.turret, with(Items.silicon, 1500, Items.plastanium, 1000, Items.surgeAlloy, 900, HIItems.highEnergyFabric, 500, HIItems.heavyAlloy, 550));
             ammo(HIItems.highEnergyFabric, new TrailFadeBulletType(60f, 350f, "missile-large"){{
                 ammoMultiplier = 1f;
                 shootEffect = smokeEffect = Fx.none;
@@ -3638,7 +3405,7 @@ public class HIBlocks {
                 mirror = false;
                 moves.add(new PartMove(PartProgress.recoil, 0f, -3f, 0f));
             }}, new PartBow(){{
-                color = Color.valueOf("f25555");
+                color = HIPal.wisadelRed;
                 turretTk = 6;
                 bowFY = -4;
                 bowMoveY = -33 - bowFY;
@@ -3646,7 +3413,7 @@ public class HIBlocks {
                 bowWidth = 28;
                 bowHeight = 12f;
             }}, new BowHalo(){{
-                color = Color.valueOf("f25555");
+                color = HIPal.wisadelRed;
                 stroke = 3;
                 radius = 9;
                 w1 = 2.8f;
@@ -3657,7 +3424,7 @@ public class HIBlocks {
                 sinWave = false;
             }});
             }}, new RunningLight(6){{
-                color = Color.valueOf("f25555");
+                color = HIPal.wisadelRed;
             }});
             range = 660;
             ammoPerShot = 10;

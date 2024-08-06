@@ -2,17 +2,16 @@ package HeavyIndustry.content;
 
 import static HeavyIndustry.HeavyIndustryMod.name;
 
-import HeavyIndustry.gen.HISounds;
-import HeavyIndustry.type.weather.EffectWeather;
-import HeavyIndustry.type.weather.HailStormWeather;
-import HeavyIndustry.entities.bullet.HailStoneBulletType;
-import arc.graphics.Color;
-import arc.util.Time;
-import mindustry.content.Fx;
-import mindustry.gen.Sounds;
-import mindustry.graphics.Layer;
-import mindustry.type.Weather;
-import mindustry.world.meta.Attribute;
+import HeavyIndustry.gen.*;
+import HeavyIndustry.type.weather.*;
+import HeavyIndustry.entities.bullet.*;
+import arc.graphics.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.world.meta.*;
 
 public class HIWeathers {
     public static Weather hailStone,wind;

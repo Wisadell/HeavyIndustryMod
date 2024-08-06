@@ -159,7 +159,7 @@ public class HITechTree {
         addToNode(duo, () -> {
             node(rocketLauncher, Seq.with(new SectorComplete(ruinousShores)), () -> node(multipleRocketLauncher, Seq.with(new SectorComplete(stainedMountains)), () -> {
                 node(largeRocketLauncher, Seq.with(new SectorComplete(extractionOutpost)), () -> node(spark, () -> node(fireworks, Seq.with(new SectorComplete(bombardmentWarzone)), () -> {})));
-                node(rocketSilo, Seq.with(new SectorComplete(tarFields)), () -> node(caelum, Seq.with(new SectorComplete(impact0078)), () -> {}));
+                node(rocketSilo, Seq.with(new SectorComplete(tarFields)), () -> {});
             }));
             node(cloudbreaker);
         });

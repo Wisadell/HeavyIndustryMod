@@ -1,40 +1,29 @@
 package HeavyIndustry.content;
 
-import HeavyIndustry.entities.PositionLightning;
-import HeavyIndustry.graphics.Drawm;
-import HeavyIndustry.graphics.HIPal;
-import HeavyIndustry.math.Math3D;
-import HeavyIndustry.struct.Vec2Seq;
-import HeavyIndustry.world.draw.DrawFunc;
-import HeavyIndustry.entities.bullet.HailStoneBulletType;
+import HeavyIndustry.entities.*;
+import HeavyIndustry.graphics.*;
+import HeavyIndustry.math.*;
+import HeavyIndustry.struct.*;
+import HeavyIndustry.world.draw.*;
+import HeavyIndustry.entities.bullet.*;
 import arc.Core;
-import arc.graphics.Color;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.math.Angles;
-import arc.math.Interp;
-import arc.math.Mathf;
-import arc.math.Rand;
-import arc.math.geom.Vec2;
-import arc.math.geom.Vec3;
-import arc.struct.IntMap;
-import arc.util.Time;
-import arc.util.Tmp;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Pal;
+import mindustry.graphics.*;
 
 import static HeavyIndustry.HeavyIndustryMod.name;
 import static HeavyIndustry.graphics.HIPal.*;
 import static java.util.Objects.hash;
 import static arc.graphics.g2d.Draw.*;
-import static arc.graphics.g2d.Lines.circle;
-import static arc.graphics.g2d.Lines.lineAngle;
-import static arc.graphics.g2d.Lines.stroke;
+import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.*;
-import static mindustry.Vars.state;
-import static mindustry.Vars.tilesize;
+import static mindustry.Vars.*;
 import static mindustry.content.Fx.v;
 
 public class HIFx {

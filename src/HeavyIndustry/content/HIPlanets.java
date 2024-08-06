@@ -3,21 +3,17 @@ package HeavyIndustry.content;
 import static HeavyIndustry.HeavyIndustryMod.name;
 import static arc.Core.atlas;
 
-import HeavyIndustry.graphics.g3d.CircleMesh;
+import HeavyIndustry.graphics.g3d.*;
 import HeavyIndustry.maps.ColorPass.*;
 import HeavyIndustry.maps.HeightPass.*;
-import HeavyIndustry.maps.planets.PunkHazardPlanetGenerator;
-import arc.graphics.Color;
-import arc.math.Interp;
-import arc.math.geom.Vec3;
-import mindustry.content.Blocks;
-import mindustry.content.Items;
-import mindustry.content.Planets;
-import mindustry.game.Team;
-import mindustry.graphics.Pal;
-import mindustry.graphics.g3d.HexMesh;
-import mindustry.graphics.g3d.HexSkyMesh;
-import mindustry.graphics.g3d.MultiMesh;
+import HeavyIndustry.maps.planets.*;
+import arc.graphics.*;
+import arc.math.*;
+import arc.math.geom.*;
+import mindustry.content.*;
+import mindustry.game.*;
+import mindustry.graphics.*;
+import mindustry.graphics.g3d.*;
 import mindustry.type.Planet;
 
 public class HIPlanets {
