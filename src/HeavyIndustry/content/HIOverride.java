@@ -34,7 +34,6 @@ public class HIOverride {
         Blocks.sandWater.playerUnmineable = Blocks.darksandWater.playerUnmineable = Blocks.darksandTaintedWater.playerUnmineable = true;
         ((Floor) Blocks.deepTaintedWater).liquidMultiplier = 1.5f;
         Blocks.oxidationChamber.canOverdrive = Blocks.neoplasiaReactor.canOverdrive = true;
-        ((Floor) Blocks.basalt).wall = HIBlocks.basaltWall;
         Blocks.slag.attributes.set(Attribute.heat, 1f);
         //Blocks-Environment-Erekir
         Blocks.yellowStonePlates.attributes.set(Attribute.water, -1f);

@@ -131,6 +131,7 @@ public class HIBlocks {
         basaltWall = new StaticWall("basalt-wall"){{
             variants = 3;
             attributes.set(Attribute.sand, 0.7f);
+            ((Floor) Blocks.basalt).wall = this;
         }};
         basaltGraphiteWall = new StaticWall("basalt-graphite-wall"){{
             variants = 3;
@@ -2745,6 +2746,7 @@ public class HIBlocks {
                 spread = 7f;
             }};
             shootCone = 24f;
+            shootSound = Sounds.spark;
             shootType = new PositionLightningBulletType(50f){{
                 lightningColor = hitColor = HIPal.lightSkyBack;
                 maxRange = rangeOverride = 250f;
@@ -2777,6 +2779,7 @@ public class HIBlocks {
             rotateSpeed = 3f;
             coolant = new ConsumeCoolant(0.15f);
             consumePowerCond(35f, TurretBuild::isActive);
+            canOverdrive = false;
         }};
         frost = new PowerTurret("frost"){{
             requirements(Category.turret, with(Items.silicon, 600, Items.metaglass, 400, Items.plastanium, 350, HIItems.chromium, 220, HIItems.highEnergyFabric, 120));
@@ -3156,6 +3159,9 @@ public class HIBlocks {
                 despawnShake = hitShake = 8;
                 status = StatusEffects.blasted;
                 makeFire = true;
+                incendAmount = 45;
+                incendSpread = splashDamageRadius;
+                incendChance = 1;
             }
                 @Override
                 public void draw(Bullet b) {
@@ -3191,6 +3197,9 @@ public class HIBlocks {
                         buildingDamageMultiplier = 0.3f;
                         status = StatusEffects.blasted;
                         makeFire = true;
+                        incendAmount = 45;
+                        incendSpread = splashDamageRadius;
+                        incendChance = 1;
                     }
                         @Override
                         public void update(Bullet b) {
@@ -3255,6 +3264,9 @@ public class HIBlocks {
                             splashDamage = 300;
                             status = StatusEffects.burning;
                             makeFire = true;
+                            incendAmount = 20;
+                            incendSpread = splashDamageRadius;
+                            incendChance = 1;
                         }
                             @Override
                             public void draw(Bullet b) {
@@ -3293,6 +3305,9 @@ public class HIBlocks {
                         trailInterval = 0.1f;
                         status = StatusEffects.burning;
                         makeFire = true;
+                        incendAmount = 20;
+                        incendSpread = splashDamageRadius;
+                        incendChance = 1;
                     }
                         @Override
                         public void draw(Bullet b) {
@@ -3776,7 +3791,7 @@ public class HIBlocks {
                         splashDamage = 45;
                         hitShake = 3;
                         shootEffect = Fx.none;
-                        smokeEffect = new Effect(32f, 64f, e -> {
+                        smokeEffect = new Effect(32f, 80f, e -> {
                             color(HIPal.tracerBlue.cpy().lerp(Color.white, 0.2f), HIPal.tracerBlue, Color.gray, e.fin());
                             randLenVectors(e.id, 8, e.finpow() * 60f, e.rotation, 10f, (x, y) ->
                                 Fill.circle(e.x + x, e.y + y, 0.65f + e.fout() * 1.5f)
