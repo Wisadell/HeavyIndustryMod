@@ -34,7 +34,7 @@ public class HeavyIndustryMod extends Mod{
                 dialog.cont.pane(table -> {
                     table.image(Core.atlas.find(name("img"))).left().size(600, 333).pad(3).row();
                     table.add(Core.bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
-                    Label flabel1 = new FLabel("mod.heavy-industry.author");
+                    Label flabel1 = new FLabel(Core.bundle.get("mod.heavy-industry.author"));
                     table.add(flabel1).left().row();
                     table.add(Core.bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
                     table.add(Core.bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550).maxWidth(600).pad(4).labelAlign(Align.left).row();

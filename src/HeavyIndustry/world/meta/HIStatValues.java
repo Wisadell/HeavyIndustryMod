@@ -1,23 +1,17 @@
 package HeavyIndustry.world.meta;
 
 import arc.Core;
-import arc.func.Boolf;
-import arc.graphics.Color;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.Mathf;
-import arc.scene.style.TextureRegionDrawable;
 import arc.scene.ui.layout.Table;
 import arc.struct.ObjectMap;
 import arc.struct.Seq;
-import arc.util.Scaling;
 import arc.util.Strings;
 import mindustry.content.StatusEffects;
 import mindustry.ctype.UnlockableContent;
 import mindustry.entities.bullet.BulletType;
 import mindustry.gen.Tex;
 import mindustry.type.*;
-import mindustry.ui.ItemDisplay;
-import mindustry.ui.Styles;
 import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.meta.StatUnit;
 import mindustry.world.meta.StatValue;
@@ -26,29 +20,6 @@ import mindustry.world.meta.StatValues;
 import static mindustry.Vars.*;
 
 public class HIStatValues {
-    public static StatValue stringBoosters(float reload, float maxUsed, float multiplier, boolean baseReload, Boolf<Liquid> filter, String key){
-        return table -> {
-            table.row();
-            table.table(c -> {
-                for(Liquid liquid : content.liquids()){
-                    if(!filter.get(liquid)) continue;
-
-                    c.image(liquid.uiIcon).size(3 * 8).scaling(Scaling.fit).padRight(4).right().top();
-                    c.add(liquid.localizedName).padRight(10).left().top();
-                    c.table(Tex.underline, bt -> {
-                        bt.left().defaults().padRight(3).left();
-
-                        float reloadRate = (baseReload ? 1f : 0f) + maxUsed * multiplier * liquid.heatCapacity;
-                        float standardReload = baseReload ? reload : reload / (maxUsed * multiplier * 0.4f);
-                        float result = standardReload / (reload / reloadRate);
-                        bt.add(Core.bundle.format(key, Strings.autoFixed(result, 2)));
-                    }).left().padTop(-9);
-                    c.row();
-                }
-            }).colspan(table.getColumns());
-            table.row();
-        };
-    }
 
     public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map){
         return ammo(map, 0, false);
@@ -166,71 +137,5 @@ public class HIStatValues {
 
     private static TextureRegion icon(UnlockableContent t){
         return t.uiIcon;
-    }
-
-    public static StatValue colorString(Color color, CharSequence s){
-        return table -> {
-            table.row();
-            table.table(c -> {
-                c.image(((TextureRegionDrawable)Tex.whiteui).tint(color)).size(32).scaling(Scaling.fit).padRight(4).left().top();
-                c.add(s).padRight(10).left().top();
-            }).left();
-            table.row();
-        };
-    }
-
-    public static <T extends UnlockableContent> StatValue ammoString(ObjectMap<T, BulletType> map){
-        return table -> {
-            for(T i : map.keys()){
-                table.row();
-                table.table(c -> {
-                    c.image(icon(i)).size(32).scaling(Scaling.fit).padRight(4).left().top();
-                    c.add(Core.bundle.get("stat-" + i.name + ".ammo")).padRight(10).left().top();
-                    c.background(Tex.underline);
-                }).left();
-                table.row();
-            }
-        };
-    }
-
-    public static StatValue itemRangeBoosters(String unit, float timePeriod, StatusEffect[] status, float rangeBoost, ItemStack[] items, boolean replace, Boolf<Item> filter){
-        return table -> {
-            table.row();
-            table.table(c -> {
-                for(Item item : content.items()){
-                    if(!filter.get(item)) continue;
-
-                    c.table(Styles.grayPanel, b -> {
-                        for(ItemStack stack : items){
-                            if(timePeriod < 0){
-                                b.add(new ItemDisplay(stack.item, stack.amount, true)).pad(20f).left();
-                            }else{
-                                b.add(new ItemDisplay(stack.item, stack.amount, timePeriod, true)).pad(20f).left();
-                            }
-                            if(items.length > 1) b.row();
-                        }
-
-                        b.table(bt -> {
-                            bt.left().defaults().left();
-                            if(status.length > 0){
-                                for(StatusEffect s : status){
-                                    if(s == StatusEffects.none) continue;
-                                    bt.row();
-                                    bt.button(new TextureRegionDrawable(s.uiIcon), () -> ui.content.show(s)).padTop(2f).padBottom(2f).size(50);
-                                    bt.add(s.localizedName);
-                                }
-                                if(replace){
-                                    bt.row();
-                                    bt.add(Core.bundle.get("statValue.replace"));
-                                }
-                            }
-                            bt.row();
-                            if(rangeBoost != 0) bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
-                        }).right().grow().pad(10f).padRight(15f);
-                    }).growX().pad(5).padBottom(-5).row();
-                }
-            }).growX().colspan(table.getColumns());
-            table.row();
-        };
     }
 }

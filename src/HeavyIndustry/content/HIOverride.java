@@ -1,6 +1,7 @@
 package HeavyIndustry.content;
 
 import HeavyIndustry.entities.bullet.*;
+import HeavyIndustry.graphics.*;
 import HeavyIndustry.world.meta.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -125,7 +126,7 @@ public class HIOverride {
             damage = 135f;
             ammoMultiplier = 6f;
             toColor = Color.valueOf("a5b2c2");
-            shootEffect = smokeEffect = HIFx.uraniumShoot;
+            shootEffect = smokeEffect = HIFx.shoot(HIPal.uraniumGrey);
         }});
         ((LiquidTurret) Blocks.tsunami).ammoTypes.put(HILiquids.nitratedOil, new LiquidBulletType(HILiquids.nitratedOil){{
             lifetime = 49f;

@@ -28,11 +28,22 @@ import static mindustry.content.Fx.v;
 
 public class HIFx {
     public static final Vec2 vec = new Vec2(), vec2 = new Vec2();
-    public static Effect uraniumShoot = new Effect(12, e -> {
-        color(Color.white, uraniumGrey, e.fin());
-        stroke(e.fout() * 1.2f + 0.5f);
-        randLenVectors(e.id, 7, 25f * e.finpow(), e.rotation, 50f, (x, y) -> lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fin() * 5f + 2f));
-    });
+    public static Effect shoot(Color color){
+        return new Effect(12, e -> {
+            color(Color.white, color, e.fin());
+            stroke(e.fout() * 1.2f + 0.5f);
+            randLenVectors(e.id, 7, 25f * e.finpow(), e.rotation, 50f, (x, y) ->
+                    lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fin() * 5f + 2f)
+            );
+        });
+    }
+
+    public static Effect flameShoot(Color colorBegin, Color colorTo, Color colorEnd, float length, float cone, int number, float lifetime){
+        return new Effect(lifetime, 80, e -> {
+            Draw.color(colorBegin, colorTo, colorEnd, e.fin());
+            randLenVectors(e.id, number, e.finpow() * length, e.rotation, cone, (x, y) -> Fill.circle(e.x + x, e.y + y, 0.65f + e.fout() * 1.5f));
+        });
+    }
 
     public static Effect casing(float life){
         return new Effect(life, e -> {
