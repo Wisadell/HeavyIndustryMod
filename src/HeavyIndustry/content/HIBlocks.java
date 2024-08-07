@@ -2266,7 +2266,7 @@ public class HIBlocks {
             ammo(Items.coal, new FlameBulletType(Pal.lightFlame, Pal.darkFlame, Color.gray, range + 8, 14, 60, 22), Items.pyratite, new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8, 20, 72, 22){{
                 damage = 98;
                 statusDuration = 60 * 6;
-                ammoMultiplier = 3;
+                ammoMultiplier = 4;
             }});
             size = 2;
             health = 1160;
@@ -2277,6 +2277,8 @@ public class HIBlocks {
             targetAir = false;
             ammoUseEffect = Fx.none;
             shootSound = Sounds.flame;
+            coolantMultiplier = 1.5f;
+            coolant = consumeCoolant(0.1f);
         }};
         cloudbreaker = new ItemTurret("cloudbreaker"){{
             requirements(Category.turret, with(Items.graphite, 230, Items.titanium, 220, Items.thorium, 150));

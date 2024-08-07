@@ -17,11 +17,11 @@ import mindustry.graphics.g3d.*;
 import mindustry.type.Planet;
 
 public class HIPlanets {
-    public static Planet punkHazard;
+    public static Planet kepler;
     public static void load(){
-        punkHazard = new Planet("punk-hazard", Planets.sun, 1f, 3){{
-            icon = "punk-hazard";
-            generator = new PunkHazardPlanetGenerator(){{
+        kepler = new Planet("kepler", Planets.sun, 1f, 3){{
+            icon = "kepler";
+            generator = new KeplerPlanetGenerator(){{
                 baseHeight = -1f;
                 baseColor = HIBlocks.albaster.mapColor;
                 heights.addAll(

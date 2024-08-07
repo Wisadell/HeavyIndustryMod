@@ -7,9 +7,9 @@ import static arc.Core.*;
 import static mindustry.gen.Icon.*;
 
 public class HIIcon {
-    public static TextureRegionDrawable punkHazard;
+    public static TextureRegionDrawable kepler;
     public static void load() {
-        punkHazard = atlas.getDrawable(name("punk-hazard"));
-        icons.put("punk-hazard", punkHazard);
+        kepler = atlas.getDrawable(name("kepler"));
+        icons.put("kepler", kepler);
     }
 }

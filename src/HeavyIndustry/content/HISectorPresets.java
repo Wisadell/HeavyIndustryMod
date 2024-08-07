@@ -7,7 +7,7 @@ public class HISectorPresets {
     public static SectorPreset
     //discord
             iceboundTributary,facility32m,whiteoutPlains,desertWastes,snowyLands,sunkenPier,coastalCliffs,fallenStronghold,bombardmentWarzone,
-    //punk hazard
+    //kepler
             chernobog;
     public static void load(){
         iceboundTributary = new SectorPreset("iceboundTributary", Planets.serpulo, 99){{
@@ -45,8 +45,8 @@ public class HISectorPresets {
             difficulty = 11;
             captureWave = 145;
         }};
-        //punk hazard
-        chernobog = new SectorPreset("chernobog", HIPlanets.punkHazard, 0){{
+        //kepler
+        chernobog = new SectorPreset("chernobog", HIPlanets.kepler, 0){{
             difficulty = 2;
             captureWave = 100;
         }};
