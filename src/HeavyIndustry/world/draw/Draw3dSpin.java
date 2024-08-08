@@ -51,7 +51,7 @@ public class Draw3dSpin extends DrawBlock{
                 buffer.each(Runnable::run);
                 shadowBuffer.end();
                 Draw.color(Pal.shadow, Pal.shadow.a);
-                EDraw.drawBuffer(shadowBuffer);
+                Drawe.drawBuffer(shadowBuffer);
                 Draw.flush();
                 Draw.color();
             });

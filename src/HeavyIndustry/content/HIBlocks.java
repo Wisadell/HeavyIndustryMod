@@ -2283,166 +2283,72 @@ public class HIBlocks {
         cloudbreaker = new ItemTurret("cloudbreaker"){{
             requirements(Category.turret, with(Items.graphite, 230, Items.titanium, 220, Items.thorium, 150));
             ammo(
-                    Items.titanium, new BasicBulletType(14f, 220f){{
+                    Items.titanium, new CritBulletType(14f, 220f){{
                         lifetime = 25f;
-                        width = 14f;
-                        height = 25f;
-                        trailLength = 5;
-                        trailWidth = 1.5f;
-                        trailColor = Color.valueOf("8da1e350");
-                        trailChance = 0.5f;
-                        trailRotation = true;
-                        trailEffect = new ParticleEffect(){{
-                            sizeInterp = Interp.pow3In;
-                            particles = 3;
-                            strokeFrom = 1f;
-                            strokeTo = lenTo = baseLength = 0f;
-                            line = true;
-                            lenFrom = 8f;
-                            length = 15f;
-                            lifetime = 10f;
-                            colorFrom = Color.white;
-                            colorTo = Color.valueOf("8da1e3");
-                            cone = 10f;
-                        }};
-                        pierceArmor = true;
-                        pierce = true;
-                        pierceBuilding = false;
+                        knockback = 5f;
+                        width = 7f;
+                        height = 12f;
+                        pierce = pierceArmor = true;
                         pierceCap = 3;
-                        shootEffect = Fx.bigShockwave;
-                        smokeEffect = Fx.shootBigSmoke;
-                        hitEffect = new ParticleEffect(){{
-                            particles = 15;
-                            line = true;
-                            strokeFrom = 1f;
-                            strokeTo = lenTo = baseLength = 0f;
-                            lenFrom = 10f;
-                            length = 50f;
-                            lifetime = 10f;
-                            colorFrom = Color.valueOf("ffe176");
-                            colorTo = Color.white;
-                            cone = 60f;
-                        }};
-                        despawnEffect = Fx.none;
-                        ammoMultiplier = 2;
+                        reloadMultiplier = 1.7f;
+                        critChance = 0.08f;
+                        critMultiplier = 2.5f;
                     }},
-                    Items.thorium, new BasicBulletType(17.5f, 280f){{
+                    Items.thorium, new CritBulletType(17.5f, 280f){{
                         lifetime = 25f;
                         rangeChange = 70f;
-                        width = 15f;
-                        height = 25f;
-                        trailLength = 6;
-                        trailWidth = 1.8f;
-                        trailColor = Color.valueOf("f9a3c750");
-                        trailChance = 0.8f;
-                        trailRotation = true;
-                        trailEffect = new ParticleEffect(){{
-                            sizeInterp = Interp.pow3In;
-                            particles = 3;
-                            strokeFrom = 1;
-                            strokeTo = lenTo = baseLength = 0;
-                            line = true;
-                            lenFrom = 8;
-                            length = 15;
-                            lifetime = 15;
-                            colorFrom = Color.white;
-                            colorTo = Color.valueOf("f9a3c7");
-                            cone = 10;
-                        }};
-                        pierceArmor = true;
-                        pierce = true;
-                        pierceBuilding = false;
+                        knockback = 5f;
+                        width = 8f;
+                        height = 14f;
+                        pierce = pierceArmor = true;
                         pierceCap = 5;
-                        shootEffect = Fx.bigShockwave;
-                        smokeEffect = Fx.shootBigSmoke;
-                        hitEffect = new ParticleEffect(){{
-                            particles = 15;
-                            line = true;
-                            strokeFrom = 1;
-                            strokeTo = lenTo = baseLength = 0;
-                            lenFrom = 10;
-                            length = 70;
-                            lifetime = 10;
-                            colorFrom = Color.valueOf("ffe176");
-                            colorTo = Color.white;
-                            cone = 60;
-                        }};
-                        despawnEffect = Fx.none;
-                        ammoMultiplier = 3;
+                        critChance = 0.05f;
+                        critMultiplier = 4.5f;
                     }},
-                    HIItems.uranium, new BasicBulletType(20f, 360f){{
+                    HIItems.uranium, new CritBulletType(20f, 360f){{
                         lifetime = 25f;
                         rangeChange = 120f;
-                        width = 15f;
-                        height = 26f;
-                        trailLength = 6;
-                        trailWidth = 1.8f;
-                        trailColor = Color.valueOf("a5b2c250");
-                        trailChance = 0.8f;
-                        trailRotation = true;
-                        status = StatusEffects.melting;
-                        statusDuration = 240f;
-                        trailEffect = new ParticleEffect(){{
-                            sizeInterp = Interp.pow3In;
-                            particles = 3;
-                            strokeFrom = 1.1f;
-                            strokeTo = lenTo = baseLength = 0f;
-                            line = true;
-                            lenFrom = 8f;
-                            length = 45f;
-                            lifetime = 10f;
-                            colorFrom = Color.white;
-                            colorTo = Color.valueOf("a5b2c2");
-                            cone = 10f;
+                        knockback = 4f;
+                        width = 9f;
+                        height = 16f;
+                        pierce = pierceArmor = true;
+                        pierceCap = 8;
+                        critChance = 0.05f;
+                        critMultiplier = 3f;
+                        despawnHitEffects = false;
+                        setDefaults = false;
+                        fragOnHit = false;
+                        fragBullets = 5;
+                        fragVelocityMin = 0.8f;
+                        fragVelocityMax = 1.2f;
+                        fragRandomSpread = 30f;
+                        fragBullet = new CritBulletType(13f, 80f){{
+                            lifetime = 8f;
+                            knockback = 3f;
+                            width = 6f;
+                            height = 14f;
+                            pierceCap = 12;
+                            critMultiplier = 3f;
+                            critEffect = HIFx.miniCrit;
                         }};
-                        pierceArmor = true;
-                        pierce = true;
-                        pierceBuilding = false;
-                        pierceCap = 10;
-                        shootEffect = Fx.bigShockwave;
-                        smokeEffect = Fx.shootBigSmoke;
-                        hitEffect = new ParticleEffect(){{
-                            particles = 15;
-                            line = true;
-                            strokeFrom = 5;
-                            strokeTo = lenTo = baseLength = 0;
-                            lenFrom = 16;
-                            length = 100;
-                            lifetime = 10;
-                            colorFrom = Color.valueOf("ffe176");
-                            colorTo = Color.white;
-                            cone = 60;
-                        }};
-                        despawnEffect = Fx.none;
-                        ammoMultiplier = 4;
-                    }}
+                    }
+                        @Override
+                        public void removed(Bullet b){
+                            super.removed(b);
+                            if(b.fdata != 1f) createFrags(b, b.x, b.y);
+                        }
+                    }
             );
             size = 3;
-            health = 2160;
-            range = 320;
-            reload = 80;
-            shake = 3.5f;
-            hasLiquids = true;
-            liquidCapacity = 40;
-            recoilTime = 30;
-            recoil = 1;
-            targetAir = true;
-            targetGround = true;
-            rotateSpeed = 5;
-            inaccuracy = 0;
-            shootSound = Sounds.artillery;
-            ammoUseEffect = Fx.casing3Double;
-            maxAmmo = 24;
-            ammoPerShot = 6;
-            drawer = new DrawTurret(){{
-                parts.addAll(new RegionPart("-barrel"){{
-                    mirror = false;
-                    under = true;
-                    progress = PartProgress.recoil;
-                    moveY = -4;
-                }});
-            }};
-            coolant = consumeCoolant(0.3f);
+            range = 330f;
+            hideDetails = false;
+            scaledHealth = 120;
+            reload = 150f;
+            rotateSpeed = 2.5f;
+            recoil = 5f;
+            cooldownTime = 300f;
+            shootSound = Sounds.cannon;
+            coolant = consumeCoolant(0.2f);
         }};
         minigun = new MinigunTurret("minigun"){{
             requirements(Category.turret, with(Items.copper, 350, Items.graphite, 300, Items.titanium, 150, Items.plastanium, 175, Items.surgeAlloy, 120));

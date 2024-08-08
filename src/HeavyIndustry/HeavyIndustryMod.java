@@ -30,16 +30,16 @@ public class HeavyIndustryMod extends Mod{
         Events.on(ClientLoadEvent.class, e -> {
             Time.runTask(10f, () -> {
                 BaseDialog dialog = new BaseDialog(Core.bundle.get("mod.heavy-industry.name"));
-                dialog.buttons.button("@close", dialog::hide).size(100f, 50f);
+                dialog.buttons.button("@close", dialog::hide).size(210f, 64f);
                 dialog.cont.pane(table -> {
-                    table.image(Core.atlas.find(name("img"))).left().size(600, 333).pad(3).row();
-                    table.add(Core.bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
+                    table.image(Core.atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
+                    table.add(Core.bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
                     Label flabel1 = new FLabel(Core.bundle.get("mod.heavy-industry.author"));
                     table.add(flabel1).left().row();
                     table.add(Core.bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
-                    table.add(Core.bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550).maxWidth(600).pad(4).labelAlign(Align.left).row();
-                    table.add(Core.bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550).maxWidth(600).pad(4).labelAlign(Align.left).row();
-                }).grow().center().maxWidth(600);
+                    table.add(Core.bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    table.add(Core.bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                }).grow().center().maxWidth(600f);
                 dialog.show();
             });
         });

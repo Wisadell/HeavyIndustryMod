@@ -22,4 +22,14 @@ public class Drawm {
         Draw.rect(region, x, y, rotation);
         Draw.color();
     }
+
+    public static void plus(float x, float y, float diameter, float angle){
+        plus(x, y, diameter / 3f, diameter, angle);
+    }
+
+    public static void plus(float x, float y, float stroke, float diameter, float angle){
+        for(int i = 0; i < 2; i++){
+            Fill.rect(x, y, stroke, diameter, angle + i * 90f);
+        }
+    }
 }

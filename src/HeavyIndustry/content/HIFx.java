@@ -18,13 +18,15 @@ import mindustry.entities.Effect;
 import mindustry.graphics.*;
 
 import static HeavyIndustry.HeavyIndustryMod.name;
+import static HeavyIndustry.graphics.Drawm.plus;
 import static HeavyIndustry.graphics.HIPal.*;
 import static java.util.Objects.hash;
 import static arc.graphics.g2d.Draw.*;
 import static arc.graphics.g2d.Lines.*;
 import static arc.math.Angles.*;
+import static arc.util.Tmp.*;
 import static mindustry.Vars.*;
-import static mindustry.content.Fx.v;
+import static mindustry.content.Fx.*;
 
 public class HIFx {
     public static final Vec2 vec = new Vec2(), vec2 = new Vec2();
@@ -74,11 +76,11 @@ public class HIFx {
 
             for(int i = 0; i <= num; i++){
                 float rot = -90f + 180f * i / (float)num;
-                Tmp.v1.trnsExact(rot, width);
+                v1.trnsExact(rot, width);
 
                 point(
-                        (Tmp.v1.x) / width * length,
-                        Tmp.v1.y,
+                        (v1.x) / width * length,
+                        v1.y,
                         e.x, e.y,
                         e.rotation + 90,
                         rad * e.fout()
@@ -86,11 +88,11 @@ public class HIFx {
             }
             for(int i = 0; i <= num; i++){
                 float rot = 90f + 180f * i / (float)num;
-                Tmp.v1.trnsExact(rot, width);
+                v1.trnsExact(rot, width);
 
                 point(
-                        (Tmp.v1.x) / width * length,
-                        Tmp.v1.y,
+                        (v1.x) / width * length,
+                        v1.y,
                         e.x, e.y,
                         e.rotation + 90,
                         rad * e.fout()
@@ -112,8 +114,8 @@ public class HIFx {
         }).followParent(true);
     }
     private static void point(float x, float y, float baseX, float baseY, float rotation, float rad){
-        Tmp.v1.set(x, y).rotateRadExact(rotation * Mathf.degRad);
-        Fill.circle(Tmp.v1.x + baseX, Tmp.v1.y + baseY, rad);
+        v1.set(x, y).rotateRadExact(rotation * Mathf.degRad);
+        Fill.circle(v1.x + baseX, v1.y + baseY, rad);
     }
     public static Effect fireworksShoot(float r){
         return new Effect(30, e -> {
@@ -134,14 +136,14 @@ public class HIFx {
             TextureRegion region = Core.atlas.find(name("aim-shoot"));
             float track = Mathf.curve(e.fin(Interp.pow2Out), 0, 0.25f) * Mathf.curve(e.fout(Interp.pow4Out), 0, 0.3f) * e.fin();
             for(int i = 0; i <= length / spacing; i++){
-                Tmp.v1.trns(e.rotation, i * spacing);
+                v1.trns(e.rotation, i * spacing);
                 float f = Interp.pow3Out.apply(Mathf.clamp((e.fin() * length - i * spacing) / spacing)) * (0.6f + track * 0.4f);
-                Draw.rect(region, e.x + Tmp.v1.x, e.y + Tmp.v1.y, 155 * Draw.scl * f, 155 * Draw.scl * f, e.rotation - 90);
+                Draw.rect(region, e.x + v1.x, e.y + v1.y, 155 * Draw.scl * f, 155 * Draw.scl * f, e.rotation - 90);
             }
-            Tmp.v1.trns(e.rotation, 0, (2 - track) * tilesize * width);
+            v1.trns(e.rotation, 0, (2 - track) * tilesize * width);
             Lines.stroke(track * 2);
             for(int i : Mathf.signs){
-                Lines.lineAngle(e.x + Tmp.v1.x * i, e.y + Tmp.v1.y * i, e.rotation, length * (0.75f + track / 4) * Mathf.curve(e.fout(Interp.pow5Out), 0, 0.1f));
+                Lines.lineAngle(e.x + v1.x * i, e.y + v1.y * i, e.rotation, length * (0.75f + track / 4) * Mathf.curve(e.fout(Interp.pow5Out), 0, 0.1f));
             }
         });
     }
@@ -435,7 +437,7 @@ public class HIFx {
         Draw.color(e.color);
         for(int i = 1; i < points.size() - 1; i++){
             Lines.stroke(Mathf.clamp((i + fadeOffset / 2f) / points.size() * (strokeOffset - (points.size() - i)) / strokeOffset) * stroke);
-            Vec2 from = points.setVec2(i - 1, Tmp.v1);
+            Vec2 from = points.setVec2(i - 1, v1);
             Vec2 to = points.setVec2(i, Tmp.v2);
             Lines.line(from.x, from.y, to.x, to.y, false);
             Fill.circle(from.x, from.y, Lines.getStroke() / 2);
@@ -541,6 +543,65 @@ public class HIFx {
     public static Effect trailToGray = new Effect(50.0F, e -> {
         Draw.color(e.color, Color.gray, e.fin());
         randLenVectors(e.id, 2, tilesize * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.rotation * e.fout()));
+    });
+    //P
+    public static Effect crit = new Effect(120f, e -> {
+        v1.trns(e.rotation + 90f, 0f, 48f * e.fin(Interp.pow2Out));
+
+        color(e.color, e.fout());
+        randLenVectors(e.id, 6, 24f, (x, y) -> {
+            float rot = Mathf.randomSeed((long)(e.id + x + y), 360);
+            float tx = x * e.fin(Interp.pow2Out);
+            float ty = y * e.fin(Interp.pow2Out);
+            plus(e.x + tx + v1.x, e.y + ty + v1.y, 4f, rot);
+        });
+    });
+
+    public static Effect critPierce = new Effect(20f, e -> {
+        float rot = e.rotation - 90f;
+        float fin = e.fin(Interp.pow5Out);
+        float end = e.lifetime - 6f;
+        float fout = 1f - Interp.pow2Out.apply(Mathf.curve(e.time, end, e.lifetime));
+        float width = fin * fout;
+
+        e.scaled(7f, s -> {
+            stroke(0.5f + s.fout());
+            color(Color.white, e.color, s.fin());
+            Lines.circle(e.x + trnsx(rot, 0f, 5f * fin), e.y + trnsy(rot, 0f, 5f * fin), s.fin() * 6f);
+        });
+
+        color(Color.white, e.color, Mathf.curve(e.time, 0f, end));
+
+        Fill.quad(
+                e.x + trnsx(rot, 0f, 2f * fin), e.y + trnsy(rot, 0f, 2f * fin),
+                e.x + trnsx(rot, 4f * width, -4f * fin), e.y + trnsy(rot, 4f * width, -4f * fin),
+                e.x + trnsx(rot, 0f, 8f * fin), e.y + trnsy(rot, 0f, 8f * fin),
+                e.x + trnsx(rot, -4f * width, -4f * fin), e.y + trnsy(rot, -4f * width, -4f * fin)
+        );
+    });
+
+    public static Effect miniCrit = new Effect(90f, e -> {
+        v1.trns(e.rotation + 90f, 0f, 32f * e.fin(Interp.pow2Out));
+
+        color(e.color, e.fout());
+        randLenVectors(e.id, 2, 18f, (x, y) -> {
+            float rot = Mathf.randomSeed((long)(e.id + x + y), 360);
+            float tx = x * e.fin(Interp.pow2Out);
+            float ty = y * e.fin(Interp.pow2Out);
+            plus(e.x + tx + v1.x, e.y + ty + v1.y, 3f, rot);
+        });
+    });
+
+    public static Effect critTrailFade = new Effect(400f, e -> {
+        if(!(e.data instanceof HITrail trail)) return;
+
+        e.lifetime = trail.length * 1.4f;
+
+        if(!state.isPaused()){
+            trail.shorten();
+        }
+        trail.drawCap(e.color, e.rotation);
+        trail.draw(e.color, e.rotation);
     });
     //O
     public static Effect bigExplosionStone = new Effect(80f, e -> Angles.randLenVectors(e.id, 22, e.fin() * 50f, (x, y) -> {
