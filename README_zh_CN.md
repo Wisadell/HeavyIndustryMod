@@ -25,4 +25,4 @@
 - Extra-Utilities更多实用设备模组 : https://github.com/guiYMOUR/mindustry-Extra-Utilities-mod
 - New-Horizon新视界模组 : https://github.com/Yuria-Shikibe/NewHorizonMod
 - Saturation-Firepower饱和火力模组 : https://github.com/RA2EXE/Saturation-Firepower 注：该模组暂时不支持外国英文设备
-- Creators创世神模组 : https://github.com/no9527dada/creator
+- Creators创世神模组 : https://github.com/no9527dada/CT-origin
