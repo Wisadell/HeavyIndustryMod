@@ -20,9 +20,9 @@
 - Units 
 - Abilities
 - Status Effects
-## Eles
+## Other
 - You can also try other well-known high-quality modules from Mindustry
 - Extra-Utilities-Mod : https://github.com/guiYMOUR/mindustry-Extra-Utilities-mod
 - New-Horizon-Mod : https://github.com/Yuria-Shikibe/NewHorizonMod
 - Saturation-Firepower-Mod : https://github.com/RA2EXE/Saturation-Firepower Attention: This module currently does not support foreign English devices
-- Creators-Mod : https://github.com/no9527dada/creator
+- Creators-Mod : https://github.com/no9527dada/CT-origin
