@@ -61,7 +61,7 @@ public class HIBlocks {
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
             stoneVent,basaltVent,basaltWall,basaltGraphiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,
             nanofluid,
-            stoneWater,shaleWater,basaltWater,frozenWater,aghatiteWater,greniteWater,albasterWater,quartzSandWater,
+            stoneWater,shaleWater,basaltWater,frozenSoilWater,aghatiteWater,greniteWater,albasterWater,quartzSandWater,
             deadGrass,frozenSoil,albaster,albasterTiles,albasterCrater,aghatite,aghatitePebbles,quartzSand,grenite,coastalGrenite,blueIce,blueIcePieces,blueSnow,blueSnowdrifts,
             deadThickets,frozenSoilWall,albasterWall,aghatiteWall,quartzSandWall,greniteWall,blueIceWall,blueSnowWall,
             deadShrub,frozenSoilBoulder,albasterBoulder,aghatiteBoulder, quartzSandBoulder, greniteBoulder,blueBoulder,
@@ -215,7 +215,7 @@ public class HIBlocks {
             albedo = 0.9f;
             supportsOverlay = true;
         }};
-        frozenWater = new Floor("frozen-water", 4){{
+        frozenSoilWater = new Floor("frozen-soil-water", 4){{
             speedMultiplier = 0.6f;
             liquidDrop = Liquids.water;
             isLiquid = true;
@@ -691,7 +691,7 @@ public class HIBlocks {
         }};
         rapidDirectionalUnloader = new AdaptDirectionalUnloader("rapid-directional-unloader"){{
             requirements(Category.distribution, with(Items.silicon, 40, Items.plastanium, 25, HIItems.chromium, 15, HIItems.highEnergyFabric, 5));
-            speed = 60.0f;
+            speed = 1f;
             squareSprite = false;
             underBullets = true;
             allowCoreUnload = true;
@@ -743,7 +743,7 @@ public class HIBlocks {
         rapidDuctUnloader = new AdaptDirectionalUnloader("rapid-duct-unloader"){{
             requirements(Category.distribution, with(Items.graphite, 25, Items.silicon, 30, Items.tungsten, 20, Items.oxide, 15));
             health = 240;
-            speed = 30.0f;
+            speed = 2f;
             solid = false;
             underBullets = true;
             squareSprite = false;
@@ -876,7 +876,7 @@ public class HIBlocks {
             };
         }};
         windTurbine = new WindGenerator("wind-turbine"){{
-            requirements(Category.power, with(Items.copper, 60, Items.lead, 40, Items.graphite, 20));
+            requirements(Category.power, with(Items.copper, 60, Items.lead, 40, Items.graphite, 25));
             drawer = new DrawMulti(
                     new DrawDefault(),
                     new Draw3dSpin("-holder", "-rotator"){{
@@ -889,7 +889,7 @@ public class HIBlocks {
                     }}
             );
             size = 1;
-            powerProduction = 3.6f;
+            powerProduction = 2f;
         }};
         uraniumReactor = new NuclearReactor("uranium-reactor"){{
             requirements(Category.power, with(Items.lead, 400, Items.metaglass, 120, Items.graphite, 350, Items.silicon, 300, HIItems.uranium, 100));
@@ -1874,40 +1874,44 @@ public class HIBlocks {
         }};
         multipleRocketLauncher = new ItemTurret("multiple-rocket-launcher"){{
             requirements(Category.turret, with(Items.copper, 100, Items.lead, 80, Items.graphite, 60, Items.titanium, 30));
-            ammo(Items.graphite, new MissileBulletType(5f, 24f){{
-                splashDamage = 12f;
-                splashDamageRadius = 18f;
-                backColor = trailColor = Color.valueOf("b0c4de");
-                frontColor = Color.valueOf("e3e3e3");
-                lifetime = 55;
-                homingPower = 0.36f;
-                homingRange = 40f;
-                hitEffect = Fx.flakExplosion;
-                ammoMultiplier = 2f;
-            }}, Items.pyratite, new MissileBulletType(6f, 12f){{
-                splashDamage = 32f;
-                splashDamageRadius = 22f;
-                backColor = trailColor = Color.valueOf("ffb90f");
-                frontColor = Color.valueOf("e3e3e3");
-                status = StatusEffects.burning;
-                statusDuration = 360f;
-                lifetime = 45;
-                homingPower = 0.036f;
-                homingRange = 40f;
-                hitEffect = Fx.flakExplosion;
-                ammoMultiplier = 3f;
-            }}, Items.blastCompound, new MissileBulletType(4.5f, 12f){{
-                splashDamage = 40f;
-                splashDamageRadius = 32f;
-                backColor = trailColor = Color.valueOf("ff7f24");
-                frontColor = Color.valueOf("e3e3e3");
-                status = StatusEffects.blasted;
-                lifetime = 60;
-                homingPower = 0.036f;
-                homingRange = 40f;
-                hitEffect = Fx.flakExplosionBig;
-                ammoMultiplier = 3f;
-            }});
+            ammo(
+                    Items.graphite, new MissileBulletType(5f, 24f){{
+                        splashDamage = 12f;
+                        splashDamageRadius = 18f;
+                        backColor = trailColor = Color.valueOf("b0c4de");
+                        frontColor = Color.valueOf("e3e3e3");
+                        lifetime = 55;
+                        homingPower = 0.36f;
+                        homingRange = 40f;
+                        hitEffect = Fx.flakExplosion;
+                        ammoMultiplier = 2f;
+                    }},
+                    Items.pyratite, new MissileBulletType(6f, 12f){{
+                        splashDamage = 32f;
+                        splashDamageRadius = 22f;
+                        backColor = trailColor = Color.valueOf("ffb90f");
+                        frontColor = Color.valueOf("e3e3e3");
+                        status = StatusEffects.burning;
+                        statusDuration = 360f;
+                        lifetime = 45;
+                        homingPower = 0.036f;
+                        homingRange = 40f;
+                        hitEffect = Fx.flakExplosion;
+                        ammoMultiplier = 3f;
+                    }},
+                    Items.blastCompound, new MissileBulletType(4.5f, 12f){{
+                        splashDamage = 40f;
+                        splashDamageRadius = 32f;
+                        backColor = trailColor = Color.valueOf("ff7f24");
+                        frontColor = Color.valueOf("e3e3e3");
+                        status = StatusEffects.blasted;
+                        lifetime = 60;
+                        homingPower = 0.036f;
+                        homingRange = 40f;
+                        hitEffect = Fx.flakExplosionBig;
+                        ammoMultiplier = 3f;
+                    }}
+            );
             size = 2;
             health = 720;
             range = 270;
@@ -2069,98 +2073,103 @@ public class HIBlocks {
         }};
         rocketSilo = new ItemTurret("rocket-silo"){{
             requirements(Category.turret, with(Items.lead, 300, Items.graphite, 150, Items.titanium, 120, Items.silicon, 120, Items.plastanium, 50));
-            ammo(Items.graphite, new MissileBulletType(8f, 22f, name("missile")){{
-                buildingDamageMultiplier = 0.3f;
-                splashDamage = 15f;
-                splashDamageRadius = 18f;
-                knockback = 0.7f;
-                lifetime = 135f;
-                homingDelay = 10f;
-                homingRange = 800f;
-                homingPower = 0.15f;
-                backColor = Color.valueOf("b0c4de");
-                frontColor = Color.valueOf("e3e3e3");
-                trailLength = 15;
-                trailWidth = 1.5f;
-                trailColor = Color.white.cpy().a(0.5f);
-                trailEffect = Fx.none;
-                width = 10f;
-                height = 40f;
-                hitShake = 1f;
-                ammoMultiplier = 2f;
-                smokeEffect = Fx.shootSmallFlame;
-                hitEffect = Fx.flakExplosion;
-            }}, Items.pyratite, new MissileBulletType(7f, 14f, name("missile")){{
-                buildingDamageMultiplier = 0.3f;
-                splashDamage = 39f;
-                splashDamageRadius = 32f;
-                status = StatusEffects.burning;
-                statusDuration = 600;
-                makeFire = true;
-                lifetime = 145f;
-                homingPower = 0.15f;
-                homingDelay = 10f;
-                homingRange = 800f;
-                backColor = Color.valueOf("ffb90f");
-                frontColor = Color.valueOf("e3e3e3");
-                trailLength = 15;
-                trailWidth = 1.5f;
-                trailColor = Color.white.cpy().a(0.5f);
-                trailEffect = Fx.none;
-                width = 10f;
-                height = 40f;
-                hitShake = 1f;
-                ammoMultiplier = 2f;
-                smokeEffect = Fx.shootSmallFlame;
-                hitEffect = Fx.flakExplosionBig;
-            }}, Items.blastCompound, new MissileBulletType(7f, 17f, name("missile")){{
-                buildingDamageMultiplier = 0.3f;
-                splashDamage = 55f;
-                splashDamageRadius = 45f;
-                knockback = 3;
-                status = StatusEffects.blasted;
-                lifetime = 145f;
-                homingPower = 0.15f;
-                homingDelay = 10f;
-                homingRange = 800f;
-                backColor = Color.valueOf("ff7055");
-                frontColor = Color.valueOf("e3e3e3");
-                trailLength = 15;
-                trailWidth = 1.5f;
-                trailColor = Color.white.cpy().a(0.5f);
-                trailEffect = Fx.none;
-                width = 10f;
-                height = 40f;
-                hitShake = 1f;
-                ammoMultiplier = 2f;
-                smokeEffect = Fx.shootSmallFlame;
-                hitEffect = Fx.flakExplosionBig;
-            }}, Items.surgeAlloy, new MissileBulletType(9f, 47f, name("missile")){{
-                buildingDamageMultiplier = 0.3f;
-                splashDamage = 75f;
-                splashDamageRadius = 45f;
-                lightningDamage = 17;
-                lightning = 3;
-                lightningLength = 8;
-                knockback = 3;
-                status = StatusEffects.blasted;
-                lifetime = 125f;
-                homingPower = 0.15f;
-                homingDelay = 10f;
-                homingRange = 800f;
-                backColor = Color.valueOf("f2e770");
-                frontColor = Color.valueOf("e3e3e3");
-                trailLength = 16;
-                trailWidth = 2.5f;
-                trailColor = Color.white.cpy().a(0.5f);
-                trailEffect = Fx.none;
-                width = 13f;
-                height = 48f;
-                hitShake = 1f;
-                ammoMultiplier = 3f;
-                smokeEffect = Fx.shootSmallFlame;
-                hitEffect = Fx.flakExplosionBig;
-            }});
+            ammo(
+                    Items.graphite, new MissileBulletType(8f, 22f, name("missile")){{
+                        buildingDamageMultiplier = 0.3f;
+                        splashDamage = 15f;
+                        splashDamageRadius = 18f;
+                        knockback = 0.7f;
+                        lifetime = 135f;
+                        homingDelay = 10f;
+                        homingRange = 800f;
+                        homingPower = 0.15f;
+                        backColor = Color.valueOf("b0c4de");
+                        frontColor = Color.valueOf("e3e3e3");
+                        trailLength = 15;
+                        trailWidth = 1.5f;
+                        trailColor = Color.white.cpy().a(0.5f);
+                        trailEffect = Fx.none;
+                        width = 10f;
+                        height = 40f;
+                        hitShake = 1f;
+                        ammoMultiplier = 2f;
+                        smokeEffect = Fx.shootSmallFlame;
+                        hitEffect = Fx.flakExplosion;
+                    }},
+                    Items.pyratite, new MissileBulletType(7f, 14f, name("missile")){{
+                        buildingDamageMultiplier = 0.3f;
+                        splashDamage = 39f;
+                        splashDamageRadius = 32f;
+                        status = StatusEffects.burning;
+                        statusDuration = 600;
+                        makeFire = true;
+                        lifetime = 145f;
+                        homingPower = 0.15f;
+                        homingDelay = 10f;
+                        homingRange = 800f;
+                        backColor = Color.valueOf("ffb90f");
+                        frontColor = Color.valueOf("e3e3e3");
+                        trailLength = 15;
+                        trailWidth = 1.5f;
+                        trailColor = Color.white.cpy().a(0.5f);
+                        trailEffect = Fx.none;
+                        width = 10f;
+                        height = 40f;
+                        hitShake = 1f;
+                        ammoMultiplier = 2f;
+                        smokeEffect = Fx.shootSmallFlame;
+                        hitEffect = Fx.flakExplosionBig;
+                    }},
+                    Items.blastCompound, new MissileBulletType(7f, 17f, name("missile")){{
+                        buildingDamageMultiplier = 0.3f;
+                        splashDamage = 55f;
+                        splashDamageRadius = 45f;
+                        knockback = 3;
+                        status = StatusEffects.blasted;
+                        lifetime = 145f;
+                        homingPower = 0.15f;
+                        homingDelay = 10f;
+                        homingRange = 800f;
+                        backColor = Color.valueOf("ff7055");
+                        frontColor = Color.valueOf("e3e3e3");
+                        trailLength = 15;
+                        trailWidth = 1.5f;
+                        trailColor = Color.white.cpy().a(0.5f);
+                        trailEffect = Fx.none;
+                        width = 10f;
+                        height = 40f;
+                        hitShake = 1f;
+                        ammoMultiplier = 2f;
+                        smokeEffect = Fx.shootSmallFlame;
+                        hitEffect = Fx.flakExplosionBig;
+                    }},
+                    Items.surgeAlloy, new MissileBulletType(9f, 47f, name("missile")){{
+                        buildingDamageMultiplier = 0.3f;
+                        splashDamage = 75f;
+                        splashDamageRadius = 45f;
+                        lightningDamage = 17;
+                        lightning = 3;
+                        lightningLength = 8;
+                        knockback = 3;
+                        status = StatusEffects.blasted;
+                        lifetime = 125f;
+                        homingPower = 0.15f;
+                        homingDelay = 10f;
+                        homingRange = 800f;
+                        backColor = Color.valueOf("f2e770");
+                        frontColor = Color.valueOf("e3e3e3");
+                        trailLength = 16;
+                        trailWidth = 2.5f;
+                        trailColor = Color.white.cpy().a(0.5f);
+                        trailEffect = Fx.none;
+                        width = 13f;
+                        height = 48f;
+                        hitShake = 1f;
+                        ammoMultiplier = 3f;
+                        smokeEffect = Fx.shootSmallFlame;
+                        hitEffect = Fx.flakExplosionBig;
+                    }}
+            );
             size = 3;
             health = 1850;
             range = 760;
@@ -2322,12 +2331,12 @@ public class HIBlocks {
                         fragVelocityMin = 0.8f;
                         fragVelocityMax = 1.2f;
                         fragRandomSpread = 30f;
-                        fragBullet = new CritBulletType(13f, 80f){{
-                            lifetime = 8f;
+                        fragBullet = new CritBulletType(12f, 80f){{
+                            lifetime = 6f;
                             knockback = 3f;
                             width = 6f;
                             height = 14f;
-                            pierceCap = 12;
+                            pierceCap = 3;
                             critMultiplier = 3f;
                             critEffect = HIFx.miniCrit;
                         }};
@@ -2352,52 +2361,59 @@ public class HIBlocks {
         }};
         minigun = new MinigunTurret("minigun"){{
             requirements(Category.turret, with(Items.copper, 350, Items.graphite, 300, Items.titanium, 150, Items.plastanium, 175, Items.surgeAlloy, 120));
-            ammo(Items.copper, new BasicBulletType(11f, 19f){{
-                width = 5f;
-                height = 7f;
-                lifetime = 25f;
-                ammoMultiplier = 2;
-            }}, Items.graphite, new BasicBulletType(13f, 37f){{
-                width = 5.5f;
-                height = 9f;
-                reloadMultiplier = 0.6f;
-                ammoMultiplier = 4;
-                lifetime = 23f;
-            }}, Items.pyratite, new BasicBulletType(13f, 24f){{
-                width = 5f;
-                height = 8f;
-                frontColor = Pal.lightishOrange;
-                backColor = Pal.lightOrange;
-                status = StatusEffects.burning;
-                hitEffect = new MultiEffect(Fx.hitBulletSmall, Fx.fireHit);
-                homingPower = 0.07f;
-                reloadMultiplier = 1.3f;
-                ammoMultiplier = 5;
-                lifetime = 23f;
-                makeFire = true;
-            }}, Items.silicon, new BasicBulletType(12f, 21f){{
-                width = 5f;
-                height = 8f;
-                homingPower = 0.07f;
-                reloadMultiplier = 1.3f;
-                ammoMultiplier = 5;
-                lifetime = 24f;
-            }}, Items.thorium, new BasicBulletType(15f, 47f){{
-                width = 6f;
-                height = 11f;
-                shootEffect = Fx.shootBig;
-                smokeEffect = Fx.shootBigSmoke;
-                ammoMultiplier = 4f;
-                lifetime = 20f;
-            }}, HIItems.uranium, new BasicBulletType(17f, 65f){{
-                width = 7f;
-                height = 13f;
-                shootEffect = Fx.shootBig;
-                smokeEffect = Fx.shootBigSmoke;
-                status = StatusEffects.melting;
-                ammoMultiplier = 6f;
-                lifetime = 18f;
-            }});
+            ammo(
+                    Items.copper, new BasicBulletType(11f, 19f){{
+                        width = 5f;
+                        height = 7f;
+                        lifetime = 25f;
+                        ammoMultiplier = 2;
+                    }},
+                    Items.graphite, new BasicBulletType(13f, 37f){{
+                        width = 5.5f;
+                        height = 9f;
+                        reloadMultiplier = 0.6f;
+                        ammoMultiplier = 4;
+                        lifetime = 23f;
+                    }},
+                    Items.pyratite, new BasicBulletType(13f, 24f){{
+                        width = 5f;
+                        height = 8f;
+                        frontColor = Pal.lightishOrange;
+                        backColor = Pal.lightOrange;
+                        status = StatusEffects.burning;
+                        hitEffect = new MultiEffect(Fx.hitBulletSmall, Fx.fireHit);
+                        homingPower = 0.07f;
+                        reloadMultiplier = 1.3f;
+                        ammoMultiplier = 5;
+                        lifetime = 23f;
+                        makeFire = true;
+                    }},
+                    Items.silicon, new BasicBulletType(12f, 21f){{
+                        width = 5f;
+                        height = 8f;
+                        homingPower = 0.07f;
+                        reloadMultiplier = 1.3f;
+                        ammoMultiplier = 5;
+                        lifetime = 24f;
+                    }},
+                    Items.thorium, new BasicBulletType(15f, 47f){{
+                        width = 6f;
+                        height = 11f;
+                        shootEffect = Fx.shootBig;
+                        smokeEffect = Fx.shootBigSmoke;
+                        ammoMultiplier = 4f;
+                        lifetime = 20f;
+                    }},
+                    HIItems.uranium, new BasicBulletType(17f, 65f){{
+                        width = 7f;
+                        height = 13f;
+                        shootEffect = Fx.shootBig;
+                        smokeEffect = Fx.shootBigSmoke;
+                        status = StatusEffects.melting;
+                        ammoMultiplier = 6f;
+                        lifetime = 18f;
+                    }}
+            );
             size = 4;
             range = 280f;
             maxSpeed = 27f;
@@ -2442,184 +2458,197 @@ public class HIBlocks {
             size = 2;
             shootSound = Sounds.shootSnap;
             shake = 3f;
-            ammo(Items.titanium, new BasicBulletType(5, 24){{
-                width = 8f;
-                height = 25f;
-                hitColor = backColor = lightColor = trailColor = Items.titanium.color.cpy().lerp(Color.white, 0.1f);
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                hitEffect = HIFx.crossBlast(hitColor, height + width);
-                shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 12f, 2f);
-                ammoMultiplier = 8;
-                pierceArmor = true;
-            }}, Items.plastanium, new BasicBulletType(5, 26){{
-                width = 8f;
-                height = 25f;
-                fragBullets = 4;
-                fragBullet = new BasicBulletType(2, 26){{
-                    width = 3f;
-                    lifetime = 10f;
-                    height = 12f;
-                    ammoMultiplier = 12;
-                    hitColor = backColor = lightColor = trailColor = Items.plastanium.color.cpy().lerp(Color.white, 0.1f);
-                    frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                    hitEffect = HIFx.lightningHitSmall(backColor);
-                    shootEffect = despawnEffect = HIFx.square45_4_45;
-                }};
-                fragAngle = 130f;
-                fragVelocityMax = 1.1f;
-                fragVelocityMin = 0.5f;
-                fragLifeMax = 1.25f;
-                fragLifeMin = 0.25f;
-                ammoMultiplier = 12;
-                hitColor = backColor = lightColor = trailColor = Items.plastanium.color.cpy().lerp(Color.white, 0.1f);
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                hitEffect = HIFx.crossBlast(hitColor, height + width);
-                shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
-            }}, Items.thorium, new BasicBulletType(5, 18){{
-                width = 8f;
-                height = 25f;
-                lightning = 2;
-                lightningLength = 2;
-                lightningLengthRand = 6;
-                lightningDamage = damage;
-                status = StatusEffects.shocked;
-                statusDuration = 15f;
-                ammoMultiplier = 12;
-                lightningColor = hitColor = backColor = lightColor = trailColor = Items.thorium.color.cpy().lerp(Color.white, 0.1f);
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                hitEffect = HIFx.crossBlast(hitColor, height + width);
-                shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
-            }}, Items.pyratite, new BasicBulletType(5, 18){{
-                width = 8f;
-                height = 25f;
-                incendAmount = 4;
-                incendChance = 0.25f;
-                incendSpread = 12f;
-                status = StatusEffects.burning;
-                statusDuration = 15f;
-                ammoMultiplier = 12;
-                hitColor = backColor = lightColor = trailColor = Items.pyratite.color.cpy().lerp(Color.white, 0.1f);
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                hitEffect = HIFx.crossBlast(hitColor, height + width);
-                despawnEffect = Fx.blastExplosion;
-                shootEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
-            }}, Items.blastCompound, new BasicBulletType(5, 22){{
-                width = 8f;
-                height = 25f;
-                status = StatusEffects.blasted;
-                statusDuration = 15f;
-                splashDamageRadius = 12f;
-                splashDamage = damage;
-                ammoMultiplier = 8;
-                hitColor = backColor = lightColor = trailColor = Items.blastCompound.color.cpy().lerp(Color.white, 0.1f);
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                hitEffect = HIFx.crossBlast(hitColor, height + width);
-                despawnEffect = Fx.blastExplosion;
-                shootEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
-            }});
+            ammo(
+                    Items.titanium, new BasicBulletType(5, 24){{
+                        width = 8f;
+                        height = 25f;
+                        hitColor = backColor = lightColor = trailColor = Items.titanium.color.cpy().lerp(Color.white, 0.1f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        hitEffect = HIFx.crossBlast(hitColor, height + width);
+                        shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 12f, 2f);
+                        ammoMultiplier = 8;
+                        pierceArmor = true;
+                    }},
+                    Items.plastanium, new BasicBulletType(5, 26){{
+                        width = 8f;
+                        height = 25f;
+                        fragBullets = 4;
+                        fragBullet = new BasicBulletType(2, 26){{
+                            width = 3f;
+                            lifetime = 10f;
+                            height = 12f;
+                            ammoMultiplier = 12;
+                            hitColor = backColor = lightColor = trailColor = Items.plastanium.color.cpy().lerp(Color.white, 0.1f);
+                            frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                            hitEffect = HIFx.lightningHitSmall(backColor);
+                            shootEffect = despawnEffect = HIFx.square45_4_45;
+                        }};
+                        fragAngle = 130f;
+                        fragVelocityMax = 1.1f;
+                        fragVelocityMin = 0.5f;
+                        fragLifeMax = 1.25f;
+                        fragLifeMin = 0.25f;
+                        ammoMultiplier = 12;
+                        hitColor = backColor = lightColor = trailColor = Items.plastanium.color.cpy().lerp(Color.white, 0.1f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        hitEffect = HIFx.crossBlast(hitColor, height + width);
+                        shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
+                    }},
+                    Items.thorium, new BasicBulletType(5, 18){{
+                        width = 8f;
+                        height = 25f;
+                        lightning = 2;
+                        lightningLength = 2;
+                        lightningLengthRand = 6;
+                        lightningDamage = damage;
+                        status = StatusEffects.shocked;
+                        statusDuration = 15f;
+                        ammoMultiplier = 12;
+                        lightningColor = hitColor = backColor = lightColor = trailColor = Items.thorium.color.cpy().lerp(Color.white, 0.1f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        hitEffect = HIFx.crossBlast(hitColor, height + width);
+                        shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
+                    }},
+                    Items.pyratite, new BasicBulletType(5, 18){{
+                        width = 8f;
+                        height = 25f;
+                        incendAmount = 4;
+                        incendChance = 0.25f;
+                        incendSpread = 12f;
+                        status = StatusEffects.burning;
+                        statusDuration = 15f;
+                        ammoMultiplier = 12;
+                        hitColor = backColor = lightColor = trailColor = Items.pyratite.color.cpy().lerp(Color.white, 0.1f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        hitEffect = HIFx.crossBlast(hitColor, height + width);
+                        despawnEffect = Fx.blastExplosion;
+                        shootEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
+                    }},
+                    Items.blastCompound, new BasicBulletType(5, 22){{
+                        width = 8f;
+                        height = 25f;
+                        status = StatusEffects.blasted;
+                        statusDuration = 15f;
+                        splashDamageRadius = 12f;
+                        splashDamage = damage;
+                        ammoMultiplier = 8;
+                        hitColor = backColor = lightColor = trailColor = Items.blastCompound.color.cpy().lerp(Color.white, 0.1f);
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        hitEffect = HIFx.crossBlast(hitColor, height + width);
+                        despawnEffect = Fx.blastExplosion;
+                        shootEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
+                    }}
+            );
             limitRange();
             maxAmmo = 120;
             ammoPerShot = 12;
         }};
         fissure = new ItemTurret("fissure"){{
             requirements(Category.turret, with(Items.titanium, 110, Items.thorium, 90, Items.graphite, 150, Items.silicon, 120, Items.plastanium, 80));
-            ammo(Items.titanium, new BasicBulletType(8f, 45f){{
-                lifetime = 48f;
-                width = 8f;
-                height = 42f;
-                shrinkX = 0;
-                trailWidth = 1.7f;
-                trailLength = 9;
-                trailColor = backColor = hitColor = lightColor = lightningColor = Items.titanium.color;
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                smokeEffect = Fx.shootBigSmoke;
-                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                hitEffect = HIFx.hitSparkLarge;
-                ammoMultiplier = 4;
-            }}, Items.thorium, new BasicBulletType(8f, 65f){{
-                lifetime = 48f;
-                width = 8f;
-                height = 42f;
-                shrinkX = 0;
-                trailWidth = 1.7f;
-                trailLength = 9;
-                trailColor = backColor = hitColor = lightColor = lightningColor = Items.thorium.color;
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                smokeEffect = Fx.shootBigSmoke;
-                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                hitEffect = HIFx.hitSparkLarge;
-                ammoMultiplier = 4;
-            }}, Items.plastanium, new BasicBulletType(8f, 60f){{
-                lifetime = 48f;
-                width = 8f;
-                height = 42f;
-                shrinkX = 0;
-                splashDamage = 25f;
-                splashDamageRadius = 20f;
-                trailWidth = 1.7f;
-                trailLength = 9;
-                trailColor = backColor = hitColor = lightColor = lightningColor = Pal.plastanium;
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                smokeEffect = Fx.shootBigSmoke;
-                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                hitEffect = HIFx.hitSparkLarge;
-                ammoMultiplier = 4;
-            }}, Items.pyratite, new BasicBulletType(8f, 40f){{
-                lifetime = 48f;
-                width = 8f;
-                height = 42f;
-                shrinkX = 0;
-                splashDamage = 35f;
-                splashDamageRadius = 25f;
-                trailWidth = 1.7f;
-                trailLength = 9;
-                status = StatusEffects.burning;
-                trailColor = backColor = hitColor = lightColor = lightningColor = Items.pyratite.color;
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                smokeEffect = Fx.shootBigSmoke;
-                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                hitEffect = HIFx.hitSparkLarge;
-                ammoMultiplier = 4;
-            }}, Items.blastCompound, new BasicBulletType(8f, 40f){{
-                lifetime = 48f;
-                width = 8f;
-                height = 42f;
-                shrinkX = 0;
-                splashDamage = 55f;
-                splashDamageRadius = 35f;
-                trailWidth = 1.7f;
-                trailLength = 9;
-                status = StatusEffects.blasted;
-                trailColor = backColor = hitColor = lightColor = lightningColor = Items.blastCompound.color;
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                smokeEffect = Fx.shootBigSmoke;
-                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                hitEffect = HIFx.hitSparkLarge;
-                ammoMultiplier = 4;
-            }}, HIItems.chromium, new BasicBulletType(8f, 125f){{
-                lifetime = 48f;
-                width = 8f;
-                height = 42f;
-                shrinkX = 0;
-                pierce = true;
-                pierceCap = 3;
-                pierceArmor = true;
-                trailWidth = 1.7f;
-                trailLength = 9;
-                status = HIStatusEffects.armorReduction;
-                trailColor = backColor = hitColor = lightColor = lightningColor = HIPal.chromiumGrey;
-                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                smokeEffect = Fx.shootBigSmoke;
-                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                hitEffect = HIFx.hitSparkLarge;
-                ammoMultiplier = 4;
-            }});
+            ammo(
+                    Items.titanium, new BasicBulletType(8f, 45f){{
+                        lifetime = 48f;
+                        width = 8f;
+                        height = 42f;
+                        shrinkX = 0;
+                        trailWidth = 1.7f;
+                        trailLength = 9;
+                        trailColor = backColor = hitColor = lightColor = lightningColor = Items.titanium.color;
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                        smokeEffect = Fx.shootBigSmoke;
+                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                        hitEffect = HIFx.hitSparkLarge;
+                        ammoMultiplier = 4;
+                    }},
+                    Items.thorium, new BasicBulletType(8f, 65f){{
+                        lifetime = 48f;
+                        width = 8f;
+                        height = 42f;
+                        shrinkX = 0;
+                        trailWidth = 1.7f;
+                        trailLength = 9;
+                        trailColor = backColor = hitColor = lightColor = lightningColor = Items.thorium.color;
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                        smokeEffect = Fx.shootBigSmoke;
+                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                        hitEffect = HIFx.hitSparkLarge;
+                        ammoMultiplier = 4;
+                    }},
+                    Items.plastanium, new BasicBulletType(8f, 60f){{
+                        lifetime = 48f;
+                        width = 8f;
+                        height = 42f;
+                        shrinkX = 0;
+                        splashDamage = 25f;
+                        splashDamageRadius = 20f;
+                        trailWidth = 1.7f;
+                        trailLength = 9;
+                        trailColor = backColor = hitColor = lightColor = lightningColor = Pal.plastanium;
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                        smokeEffect = Fx.shootBigSmoke;
+                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                        hitEffect = HIFx.hitSparkLarge;
+                        ammoMultiplier = 4;
+                    }},
+                    Items.pyratite, new BasicBulletType(8f, 40f){{
+                        lifetime = 48f;
+                        width = 8f;
+                        height = 42f;
+                        shrinkX = 0;
+                        splashDamage = 35f;
+                        splashDamageRadius = 25f;
+                        trailWidth = 1.7f;
+                        trailLength = 9;
+                        status = StatusEffects.burning;
+                        trailColor = backColor = hitColor = lightColor = lightningColor = Items.pyratite.color;
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                        smokeEffect = Fx.shootBigSmoke;
+                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                        hitEffect = HIFx.hitSparkLarge;
+                        ammoMultiplier = 4;
+                    }},
+                    Items.blastCompound, new BasicBulletType(8f, 40f){{
+                        lifetime = 48f;
+                        width = 8f;
+                        height = 42f;
+                        shrinkX = 0;
+                        splashDamage = 55f;
+                        splashDamageRadius = 35f;
+                        trailWidth = 1.7f;
+                        trailLength = 9;
+                        status = StatusEffects.blasted;
+                        trailColor = backColor = hitColor = lightColor = lightningColor = Items.blastCompound.color;
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                        smokeEffect = Fx.shootBigSmoke;
+                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                        hitEffect = HIFx.hitSparkLarge;
+                        ammoMultiplier = 4;
+                    }},
+                    HIItems.chromium, new BasicBulletType(8f, 125f){{
+                        lifetime = 48f;
+                        width = 8f;
+                        height = 42f;
+                        shrinkX = 0;
+                        pierce = true;
+                        pierceCap = 3;
+                        pierceArmor = true;
+                        trailWidth = 1.7f;
+                        trailLength = 9;
+                        status = HIStatusEffects.armorReduction;
+                        trailColor = backColor = hitColor = lightColor = lightningColor = HIPal.chromiumGrey;
+                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                        smokeEffect = Fx.shootBigSmoke;
+                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                        hitEffect = HIFx.hitSparkLarge;
+                        ammoMultiplier = 4;
+                    }}
+            );
             size = 3;
             health = 1420;
             reload = 12f;
@@ -3234,114 +3263,116 @@ public class HIBlocks {
         }};
         wisadel = new ItemTurret("wisadel"){{
             requirements(Category.turret, with(Items.silicon, 1500, Items.plastanium, 1000, Items.surgeAlloy, 900, HIItems.highEnergyFabric, 500, HIItems.heavyAlloy, 550));
-            ammo(HIItems.highEnergyFabric, new TrailFadeBulletType(60f, 350f, "missile-large"){{
-                ammoMultiplier = 1f;
-                shootEffect = smokeEffect = Fx.none;
-                width = 16f;
-                height = 50f;
-                shrinkY = 0f;
-                splashDamage = 2250f;
-                splashDamageRadius = 12 * 8f;
-                buildingDamageMultiplier = 0.5f;
-                pierceArmor = true;
-                homingPower = 1f;
-                homingRange = 80f;
-                lifetime = 12.8f;
-                trailWidth = 3f;
-                trailLength = 9;
-                trailChance = 1f;
-                frontColor = lightningColor = hitColor = backColor = trailColor = lightColor = HIPal.wisadelRed;
-                lightning = 4;
-                lightningLength = 6;
-                lightningLengthRand = 10;
-                hitSound = despawnSound = Sounds.largeExplosion;
-                hitShake = 3f;
-                trailEffect = new Effect(50, e -> {
-                    Draw.color(e.color);
-                    Fill.circle(e.x + Mathf.randomSeed(e.id, -5, 5), e.y + Mathf.randomSeed(e.id, -5, 5), e.rotation * 2 * e.fout());
-                }).layer(Layer.bullet - 1e-2f);
-                fragBullets = 9;
-                fragRandomSpread = 0f;
-                fragSpread = 360 / 9f;
-                fragLifeMin = 0.1f;
-                fragBullet = new ArtilleryBulletType(6f, 120f){{
-                    buildingDamageMultiplier = 0.3f;
-                    drag = 0.02f;
-                    hitEffect = despawnEffect = new MultiEffect(Fx.scatheSlash, Fx.massiveExplosion, new ExplosionEffect(){{
-                        waveLife = 12f;
-                        waveRad = 48f;
-                        sparks = 8;
-                        smokes = 8;
-                        lifetime = 30f;
-                        sparkColor = HIPal.wisadelRed;
-                        sparkLen = 10f;
-                        sparkStroke = 2f;
-                        sparkRad = 48f;
-                        smokeSize = 4f;
-                        smokeRad = 48f;
-                    }});
-                    knockback = 0.8f;
-                    lifetime = 18f;
-                    width = height = 18f;
-                    collidesTiles = false;
-                    splashDamageRadius = 48f;
-                    splashDamage = 220f;
-                    backColor = trailColor = hitColor = HIPal.wisadelRed;
-                    frontColor = Color.white;
-                    despawnShake = 7f;
-                    lightRadius = 30f;
-                    lightColor = HIPal.wisadelRed;
-                    lightOpacity = 0.5f;
-                    trailLength = 20;
-                    trailWidth = 3.5f;
-                    trailEffect = Fx.none;
-                }};
-                chargeEffect = new MultiEffect(HIFx.aimEffect(180, HIPal.wisadelRed, 1f, 45 * 8f, 16), new Effect(180, e -> {
-                    Draw.color(HIPal.wisadelRed);
-                    Fill.circle(e.x, e.y, 8.5f * e.finpow());
-                    float z = Draw.z();
-                    Draw.z(Layer.max - 8);
-                    Draw.color(Color.black);
-                    Fill.circle(e.x, e.y, 7.8f * e.finpow());
-                    Draw.z(z);
-                    Angles.randLenVectors(e.id, 8, 36 * e.foutpow(), Mathf.randomSeed(e.id, 360), 360, (x, y) -> {
-                        Draw.color(HIPal.wisadelRed);
-                        Fill.circle(e.x + x, e.y + y, 5f * e.foutpow());
-                        float zs = Draw.z();
-                        Draw.z(Layer.max - 10);
-                        Draw.color(Color.black);
-                        Fill.circle(e.x + x, e.y + y, 5f * e.foutpow());
-                        Draw.z(zs);
-                    });
-                }), EffectWrapper.wrap(HIFx.square45_6_45_Charge, backColor));
-                chargeSound = Sounds.lasercharge;
-                despawnEffect = hitEffect = new MultiEffect(new Effect(60, 100, e -> {
-                    float rad = splashDamageRadius;
-                    Lines.stroke(e.foutpow() * 3, HIPal.wisadelRed);
-                    Lines.circle(e.x, e.y, rad * e.finpow());
-                }), new ExplosionEffect(){{
-                    waveLife = 0f;
-                    waveRad = 0f;
-                    sparks = 8;
-                    smokes = 8;
-                    lifetime = 50f;
-                    sparkColor = HIPal.wisadelRed;
-                    sparkLen = 10f;
-                    sparkStroke = 4f;
-                    sparkRad = splashDamageRadius;
-                    smokeSize = 9f;
-                    smokeRad = splashDamageRadius;
-                }});
-                status = StatusEffects.blasted;
-                intervalBullets = 2;
-                bulletInterval = 5f;
-                intervalBullet = new AdaptedLightningBulletType(){{
-                    lightningColor = trailColor = hitColor = lightColor = HIPal.wisadelRed;
-                    lightningLength = 4;
-                    lightningLengthRand = 15;
-                    damage = 200;
-                }};
-            }});
+            ammo(
+                    HIItems.highEnergyFabric, new TrailFadeBulletType(60f, 350f, "missile-large"){{
+                        ammoMultiplier = 1f;
+                        shootEffect = smokeEffect = Fx.none;
+                        width = 16f;
+                        height = 50f;
+                        shrinkY = 0f;
+                        splashDamage = 2250f;
+                        splashDamageRadius = 12 * 8f;
+                        buildingDamageMultiplier = 0.5f;
+                        pierceArmor = true;
+                        homingPower = 1f;
+                        homingRange = 80f;
+                        lifetime = 12.8f;
+                        trailWidth = 3f;
+                        trailLength = 9;
+                        trailChance = 1f;
+                        frontColor = lightningColor = hitColor = backColor = trailColor = lightColor = HIPal.wisadelRed;
+                        lightning = 4;
+                        lightningLength = 6;
+                        lightningLengthRand = 10;
+                        hitSound = despawnSound = Sounds.largeExplosion;
+                        hitShake = 3f;
+                        trailEffect = new Effect(50, e -> {
+                            Draw.color(e.color);
+                            Fill.circle(e.x + Mathf.randomSeed(e.id, -5, 5), e.y + Mathf.randomSeed(e.id, -5, 5), e.rotation * 2 * e.fout());
+                        }).layer(Layer.bullet - 1e-2f);
+                        fragBullets = 9;
+                        fragRandomSpread = 0f;
+                        fragSpread = 360 / 9f;
+                        fragLifeMin = 0.1f;
+                        fragBullet = new ArtilleryBulletType(6f, 120f){{
+                            buildingDamageMultiplier = 0.3f;
+                            drag = 0.02f;
+                            hitEffect = despawnEffect = new MultiEffect(Fx.scatheSlash, Fx.massiveExplosion, new ExplosionEffect(){{
+                                waveLife = 12f;
+                                waveRad = 48f;
+                                sparks = 8;
+                                smokes = 8;
+                                lifetime = 30f;
+                                sparkColor = HIPal.wisadelRed;
+                                sparkLen = 10f;
+                                sparkStroke = 2f;
+                                sparkRad = 48f;
+                                smokeSize = 4f;
+                                smokeRad = 48f;
+                            }});
+                            knockback = 0.8f;
+                            lifetime = 18f;
+                            width = height = 18f;
+                            collidesTiles = false;
+                            splashDamageRadius = 48f;
+                            splashDamage = 220f;
+                            backColor = trailColor = hitColor = HIPal.wisadelRed;
+                            frontColor = Color.white;
+                            despawnShake = 7f;
+                            lightRadius = 30f;
+                            lightColor = HIPal.wisadelRed;
+                            lightOpacity = 0.5f;
+                            trailLength = 20;
+                            trailWidth = 3.5f;
+                            trailEffect = Fx.none;
+                        }};
+                        chargeEffect = new MultiEffect(HIFx.aimEffect(180, HIPal.wisadelRed, 1f, 45 * 8f, 16), new Effect(180, e -> {
+                            Draw.color(HIPal.wisadelRed);
+                            Fill.circle(e.x, e.y, 8.5f * e.finpow());
+                            float z = Draw.z();
+                            Draw.z(Layer.max - 8);
+                            Draw.color(Color.black);
+                            Fill.circle(e.x, e.y, 7.8f * e.finpow());
+                            Draw.z(z);
+                            Angles.randLenVectors(e.id, 8, 36 * e.foutpow(), Mathf.randomSeed(e.id, 360), 360, (x, y) -> {
+                                Draw.color(HIPal.wisadelRed);
+                                Fill.circle(e.x + x, e.y + y, 5f * e.foutpow());
+                                float zs = Draw.z();
+                                Draw.z(Layer.max - 10);
+                                Draw.color(Color.black);
+                                Fill.circle(e.x + x, e.y + y, 5f * e.foutpow());
+                                Draw.z(zs);
+                            });
+                        }), EffectWrapper.wrap(HIFx.square45_6_45_Charge, backColor));
+                        chargeSound = Sounds.lasercharge;
+                        despawnEffect = hitEffect = new MultiEffect(new Effect(60, 100, e -> {
+                            float rad = splashDamageRadius;
+                            Lines.stroke(e.foutpow() * 3, HIPal.wisadelRed);
+                            Lines.circle(e.x, e.y, rad * e.finpow());
+                        }), new ExplosionEffect(){{
+                            waveLife = 0f;
+                            waveRad = 0f;
+                            sparks = 8;
+                            smokes = 8;
+                            lifetime = 50f;
+                            sparkColor = HIPal.wisadelRed;
+                            sparkLen = 10f;
+                            sparkStroke = 4f;
+                            sparkRad = splashDamageRadius;
+                            smokeSize = 9f;
+                            smokeRad = splashDamageRadius;
+                        }});
+                        status = StatusEffects.blasted;
+                        intervalBullets = 2;
+                        bulletInterval = 5f;
+                        intervalBullet = new AdaptedLightningBulletType(){{
+                            lightningColor = trailColor = hitColor = lightColor = HIPal.wisadelRed;
+                            lightningLength = 4;
+                            lightningLengthRand = 15;
+                            damage = 200;
+                        }};
+                    }}
+            );
             size = 5;
             armor = 36;
             health = 18700;
@@ -3452,205 +3483,207 @@ public class HIBlocks {
         }};
         fireworks = new MultiBulletTurret("fireworks"){{
             requirements(Category.turret, with(Items.silicon, 600, Items.graphite, 800, Items.thorium, 500, HIItems.uranium, 400, HIItems.heavyAlloy, 300));
-            ammo(Items.blastCompound, new BulletType[]{
-                    new FireWorkBulletType(120, 5, name("mb-fireworks"), Color.valueOf("FF8097"), 6 * 8){{
-                        outline = true;
-                        trailInterval = 20;
-                        trailEffect = new ExplosionEffect(){{
-                            lifetime = 60f;
-                            waveStroke = 5f;
-                            waveLife = 8f;
-                            waveColor = Color.white;
-                            sparkColor = Pal.lightOrange;
-                            smokeColor = Pal.darkerGray;
-                            waveRad = 0;
-                            smokeSize = 4;
-                            smokes = 7;
-                            smokeSizeBase = 0f;
-                            sparks = 10;
-                            sparkRad = 3 * 8;
-                            sparkLen = 6f;
-                            sparkStroke = 2f;
-                        }};
-                        trailWidth = 2.4f;
-                        trailLength = 10;
-                        pierce = true;
-                        pierceCap = 3;
-                        fire = new colorFire(false, 2.3f, 60){{
-                            stopFrom = 0.55f;
-                            stopTo = 0.55f;
-                            rotSpeed = 666;
-                        }};
-                        num = 15;
-                    }},
-                    new BulletType(){{
-                        ammoMultiplier = 1;
-                        damage = 0;
-                        speed = 0;
-                        lifetime = 0;
-                        fragBullet = new FireWorkBulletType(150, 6.7f, name("mb-fireworks"), Color.valueOf("FFD080"), 12 * 8){{
-                            outline = true;
-                            trailWidth = 3.5f;
-                            trailLength = 10;
-                            trailInterval = 0;
-                            width = 22;
-                            height = 22;
-                            fire = new colorFire(false, 3.6f, 60){{
-                                stopFrom = 0.7f;
-                                stopTo = 0.7f;
-                                rotSpeed = 666;
-                                hittable = true;
-                            }};
-                            textFire = new spriteBullet(name("fire-fireworks1"));
-                            status = StatusEffects.none;
-                            num = 18;
-                        }
-                            @Override
-                            public void update(Bullet b) {
-                                super.update(b);
-                                b.rotation(b.rotation() + Time.delta * 2.2f);
-                                if(b.timer.get(3, 6)) HIFx.ellipse(14, 8/2, 40, color).at(b.x, b.y, b.rotation());
-                            }
-                        };
-                        fragBullets = 1;
-                        collides = false;
-                        absorbable = false;
-                        hittable = false;
-                        despawnEffect = hitEffect = Fx.none;
-                    }
-                        public void createFrags(Bullet b, float x, float y){
-                            if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
-                                fragBullet.create(b, b.x, b.y, b.rotation() - 60);
-                            }
-                        }
-                    },
-                    new FireWorkBulletType(120, 5f, name("mb-fireworks"), Color.valueOf("FFF980"), 6 * 8){{
-                        outline = true;
-                        trailInterval = 0f;
-                        trailWidth = 2f;
-                        trailLength = 10;
-                        weaveMag = 8f;
-                        weaveScale = 2f;
-                        fire = new colorFire(false, 2.3f, 60){{
-                            stopFrom = 0.55f;
-                            stopTo = 0.55f;
-                            rotSpeed = 666f;
-                            hittable = true;
-                        }};
-                        textFire = new spriteBullet(name("fire-fireworks2"));
-                        status = StatusEffects.none;
-                        num = 18;
-                    }},
-                    new FireWorkBulletType(120, 5, name("mb-fireworks"), Color.valueOf("80FF9D"), 6 * 8){{
-                        outline = true;
-                        trailInterval = 0f;
-                        trailWidth = 2.4f;
-                        trailLength = 10;
-                        homingPower = 1f;
-                        homingRange = 32 * 8;
-                        width = 10f;
-                        height = 10f;
-                        status = StatusEffects.electrified;
-                        fire = new colorFire(false, 2.3f, 60){{
-                            stopFrom = 0.55f;
-                            stopTo = 0.55f;
-                            rotSpeed = 666f;
-                        }};
-                        num = 10;
-                    }},
-                    new BulletType(){{
-                        ammoMultiplier = 1;
-                        damage = 0f;
-                        speed = 0f;
-                        lifetime = 0f;
-                        fragBullet = new FireWorkBulletType(110, 6, name("mb-fireworks"), Color.valueOf("80B5FF"), 8 * 8){{
-                            outline = true;
-                            trailInterval = 0f;
-                            trailWidth = 3f;
-                            trailLength = 10;
-                            width = 19f;
-                            height = 19f;
-                            status = StatusEffects.wet;
-                            weaveMag = 8f;
-                            weaveScale = 6f;
-                            weaveRandom = false;
-                            fire = new colorFire(false, 2.8f, 60){{
-                                stopFrom = 0.55f;
-                                stopTo = 0.55f;
-                                rotSpeed = 666;
-                            }};
-                            num = 20;
-                        }
-                            public void updateWeaving(Bullet b){
-                                if(weaveMag != 0 && b.data instanceof Integer){
-                                    b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * Time.delta * Mathf.degRad * (int)b.data);
+            ammo(
+                    Items.blastCompound, new BulletType[]{
+                            new FireWorkBulletType(120, 5, name("mb-fireworks"), Color.valueOf("FF8097"), 6 * 8){{
+                                outline = true;
+                                trailInterval = 20;
+                                trailEffect = new ExplosionEffect(){{
+                                    lifetime = 60f;
+                                    waveStroke = 5f;
+                                    waveLife = 8f;
+                                    waveColor = Color.white;
+                                    sparkColor = Pal.lightOrange;
+                                    smokeColor = Pal.darkerGray;
+                                    waveRad = 0;
+                                    smokeSize = 4;
+                                    smokes = 7;
+                                    smokeSizeBase = 0f;
+                                    sparks = 10;
+                                    sparkRad = 3 * 8;
+                                    sparkLen = 6f;
+                                    sparkStroke = 2f;
+                                }};
+                                trailWidth = 2.4f;
+                                trailLength = 10;
+                                pierce = true;
+                                pierceCap = 3;
+                                fire = new colorFire(false, 2.3f, 60){{
+                                    stopFrom = 0.55f;
+                                    stopTo = 0.55f;
+                                    rotSpeed = 666;
+                                }};
+                                num = 15;
+                            }},
+                            new BulletType(){{
+                                ammoMultiplier = 1;
+                                damage = 0;
+                                speed = 0;
+                                lifetime = 0;
+                                fragBullet = new FireWorkBulletType(150, 6.7f, name("mb-fireworks"), Color.valueOf("FFD080"), 12 * 8){{
+                                    outline = true;
+                                    trailWidth = 3.5f;
+                                    trailLength = 10;
+                                    trailInterval = 0;
+                                    width = 22;
+                                    height = 22;
+                                    fire = new colorFire(false, 3.6f, 60){{
+                                        stopFrom = 0.7f;
+                                        stopTo = 0.7f;
+                                        rotSpeed = 666;
+                                        hittable = true;
+                                    }};
+                                    textFire = new spriteBullet(name("fire-fireworks1"));
+                                    status = StatusEffects.none;
+                                    num = 18;
                                 }
+                                    @Override
+                                    public void update(Bullet b) {
+                                        super.update(b);
+                                        b.rotation(b.rotation() + Time.delta * 2.2f);
+                                        if(b.timer.get(3, 6)) HIFx.ellipse(14, 8/2, 40, color).at(b.x, b.y, b.rotation());
+                                    }
+                                };
+                                fragBullets = 1;
+                                collides = false;
+                                absorbable = false;
+                                hittable = false;
+                                despawnEffect = hitEffect = Fx.none;
                             }
-                        };
-                        fragBullets = 2;
-                        collides = false;
-                        absorbable = false;
-                        hittable = false;
-                        despawnEffect = hitEffect = Fx.none;
-                    }
-                        public void createFrags(Bullet b, float x, float y){
-                            if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
-                                for(int i : new int[]{-1, 1}) fragBullet.create(b, b.team, b.x, b.y, b.rotation() - 10 * i, -1, 1, 1, i);
+                                public void createFrags(Bullet b, float x, float y){
+                                    if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
+                                        fragBullet.create(b, b.x, b.y, b.rotation() - 60);
+                                    }
+                                }
+                            },
+                            new FireWorkBulletType(120, 5f, name("mb-fireworks"), Color.valueOf("FFF980"), 6 * 8){{
+                                outline = true;
+                                trailInterval = 0f;
+                                trailWidth = 2f;
+                                trailLength = 10;
+                                weaveMag = 8f;
+                                weaveScale = 2f;
+                                fire = new colorFire(false, 2.3f, 60){{
+                                    stopFrom = 0.55f;
+                                    stopTo = 0.55f;
+                                    rotSpeed = 666f;
+                                    hittable = true;
+                                }};
+                                textFire = new spriteBullet(name("fire-fireworks2"));
+                                status = StatusEffects.none;
+                                num = 18;
+                            }},
+                            new FireWorkBulletType(120, 5, name("mb-fireworks"), Color.valueOf("80FF9D"), 6 * 8){{
+                                outline = true;
+                                trailInterval = 0f;
+                                trailWidth = 2.4f;
+                                trailLength = 10;
+                                homingPower = 1f;
+                                homingRange = 32 * 8;
+                                width = 10f;
+                                height = 10f;
+                                status = StatusEffects.electrified;
+                                fire = new colorFire(false, 2.3f, 60){{
+                                    stopFrom = 0.55f;
+                                    stopTo = 0.55f;
+                                    rotSpeed = 666f;
+                                }};
+                                num = 10;
+                            }},
+                            new BulletType(){{
+                                ammoMultiplier = 1;
+                                damage = 0f;
+                                speed = 0f;
+                                lifetime = 0f;
+                                fragBullet = new FireWorkBulletType(110, 6, name("mb-fireworks"), Color.valueOf("80B5FF"), 8 * 8){{
+                                    outline = true;
+                                    trailInterval = 0f;
+                                    trailWidth = 3f;
+                                    trailLength = 10;
+                                    width = 19f;
+                                    height = 19f;
+                                    status = StatusEffects.wet;
+                                    weaveMag = 8f;
+                                    weaveScale = 6f;
+                                    weaveRandom = false;
+                                    fire = new colorFire(false, 2.8f, 60){{
+                                        stopFrom = 0.55f;
+                                        stopTo = 0.55f;
+                                        rotSpeed = 666;
+                                    }};
+                                    num = 20;
+                                }
+                                    public void updateWeaving(Bullet b){
+                                        if(weaveMag != 0 && b.data instanceof Integer){
+                                            b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * Time.delta * Mathf.degRad * (int)b.data);
+                                        }
+                                    }
+                                };
+                                fragBullets = 2;
+                                collides = false;
+                                absorbable = false;
+                                hittable = false;
+                                despawnEffect = hitEffect = Fx.none;
                             }
-                        }
-                    },
-                    new BulletType(){{
-                        ammoMultiplier = 1;
-                        damage = 0f;
-                        speed = 0f;
-                        lifetime = 0f;
-                        fragBullet = new FireWorkBulletType(100, 5, name("mb-fireworks"), Color.valueOf("D580FF"), 4 * 8){{
-                            outline = true;
-                            trailInterval = 0;
-                            trailWidth = 2f;
-                            trailLength = 10;
-                            width = 9;
-                            height = 9;
-                            status = StatusEffects.sapped;
-                            fire = new colorFire(true, 4, 60){{
-                                hittable = true;
-                            }};
-                        }
+                                public void createFrags(Bullet b, float x, float y){
+                                    if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
+                                        for(int i : new int[]{-1, 1}) fragBullet.create(b, b.team, b.x, b.y, b.rotation() - 10 * i, -1, 1, 1, i);
+                                    }
+                                }
+                            },
+                            new BulletType(){{
+                                ammoMultiplier = 1;
+                                damage = 0f;
+                                speed = 0f;
+                                lifetime = 0f;
+                                fragBullet = new FireWorkBulletType(100, 5, name("mb-fireworks"), Color.valueOf("D580FF"), 4 * 8){{
+                                    outline = true;
+                                    trailInterval = 0;
+                                    trailWidth = 2f;
+                                    trailLength = 10;
+                                    width = 9;
+                                    height = 9;
+                                    status = StatusEffects.sapped;
+                                    fire = new colorFire(true, 4, 60){{
+                                        hittable = true;
+                                    }};
+                                }
 
-                            @Override
-                            public void update(Bullet b) {
-                                super.update(b);
-                                if(b.data instanceof Float){
-                                    if(b.time > 10) b.rotation(Angles.moveToward(b.rotation(), (float) b.data, Time.delta * 0.5f));
+                                    @Override
+                                    public void update(Bullet b) {
+                                        super.update(b);
+                                        if(b.data instanceof Float){
+                                            if(b.time > 10) b.rotation(Angles.moveToward(b.rotation(), (float) b.data, Time.delta * 0.5f));
+                                        }
+                                    }
+                                };
+                                fragBullets = 3;
+                                collides = false;
+                                absorbable = false;
+                                hittable = false;
+                                despawnEffect = hitEffect = Fx.none;
+                            }
+                                public void createFrags(Bullet b, float x, float y){
+                                    if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
+                                        for(int i : new int[]{-1, 0, 1}) fragBullet.create(b, b.team, b.x, b.y, b.rotation() - 10 * i, -1, 1, 1, b.rotation());
+                                    }
                                 }
+                            },
+                            new FireWorkBulletType(125, 5, name("mb-fireworks"), Color.valueOf("FF7DF4"), 10 * 8){{
+                                outline = true;
+                                trailInterval = 0;
+                                trailWidth = 2.4f;
+                                trailLength = 10;
+                                status = StatusEffects.none;
+                                textFire = new spriteBullet(name("fire-fireworks3"), 128f, 128f);
+                                fire = new colorFire(false, 3f, 60f){{
+                                    stopFrom = 0.6f;
+                                    stopTo = 0.6f;
+                                    rotSpeed = 666f;
+                                    hittable = true;
+                                }};
                             }
-                        };
-                        fragBullets = 3;
-                        collides = false;
-                        absorbable = false;
-                        hittable = false;
-                        despawnEffect = hitEffect = Fx.none;
                     }
-                        public void createFrags(Bullet b, float x, float y){
-                            if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
-                                for(int i : new int[]{-1, 0, 1}) fragBullet.create(b, b.team, b.x, b.y, b.rotation() - 10 * i, -1, 1, 1, b.rotation());
-                            }
-                        }
-                    },
-                    new FireWorkBulletType(125, 5, name("mb-fireworks"), Color.valueOf("FF7DF4"), 10 * 8){{
-                        outline = true;
-                        trailInterval = 0;
-                        trailWidth = 2.4f;
-                        trailLength = 10;
-                        status = StatusEffects.none;
-                        textFire = new spriteBullet(name("fire-fireworks3"), 128f, 128f);
-                        fire = new colorFire(false, 3f, 60f){{
-                            stopFrom = 0.6f;
-                            stopTo = 0.6f;
-                            rotSpeed = 666f;
-                            hittable = true;
-                        }};
-                    }}
             });
             drawer = new DrawTurret("reinforced-");
             outlineColor = Pal.darkOutline;

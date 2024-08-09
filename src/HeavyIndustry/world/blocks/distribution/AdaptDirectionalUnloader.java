@@ -10,20 +10,13 @@ public class AdaptDirectionalUnloader extends DirectionalUnloader {
         buildType = AdaptDirectionalUnloaderBuild::new;
     }
 
-    @Override
-    public void setStats(){
-        super.setStats();
-        stats.remove(Stat.speed);
-        stats.add(Stat.speed, speed, StatUnit.itemsSecond);
-    }
-
     public class AdaptDirectionalUnloaderBuild extends DirectionalUnloaderBuild{
         private float counter;
 
         @Override
         public void updateTile(){
             counter += edelta();
-            final float limit = 60f / speed;
+            final float limit = speed;
 
             while(counter >= limit){
                 unloadTimer = speed;

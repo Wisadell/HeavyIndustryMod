@@ -1,11 +1,10 @@
 package HeavyIndustry.content;
 
-import arc.graphics.Color;
-import arc.math.Interp;
-import mindustry.content.Liquids;
-import mindustry.content.StatusEffects;
-import mindustry.entities.effect.ParticleEffect;
-import mindustry.type.Liquid;
+import arc.graphics.*;
+import arc.math.*;
+import mindustry.content.*;
+import mindustry.entities.effect.*;
+import mindustry.type.*;
 
 import static HeavyIndustry.HeavyIndustryMod.name;
 

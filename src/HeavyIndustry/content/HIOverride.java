@@ -355,6 +355,7 @@ public class HIOverride {
         Liquids.hydrogen.explosiveness = 1.5f;
         Liquids.ozone.flammability = 0f;
         Liquids.ozone.explosiveness = 0f;
+        Liquids.neoplasm.canStayOn.addAll(HILiquids.nanofluid, HILiquids.nitratedOil);
         Liquids.neoplasm.capPuddles = true;
         //Items
         Items.graphite.hardness = 2;
