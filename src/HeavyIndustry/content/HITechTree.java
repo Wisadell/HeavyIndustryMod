@@ -52,7 +52,10 @@ public class HITechTree {
         addToNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
         addToNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
         //distribution
-        addToNode(junction, () -> node(invertedJunction));
+        addToNode(junction, () -> {
+            node(invertedJunction);
+            node(itemLiquidJunction);
+        });
         addToNode(plastaniumConveyor, () -> node(stackHelper));
         addToNode(phaseConveyor, () -> node(highEnergyItemNode));
         addToNode(titaniumConveyor, () -> node(chromiumEfficientConveyor, () -> {
@@ -93,6 +96,10 @@ public class HITechTree {
         addToNode(thoriumReactor, () -> node(uraniumReactor));
         addToNode(batteryLarge, () -> node(armoredCoatedBattery));
         //power-erekir
+        addToNode(beamNode, () -> {
+            node(beamDiode);
+            node(beamInsulator);
+        });
         addToNode(turbineCondenser, () -> node(liquidConsumeGenerator, ItemStack.with(Items.beryllium, 2200, Items.graphite, 2400, Items.silicon, 2300, Items.tungsten, 1600, Items.oxide, 60), () -> {}));
         //production
         addToNode(kiln, () -> node(largeKiln, Seq.with(new SectorComplete(windsweptIslands)), () -> {}));
@@ -147,6 +154,10 @@ public class HITechTree {
         addToNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> {}));
         addToNode(vault, () -> node(cargo));
         addToNode(unloader, () -> node(rapidUnloader, () -> node(rapidDirectionalUnloader)));
+        //payload
+        addToNode(payloadConveyor, () -> node(payloadJunction));
+        //payload-erekir
+        addToNode(reinforcedPayloadConveyor, () -> node(reinforcedPayloadJunction));
         //unit
         addToNode(tetrativeReconstructor, () -> node(titanReconstructor, () -> node(experimentalUnitFactory, Seq.with(new SectorComplete(bombardmentWarzone)), () -> {})));
         //unit-erekir

@@ -7,6 +7,7 @@ import HeavyIndustry.gen.*;
 import HeavyIndustry.graphics.*;
 import HeavyIndustry.world.blocks.defense.*;
 import HeavyIndustry.world.blocks.distribution.*;
+import HeavyIndustry.world.blocks.payload.PayloadJunction;
 import HeavyIndustry.world.blocks.power.*;
 import HeavyIndustry.world.blocks.production.*;
 import HeavyIndustry.world.blocks.liquid.*;
@@ -75,10 +76,10 @@ public class HIBlocks {
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,
             //distribution
-            invertedJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
+            invertedJunction,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             stackHelper,highEnergyItemNode,rapidDirectionalUnloader,
             //distribution-erekir
-            armoredDuctBridge,waveDuct,waveDuctBridge,waveDuctRouter,overflowWaveDuct,underflowWaveDuct,rapidDuctUnloader,
+            ductJunction,armoredDuctBridge,waveDuct,waveDuctBridge,waveDuctRouter,overflowWaveDuct,underflowWaveDuct,rapidDuctUnloader,
             //liquid
             turboPump,highEnergyLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
             //liquid-erekir
@@ -86,7 +87,7 @@ public class HIBlocks {
             //power
             powerNodeHighEnergy,powerNodeGiant,windTurbine,uraniumReactor,armoredCoatedBattery,
             //power-erekir
-            liquidConsumeGenerator,
+            beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,largeCoalCentrifuge,blastSiliconSmelter,
             nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
@@ -100,6 +101,10 @@ public class HIBlocks {
             coreBeStationed,cargo,bin,rapidUnloader,
             //unit
             titanReconstructor,experimentalUnitFactory,
+            //payload
+            payloadJunction,
+            //payload-erekir
+            reinforcedPayloadJunction,
             //unit-erekir
             largeUnitRepairTower,seniorAssemblerModule,
             //logic
@@ -596,6 +601,9 @@ public class HIBlocks {
             configurable = true;
             buildCostMultiplier = 6f;
         }};
+        itemLiquidJunction = new MultiJunction("item-liquid-junction"){{
+            requirements(Category.distribution, with(Items.copper, 4, Items.graphite, 6, Items.metaglass, 10));
+        }};
         chromiumEfficientConveyor = new Conveyor("chromium-efficient-conveyor"){{
             requirements(Category.distribution, with(Items.copper, 1, Items.lead, 1, HIItems.chromium, 1));
             health = 240;
@@ -697,6 +705,11 @@ public class HIBlocks {
             allowCoreUnload = true;
         }};
         //distribution-erekir
+        ductJunction = new DuctJunction("duct-junction"){{
+            requirements(Category.distribution, with(Items.beryllium, 5));
+            health = 75;
+            speed = 4f;
+        }};
         armoredDuctBridge = new DuctBridge("armored-duct-bridge"){{
             requirements(Category.distribution, with(Items.beryllium, 20, Items.tungsten, 10));
             health = 140;
@@ -964,6 +977,16 @@ public class HIBlocks {
             }}, new DrawRegion("-top"));
         }};
         //power-erekir
+        beamDiode = new BeamDiode("beam-diode"){{
+            requirements(Category.power, with(Items.beryllium, 10, Items.silicon, 10, Items.surgeAlloy, 5));
+            health = 90;
+            range = 10;
+            fogRadius = 1;
+        }};
+        beamInsulator = new InsulationWall("beam-insulator"){{
+            requirements(Category.power, with(Items.silicon, 10, Items.oxide, 5));
+            health = 90;
+        }};
         liquidConsumeGenerator = new ConsumeGenerator("liquid-generator"){{
             requirements(Category.power, with(Items.beryllium, 180, Items.graphite, 120, Items.silicon, 115, Items.tungsten, 80, Items.oxide, 120));
             squareSprite = false;
@@ -1708,6 +1731,18 @@ public class HIBlocks {
             requirements(Category.effect, with(Items.silicon, 35, Items.plastanium, 15, Items.phaseFabric, 5));
             health = 60;
             speed = 60f / 30f;
+        }};
+        //payload
+        payloadJunction = new PayloadJunction("payload-junction"){{
+            requirements(Category.units, with(Items.graphite, 15, Items.copper, 20));
+        }};
+        //payload-erekir
+        reinforcedPayloadJunction = new PayloadJunction("reinforced-payload-junction"){{
+            requirements(Category.units, with(Items.tungsten, 15, Items.beryllium, 10));
+            moveTime = 35f;
+            health = 800;
+            researchCostMultiplier = 4f;
+            underBullets = true;
         }};
         //unit
         titanReconstructor = new Reconstructor("titan-reconstructor"){{
