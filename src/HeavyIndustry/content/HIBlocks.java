@@ -7,7 +7,7 @@ import HeavyIndustry.gen.*;
 import HeavyIndustry.graphics.*;
 import HeavyIndustry.world.blocks.defense.*;
 import HeavyIndustry.world.blocks.distribution.*;
-import HeavyIndustry.world.blocks.payload.PayloadJunction;
+import HeavyIndustry.world.blocks.payload.*;
 import HeavyIndustry.world.blocks.power.*;
 import HeavyIndustry.world.blocks.production.*;
 import HeavyIndustry.world.blocks.liquid.*;

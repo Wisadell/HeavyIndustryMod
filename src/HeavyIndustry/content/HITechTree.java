@@ -66,6 +66,7 @@ public class HITechTree {
             node(chromiumInvertedJunction);
         }));
         //distribution-erekir
+        addToNode(duct, () -> node(ductJunction));
         addToNode(armoredDuct, () -> {
             node(armoredDuctBridge);
             node(waveDuct, () -> {
