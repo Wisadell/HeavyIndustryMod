@@ -24,8 +24,8 @@ public class SortLiquidRouter extends LiquidRouter {
         rotate = true;
         rotateDraw = false;
 
-        config(Liquid.class, (SortLiquidBuild tile, Liquid l) -> tile.sortLiquid = l);
-        configClear((SortLiquidBuild tile) -> tile.sortLiquid = null);
+        config(Liquid.class, (SortLiquidRouterBuild tile, Liquid l) -> tile.sortLiquid = l);
+        configClear((SortLiquidRouterBuild tile) -> tile.sortLiquid = null);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SortLiquidRouter extends LiquidRouter {
         return new TextureRegion[]{bottomRegion, region, topRegion};
     }
 
-    public class SortLiquidBuild extends LiquidRouterBuild{
+    public class SortLiquidRouterBuild extends LiquidRouterBuild{
         public Liquid sortLiquid = null;
 
         @Override

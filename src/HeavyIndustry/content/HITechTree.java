@@ -105,12 +105,12 @@ public class HITechTree {
         //production
         addToNode(kiln, () -> node(largeKiln, Seq.with(new SectorComplete(windsweptIslands)), () -> {}));
         addToNode(pulverizer, () -> node(largePulverizer, () -> {
-            node(uraniumSynthesizer, Seq.with(new OnSector(chernobog)), () -> {});
-            node(chromiumSynthesizer, Seq.with(new OnSector(chernobog)), () -> {});
+            node(uraniumSynthesizer, Seq.with(new OnSector(frozenValley)), () -> {});
+            node(chromiumSynthesizer, Seq.with(new OnSector(frozenValley)), () -> {});
         }));
         addToNode(melter, () -> node(largeMelter));
         addToNode(surgeSmelter, () -> node(heavyAlloySmelter));
-        addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(chernobog)), () -> {}));
+        addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(frozenValley)), () -> {}));
         addToNode(cryofluidMixer, () -> {
             node(largeCryofluidMixer, Seq.with(new SectorComplete(impact0078)), () -> {});
             node(nanocoreActivator);
@@ -120,7 +120,6 @@ public class HITechTree {
         addToNode(cultivator, () -> node(largeCultivator, Seq.with(new SectorComplete(facility32m)), () -> {}));
         addToNode(plastaniumCompressor, () -> node(largePlastaniumCompressor, Seq.with(new SectorComplete(tarFields)), () -> {}));
         addToNode(surgeSmelter, ()-> node(largeSurgeSmelter));
-        addToNode(coalCentrifuge, () -> node(largeCoalCentrifuge, Seq.with(new SectorComplete(tarFields)), () -> {}));
         addToNode(siliconCrucible, () -> node(blastSiliconSmelter));
         addToNode(siliconSmelter, () -> node(nanocoreConstructor, Seq.with(new SectorComplete(impact0078)), () -> node(nanocorePrinter)));
         addToNode(sporePress, () -> node(nitrificationReactor, () -> node(nitratedOilSedimentationTank)));
@@ -151,7 +150,7 @@ public class HITechTree {
         //defense-erekir
         addToNode(radar, () -> node(largeRadar, ItemStack.with(Items.graphite, 3600, Items.silicon, 3200, Items.beryllium, 600, Items.tungsten, 200, Items.oxide, 10), () -> {}));
         //storage
-        addToNode(coreShard, () -> node(coreBeStationed, ItemStack.with(Items.copper, 500, Items.lead, 350, Items.silicon, 200), () -> {}));
+        addToNode(coreShard, () -> node(coreBeStationed));
         addToNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> {}));
         addToNode(vault, () -> node(cargo));
         addToNode(unloader, () -> node(rapidUnloader, () -> node(rapidDirectionalUnloader)));
@@ -221,7 +220,7 @@ public class HITechTree {
         });
         addToNode(planetaryTerminal, () -> {
             node(bombardmentWarzone, Seq.with(new SectorComplete(planetaryTerminal)), () -> {});
-            node(chernobog, Seq.with(new SectorComplete(planetaryTerminal)), () -> {});
+            node(frozenValley, Seq.with(new SectorComplete(planetaryTerminal)), () -> {});
         });
     }
     public static void addToNode(UnlockableContent p, Runnable c){

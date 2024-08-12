@@ -60,17 +60,19 @@ public class HIBlocks {
     public static Block
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
-            stoneVent,basaltVent,basaltWall,basaltGraphiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,
+            stoneVent,basaltVent,shaleVent,basaltWall,basaltGraphiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,
             nanofluid,
             stoneWater,shaleWater,basaltWater,frozenSoilWater,aghatiteWater,greniteWater,albasterWater,quartzSandWater,
             deadGrass,frozenSoil,albaster,albasterTiles,albasterCrater,aghatite,aghatitePebbles,quartzSand,grenite,coastalGrenite,blueIce,blueIcePieces,blueSnow,blueSnowdrifts,
             deadThickets,frozenSoilWall,albasterWall,aghatiteWall,quartzSandWall,greniteWall,blueIceWall,blueSnowWall,
-            deadShrub,frozenSoilBoulder,albasterBoulder,aghatiteBoulder, quartzSandBoulder, greniteBoulder,blueBoulder,
+            deadShrub,frozenSoilBoulder,albasterBoulder,aghatiteBoulder,quartzSandBoulder,greniteBoulder,blueBoulder,
             fallenDeadTree,fallenDeadTreeTopHalf,fallenDeadTreeBottomHalf,standingDeadTree,deadTreeStump,deadTreeRoots,
             softRareEarth,patternRareEarth,softRareEarthWall,
             oreUranium,oreChromium,
             //wall
             armoredWall,armoredWallLarge,uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,
+            //wall-erekir
+            berylliumWallHuge,berylliumWallGigantic,tungstenWallHuge,tungstenWallGigantic,blastDoorLarge,blastDoorHuge,reinforcedSurgeWallHuge,reinforcedSurgeWallGigantic,carbideWallHuge,carbideWallGigantic,shieldedWallLarge,shieldedWallHuge,
             //drill
             largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,
             //drill-erekir
@@ -89,7 +91,7 @@ public class HIBlocks {
             //power-erekir
             beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
-            largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,largeCoalCentrifuge,blastSiliconSmelter,
+            largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
             nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,
@@ -98,7 +100,7 @@ public class HIBlocks {
             //defense-erekir
             largeRadar,
             //storage
-            coreBeStationed,cargo,bin,rapidUnloader,
+            cargo,bin,rapidUnloader,coreBeStationed,
             //unit
             titanReconstructor,experimentalUnitFactory,
             //payload
@@ -131,6 +133,11 @@ public class HIBlocks {
         basaltVent = new SteamVent("basalt-vent"){{
             variants = 2;
             parent = blendGroup = Blocks.basalt;
+            attributes.set(Attribute.steam, 1f);
+        }};
+        shaleVent = new SteamVent("shale-vent"){{
+            variants = 3;
+            parent = blendGroup = Blocks.shale;
             attributes.set(Attribute.steam, 1f);
         }};
         basaltWall = new StaticWall("basalt-wall"){{
@@ -492,6 +499,107 @@ public class HIBlocks {
             healPercent = 2f / 60f;
             chanceHeal = 0.15f;
             regenPercent = 0.5f;
+        }};
+        //wall-erekir
+        berylliumWallHuge = new Wall("beryllium-wall-huge"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.beryllium, 54));
+            health = 4680;
+            armor = 2f;
+            buildCostMultiplier = 3f;
+            size = 3;
+        }};
+        berylliumWallGigantic = new Wall("beryllium-wall-gigantic"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.beryllium, 96));
+            health = 8320;
+            armor = 2f;
+            buildCostMultiplier = 2f;
+            size = 4;
+        }};
+        tungstenWallHuge = new Wall("tungsten-wall-huge"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.tungsten, 54));
+            health = 6480;
+            armor = 14f;
+            buildCostMultiplier = 3f;
+            size = 3;
+        }};
+        tungstenWallGigantic = new Wall("tungsten-wall-gigantic"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.tungsten, 96));
+            health = 11520;
+            armor = 14f;
+            buildCostMultiplier = 2f;
+            size = 4;
+        }};
+        blastDoorLarge = new AutoDoor("blast-door-large"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.tungsten, 54, Items.silicon, 54));
+            health = 6300;
+            armor = 14f;
+            size = 3;
+        }};
+        blastDoorHuge = new AutoDoor("blast-door-huge"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.tungsten, 96, Items.silicon, 96));
+            health = 11200;
+            armor = 14f;
+            size = 4;
+        }};
+        reinforcedSurgeWallHuge = new Wall("reinforced-surge-wall-huge"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.surgeAlloy, 54, Items.tungsten, 18));
+            health = 9000;
+            lightningChance = 0.05f;
+            lightningDamage = 30f;
+            armor = 20f;
+            size = 3;
+            //researchCost = with(Items.surgeAlloy, 120, Items.tungsten, 600);
+        }};
+        reinforcedSurgeWallGigantic = new Wall("reinforced-surge-wall-gigantic"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.surgeAlloy, 96, Items.tungsten, 32));
+            health = 16000;
+            lightningChance = 0.05f;
+            lightningDamage = 30f;
+            armor = 20f;
+            size = 4;
+            //researchCost = with(Items.surgeAlloy, 240, Items.tungsten, 1200);
+        }};
+        carbideWallHuge = new Wall("carbide-wall-huge"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.thorium, 54, Items.carbide, 54));
+            health = 9720;
+            armor = 16f;
+            size = 3;
+        }};
+        carbideWallGigantic = new Wall("carbide-wall-gigantic"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.thorium, 96, Items.carbide, 96));
+            health = 17280;
+            armor = 16f;
+            size = 4;
+        }};
+        shieldedWallLarge = new ShieldWall("shielded-wall-large"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.phaseFabric, 45, Items.surgeAlloy, 27, Items.beryllium, 27));
+            consumePower(4f / 60f);
+            outputsPower = false;
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            chanceDeflect = 8f;
+            health = 9360;
+            armor = 15f;
+            size = 3;
+            shieldHealth = 2025f;
+            breakCooldown = 60f * 15f;
+            regenSpeed = 2f;
+        }};
+        shieldedWallHuge = new ShieldWall("shielded-wall-huge"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.phaseFabric, 80, Items.surgeAlloy, 48, Items.beryllium, 48));
+            consumePower(6f / 60f);
+            outputsPower = false;
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            chanceDeflect = 8f;
+            health = 16640;
+            armor = 15f;
+            size = 4;
+            shieldHealth = 3600f;
+            breakCooldown = 60f * 15f;
+            regenSpeed = 2f;
         }};
         //drill
         largeWaterExtractor = new SolidPump("large-water-extractor"){{
@@ -1131,19 +1239,6 @@ public class HIBlocks {
             consumeItem(Items.titanium, 5);
             consumePower(7f);
         }};
-        largeCoalCentrifuge = new GenericCrafter("large-coal-centrifuge"){{
-            requirements(Category.crafting, with(Items.titanium, 70, Items.graphite, 80, Items.silicon, 30, Items.lead, 60));
-            health = 360;
-            size = 3;
-            hasLiquids = true;
-            liquidCapacity = 60;
-            itemCapacity =  20;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawRegion("-spinner", 6, true), new DrawDefault());
-            craftTime = 20f;
-            outputItem = new ItemStack(Items.coal, 1);
-            consumeLiquid(Liquids.oil, 0.3f);
-            consumePower(1.8f);
-        }};
         largeSurgeSmelter = new GenericCrafter("large-surge-smelter"){{
             requirements(Category.crafting, with(Items.lead, 180, Items.silicon, 100, Items.metaglass, 60, Items.thorium, 150, Items.surgeAlloy, 30));
             size = 4;
@@ -1693,6 +1788,23 @@ public class HIBlocks {
             consumePower(1.2f);
         }};
         //storage
+        bin = new StorageBlock("bin"){{
+            requirements(Category.effect, with(Items.copper, 55, Items.lead, 35));
+            size = 1;
+            itemCapacity = 60;
+            scaledHealth = 55;
+        }};
+        cargo = new StorageBlock("cargo"){{
+            requirements(Category.effect, with(Items.titanium, 350, Items.thorium, 250, Items.plastanium, 125));
+            size = 4;
+            itemCapacity = 3000;
+            scaledHealth = 55;
+        }};
+        rapidUnloader = new AdaptUnloader("rapid-unloader"){{
+            requirements(Category.effect, with(Items.silicon, 35, Items.plastanium, 15, Items.phaseFabric, 5));
+            health = 60;
+            speed = 60f / 30f;
+        }};
         coreBeStationed = new CoreBlock("core-be-stationed"){{
             requirements(Category.effect, with(Items.copper, 500, Items.lead, 350, Items.silicon, 200));
             size = 2;
@@ -1715,23 +1827,6 @@ public class HIBlocks {
                 return Vars.state.teams.cores(team).size < 5;
             }
         };
-        bin = new StorageBlock("bin"){{
-            requirements(Category.effect, with(Items.copper, 55, Items.lead, 35));
-            size = 1;
-            itemCapacity = 60;
-            scaledHealth = 55;
-        }};
-        cargo = new StorageBlock("cargo"){{
-            requirements(Category.effect, with(Items.titanium, 350, Items.thorium, 250, Items.plastanium, 125));
-            size = 4;
-            itemCapacity = 3000;
-            scaledHealth = 55;
-        }};
-        rapidUnloader = new AdaptUnloader("rapid-unloader"){{
-            requirements(Category.effect, with(Items.silicon, 35, Items.plastanium, 15, Items.phaseFabric, 5));
-            health = 60;
-            speed = 60f / 30f;
-        }};
         //payload
         payloadJunction = new PayloadJunction("payload-junction"){{
             requirements(Category.units, with(Items.graphite, 15, Items.copper, 20));

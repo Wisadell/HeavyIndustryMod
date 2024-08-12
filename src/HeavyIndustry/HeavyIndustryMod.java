@@ -6,6 +6,7 @@ import HeavyIndustry.gen.HISounds;
 import HeavyIndustry.graphics.HICacheLayer;
 import HeavyIndustry.graphics.HIShaders;
 import HeavyIndustry.ui.dialogs.HIResearchDialog;
+import HeavyIndustry.world.HIClassMap;
 import HeavyIndustry.world.meta.HIAttribute;
 import java.util.Objects;
 import arc.*;
@@ -55,6 +56,7 @@ public class HeavyIndustryMod extends Mod{
     @Override
     public void loadContent(){
         Log.info("Loading some heavy industry mod content.");
+        HIClassMap.load();
         HISounds.load();
         HIItems.load();
         HILiquids.load();

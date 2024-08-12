@@ -135,7 +135,7 @@ public class HIPlanets {
             atmosphereColor = Color.valueOf("8f94b3");
             atmosphereRadIn = 0.02f;
             atmosphereRadOut = 0.3f;
-            startSector = 0;
+            startSector = 157;
             alwaysUnlocked = true;
             landCloudColor = Pal.spore.cpy().a(0.5f);
             hiddenItems.addAll(Items.erekirItems).removeAll(Items.serpuloItems);

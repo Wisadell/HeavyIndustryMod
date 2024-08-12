@@ -5,10 +5,10 @@ import mindustry.type.SectorPreset;
 
 public class HISectorPresets {
     public static SectorPreset
-    //discord
+            //discord
             iceboundTributary,facility32m,whiteoutPlains,desertWastes,snowyLands,sunkenPier,coastalCliffs,fallenStronghold,bombardmentWarzone,
-    //kepler
-            chernobog;
+            //kepler
+            frozenValley;
     public static void load(){
         iceboundTributary = new SectorPreset("iceboundTributary", Planets.serpulo, 99){{
             difficulty = 3;
@@ -46,9 +46,9 @@ public class HISectorPresets {
             captureWave = 145;
         }};
         //kepler
-        chernobog = new SectorPreset("chernobog", HIPlanets.kepler, 0){{
+        frozenValley = new SectorPreset("frozenValley", HIPlanets.kepler, 157){{
             difficulty = 2;
-            captureWave = 100;
+            captureWave = 30;
         }};
     }
 }
