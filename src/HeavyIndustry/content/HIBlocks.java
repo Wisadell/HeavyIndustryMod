@@ -390,6 +390,9 @@ public class HIBlocks {
             attributes.set(Attribute.water, 0.4f);
         }};
         blueIcePieces = new OverlayFloor("blue-ice-pieces");
+        weatheredIce = new OverlayFloor("weathered-ice"){{
+            variants = 2;
+        }};
         blueIceWall = new StaticWall("blue-ice-wall"){{
             mapColor = Color.valueOf("b3e7fb");
             variants = 2;
