@@ -151,7 +151,7 @@ public class HITechTree {
         addToNode(radar, () -> node(largeRadar, ItemStack.with(Items.graphite, 3600, Items.silicon, 3200, Items.beryllium, 600, Items.tungsten, 200, Items.oxide, 10), () -> {}));
         //storage
         addToNode(coreShard, () -> node(coreBeStationed));
-        addToNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> {}));
+        addToNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> node(machineryUnloader, ItemStack.with(Items.copper, 300, Items.lead, 200), () -> {})));
         addToNode(vault, () -> node(cargo));
         addToNode(unloader, () -> node(rapidUnloader, () -> node(rapidDirectionalUnloader)));
         //payload

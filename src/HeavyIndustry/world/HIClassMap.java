@@ -30,6 +30,8 @@ public class HIClassMap {
         ClassMap.classes.put("EffectBulletType", EffectBulletType.class);
         ClassMap.classes.put("FallingBulletType", FallingBulletType.class);
         ClassMap.classes.put("FireWorkBulletType", FireWorkBulletType.class);
+        ClassMap.classes.put("colorFire", FireWorkBulletType.colorFire.class);
+        ClassMap.classes.put("spriteBullet", FireWorkBulletType.spriteBullet.class);
         ClassMap.classes.put("FlameBulletType", FlameBulletType.class);
         ClassMap.classes.put("HailStoneBulletType", HailStoneBulletType.class);
         ClassMap.classes.put("LightningLinkerBulletType", LightningLinkerBulletType.class);

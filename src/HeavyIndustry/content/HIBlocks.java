@@ -63,9 +63,9 @@ public class HIBlocks {
             stoneVent,basaltVent,shaleVent,basaltWall,basaltGraphiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,
             nanofluid,
             stoneWater,shaleWater,basaltWater,frozenSoilWater,aghatiteWater,greniteWater,albasterWater,quartzSandWater,
-            deadGrass,frozenSoil,albaster,albasterTiles,albasterCrater,aghatite,aghatitePebbles,quartzSand,grenite,coastalGrenite,blueIce,blueIcePieces,blueSnow,blueSnowdrifts,
-            deadThickets,frozenSoilWall,albasterWall,aghatiteWall,quartzSandWall,greniteWall,blueIceWall,blueSnowWall,
-            deadShrub,frozenSoilBoulder,albasterBoulder,aghatiteBoulder,quartzSandBoulder,greniteBoulder,blueBoulder,
+            deadGrass,frozenSoil,albaster,albasterTiles,albasterCrater,aghatite,aghatitePebbles,smoothAghanite,weatheredAghanite,aghaniteShale,aghaniteDust,coastalAghanite,crackedAghanite,berylledAghanite,cobaltedAghanite,quartzSand,grenite,coastalGrenite,blueIce,blueIcePieces,blueSnow,blueSnowdrifts,weatheredIce,
+            deadThickets,frozenSoilWall,albasterWall,aghatiteWall,weatheredAghaniteWall,cobaltedAghaniteWall,quartzSandWall,greniteWall,blueIceWall,blueSnowWall,
+            deadShrub,frozenSoilBoulder,albasterBoulder,aghatiteBoulder,weatheredAghaniteBoulder,berylledAghaniteBoulder,cobaltedAghaniteStones,quartzSandBoulder,greniteBoulder,blueBoulder,
             fallenDeadTree,fallenDeadTreeTopHalf,fallenDeadTreeBottomHalf,standingDeadTree,deadTreeStump,deadTreeRoots,
             softRareEarth,patternRareEarth,softRareEarthWall,
             oreUranium,oreChromium,
@@ -100,7 +100,7 @@ public class HIBlocks {
             //defense-erekir
             largeRadar,
             //storage
-            cargo,bin,rapidUnloader,coreBeStationed,
+            cargo,bin,machineryUnloader,rapidUnloader,coreBeStationed,
             //unit
             titanReconstructor,experimentalUnitFactory,
             //payload
@@ -312,6 +312,8 @@ public class HIBlocks {
         aghatitePebbles = new Floor("aghatite-pebbles", 4){{
             wall = aghatiteWall;
         }};
+        coastalAghanite = new Floor("coastal-aghanite",3);
+        crackedAghanite = new Floor("cracked-aghanite",2);
         aghatiteWall = new StaticWall("aghatite-wall"){{
             variants = 4;
             attributes.set(Attribute.sand, 1.2f);
@@ -320,6 +322,39 @@ public class HIBlocks {
             variants = 2;
             aghatite.asFloor().decoration = this;
             aghatitePebbles.asFloor().decoration = this;
+            coastalAghanite.asFloor().decoration = this;
+            crackedAghanite.asFloor().decoration = this;
+        }};
+        smoothAghanite = new Floor("smooth-aghanite", 4);
+        weatheredAghanite = new Floor("weathered-aghanite", 2);
+        aghaniteShale = new Floor("aghanite-shale", 4);
+        aghaniteDust = new OverlayFloor("aghanite-dust"){{
+            variants = 2;
+        }};
+        weatheredAghaniteWall = new StaticWall("weathered-aghanite-wall"){{
+            variants = 2;
+        }};
+        weatheredAghaniteBoulder = new Prop("weathered-aghanite-boulder"){{
+            customShadow = true;
+            variants = 2;
+            weatheredAghanite.asFloor().decoration = this;
+            smoothAghanite.asFloor().decoration = this;
+            aghaniteShale.asFloor().decoration = this;
+        }};
+        berylledAghanite = new Floor("berylled-aghanite", 3);
+        berylledAghaniteBoulder = new Prop("berylled-aghanite-boulder"){{
+            customShadow = true;
+            variants = 2;
+            berylledAghanite.asFloor().decoration = this;
+        }};
+        cobaltedAghanite = new Floor("cobalted-aghanite", 2);
+        cobaltedAghaniteWall = new StaticWall("cobalted-aghanite-wall"){{
+            variants = 2;
+        }};
+        cobaltedAghaniteStones = new Prop("cobalted-aghanite-stones"){{
+            customShadow = true;
+            variants = 2;
+            cobaltedAghanite.asFloor().decoration = this;
         }};
         quartzSand = new Floor("quartz-sand-floor", 3){{
             wall = albasterWall;
@@ -1800,6 +1835,11 @@ public class HIBlocks {
             itemCapacity = 3000;
             scaledHealth = 55;
         }};
+        machineryUnloader = new AdaptUnloader("machinery-unloader"){{
+            requirements(Category.effect, with(Items.copper, 15, Items.lead, 10));
+            health = 40;
+            speed = 60f / 4.2f;
+        }};
         rapidUnloader = new AdaptUnloader("rapid-unloader"){{
             requirements(Category.effect, with(Items.silicon, 35, Items.plastanium, 15, Items.phaseFabric, 5));
             health = 60;
@@ -2429,7 +2469,6 @@ public class HIBlocks {
                         height = 12f;
                         pierce = pierceArmor = true;
                         pierceCap = 3;
-                        reloadMultiplier = 1.7f;
                         critChance = 0.08f;
                         critMultiplier = 2.5f;
                     }},
@@ -2462,7 +2501,7 @@ public class HIBlocks {
                         fragVelocityMax = 1.2f;
                         fragRandomSpread = 30f;
                         fragBullet = new CritBulletType(12f, 80f){{
-                            lifetime = 6f;
+                            lifetime = 5f;
                             knockback = 3f;
                             width = 6f;
                             height = 14f;
@@ -2482,11 +2521,11 @@ public class HIBlocks {
             range = 330f;
             hideDetails = false;
             scaledHealth = 120;
-            reload = 150f;
+            reload = 80f;
             rotateSpeed = 2.5f;
             recoil = 5f;
             cooldownTime = 300f;
-            shootSound = Sounds.cannon;
+            shootSound = Sounds.artillery;
             coolant = consumeCoolant(0.2f);
         }};
         minigun = new MinigunTurret("minigun"){{
@@ -3563,9 +3602,9 @@ public class HIBlocks {
             requirements(Category.turret, with(Items.graphite, 120, Items.silicon, 160, Items.titanium, 140, Items.thorium, 80));
             ammo(
                     Items.blastCompound, new BulletType[]{
-                            new FireWorkBulletType(100, 4, name("mb-fireworks"), Color.valueOf("ea8878"), 6 * 8),
-                            new FireWorkBulletType(100, 4, Color.valueOf("5cfad5")),
-                            new FireWorkBulletType(100, 4){{
+                            new FireWorkBulletType(100, 4.5f, name("mb-fireworks"), Color.valueOf("ea8878"), 6 * 8),
+                            new FireWorkBulletType(100, 4.5f, Color.valueOf("5cfad5")),
+                            new FireWorkBulletType(100, 4.5f){{
                                 colorful = true;
                                 fire = new colorFire(false, 3f, 60){{
                                     stopFrom = 0f;
@@ -3579,13 +3618,13 @@ public class HIBlocks {
                             }}
                     },
                     Items.plastanium, new BulletType[]{
-                            new FireWorkBulletType(88, 4, name("mb-fireworks"), Color.valueOf("ea8878"), 6 * 8){{
+                            new FireWorkBulletType(88, 4.5f, name("mb-fireworks"), Color.valueOf("ea8878"), 6 * 8){{
                                 status = StatusEffects.none;
                             }},
-                            new FireWorkBulletType(88, 4, Color.valueOf("5cfad5")){{
+                            new FireWorkBulletType(88, 4.5f, Color.valueOf("5cfad5")){{
                                 status = StatusEffects.none;
                             }},
-                            new FireWorkBulletType(88, 4, Items.plastanium.color){{
+                            new FireWorkBulletType(88, 4.5f, Items.plastanium.color){{
                                 fire = new colorFire(true, 5f, 60){{
                                     trailLength = 9;
                                     stopFrom = 0.1f;
@@ -3601,7 +3640,7 @@ public class HIBlocks {
             inaccuracy = 3;
             scaledHealth = 180;
             size = 3;
-            range = 27f * 8;
+            range = 270f;
             shake = 2f;
             recoil = 1f;
             reload = 60f;
@@ -3615,9 +3654,9 @@ public class HIBlocks {
             requirements(Category.turret, with(Items.silicon, 600, Items.graphite, 800, Items.thorium, 500, HIItems.uranium, 400, HIItems.heavyAlloy, 300));
             ammo(
                     Items.blastCompound, new BulletType[]{
-                            new FireWorkBulletType(120, 5, name("mb-fireworks"), Color.valueOf("FF8097"), 6 * 8){{
+                            new FireWorkBulletType(120f, 5f, name("mb-fireworks"), Color.valueOf("FF8097"), 6 * 8){{
                                 outline = true;
-                                trailInterval = 20;
+                                trailInterval = 20f;
                                 trailEffect = new ExplosionEffect(){{
                                     lifetime = 60f;
                                     waveStroke = 5f;
@@ -3625,8 +3664,8 @@ public class HIBlocks {
                                     waveColor = Color.white;
                                     sparkColor = Pal.lightOrange;
                                     smokeColor = Pal.darkerGray;
-                                    waveRad = 0;
-                                    smokeSize = 4;
+                                    waveRad = 0f;
+                                    smokeSize = 4f;
                                     smokes = 7;
                                     smokeSizeBase = 0f;
                                     sparks = 10;
@@ -3647,9 +3686,9 @@ public class HIBlocks {
                             }},
                             new BulletType(){{
                                 ammoMultiplier = 1;
-                                damage = 0;
-                                speed = 0;
-                                lifetime = 0;
+                                damage = 0f;
+                                speed = 0f;
+                                lifetime = 0f;
                                 fragBullet = new FireWorkBulletType(150, 6.7f, name("mb-fireworks"), Color.valueOf("FFD080"), 12 * 8){{
                                     outline = true;
                                     trailWidth = 3.5f;
@@ -3686,7 +3725,7 @@ public class HIBlocks {
                                     }
                                 }
                             },
-                            new FireWorkBulletType(120, 5f, name("mb-fireworks"), Color.valueOf("FFF980"), 6 * 8){{
+                            new FireWorkBulletType(120f, 5f, name("mb-fireworks"), Color.valueOf("FFF980"), 6 * 8){{
                                 outline = true;
                                 trailInterval = 0f;
                                 trailWidth = 2f;
@@ -3703,7 +3742,7 @@ public class HIBlocks {
                                 status = StatusEffects.none;
                                 num = 18;
                             }},
-                            new FireWorkBulletType(120, 5, name("mb-fireworks"), Color.valueOf("80FF9D"), 6 * 8){{
+                            new FireWorkBulletType(120f, 5f, name("mb-fireworks"), Color.valueOf("80FF9D"), 6 * 8){{
                                 outline = true;
                                 trailInterval = 0f;
                                 trailWidth = 2.4f;
@@ -3725,7 +3764,7 @@ public class HIBlocks {
                                 damage = 0f;
                                 speed = 0f;
                                 lifetime = 0f;
-                                fragBullet = new FireWorkBulletType(110, 6, name("mb-fireworks"), Color.valueOf("80B5FF"), 8 * 8){{
+                                fragBullet = new FireWorkBulletType(110f, 6f, name("mb-fireworks"), Color.valueOf("80B5FF"), 8 * 8){{
                                     outline = true;
                                     trailInterval = 0f;
                                     trailWidth = 3f;
@@ -3736,7 +3775,7 @@ public class HIBlocks {
                                     weaveMag = 8f;
                                     weaveScale = 6f;
                                     weaveRandom = false;
-                                    fire = new colorFire(false, 2.8f, 60){{
+                                    fire = new colorFire(false, 2.8f, 60f){{
                                         stopFrom = 0.55f;
                                         stopTo = 0.55f;
                                         rotSpeed = 666;
@@ -3799,7 +3838,7 @@ public class HIBlocks {
                                     }
                                 }
                             },
-                            new FireWorkBulletType(125, 5, name("mb-fireworks"), Color.valueOf("FF7DF4"), 10 * 8){{
+                            new FireWorkBulletType(125f, 5f, name("mb-fireworks"), Color.valueOf("FF7DF4"), 10 * 8){{
                                 outline = true;
                                 trailInterval = 0;
                                 trailWidth = 2.4f;
