@@ -60,6 +60,7 @@ public class HITechTree {
         addToNode(phaseConveyor, () -> node(highEnergyItemNode));
         addToNode(titaniumConveyor, () -> node(chromiumEfficientConveyor, () -> {
             node(chromiumArmorConveyor, () -> node(chromiumStackConveyor, () -> node(chromiumStackRouter)));
+            node(chromiumTubeConveyor);
             node(chromiumItemBridge);
             node(chromiumRouter);
             node(chromiumJunction);
@@ -105,12 +106,12 @@ public class HITechTree {
         //production
         addToNode(kiln, () -> node(largeKiln, Seq.with(new SectorComplete(windsweptIslands)), () -> {}));
         addToNode(pulverizer, () -> node(largePulverizer, () -> {
-            node(uraniumSynthesizer, Seq.with(new OnSector(planetaryTerminal)), () -> {});
-            node(chromiumSynthesizer, Seq.with(new OnSector(planetaryTerminal)), () -> {});
+            node(uraniumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
+            node(chromiumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
         }));
         addToNode(melter, () -> node(largeMelter));
         addToNode(surgeSmelter, () -> node(heavyAlloySmelter));
-        addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(planetaryTerminal)), () -> {}));
+        addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(desolateRift)), () -> {}));
         addToNode(cryofluidMixer, () -> {
             node(largeCryofluidMixer, Seq.with(new SectorComplete(impact0078)), () -> {});
             node(nanocoreActivator);

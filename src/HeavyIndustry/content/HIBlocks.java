@@ -74,7 +74,7 @@ public class HIBlocks {
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,
             //distribution
-            invertedJunction,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
+            invertedJunction,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             stackHelper,highEnergyItemNode,rapidDirectionalUnloader,
             //distribution-erekir
             ductJunction,armoredDuctBridge,waveDuct,waveDuctBridge,waveDuctRouter,overflowWaveDuct,underflowWaveDuct,rapidDuctUnloader,
@@ -533,7 +533,7 @@ public class HIBlocks {
             requirements(Category.distribution, with(Items.copper, 4, Items.graphite, 6, Items.metaglass, 10));
         }};
         chromiumEfficientConveyor = new Conveyor("chromium-efficient-conveyor"){{
-            requirements(Category.distribution, with(Items.copper, 1, Items.lead, 1, HIItems.chromium, 1));
+            requirements(Category.distribution, with(Items.lead, 1, HIItems.chromium, 1));
             health = 240;
             armor = 3;
             speed = 0.18f;
@@ -545,6 +545,13 @@ public class HIBlocks {
             armor = 5;
             speed = 0.18f;
             displayedSpeed = 18;
+        }};
+        chromiumTubeConveyor = new TubeConveyor("chromium-tube-conveyor"){{
+            requirements(Category.distribution, with(Items.metaglass, 1, Items.titanium, 1, HIItems.chromium, 2));
+            health = 720;
+            armor = 8;
+            speed = 24f;
+            displayedSpeed = 24f;
         }};
         chromiumStackConveyor = new StackConveyor("chromium-stack-conveyor"){{
             requirements(Category.distribution, with(Items.graphite, 1, Items.silicon, 1, Items.plastanium, 1, HIItems.chromium, 1));
