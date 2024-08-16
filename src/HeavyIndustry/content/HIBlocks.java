@@ -393,7 +393,7 @@ public class HIBlocks {
         }};
         shieldedWallLarge = new ShieldWall("shielded-wall-large"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.phaseFabric, 45, Items.surgeAlloy, 27, Items.beryllium, 27));
-            consumePower(4f / 60f);
+            consumePower(6.75f / 60f);
             outputsPower = false;
             hasPower = true;
             consumesPower = true;
@@ -408,7 +408,7 @@ public class HIBlocks {
         }};
         shieldedWallHuge = new ShieldWall("shielded-wall-huge"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.phaseFabric, 80, Items.surgeAlloy, 48, Items.beryllium, 48));
-            consumePower(6f / 60f);
+            consumePower(12f / 60f);
             outputsPower = false;
             hasPower = true;
             consumesPower = true;
@@ -547,11 +547,11 @@ public class HIBlocks {
             displayedSpeed = 18;
         }};
         chromiumTubeConveyor = new TubeConveyor("chromium-tube-conveyor"){{
-            requirements(Category.distribution, with(Items.metaglass, 1, Items.titanium, 1, HIItems.chromium, 2));
+            requirements(Category.distribution, with(Items.metaglass, 1, Items.silicon, 1, HIItems.chromium, 2));
             health = 720;
             armor = 8;
-            speed = 24f;
-            displayedSpeed = 24f;
+            speed = 0.28f;
+            displayedSpeed = 28f;
         }};
         chromiumStackConveyor = new StackConveyor("chromium-stack-conveyor"){{
             requirements(Category.distribution, with(Items.graphite, 1, Items.silicon, 1, Items.plastanium, 1, HIItems.chromium, 1));
