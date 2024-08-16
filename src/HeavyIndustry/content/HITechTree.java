@@ -105,12 +105,12 @@ public class HITechTree {
         //production
         addToNode(kiln, () -> node(largeKiln, Seq.with(new SectorComplete(windsweptIslands)), () -> {}));
         addToNode(pulverizer, () -> node(largePulverizer, () -> {
-            node(uraniumSynthesizer, Seq.with(new OnSector(frozenValley)), () -> {});
-            node(chromiumSynthesizer, Seq.with(new OnSector(frozenValley)), () -> {});
+            node(uraniumSynthesizer, Seq.with(new OnSector(planetaryTerminal)), () -> {});
+            node(chromiumSynthesizer, Seq.with(new OnSector(planetaryTerminal)), () -> {});
         }));
         addToNode(melter, () -> node(largeMelter));
         addToNode(surgeSmelter, () -> node(heavyAlloySmelter));
-        addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(frozenValley)), () -> {}));
+        addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(planetaryTerminal)), () -> {}));
         addToNode(cryofluidMixer, () -> {
             node(largeCryofluidMixer, Seq.with(new SectorComplete(impact0078)), () -> {});
             node(nanocoreActivator);
@@ -218,10 +218,7 @@ public class HITechTree {
             node(fallenStronghold, Seq.with(new SectorComplete(desolateRift)), () -> {});
             node(coastalCliffs, Seq.with(new SectorComplete(desolateRift), new Research(overdriveProjector), new Research(swarmer), new Research(foreshadow), new Research(navanax)), () -> {});
         });
-        addToNode(planetaryTerminal, () -> {
-            node(bombardmentWarzone, Seq.with(new SectorComplete(planetaryTerminal)), () -> {});
-            node(frozenValley, Seq.with(new SectorComplete(planetaryTerminal)), () -> {});
-        });
+        addToNode(planetaryTerminal, () -> node(bombardmentWarzone, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}));
     }
     public static void addToNode(UnlockableContent p, Runnable c){
         context = TechTree.all.find(t -> t.content == p);
