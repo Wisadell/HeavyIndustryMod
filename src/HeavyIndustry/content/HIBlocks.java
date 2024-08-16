@@ -60,7 +60,7 @@ public class HIBlocks {
     public static Block
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
-            stoneVent,basaltVent,shaleVent,basaltWall,basaltGraphiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,
+            stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,
             nanofluid,
             stoneWater,shaleWater,basaltWater,
             softRareEarth,patternRareEarth,softRareEarthWall,
@@ -141,10 +141,6 @@ public class HIBlocks {
             attributes.set(Attribute.sand, 0.7f);
             ((Floor) Blocks.basalt).wall = this;
         }};
-        basaltGraphiteWall = new StaticWall("basalt-graphite-wall"){{
-            variants = 3;
-            itemDrop = Items.graphite;
-        }};
         snowySand = new Floor("snowy-sand", 3){{
             itemDrop = Items.sand;
             attributes.set(Attribute.water, 0.2f);
@@ -224,7 +220,7 @@ public class HIBlocks {
             supportsOverlay = true;
         }};
         oreUranium = new OreBlock("ore-uranium", HIItems.uranium){{
-            variants = 5;
+            variants = 3;
             oreDefault = true;
             oreThreshold = 0.89f;
             oreScale = 22;
