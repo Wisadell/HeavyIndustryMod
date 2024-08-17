@@ -547,11 +547,11 @@ public class HIBlocks {
             displayedSpeed = 18;
         }};
         chromiumTubeConveyor = new TubeConveyor("chromium-tube-conveyor"){{
-            requirements(Category.distribution, with(Items.metaglass, 1, Items.silicon, 1, HIItems.chromium, 2));
+            requirements(Category.distribution, BuildVisibility.sandboxOnly, with(Items.metaglass, 1, Items.silicon, 1, HIItems.chromium, 2));
             health = 720;
             armor = 8;
-            speed = 0.28f;
-            displayedSpeed = 28f;
+            speed = 0.18f;
+            displayedSpeed = 18f;
         }};
         chromiumStackConveyor = new StackConveyor("chromium-stack-conveyor"){{
             requirements(Category.distribution, with(Items.graphite, 1, Items.silicon, 1, Items.plastanium, 1, HIItems.chromium, 1));
