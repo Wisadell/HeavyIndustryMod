@@ -81,8 +81,6 @@ public class HIOverride {
         ((NuclearReactor) Blocks.thoriumReactor).powerProduction = 18f;
         Blocks.impactReactor.liquidCapacity = 80f;
         Blocks.neoplasiaReactor.canOverdrive = true;
-        //Blocks-Power-Erekir
-        ((VariableReactor) Blocks.fluxReactor).powerProduction = 180f;
         //Blocks-Production
         Blocks.phaseWeaver.itemCapacity = 30;
         //Blocks-Production-Erekir

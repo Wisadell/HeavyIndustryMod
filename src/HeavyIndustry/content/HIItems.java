@@ -2,7 +2,6 @@ package HeavyIndustry.content;
 
 import arc.graphics.Color;
 import mindustry.type.Item;
-
 public class HIItems {
     public static Item
             rareEarth,
@@ -21,9 +20,9 @@ public class HIItems {
         }};
         highEnergyFabric = new Item("high-energy-fabric", Color.valueOf("eec591")){{
             cost = 1.8f;
+            hardness = 3;
             healthScaling = 0.25f;
             radioactivity = 4;
-            explosiveness = 1.8f;
         }};
         uranium = new Item("uranium", Color.valueOf("a5b2c2")){{
             cost = 4;

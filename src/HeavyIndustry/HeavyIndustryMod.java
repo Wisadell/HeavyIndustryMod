@@ -1,6 +1,7 @@
 package HeavyIndustry;
 
 import HeavyIndustry.content.*;
+import HeavyIndustry.gen.HIIcon;
 import HeavyIndustry.gen.HISounds;
 import HeavyIndustry.graphics.HICacheLayer;
 import HeavyIndustry.graphics.HIShaders;
@@ -13,7 +14,7 @@ import arc.flabel.FLabel;
 import arc.scene.ui.Label;
 import arc.util.*;
 import mindustry.Vars;
-import mindustry.game.EventType.*;
+import mindustry.game.EventType;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
@@ -26,7 +27,8 @@ public class HeavyIndustryMod extends Mod{
     }
     public HeavyIndustryMod(){
         Log.info("Loaded HeavyIndustry Mod constructor.");
-        Events.on(ClientLoadEvent.class, e -> {
+        Events.on(EventType.ClientLoadEvent.class, e -> {
+            HIIcon.load();
             BaseDialog dialog = new BaseDialog(Core.bundle.get("mod.heavy-industry.name"));
             dialog.buttons.button("@close", dialog::hide).size(210f, 64f);
             dialog.cont.pane(table -> {
@@ -41,12 +43,12 @@ public class HeavyIndustryMod extends Mod{
             dialog.show();
         });
 
-        Events.on(FileTreeInitEvent.class, e -> app.post(() -> {
+        Events.on(EventType.FileTreeInitEvent.class, e -> app.post(() -> {
             HIShaders.init();
             HICacheLayer.init();
         }));
 
-        Events.on(DisposeEvent.class, e ->
+        Events.on(EventType.DisposeEvent.class, e ->
                 HIShaders.dispose()
         );
     }
@@ -63,6 +65,7 @@ public class HeavyIndustryMod extends Mod{
         HIBlocks.load();
         HIWeathers.load();
         HIOverride.load();
+        HIPlanets.load();
         HISectorPresets.load();
         HITechTree.load();
     }

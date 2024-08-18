@@ -55,7 +55,6 @@ import static arc.graphics.g2d.Draw.*;
 import static arc.math.Angles.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
-
 public class HIBlocks {
     public static Block
             //environment
