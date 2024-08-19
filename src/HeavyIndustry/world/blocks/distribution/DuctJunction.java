@@ -138,7 +138,7 @@ public class DuctJunction extends Block{
         }
 
         @Override
-        public void write(Writes write){ //Apparently ducts don't save their progress, so I won't either.
+        public void write(Writes write){
             super.write(write);
             for(int i = 0; i < 2; i++){
                 write.i(current[i] == null ? -1 : current[i].id);

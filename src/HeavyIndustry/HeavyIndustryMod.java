@@ -19,27 +19,36 @@ import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
 import static arc.Core.app;
+import static mindustry.Vars.ui;
 
 public class HeavyIndustryMod extends Mod{
     public static String ModName = "heavy-industry";
     public static String name(String add){
         return ModName + "-" + add;
     }
+    private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod";
     public HeavyIndustryMod(){
         Log.info("Loaded HeavyIndustry Mod constructor.");
         Events.on(EventType.ClientLoadEvent.class, e -> {
             HIIcon.load();
-            BaseDialog dialog = new BaseDialog(Core.bundle.get("mod.heavy-industry.name"));
-            dialog.buttons.button("@close", dialog::hide).size(210f, 64f);
-            dialog.cont.pane(table -> {
-                table.image(Core.atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
-                table.add(Core.bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
-                Label flabel1 = new FLabel(Core.bundle.get("mod.heavy-industry.author"));
-                table.add(flabel1).left().row();
-                table.add(Core.bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
-                table.add(Core.bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                table.add(Core.bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-            }).grow().center().maxWidth(600f);
+            BaseDialog dialog = new BaseDialog(Core.bundle.get("mod.heavy-industry.name")){{
+                buttons.button("@close", this::hide).size(210f, 64f);
+                buttons.button((Core.bundle.get("mod.heavy-industry.linkGithub")), () -> {
+                    if(!Core.app.openURI(linkGitHub)){
+                        ui.showErrorMessage("@linkfail");
+                        Core.app.setClipboardText(linkGitHub);
+                    }
+                }).size(210f, 64f);
+                cont.pane(table -> {
+                    table.image(Core.atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
+                    table.add(Core.bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
+                    Label flabel1 = new FLabel(Core.bundle.get("mod.heavy-industry.author"));
+                    table.add(flabel1).left().row();
+                    table.add(Core.bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
+                    table.add(Core.bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    table.add(Core.bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                }).grow().center().maxWidth(600f);
+            }};
             dialog.show();
         });
 

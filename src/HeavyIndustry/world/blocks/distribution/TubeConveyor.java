@@ -16,7 +16,6 @@ import mindustry.gen.Unit;
 import mindustry.graphics.Layer;
 import mindustry.type.Item;
 import mindustry.world.blocks.distribution.Conveyor;
-import mindustry.world.meta.BlockGroup;
 
 import static HeavyIndustry.util.HIUtls.reverse;
 import static arc.Core.atlas;
@@ -36,9 +35,8 @@ public class TubeConveyor extends Conveyor {
     };
     public TextureRegion[][] topRegion;
     public TextureRegion[] capRegion;
-    public TubeConveyor(String name) {
+    public TubeConveyor(String name){
         super(name);
-        group = BlockGroup.none;
         buildType = TubeConveyorBuild::new;
     }
 

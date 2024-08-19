@@ -6,6 +6,7 @@ import arc.files.Fi;
 import arc.graphics.Color;
 import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
+import arc.graphics.gl.GLVersion;
 import arc.graphics.gl.Shader;
 import arc.math.geom.Vec3;
 import arc.util.Nullable;
@@ -23,10 +24,22 @@ public class HIShaders {
     public static PlanetTextureShader planetTextureShader;
 
     public static void init(){
+        String prevVert = Shader.prependVertexCode, prevFrag = Shader.prependFragmentCode;
+        Shader.prependVertexCode = Shader.prependFragmentCode = "";
+
+        if(graphics.getGLVersion().type == GLVersion.GlType.OpenGL){
+            Shader.prependFragmentCode = "#define HAS_GL_FRAGDEPTH\n";
+        }
+
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
+
         nanofluid = new SurfaceShader("nanofluid");
+
         planetTextureShader = new PlanetTextureShader();
+
+        Shader.prependVertexCode = prevVert;
+        Shader.prependFragmentCode = prevFrag;
     }
 
     public static void dispose(){
@@ -39,7 +52,7 @@ public class HIShaders {
         return tree.get("shaders/" + name);
     }
 
-    public static class PlanetTextureShader extends OlLoadShader{
+    public static class PlanetTextureShader extends HILoadShader{
         public Vec3 lightDir = new Vec3(1, 1, 1).nor();
         public Color ambientColor = Color.white.cpy();
         public Vec3 camDir = new Vec3();
@@ -70,13 +83,10 @@ public class HIShaders {
         }
     }
 
-    public static class OlLoadShader extends Shader{
+    public static class HILoadShader extends Shader{
 
-        public OlLoadShader(String fragment, String vertex){
-            super(
-                    file(vertex + ".vert"),
-                    file(fragment + ".frag")
-            );
+        public HILoadShader(String fragment, String vertex){
+            super(file(vertex + ".vert"), file(fragment + ".frag"));
         }
 
         public void set(){

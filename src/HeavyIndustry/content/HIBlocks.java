@@ -1706,7 +1706,6 @@ public class HIBlocks {
                 tile.payload = null;
             });
             consumePower(40f);
-            consumeLiquid(HILiquids.nanofluid, 18f / 60f);
         }
             @Override
             public void init() {
