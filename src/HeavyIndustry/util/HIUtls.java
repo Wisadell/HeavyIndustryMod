@@ -11,6 +11,7 @@ public class HIUtls {
     public static String stringsFixed(float value){
         return Strings.autoFixed(value, 2);
     }
+
     @Contract(pure = true)
     public static int reverse(int rotation) {
         return switch(rotation) {
@@ -18,6 +19,7 @@ public class HIUtls {
             default -> throw new IllegalStateException("Unexpected value: " + rotation);
         };
     }
+
     public static TextureRegion[][] splitLayers(String name, int size, int layerCount){
         TextureRegion[][] layers = new TextureRegion[layerCount][];
 
@@ -26,6 +28,7 @@ public class HIUtls {
         }
         return layers;
     }
+
     public static TextureRegion[] split(String name, int size, int layer){
         TextureRegion tex = atlas.find(name);
         int margin = 0;
