@@ -55,6 +55,7 @@ import static arc.graphics.g2d.Draw.*;
 import static arc.math.Angles.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
+
 public class HIBlocks {
     public static Block
             //environment
@@ -2694,7 +2695,7 @@ public class HIBlocks {
             rotateSpeed = 2.5f;
             recoil = 2f;
             recoilTime = 60f;
-            shootEffect = HIFx.ellipse(30, 30, 15, Color.valueOf("c0ecff"));
+            shootEffect = HIFx.ellipse(30, 30, 15, HIPal.iceBlue);
             outlineColor = Pal.darkOutline;
             drawer = new DrawTurret("reinforced-"){{parts.add(new DrawFrostWing(){{
                 x = 0;
@@ -2709,9 +2710,8 @@ public class HIBlocks {
                 w1 = 3;
                 h1 = 6;
                 radius = 4;
-                color = Color.valueOf("c0ecff");
+                color = HIPal.iceBlue;
             }});
-
             }};
             BulletType frostFragBullrt = new AimToPosBulletType(){{
                 damage = 180;
@@ -2721,31 +2721,31 @@ public class HIBlocks {
                 lifetime = 140;
                 hitEffect = despawnEffect = new MultiEffect(new ExplosionEffect(){{
                     lifetime = 40f;
-                    sparkColor = Color.valueOf("c0ecff");
+                    sparkColor = HIPal.iceBlue;
                     waveRad = smokeSize = smokeSizeBase = 0f;
                     smokes = 0;
                     sparks = 5;
                     sparkRad = 4 * 8;
                     sparkLen = 5f;
                     sparkStroke = 2f;
-                }}, new Effect(60, e -> DrawFunc.drawSnow(e.x, e.y, 2 * 8 * e.foutpow(), 0, Color.valueOf("c0ecff"))));
+                }}, new Effect(60, e -> DrawFunc.drawSnow(e.x, e.y, 2 * 8 * e.foutpow(), 0, HIPal.iceBlue)));
                 trailInterval = 0.5f;
                 trailEffect = new Effect(120, e -> {
-                    Draw.color(Color.valueOf("c0ecff"));
+                    Draw.color(HIPal.iceBlue);
                     Fill.circle(e.x, e.y, 3 * e.foutpow());
                 });
                 trailLength = 16;
                 trailWidth = 3;
-                trailColor = Color.valueOf("c0ecff");
+                trailColor = HIPal.iceBlue;
                 buildingDamageMultiplier = 0.5f;
             }
                 @Override
                 public void draw(Bullet b) {
                     super.draw(b);
-                    Draw.color(Color.valueOf("c0ecff"));
+                    Draw.color(HIPal.iceBlue);
                     Drawf.tri(b.x, b.y, 5, 12, b.rotation());
                     Drawf.tri(b.x, b.y, 5, 5, b.rotation() - 180);
-                    Lines.stroke(1, Color.valueOf("6d90bc"));
+                    Lines.stroke(1, HIPal.iceBlueDark);
                     Lines.lineAngle(b.x, b.y, b.rotation(), 9f);
                     Lines.lineAngle(b.x, b.y, b.rotation() - 180, 3f);
                 }
@@ -2762,10 +2762,10 @@ public class HIBlocks {
                 damage = 550;
                 splashDamage = 400;
                 splashDamageRadius = 64;
-                trailColor = Color.valueOf("c0ecff");
+                trailColor = HIPal.iceBlue;
                 trailLength = 8;
                 trailWidth = 5;
-                trailEffect = new Effect(40, e -> DrawFunc.drawSnow(e.x, e.y, 12 * e.fout(), 360 * e.fin(), Color.valueOf("c0ecff")));
+                trailEffect = new Effect(40, e -> DrawFunc.drawSnow(e.x, e.y, 12 * e.fout(), 360 * e.fin(), HIPal.iceBlue));
                 trailInterval = 3;
                 fragBullets = 4;
                 fragBullet = frostFragBullrt;
@@ -2774,8 +2774,8 @@ public class HIBlocks {
                     lifetime = 40f;
                     waveStroke = 5f;
                     waveLife = 8f;
-                    waveColor = Color.valueOf("6d90bc");
-                    sparkColor = Color.valueOf("c0ecff");
+                    waveColor = HIPal.iceBlueDark;
+                    sparkColor = HIPal.iceBlue;
                     waveRad = 64;
                     smokeSize = smokes = 0;
                     smokeSizeBase = 0f;
@@ -2812,10 +2812,10 @@ public class HIBlocks {
                 @Override
                 public void draw(Bullet b) {
                     super.draw(b);
-                    Draw.color(Color.valueOf("c0ecff"));
+                    Draw.color(HIPal.iceBlue);
                     Drawf.tri(b.x, b.y, 15, 18, b.rotation());
                     Drawf.tri(b.x, b.y, 15, 6, b.rotation() - 180);
-                    Lines.stroke(1, Color.valueOf("6d90bc"));
+                    Lines.stroke(1, HIPal.iceBlueDark);
                     Lines.lineAngle(b.x, b.y, b.rotation(), 15f);
                     Lines.lineAngle(b.x, b.y, b.rotation() - 180, 4f);
                 }
@@ -3681,13 +3681,13 @@ public class HIBlocks {
                         hitShake = 3;
                         shootEffect = Fx.none;
                         smokeEffect = new Effect(32f, 80f, e -> {
-                            color(HIPal.tracerBlue.cpy().lerp(Color.white, 0.2f), HIPal.tracerBlue, Color.gray, e.fin());
+                            color(HIPal.iceBlue.cpy().lerp(Color.white, 0.2f), HIPal.iceBlue, Color.gray, e.fin());
                             randLenVectors(e.id, 8, e.finpow() * 60f, e.rotation, 10f, (x, y) ->
                                 Fill.circle(e.x + x, e.y + y, 0.65f + e.fout() * 1.5f)
                             );
                         });
                         despawnEffect = Fx.none;
-                        trailColor = HIPal.tracerBlue;
+                        trailColor = HIPal.iceBlue;
                         trailLength = 8;
                         hitEffect = new MultiEffect(new ParticleEffect(){{
                             particles = 23;
@@ -3698,14 +3698,14 @@ public class HIBlocks {
                             interp = sizeInterp = Interp.pow10Out;
                             region = name("diamond");
                             lifetime = 85;
-                            colorFrom = HIPal.tracerBlue;
-                            colorTo = HIPal.tracerBlue.cpy().a(0f);
+                            colorFrom = HIPal.iceBlue;
+                            colorTo = HIPal.iceBlue.cpy().a(0f);
                         }}, new WaveEffect(){{
                             lifetime = 11;
                             sizeFrom = strokeTo = 0;
                             sizeTo = 75;
                             strokeFrom = 5;
-                            colorFrom = colorTo = HIPal.tracerBlue;
+                            colorFrom = colorTo = HIPal.iceBlue;
                         }});
                         fragLifeMin = 0.3f;
                         fragBullets = 4;
@@ -3727,24 +3727,24 @@ public class HIBlocks {
                                 length = 35f;
                                 region = name("diamond");
                                 lifetime = 25f;
-                                colorFrom = colorTo = HIPal.tracerBlue;
+                                colorFrom = colorTo = HIPal.iceBlue;
                             }}, new WaveEffect(){{
                                 lifetime = 15f;
                                 sizeFrom = strokeTo = 0f;
                                 sizeTo = 35f;
                                 strokeFrom = 2f;
-                                colorFrom = colorTo = HIPal.tracerBlue;
+                                colorFrom = colorTo = HIPal.iceBlue;
                             }});
                             despawnEffect = new ParticleEffect(){{
                                 particles = 1;
                                 sizeFrom = 3f;
                                 sizeTo = length = baseLength = 0f;
                                 lifetime = 8f;
-                                colorFrom = colorTo = HIPal.tracerBlue;
+                                colorFrom = colorTo = HIPal.iceBlue;
                             }};
                             sprite = name("tracer-bullet");
                             frontColor = Color.white;
-                            backColor = trailColor = HIPal.tracerBlue;
+                            backColor = trailColor = HIPal.iceBlue;
                             trailLength = 11;
                             trailWidth = 2f;
                             shrinkX = shrinkY = 0f;
@@ -3802,7 +3802,7 @@ public class HIBlocks {
                     shapeRotation = 45;
                     shapes = 1;
                     color = Color.white;
-                    colorTo = HIPal.tracerBlue;
+                    colorTo = HIPal.iceBlue;
                     layer = 110;
                     tri = true;
                     radiusTo = 10;
@@ -3815,14 +3815,14 @@ public class HIBlocks {
                     shapeRotation = -45;
                     shapes = 1;
                     color = Color.white.cpy().a(0f);
-                    colorTo = HIPal.tracerBlue;
+                    colorTo = HIPal.iceBlue;
                     layer = 110;
                     tri = true;
                     radiusTo = 10;
                     triLengthTo = 16;
                 }}, new ShapePart(){{
                     progress = PartProgress.warmup;
-                    colorTo = color = HIPal.tracerBlue;
+                    colorTo = color = HIPal.iceBlue;
                     layer = 110;
                     stroke = radius = 0;
                     strokeTo = 2;
@@ -3832,7 +3832,7 @@ public class HIBlocks {
                     progress = PartProgress.warmup;
                     shapes = 4;
                     color = Color.white.cpy().a(0f);
-                    colorTo = HIPal.tracerBlue;
+                    colorTo = HIPal.iceBlue;
                     layer = 110;
                     tri = true;
                     radius = triLength = haloRadius = haloRotation = 0;
@@ -3848,7 +3848,7 @@ public class HIBlocks {
                     shapeRotation = -135;
                     shapes = 1;
                     color = Color.white.cpy().a(0f);
-                    colorTo = HIPal.tracerBlue;
+                    colorTo = HIPal.iceBlue;
                     layer = 110;
                     tri = true;
                     radiusTo = 10;
@@ -3861,7 +3861,7 @@ public class HIBlocks {
                     shapeRotation = 135;
                     shapes = 1;
                     color = Color.white.cpy().a(0f);
-                    colorTo = HIPal.tracerBlue;
+                    colorTo = HIPal.iceBlue;
                     layer = 110;
                     tri = true;
                     radiusTo = 10;

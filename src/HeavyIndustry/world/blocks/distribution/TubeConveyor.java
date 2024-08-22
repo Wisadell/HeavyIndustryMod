@@ -3,7 +3,6 @@ package HeavyIndustry.world.blocks.distribution;
 import HeavyIndustry.util.HIUtls;
 import arc.graphics.g2d.Draw;
 import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
 import arc.math.geom.Geometry;
 import arc.math.geom.Point2;
 import arc.util.Eachable;
@@ -91,77 +90,6 @@ public class TubeConveyor extends Conveyor {
     public class TubeConveyorBuild extends ConveyorBuild{
         public int tiling = 0;
         public int calls = 0;
-
-        @Override
-        public void updateTile(){
-            minitem = 1f;
-            mid = 0;
-
-            if(len == 0){
-                clogHeat = 0f;
-                sleep();
-                return;
-            }
-
-            float nextMax = aligned ? 1f - Math.max(itemSpace - nextc.minitem, 0) : 1f;
-
-            if(isEnd(rotation)){
-                nextMax = Math.min(nextMax, 1f - itemSpace);
-            }
-
-            if(isEnd(reverse(rotation)) && blendbits == 0){
-                float nextMaxReverse = aligned ? (items.total() > 2 ? (0.5f - Math.max(itemSpace - nextc.minitem, 0)) : Math.max(itemSpace - nextc.minitem, 0)) : 0f;
-
-                float movedReverse = speed * edelta();
-
-                for(int i = 0; i < len; i++){
-                    float nextposReverse = (i == 0 ? 0f : ys[i - 1]) + itemSpace;
-                    float maxmoveReverse = Mathf.clamp(ys[i] - nextposReverse, 0, movedReverse);
-
-                    ys[i] += maxmoveReverse;
-
-                    if(ys[i] < nextMaxReverse) ys[i] = nextMaxReverse;
-                    if(ys[i] < minitem) minitem = ys[i];
-                }
-            }
-
-            float moved = speed * edelta();
-
-            for(int i = len - 1; i >= 0; i--){
-                float nextpos = (i == len - 1 ? 100f : ys[i + 1]) - itemSpace;
-                float maxmove = Mathf.clamp(nextpos - ys[i], 0, moved);
-
-                ys[i] += maxmove;
-
-                if(ys[i] > nextMax) ys[i] = nextMax;
-                if(ys[i] > 0.5 && i > 0) mid = i - 1;
-                xs[i] = Mathf.approach(xs[i], 0, moved * 2);
-
-                if(isEnd(rotation) && isEnd(reverse(rotation)) && items.total() > 1 && calls > 0){
-                    items.remove(ids[i], len - i);
-                    len = Math.min(i, len);
-                }
-
-                if(ys[i] >= 1f && pass(ids[i])){
-                    if(aligned){
-                        nextc.xs[nextc.lastInserted] = xs[i];
-                    }
-                    items.remove(ids[i], len - i);
-                    len = Math.min(i, len);
-                }else if(ys[i] < minitem){
-                    minitem = ys[i];
-                }
-            }
-
-            if(minitem < itemSpace + (blendbits == 1 ? 0.3f : 0f) || isEnd(reverse(rotation)) && items.total() >= 2 || isEnd(reverse(rotation)) && isEnd(rotation) && items.total() >= 1){
-                clogHeat = Mathf.approachDelta(clogHeat, 1f, 1f / 60f);
-            }else{
-                clogHeat = 0f;
-            }
-
-            noSleep();
-        }
-
         public void updateProximity() {
             super.updateProximity();
             calls++;
@@ -247,7 +175,8 @@ public class TubeConveyor extends Conveyor {
             super.onProximityUpdate();
             noSleep();
             next = front();
-            nextc = next instanceof TubeConveyorBuild d ? d : null;
+            nextc = next instanceof TubeConveyorBuild && next.team == team ? (TubeConveyorBuild)next : null;
+            aligned = nextc != null && rotation == next.rotation;
 
             tiling = 0;
             for(int i = 0; i < 4; i++){

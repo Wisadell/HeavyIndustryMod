@@ -2,6 +2,7 @@ package HeavyIndustry.content;
 
 import arc.graphics.Color;
 import mindustry.type.Item;
+
 public class HIItems {
     public static Item
             rareEarth,

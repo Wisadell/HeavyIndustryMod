@@ -34,6 +34,7 @@ public class GeneratorCrafter extends GenericCrafter {
                 () -> Mathf.num(build.efficiency > 0.0f)
         ));
     }
+
     public class GeneratorCrafterBuild extends GenericCrafterBuild {
         @Override
         public float getPowerProduction(){

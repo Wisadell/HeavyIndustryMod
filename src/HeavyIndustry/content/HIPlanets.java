@@ -1,5 +1,6 @@
 package HeavyIndustry.content;
 
+import HeavyIndustry.HeavyIndustryMod;
 import HeavyIndustry.graphics.g3d.CircleMesh;
 import HeavyIndustry.maps.ColorPass;
 import HeavyIndustry.maps.HeightPass;
@@ -20,6 +21,7 @@ import mindustry.graphics.g3d.MultiMesh;
 import mindustry.type.Planet;
 import mindustry.world.meta.BuildVisibility;
 
+import static HeavyIndustry.HeavyIndustryMod.name;
 import static arc.Core.atlas;
 
 public class HIPlanets {
@@ -125,7 +127,7 @@ public class HIPlanets {
                 r.showSpawns = false;
                 r.bannedBlocks = Vars.content.blocks().select(b -> {
                     if (b.buildVisibility == BuildVisibility.sandboxOnly) return false;
-                    return b.minfo.mod == null || !b.minfo.mod.name.equals("heavy-industry");
+                    return b.minfo.mod == null || !b.minfo.mod.name.equals(HeavyIndustryMod.ModName);
                 }).asSet();
             };
             alwaysUnlocked = true;
@@ -133,10 +135,10 @@ public class HIPlanets {
                     new AtmosphereHexMesh(7),
                     new HexMesh(this, 7),
 
-                    new CircleMesh(atlas.find("heavy-industry-ring4"), this, 80, 2.55f, 2.6f, ringPos),
-                    new CircleMesh(atlas.find("heavy-industry-ring3"), this,80, 2.2f, 2.5f, ringPos),
-                    new CircleMesh(atlas.find("heavy-industry-ring2"), this,80, 1.9f, 2.1f, ringPos),
-                    new CircleMesh(atlas.find("heavy-industry-ring1"), this,80, 1.8f, 1.85f, ringPos)
+                    new CircleMesh(atlas.find(name("ring4")), this, 80, 2.55f, 2.6f, ringPos),
+                    new CircleMesh(atlas.find(name("ring3")), this,80, 2.2f, 2.5f, ringPos),
+                    new CircleMesh(atlas.find(name("ring2")), this,80, 1.9f, 2.1f, ringPos),
+                    new CircleMesh(atlas.find(name("ring1")), this,80, 1.8f, 1.85f, ringPos)
             );
             cloudMeshLoader = () -> new MultiMesh(
                     new HexSkyMesh(this, 6, -0.5f, 0.14f, 6, Blocks.water.mapColor.cpy().a(0.2f), 2, 0.42f, 1f, 0.6f),

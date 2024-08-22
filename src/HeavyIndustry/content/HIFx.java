@@ -68,7 +68,7 @@ public class HIFx {
     }
 
     public static Effect ellipse(float startRad, float rad, int num, float lifetime, Color color){
-        return new Effect(lifetime, e ->{
+        return new Effect(lifetime, e -> {
             float length = startRad * e.fin();
             float width = length/2;
 
@@ -78,25 +78,13 @@ public class HIFx {
                 float rot = -90f + 180f * i / (float)num;
                 v1.trnsExact(rot, width);
 
-                point(
-                        (v1.x) / width * length,
-                        v1.y,
-                        e.x, e.y,
-                        e.rotation + 90,
-                        rad * e.fout()
-                );
+                point((v1.x) / width * length, v1.y, e.x, e.y, e.rotation + 90, rad * e.fout());
             }
             for(int i = 0; i <= num; i++){
                 float rot = 90f + 180f * i / (float)num;
                 v1.trnsExact(rot, width);
 
-                point(
-                        (v1.x) / width * length,
-                        v1.y,
-                        e.x, e.y,
-                        e.rotation + 90,
-                        rad * e.fout()
-                );
+                point((v1.x) / width * length, v1.y, e.x, e.y, e.rotation + 90, rad * e.fout());
             }
         });
     }
