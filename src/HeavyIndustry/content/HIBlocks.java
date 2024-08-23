@@ -1684,7 +1684,7 @@ public class HIBlocks {
                     new UnitType[]{UnitTypes.reign, HIUnitTypes.suzerain},
                     new UnitType[]{UnitTypes.oct, HIUnitTypes.windstorm},
                     new UnitType[]{UnitTypes.corvus, HIUnitTypes.supernova},
-                    new UnitType[]{UnitTypes.omura, HIUnitTypes.harpoon},
+                    new UnitType[]{UnitTypes.omura, HIUnitTypes.mosasaur},
                     new UnitType[]{UnitTypes.navanax, HIUnitTypes.killerWhale}
             );
             consumePower(35f);

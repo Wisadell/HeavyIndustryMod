@@ -38,7 +38,7 @@ public class HIClassMap {
         ClassMap.classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
         ClassMap.classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
         //part
-        ClassMap.classes.put("HIPartProgress", HIPartProgress.class);
+        ClassMap.classes.put("HIDrawPart", HIDrawPart.class);
         //type
         ClassMap.classes.put("EffectWeather", EffectWeather.class);
         ClassMap.classes.put("HailStormWeather", HailStormWeather.class);

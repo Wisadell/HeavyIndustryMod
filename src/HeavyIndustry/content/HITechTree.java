@@ -198,7 +198,7 @@ public class HITechTree {
         addToNode(toxopid, () -> node(cancer));
         addToNode(eclipse, () -> node(sunlit));
         addToNode(oct, () -> node(windstorm));
-        addToNode(omura, () -> node(harpoon));
+        addToNode(omura, () -> node(mosasaur));
         addToNode(navanax, () -> node(killerWhale));
         //erekir-tier6
         addToNode(conquer, () -> node(dominate));

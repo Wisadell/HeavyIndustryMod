@@ -39,7 +39,7 @@ public class HIUnitTypes {
         EntityMapping.nameMap.put(name("cancer"), EntityMapping.idMap[33]);
         EntityMapping.nameMap.put(name("sunlit"), EntityMapping.idMap[3]);
         EntityMapping.nameMap.put(name("windstorm"), EntityMapping.idMap[5]);
-        EntityMapping.nameMap.put(name("harpoon"), EntityMapping.idMap[20]);
+        EntityMapping.nameMap.put(name("mosasaur"), EntityMapping.idMap[20]);
         EntityMapping.nameMap.put(name("killer-whale"), EntityMapping.idMap[20]);
         //erekir-tier6
         EntityMapping.nameMap.put(name("dominate"), EntityMapping.idMap[43]);
@@ -50,7 +50,7 @@ public class HIUnitTypes {
     }
     public static UnitType
             //tier6
-            suzerain,supernova,cancer,sunlit,windstorm,harpoon,killerWhale,
+            suzerain,supernova,cancer,sunlit,windstorm,mosasaur,killerWhale,
             //erekir-tier6
             dominate,oracle,havoc,
             //boss
@@ -489,7 +489,7 @@ public class HIUnitTypes {
                 }};
             }});
         }};
-        harpoon = new UnitType("harpoon"){{
+        mosasaur = new UnitType("mosasaur"){{
             trailLength = 70;
             waveTrailX = 25f;
             waveTrailY = -32f;
@@ -504,7 +504,7 @@ public class HIUnitTypes {
             itemCapacity = 350;
             ammoType = new ItemAmmoType(HIItems.uranium);
             abilities.add(new ShieldRegenFieldAbility(100, 1500, 60 * 4, 200));
-            weapons.addAll(new Weapon(name("harpoon-main")){{
+            weapons.addAll(new Weapon(name("mosasaur-weapon-rail")){{
                 shake = 6;
                 shootY = 23;
                 bullet = new RailBulletType(){{
@@ -529,7 +529,7 @@ public class HIUnitTypes {
                 reload = 110;
                 cooldownTime = 90;
                 recoil = 5;
-            }}, new Weapon(name("harpoon-m")){{
+            }}, new Weapon(name("mosasaur-weapon-missile")){{
                 x = 24;
                 y = 1;
                 rotate = true;
@@ -1166,15 +1166,15 @@ public class HIUnitTypes {
         }};
         //boss
         thunder = new UnitType("thunder"){{
-            health = 22000;
-            armor = 45;
-            rotateSpeed = 3f;
-            speed = 1.5f;
+            health = 122000f;
+            armor = 115f;
+            rotateSpeed = 1f;
+            speed = 0.5f;
             squareShape = true;
             omniMovement = false;
             rotateMoveFirst = true;
             envDisabled = Env.none;
-            hitSize = 40f;
+            hitSize = 72f;
             accel = 0.25f;
             treadRects = new Rect[]{new Rect(-85.0f, -104.0f, 28.0f, 208.0f)};
             hoverable = hovering = true;

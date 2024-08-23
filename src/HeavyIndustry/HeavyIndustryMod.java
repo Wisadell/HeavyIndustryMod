@@ -18,9 +18,6 @@ import mindustry.game.EventType;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
-import static arc.Core.app;
-import static mindustry.Vars.ui;
-
 public class HeavyIndustryMod extends Mod{
     public static String ModName = "heavy-industry";
     public static String name(String add){
@@ -35,7 +32,7 @@ public class HeavyIndustryMod extends Mod{
                 buttons.button("@close", this::hide).size(210f, 64f);
                 buttons.button((Core.bundle.get("mod.heavy-industry.linkGithub")), () -> {
                     if(!Core.app.openURI(linkGitHub)){
-                        ui.showErrorMessage("@linkfail");
+                        Vars.ui.showErrorMessage("@linkfail");
                         Core.app.setClipboardText(linkGitHub);
                     }
                 }).size(210f, 64f);
@@ -52,7 +49,7 @@ public class HeavyIndustryMod extends Mod{
             dialog.show();
         });
 
-        Events.on(EventType.FileTreeInitEvent.class, e -> app.post(() -> {
+        Events.on(EventType.FileTreeInitEvent.class, e -> Core.app.post(() -> {
             HIShaders.init();
             HICacheLayer.init();
         }));
