@@ -11,6 +11,7 @@ import arc.graphics.gl.Shader;
 import arc.math.geom.Vec3;
 import arc.util.Nullable;
 import arc.util.Time;
+import mindustry.Vars;
 import mindustry.graphics.Shaders;
 import mindustry.type.Planet;
 
@@ -48,6 +49,11 @@ public class HIShaders {
         }
     }
 
+    /**
+     * Resolves shader files from this mod via {@link Vars#tree}.
+     * @param name The shader file name, e.g. {@code my-shader.frag}.
+     * @return     The shader file, located inside {@code shaders/confictura/}.
+     */
     public static Fi file(String name){
         return tree.get("shaders/" + name);
     }

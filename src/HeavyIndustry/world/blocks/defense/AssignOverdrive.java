@@ -27,6 +27,9 @@ import HeavyIndustry.gen.LinkGroupc;
 
 import static mindustry.Vars.tilesize;
 
+/**
+ * @author Yuria
+ */
 public class AssignOverdrive extends OverdriveProjector{
     public int maxLink = 4;
     public float strokeOffset = 0.1f;

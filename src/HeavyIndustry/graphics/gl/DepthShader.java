@@ -5,6 +5,10 @@ import arc.graphics.gl.*;
 
 import static HeavyIndustry.graphics.HIShaders.*;
 
+/**
+ * Specialized mesh shader to capture fragment depths.
+ * @author GlFolker
+ */
 public class DepthShader extends Shader{
     public Camera3D camera;
 

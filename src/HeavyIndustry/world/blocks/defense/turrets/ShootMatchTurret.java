@@ -11,6 +11,10 @@ import mindustry.entities.bullet.BulletType;
 import mindustry.entities.pattern.ShootPattern;
 import mindustry.type.Item;
 import mindustry.world.blocks.defense.turrets.ItemTurret;
+
+/**
+ * @author Yuria
+ */
 public class ShootMatchTurret extends ItemTurret {
     public float lifeRnd = 0;
     public IntMap<ShootPattern> shooterMap = new IntMap<>();

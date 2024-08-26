@@ -15,6 +15,9 @@ import HeavyIndustry.content.HIFx;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
+/**
+ * @author Yuria
+ */
 public class ShapedWall extends Wall {
     public TextureRegion[] orthogonalRegion;
     public TextureRegion[] diagonalRegion;

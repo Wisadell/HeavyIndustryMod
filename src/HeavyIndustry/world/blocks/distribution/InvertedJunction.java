@@ -19,6 +19,9 @@ import mindustry.world.draw.*;
 import static HeavyIndustry.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
+/**
+ * Author: guiY
+ */
 public class InvertedJunction extends Junction {
     public String placeSprite;
     public DrawBlock drawer = new DrawInvertedJunction();
@@ -101,18 +104,8 @@ public class InvertedJunction extends Junction {
                 Draw.color(colors[i]);
                 int in = loc == 1 ? 3 : 1;
                 int input = (i + in)%4;
-                Draw.rect(
-                        arrow1,
-                        x + Geometry.d4x(i) * (tilesize + sin),
-                        y + Geometry.d4y(i) * (tilesize + sin),
-                        90*i
-                );
-                Draw.rect(
-                        arrow2,
-                        x + Geometry.d4x(input) * (tilesize - sin),
-                        y + Geometry.d4y(input) * (tilesize - sin),
-                        90*input
-                );
+                Draw.rect(arrow1, x + Geometry.d4x(i) * (tilesize + sin), y + Geometry.d4y(i) * (tilesize + sin), 90*i);
+                Draw.rect(arrow2, x + Geometry.d4x(input) * (tilesize - sin), y + Geometry.d4y(input) * (tilesize - sin), 90*input);
                 Draw.color();
             }
         }

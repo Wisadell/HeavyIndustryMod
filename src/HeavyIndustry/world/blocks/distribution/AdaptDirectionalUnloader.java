@@ -2,6 +2,9 @@ package HeavyIndustry.world.blocks.distribution;
 
 import mindustry.world.blocks.distribution.DirectionalUnloader;
 
+/**
+ * The ultimate dream of Saturated Firepower.
+ */
 public class AdaptDirectionalUnloader extends DirectionalUnloader {
     public AdaptDirectionalUnloader(String name) {
         super(name);

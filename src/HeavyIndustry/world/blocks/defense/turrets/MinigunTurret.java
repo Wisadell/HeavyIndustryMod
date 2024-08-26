@@ -21,6 +21,9 @@ import HeavyIndustry.util.*;
 import static HeavyIndustry.HeavyIndustryMod.name;
 import static mindustry.Vars.*;
 
+/**
+ * Realize muzzle rotation and firing of Minigun.
+ */
 public class MinigunTurret extends ItemTurret {
     public float windupSpeed = 0.15f, windDownSpeed = 0.05f, minFiringSpeed = 3f, logicSpeedScl = 0.25f, maxSpeed = 30f;
     public float barX, barY, barStroke, barLength;

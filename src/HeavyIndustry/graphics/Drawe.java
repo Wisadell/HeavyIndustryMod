@@ -5,6 +5,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 
+/** Extended Draw */
 public class Drawe {
     private static final float[] vertices = new float[24];
 

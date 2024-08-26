@@ -67,6 +67,7 @@ public class CircleMesh extends PlanetMesh{
 
     @Override
     public void render(PlanetParams params, Mat3D projection, Mat3D transform){
+        //don't waste performance rendering 0-alpha
         if(params.planet == planet && Mathf.zero(1f - params.uiAlpha, 0.01f)) return;
 
         preRender(params);
@@ -93,6 +94,7 @@ public class CircleMesh extends PlanetMesh{
         HIShaders.planetTextureShader.planet = planet;
         HIShaders.planetTextureShader.lightDir.set(planet.solarSystem.position).sub(planet.position).rotate(Vec3.Y, planet.getRotation()).nor();
         HIShaders.planetTextureShader.ambientColor.set(planet.solarSystem.lightColor);
+        //TODO better disappearing
         HIShaders.planetTextureShader.alpha = params.planet == planet ? 1f - params.uiAlpha : 1f;
     }
 

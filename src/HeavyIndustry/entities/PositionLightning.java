@@ -58,7 +58,6 @@ public class PositionLightning {
 
     private static float getBoltRandomRange() {return Mathf.random(1f, 7f); }
 
-
     public static final Effect posLightning = (new Effect(lifetime, 1200.0f, e -> {
         if(!(e.data instanceof Vec2Seq)) return;
         Vec2Seq lines = e.data();
@@ -174,7 +173,6 @@ public class PositionLightning {
                 createBoltEffect(color, width, computeVectors(randomArray, from, to));
             }
         }
-
     }
 
     public static Position findInterceptedPoint(Position from, Position target, Team fromTeam) {

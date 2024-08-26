@@ -8,6 +8,10 @@ import mindustry.ui.Bar;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.meta.*;
 
+/**
+ * You are already a mature GenericCrafter,
+ * it's time to learn how to generate electricity on your own.
+ */
 public class GeneratorCrafter extends GenericCrafter {
     public float powerProduction;
     public GeneratorCrafter(String name){

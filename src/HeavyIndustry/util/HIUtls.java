@@ -15,11 +15,15 @@ public class HIUtls {
     @Contract(pure = true)
     public static int reverse(int rotation) {
         return switch(rotation) {
-            case 0 -> 2; case 2 -> 0;case 1 -> 3; case 3 -> 1;
+            case 0 -> 2; case 2 -> 0; case 1 -> 3; case 3 -> 1;
             default -> throw new IllegalStateException("Unexpected value: " + rotation);
         };
     }
 
+    /**bittiler stuff
+     * <p>
+     * Original code from Serilia[<a href="https://github.com/Froomeeth/Serilia/blob/main/src/serilia/util/SeUtil.java#L64C1-L64C1">...</a>]
+     */
     public static TextureRegion[][] splitLayers(String name, int size, int layerCount){
         TextureRegion[][] layers = new TextureRegion[layerCount][];
 

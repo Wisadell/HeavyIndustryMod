@@ -36,6 +36,9 @@ import mindustry.world.meta.Stats;
 import static HeavyIndustry.HeavyIndustryMod.name;
 import static mindustry.Vars.content;
 
+/**
+ * @author guiY
+ */
 public class MultiBulletTurret extends Turret {
     public ObjectMap<Item, BulletType[]> ammoTypes = new ObjectMap<>();
     public boolean all = false;

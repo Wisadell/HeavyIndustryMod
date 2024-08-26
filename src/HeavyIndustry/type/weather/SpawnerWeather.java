@@ -23,13 +23,15 @@ public class SpawnerWeather extends ParticleWeather {
     public void update(WeatherState state) {
         super.update(state);
 
-        if (inBounceCam){
+        //I don't know how to make it more simplified
+        if (inBounceCam) {
             spawnByBounceCam(state);
-        }else {
+        } else {
             spawn(state);
         }
     }
 
+    //Spawn only visible area in area camera
     public void spawnByBounceCam(WeatherState state){
         Tmp.r1.setCentered(Core.camera.position.x, Core.camera.position.y, Core.graphics.getWidth() / renderer.minScale(), Core.graphics.getHeight() / renderer.minScale());
         Tmp.r1.grow(sizeMax * 1.5f);
@@ -65,6 +67,7 @@ public class SpawnerWeather extends ParticleWeather {
         }
     }
 
+    //Spawn on the world
     public void spawn(WeatherState state){
         Tmp.r2.set(0f,0f, world.unitWidth(), world.unitHeight());
         rand.setSeed((long) Time.time);

@@ -12,6 +12,9 @@ import mindustry.world.meta.*;
 
 import static HeavyIndustry.HeavyIndustryMod.*;
 
+/**
+ * @author guiY
+ */
 public class ThermalHeater extends ThermalGenerator {
     public float outputHeat = 5f;
     public float warmupRate = 0.15f;

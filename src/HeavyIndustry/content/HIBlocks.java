@@ -88,7 +88,7 @@ public class HIBlocks {
             beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
-            nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
+            nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,highEnergyHeater,
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,
             //defense
@@ -364,7 +364,7 @@ public class HIBlocks {
         reinforcedSurgeWallHuge = new Wall("reinforced-surge-wall-huge"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.surgeAlloy, 54, Items.tungsten, 18));
             health = 9000;
-            lightningChance = 0.05f;
+            lightningChance = 0.1f;
             lightningDamage = 30f;
             armor = 20f;
             size = 3;
@@ -373,7 +373,7 @@ public class HIBlocks {
         reinforcedSurgeWallGigantic = new Wall("reinforced-surge-wall-gigantic"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with(Items.surgeAlloy, 96, Items.tungsten, 32));
             health = 16000;
-            lightningChance = 0.05f;
+            lightningChance = 0.1f;
             lightningDamage = 30f;
             armor = 20f;
             size = 4;
@@ -1414,6 +1414,16 @@ public class HIBlocks {
             ambientSoundVolume = 0.24f;
             consumePower(4f);
             consumeLiquid(HILiquids.nitratedOil, 36f / 60f);
+        }};
+        highEnergyHeater = new HeatProducer("high-energy-heater"){{
+            requirements(Category.crafting, with(Items.silicon, 220, Items.thorium, 300, HIItems.heavyAlloy, 100, HIItems.highEnergyFabric, 30));
+            armor = 12;
+            size = 4;
+            heatOutput = 40f;
+            craftTime = 60f * 8f;
+            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
+            ambientSound = Sounds.hum;
+            consumeItem(HIItems.highEnergyFabric);
         }};
         //production-erekir
         ventHeater = new ThermalHeater("vent-heater"){{

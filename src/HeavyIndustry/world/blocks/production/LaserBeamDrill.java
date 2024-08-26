@@ -17,6 +17,9 @@ import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
 import mindustry.world.blocks.production.Drill;
 
+/**
+ * @author Yuria
+ */
 public class LaserBeamDrill extends Drill {
     public float shooterOffset = 8f;
     public float shooterExtendOffset = 1.8f;

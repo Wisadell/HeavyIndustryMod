@@ -16,6 +16,9 @@ import mindustry.world.meta.BlockGroup;
 
 import static mindustry.Vars.*;
 
+/**
+ * Author: guiY
+ */
 public class StackHelper extends Block {
 
     public StackHelper(String name) {

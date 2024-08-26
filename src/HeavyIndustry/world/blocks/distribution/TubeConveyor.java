@@ -22,6 +22,10 @@ import static mindustry.Vars.itemSize;
 import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
+/**
+ * It may have defects, such as seams in the texture connection, and I don't want to fix it anymore.
+ * What kind of mental state was I in when I made this thing?
+ */
 public class TubeConveyor extends Conveyor {
     private static final float itemSpace = 0.4f;
     public static final int[][] tiles = new int[][]{
@@ -128,8 +132,7 @@ public class TubeConveyor extends Conveyor {
             Draw.rect(regions[blendbits][frame], x, y, tilesize * blendsclx, tilesize * blendscly, rotation * 90);
 
             Draw.z(Layer.block - 0.2f);
-            float layer = Layer.block - 0.2f, wwidth = world.unitWidth(), wheight = world.unitHeight(),
-                    scaling = 0.01f;
+            float layer = Layer.block - 0.2f, wwidth = world.unitWidth(), wheight = world.unitHeight(), scaling = 0.01f;
 
             for(int i = 0; i < len; i++){
                 Item item = ids[i];

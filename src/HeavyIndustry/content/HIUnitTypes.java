@@ -11,6 +11,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.ai.types.*;
+//import mindustry.annotations.Annotations.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
@@ -48,6 +49,9 @@ public class HIUnitTypes {
         //boss
         EntityMapping.nameMap.put(name("thunder"), EntityMapping.idMap[43]);
     }
+    /**
+     * one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
+     */
     public static UnitType
             //tier6
             suzerain,supernova,cancer,sunlit,windstorm,mosasaur,killerWhale,
@@ -55,6 +59,10 @@ public class HIUnitTypes {
             dominate,oracle,havoc,
             //boss
             thunder;
+    /**
+    * How to use Anuke's Annotation? I don't know...
+    */
+    //public static @EntityDef({Unitc.class, Legsc.class, BuildingTetherc.class, NoCoreDepositc.class}) UnitType draug;
     public static void load(){
         //tier6
         suzerain = new UnitType("suzerain"){{
@@ -671,11 +679,6 @@ public class HIUnitTypes {
             rotateSpeed = 0.8f;
             treadRects = new Rect[]{new Rect(-113, 34, 70, 100), new Rect(-113, -113, 70, 90)};
             itemCapacity = 360;
-            Mover mover = bullet -> {
-                if(bullet.type == null) return;
-                float fout = Math.max((60 - bullet.time)/60, 0);
-                if(bullet.time < 70) bullet.initVel(bullet.rotation(), bullet.type.speed * fout);
-            };
             weapons.add(new Weapon(name("dominate-weapon")){{
                 mirror = false;
                 rotate = true;
@@ -760,32 +763,9 @@ public class HIUnitTypes {
                     fragBullet = null;
                     fragBullets= 0;
                     healPercent = -1;
-                    ff.speed = 1.5f;
-                    ff.fragBullets = fragBullets;
-                    ff.buildingDamageMultiplier = fb.buildingDamageMultiplier = 0.6f;
-                    fb.healPercent = -1;
-                    fb.damage = 22.5f;
-                    intervalBullet = fb;
-                    intervalBullets = 4;
-                    bulletInterval = 6;
-                    intervalDelay = 6;
-                    intervalAngle = - 30;
-                    intervalSpread = 240;
                 }
                     @Override
-                    public void updateBulletInterval(Bullet b) {
-                        if (ff != null && b.time >= intervalDelay && b.timer.get(2, bulletInterval)) {
-                            float ang = b.rotation();
-                            float[] fs = {-4f, 4f};
-                            for(int i = 0; i < intervalBullets/2; i++) {
-                                for(float as : fs) {
-                                    ff.create(b, b.team, b.x, b.y, ang - 90 + as + intervalAngle + i * intervalSpread, 1, 1, mover);
-                                }
-                            }
-                        }
-                    }
-                    @Override
-                    public void draw(Bullet b) {
+                    public void draw(Bullet b){
                         super.draw(b);
                         Draw.color(Color.valueOf("feb380"));
                         Drawf.tri(b.x, b.y, 13f, 12f, b.rotation());
@@ -1311,5 +1291,62 @@ public class HIUnitTypes {
             }
             drownTimeMultiplier = 26f;
         }};
+        /*draug = new ErekirUnitType("draug"){{
+            controller = u -> new DepotMinerAI();
+            isEnemy = false;
+            allowedInPayloads = false;
+            logicControllable = false;
+            playerControllable = false;
+            hidden = true;
+            hideDetails = false;
+            hitSize = 14f;
+            speed = 1f;
+            rotateSpeed = 2.5f;
+            health = 1300;
+            armor = 5f;
+            omniMovement = false;
+            rotateMoveFirst = true;
+            itemOffsetY = 5f;
+            itemCapacity = 50;
+            mineTier = 5;
+            mineSpeed = 6f;
+            mineWalls = true;
+            mineItems = Seq.with(Items.beryllium, Items.graphite, Items.tungsten);
+            allowLegStep = true;
+            legCount = 6;
+            legGroupSize = 3;
+            legLength = 12f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -3f;
+            legBaseOffset = 5f;
+            legMaxLength = 1.1f;
+            legMinLength = 0.2f;
+            legForwardScl = 1f;
+            legMoveSpace = 2.5f;
+            hovering = true;
+            weapons.add(new Weapon(name("draug-weapon"){{
+                x = 22f / 4f;
+                y = -3f;
+                shootX = -3f / 4f;
+                shootY = 4.5f / 4f;
+                rotate = true;
+                rotateSpeed = 35f;
+                reload = 35f;
+                shootSound = Sounds.laser;
+                bullet = new LaserBulletType(){{
+                    damage = 45f;
+                    sideAngle = 30f;
+                    sideWidth = 1f;
+                    sideLength = 5.25f * 8;
+                    length = 13.75f * 8f;
+                    colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
+                }};
+            }});
+            abilities.add(new RegenAbility(){{
+                //fully regen in 90 seconds
+                percentAmount = 1f / (90f * 60f) * 100f;
+            }});
+        }}*/
     }
 }

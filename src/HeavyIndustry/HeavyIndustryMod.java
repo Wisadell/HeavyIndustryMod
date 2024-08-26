@@ -23,15 +23,16 @@ public class HeavyIndustryMod extends Mod{
     public static String name(String add){
         return ModName + "-" + add;
     }
+
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod";
     public HeavyIndustryMod(){
         Log.info("Loaded HeavyIndustry Mod constructor.");
         Events.on(EventType.ClientLoadEvent.class, e -> {
             HIIcon.load();
-            BaseDialog dialog = new BaseDialog(Core.bundle.get("mod.heavy-industry.name")){{
+            new BaseDialog(Core.bundle.get("mod.heavy-industry.name")){{
                 buttons.button("@close", this::hide).size(210f, 64f);
                 buttons.button((Core.bundle.get("mod.heavy-industry.linkGithub")), () -> {
-                    if(!Core.app.openURI(linkGitHub)){
+                    if (!Core.app.openURI(linkGitHub)) {
                         Vars.ui.showErrorMessage("@linkfail");
                         Core.app.setClipboardText(linkGitHub);
                     }
@@ -45,8 +46,8 @@ public class HeavyIndustryMod extends Mod{
                     table.add(Core.bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                     table.add(Core.bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                 }).grow().center().maxWidth(600f);
+                show();
             }};
-            dialog.show();
         });
 
         Events.on(EventType.FileTreeInitEvent.class, e -> Core.app.post(() -> {

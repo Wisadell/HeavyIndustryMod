@@ -32,6 +32,9 @@ import static HeavyIndustry.HeavyIndustryMod.name;
 import static arc.graphics.g2d.Draw.color;
 import static mindustry.Vars.*;
 
+/**
+ * @author guiY
+ */
 public class DerivativeUnitFactory extends UnitFactory {
     public int areaSize = 14;
     public Effect aboveEffect = new Effect(24, e -> {

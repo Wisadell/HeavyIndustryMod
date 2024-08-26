@@ -48,6 +48,8 @@ public class HIOverride {
         Blocks.surgeWall.armor = Blocks.surgeWallLarge.armor = 12f;
         ((Wall) Blocks.surgeWall).lightningChance = ((Wall) Blocks.surgeWallLarge).lightningChance = 0.1f;
         ((Wall) Blocks.surgeWall).lightningDamage = ((Wall) Blocks.surgeWallLarge).lightningDamage = 25f;
+        //Blocks-Wall-erekir
+        ((Wall) Blocks.reinforcedSurgeWall).lightningChance = 0.1f;
         ((Wall) Blocks.reinforcedSurgeWallLarge).lightningChance = 0.1f;
         //Blocks-Distribution
         ((MassDriver) Blocks.massDriver).reload = 150f;
