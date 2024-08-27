@@ -913,7 +913,7 @@ public class HIBlocks {
         }};
         //power-erekir
         beamDiode = new BeamDiode("beam-diode"){{
-            requirements(Category.power, with(Items.beryllium, 10, Items.silicon, 10, Items.surgeAlloy, 5));
+            requirements(Category.power, with(Items.beryllium, 10, Items.silicon, 10, Items.oxide, 5));
             health = 90;
             range = 10;
             fogRadius = 1;

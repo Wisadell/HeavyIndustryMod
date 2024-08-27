@@ -37,6 +37,7 @@ import static HeavyIndustry.HeavyIndustryMod.name;
 import static mindustry.Vars.content;
 
 /**
+ * Multi Bullet Turret
  * @author guiY
  */
 public class MultiBulletTurret extends Turret {

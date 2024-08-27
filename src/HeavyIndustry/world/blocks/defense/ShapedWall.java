@@ -16,6 +16,7 @@ import static mindustry.Vars.tilesize;
 import static mindustry.Vars.world;
 
 /**
+ * Shaped Wall
  * @author Yuria
  */
 public class ShapedWall extends Wall {

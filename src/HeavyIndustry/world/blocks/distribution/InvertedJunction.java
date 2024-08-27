@@ -20,7 +20,8 @@ import static HeavyIndustry.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
 /**
- * Author: guiY
+ * Inverted Junction
+ * @author guiY
  */
 public class InvertedJunction extends Junction {
     public String placeSprite;
