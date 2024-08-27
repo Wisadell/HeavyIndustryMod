@@ -11,7 +11,6 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.ai.types.*;
-//import mindustry.annotations.Annotations.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
@@ -59,10 +58,6 @@ public class HIUnitTypes {
             dominate,oracle,havoc,
             //boss
             thunder;
-    /**
-    * How to use Anuke's Annotation? I don't know...
-    */
-    //public static @EntityDef({Unitc.class, Legsc.class, BuildingTetherc.class, NoCoreDepositc.class}) UnitType draug;
     public static void load(){
         //tier6
         suzerain = new UnitType("suzerain"){{

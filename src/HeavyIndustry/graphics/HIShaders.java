@@ -4,13 +4,11 @@ import HeavyIndustry.graphics.gl.DepthAtmosphereShader;
 import HeavyIndustry.graphics.gl.DepthShader;
 import arc.files.Fi;
 import arc.graphics.Color;
-import arc.graphics.Texture;
 import arc.graphics.g2d.Draw;
 import arc.graphics.gl.GLVersion;
 import arc.graphics.gl.Shader;
 import arc.math.geom.Vec3;
 import arc.util.Nullable;
-import arc.util.Time;
 import mindustry.Vars;
 import mindustry.graphics.Shaders;
 import mindustry.type.Planet;
@@ -21,7 +19,7 @@ import static mindustry.Vars.*;
 public class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
-    public static @Nullable SurfaceShader nanofluid;
+    public static @Nullable HIShader nanofluid;
     public static PlanetTextureShader planetTextureShader;
 
     public static void init(){
@@ -35,7 +33,7 @@ public class HIShaders {
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
 
-        nanofluid = new SurfaceShader("nanofluid");
+        nanofluid = new HIShader("nanofluid");
 
         planetTextureShader = new PlanetTextureShader();
 
@@ -58,7 +56,7 @@ public class HIShaders {
         return tree.get("shaders/" + name);
     }
 
-    public static class PlanetTextureShader extends HILoadShader{
+    public static class PlanetTextureShader extends LoadShader{
         public Vec3 lightDir = new Vec3(1, 1, 1).nor();
         public Color ambientColor = Color.white.cpy();
         public Vec3 camDir = new Vec3();
@@ -89,9 +87,8 @@ public class HIShaders {
         }
     }
 
-    public static class HILoadShader extends Shader{
-
-        public HILoadShader(String fragment, String vertex){
+    public static class LoadShader extends Shader{
+        public LoadShader(String fragment, String vertex){
             super(file(vertex + ".vert"), file(fragment + ".frag"));
         }
 
@@ -107,46 +104,9 @@ public class HIShaders {
         }
     }
 
-    public static class SurfaceShader extends Shader {
-        Texture noiseTex;
-
-        public SurfaceShader(String frag) {
+    public static class HIShader extends Shader {
+        public HIShader(String frag) {
             super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/" + frag + ".frag"));
-            loadNoise();
-        }
-
-        public String textureName() {
-            return "noise";
-        }
-
-        public void loadNoise() {
-            assets.load("sprites/" + textureName() + ".png", Texture.class).loaded = t -> {
-                t.setFilter(Texture.TextureFilter.linear);
-                t.setWrap(Texture.TextureWrap.repeat);
-            };
-        }
-
-        @Override
-        public void apply() {
-            setUniformf("u_campos",
-                    camera.position.x - camera.width / 2,
-                    camera.position.y - camera.height / 2
-            );
-            setUniformf("u_ccampos", camera.position);
-            setUniformf("u_resolution", camera.width, camera.height);
-            setUniformf("u_rresolution", graphics.getWidth(), graphics.getHeight());
-            setUniformf("u_time", Time.time);
-
-            if(hasUniform("u_noise")) {
-                if(noiseTex == null) {
-                    noiseTex = assets.get("sprites/" + textureName() + ".png", Texture.class);
-                }
-
-                noiseTex.bind(1);
-                renderer.effectBuffer.getTexture().bind(0);
-
-                setUniformi("u_noise", 1);
-            }
         }
     }
 }

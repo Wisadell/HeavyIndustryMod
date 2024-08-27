@@ -16,7 +16,6 @@ import arc.util.*;
 import mindustry.content.Fx;
 import mindustry.entities.Effect;
 import mindustry.graphics.*;
-import mindustry.world.Block;
 
 import static HeavyIndustry.HeavyIndustryMod.name;
 import static HeavyIndustry.graphics.Drawm.plus;
@@ -615,23 +614,6 @@ public class HIFx {
         Draw.color(e.color);
         Fill.circle(e.x + x, e.y + y + elevation, 12f);
     }));
-    public static Effect shelterRotate = new Effect(60f, e -> {
-        if (!(e.data instanceof Block data)) return;
-
-        Draw.color(Pal.accent, e.fout());
-        Fill.rect(e.x, e.y, data.size * 8f, data.size * 8f);
-        Lines.stroke(2f * e.fout(), Pal.accent);
-        Lines.rect(
-                e.x - data.size * 4f,
-                e.y - data.size * 4f,
-                data.size * 8f,
-                data.size * 8f
-        );
-        Lines.circle(e.x, e.y, data.size * 16f * e.finpow());
-        vec.trns(e.rotation, data.size * 16f * e.finpow()).add(e.x, e.y);
-
-        Drawf.tri(vec.x, vec.y, 4f, 8f * e.foutpow(), e.rotation);
-    });
     public static Effect fellStone = new Effect(120f, e -> {
         if(!(e.data instanceof HailStoneBulletType.HailStoneData data)) return;
 
