@@ -33,10 +33,11 @@ allprojects{
 
 dependencies{
     implementation 'org.jetbrains:annotations:20.1.0'
+    compileOnly "com.github.Zelaux.ZelauxModCore:annotations:74a5591c36b"
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
     compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
 
-    annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
+    annotationProcessor "com.github.Zelaux.ZelauxModCore:annotations:74a5591c36b"
 }
 
 //force arc version
