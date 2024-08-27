@@ -88,7 +88,7 @@ public class HIBlocks {
             beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
-            nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,highEnergyHeater,
+            nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,highEnergyHeater,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,
             //defense
@@ -1294,11 +1294,7 @@ public class HIBlocks {
                             float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
                             float len = particleRad * particleInterp.apply(fout);
                             Draw.alpha(a * (1f - Mathf.curve(fin, 1f - fadeMargin)));
-                            Fill.square(
-                                    build.x + Angles.trnsx(angle, len),
-                                    build.y + Angles.trnsy(angle, len),
-                                    particleSize * fin * build.warmup(), 45
-                            );
+                            Fill.square(build.x + Angles.trnsx(angle, len), build.y + Angles.trnsy(angle, len), particleSize * fin * build.warmup(), 45);
                         }
                         Draw.blend();
                         Draw.color(midColor, build.warmup());
@@ -1319,6 +1315,16 @@ public class HIBlocks {
             });
             consumePower(9f);
             consumeItems(ItemStack.with(HIItems.uranium, 2, HIItems.rareEarth, 8));
+        }};
+        highEnergyHeater = new HeatProducer("high-energy-heater"){{
+            requirements(Category.crafting, with(Items.silicon, 220, Items.thorium, 300, HIItems.heavyAlloy, 100, HIItems.highEnergyFabric, 30));
+            armor = 12;
+            size = 4;
+            heatOutput = 40f;
+            craftTime = 60f * 8f;
+            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
+            ambientSound = Sounds.hum;
+            consumeItem(HIItems.highEnergyFabric);
         }};
         uraniumSynthesizer = new GenericCrafter("uranium-synthesizer"){{
             requirements(Category.crafting, with(Items.graphite, 50, Items.silicon, 40, Items.plastanium, 30, Items.phaseFabric, 15));
@@ -1414,16 +1420,6 @@ public class HIBlocks {
             ambientSoundVolume = 0.24f;
             consumePower(4f);
             consumeLiquid(HILiquids.nitratedOil, 36f / 60f);
-        }};
-        highEnergyHeater = new HeatProducer("high-energy-heater"){{
-            requirements(Category.crafting, with(Items.silicon, 220, Items.thorium, 300, HIItems.heavyAlloy, 100, HIItems.highEnergyFabric, 30));
-            armor = 12;
-            size = 4;
-            heatOutput = 40f;
-            craftTime = 60f * 8f;
-            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
-            ambientSound = Sounds.hum;
-            consumeItem(HIItems.highEnergyFabric);
         }};
         //production-erekir
         ventHeater = new ThermalHeater("vent-heater"){{
