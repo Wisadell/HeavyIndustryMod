@@ -1,7 +1,7 @@
 package heavyindustry.entities.bullet;
 
 import heavyindustry.content.HIFx;
-import heavyindustry.entities.PositionLightning;
+import heavyindustry.entities.PosLightning;
 import mindustry.content.Fx;
 import mindustry.entities.Damage;
 import mindustry.entities.Effect;
@@ -58,7 +58,7 @@ public class PositionLightningBulletType extends BulletType {
             }
         }
 
-        PositionLightning.createLength(b, b.team, b, length, b.rotation(), lightningColor, true, 0, 0, PositionLightning.WIDTH, boltNum, p -> {
+        PosLightning.createLength(b, b.team, b, length, b.rotation(), lightningColor, true, 0, 0, PosLightning.WIDTH, boltNum, p -> {
             hitEffect.at(p.getX(), p.getY(), hitEffectRotation, hitColor);
             Effect.shake(hitShake, hitShake, p);
         });

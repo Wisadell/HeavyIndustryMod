@@ -22,7 +22,7 @@ import mindustry.gen.Sounds;
 import mindustry.graphics.Drawf;
 import mindustry.graphics.Layer;
 import heavyindustry.content.HIFx;
-import heavyindustry.entities.PositionLightning;
+import heavyindustry.entities.PosLightning;
 
 import static arc.graphics.g2d.Draw.color;
 import static arc.math.Angles.randLenVectors;
@@ -31,7 +31,7 @@ public class LightningLinkerBulletType extends BasicBulletType{
     public float hitSpacing = 10f;
     public float size = 30f;
     public float linkRange = 240f;
-    public float boltWidth = PositionLightning.WIDTH;
+    public float boltWidth = PosLightning.WIDTH;
 
     public float randomGenerateRange = -1f;
     public float randomGenerateChance = 0.03f;
@@ -126,15 +126,15 @@ public class LightningLinkerBulletType extends BasicBulletType{
         if (b.timer(4, hitSpacing)) {
             for(int i : Mathf.signs)slopeEffect.at(b.x + Mathf.range(size / 4f), b.y + Mathf.range(size / 4f), b.rotation(), i);
             spreadEffect.at(b);
-            PositionLightning.setHitChance(trueHitChance);
-            PositionLightning.createRange(b, collidesAir, collidesGround, b, b.team, linkRange, maxHit, backColor, Mathf.chanceDelta(randomLightningChance), lightningDamage, lightningLength, PositionLightning.WIDTH, boltNum, p -> {
+            PosLightning.setHitChance(trueHitChance);
+            PosLightning.createRange(b, collidesAir, collidesGround, b, b.team, linkRange, maxHit, backColor, Mathf.chanceDelta(randomLightningChance), lightningDamage, lightningLength, PosLightning.WIDTH, boltNum, p -> {
                 liHitEffect.at(p.getX(), p.getY(), hitColor);
             });
-            PositionLightning.setHitChanceDef();
+            PosLightning.setHitChanceDef();
         }
 
-        if(randomGenerateRange > 0f && Mathf.chance(Time.delta * randomGenerateChance) && b.lifetime - b.time > PositionLightning.lifetime)
-            PositionLightning.createRandomRange(b, b.team, b, randomGenerateRange, backColor, Mathf.chanceDelta(randomLightningChance), 0, 0, boltWidth, boltNum, randomLightningNum, hitPos -> {
+        if(randomGenerateRange > 0f && Mathf.chance(Time.delta * randomGenerateChance) && b.lifetime - b.time > PosLightning.lifetime)
+            PosLightning.createRandomRange(b, b.team, b, randomGenerateRange, backColor, Mathf.chanceDelta(randomLightningChance), 0, 0, boltWidth, boltNum, randomLightningNum, hitPos -> {
             randomGenerateSound.at(hitPos, Mathf.random(0.9f, 1.1f));
             Damage.damage(b.team, hitPos.getX(), hitPos.getY(), splashDamageRadius / 8, splashDamage * b.damageMultiplier() / 8, collidesAir, collidesGround);
             HIFx.lightningHitLarge.at(hitPos.getX(), hitPos.getY(), lightningColor);
@@ -176,7 +176,7 @@ public class LightningLinkerBulletType extends BasicBulletType{
 
     @Override
     public void despawned(Bullet b) {
-        PositionLightning.createRandomRange(b, b.team, b, randomGenerateRange, backColor, Mathf.chanceDelta(randomLightningChance), 0, 0, boltWidth, boltNum, randomLightningNum, hitPos -> {
+        PosLightning.createRandomRange(b, b.team, b, randomGenerateRange, backColor, Mathf.chanceDelta(randomLightningChance), 0, 0, boltWidth, boltNum, randomLightningNum, hitPos -> {
             Damage.damage(b.team, hitPos.getX(), hitPos.getY(), splashDamageRadius, splashDamage * b.damageMultiplier(), collidesAir, collidesGround);
             HIFx.lightningHitLarge.at(hitPos.getX(), hitPos.getY(), lightningColor);
             liHitEffect.at(hitPos);

@@ -31,7 +31,6 @@ public class HIPal {
     public static Color highEnergyYellow = HIItems.highEnergyFabric.color;
     public static Color uraniumGrey = HIItems.uranium.color;
     public static Color chromiumGrey = HIItems.chromium.color;
-    public static Color wisadelRed = Color.valueOf("f25555");
     public static Color iceBlue = Color.valueOf("c0ecff");
     public static Color iceBlueDark = Color.valueOf("6d90bc");
     public static Color ancient = Items.surgeAlloy.color.cpy().lerp(Pal.accent, 0.115f);

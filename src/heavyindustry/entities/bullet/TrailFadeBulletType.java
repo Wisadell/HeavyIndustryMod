@@ -11,7 +11,7 @@ import mindustry.Vars;
 import mindustry.gen.Bullet;
 import mindustry.gen.Hitboxc;
 import heavyindustry.content.HIFx;
-import heavyindustry.entities.PositionLightning;
+import heavyindustry.entities.PosLightning;
 import heavyindustry.struct.Vec2Seq;
 
 public class TrailFadeBulletType extends AccelBulletType {
@@ -53,7 +53,7 @@ public class TrailFadeBulletType extends AccelBulletType {
             for(Vec2Seq points : pointsArr){
                 points.add(b.x, b.y);
                 if(despawnBlinkTrail || (b.absorbed && hitBlinkTrail)){
-                    PositionLightning.createBoltEffect(hitColor, tracerStroke * 2f, points);
+                    PosLightning.createBoltEffect(hitColor, tracerStroke * 2f, points);
                     Vec2 v = points.firstTmp();
                     HIFx.lightningHitSmall.at(v.x, v.y, hitColor);
                 }else{
@@ -84,7 +84,7 @@ public class TrailFadeBulletType extends AccelBulletType {
         for(Vec2Seq points : pointsArr){
             points.add(b.x, b.y);
             if(hitBlinkTrail){
-                PositionLightning.createBoltEffect(hitColor, tracerStroke * 2f, points);
+                PosLightning.createBoltEffect(hitColor, tracerStroke * 2f, points);
                 Vec2 v = points.firstTmp();
                 HIFx.lightningHitSmall.at(v.x, v.y, hitColor);
             }else{

@@ -186,8 +186,6 @@ public class HITechTree {
             node(judgement, () -> {});
         });
         //turret-erekir
-        addToNode(disperse, () -> node(tracer, Seq.with(new OnSector(stronghold)), () -> {}));
-        addToNode(lustre, () -> node(shadow, () -> {}));
         //tier6
         addToNode(reign, () -> node(suzerain, () -> {}));
         addToNode(corvus, () -> node(supernova, () -> {}));
