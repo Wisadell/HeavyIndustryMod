@@ -1,19 +1,16 @@
 package heavyindustry.core;
 
 import heavyindustry.content.*;
-import heavyindustry.gen.HIIcon;
-import heavyindustry.gen.HISounds;
-import heavyindustry.graphics.HICacheLayer;
-import heavyindustry.graphics.HIShaders;
-import heavyindustry.ui.dialogs.HIResearchDialog;
-import heavyindustry.world.meta.HIAttribute;
+import heavyindustry.gen.*;
+import heavyindustry.graphics.*;
+import heavyindustry.ui.dialogs.*;
+import heavyindustry.world.meta.*;
 import java.util.Objects;
 import arc.*;
-import arc.flabel.FLabel;
-import arc.scene.ui.Label;
+import arc.flabel.*;
 import arc.util.*;
-import mindustry.Vars;
-import mindustry.game.EventType;
+import mindustry.*;
+import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
@@ -26,7 +23,7 @@ public class HeavyIndustryMod extends Mod{
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod";
     public HeavyIndustryMod(){
         Log.info("Loaded HeavyIndustry Mod constructor.");
-        Events.on(EventType.ClientLoadEvent.class, e -> {
+        Events.on(ClientLoadEvent.class, e -> {
             HIIcon.load();
             new BaseDialog(Core.bundle.get("mod.heavy-industry.name")){{
                 buttons.button("@close", this::hide).size(210f, 64f);
@@ -39,8 +36,7 @@ public class HeavyIndustryMod extends Mod{
                 cont.pane(table -> {
                     table.image(Core.atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
                     table.add(Core.bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
-                    Label flabel1 = new FLabel(Core.bundle.get("mod.heavy-industry.author"));
-                    table.add(flabel1).left().row();
+                    table.add(new FLabel(Core.bundle.get("mod.heavy-industry.author"))).left().row();
                     table.add(Core.bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
                     table.add(Core.bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                     table.add(Core.bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
@@ -49,12 +45,12 @@ public class HeavyIndustryMod extends Mod{
             }};
         });
 
-        Events.on(EventType.FileTreeInitEvent.class, e -> Core.app.post(() -> {
+        Events.on(FileTreeInitEvent.class, e -> Core.app.post(() -> {
             HIShaders.init();
             HICacheLayer.init();
         }));
 
-        Events.on(EventType.DisposeEvent.class, e ->
+        Events.on(DisposeEvent.class, e ->
                 HIShaders.dispose()
         );
     }

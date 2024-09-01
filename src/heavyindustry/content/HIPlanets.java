@@ -1,28 +1,25 @@
 package heavyindustry.content;
 
-import heavyindustry.core.HeavyIndustryMod;
-import heavyindustry.graphics.g3d.CircleMesh;
-import heavyindustry.maps.ColorPass;
+import heavyindustry.core.*;
+import heavyindustry.graphics.g3d.*;
+import heavyindustry.maps.ColorPass.*;
 import heavyindustry.maps.HeightPass;
-import heavyindustry.maps.planets.KeplerPlanetGenerator;
-import heavyindustry.type.BetterPlanet;
-import arc.math.Interp;
-import arc.math.Mathf;
-import arc.math.geom.Vec3;
-import arc.struct.Seq;
-import arc.util.Tmp;
-import mindustry.Vars;
-import mindustry.content.Blocks;
-import mindustry.content.Planets;
-import mindustry.game.Team;
-import mindustry.graphics.g3d.HexMesh;
-import mindustry.graphics.g3d.HexSkyMesh;
-import mindustry.graphics.g3d.MultiMesh;
-import mindustry.type.Planet;
-import mindustry.world.meta.BuildVisibility;
+import heavyindustry.maps.HeightPass.*;
+import heavyindustry.maps.planets.*;
+import heavyindustry.type.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.*;
+import mindustry.content.*;
+import mindustry.game.*;
+import mindustry.graphics.g3d.*;
+import mindustry.type.*;
+import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.name;
-import static arc.Core.atlas;
+import static arc.Core.*;
 
 public class HIPlanets {
     public static Planet kepler;
@@ -41,7 +38,7 @@ public class HIPlanets {
                 baseColor = Blocks.basalt.mapColor;
 
                 Mathf.rand.setSeed(2);
-                heights.add(new HeightPass.NoiseHeight(){{
+                heights.add(new NoiseHeight(){{
                     offset.set(1000, 0, 0);
                     octaves = 7;
                     persistence = 0.5;
@@ -50,7 +47,7 @@ public class HIPlanets {
                 }});
                 Seq<HeightPass> mountains = new Seq<>();
                 for(int i = 0; i < 30; i++) {
-                    mountains.add(new HeightPass.DotHeight(){{
+                    mountains.add(new DotHeight(){{
                         dir.setToRandomDirection().y *= 10f;
                         dir.rotate(Vec3.X, 22f);
                         min = 0.99f;
@@ -58,9 +55,9 @@ public class HIPlanets {
                         interp = Interp.exp10In;
                     }});
                 }
-                heights.add(new HeightPass.MultiHeight(mountains, HeightPass.MultiHeight.MixType.max, HeightPass.MultiHeight.Operation.add), new HeightPass.ClampHeight(0f, 0.8f));
+                heights.add(new MultiHeight(mountains, MultiHeight.MixType.max, MultiHeight.Operation.add), new ClampHeight(0f, 0.8f));
                 colors.addAll(
-                        new ColorPass.NoiseColorPass(){{
+                        new NoiseColorPass(){{
                             scale = 1.5;
                             persistence = 0.5;
                             octaves = 3;
@@ -70,7 +67,7 @@ public class HIPlanets {
                             out = Blocks.stone.mapColor;
                             offset.set(1500f, 300f, -500f);
                         }},
-                        new ColorPass.NoiseColorPass(){{
+                        new NoiseColorPass(){{
                             seed = 5;
                             scale = 1.5;
                             persistence = 0.5;
@@ -81,7 +78,7 @@ public class HIPlanets {
                             out = Blocks.grass.mapColor;
                             offset.set(1500f, 300f, -500f);
                         }},
-                        new ColorPass.NoiseColorPass(){{
+                        new NoiseColorPass(){{
                             seed = 8;
                             scale = 1.5;
                             persistence = 0.5;
@@ -94,19 +91,19 @@ public class HIPlanets {
                         }}
                 );
                 for(int i = 0; i < 5; i++) {
-                    colors.add(new ColorPass.SphereColorPass(new Vec3().setToRandomDirection(), 0.06f, Blocks.darksand.mapColor));
+                    colors.add(new SphereColorPass(new Vec3().setToRandomDirection(), 0.06f, Blocks.darksand.mapColor));
                 }
                 colors.add(
-                        new ColorPass.FlatColorPass(){{
+                        new FlatColorPass(){{
                             min = max = 0f;
                             out = Blocks.water.mapColor;
                         }},
-                        new ColorPass.FlatColorPass(){{
+                        new FlatColorPass(){{
                             min = 0.3f;
                             max = 0.5f;
                             out = Blocks.snow.mapColor;
                         }},
-                        new ColorPass.FlatColorPass(){{
+                        new FlatColorPass(){{
                             max = 1f;
                             min = 0.5f;
                             out = Blocks.iceSnow.mapColor;

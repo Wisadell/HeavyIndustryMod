@@ -1,7 +1,7 @@
 package heavyindustry.graphics;
 
-import mindustry.graphics.CacheLayer;
-import mindustry.graphics.CacheLayer.ShaderLayer;
+import mindustry.graphics.*;
+import mindustry.graphics.CacheLayer.*;
 
 public class HICacheLayer {
     public static ShaderLayer nanofluid;

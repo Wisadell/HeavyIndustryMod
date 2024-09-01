@@ -45,7 +45,7 @@ public class HIClassMap {
         classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
         classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
         //effect
-        classes.put("EffectWeather", EffectWrapper.class);
+        classes.put("EffectWrapper", EffectWrapper.class);
         //part
         classes.put("HIDrawPart", HIDrawPart.class);
         //type
