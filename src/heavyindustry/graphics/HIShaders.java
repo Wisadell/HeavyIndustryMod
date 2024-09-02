@@ -1,5 +1,6 @@
 package heavyindustry.graphics;
 
+import arc.Core;
 import heavyindustry.graphics.gl.*;
 import arc.files.*;
 import arc.graphics.*;
@@ -7,8 +8,8 @@ import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.math.geom.*;
 import arc.util.*;
-import mindustry.graphics.Shaders.*;
 import mindustry.*;
+import mindustry.graphics.Shaders;
 import mindustry.type.*;
 
 import static arc.Core.*;
@@ -17,7 +18,7 @@ import static mindustry.Vars.*;
 public class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
-    public static @Nullable SurfaceShader nanofluid;
+    public static @Nullable HISurfaceShader nanofluid;
     public static PlanetTextureShader planetTextureShader;
 
     public static void init(){
@@ -31,7 +32,7 @@ public class HIShaders {
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
 
-        nanofluid = new SurfaceShader("nanofluid");
+        nanofluid = new HISurfaceShader("nanofluid");
 
         planetTextureShader = new PlanetTextureShader();
 
@@ -50,7 +51,7 @@ public class HIShaders {
      * @param name The shader file name, e.g. {@code my-shader.frag}.
      * @return     The shader file, located inside {@code shaders/confictura/}.
      */
-    public static Fi file(String name){
+    public static Fi file(String name) {
         return tree.get("shaders/" + name);
     }
 
@@ -99,6 +100,50 @@ public class HIShaders {
             super.apply();
 
             setUniformf("u_time_millis", System.currentTimeMillis() / 1000f * 60f);
+        }
+    }
+
+    public static class HISurfaceShader extends Shader {
+        Texture noiseTex;
+
+        public HISurfaceShader(String frag) {
+            super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/" + frag + ".frag"));
+            loadNoise();
+        }
+
+        public String textureName() {
+            return "noise";
+        }
+
+        public void loadNoise() {
+            assets.load("sprites/" + textureName() + ".png", Texture.class).loaded = t -> {
+                t.setFilter(Texture.TextureFilter.linear);
+                t.setWrap(Texture.TextureWrap.repeat);
+            };
+        }
+
+        @Override
+        public void apply(){
+            if(hasUniform("u_campos")){
+                setUniformf("u_campos", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
+            }
+            setUniformf("u_campos", Core.camera.position.x - Core.camera.width / 2, Core.camera.position.y - Core.camera.height / 2);
+            setUniformf("u_resolution", Core.camera.width, Core.camera.height);
+            if(hasUniform("u_rresolution")){
+                setUniformf("u_rresolution", graphics.getWidth(), graphics.getHeight());
+            }
+            setUniformf("u_time", Time.time);
+
+            if(hasUniform("u_noise")){
+                if(noiseTex == null){
+                    noiseTex = Core.assets.get("sprites/" + textureName() + ".png", Texture.class);
+                }
+
+                noiseTex.bind(1);
+                renderer.effectBuffer.getTexture().bind(0);
+
+                setUniformi("u_noise", 1);
+            }
         }
     }
 }
