@@ -1,6 +1,5 @@
 package heavyindustry.graphics;
 
-import arc.Core;
 import heavyindustry.graphics.gl.*;
 import arc.files.*;
 import arc.graphics.*;
@@ -18,7 +17,7 @@ import static mindustry.Vars.*;
 public class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
-    public static @Nullable HISurfaceShader nanofluid;
+    public static @Nullable HISurfaceShader nanofluid,dalani;
     public static PlanetTextureShader planetTextureShader;
 
     public static void init(){
@@ -33,6 +32,7 @@ public class HIShaders {
         depthAtmosphere = new DepthAtmosphereShader();
 
         nanofluid = new HISurfaceShader("nanofluid");
+        dalani = new HISurfaceShader("dalani");
 
         planetTextureShader = new PlanetTextureShader();
 
@@ -43,6 +43,7 @@ public class HIShaders {
     public static void dispose(){
         if(!headless){
             nanofluid.dispose();
+            dalani.dispose();
         }
     }
 
@@ -124,19 +125,13 @@ public class HIShaders {
 
         @Override
         public void apply(){
-            if(hasUniform("u_campos")){
-                setUniformf("u_campos", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
-            }
-            setUniformf("u_campos", Core.camera.position.x - Core.camera.width / 2, Core.camera.position.y - Core.camera.height / 2);
-            setUniformf("u_resolution", Core.camera.width, Core.camera.height);
-            if(hasUniform("u_rresolution")){
-                setUniformf("u_rresolution", graphics.getWidth(), graphics.getHeight());
-            }
+            setUniformf("u_campos", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
+            setUniformf("u_resolution", camera.width, camera.height);
             setUniformf("u_time", Time.time);
 
             if(hasUniform("u_noise")){
                 if(noiseTex == null){
-                    noiseTex = Core.assets.get("sprites/" + textureName() + ".png", Texture.class);
+                    noiseTex = assets.get("sprites/" + textureName() + ".png", Texture.class);
                 }
 
                 noiseTex.bind(1);
