@@ -80,10 +80,14 @@ public class HIClassMap {
         classes.put("MultiJunctionBuild", MultiJunction.MultiJunctionBuild.class);
         classes.put("MultiRouter", MultiRouter.class);
         classes.put("MultiRouterBuild", MultiRouter.MultiRouterBuild.class);
+        classes.put("CardanItemBridge", CardanItemBridge.class);
+        classes.put("CardanItemBridgeBuild", CardanItemBridge.CardanItemBridgeBuild.class);
         classes.put("NodeBridge", NodeBridge.class);
         classes.put("NodeBridgeBuild", NodeBridge.NodeBridgeBuild.class);
         classes.put("StackHelper", StackHelper.class);
         classes.put("StackHelperBuild", StackHelper.StackHelperBuild.class);
+        classes.put("CardanLiquidBridge", CardanLiquidBridge.class);
+        classes.put("CardanLiquidBridgeBuild", CardanLiquidBridge.CardanLiquidBridgeBuild.class);
         classes.put("LiquidFuelHeater", LiquidFuelHeater.class);
         classes.put("LiquidFuelHeaterBuild", LiquidFuelHeater.LiquidFuelHeaterBuild.class);
         classes.put("ThermalHeater", ThermalHeater.class);
