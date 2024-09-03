@@ -66,6 +66,7 @@ public class HITechTree {
             node(chromiumJunction, () -> {});
             node(chromiumInvertedJunction, () -> {});
         }));
+        addToNode(itemBridge, () -> node(cardanItemBridge, () -> {}));
         //distribution-erekir
         addToNode(duct, () -> node(ductJunction, () -> {}));
         addToNode(armoredDuct, () -> {
@@ -77,6 +78,7 @@ public class HITechTree {
         });
         addToNode(ductUnloader, () -> node(rapidDuctUnloader, () -> {}));
         //liquid
+        addToNode(bridgeConduit, () -> node(cardanLiquidBridge, () -> {}));
         addToNode(impulsePump, () -> node(turboPump, () -> {}));
         addToNode(phaseConduit, () -> node(highEnergyLiquidNode, () -> {}));
         addToNode(platedConduit, () -> node(chromiumArmorConduit, () -> {

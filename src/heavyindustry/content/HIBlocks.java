@@ -71,12 +71,12 @@ public class HIBlocks {
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,
             //distribution
-            invertedJunction,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
+            invertedJunction,cardanItemBridge,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             stackHelper,highEnergyItemNode,rapidDirectionalUnloader,
             //distribution-erekir
             ductJunction,armoredDuctBridge,waveDuct,waveDuctBridge,waveDuctRouter,overflowWaveDuct,underflowWaveDuct,rapidDuctUnloader,
             //liquid
-            turboPump,highEnergyLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
+            cardanLiquidBridge,turboPump,highEnergyLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
             //liquid-erekir
             liquidSorter,liquidValve,smallReinforcedPump,largeReinforcedPump,
             //power
@@ -526,6 +526,14 @@ public class HIBlocks {
             configurable = true;
             buildCostMultiplier = 6f;
         }};
+        cardanItemBridge = new CardanItemBridge("cardan-item-bridge"){{
+            requirements(Category.distribution, with(Items.copper, 5, Items.lead, 5, Items.titanium, 5));
+            transportTime = 4.5f;
+            fadeIn = moveArrows = false;
+            range = 4;
+            arrowSpacing = 6f;
+            bufferCapacity = 14;
+        }};
         itemLiquidJunction = new MultiJunction("item-liquid-junction"){{
             requirements(Category.distribution, with(Items.copper, 4, Items.graphite, 6, Items.metaglass, 10));
         }};
@@ -729,6 +737,11 @@ public class HIBlocks {
             liquidCapacity = 3200;
             underBullets = true;
             buildCostMultiplier = 0.8f;
+        }};
+        cardanLiquidBridge = new CardanLiquidBridge("cardan-liquid-bridge"){{
+            requirements(Category.liquid, with(Items.lead, 5, Items.metaglass, 5, Items.titanium, 5));
+            liquidCapacity = 16f;
+            range = 4;
         }};
         turboPump = new Pump("turbo-pump"){{
             requirements(Category.liquid, with(Items.titanium, 40,Items.thorium, 50, Items.metaglass, 80, Items.silicon, 60, HIItems.chromium, 30));
@@ -2624,9 +2637,6 @@ public class HIBlocks {
                         smokeEffect = Fx.shootBigSmoke;
                         splashDamage = damage;
                         splashDamageRadius = 32f;
-                        incendAmount = 6;
-                        incendChance = 0.25f;
-                        incendSpread = splashDamageRadius * 0.75f;
                         despawnEffect = hitEffect = new MultiEffect(HIFx.circleOut(backColor, splashDamageRadius * 1.25f), HIFx.hitSparkLarge);
                         ammoMultiplier = 6;
                         reloadMultiplier = 0.9f;

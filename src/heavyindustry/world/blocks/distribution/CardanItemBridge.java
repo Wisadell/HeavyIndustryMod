@@ -15,7 +15,6 @@ import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.input.*;
-import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
@@ -31,14 +30,12 @@ public class CardanItemBridge extends ItemBridge {
     public byte maxConnections = 3;
 
     public final int timerAccept;
-    public float speed;
     public int bufferCapacity;
 
     public CardanItemBridge(String name){
         super(name);
         hasItems = true;
         timerAccept = this.timers++;
-        speed = 40f;
         bufferCapacity = 50;
         hasPower = false;
         canOverdrive = true;
@@ -222,17 +219,10 @@ public class CardanItemBridge extends ItemBridge {
 
     public class CardanItemBridgeBuild extends ItemBridgeBuild{
         ItemBuffer buffer = new ItemBuffer(bufferCapacity);
-        private boolean cachedLinkValid = false;
-        private int cachedLink = -1;
 
         public void drawBase(){
             Draw.rect(this.block.region, this.x, this.y, this.block.rotate ? this.rotdeg() : 0.0F);
             this.drawTeamTop();
-        }
-
-        public boolean acceptIncoming(int pos){
-            if((incoming.size + 1 < maxConnections) && !incoming.contains(pos)) incoming.add(pos);
-            return !incoming.contains(pos);
         }
 
         @Override
@@ -260,93 +250,12 @@ public class CardanItemBridge extends ItemBridge {
         }
 
         @Override
-        public boolean onConfigureBuildTapped(Building other){
-            if(other instanceof ItemBridgeBuild && ((ItemBridgeBuild) other).link == this.pos()){
-                incoming.removeValue(other.pos());
-                other.<ItemBridgeBuild>as().incoming.add(this.pos());
-                this.configure(other.pos());
-                other.configure(-1);
-            }else if(linkValid(this.tile, other.tile)
-                    && other instanceof CardanItemBridgeBuild bridge){
-
-                if(this.link == other.pos()){
-                    other.<ItemBridgeBuild>as().incoming.removeValue(this.pos());
-                    incoming.add(other.pos());
-                    this.configure(-1);
-                }else if(cast(other).canLinked() && (canLinked() || canReLink()) && realConnections() < maxConnections - 1 && bridge.realConnections() < maxConnections - 1){
-                    other.<ItemBridgeBuild>as().incoming.add(this.pos());
-                    incoming.removeValue(other.pos());
-                    this.configure(other.pos());
-                }
-                return false;
+        public void updateTile() {
+            Building other = world.build(link);
+            if(other != null && !linkValid(tile, other.tile)){
+                link = -1;
             }
-            return true;
-        }
-
-        @Override
-        public void updateTile(){
-            incoming.size = Math.min(incoming.size, maxConnections - (link == -1 ? 0 : 1));
-            incoming.shrink();
-
-            if(timer(timerCheckMoved, 30f)){
-                wasMoved = moved;
-                moved = false;
-            }
-            time += wasMoved ? delta() : 0f;
-
-            checkIncoming();
-
-            Tile other = world.tile(link);
-            if(!linkValid(tile, other)){
-                doDump();
-                warmup = 0f;
-            }else{
-                if(other.build instanceof ItemBridgeBuild){
-                    if(other.build instanceof CardanItemBridgeBuild && cast(other.build).acceptIncoming(this.tile.pos())){
-                        configureAny(-1);
-                        return;
-                    }
-                }
-
-                IntSeq inc = ((ItemBridgeBuild) other.build).incoming;
-                int pos = tile.pos();
-                if(!inc.contains(pos)){
-                    inc.add(pos);
-                }
-
-                warmup = Mathf.approachDelta(warmup, efficiency(), 1f / 30f);
-                updateTransport(other.build);
-            }
-        }
-
-        @Override
-        public void updateTransport(Building other) {
-            if(cachedLink != link || other == null || link == -1){
-                assert other != null;
-                cachedLinkValid = linkValid(tile, other.tile());
-                cachedLink = link;
-            }
-
-            if(!cachedLinkValid) {
-                doDump();
-                warmup = 0f;
-            }else{
-                if(buffer.accepts() && items.total() > 0) {
-                    buffer.accept(items.take());
-                }
-
-                Item item = buffer.poll(speed / timeScale);
-                if(timer(timerAccept, 4 / timeScale) && item != null && other.acceptItem(this, item)){
-                    moved = true;
-                    other.handleItem(this, item);
-                    buffer.remove();
-                }
-            }
-        }
-
-        @Override
-        public void doDump(){
-            dump();
+            super.updateTile();
         }
 
         public void draw(){

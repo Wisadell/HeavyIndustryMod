@@ -5,22 +5,18 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
-import arc.struct.*;
 import arc.util.*;
 import mindustry.*;
 import mindustry.core.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.liquid.LiquidBlock;
-import mindustry.world.blocks.sandbox.*;
+import mindustry.world.blocks.liquid.*;
 import heavyindustry.world.blocks.distribution.*;
 
-import static arc.graphics.g2d.Draw.scl;
-import static arc.graphics.g2d.Draw.xscl;
-import static arc.util.Tmp.v2;
+import static arc.graphics.g2d.Draw.*;
+import static arc.util.Tmp.*;
 import static mindustry.Vars.*;
 
 public class CardanLiquidBridge extends CardanItemBridge {
@@ -102,13 +98,12 @@ public class CardanLiquidBridge extends CardanItemBridge {
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
         Draw.rect(bottomRegion, plan.drawx(), plan.drawy());
         super.drawPlanRegion(plan, list);
-
     }
 
     @Override
     public void load() {
         super.load();
-        bottomRegion = Core.atlas.find("omaloon-liquid-bottom");
+        bottomRegion = Core.atlas.find(name + "-liquid-bottom");
         endRegion1 = Core.atlas.find(name + "-end1");
         endBottomRegion = Core.atlas.find(name + "-end-bottom");
         endLiquidRegion = Core.atlas.find(name + "-end-liquid");
@@ -117,16 +112,6 @@ public class CardanLiquidBridge extends CardanItemBridge {
     }
 
     public class CardanLiquidBridgeBuild extends CardanItemBridgeBuild {
-
-        @Override
-        public boolean acceptLiquid(Building source, Liquid liquid) {
-            return source.block.hasLiquids;
-        }
-
-        @Override
-        public boolean canDumpLiquid(Building to, Liquid liquid) {
-            return super.canDumpLiquid(to, liquid) || to instanceof LiquidVoid.LiquidVoidBuild;
-        }
 
         @Override
         public void draw() {
@@ -160,27 +145,15 @@ public class CardanLiquidBridge extends CardanItemBridge {
         }
 
         @Override
-        public void updateTile() {
-            incoming.size = Math.min(incoming.size, maxConnections - (link == -1 ? 0 : 1));
-            incoming.shrink();
-
-            checkIncoming();
-
-            Tile other = world.tile(link);
-            if(linkValid(tile, other)) {
-                if(other.build instanceof CardanItemBridgeBuild && cast(other.build).acceptIncoming(this.tile.pos())){
-                    configureAny(-1);
-                    return;
-                }
-
-                IntSeq inc = ((ItemBridgeBuild) other.build).incoming;
-                int pos = tile.pos();
-                if(!inc.contains(pos)){
-                    inc.add(pos);
-                }
-
-                warmup = Mathf.approachDelta(warmup, efficiency(), 1f / 30f);
+        public void updateTransport(Building other){
+            if(warmup >= 0.25f){
+                moved |= moveLiquid(other, liquids.current()) > 0.05f;
             }
+        }
+
+        @Override
+        public void doDump(){
+            dumpLiquid(liquids.current(), 1f);
         }
 
         @Override
