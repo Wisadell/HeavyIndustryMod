@@ -14,6 +14,8 @@ import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
+import static arc.Core.*;
+
 public class HeavyIndustryMod extends Mod{
     public static String ModName = "heavy-industry";
     public static String name(String add){
@@ -25,34 +27,38 @@ public class HeavyIndustryMod extends Mod{
         Log.info("Loaded HeavyIndustry Mod constructor.");
         Events.on(ClientLoadEvent.class, e -> {
             HIIcon.load();
-            new BaseDialog(Core.bundle.get("mod.heavy-industry.name")){{
+            BaseDialog dialog = new BaseDialog(bundle.get("mod.heavy-industry.name")){{
                 buttons.button("@close", this::hide).size(210f, 64f);
-                buttons.button((Core.bundle.get("mod.heavy-industry.linkGithub")), () -> {
-                    if (!Core.app.openURI(linkGitHub)) {
+                buttons.button((bundle.get("mod.heavy-industry.linkGithub")), () -> {
+                    if (!app.openURI(linkGitHub)) {
                         Vars.ui.showErrorMessage("@linkfail");
-                        Core.app.setClipboardText(linkGitHub);
+                        app.setClipboardText(linkGitHub);
                     }
                 }).size(210f, 64f);
                 cont.pane(table -> {
-                    table.image(Core.atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
-                    table.add(Core.bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
-                    table.add(new FLabel(Core.bundle.get("mod.heavy-industry.author"))).left().row();
-                    table.add(Core.bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
-                    table.add(Core.bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    table.add(Core.bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    table.image(atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
+                    table.add(bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
+                    table.add(new FLabel(bundle.get("mod.heavy-industry.author"))).left().row();
+                    table.add(bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
+                    table.add(bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    table.add(bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                 }).grow().center().maxWidth(600f);
-                show();
             }};
+            dialog.show();
         });
 
-        Events.on(FileTreeInitEvent.class, e -> Core.app.post(() -> {
+        Events.on(FileTreeInitEvent.class, e -> app.post(() -> {
             HIShaders.init();
             HICacheLayer.init();
         }));
 
-        Events.on(DisposeEvent.class, e ->
-                HIShaders.dispose()
-        );
+        Events.on(MusicRegisterEvent.class, e -> {
+            HIMusics.load();
+        });
+
+        Events.on(DisposeEvent.class, e -> {
+            HIShaders.dispose();
+        });
     }
     @Override
     public void loadContent(){
