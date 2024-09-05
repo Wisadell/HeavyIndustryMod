@@ -14,12 +14,14 @@ import mindustry.type.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
+/** Defines the {@linkplain Shader shaders}s this mod offers. */
 public class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
     public static @Nullable HISurfaceShader nanofluid,dalani;
     public static PlanetTextureShader planetTextureShader;
 
+    /** Loads the shaders. Client-side and main thread only! */
     public static void init(){
         String prevVert = Shader.prependVertexCode, prevFrag = Shader.prependFragmentCode;
         Shader.prependVertexCode = Shader.prependFragmentCode = "";

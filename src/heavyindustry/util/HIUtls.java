@@ -7,6 +7,10 @@ import org.jetbrains.annotations.Contract;
 import arc.graphics.g2d.TextureRegion;
 import arc.util.*;
 
+/**
+ * Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to
+ * require me to write a class for it.
+ */
 public class HIUtls {
     public static String stringsFixed(float value){
         return Strings.autoFixed(value, 2);
@@ -20,7 +24,8 @@ public class HIUtls {
         };
     }
 
-    /**bittiler stuff
+    /**
+     * bittiler stuff
      * <p>
      * Original code from Serilia[<a href="https://github.com/Froomeeth/Serilia/blob/main/src/serilia/util/SeUtil.java#L64C1-L64C1">...</a>]
      */

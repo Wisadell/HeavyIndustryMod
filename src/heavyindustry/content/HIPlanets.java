@@ -21,6 +21,7 @@ import mindustry.world.meta.*;
 import static heavyindustry.core.HeavyIndustryMod.name;
 import static arc.Core.*;
 
+/** Defines the {@linkplain Planet planets} and other celestial objects this mod offers. */
 public class HIPlanets {
     public static Planet kepler;
     public static void load(){

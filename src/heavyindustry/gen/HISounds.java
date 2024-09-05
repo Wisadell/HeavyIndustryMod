@@ -20,8 +20,7 @@ public class HISounds {
     public static Sound hailRain;
     public static Sound bigHailstoneHit;
 
-    public HISounds() {
-    }
+    public HISounds() {}
 
     public static void load() {
         ct1 = loadSound("ct1");
@@ -38,7 +37,7 @@ public class HISounds {
         bigHailstoneHit = loadSound("bigHailstoneHit");
     }
 
-    private static Sound loadSound(String soundName) {
+    public static Sound loadSound(String soundName) {
         if(!Vars.headless) {
             String name = "sounds/" + soundName;
             String path = Vars.tree.get(name + ".ogg").exists() ? name + ".ogg" : name + ".mp3";

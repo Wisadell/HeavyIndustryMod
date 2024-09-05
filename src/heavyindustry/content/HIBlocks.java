@@ -1,5 +1,6 @@
 package heavyindustry.content;
 
+import heavyindustry.core.*;
 import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.gen.*;
@@ -53,6 +54,7 @@ import static arc.graphics.g2d.Draw.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
+/** Defines the {@linkplain Block blocks} this mod offers. */
 public class HIBlocks {
     public static Block
             //environment
@@ -110,6 +112,7 @@ public class HIBlocks {
             hurricane,frost,judgement,spark,fireworks
             //turret-erekir
             ;
+    /** Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
     public static void load(){
         //environment
         darkPanel7 = new Floor("dark-panel-7", 0);

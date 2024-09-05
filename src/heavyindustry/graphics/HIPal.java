@@ -27,44 +27,47 @@ import java.util.Arrays;
 import static mindustry.Vars.*;
 
 public class HIPal {
-    public static Color nanocoreGreen = HIItems.nanocore.color;
-    public static Color highEnergyYellow = HIItems.highEnergyFabric.color;
-    public static Color uraniumGrey = HIItems.uranium.color;
-    public static Color chromiumGrey = HIItems.chromium.color;
-    public static Color iceBlue = Color.valueOf("c0ecff");
-    public static Color iceBlueDark = Color.valueOf("6d90bc");
-    public static Color ancient = Items.surgeAlloy.color.cpy().lerp(Pal.accent, 0.115f);
-    public static Color ancientHeat = Color.red.cpy().mul(1.075f);
-    public static Color ancientLight = ancient.cpy().lerp(Color.white, 0.7f);
-    public static Color lightSky = Color.valueOf("#8db0ff");
-    public static Color lightSkyBack = lightSky.cpy().lerp(Color.white, 0.2f);
-    public static Color lightSkyMiddle = lightSky.cpy().lerp(Color.white, 0.6f);
-    public static Color lightSkyFront = lightSky.cpy().lerp(Color.white, 0.77f);
-    public static Color thurmixRed = Color.valueOf("#ff9492");
-    public static Color thurmixRedLight = Color.valueOf("#ffced0");
-    public static Color thurmixRedDark = thurmixRed.cpy().lerp(Color.black, 0.9f);
-    public static Color rainBowRed = Color.valueOf("ff8787");
-    public static Color MIKU = Color.valueOf("39c5bb");
-    public static Color EC1 = new Color();
-    public static Color EC2 = new Color();
-    public static Color EC3 = new Color();
-    public static Color EC4 = new Color();
-    public static Color EC5 = new Color();
-    public static Color EC6 = new Color();
-    public static Color EC7 = new Color();
-    public static Color EC8 = new Color();
-    public static Color EC9 = new Color();
-    public static Color EC10 = new Color();
-    public static Color EC11 = new Color();
-    public static Color EC12 = new Color();
-    public static Color EC13 = new Color();
-    public static Color EC14 = new Color();
-    public static Color EC15 = new Color();
-    public static Color EC16 = new Color();
-    public static Color EC17 = new Color();
-    public static Color EC18 = new Color();
-    public static Color EC19 = new Color();
-    public static Color EC20 = new Color();
+    /** Static read-only palettes that are used throughout the mod. */
+    public static final Color
+            nanocoreGreen = HIItems.nanocore.color,
+            highEnergyYellow = HIItems.highEnergyFabric.color,
+            uraniumGrey = HIItems.uranium.color,
+            chromiumGrey = HIItems.chromium.color,
+            iceBlue = Color.valueOf("c0ecff"),
+            iceBlueDark = Color.valueOf("6d90bc"),
+            ancient = Items.surgeAlloy.color.cpy().lerp(Pal.accent, 0.115f),
+            ancientHeat = Color.red.cpy().mul(1.075f),
+            ancientLight = ancient.cpy().lerp(Color.white, 0.7f),
+            lightSky = Color.valueOf("#8db0ff"),
+            lightSkyBack = lightSky.cpy().lerp(Color.white, 0.2f),
+            lightSkyMiddle = lightSky.cpy().lerp(Color.white, 0.6f),
+            lightSkyFront = lightSky.cpy().lerp(Color.white, 0.77f),
+            thurmixRed = Color.valueOf("#ff9492"),
+            thurmixRedLight = Color.valueOf("#ffced0"),
+            thurmixRedDark = thurmixRed.cpy().lerp(Color.black, 0.9f),
+            rainBowRed = Color.valueOf("ff8787"),
+            MIKU = Color.valueOf("39c5bb");
+    public static Color
+            EC1 = new Color(),
+            EC2 = new Color(),
+            EC3 = new Color(),
+            EC4 = new Color(),
+            EC5 = new Color(),
+            EC6 = new Color(),
+            EC7 = new Color(),
+            EC8 = new Color(),
+            EC9 = new Color(),
+            EC10 = new Color(),
+            EC11 = new Color(),
+            EC12 = new Color(),
+            EC13 = new Color(),
+            EC14 = new Color(),
+            EC15 = new Color(),
+            EC16 = new Color(),
+            EC17 = new Color(),
+            EC18 = new Color(),
+            EC19 = new Color(),
+            EC20 = new Color();
 
     public static class EPos implements Position {
         public float x, y;

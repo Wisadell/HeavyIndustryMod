@@ -14,6 +14,7 @@ import static mindustry.content.UnitTypes.*;
 import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
 
+/** Sets up content {@link TechNode tech tree nodes}. Loaded after every other content is instantiated. */
 public class HITechTree {
     public static TechNode context = null;
     public static void load(){
@@ -118,9 +119,9 @@ public class HITechTree {
             node(largeCryofluidMixer, Seq.with(new SectorComplete(impact0078)), () -> {});
             node(nanocoreActivator, () -> {});
         });
-        addToNode(pyratiteMixer, () -> node(largePyratiteMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
-        addToNode(blastMixer, () -> node(largeBlastMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
-        addToNode(cultivator, () -> node(largeCultivator, Seq.with(new SectorComplete(facility32m)), () -> {}));
+        addToNode(pyratiteMixer, () -> node(largePyratiteMixer, () -> {}));
+        addToNode(blastMixer, () -> node(largeBlastMixer, () -> {}));
+        addToNode(cultivator, () -> node(largeCultivator, () -> {}));
         addToNode(plastaniumCompressor, () -> node(largePlastaniumCompressor, Seq.with(new SectorComplete(tarFields)), () -> {}));
         addToNode(surgeSmelter, ()-> node(largeSurgeSmelter, () -> {}));
         addToNode(siliconCrucible, () -> node(blastSiliconSmelter, () -> {}));
@@ -201,10 +202,7 @@ public class HITechTree {
         addToNode(collaris, () -> node(oracle, () -> {}));
         addToNode(disrupt, () -> node(havoc, () -> {}));
         //sector presets
-        addToNode(SectorPresets.craters, () -> {
-            node(iceboundTributary, Seq.with(new SectorComplete(SectorPresets.craters), new Research(Items.metaglass)), () -> {});
-            node(facility32m, Seq.with(new SectorComplete(SectorPresets.craters)), () -> {});
-        });
+        addToNode(SectorPresets.craters, () -> node(iceboundTributary, Seq.with(new SectorComplete(SectorPresets.craters), new Research(Items.metaglass)), () -> {}));
         addToNode(ruinousShores, () -> {
             node(desertWastes, Seq.with(new SectorComplete(ruinousShores), new Research(airFactory)), () -> {});
             node(whiteoutPlains, Seq.with(new SectorComplete(ruinousShores)), () -> {});

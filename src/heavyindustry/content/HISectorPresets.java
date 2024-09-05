@@ -1,18 +1,17 @@
 package heavyindustry.content;
 
+import heavyindustry.core.*;
 import mindustry.content.Planets;
 import mindustry.type.SectorPreset;
 
+/** Defines the {@linkplain SectorPreset maps} this mod offers. */
 public class HISectorPresets {
     public static SectorPreset
             //serpulo
-            iceboundTributary,facility32m,whiteoutPlains,desertWastes,snowyLands,sunkenPier,coastalCliffs,fallenStronghold,bombardmentWarzone;
+            iceboundTributary,whiteoutPlains,desertWastes,snowyLands,sunkenPier,coastalCliffs,fallenStronghold,bombardmentWarzone;
+    /** Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
     public static void load(){
         iceboundTributary = new SectorPreset("iceboundTributary", Planets.serpulo, 99){{
-            difficulty = 3;
-            captureWave = 25;
-        }};
-        facility32m = new SectorPreset("facility32m", Planets.serpulo, 170){{
             difficulty = 3;
             captureWave = 25;
         }};

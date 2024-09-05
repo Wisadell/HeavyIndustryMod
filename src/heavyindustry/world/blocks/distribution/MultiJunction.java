@@ -16,7 +16,7 @@ import static mindustry.Vars.*;
 
 /**
  * A connector that crosses between Conveyor and Conduit.
- * Um... Just be able to run...
+ * Um... As long as it can running...
  */
 public class MultiJunction extends LiquidBlock{
     public float speed = 26;

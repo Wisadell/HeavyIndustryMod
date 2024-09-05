@@ -9,13 +9,14 @@ import java.util.Objects;
 import arc.*;
 import arc.flabel.*;
 import arc.util.*;
-import mindustry.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
 
 import static arc.Core.*;
+import static mindustry.Vars.*;
 
+/** Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings. */
 public class HeavyIndustryMod extends Mod{
     public static String ModName = "heavy-industry";
     public static String name(String add){
@@ -31,7 +32,7 @@ public class HeavyIndustryMod extends Mod{
                 buttons.button("@close", this::hide).size(210f, 64f);
                 buttons.button((bundle.get("mod.heavy-industry.linkGithub")), () -> {
                     if (!app.openURI(linkGitHub)) {
-                        Vars.ui.showErrorMessage("@linkfail");
+                        ui.showErrorMessage("@linkfail");
                         app.setClipboardText(linkGitHub);
                     }
                 }).size(210f, 64f);
@@ -47,10 +48,13 @@ public class HeavyIndustryMod extends Mod{
             dialog.show();
         });
 
-        Events.on(FileTreeInitEvent.class, e -> app.post(() -> {
-            HIShaders.init();
-            HICacheLayer.init();
-        }));
+        Events.on(FileTreeInitEvent.class, e -> {
+            HIModels.load();
+            app.post(() -> {
+                HIShaders.init();
+                HICacheLayer.init();
+            });
+        });
 
         Events.on(MusicRegisterEvent.class, e -> {
             HIMusics.load();
@@ -81,7 +85,7 @@ public class HeavyIndustryMod extends Mod{
     public void init(){
         super.init();
         HIResearchDialog dialog = new HIResearchDialog();
-        ResearchDialog research = Vars.ui.research;
+        ResearchDialog research = ui.research;
         research.shown(() -> {
             dialog.show();
             Objects.requireNonNull(research);

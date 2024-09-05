@@ -1,5 +1,6 @@
 package heavyindustry.content;
 
+import heavyindustry.core.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.world.draw.*;
@@ -31,6 +32,7 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.Vars.tilePayload;
 
+/** Defines the {@linkplain UnitType units} this mod offers. */
 public class HIUnitTypes {
     static {
         //tier6
@@ -50,6 +52,8 @@ public class HIUnitTypes {
     }
     /**
      * one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
+     * <p>
+     * Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}.
      */
     public static UnitType
             //tier6

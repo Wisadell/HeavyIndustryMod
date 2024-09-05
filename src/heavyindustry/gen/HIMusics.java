@@ -8,23 +8,21 @@ import mindustry.*;
 import mindustry.gen.*;
 import mindustry.game.EventType.*;
 
-/**
- * Manages music, including vanilla and custom tracks.
- */
+/** Manages music, including vanilla and custom tracks. */
 public class HIMusics {
     private static final ObjectMap<String, Seq<Music>> musicSets = new ObjectMap<>();
 
     public static Music
-    // HeavyIndustry launch
-    orbital,
-    // Kepler music
-    glLand,
-    // Ambient
-    chained, darkPurity, wisdom, space, sundown,
-    // Dark
-    fragile, solidFire, soredLuna,
-    // Boss
-    buryAlive, chaoticFlames, liquefy, piercingLine;
+            //HeavyIndustry launch
+            orbital,
+            //Kepler music
+            glLand,
+            //Ambient
+            chained, darkPurity, wisdom, space, sundown,
+            //Dark
+            fragile, solidFire, soredLuna,
+            //Boss
+            buryAlive, chaoticFlames, liquefy, piercingLine;
 
     public static void load() {
         initializeMusics();
