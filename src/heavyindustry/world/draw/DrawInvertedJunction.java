@@ -6,7 +6,7 @@ import arc.graphics.g2d.Draw;
 import mindustry.gen.Building;
 import mindustry.world.draw.*;
 
-import static heavyindustry.core.HeavyIndustryMod.ModName;
+import static heavyindustry.core.HeavyIndustryMod.*;
 
 public class DrawInvertedJunction extends DrawBlock {
     @Override
@@ -17,6 +17,6 @@ public class DrawInvertedJunction extends DrawBlock {
     }
     public void drawB(InvertedJunction block, InvertedJunction.InvertedJunctionBuild build){
         Draw.rect(Core.atlas.find(block.placeSprite), build.x, build.y);
-        Draw.rect(Core.atlas.find(ModName + "-junction-" + build.loc), build.x, build.y);
+        Draw.rect(Core.atlas.find(modName + "-junction-" + build.loc), build.x, build.y);
     }
 }

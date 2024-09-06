@@ -1,5 +1,6 @@
 package heavyindustry.content;
 
+import heavyindustry.ai.*;
 import heavyindustry.core.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
@@ -34,6 +35,7 @@ import static mindustry.Vars.tilePayload;
 
 /** Defines the {@linkplain UnitType units} this mod offers. */
 public class HIUnitTypes {
+    //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
     static {
         //tier6
         EntityMapping.nameMap.put(name("suzerain"), EntityMapping.idMap[4]);
@@ -47,19 +49,19 @@ public class HIUnitTypes {
         EntityMapping.nameMap.put(name("dominate"), EntityMapping.idMap[43]);
         EntityMapping.nameMap.put(name("oracle"), EntityMapping.idMap[24]);
         EntityMapping.nameMap.put(name("havoc"), EntityMapping.idMap[5]);
+        //other
+        EntityMapping.nameMap.put(name("draug"), NoCoreDepositBuildingTetherLegsUnit::new);
         //boss
         EntityMapping.nameMap.put(name("thunder"), EntityMapping.idMap[43]);
     }
-    /**
-     * one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
-     * <p>
-     * Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}.
-     */
+    /** Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
     public static UnitType
             //tier6
             suzerain,supernova,cancer,sunlit,windstorm,mosasaur,killerWhale,
             //erekir-tier6
             dominate,oracle,havoc,
+            //other
+            draug,
             //boss
             thunder;
     public static void load(){
@@ -1142,6 +1144,63 @@ public class HIUnitTypes {
                 }};
             }});
             setEnginesMirror(new UnitEngine(95 / 4f, -56 / 4f, 5f, 330f), new UnitEngine(89 / 4f, -95 / 4f, 4f, 315f));
+        }};
+        //other
+        draug = new ErekirUnitType("draug"){{
+            controller = u -> new DepotMinerAI();
+            isEnemy = false;
+            allowedInPayloads = false;
+            logicControllable = false;
+            playerControllable = false;
+            hidden = true;
+            hideDetails = false;
+            hitSize = 14f;
+            speed = 1f;
+            rotateSpeed = 2.5f;
+            health = 1300;
+            armor = 5f;
+            omniMovement = false;
+            rotateMoveFirst = true;
+            itemOffsetY = 5f;
+            itemCapacity = 50;
+            mineTier = 5;
+            mineSpeed = 6f;
+            mineWalls = true;
+            mineItems = Seq.with(Items.beryllium, Items.graphite, Items.tungsten);
+            allowLegStep = true;
+            legCount = 6;
+            legGroupSize = 3;
+            legLength = 12f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -3f;
+            legBaseOffset = 5f;
+            legMaxLength = 1.1f;
+            legMinLength = 0.2f;
+            legForwardScl = 1f;
+            legMoveSpace = 2.5f;
+            hovering = true;
+            weapons.add(new Weapon(name("draug-weapon")){{
+                x = 22f / 4f;
+                y = -3f;
+                shootX = -3f / 4f;
+                shootY = 4.5f / 4f;
+                rotate = true;
+                rotateSpeed = 35f;
+                reload = 35f;
+                shootSound = Sounds.laser;
+                bullet = new LaserBulletType(){{
+                    damage = 45f;
+                    sideAngle = 30f;
+                    sideWidth = 1f;
+                    sideLength = 5.25f * 8;
+                    length = 13.75f * 8f;
+                    colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
+                }};
+            }});
+            abilities.add(new RegenAbility(){{
+                percentAmount = 1f / (90f * 60f) * 100f;
+            }});
         }};
         //boss
         thunder = new UnitType("thunder"){{

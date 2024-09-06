@@ -125,7 +125,7 @@ public class HIPlanets {
                 r.showSpawns = false;
                 r.bannedBlocks = Vars.content.blocks().select(b -> {
                     if (b.buildVisibility == BuildVisibility.sandboxOnly) return false;
-                    return b.minfo.mod == null || !b.minfo.mod.name.equals(HeavyIndustryMod.ModName);
+                    return b.minfo.mod == null || !b.minfo.mod.name.equals(HeavyIndustryMod.modName);
                 }).asSet();
             };
             alwaysUnlocked = true;

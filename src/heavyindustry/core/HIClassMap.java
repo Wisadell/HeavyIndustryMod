@@ -1,5 +1,6 @@
 package heavyindustry.core;
 
+import heavyindustry.ai.*;
 import heavyindustry.entities.abilities.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.effect.*;
@@ -24,6 +25,8 @@ import static mindustry.mod.ClassMap.classes;
 /** Generated class. Maps simple class names to concrete classes. For use in JSON attached mods. */
 public class HIClassMap {
     static {
+        //ai
+        classes.put("DepotMinerAI", DepotMinerAI.class);
         //ability
         classes.put("JavelinAbility", JavelinAbility.class);
         //bullet

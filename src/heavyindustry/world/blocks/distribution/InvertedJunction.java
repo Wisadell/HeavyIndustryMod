@@ -113,7 +113,7 @@ public class InvertedJunction extends Junction {
 
         @Override
         public void buildConfiguration(Table table) {
-            table.button(new TextureRegionDrawable(Core.atlas.find(ModName + "-flip", Core.atlas.find("clear"))), Styles.cleari, this::switchf).size(36f).tooltip("switch");
+            table.button(new TextureRegionDrawable(Core.atlas.find(modName + "-flip", Core.atlas.find("clear"))), Styles.cleari, this::switchf).size(36f).tooltip("switch");
         }
 
 

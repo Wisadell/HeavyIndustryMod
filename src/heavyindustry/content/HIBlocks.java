@@ -71,7 +71,7 @@ public class HIBlocks {
             //drill
             largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,
             //drill-erekir
-            largeCliffCrusher,heavyPlasmaBore,
+            largeCliffCrusher,heavyPlasmaBore,unitMinerDepot,
             //distribution
             invertedJunction,cardanItemBridge,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             stackHelper,highEnergyItemNode,rapidDirectionalUnloader,
@@ -518,6 +518,15 @@ public class HIBlocks {
             consumePower(390f / 60f);
             consumeLiquid(Liquids.hydrogen, 1.5f / 60f);
             consumeLiquid(Liquids.nitrogen, 7.5f / 60f).boost();
+        }};
+        unitMinerDepot = new UnitMinerDepot("unit-miner-depot"){{
+            requirements(Category.production, with(Items.beryllium, 200, Items.graphite, 120, Items.silicon, 80, Items.tungsten, 100, Items.oxide, 30));
+            size = 3;
+            buildTime = 60f * 8f;
+            consumePower(8f / 60f);
+            consumeLiquid(Liquids.nitrogen, 10f / 60f);
+            itemCapacity = 100;
+            squareSprite = false;
         }};
         //distribution
         invertedJunction = new InvertedJunction("inverted-junction"){{
@@ -2787,6 +2796,7 @@ public class HIBlocks {
                     Lines.lineAngle(b.x, b.y, b.rotation(), 9f);
                     Lines.lineAngle(b.x, b.y, b.rotation() - 180, 3f);
                 }
+
                 @Override
                 public void update(Bullet b) {
                     super.update(b);
@@ -2830,23 +2840,30 @@ public class HIBlocks {
                     if(!pierce || b.collided.size >= pierceCap) explode(b);
                     super.hitEntity(b, entity, health);
                 }
+
                 @Override
                 public void hit(Bullet b) {
                     explode(b);
                     super.hit(b);
                 }
+
                 public void explode(Bullet b){
                     if(!(b.owner instanceof PowerTurretBuild tb)) return;
                     for(int i = 0; i < 4; i++){
                         float angleOffset = i * 40 - (4 - 1) * 40 / 2f;
+
                         Position p1 = HIPal.pos(tb.x, tb.y);
                         Position p2 = HIPal.pos(b.x, b.y);
+
                         Position[] pos = {p1, p2};
+
                         frostFragBullrt.create(tb, tb.team, tb.x, tb.y, tb.rotation - 180 + angleOffset + Mathf.random(-5, 5), -1, 1, 1, pos);
                     }
                 }
+
                 @Override
                 public void createFrags(Bullet b, float x, float y) {}
+
                 @Override
                 public void draw(Bullet b) {
                     super.draw(b);

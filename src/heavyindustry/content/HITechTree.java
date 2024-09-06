@@ -51,6 +51,7 @@ public class HITechTree {
         addToNode(oilExtractor, () -> node(reinforcedOilExtractor, () -> {}));
         //drill-erekir
         addToNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
+        addToNode(impactDrill, () -> node(unitMinerDepot, () -> {}));
         addToNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
         //distribution
         addToNode(junction, () -> {
