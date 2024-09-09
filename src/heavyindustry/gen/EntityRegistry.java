@@ -20,6 +20,8 @@ public class EntityRegistry {
 
     /** Registered entity. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
     public static void register() {
+        register("LegsPayloadLegacyUnit", LegsPayloadLegacyUnit.class, LegsPayloadLegacyUnit::new);
+        register("TankLegacyUnit", TankLegacyUnit.class, TankLegacyUnit::new);
         register("NoCoreDepositBuildingTetherLegsUnit", NoCoreDepositBuildingTetherLegsUnit.class, NoCoreDepositBuildingTetherLegsUnit::new);
     }
 }

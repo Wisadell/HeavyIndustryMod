@@ -102,7 +102,7 @@ public class NoCoreDepositBuildingTetherLegsUnit extends Unit implements Bounded
 
     private transient float y_TARGET_;
 
-    public NoCoreDepositBuildingTetherLegsUnit() {
+    protected NoCoreDepositBuildingTetherLegsUnit() {
     }
 
     @Override

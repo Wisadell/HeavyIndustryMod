@@ -50,20 +50,32 @@ public class HIUnitTypes {
         EntityMapping.nameMap.put(name("oracle"), EntityMapping.idMap[24]);
         EntityMapping.nameMap.put(name("havoc"), EntityMapping.idMap[5]);
         //other
-        EntityMapping.nameMap.put(name("draug"), NoCoreDepositBuildingTetherLegsUnit::new);
+        EntityMapping.nameMap.put(name("scavenger"), TankLegacyUnit::create);
+        EntityMapping.nameMap.put(name("pioneer"), LegsPayloadLegacyUnit::create);
+        //other-erekir
+        EntityMapping.nameMap.put(name("draug"), NoCoreDepositBuildingTetherLegsUnit::create);
+        //elite
+        EntityMapping.nameMap.put(name("desolation-lord"), LegsPayloadLegacyUnit::create);
         //boss
         EntityMapping.nameMap.put(name("thunder"), EntityMapping.idMap[43]);
     }
-    /** Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
+
     public static UnitType
             //tier6
             suzerain,supernova,cancer,sunlit,windstorm,mosasaur,killerWhale,
             //erekir-tier6
             dominate,oracle,havoc,
             //other
+            scavenger,
+            pioneer,
+            //other-erekir
             draug,
+            //elite
+            desolationLord,
             //boss
             thunder;
+
+    /** Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
     public static void load(){
         //tier6
         suzerain = new UnitType("suzerain"){{
@@ -1146,6 +1158,77 @@ public class HIUnitTypes {
             setEnginesMirror(new UnitEngine(95 / 4f, -56 / 4f, 5f, 330f), new UnitEngine(89 / 4f, -95 / 4f, 4f, 315f));
         }};
         //other
+        scavenger = new TankUnitType("scavenger"){{
+            hitSize = 26f;
+            treadPullOffset = 5;
+            speed = 0.64f;
+            rotateSpeed = 1.5f;
+            health = 3500;
+            armor = 10f;
+            itemCapacity = 1000;
+            treadRects = new Rect[]{new Rect(16 - 60f, 48 - 70f, 30, 75), new Rect(44 - 60f, 17 - 70f, 17, 60)};
+            researchCostMultiplier = 0f;
+            buildSpeed = 1.8f;
+            weapons.add(new Weapon(){{
+                x = 22f / 4f;
+                y = -3f;
+                shootX = -3f / 4f;
+                shootY = 4.5f / 4f;
+                rotate = true;
+                rotateSpeed = 35f;
+                reload = 35f;
+                shootSound = Sounds.laser;
+                bullet = new LaserBulletType(){{
+                    damage = 45f;
+                    sideAngle = 30f;
+                    sideWidth = 1f;
+                    sideLength = 5.25f * 8;
+                    length = 13.75f * 8f;
+                    colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
+                }};
+            }}, new RepairBeamWeapon("repair-beam-weapon-center-large"){{
+                x = 8.5f;
+                y = -3.5f;
+                shootY = 6;
+                beamWidth = 1;
+                repairSpeed = 1.8f;
+                bullet = new BulletType(){{
+                    maxRange = 120;
+                }};
+            }});
+        }};
+        pioneer = new UnitType("pioneer"){{
+            speed = 0.3f;
+            hitSize = 40f;
+            health = 35000;
+            armor = 28;
+            rotateSpeed = 1.9f;
+            drownTimeMultiplier = 4f;
+            legCount = 8;
+            legMoveSpace = 0.8f;
+            legPairOffset = 3;
+            legLength = 80f;
+            legExtension = -22;
+            legBaseOffset = 8f;
+            stepShake = 1f;
+            legLengthScl = 0.93f;
+            rippleScale = 3.4f;
+            legSpeed = 0.18f;
+            ammoType = new ItemAmmoType(Items.graphite, 12);
+            legSplashDamage = 200;
+            legSplashRange = 64;
+            hovering = true;
+            shadowElevation = 0.95f;
+            groundLayer = Layer.legUnit;
+            mineTier = 5;
+            mineSpeed = 6f;
+            mineWalls = true;
+            mineItems = Seq.with(Items.copper, Items.lead, Items.titanium, Items.thorium, HIItems.uranium, HIItems.chromium);
+            itemCapacity = 3000;
+            buildSpeed = 6f;
+            payloadCapacity = (5.5f * 5.5f) * tilePayload;
+        }};
+        //other-erekir
         draug = new ErekirUnitType("draug"){{
             controller = u -> new DepotMinerAI();
             isEnemy = false;
@@ -1200,6 +1283,91 @@ public class HIUnitTypes {
             }});
             abilities.add(new RegenAbility(){{
                 percentAmount = 1f / (90f * 60f) * 100f;
+            }});
+        }};
+        //elite
+        desolationLord = new UnitType("desolation-lord"){{
+            speed = 0.3f;
+            hitSize = 40f;
+            health = 85000;
+            armor = 36;
+            rotateSpeed = 1.9f;
+            drownTimeMultiplier = 4f;
+            legCount = 8;
+            legMoveSpace = 0.8f;
+            legPairOffset = 3;
+            legLength = 80f;
+            legExtension = -22;
+            legBaseOffset = 8f;
+            stepShake = 1f;
+            legLengthScl = 0.93f;
+            rippleScale = 3.4f;
+            legSpeed = 0.18f;
+            ammoType = new PowerAmmoType(4000);
+            legSplashDamage = 200;
+            legSplashRange = 64;
+            hovering = true;
+            shadowElevation = 0.95f;
+            groundLayer = Layer.legUnit;
+            mineTier = 5;
+            mineSpeed = 6f;
+            mineWalls = true;
+            mineItems = Seq.with(Items.copper, Items.lead, Items.titanium, Items.thorium, HIItems.uranium, HIItems.chromium);
+            itemCapacity = 1500;
+            buildSpeed = 4f;
+            payloadCapacity = (6.5f * 6.5f) * tilePayload;
+            weapons.add(new Weapon(name("desolation-lord-weapon")){{
+                mirror = false;
+                rotate = true;
+                layerOffset = 0.1f;
+                rotateSpeed = 0.9f;
+                shootSound = Sounds.release;
+                reload = 180;
+                recoil = 5.5f;
+                shake = 5;
+                x = 0;
+                y = -1f;
+                minWarmup = 0.9f;
+                bullet = new BallistaBulletType(Color.valueOf("feb380")){{
+                    hitSound = despawnSound = Sounds.explosionbig;
+                    damage = 410;
+                    splashDamage = 390;
+                    splashDamageRadius = 12 * 8f;
+                    buildingDamageMultiplier = 0.8f;
+                    hitEffect = despawnEffect = new ExplosionEffect(){{
+                        lifetime = 30f;
+                        waveStroke = 5f;
+                        waveLife = 10f;
+                        waveRad = splashDamageRadius;
+                        waveColor = Color.valueOf("feb380");
+                        smokes = 7;
+                        smokeSize = 13;
+                        smokeColor = Color.valueOf("feb380");
+                        smokeRad = splashDamageRadius;
+                        sparkColor = Color.valueOf("feb380");
+                        sparks = 14;
+                        sparkRad = splashDamageRadius;
+                        sparkLen = 6f;
+                        sparkStroke = 2f;
+                    }};
+                    pierce = true;
+                    pierceCap = 2;
+                    pierceBuilding = true;
+                    speed = 10;
+                    trailWidth = 7;
+                    trailLength = 12;
+                    trailColor = Color.valueOf("feb380");
+                    fragBullet = null;
+                    fragBullets= 0;
+                    healPercent = -1;
+                }
+                    @Override
+                    public void draw(Bullet b){
+                        super.draw(b);
+                        Draw.color(Color.valueOf("feb380"));
+                        Drawf.tri(b.x, b.y, 13f, 12f, b.rotation());
+                    }
+                };
             }});
         }};
         //boss

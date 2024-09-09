@@ -25,33 +25,32 @@ public class HeavyIndustryMod extends Mod{
         return modName + "-" + add;
     }
 
-    private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod";
+    private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
     public static boolean onlyPlugIn = settings.getBool(name("plug-in-mode"));
 
     public HeavyIndustryMod(){
         Log.info("Loaded HeavyIndustry Mod constructor.");
         Events.on(ClientLoadEvent.class, e -> {
             HIIcon.load();
-            if(!onlyPlugIn){
-                BaseDialog dialog = new BaseDialog(bundle.get("mod.heavy-industry.name")){{
-                    buttons.button("@close", this::hide).size(210f, 64f);
-                    buttons.button((bundle.get("mod.heavy-industry.linkGithub")), () -> {
-                        if (!app.openURI(linkGitHub)) {
-                            ui.showErrorMessage("@linkfail");
-                            app.setClipboardText(linkGitHub);
-                        }
-                    }).size(210f, 64f);
-                    cont.pane(table -> {
-                        table.image(atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
-                        table.add(bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
-                        table.add(new FLabel(bundle.get("mod.heavy-industry.author"))).left().row();
-                        table.add(bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
-                        table.add(bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                        table.add(bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    }).grow().center().maxWidth(600f);
-                }};
-                dialog.show();
-            }
+            if(onlyPlugIn) return;
+            BaseDialog dialog = new BaseDialog(bundle.get("mod.heavy-industry.name")){{
+                buttons.button("@close", this::hide).size(210f, 64f);
+                buttons.button((bundle.get("mod.heavy-industry.linkGithub")), () -> {
+                    if (!app.openURI(linkGitHub)) {
+                        ui.showErrorMessage("@linkfail");
+                        app.setClipboardText(linkGitHub);
+                    }
+                }).size(210f, 64f);
+                cont.pane(table -> {
+                    table.image(atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
+                    table.add(bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
+                    table.add(new FLabel(bundle.get("mod.heavy-industry.author") + author)).left().row();
+                    table.add(bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
+                    table.add(bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    table.add(bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                }).grow().center().maxWidth(600f);
+            }};
+            dialog.show();
         });
 
         Events.on(FileTreeInitEvent.class, e -> {
