@@ -1168,7 +1168,7 @@ public class HIUnitTypes {
             itemCapacity = 1000;
             treadRects = new Rect[]{new Rect(16 - 60f, 48 - 70f, 30, 75), new Rect(44 - 60f, 17 - 70f, 17, 60)};
             researchCostMultiplier = 0f;
-            buildSpeed = 1.8f;
+            buildSpeed = 4.5f;
             weapons.add(new Weapon(){{
                 x = 22f / 4f;
                 y = -3f;
@@ -1197,6 +1197,7 @@ public class HIUnitTypes {
                 }};
             }});
         }};
+        Seq<Item> ores = Seq.with(Items.copper, Items.lead, Items.titanium, Items.thorium, Items.beryllium, Items.graphite, Items.tungsten, HIItems.uranium, HIItems.chromium);
         pioneer = new UnitType("pioneer"){{
             speed = 0.3f;
             hitSize = 40f;
@@ -1223,7 +1224,7 @@ public class HIUnitTypes {
             mineTier = 5;
             mineSpeed = 6f;
             mineWalls = true;
-            mineItems = Seq.with(Items.copper, Items.lead, Items.titanium, Items.thorium, HIItems.uranium, HIItems.chromium);
+            mineItems = ores;
             itemCapacity = 3000;
             buildSpeed = 6f;
             payloadCapacity = (5.5f * 5.5f) * tilePayload;
@@ -1312,7 +1313,7 @@ public class HIUnitTypes {
             mineTier = 5;
             mineSpeed = 6f;
             mineWalls = true;
-            mineItems = Seq.with(Items.copper, Items.lead, Items.titanium, Items.thorium, HIItems.uranium, HIItems.chromium);
+            mineItems = ores;
             itemCapacity = 1500;
             buildSpeed = 4f;
             payloadCapacity = (6.5f * 6.5f) * tilePayload;
