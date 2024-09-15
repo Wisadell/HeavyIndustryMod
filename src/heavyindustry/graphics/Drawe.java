@@ -4,6 +4,10 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
+import arc.math.Angles;
+import arc.math.Mathf;
+import arc.util.Tmp;
+import mindustry.graphics.Pal;
 
 /** Extended Draw */
 public class Drawe {
@@ -81,5 +85,23 @@ public class Drawe {
         vertices[23] = mcolor;
 
         Draw.vert(texture, vertices, 0, vertices.length);
+    }
+
+    public static void targetLine(float x1, float y1, float x2, float y2, float r1, float r2, Color color){
+        float ang = Angles.angle(x1, y1, x2, y2);
+        float calc = 1f + (1f - Mathf.sinDeg(Mathf.mod(ang, 90f) * 2)) * (Mathf.sqrt2 - 1f);
+
+        Tmp.v1.trns(ang, (r1 / Mathf.sqrt2) * calc).add(x1, y1);
+        Tmp.v2.trns(ang + 180, (r2 / Mathf.sqrt2) * calc).add(x2, y2);
+
+        Lines.stroke(3f, Pal.gray);
+        Lines.square(x1, y1, r1, 45f);
+        Lines.square(x2, y2, r2, 45f);
+        Lines.line(Tmp.v1.x, Tmp.v1.y, Tmp.v2.x, Tmp.v2.y);
+
+        Lines.stroke(1f, color);
+        Lines.square(x1, y1, r1, 45f);
+        Lines.square(x2, y2, r2, 45f);
+        Lines.line(Tmp.v1.x, Tmp.v1.y, Tmp.v2.x, Tmp.v2.y);
     }
 }

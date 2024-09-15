@@ -23,7 +23,7 @@ public class WindGenerator extends PowerGenerator{
     public int spacing = 9;
     public float boostWeather = 0.25f;
     public float baseRotateSpeed = 4f;
-    public float rotChangeTime = Mathf.randomSeed(id,80.0f, 300.0f);
+    public float rotChangeTime = Mathf.randomSeed(id,80f, 300f);
 
     public WindGenerator(String name){
         super(name);
@@ -37,7 +37,7 @@ public class WindGenerator extends PowerGenerator{
         super.setStats();
 
         stats.remove(generationType);
-        stats.add(generationType, powerProduction * 60.0f, StatUnit.powerSecond);
+        stats.add(generationType, powerProduction * 60f, StatUnit.powerSecond);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class WindGenerator extends PowerGenerator{
         @Override
         public void updateTile(){
             if(enabled){
-                boost = Mathf.lerpDelta(boost, !Groups.weather.isEmpty() ? 1.1f : 0.0f, 0.05f);
+                boost = Mathf.lerpDelta(boost, !Groups.weather.isEmpty() ? 1.1f : 0f, 0.05f);
                 productionEfficiency = 1 + (boostWeather * boost);
             }
         }
@@ -120,7 +120,7 @@ public class WindGenerator extends PowerGenerator{
         public float baseRotation(){
             float currentTime = Time.time / baseRotateSpeed;
             float progress = (currentTime - startTime) / rotChangeTime;
-            progress = Mathf.clamp(progress, 0, 1);
+            progress = Mathf.clamp(progress, 0f, 1f);
 
             WeatherState w = Groups.weather.find(ws -> ws.weather instanceof EffectWeather e && e.useWindVector);
 
@@ -132,14 +132,14 @@ public class WindGenerator extends PowerGenerator{
                     targetRotation = windRotation;
                     startTime = currentTime;
                     nextChangeTime = currentTime + rotChangeTime;
-                    progress = 0;
+                    progress = 0f;
                 }
             }else if(currentTime > nextChangeTime){
                 lastRotation = rot;
                 targetRotation = Mathf.random(360f);
                 startTime = currentTime;
                 nextChangeTime = currentTime + rotChangeTime;
-                progress = 0;
+                progress = 0f;
             }
 
             rot = Mathf.lerp(lastRotation, targetRotation, progress);

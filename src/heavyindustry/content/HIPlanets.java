@@ -20,12 +20,13 @@ import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.name;
 import static arc.Core.*;
+import static mindustry.content.Planets.*;
 
 /** Defines the {@linkplain Planet planets} and other celestial objects this mod offers. */
 public class HIPlanets {
     public static Planet kepler;
     public static void load(){
-        kepler = new BetterPlanet("kepler", Planets.sun, 1f, 3){{
+        kepler = new BetterPlanet("kepler", sun, 1f, 3){{
             icon = "kepler";
             orbitRadius = 40f;
             atmosphereRadIn = 0f;

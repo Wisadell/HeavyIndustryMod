@@ -87,7 +87,7 @@ public class HIBlocks {
             beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
-            nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,highEnergyHeater,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
+            nanocoreConstructor,nanocorePrinter,nanocoreActivator,highEnergyPhaseWeaver,highEnergyEnergizer,highEnergyReactor,highEnergyFabricFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,
             //defense
@@ -1338,16 +1338,6 @@ public class HIBlocks {
             consumePower(9f);
             consumeItems(ItemStack.with(HIItems.uranium, 2, HIItems.rareEarth, 8));
         }};
-        highEnergyHeater = new HeatProducer("high-energy-heater"){{
-            requirements(Category.crafting, with(Items.silicon, 220, Items.thorium, 300, HIItems.heavyAlloy, 100, HIItems.highEnergyFabric, 30));
-            armor = 12;
-            size = 4;
-            heatOutput = 40f;
-            craftTime = 60f * 8f;
-            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
-            ambientSound = Sounds.hum;
-            consumeItem(HIItems.highEnergyFabric);
-        }};
         uraniumSynthesizer = new GenericCrafter("uranium-synthesizer"){{
             requirements(Category.crafting, with(Items.graphite, 50, Items.silicon, 40, Items.plastanium, 30, Items.phaseFabric, 15));
             size = 2;
@@ -1655,15 +1645,14 @@ public class HIBlocks {
             itemCapacity = 3000;
             scaledHealth = 55;
         }};
-        machineryUnloader = new AdaptUnloader("machinery-unloader"){{
+        machineryUnloader = new Unloader("machinery-unloader"){{
             requirements(Category.effect, with(Items.copper, 15, Items.lead, 10));
             health = 40;
             speed = 60f / 4.2f;
         }};
         rapidUnloader = new AdaptUnloader("rapid-unloader"){{
-            requirements(Category.effect, with(Items.silicon, 35, Items.plastanium, 15, Items.phaseFabric, 5));
-            health = 60;
-            speed = 60f / 30f;
+            requirements(Category.effect, with(Items.silicon, 35, Items.plastanium, 15, HIItems.nanocore, 10, HIItems.chromium, 15));
+            speed = 1f;
         }};
         coreBeStationed = new CoreBlock("core-be-stationed"){{
             requirements(Category.effect, with(Items.copper, 500, Items.lead, 350, Items.silicon, 200));

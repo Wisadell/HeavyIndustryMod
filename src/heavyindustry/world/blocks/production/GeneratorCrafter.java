@@ -26,23 +26,23 @@ public class GeneratorCrafter extends GenericCrafter {
     @Override
     public void setStats(){
         super.setStats();
-        stats.add(Stat.basePowerGeneration, powerProduction * 60.0f, StatUnit.powerSecond);
+        stats.add(Stat.basePowerGeneration, powerProduction * 60f, StatUnit.powerSecond);
     }
 
     @Override
     public void setBars(){
         super.setBars();
         addBar("power", (GeneratorCrafterBuild build) -> new Bar(
-                () -> Core.bundle.format("bar.poweroutput", Strings.fixed(build.getPowerProduction() * 60.0f * build.timeScale(), 1)),
+                () -> Core.bundle.format("bar.poweroutput", Strings.fixed(build.getPowerProduction() * 60f * build.timeScale(), 1)),
                 () -> Pal.powerBar,
-                () -> Mathf.num(build.efficiency > 0.0f)
+                () -> Mathf.num(build.efficiency > 0f)
         ));
     }
 
     public class GeneratorCrafterBuild extends GenericCrafterBuild {
         @Override
         public float getPowerProduction(){
-            return efficiency > 0.0f ? powerProduction : 0.0f;
+            return efficiency > 0f ? powerProduction : 0f;
         }
     }
 }

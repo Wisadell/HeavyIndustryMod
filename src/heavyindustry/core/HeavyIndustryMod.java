@@ -20,7 +20,7 @@ import static mindustry.Vars.*;
 
 /** Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings. */
 public class HeavyIndustryMod extends Mod{
-    public static String modName = "heavy-industry";
+    public static final String modName = "heavy-industry";
     public static String name(String add){
         return modName + "-" + add;
     }
@@ -59,10 +59,6 @@ public class HeavyIndustryMod extends Mod{
                 HIShaders.init();
                 HICacheLayer.init();
             });
-        });
-
-        Events.on(MusicRegisterEvent.class, e -> {
-            HIMusics.load();
         });
 
         Events.on(DisposeEvent.class, e -> {

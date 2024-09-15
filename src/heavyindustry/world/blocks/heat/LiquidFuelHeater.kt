@@ -5,7 +5,7 @@ import mindustry.graphics.Pal
 import mindustry.ui.Bar
 import mindustry.world.blocks.heat.HeatProducer
 
-open class LiquidFuelHeater(name: String?) : HeatProducer(name) {
+open class LiquidFuelHeater(name: String) : HeatProducer(name) {
     init {
         hasLiquids = true
         buildType = Prov { LiquidFuelHeaterBuild() }

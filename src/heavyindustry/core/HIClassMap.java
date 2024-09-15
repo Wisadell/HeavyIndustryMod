@@ -65,6 +65,8 @@ public class HIClassMap {
         classes.put("RegenWallBuild", RegenWall.RegenWallBuild.class);
         classes.put("ShapedWall", ShapedWall.class);
         classes.put("ShapeWallBuild", ShapedWall.ShapeWallBuild.class);
+        classes.put("Thorns", Thorns.class);
+        classes.put("ThornsBuild", Thorns.ThornsBuild.class);
         classes.put("MultiBulletTurret", MultiBulletTurret.class);
         classes.put("MultiBulletTurretBuild", MultiBulletTurret.MultiBulletTurretBuild.class);
         classes.put("ShootMatchTurret", ShootMatchTurret.class);
@@ -113,6 +115,8 @@ public class HIClassMap {
         classes.put("GeneratorCrafterBuild", GeneratorCrafter.GeneratorCrafterBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);
         classes.put("BeamDrillBuild", LaserBeamDrill.BeamDrillBuild.class);
+        classes.put("MultiDrill", MultiDrill.class);
+        classes.put("MultiDrillBuild", MultiDrill.MultiDrillBuild.class);
         classes.put("AdaptUnloader", AdaptUnloader.class);
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
         //draw

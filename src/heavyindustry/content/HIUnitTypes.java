@@ -12,6 +12,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
+import mindustry.Vars;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -52,6 +53,7 @@ public class HIUnitTypes {
         //other
         EntityMapping.nameMap.put(name("scavenger"), TankLegacyUnit::create);
         EntityMapping.nameMap.put(name("pioneer"), LegsPayloadLegacyUnit::create);
+        EntityMapping.nameMap.put(name("burner"), EntityMapping.idMap[4]);
         //other-erekir
         EntityMapping.nameMap.put(name("draug"), NoCoreDepositBuildingTetherLegsUnit::create);
         //elite
@@ -68,6 +70,7 @@ public class HIUnitTypes {
             //other
             scavenger,
             pioneer,
+            burner,
             //other-erekir
             draug,
             //elite
@@ -1228,6 +1231,58 @@ public class HIUnitTypes {
             itemCapacity = 3000;
             buildSpeed = 6f;
             payloadCapacity = (5.5f * 5.5f) * tilePayload;
+        }};
+        burner = new UnitType("burner"){{
+            speed = 0.36f;
+            hitSize = 22f;
+            rotateSpeed = 2.1f;
+            health = 9000;
+            armor = 10f;
+            mechFrontSway = 1f;
+            ammoType = new PowerAmmoType(500);
+            mechStepParticles = true;
+            stepShake = 0.15f;
+            singleTarget = true;
+            drownTimeMultiplier = 4f;
+            weapons.add(new Weapon("scepter-weapon"){{
+                top = false;
+                y = 1f;
+                x = 16f;
+                shootY = 8f;
+                reload = 45f;
+                recoil = 5f;
+                shake = 2f;
+                ejectEffect = Fx.casing3;
+                shootSound = Sounds.bang;
+                inaccuracy = 3f;
+                shoot.shots = 3;
+                shoot.shotDelay = 4f;
+                bullet = new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8, 16, 72, 22){{
+                    damage = 225;
+                    statusDuration = 60 * 6;
+                    ammoMultiplier = 4;
+                }
+                    @Override
+                    public void update(Bullet b) {
+                        Seq<Healthc> seq = new Seq<>();
+                        float r = flameCone * (1 - b.foutpow());
+                        Vars.indexer.allBuildings(b.x, b.y, r, seq::addUnique);
+                        Units.nearby(b.x - r, b.y - r, r * 2, r * 2, u -> {
+                            if(u.type != null && u.type.targetable && b.within(u, r)) seq.addUnique(u);
+                        });
+                        for(int i = 0; i < seq.size; i++){
+                            Healthc hc = seq.get(i);
+                            if(hc != null && !hc.dead()) {
+                                if(!b.hasCollided(hc.id())) {
+                                    if(hc.health() <= damage) hc.kill();
+                                    else hc.health(hc.health() - damage);
+                                    b.collided.add(hc.id());
+                                }
+                            }
+                        }
+                    }
+                };
+            }});
         }};
         //other-erekir
         draug = new ErekirUnitType("draug"){{
