@@ -23,7 +23,7 @@ public class BallistaBulletType extends BulletType {
 
     public BallistaBulletType(Color color){
         this.color = color;
-        fb  = new stopHoming(){{
+        fb  = new StopHomingBulletType(){{
             sColor = color;
             lifetime = 200;
             speed = 6;
@@ -121,7 +121,7 @@ public class BallistaBulletType extends BulletType {
         }
     }
 
-    public static class stopHoming extends BulletType{
+    public static class StopHomingBulletType extends BulletType{
         public Color sColor;
 
         @Override

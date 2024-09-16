@@ -1236,29 +1236,31 @@ public class HIUnitTypes {
             speed = 0.36f;
             hitSize = 22f;
             rotateSpeed = 2.1f;
-            health = 9000;
-            armor = 10f;
+            health = 16700;
+            armor = 17f;
             mechFrontSway = 1f;
             ammoType = new PowerAmmoType(500);
             mechStepParticles = true;
             stepShake = 0.15f;
             singleTarget = true;
             drownTimeMultiplier = 4f;
+            range = 128f;
             weapons.add(new Weapon("scepter-weapon"){{
-                top = false;
+                mirror = top = false;
                 y = 1f;
                 x = 16f;
                 shootY = 8f;
-                reload = 45f;
-                recoil = 5f;
+                reload = 12f;
+                recoil = 2f;
                 shake = 2f;
-                ejectEffect = Fx.casing3;
-                shootSound = Sounds.bang;
+                ejectEffect = HIFx.casing(50f);
+                shootSound = Sounds.flame;
                 inaccuracy = 3f;
                 shoot.shots = 3;
                 shoot.shotDelay = 4f;
-                bullet = new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8, 16, 72, 22){{
+                bullet = new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8f, 12, 72, 22){{
                     damage = 225;
+                    collidesAir = true;
                     statusDuration = 60 * 6;
                     ammoMultiplier = 4;
                 }
@@ -1282,7 +1284,12 @@ public class HIUnitTypes {
                         }
                     }
                 };
-            }});
+            }
+                @Override
+                public float range(){
+                    return range;
+                }
+            });
         }};
         //other-erekir
         draug = new ErekirUnitType("draug"){{

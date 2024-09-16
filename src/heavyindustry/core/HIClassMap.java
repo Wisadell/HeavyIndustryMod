@@ -34,14 +34,15 @@ public class HIClassMap {
         classes.put("AdaptedLightningBulletType", AdaptedLightningBulletType.class);
         classes.put("AimToPosBulletType", AimToPosBulletType.class);
         classes.put("BallistaBulletType", BallistaBulletType.class);
+        classes.put("StopHomingBulletType", BallistaBulletType.StopHomingBulletType.class);
         classes.put("CritBulletType", CritBulletType.class);
         classes.put("CtrlMissileBulletType", CtrlMissileBulletType.class);
         classes.put("DelayedPointBulletType", DelayedPointBulletType.class);
         classes.put("EffectBulletType", EffectBulletType.class);
         classes.put("FallingBulletType", FallingBulletType.class);
         classes.put("FireWorkBulletType", FireWorkBulletType.class);
-        classes.put("colorFire", FireWorkBulletType.colorFire.class);
-        classes.put("spriteBullet", FireWorkBulletType.spriteBullet.class);
+        classes.put("ColorFireBulletType", FireWorkBulletType.ColorFireBulletType.class);
+        classes.put("SpriteBulletType", FireWorkBulletType.SpriteBulletType.class);
         classes.put("FlameBulletType", FlameBulletType.class);
         classes.put("HailStoneBulletType", HailStoneBulletType.class);
         classes.put("LightningLinkerBulletType", LightningLinkerBulletType.class);

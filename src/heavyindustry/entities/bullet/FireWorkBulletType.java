@@ -68,7 +68,7 @@ public class FireWorkBulletType extends BulletType {
         ammoMultiplier = 1;
         status = StatusEffects.blasted;
         statusDuration = 3 * 60f;
-        fire = new colorFire(true);
+        fire = new ColorFireBulletType(true);
     }
 
     public FireWorkBulletType(float damage, float speed, Color color){
@@ -133,14 +133,14 @@ public class FireWorkBulletType extends BulletType {
         }
     }
 
-    public static class colorFire extends BulletType{
+    public static class ColorFireBulletType extends BulletType{
         public boolean stop;
         public float stopFrom = 0.3f;
         public float stopTo = 0.6f;
         public float rotSpeed = 4f;
         public float speedRod = 1;
 
-        public colorFire(boolean stop, float speed, float lifetime){
+        public ColorFireBulletType(boolean stop, float speed, float lifetime){
             this.stop = stop;
             damage = 0;
             collides = false;
@@ -154,7 +154,7 @@ public class FireWorkBulletType extends BulletType {
             keepVelocity = false;
         }
 
-        public colorFire(boolean stop){
+        public ColorFireBulletType(boolean stop){
             this(stop, 5, 60);
         }
 
@@ -191,11 +191,12 @@ public class FireWorkBulletType extends BulletType {
             }
         }
     }
-    public static class spriteBullet extends BulletType{
+
+    public static class SpriteBulletType extends BulletType{
         public String sprite;
         public float width;
         public float height;
-        public spriteBullet(String sprite, float width, float height){
+        public SpriteBulletType(String sprite, float width, float height){
             this.sprite = sprite;
             this.width = width;
             this.height = height;
@@ -208,7 +209,7 @@ public class FireWorkBulletType extends BulletType {
             absorbable = false;
             keepVelocity = false;
         }
-        public spriteBullet(String sprite){
+        public SpriteBulletType(String sprite){
             this(sprite, 96, 96);
         }
         @Override

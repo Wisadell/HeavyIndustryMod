@@ -3089,7 +3089,7 @@ public class HIBlocks {
                             new FireWorkBulletType(100, 4.5f, Color.valueOf("5cfad5")),
                             new FireWorkBulletType(100, 4.5f){{
                                 colorful = true;
-                                fire = new colorFire(false, 3f, 60){{
+                                fire = new ColorFireBulletType(false, 3f, 60){{
                                     stopFrom = 0f;
                                     stopTo = 0f;
                                     trailLength = 9;
@@ -3108,7 +3108,7 @@ public class HIBlocks {
                                 status = StatusEffects.none;
                             }},
                             new FireWorkBulletType(88, 4.5f, Items.plastanium.color){{
-                                fire = new colorFire(true, 5f, 60){{
+                                fire = new ColorFireBulletType(true, 5f, 60){{
                                     trailLength = 9;
                                     stopFrom = 0.1f;
                                     stopTo = 0.7f;
@@ -3160,7 +3160,7 @@ public class HIBlocks {
                                 trailLength = 10;
                                 pierce = true;
                                 pierceCap = 3;
-                                fire = new colorFire(false, 2.3f, 60){{
+                                fire = new ColorFireBulletType(false, 2.3f, 60){{
                                     stopFrom = 0.55f;
                                     stopTo = 0.55f;
                                     rotSpeed = 666;
@@ -3179,13 +3179,13 @@ public class HIBlocks {
                                     trailInterval = 0;
                                     width = 22;
                                     height = 22;
-                                    fire = new colorFire(false, 3.6f, 60){{
+                                    fire = new ColorFireBulletType(false, 3.6f, 60){{
                                         stopFrom = 0.7f;
                                         stopTo = 0.7f;
                                         rotSpeed = 666;
                                         hittable = true;
                                     }};
-                                    textFire = new spriteBullet(name("fire-fireworks1"));
+                                    textFire = new SpriteBulletType(name("fire-fireworks1"));
                                     status = StatusEffects.none;
                                     num = 18;
                                 }
@@ -3215,13 +3215,13 @@ public class HIBlocks {
                                 trailLength = 10;
                                 weaveMag = 8f;
                                 weaveScale = 2f;
-                                fire = new colorFire(false, 2.3f, 60){{
+                                fire = new ColorFireBulletType(false, 2.3f, 60){{
                                     stopFrom = 0.55f;
                                     stopTo = 0.55f;
                                     rotSpeed = 666f;
                                     hittable = true;
                                 }};
-                                textFire = new spriteBullet(name("fire-fireworks2"));
+                                textFire = new SpriteBulletType(name("fire-fireworks2"));
                                 status = StatusEffects.none;
                                 num = 18;
                             }},
@@ -3235,7 +3235,7 @@ public class HIBlocks {
                                 width = 10f;
                                 height = 10f;
                                 status = StatusEffects.electrified;
-                                fire = new colorFire(false, 2.3f, 60){{
+                                fire = new ColorFireBulletType(false, 2.3f, 60){{
                                     stopFrom = 0.55f;
                                     stopTo = 0.55f;
                                     rotSpeed = 666f;
@@ -3258,7 +3258,7 @@ public class HIBlocks {
                                     weaveMag = 8f;
                                     weaveScale = 6f;
                                     weaveRandom = false;
-                                    fire = new colorFire(false, 2.8f, 60f){{
+                                    fire = new ColorFireBulletType(false, 2.8f, 60f){{
                                         stopFrom = 0.55f;
                                         stopTo = 0.55f;
                                         rotSpeed = 666;
@@ -3296,7 +3296,7 @@ public class HIBlocks {
                                     width = 9;
                                     height = 9;
                                     status = StatusEffects.sapped;
-                                    fire = new colorFire(true, 4, 60){{
+                                    fire = new ColorFireBulletType(true, 4, 60){{
                                         hittable = true;
                                     }};
                                 }
@@ -3327,8 +3327,8 @@ public class HIBlocks {
                                 trailWidth = 2.4f;
                                 trailLength = 10;
                                 status = StatusEffects.none;
-                                textFire = new spriteBullet(name("fire-fireworks3"), 128f, 128f);
-                                fire = new colorFire(false, 3f, 60f){{
+                                textFire = new SpriteBulletType(name("fire-fireworks3"), 128f, 128f);
+                                fire = new ColorFireBulletType(false, 3f, 60f){{
                                     stopFrom = 0.6f;
                                     stopTo = 0.6f;
                                     rotSpeed = 666f;
