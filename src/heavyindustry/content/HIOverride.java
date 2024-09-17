@@ -84,6 +84,7 @@ public class HIOverride {
         Blocks.impactReactor.liquidCapacity = 80f;
         Blocks.neoplasiaReactor.canOverdrive = true;
         //Blocks-Production
+        //Blocks.disassembler.removeConsumer();
         Blocks.phaseWeaver.itemCapacity = 30;
         //Blocks-Production-Erekir
         Blocks.oxidationChamber.canOverdrive = true;

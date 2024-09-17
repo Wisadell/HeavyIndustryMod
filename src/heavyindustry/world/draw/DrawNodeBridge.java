@@ -23,6 +23,7 @@ public class DrawNodeBridge extends DrawBlock {
         if(!(build instanceof NodeBridgeBuild)) return;
         drawR((NodeBridgeBuild) build);
     }
+
     public void drawR(NodeBridgeBuild build){
         Draw.z(Layer.power);
         Building other = Vars.world.build(build.link);
@@ -41,11 +42,7 @@ public class DrawNodeBridge extends DrawBlock {
 
         Tmp.v1.set(build.x, build.y).sub(other.x, other.y).setLength(Vars.tilesize/2f).scl(-1);
 
-        Lines.line(bridgeRegion,
-                build.x,
-                build.y,
-                other.x,
-                other.y, false);
+        Lines.line(bridgeRegion, build.x, build.y, other.x, other.y, false);
         Draw.reset();
     }
 

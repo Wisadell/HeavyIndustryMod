@@ -2396,7 +2396,7 @@ public class HIBlocks {
             maxSpeed = 27f;
             scaledHealth = 150;
             shootCone = 35f;
-            shootSound = Sounds.shoot;
+            shootSound = Sounds.shootBig;
             targetAir = targetGround = true;
             recoil = 3f;
             recoilTime = 90f;

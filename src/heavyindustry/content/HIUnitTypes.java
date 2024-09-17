@@ -1234,31 +1234,30 @@ public class HIUnitTypes {
         }};
         burner = new UnitType("burner"){{
             speed = 0.36f;
-            hitSize = 22f;
+            hitSize = 24f;
             rotateSpeed = 2.1f;
             health = 16700;
-            armor = 17f;
+            armor = 32f;
             mechFrontSway = 1f;
             ammoType = new PowerAmmoType(500);
             mechStepParticles = true;
             stepShake = 0.15f;
             singleTarget = true;
             drownTimeMultiplier = 4f;
-            range = 128f;
+            range = 168f;
             weapons.add(new Weapon("scepter-weapon"){{
                 mirror = top = false;
                 y = 1f;
                 x = 16f;
                 shootY = 8f;
-                reload = 12f;
+                reload = 22f;
                 recoil = 2f;
-                shake = 2f;
-                ejectEffect = HIFx.casing(50f);
+                shake = 1f;
                 shootSound = Sounds.flame;
                 inaccuracy = 3f;
                 shoot.shots = 3;
                 shoot.shotDelay = 4f;
-                bullet = new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8f, 12, 72, 22){{
+                bullet = new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8f, 10, 72, 22){{
                     damage = 225;
                     collidesAir = true;
                     statusDuration = 60 * 6;

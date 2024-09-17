@@ -41,7 +41,7 @@ public class HIStatusEffects {
             @Override
             public void update(Unit unit, float time){
                 super.update(unit, time);
-                unit.armor -= 0.005f;
+                if (unit.armor > 0f) unit.armor /= 2f;
             }
         };
     }
