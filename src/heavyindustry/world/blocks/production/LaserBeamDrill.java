@@ -64,7 +64,7 @@ public class LaserBeamDrill extends Drill {
         return new TextureRegion[]{region, topRegion};
     }
 
-    public class BeamDrillBuild extends DrillBuild{
+    public class LaserBeamDrillBuild extends DrillBuild{
         @Override
         public void updateTile(){
             if(!(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0))warmup = Mathf.lerpDelta(warmup, 0, coolSpeed);
