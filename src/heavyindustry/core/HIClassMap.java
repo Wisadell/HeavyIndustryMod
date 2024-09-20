@@ -120,7 +120,7 @@ public class HIClassMap {
         classes.put("GeneratorCrafter", GeneratorCrafter.class);
         classes.put("GeneratorCrafterBuild", GeneratorCrafter.GeneratorCrafterBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);
-        classes.put("BeamDrillBuild", LaserBeamDrill.BeamDrillBuild.class);
+        classes.put("LaserBeamDrillBuild", LaserBeamDrill.LaserBeamDrillBuild.class);
         classes.put("MultiDrill", MultiDrill.class);
         classes.put("MultiDrillBuild", MultiDrill.MultiDrillBuild.class);
         classes.put("AdaptUnloader", AdaptUnloader.class);

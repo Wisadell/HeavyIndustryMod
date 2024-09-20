@@ -3,6 +3,8 @@ package heavyindustry.core;
 import heavyindustry.content.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
+import heavyindustry.ui.ClassicDamageDisplay;
+import heavyindustry.ui.DamageDisplay;
 import heavyindustry.ui.dialogs.*;
 import heavyindustry.world.meta.*;
 import java.util.*;
@@ -108,8 +110,20 @@ public class HeavyIndustryMod extends Mod{
             dialog.cont.add(bundle.format("mod.heavy-industry.reset-exit"));
             dialog.buttons.button("@confirm", exit).center().size(150, 50);
 
-            ui.settings.addCategory(bundle.format("mod.heavy-industry.settings"), settingsTable -> {
-                settingsTable.pref(new SettingsMenuDialog.SettingsTable.CheckSetting(name("plug-in-mode"), false, null) {
+            ui.settings.addCategory(bundle.format("mod.heavy-industry.settings"), t -> {
+                t.checkPref(name("classic-damage-display"), true, b -> {
+                    if (b) {
+                        settings.put(name("damage-display"), false);
+                    }
+                });
+                t.checkPref(name("damage-display"), false, b -> {
+                    if (b) {
+                        settings.put(name("classic-damage-display"), false);
+                    }
+                });
+                t.sliderPref(name("damage-display-frequency"), 30, 3, 120, 3, s ->
+                        bundle.format("setting.seconds", s / 60f));
+                t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting(name("plug-in-mode"), false, null) {
                     @Override
                     public void add(SettingsMenuDialog.SettingsTable table) {
                         CheckBox box = new CheckBox(title);
@@ -127,6 +141,10 @@ public class HeavyIndustryMod extends Mod{
                 });
             });
         }
+
+        //noinspection InstantiationOfUtilityClass
+        new ClassicDamageDisplay();
+        new DamageDisplay();
 
         //Replace the original technology tree
         HIResearchDialog dialog = new HIResearchDialog();
