@@ -5,7 +5,7 @@ import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.ui.dialogs.*;
 import heavyindustry.world.meta.*;
-import java.util.Objects;
+import java.util.*;
 import arc.*;
 import arc.flabel.*;
 import arc.scene.ui.*;
@@ -76,6 +76,7 @@ public class HeavyIndustryMod extends Mod{
         HILiquids.load();
         HIAttribute.load();
         HIStatusEffects.load();
+        HIBullets.load();
         HIUnitTypes.load();
         HIBlocks.load();
         HIWeathers.load();

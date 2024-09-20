@@ -1,18 +1,16 @@
 package heavyindustry.world.draw;
 
 import heavyindustry.world.blocks.distribution.NodeBridge.*;
-import arc.Core;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
-import arc.util.Tmp;
-import mindustry.Vars;
-import mindustry.gen.Building;
-import mindustry.graphics.Layer;
-import mindustry.world.Block;
-import mindustry.world.draw.DrawBlock;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.world.*;
+import mindustry.world.draw.*;
 
 public class DrawNodeBridge extends DrawBlock {
     public TextureRegion bridgeRegion;

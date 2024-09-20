@@ -1250,14 +1250,12 @@ public class HIUnitTypes {
                 y = 1f;
                 x = 16f;
                 shootY = 8f;
-                reload = 22f;
+                reload = 6f;
                 recoil = 2f;
                 shake = 1f;
                 shootSound = Sounds.flame;
                 inaccuracy = 3f;
-                shoot.shots = 3;
-                shoot.shotDelay = 4f;
-                bullet = new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8f, 10, 72, 22){{
+                bullet = new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8f, 8, 72, 22){{
                     damage = 225;
                     collidesAir = true;
                     statusDuration = 60 * 6;

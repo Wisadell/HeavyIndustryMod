@@ -1,17 +1,15 @@
 package heavyindustry.world.blocks.defense;
 
-import arc.math.Mathf;
-import arc.util.Time;
-import mindustry.content.Fx;
-import mindustry.entities.TargetPriority;
-import mindustry.gen.Bullet;
-import mindustry.world.meta.BlockGroup;
-import mindustry.world.meta.Env;
-import mindustry.world.meta.Stat;
-import mindustry.world.blocks.defense.RegenProjector;
-import heavyindustry.world.meta.HIStat;
+import arc.math.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.gen.*;
+import mindustry.world.meta.*;
+import mindustry.world.blocks.defense.*;
+import heavyindustry.world.meta.*;
 
-import static mindustry.Vars.tilesize;
+import static mindustry.Vars.*;
 
 public class RegenWall extends RegenProjector {
     protected float chanceHeal = -1f;
@@ -31,7 +29,6 @@ public class RegenWall extends RegenProjector {
         range = 1;
         effect = Fx.none;
         envEnabled = Env.any;
-        buildType = RegenWallBuild::new;
     }
 
     @Override

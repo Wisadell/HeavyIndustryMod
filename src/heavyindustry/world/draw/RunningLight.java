@@ -1,16 +1,15 @@
 package heavyindustry.world.draw;
 
-import heavyindustry.graphics.HIPal;
-import arc.Core;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
-import arc.util.Time;
-import mindustry.gen.Building;
-import mindustry.world.Block;
-import mindustry.world.blocks.defense.turrets.Turret.TurretBuild;
-import mindustry.world.draw.DrawBlock;
+import heavyindustry.graphics.*;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.gen.*;
+import mindustry.world.*;
+import mindustry.world.blocks.defense.turrets.Turret.*;
+import mindustry.world.draw.*;
 
 public class RunningLight extends DrawBlock {
     public int size;

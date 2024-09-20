@@ -5,7 +5,9 @@ import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
+import heavyindustry.world.blocks.environment.*;
 import heavyindustry.world.blocks.defense.*;
+import heavyindustry.world.blocks.defense.turrets.*;
 import heavyindustry.world.blocks.distribution.*;
 import heavyindustry.world.blocks.payload.*;
 import heavyindustry.world.blocks.power.*;
@@ -13,7 +15,6 @@ import heavyindustry.world.blocks.production.*;
 import heavyindustry.world.blocks.liquid.*;
 import heavyindustry.world.blocks.heat.*;
 import heavyindustry.world.blocks.storage.*;
-import heavyindustry.world.blocks.defense.turrets.*;
 import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.blocks.logic.*;
 import heavyindustry.world.draw.*;
@@ -59,7 +60,7 @@ public class HIBlocks {
     public static Block
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
-            stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,
+            stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,labFloor,
             nanofluid,
             stoneWater,shaleWater,basaltWater,
             softRareEarth,patternRareEarth,softRareEarthWall,
@@ -82,7 +83,7 @@ public class HIBlocks {
             //liquid-erekir
             liquidSorter,liquidValve,smallReinforcedPump,largeReinforcedPump,
             //power
-            powerNodeHighEnergy,powerNodeGiant,windTurbine,uraniumReactor,armoredCoatedBattery,
+            powerNodeHighEnergy,powerNodeGiant,windTurbine,uraniumReactor, magneticStormRadiationReactor,armoredCoatedBattery,
             //power-erekir
             beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
@@ -112,6 +113,7 @@ public class HIBlocks {
             hurricane,frost,judgement,spark,fireworks
             //turret-erekir
             ;
+
     /** Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
     public static void load(){
         //environment
@@ -168,6 +170,11 @@ public class HIBlocks {
             variants = 2;
             Blocks.darksand.asFloor().decoration = this;
         }};
+        asphalt = new Floor("asphalt", 0);
+        asphaltSide = new SideFloor("asphalt-side", 16){{
+            blendGroup = asphalt;
+        }};
+        labFloor = new TiledFloor("lab-floor", 8, 1);
         softRareEarth = new Floor("soft-rare-earth", 3){{
             itemDrop = HIItems.rareEarth;
             playerUnmineable = true;
@@ -721,6 +728,38 @@ public class HIBlocks {
             armor = 4;
             liquidCapacity = 32;
             liquidPressure = 3.2f;
+            buildType = () -> new ArmoredConduitBuild(){
+                @Override
+                public float moveLiquid(Building next, Liquid liquid) {
+                    if (next == null) return 0f;
+                    float hotLine = 0.7f;
+                    float coldLine = 0.55f;
+                    next = next.getLiquidDestination(this, liquid);
+                    if (next.team == this.team && next.block.hasLiquids && this.liquids.get(liquid) > 0f) {
+                        float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;
+                        float fract = this.liquids.get(liquid) / this.block.liquidCapacity * this.block.liquidPressure;
+                        float flow = Math.min(Mathf.clamp(fract - ofract) * this.block.liquidCapacity, this.liquids.get(liquid));
+                        flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));
+                        if (flow > 0 && ofract <= fract && next.acceptLiquid(this, liquid)) {
+                            next.handleLiquid(this, liquid, flow);
+                            this.liquids.remove(liquid, flow);
+                            return flow;
+                        } else if (next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f) {
+                            float fx = (this.x + next.x) / 2f;
+                            float fy = (this.y + next.y) / 2f;
+                            Liquid other = next.liquids.current();
+                            // There was flammability logics, removed
+                            if ((liquid.temperature > hotLine && other.temperature < coldLine) || (other.temperature > hotLine && liquid.temperature < coldLine)) {
+                                this.liquids.remove(liquid, Math.min(this.liquids.get(liquid), hotLine * Time.delta));
+                                if (Mathf.chance(0.2f * Time.delta)) {
+                                    Fx.steam.at(fx, fy);
+                                }
+                            }
+                        }
+                    }
+                    return 0f;
+                }
+            };
         }};
         chromiumLiquidBridge = new LiquidBridge("chromium-liquid-bridge"){{
             requirements(Category.liquid, with(Items.metaglass, 10, HIItems.chromium, 6));
@@ -921,6 +960,25 @@ public class HIBlocks {
             ambientSoundVolume = 0.24f;
             consumeItem(HIItems.uranium);
             consumeLiquid(Liquids.cryofluid, heating / coolantPower).update(false);
+        }};
+        magneticStormRadiationReactor = new HyperGenerator("magnetic-storm-radiation-reactor"){{
+            requirements(Category.power, with(Items.titanium, 1200, Items.metaglass, 1300, Items.plastanium, 800, Items.silicon, 1600, HIItems.highEnergyFabric, 1200, HIItems.chromium, 2500, HIItems.heavyAlloy, 2200));
+            size = 6;
+            health = 16500;
+            powerProduction = 2200f;
+            updateLightning = updateLightningRand = 3;
+            itemCapacity = 30;
+            itemDuration = 180f;
+            liquidCapacity = 360f;
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPlasma(){{
+                plasma1 = plasma2 = Pal.techBlue;
+            }}, new DrawDefault());
+            ambientSound = Sounds.pulse;
+            ambientSoundVolume = 0.1f;
+            consumePower(65f);
+            consumeItem(HIItems.highEnergyFabric);
+            consumeLiquid(HILiquids.nanofluid, 0.25f);
+            buildCostMultiplier = 0.6f;
         }};
         armoredCoatedBattery = new Battery("armored-coated-battery"){{
             requirements(Category.power, with(Items.lead, 150, Items.silicon, 180, Items.plastanium, 120, HIItems.chromium, 100, HIItems.highEnergyFabric, 30));

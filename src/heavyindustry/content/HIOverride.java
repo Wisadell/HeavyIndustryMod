@@ -28,6 +28,7 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.type.ItemStack.with;
 
+/** Covering the original content */
 public class HIOverride {
     public static void load(){
         //Blocks-Environment

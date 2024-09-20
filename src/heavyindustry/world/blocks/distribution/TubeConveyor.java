@@ -1,29 +1,22 @@
 package heavyindustry.world.blocks.distribution;
 
-import heavyindustry.util.HIUtls;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.geom.Geometry;
-import arc.math.geom.Point2;
-import arc.util.Eachable;
-import arc.util.Time;
-import arc.util.Tmp;
-import mindustry.entities.units.BuildPlan;
-import mindustry.gen.Building;
-import mindustry.gen.Teamc;
-import mindustry.gen.Unit;
-import mindustry.graphics.Layer;
-import mindustry.type.Item;
-import mindustry.world.blocks.distribution.Conveyor;
+import heavyindustry.util.*;
+import arc.graphics.g2d.*;
+import arc.math.geom.*;
+import arc.util.*;
+import mindustry.entities.units.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.world.blocks.distribution.*;
 
-import static heavyindustry.util.HIUtls.reverse;
-import static arc.Core.atlas;
-import static mindustry.Vars.itemSize;
-import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
+import static heavyindustry.util.HIUtls.*;
+import static arc.Core.*;
+import static mindustry.Vars.*;
 
 /**
  * It may have defects, such as seams in the texture connection, and I don't want to fix it anymore.
+ * <p>
  * What kind of mental state was I in when I made this thing?
  */
 public class TubeConveyor extends Conveyor {
@@ -40,7 +33,6 @@ public class TubeConveyor extends Conveyor {
     public TextureRegion[] capRegion;
     public TubeConveyor(String name){
         super(name);
-        buildType = TubeConveyorBuild::new;
     }
 
     @Override

@@ -1,21 +1,14 @@
 package heavyindustry.world.blocks.production;
 
-import arc.Core;
-import arc.graphics.Blending;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Angles;
-import arc.math.Interp;
-import arc.math.Mathf;
-import arc.math.Rand;
-import arc.util.Time;
-import mindustry.content.Fx;
-import mindustry.gen.Sounds;
-import mindustry.graphics.Drawf;
-import mindustry.world.blocks.production.Drill;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.world.blocks.production.*;
 
 /**
  * @author Yuria
@@ -57,7 +50,6 @@ public class LaserBeamDrill extends Drill {
         drillEffect = Fx.none;
         updateEffectChance = 0.2f;
         drawMineItem = false;
-        buildType = BeamDrillBuild::new;
     }
 
     @Override

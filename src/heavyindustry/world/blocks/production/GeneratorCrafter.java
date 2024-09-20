@@ -1,11 +1,11 @@
 package heavyindustry.world.blocks.production;
 
-import arc.Core;
-import arc.math.Mathf;
-import arc.util.Strings;
-import mindustry.graphics.Pal;
-import mindustry.ui.Bar;
-import mindustry.world.blocks.production.GenericCrafter;
+import arc.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.graphics.*;
+import mindustry.ui.*;
+import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
 
 /**
@@ -20,7 +20,6 @@ public class GeneratorCrafter extends GenericCrafter {
         consumesPower = false;
         outputsPower = true;
         powerProduction = 1f;
-        buildType = GeneratorCrafterBuild::new;
     }
 
     @Override

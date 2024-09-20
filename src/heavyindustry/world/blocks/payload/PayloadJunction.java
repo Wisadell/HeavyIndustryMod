@@ -33,7 +33,6 @@ public class PayloadJunction extends Block{
         envEnabled |= Env.space | Env.underwater;
         sync = true;
         canOverdrive = false;
-        buildType = PayloadJunctionBuild::new;
     }
 
     @Override

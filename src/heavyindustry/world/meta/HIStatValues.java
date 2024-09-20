@@ -1,21 +1,18 @@
 package heavyindustry.world.meta;
 
-import arc.Core;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
-import arc.scene.ui.layout.Table;
-import arc.struct.ObjectMap;
-import arc.struct.Seq;
-import arc.util.Strings;
-import mindustry.content.StatusEffects;
-import mindustry.ctype.UnlockableContent;
-import mindustry.entities.bullet.BulletType;
-import mindustry.gen.Tex;
+import arc.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.scene.ui.layout.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.ctype.*;
+import mindustry.entities.bullet.*;
+import mindustry.gen.*;
 import mindustry.type.*;
-import mindustry.world.blocks.defense.turrets.Turret;
-import mindustry.world.meta.StatUnit;
-import mindustry.world.meta.StatValue;
-import mindustry.world.meta.StatValues;
+import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 

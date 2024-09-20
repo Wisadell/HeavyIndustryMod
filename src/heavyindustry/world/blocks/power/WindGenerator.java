@@ -29,7 +29,6 @@ public class WindGenerator extends PowerGenerator{
         super(name);
         flags = EnumSet.of();
         envEnabled = Env.any;
-        buildType = WindGeneratorBuild::new;
     }
 
     @Override

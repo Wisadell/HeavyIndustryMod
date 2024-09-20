@@ -1,6 +1,6 @@
 package heavyindustry.world.meta;
 
-import mindustry.world.meta.Stat;
+import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.name;
 

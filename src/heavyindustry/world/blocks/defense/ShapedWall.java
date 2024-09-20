@@ -1,19 +1,15 @@
 package heavyindustry.world.blocks.defense;
 
-import arc.Core;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
-import arc.math.geom.Point2;
-import arc.struct.Seq;
-import mindustry.gen.Building;
-import mindustry.gen.Bullet;
-import mindustry.world.blocks.defense.Wall;
-import heavyindustry.content.HIFx;
+import arc.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import mindustry.gen.*;
+import mindustry.world.blocks.defense.*;
+import heavyindustry.content.*;
 
-import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
+import static mindustry.Vars.*;
 
 /**
  * Shaped Wall

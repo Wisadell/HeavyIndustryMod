@@ -56,7 +56,6 @@ open class MultiDrill(name: String) : Block(name) {
         hasItems = true
         ambientSound = Sounds.drill
         ambientSoundVolume = 0.018f
-        buildType = Prov { MultiDrillBuild() }
     }
 
     override fun load() {

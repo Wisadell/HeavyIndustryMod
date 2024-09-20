@@ -1,31 +1,23 @@
 package heavyindustry.world.blocks.defense;
 
-import arc.Core;
-import arc.func.Cons2;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.math.Mathf;
-import arc.math.geom.Geometry;
-import arc.math.geom.Point2;
-import arc.struct.IntSeq;
-import arc.struct.Seq;
-import arc.util.Time;
-import arc.util.Tmp;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
-import mindustry.Vars;
-import mindustry.gen.Building;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Pal;
-import mindustry.ui.Bar;
-import mindustry.world.blocks.defense.OverdriveProjector;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
-import heavyindustry.gen.LinkGroupc;
+import arc.*;
+import arc.func.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
+import arc.util.io.*;
+import mindustry.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.ui.*;
+import mindustry.world.blocks.defense.*;
+import mindustry.world.meta.*;
+import heavyindustry.gen.*;
 
-import static mindustry.Vars.tilesize;
+import static mindustry.Vars.*;
 
 /**
  * Assign Overdrive

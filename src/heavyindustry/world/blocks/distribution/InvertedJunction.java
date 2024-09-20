@@ -1,19 +1,19 @@
 package heavyindustry.world.blocks.distribution;
 
-import heavyindustry.world.draw.DrawInvertedJunction;
-import arc.Core;
-import arc.graphics.Color;
+import heavyindustry.world.draw.*;
+import arc.*;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.math.Mathf;
-import arc.math.geom.Geometry;
-import arc.scene.style.TextureRegionDrawable;
-import arc.scene.ui.layout.Table;
-import arc.util.Time;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.scene.style.*;
+import arc.scene.ui.layout.*;
+import arc.util.*;
 import arc.util.io.*;
 import mindustry.gen.*;
-import mindustry.type.Item;
-import mindustry.ui.Styles;
-import mindustry.world.blocks.distribution.Junction;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.world.blocks.distribution.*;
 import mindustry.world.draw.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;

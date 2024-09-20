@@ -33,7 +33,6 @@ public class MultiJunction extends LiquidBlock{
         floating = true;
         noUpdateDisabled = true;
         group = BlockGroup.transportation;
-        buildType = MultiJunctionBuild::new;
     }
 
     @Override

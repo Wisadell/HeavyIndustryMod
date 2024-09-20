@@ -1,7 +1,5 @@
 package heavyindustry.content;
 
-import static heavyindustry.core.HeavyIndustryMod.name;
-
 import heavyindustry.gen.*;
 import heavyindustry.type.weather.*;
 import heavyindustry.entities.bullet.*;
@@ -13,6 +11,9 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
+import static heavyindustry.core.HeavyIndustryMod.name;
+
+/** Defines the {@linkplain Weather weather} this mod offers. */
 public class HIWeathers {
     public static Weather hailStone,wind;
     public static void load(){

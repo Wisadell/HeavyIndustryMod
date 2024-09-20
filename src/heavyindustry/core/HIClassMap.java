@@ -10,6 +10,7 @@ import heavyindustry.type.weather.*;
 import heavyindustry.world.blocks.defense.*;
 import heavyindustry.world.blocks.defense.turrets.*;
 import heavyindustry.world.blocks.distribution.*;
+import heavyindustry.world.blocks.environment.*;
 import heavyindustry.world.blocks.heat.*;
 import heavyindustry.world.blocks.liquid.*;
 import heavyindustry.world.blocks.logic.*;
@@ -58,6 +59,8 @@ public class HIClassMap {
         classes.put("HailStormWeather", HailStormWeather.class);
         classes.put("SpawnerWeather", SpawnerWeather.class);
         //blocks
+        classes.put("SideFloor", SideFloor.class);
+        classes.put("TiledFloor", TiledFloor.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);
         classes.put("AssignOverdriveBuild", AssignOverdrive.AssignOverdriveBuild.class);
         classes.put("InsulationWall", InsulationWall.class);
@@ -112,6 +115,8 @@ public class HIClassMap {
         classes.put("BeamDiodeBuild", BeamDiode.BeamDiodeBuild.class);
         classes.put("WindGenerator", WindGenerator.class);
         classes.put("WindGeneratorBuild", WindGenerator.WindGeneratorBuild.class);
+        classes.put("HyperGenerator", HyperGenerator.class);
+        classes.put("HyperGeneratorBuild", HyperGenerator.HyperGeneratorBuild.class);
         classes.put("GeneratorCrafter", GeneratorCrafter.class);
         classes.put("GeneratorCrafterBuild", GeneratorCrafter.GeneratorCrafterBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);

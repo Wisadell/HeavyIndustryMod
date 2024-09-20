@@ -1,6 +1,6 @@
 package heavyindustry.world.meta;
 
-import mindustry.world.meta.Attribute;
+import mindustry.world.meta.*;
 
 public class HIAttribute {
     public static Attribute arkycite;

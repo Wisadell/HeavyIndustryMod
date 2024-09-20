@@ -8,7 +8,6 @@ import mindustry.world.blocks.heat.HeatProducer
 open class LiquidFuelHeater(name: String) : HeatProducer(name) {
     init {
         hasLiquids = true
-        buildType = Prov { LiquidFuelHeaterBuild() }
     }
 
     override fun setBars() {

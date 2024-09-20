@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.defense
 
-import arc.func.Prov
 import arc.graphics.g2d.Draw
 import arc.graphics.g2d.Fill
 import mindustry.gen.Building
@@ -10,10 +9,6 @@ import mindustry.world.meta.Stat
 import mindustry.world.meta.StatUnit
 
 open class Thorns(name: String) : Block(name) {
-    init {
-        buildType = Prov { ThornsBuild() }
-    }
-
     val timerDamage = timers++
 
     var cooldown = 30f

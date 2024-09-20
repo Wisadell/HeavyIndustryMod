@@ -1,12 +1,12 @@
 package heavyindustry.world.blocks.heat;
 
-import arc.Core;
-import arc.math.Mathf;
+import arc.*;
+import arc.math.*;
 import arc.util.io.*;
-import mindustry.graphics.Pal;
-import mindustry.ui.Bar;
-import mindustry.world.blocks.heat.HeatBlock;
-import mindustry.world.blocks.power.ThermalGenerator;
+import mindustry.graphics.*;
+import mindustry.ui.*;
+import mindustry.world.blocks.heat.*;
+import mindustry.world.blocks.power.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
@@ -26,7 +26,6 @@ public class ThermalHeater extends ThermalGenerator {
         rotate = true;
         canOverdrive = false;
         drawArrow = true;
-        buildType = ThermalHeaterBuild::new;
     }
 
     @Override

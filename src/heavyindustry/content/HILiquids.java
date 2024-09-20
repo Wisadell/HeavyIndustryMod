@@ -8,6 +8,7 @@ import mindustry.type.*;
 
 import static heavyindustry.core.HeavyIndustryMod.name;
 
+/** Defines the {@linkplain Liquid liquid} this mod offers. */
 public class HILiquids {
     public static Liquid
             methane,nanofluid,nitratedOil;

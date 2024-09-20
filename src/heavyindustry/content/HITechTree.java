@@ -100,6 +100,7 @@ public class HITechTree {
         addToNode(powerNode, () -> node(windTurbine, () -> {}));
         addToNode(powerNodeLarge, () -> node(powerNodeGiant, () -> node(powerNodeHighEnergy, () -> {})));
         addToNode(thoriumReactor, () -> node(uraniumReactor, () -> {}));
+        addToNode(impactReactor, () -> node(magneticStormRadiationReactor, () -> {}));
         addToNode(batteryLarge, () -> node(armoredCoatedBattery, () -> {}));
         //power-erekir
         addToNode(beamNode, () -> {

@@ -1,11 +1,11 @@
 package heavyindustry.world.draw;
 
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.math.Angles;
-import arc.util.Tmp;
-import mindustry.entities.part.DrawPart;
-import mindustry.graphics.Drawf;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.entities.part.*;
+import mindustry.graphics.*;
 
 public class DrawFrostWing extends DrawPart  {
     public float x, y,

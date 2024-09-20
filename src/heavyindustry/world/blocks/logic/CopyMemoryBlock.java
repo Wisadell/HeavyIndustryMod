@@ -1,6 +1,6 @@
 package heavyindustry.world.blocks.logic;
 
-import mindustry.world.blocks.logic.MemoryBlock;
+import mindustry.world.blocks.logic.*;
 
 /**
  * @author guiY

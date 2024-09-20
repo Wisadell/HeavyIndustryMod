@@ -1,9 +1,9 @@
 package heavyindustry.world.draw;
 
-import heavyindustry.world.blocks.distribution.InvertedJunction;
-import arc.Core;
-import arc.graphics.g2d.Draw;
-import mindustry.gen.Building;
+import heavyindustry.world.blocks.distribution.*;
+import arc.*;
+import arc.graphics.g2d.*;
+import mindustry.gen.*;
 import mindustry.world.draw.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;

@@ -41,7 +41,6 @@ public class BeamDiode extends Block{
         noUpdateDisabled = true;
         schematicPriority = 10;
         envEnabled |= Env.space;
-        buildType = BeamDiodeBuild::new;
     }
 
     @Override

@@ -1,23 +1,16 @@
 package heavyindustry.world.blocks.distribution;
 
-import heavyindustry.world.draw.DrawNodeBridge;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
-import arc.util.Eachable;
-import arc.util.Time;
-import mindustry.entities.units.BuildPlan;
-import mindustry.gen.Building;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Pal;
-import mindustry.world.Tile;
-import mindustry.world.blocks.distribution.ItemBridge;
-import mindustry.world.draw.DrawBlock;
-import mindustry.world.draw.DrawDefault;
-import mindustry.world.draw.DrawMulti;
-import mindustry.world.meta.Stat;
-import mindustry.world.meta.StatUnit;
+import heavyindustry.world.draw.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.entities.units.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.world.*;
+import mindustry.world.blocks.distribution.*;
+import mindustry.world.draw.*;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -26,7 +19,6 @@ public class NodeBridge extends ItemBridge {
 
     public NodeBridge(String name) {
         super(name);
-        buildType = NodeBridgeBuild::new;
     }
 
     @Override

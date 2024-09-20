@@ -1,19 +1,14 @@
 package heavyindustry.world.draw;
 
-import heavyindustry.graphics.HIPal;
-import arc.Core;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.util.Time;
-import arc.util.Tmp;
-import mindustry.content.Items;
-import mindustry.entities.part.DrawPart;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
+import heavyindustry.graphics.*;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.entities.part.*;
+import mindustry.graphics.*;
 
 public class PartBow extends DrawPart {
     public float bowMoveY = -40 + 8, bowFY = -8;

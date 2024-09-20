@@ -1,26 +1,22 @@
 package heavyindustry.world.draw;
 
-import static mindustry.Vars.tilesize;
+import heavyindustry.content.*;
+import heavyindustry.math.*;
+import arc.func.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
 
-import heavyindustry.math.HIInterp;
-import arc.func.Floatc2;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.math.Rand;
-import arc.math.geom.Vec2;
-import arc.util.Time;
-import arc.util.Tmp;
-import mindustry.gen.Buildingc;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Pal;
+import static mindustry.Vars.*;
 
 public class DrawFunc {
     private static final Vec2 vec21 = new Vec2();
     private static final Rand rand = new Rand();
+    public static final float sinScl = 1f;
 
     public static void drawSnow(float x, float y, float rad, float rot, Color color){
         Draw.color(color);
@@ -32,8 +28,6 @@ public class DrawFunc {
         Draw.reset();
     }
 
-    //N
-    public static final float sinScl = 1f;
     public static void link(Buildingc from, Buildingc to, Color color){
         float
                 sin = Mathf.absin(Time.time * sinScl, 6f, 1f),
@@ -85,7 +79,17 @@ public class DrawFunc {
         Fill.circle(x2, y2, stroke * circleScl);
         Lines.stroke(1f);
     }
+
     public static void basicLaser(float x, float y, float x2, float y2, float stroke){
         basicLaser(x, y, x2, y2, stroke, 0.95f);
+    }
+
+    public static void randFadeLightningEffect(float x, float y, float range, float lightningPieceLength, Color color, boolean in){
+        randFadeLightningEffectScl(x, y, range, 0.55f, 1.1f, lightningPieceLength, color, in);
+    }
+
+    public static void randFadeLightningEffectScl(float x, float y, float range, float sclMin, float sclMax, float lightningPieceLength, Color color, boolean in){
+        vec21.rnd(range).scl(Mathf.random(sclMin, sclMax)).add(x, y);
+        (in ? HIFx.chainLightningFadeReversed : HIFx.chainLightningFade).at(x, y, lightningPieceLength, color, vec21.cpy());
     }
 }
