@@ -1,30 +1,20 @@
 package heavyindustry.entities;
 
-import heavyindustry.content.HIFx;
-import heavyindustry.struct.Vec2Seq;
-import heavyindustry.entities.bullet.EffectBulletType;
-import arc.func.Cons;
-import arc.graphics.Color;
-import arc.math.Mathf;
-import arc.math.Rand;
-import arc.math.geom.Geometry;
-import arc.math.geom.Position;
-import arc.math.geom.Rect;
-import arc.math.geom.Vec2;
-import arc.struct.FloatSeq;
-import arc.struct.Seq;
-import mindustry.Vars;
-import mindustry.content.Fx;
-import mindustry.content.StatusEffects;
-import mindustry.core.World;
-import mindustry.entities.Lightning;
-import mindustry.entities.Units;
-import mindustry.entities.bullet.BulletType;
-import mindustry.game.Team;
-import mindustry.gen.Building;
-import mindustry.gen.Bullet;
-import mindustry.gen.Entityc;
-import mindustry.gen.Healthc;
+import heavyindustry.content.*;
+import heavyindustry.struct.*;
+import heavyindustry.entities.bullet.*;
+import arc.func.*;
+import arc.graphics.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import mindustry.*;
+import mindustry.content.*;
+import mindustry.core.*;
+import mindustry.entities.*;
+import mindustry.entities.bullet.*;
+import mindustry.game.*;
+import mindustry.gen.*;
 
 public class PosLightning {
     public static final BulletType hitter = new EffectBulletType(5f){{

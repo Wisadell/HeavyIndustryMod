@@ -1,11 +1,10 @@
 package heavyindustry.entities.bullet;
 
-import heavyindustry.content.HIFx;
-import heavyindustry.entities.PosLightning;
-import mindustry.content.Fx;
-import mindustry.entities.Damage;
-import mindustry.entities.Effect;
-import mindustry.entities.bullet.BulletType;
+import heavyindustry.content.*;
+import heavyindustry.entities.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
 public class PositionLightningBulletType extends BulletType {

@@ -1,16 +1,15 @@
 package heavyindustry.util;
 
-import static arc.Core.atlas;
-
-import org.jetbrains.annotations.Contract;
-
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.util.*;
+import mindustry.content.*;
+import mindustry.type.*;
+import mindustry.world.*;
+import org.jetbrains.annotations.*;
 
-/**
- * Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to
- * require me to write a class for it.
- */
+import static arc.Core.*;
+
+/** Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to require me to write a class for it. */
 public class HIUtls {
     public static String stringsFixed(float value){
         return Strings.autoFixed(value, 2);
@@ -48,5 +47,15 @@ public class HIUtls {
             tiles[step] = new TextureRegion(tex, step * (margin + size), layer * (margin + size), size, size);
         }
         return tiles;
+    }
+
+    public static Item oreDrop(Tile tile){
+        if(tile == null) return null;
+
+        if(tile.block() != Blocks.air){
+            return tile.wallDrop();
+        }else{
+            return tile.drop();
+        }
     }
 }

@@ -1,8 +1,8 @@
 package heavyindustry.entities.bullet;
 
-import mindustry.content.Fx;
-import mindustry.entities.bullet.BulletType;
-import mindustry.gen.Bullet;
+import mindustry.content.*;
+import mindustry.entities.bullet.*;
+import mindustry.gen.*;
 
 public class EffectBulletType extends BulletType {
     public EffectBulletType(float lifetime){
@@ -16,6 +16,9 @@ public class EffectBulletType extends BulletType {
         drawSize = 120f;
     }
 
-    @Override public void draw(Bullet b){}
-    @Override public void drawLight(Bullet b){}
+    @Override
+    public void draw(Bullet b){}
+
+    @Override
+    public void drawLight(Bullet b){}
 }

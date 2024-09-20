@@ -7,18 +7,20 @@ import arc.audio.Sound;
 import mindustry.Vars;
 
 public class HISounds {
-    public static Sound ct1;
-    public static Sound dbz1;
-    public static Sound dd1;
-    public static Sound fj;
-    public static Sound jg1;
-    public static Sound flak;
-    public static Sound flak2;
-    public static Sound gauss;
-    public static Sound fissure;
-    public static Sound largeBeam;
-    public static Sound hailRain;
-    public static Sound bigHailstoneHit;
+    public static Sound
+            ct1,
+            dbz1,
+            dd1,
+            fj,
+            jg1,
+            flak,
+            flak2,
+            gauss,
+            fissure,
+            hugeBlast,
+            largeBeam,
+            hailRain,
+            bigHailstoneHit;
 
     public HISounds() {}
 
@@ -32,6 +34,7 @@ public class HISounds {
         flak2 = loadSound("flak2");
         gauss = loadSound("gauss");
         fissure = loadSound("fissure");
+        hugeBlast = loadSound("hugeBlast");
         largeBeam = loadSound("largeBeam");
         hailRain = loadSound("hailRain");
         bigHailstoneHit = loadSound("bigHailstoneHit");
@@ -64,6 +67,7 @@ public class HISounds {
         flak2 = new Sound();
         gauss = new Sound();
         fissure = new Sound();
+        hugeBlast = new Sound();
         largeBeam = new Sound();
         hailRain = new Sound();
         bigHailstoneHit = new Sound();

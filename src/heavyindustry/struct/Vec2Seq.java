@@ -1,15 +1,11 @@
 package heavyindustry.struct;
 
-import arc.func.Boolf;
-import arc.func.Cons;
-import arc.func.Floatc2;
-import arc.math.geom.Position;
-import arc.math.geom.Vec2;
-import arc.struct.FloatSeq;
-import arc.struct.Seq;
-import arc.util.Eachable;
+import arc.func.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
 
-import java.util.Iterator;
+import java.util.*;
 
 public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
     private final FloatSeq coordinates;

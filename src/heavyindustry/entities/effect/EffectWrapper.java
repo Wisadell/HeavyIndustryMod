@@ -1,8 +1,8 @@
 package heavyindustry.entities.effect;
 
-import arc.graphics.Color;
-import mindustry.content.Fx;
-import mindustry.entities.Effect;
+import arc.graphics.*;
+import mindustry.content.*;
+import mindustry.entities.*;
 
 public class EffectWrapper extends Effect {
     public Effect effect = Fx.none;

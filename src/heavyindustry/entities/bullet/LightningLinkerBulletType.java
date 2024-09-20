@@ -1,31 +1,21 @@
 package heavyindustry.entities.bullet;
 
-import arc.audio.Sound;
-import arc.func.Cons;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.math.geom.Position;
-import arc.math.geom.Vec2;
-import arc.util.Time;
-import arc.util.Tmp;
-import mindustry.content.Fx;
-import mindustry.entities.Damage;
-import mindustry.entities.Effect;
-import mindustry.entities.Lightning;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.gen.Building;
-import mindustry.gen.Bullet;
-import mindustry.gen.Sounds;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
-import heavyindustry.content.HIFx;
-import heavyindustry.entities.PosLightning;
+import arc.audio.*;
+import arc.func.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.entities.bullet.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import heavyindustry.content.*;
+import heavyindustry.entities.*;
 
-import static arc.graphics.g2d.Draw.color;
-import static arc.math.Angles.randLenVectors;
+import static arc.graphics.g2d.Draw.*;
+import static arc.math.Angles.*;
 
 public class LightningLinkerBulletType extends BasicBulletType{
     public float hitSpacing = 10f;

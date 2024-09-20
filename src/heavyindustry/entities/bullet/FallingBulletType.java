@@ -1,25 +1,19 @@
 package heavyindustry.entities.bullet;
 
-import arc.Core;
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
-import arc.math.geom.Vec2;
-import arc.util.Time;
-import arc.util.Tmp;
-import mindustry.content.Fx;
-import mindustry.content.StatusEffects;
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.util.*;
+import mindustry.content.*;
 import mindustry.entities.*;
-import mindustry.entities.bullet.BulletType;
-import mindustry.gen.Bullet;
-import mindustry.gen.Teamc;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
-import mindustry.graphics.Trail;
-import heavyindustry.math.Math3D;
+import mindustry.entities.bullet.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import heavyindustry.math.*;
 
-import static mindustry.Vars.headless;
+import static mindustry.Vars.*;
 
 public class FallingBulletType extends BulletType {
     public float fallTime = 50f;

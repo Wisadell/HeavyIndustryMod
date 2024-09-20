@@ -1,27 +1,24 @@
 package heavyindustry.gen;
 
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.math.Mathf;
-import arc.math.geom.Point2;
-import arc.struct.Seq;
-import arc.util.Nullable;
-import arc.util.Time;
-import arc.util.Tmp;
-import mindustry.gen.Building;
-import mindustry.gen.Buildingc;
-import mindustry.graphics.Drawf;
-import mindustry.logic.Ranged;
-import heavyindustry.world.draw.DrawFunc;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.logic.*;
+import heavyindustry.world.draw.*;
 
-import static mindustry.Vars.tilesize;
-import static mindustry.Vars.world;
-import static heavyindustry.world.draw.DrawFunc.sinScl;
+import static mindustry.Vars.*;
+import static heavyindustry.world.draw.DrawFunc.*;
 
 public interface Linkablec extends Buildingc, Ranged{
     Seq<Building> tmpSeq = new Seq<>(1);
 
-    @Override default boolean onConfigureBuildTapped(Building other){
+    @Override
+    default boolean onConfigureBuildTapped(Building other){
         if (this == other || linkPos() == other.pos()) {
             configure(Tmp.p1.set(-1, -1));
             return false;
@@ -58,11 +55,24 @@ public interface Linkablec extends Buildingc, Ranged{
         drawLink(null);
     }
 
-    default Building link(){return world.build(linkPos()); }
-    default boolean linkValid(){ return linkValid(link()); }
-    default boolean linkValid(Building b){ return b != null; }
-    default void linkPos(Point2 point2){linkPos(point2.pack());}
+    default Building link(){
+        return world.build(linkPos());
+    }
+
+    default boolean linkValid(){
+        return linkValid(link());
+    }
+
+    default boolean linkValid(Building b){
+        return b != null;
+    }
+
+    default void linkPos(Point2 point2){
+        linkPos(point2.pack());
+    }
+
     int linkPos();
+
     void linkPos(int value);
     Color getLinkColor();
 }

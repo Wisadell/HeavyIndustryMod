@@ -1,9 +1,8 @@
 package heavyindustry.gen;
 
-import arc.struct.IntSeq;
-import arc.struct.Seq;
-import mindustry.Vars;
-import mindustry.gen.Building;
+import arc.struct.*;
+import mindustry.*;
+import mindustry.gen.*;
 
 public interface LinkGroupc extends Linkablec{
     default Seq<Building> linkBuilds(){
@@ -30,6 +29,13 @@ public interface LinkGroupc extends Linkablec{
         return true;
     }
 
-    @Override default int linkPos(){return pos();}
-    @Override default Building link(){return as();}
+    @Override
+    default int linkPos(){
+        return pos();
+    }
+
+    @Override
+    default Building link(){
+        return as();
+    }
 }

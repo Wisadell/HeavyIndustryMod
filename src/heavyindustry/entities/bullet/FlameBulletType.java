@@ -1,10 +1,10 @@
 package heavyindustry.entities.bullet;
 
-import heavyindustry.content.HIFx;
-import arc.graphics.Color;
-import arc.math.Angles;
+import heavyindustry.content.*;
+import arc.graphics.*;
+import arc.math.*;
 import mindustry.content.*;
-import mindustry.entities.Units;
+import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 

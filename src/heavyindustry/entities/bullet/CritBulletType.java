@@ -1,7 +1,7 @@
 package heavyindustry.entities.bullet;
 
-import heavyindustry.content.HIFx;
-import heavyindustry.graphics.HITrail;
+import heavyindustry.content.*;
+import heavyindustry.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;

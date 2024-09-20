@@ -8,7 +8,7 @@ import mindustry.entities.bullet.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.type.*;
-import mindustry.content.Liquids;
+import mindustry.content.*;
 
 import java.util.*;
 import mindustry.Vars;

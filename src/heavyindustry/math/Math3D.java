@@ -1,16 +1,11 @@
 package heavyindustry.math;
 
-import mindustry.Vars;
+import mindustry.*;
 
-import static arc.Core.camera;
-import static arc.math.Mathf.dst;
+import static arc.Core.*;
+import static arc.math.Mathf.*;
 
 public class Math3D {
-    /**
-     * From prog-mat-java
-     * https://github.com/MEEPofFaith/prog-mats-java
-     * @author MEEP, modified by RandomJelly
-     */
     public static final float horiToVerti = 1f/48f;
 
     public static float xOffset(float x, float height){

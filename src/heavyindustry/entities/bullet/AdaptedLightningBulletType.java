@@ -1,11 +1,10 @@
 package heavyindustry.entities.bullet;
 
-import arc.math.Mathf;
-import mindustry.content.Fx;
-import mindustry.content.StatusEffects;
-import mindustry.entities.Lightning;
-import mindustry.entities.bullet.BulletType;
-import mindustry.gen.Bullet;
+import arc.math.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.entities.bullet.*;
+import mindustry.gen.*;
 
 public class AdaptedLightningBulletType extends BulletType {
     public AdaptedLightningBulletType(){

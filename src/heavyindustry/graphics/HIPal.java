@@ -1,28 +1,22 @@
 package heavyindustry.graphics;
 
-import heavyindustry.content.HIItems;
-import arc.graphics.Color;
-import arc.math.geom.Position;
-import arc.struct.Seq;
-import arc.util.Time;
-import mindustry.content.Fx;
-import mindustry.content.Items;
-import mindustry.entities.Mover;
-import mindustry.entities.bullet.ArtilleryBulletType;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.bullet.PointBulletType;
-import mindustry.entities.pattern.ShootSpread;
-import mindustry.game.Team;
-import mindustry.gen.Bullet;
-import mindustry.gen.Entityc;
-import mindustry.gen.Velc;
-import mindustry.graphics.Pal;
-import mindustry.type.Item;
-import mindustry.world.Block;
-import mindustry.world.blocks.defense.turrets.ItemTurret;
-import mindustry.world.blocks.defense.turrets.Turret;
+import heavyindustry.content.*;
+import arc.graphics.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.entities.bullet.*;
+import mindustry.entities.pattern.*;
+import mindustry.game.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.world.*;
+import mindustry.world.blocks.defense.turrets.*;
 
-import java.util.Arrays;
+import java.util.*;
 
 import static mindustry.Vars.*;
 

@@ -1,21 +1,15 @@
 package heavyindustry.entities.bullet;
 
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.util.Time;
-import mindustry.content.Fx;
-import mindustry.entities.Mover;
-import mindustry.entities.Units;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.effect.ExplosionEffect;
-import mindustry.gen.Bullet;
-import mindustry.gen.Hitboxc;
-import mindustry.gen.Teamc;
-import mindustry.gen.Unit;
-import mindustry.graphics.Layer;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.entities.*;
+import mindustry.entities.bullet.*;
+import mindustry.entities.effect.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
 
 public class BallistaBulletType extends BulletType {
     public BulletType fb, ff;
