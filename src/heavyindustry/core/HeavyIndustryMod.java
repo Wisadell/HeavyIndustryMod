@@ -3,8 +3,8 @@ package heavyindustry.core;
 import heavyindustry.content.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
-import heavyindustry.ui.ClassicDamageDisplay;
-import heavyindustry.ui.DamageDisplay;
+import heavyindustry.graphics.g3d.*;
+import heavyindustry.ui.*;
 import heavyindustry.ui.dialogs.*;
 import heavyindustry.world.meta.*;
 import java.util.*;
@@ -27,8 +27,13 @@ public class HeavyIndustryMod extends Mod{
         return modName + "-" + add;
     }
 
-    private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
+    /** Modules only present in clients, typically rendering or auxiliary input utilities. */
+    public static RenderContext renderContext;
+    public static ModelPropDrawer modelPropDrawer;
+
     public static boolean onlyPlugIn = settings.getBool(name("plug-in-mode"));
+
+    private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
 
     public HeavyIndustryMod(){
         Log.info("Loaded HeavyIndustry Mod constructor.");
@@ -60,6 +65,8 @@ public class HeavyIndustryMod extends Mod{
             app.post(() -> {
                 HIShaders.init();
                 HICacheLayer.init();
+                renderContext = new RenderContext();
+                modelPropDrawer = new ModelPropDrawer(HIShaders.modelProp, 8192, 16384);
             });
         });
 

@@ -118,7 +118,7 @@ public class UnitMinerDepot extends Block {
 
             if(!targetSet && targetItem != null && commandPos != null){
                 Tile ore = world.tileWorld(commandPos.x, commandPos.y);
-                if(ore != null && HIUtls.oreDrop(ore) == targetItem){
+                if(ore != null && HIUtils.oreDrop(ore) == targetItem){
                     oreTiles.put(targetItem, ore);
                     targetSet = true;
                     if(unit != null) unit.mineTile = null;

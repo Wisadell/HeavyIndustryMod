@@ -95,14 +95,14 @@ public class MinigunTurret extends ItemTurret {
         stats.remove(Stat.reload);
         float minValue = minFiringSpeed / 90f * 60f * shoot.shots;
         float maxValue = maxSpeed / 90f * 60f * shoot.shots;
-        stats.add(Stat.reload, HIUtls.stringsFixed(minValue) + " - " + HIUtls.stringsFixed(maxValue) + StatUnit.perSecond.localized());
+        stats.add(Stat.reload, HIUtils.stringsFixed(minValue) + " - " + HIUtils.stringsFixed(maxValue) + StatUnit.perSecond.localized());
     }
 
     @Override
     public void setBars(){
         super.setBars();
         addBar(name("minigunSpeed"), (MinigunTurretBuild entity) -> new Bar(
-                () -> Core.bundle.format("bar." + name("minigunSpeed"), HIUtls.stringsFixed(entity.speedf() * 100f)),
+                () -> Core.bundle.format("bar." + name("minigunSpeed"), HIUtils.stringsFixed(entity.speedf() * 100f)),
                 entity::barColor,
                 entity::speedf
         ));

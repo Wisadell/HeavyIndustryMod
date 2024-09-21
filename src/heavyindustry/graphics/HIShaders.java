@@ -20,6 +20,7 @@ public class HIShaders {
     public static DepthAtmosphereShader depthAtmosphere;
     public static @Nullable HISurfaceShader nanofluid,dalani;
     public static PlanetTextureShader planetTextureShader;
+    public static ModelPropShader modelProp;
 
     /** Loads the shaders. Client-side and main thread only! */
     public static void init(){
@@ -37,6 +38,8 @@ public class HIShaders {
         dalani = new HISurfaceShader("dalani");
 
         planetTextureShader = new PlanetTextureShader();
+
+        modelProp = new ModelPropShader();
 
         Shader.prependVertexCode = prevVert;
         Shader.prependFragmentCode = prevFrag;

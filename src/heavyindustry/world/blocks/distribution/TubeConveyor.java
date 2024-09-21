@@ -10,7 +10,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.blocks.distribution.*;
 
-import static heavyindustry.util.HIUtls.*;
+import static heavyindustry.util.HIUtils.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
@@ -73,7 +73,7 @@ public class TubeConveyor extends Conveyor {
     @Override
     public void load(){
         super.load();
-        topRegion = HIUtls.splitLayers(name + "-sheet", 32, 2);
+        topRegion = HIUtils.splitLayers(name + "-sheet", 32, 2);
         capRegion = new TextureRegion[] { topRegion[1][0], topRegion[1][1] };
         uiIcon = atlas.find(name + "-icon");
     }
