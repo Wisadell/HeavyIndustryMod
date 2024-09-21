@@ -4,18 +4,19 @@ import heavyindustry.graphics.gl.*;
 import arc.files.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.graphics.g3d.*;
 import arc.graphics.gl.*;
 import arc.math.geom.*;
 import arc.util.*;
 import mindustry.*;
-import mindustry.graphics.Shaders;
+import mindustry.graphics.*;
 import mindustry.type.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /** Defines the {@linkplain Shader shaders}s this mod offers. */
-public class HIShaders {
+public final class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
     public static @Nullable HISurfaceShader nanofluid,dalani;
@@ -144,6 +145,24 @@ public class HIShaders {
 
                 setUniformi("u_noise", 1);
             }
+        }
+    }
+
+    public static class ModelPropShader extends Shader {
+        public Camera3D camera;
+        public Vec3 lightDir = new Vec3();
+        public Color reflectColor = new Color();
+
+        public ModelPropShader(){
+            super(file("model-prop.vert"), file("model-prop.frag"));
+        }
+
+        @Override
+        public void apply(){
+            setUniformMatrix4("u_proj", camera.combined.val);
+            setUniformf("u_camPos", camera.position);
+            setUniformf("u_lightDir", lightDir);
+            setUniformf("u_reflectColor", reflectColor);
         }
     }
 }

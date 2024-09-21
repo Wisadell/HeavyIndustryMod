@@ -60,7 +60,7 @@ public class HIBlocks {
     public static Block
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
-            stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,labFloor,
+            stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,crystallineSpire,asphalt,asphaltSide,labFloor,
             nanofluid,
             stoneWater,shaleWater,basaltWater,
             softRareEarth,patternRareEarth,softRareEarthWall,
@@ -170,6 +170,7 @@ public class HIBlocks {
             variants = 2;
             Blocks.darksand.asFloor().decoration = this;
         }};
+        crystallineSpire = new ModelProp("crystalline-spire", Blocks.crystallineStoneWall, Blocks.crystallineStoneWall.mapColor, HIModels.spireSmall1, HIModels.spireSmall2);
         asphalt = new Floor("asphalt", 0);
         asphaltSide = new SideFloor("asphalt-side", 16){{
             blendGroup = asphalt;

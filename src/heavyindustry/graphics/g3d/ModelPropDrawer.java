@@ -1,6 +1,6 @@
 package heavyindustry.graphics.g3d;
 
-import heavyindustry.graphics.gl.*;
+import heavyindustry.graphics.HIShaders.*;
 import arc.*;
 import arc.func.*;
 import arc.graphics.*;

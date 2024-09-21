@@ -1,20 +1,13 @@
 package heavyindustry.graphics;
 
-import arc.files.Fi;
-import arc.graphics.Mesh;
-import gltfrenzy.loader.GlbReader;
-import gltfrenzy.loader.GltfReader;
-import gltfrenzy.loader.MeshSetLoader;
-import gltfrenzy.loader.NodeLoader;
-import gltfrenzy.loader.Scenes3DLoader;
-import gltfrenzy.model.MeshSet;
-import gltfrenzy.model.Node;
-import gltfrenzy.model.Scenes3D;
+import arc.files.*;
+import arc.graphics.*;
+import gltfrenzy.loader.*;
+import gltfrenzy.model.*;
 
-import static heavyindustry.util.StructUtils.each;
-import static arc.Core.app;
-import static arc.Core.assets;
-import static mindustry.Vars.tree;
+import static heavyindustry.util.StructUtils.*;
+import static arc.Core.*;
+import static mindustry.Vars.*;
 
 /** Defines the {@linkplain Scenes3D 3D model}s this mod offers. */
 public class HIModels {

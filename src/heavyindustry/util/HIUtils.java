@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
 import static arc.Core.*;
 
 /** Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to require me to write a class for it. */
-public class HIUtils {
+public final class HIUtils {
     public static String stringsFixed(float value){
         return Strings.autoFixed(value, 2);
     }
