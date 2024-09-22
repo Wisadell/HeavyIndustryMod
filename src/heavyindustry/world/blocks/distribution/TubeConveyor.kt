@@ -103,7 +103,7 @@ open class TubeConveyor(name: String) : Conveyor(name) {
 
         fun isEnd(i: Int): Boolean {
             val b = buildAt(i)
-            return (!valid(i) && (if (b == null) null else b.block) !== this.block) || (b is ConveyorBuild && ((b.rotation + 2) % 4 == rotation || (b.front() !== this && back() === b)))
+            return (!valid(i) && b?.block !== this.block) || (b is ConveyorBuild && ((b.rotation + 2) % 4 == rotation || (b.front() !== this && back() === b)))
         }
 
         override fun draw() {

@@ -39,10 +39,10 @@ open class CoveredConveyor(name: String) : Conveyor(name) {
     }
 
     open inner class CoveredConveyorBuild : ConveyorBuild() {
-        var backCap: Boolean = false
-        var leftCap: Boolean = false
-        var rightCap: Boolean = false
-        var frontCap: Boolean = false
+        var backCap = false
+        var leftCap = false
+        var rightCap = false
+        var frontCap = false
 
         override fun draw() {
             super.draw()
