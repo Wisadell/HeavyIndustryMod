@@ -31,18 +31,18 @@ open class MultiDrill(name: String) : Block(name) {
 
     val oreCount = ObjectIntMap<Item>()
 
-    var hardnessDrillMultiplier = 50f
-    var drillTime = 280f
-    var liquidBoostIntensity = 1.8f
+    @JvmField var hardnessDrillMultiplier = 50f
+    @JvmField var drillTime = 280f
+    @JvmField var liquidBoostIntensity = 1.8f
 
-    var warmupSpeed = 0.01f
-    var rotateSpeed = 6f
+    @JvmField var warmupSpeed = 0.01f
+    @JvmField var rotateSpeed = 6f
 
-    var drillEffect: Effect = Fx.mineHuge
-    var updateEffect: Effect = Fx.pulverizeRed
-    var updateEffectChance = 0.03f
+    @JvmField var drillEffect: Effect = Fx.mineHuge
+    @JvmField var updateEffect: Effect = Fx.pulverizeRed
+    @JvmField var updateEffectChance = 0.03f
 
-    var heatColor: Color = Color.valueOf("ff5512")
+    @JvmField var heatColor: Color = Color.valueOf("ff5512")
 
     lateinit var rimRegion: TextureRegion
     lateinit var rotatorRegion: TextureRegion

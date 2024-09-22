@@ -3,8 +3,6 @@ package heavyindustry.core;
 import heavyindustry.content.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
-import heavyindustry.graphics.g3d.*;
-import heavyindustry.ui.*;
 import heavyindustry.ui.dialogs.*;
 import heavyindustry.world.meta.*;
 import java.util.*;
@@ -26,10 +24,6 @@ public class HeavyIndustryMod extends Mod{
     public static String name(String add){
         return modName + "-" + add;
     }
-
-    /** Modules only present in clients, typically rendering or auxiliary input utilities. */
-    public static RenderContext renderContext;
-    public static ModelPropDrawer modelPropDrawer;
 
     public static boolean onlyPlugIn = settings.getBool(name("plug-in-mode"));
 
@@ -61,12 +55,9 @@ public class HeavyIndustryMod extends Mod{
         });
 
         Events.on(FileTreeInitEvent.class, e -> {
-            HIModels.load();
             app.post(() -> {
                 HIShaders.init();
                 HICacheLayer.init();
-                renderContext = new RenderContext();
-                modelPropDrawer = new ModelPropDrawer(HIShaders.modelProp, 8192, 16384);
             });
         });
 
@@ -118,18 +109,6 @@ public class HeavyIndustryMod extends Mod{
             dialog.buttons.button("@confirm", exit).center().size(150, 50);
 
             ui.settings.addCategory(bundle.format("mod.heavy-industry.settings"), t -> {
-                t.checkPref(name("classic-damage-display"), true, b -> {
-                    if (b) {
-                        settings.put(name("damage-display"), false);
-                    }
-                });
-                t.checkPref(name("damage-display"), false, b -> {
-                    if (b) {
-                        settings.put(name("classic-damage-display"), false);
-                    }
-                });
-                t.sliderPref(name("damage-display-frequency"), 30, 3, 120, 3, s ->
-                        bundle.format("setting.seconds", s / 60f));
                 t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting(name("plug-in-mode"), false, null) {
                     @Override
                     public void add(SettingsMenuDialog.SettingsTable table) {
@@ -148,10 +127,6 @@ public class HeavyIndustryMod extends Mod{
                 });
             });
         }
-
-        //noinspection InstantiationOfUtilityClass
-        new ClassicDamageDisplay();
-        new DamageDisplay();
 
         //Replace the original technology tree
         HIResearchDialog dialog = new HIResearchDialog();

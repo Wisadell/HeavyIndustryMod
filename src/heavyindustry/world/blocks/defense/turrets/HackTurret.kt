@@ -1,6 +1,7 @@
 package heavyindustry.world.blocks.defense.turrets
 
 import arc.Core
+import arc.audio.Sound
 import arc.graphics.Color
 import arc.graphics.g2d.Draw
 import arc.graphics.g2d.TextureRegion
@@ -29,15 +30,15 @@ open class HackTurret(name: String) : BaseTurret(name) {
     lateinit var laser: TextureRegion
     lateinit var laserEnd: TextureRegion
 
-    var shootCone = 6f
-    var shootLength = 5f
-    var laserWidth = 0.6f
-    var damage = 0.5f
-    var targetAir = true
-    var targetGround = true
-    var laserColor = Color.white
-    var shootSound = Sounds.tractorbeam
-    var shootSoundVolume = 0.9f
+    @JvmField var shootCone = 6f
+    @JvmField var shootLength = 5f
+    @JvmField var laserWidth = 0.6f
+    @JvmField var damage = 0.5f
+    @JvmField var targetAir = true
+    @JvmField var targetGround = true
+    @JvmField var laserColor: Color = Color.white
+    @JvmField var shootSound: Sound = Sounds.tractorbeam
+    @JvmField var shootSoundVolume = 0.9f
 
     var unitSort = Sortf { obj: Unit, x: Float, y: Float -> obj.dst2(x, y) }
 

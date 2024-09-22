@@ -11,8 +11,8 @@ import mindustry.world.meta.StatUnit
 open class Thorns(name: String) : Block(name) {
     val timerDamage = timers++
 
-    var cooldown = 30f
-    var damage = 8f
+    @JvmField var cooldown = 30f
+    @JvmField var damage = 8f
 
     override fun setStats() {
         super.setStats()

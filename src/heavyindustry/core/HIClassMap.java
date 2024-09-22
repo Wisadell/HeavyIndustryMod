@@ -61,7 +61,6 @@ public class HIClassMap {
         //blocks
         classes.put("SideFloor", SideFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
-        classes.put("ModelProp", ModelProp.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);
         classes.put("AssignOverdriveBuild", AssignOverdrive.AssignOverdriveBuild.class);
         classes.put("InsulationWall", InsulationWall.class);
