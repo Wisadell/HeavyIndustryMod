@@ -12,6 +12,7 @@ import mindustry.world.meta.*;
 
 public class MultiRouter extends LiquidRouter {
     public float speed = 8f;
+
     public MultiRouter(String name) {
         super(name);
         placeableLiquid = true;
@@ -24,6 +25,7 @@ public class MultiRouter extends LiquidRouter {
         unloadable = false;
         noUpdateDisabled = true;
     }
+
     public class MultiRouterBuild extends LiquidRouterBuild{
         public Item lastItem;
         public Tile lastInput;

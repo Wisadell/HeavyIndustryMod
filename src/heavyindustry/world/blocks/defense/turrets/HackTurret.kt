@@ -105,12 +105,7 @@ open class HackTurret(name: String) : BaseTurret(name) {
         }
 
         private fun findTarget() {
-            target =
-                Units.bestEnemy(
-                    team, x, y, range,
-                    { e: Unit -> !e.dead() && (e.isGrounded || targetAir) && (!e.isGrounded || targetGround) && !e.spawnedByCore && e !in targets },
-                    unitSort
-                )
+            target = Units.bestEnemy(team, x, y, range, { e: Unit -> !e.dead() && (e.isGrounded || targetAir) && (!e.isGrounded || targetGround) && !e.spawnedByCore && e !in targets }, unitSort)
             target?.let {
                 targets.add(it)
                 lastX = target!!.x
@@ -151,11 +146,7 @@ open class HackTurret(name: String) : BaseTurret(name) {
             Draw.z(Layer.bullet)
             val ang = angleTo(lastX, lastY)
             Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f))
-            Drawf.laser(
-                laser, laserEnd,
-                x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength),
-                lastX, lastY, efficiency() * laserWidth
-            )
+            Drawf.laser(laser, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, efficiency() * laserWidth)
             Draw.mixcol()
         }
 

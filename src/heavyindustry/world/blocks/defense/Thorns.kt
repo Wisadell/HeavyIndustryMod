@@ -35,5 +35,4 @@ open class Thorns(name: String) : Block(name) {
             }
         }
     }
-
 }
