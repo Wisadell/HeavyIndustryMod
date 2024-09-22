@@ -1,7 +1,6 @@
 package heavyindustry.world.blocks.production
 
 import arc.Core
-import arc.func.Prov
 import arc.graphics.Blending
 import arc.graphics.Color
 import arc.graphics.g2d.Draw
@@ -12,7 +11,6 @@ import arc.math.geom.Point2
 import arc.struct.ObjectFloatMap
 import arc.struct.ObjectIntMap
 import arc.util.Time
-import mindustry.Vars
 import mindustry.content.Fx
 import mindustry.entities.Effect
 import mindustry.game.Team
@@ -26,6 +24,9 @@ import mindustry.world.Tile
 import mindustry.world.meta.BlockGroup
 import mindustry.world.meta.Stat
 import mindustry.world.meta.StatUnit
+
+import mindustry.Vars.tilesize
+import mindustry.Vars.world
 
 open class MultiDrill(name: String) : Block(name) {
 
@@ -77,7 +78,7 @@ open class MultiDrill(name: String) : Block(name) {
                 }
             }
             for (edge in Edges.getInsideEdges(size + 2)) {
-                val other = Vars.world.tile(tile.x + edge.x, tile.y + edge.y)
+                val other = world.tile(tile.x + edge.x, tile.y + edge.y)
                 if (canMine(other)) {
                     return true
                 }
@@ -89,13 +90,13 @@ open class MultiDrill(name: String) : Block(name) {
     override fun drawPlace(x: Int, y: Int, rotation: Int, valid: Boolean) {
         super.drawPlace(x, y, rotation, valid)
 
-        val tile = Vars.world.tile(x, y) ?: return
+        val tile = world.tile(x, y) ?: return
         countOre(tile)
 
         var off = 0
         for (ore in oreCount.keys()) {
-            val dx: Float = x * Vars.tilesize + offset - 16
-            val dy = y * Vars.tilesize + offset + size * Vars.tilesize / 2f
+            val dx: Float = x * tilesize + offset - 16
+            val dy = y * tilesize + offset + size * tilesize / 2f
             Draw.mixcol(Color.darkGray, 1f)
             val itemRegion = ore.fullIcon
             Draw.rect(itemRegion, dx + off, dy - 1)
@@ -107,7 +108,7 @@ open class MultiDrill(name: String) : Block(name) {
 
         Draw.color(Pal.placing)
         Lines.stroke(size.toFloat() / 2)
-        Lines.square(x * Vars.tilesize + offset, y * Vars.tilesize + offset, (Vars.tilesize / 2f) * (size + 2).toFloat())
+        Lines.square(x * tilesize + offset, y * tilesize + offset, (tilesize / 2f) * (size + 2).toFloat())
     }
 
     fun countOre(tile: Tile) {
@@ -124,7 +125,7 @@ open class MultiDrill(name: String) : Block(name) {
 
         val edges = Edges.getEdges(size) + arrayOf(Point2(bot, bot), Point2(bot, top), Point2(top, top), Point2(top, bot))
         for (edge in edges) {
-            val other = Vars.world.tile(tile.x + edge.x, tile.y + edge.y)
+            val other = world.tile(tile.x + edge.x, tile.y + edge.y)
             if (canMine(other)) {
                 oreCount.increment(other.drop(), 0, 1)
             }
@@ -139,7 +140,7 @@ open class MultiDrill(name: String) : Block(name) {
         stats.add(Stat.boostEffect, liquidBoostIntensity * liquidBoostIntensity, StatUnit.timesSpeed)
     }
 
-    inner class MultiDrillBuild : Building() {
+    open inner class MultiDrillBuild : Building() {
 
         val ores = ObjectIntMap<Item>()
         val oreProgress = ObjectFloatMap<Item>()
@@ -154,8 +155,8 @@ open class MultiDrill(name: String) : Block(name) {
         override fun drawSelect() {
             var off = 0
             for (ore in ores.keys()) {
-                val dx = x - size * Vars.tilesize / 2f
-                val dy = y + size * Vars.tilesize / 2f
+                val dx = x - size * tilesize / 2f
+                val dy = y + size * tilesize / 2f
                 Draw.mixcol(Color.darkGray, 1f)
                 val itemRegion = ore.fullIcon
                 Draw.rect(itemRegion, dx + off, dy - 1)
@@ -166,7 +167,7 @@ open class MultiDrill(name: String) : Block(name) {
             Draw.reset()
             Draw.color(Pal.placing)
             Lines.stroke(size.toFloat() / 2)
-            Lines.square(tileX() * Vars.tilesize + offset, tileY() * Vars.tilesize + offset, (Vars.tilesize / 2f) * (size + 2).toFloat())
+            Lines.square(tileX() * tilesize + offset, tileY() * tilesize + offset, (tilesize / 2f) * (size + 2).toFloat())
         }
 
         override fun drawCracks() {}

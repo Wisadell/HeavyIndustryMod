@@ -8,7 +8,7 @@ import mindustry.world.blocks.storage.Unloader
  * The ultimate dream of Saturated Firepower.
  */
 open class AdaptUnloader(name: String) : Unloader(name) {
-    inner class AdaptUnloaderBuild : UnloaderBuild() {
+    open inner class AdaptUnloaderBuild : UnloaderBuild() {
         private var counter = 0f
 
         override fun updateTile() {

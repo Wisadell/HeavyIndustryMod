@@ -8,7 +8,6 @@ import arc.util.Eachable
 import arc.util.Time
 import arc.util.Tmp
 import heavyindustry.util.HIUtils
-import mindustry.Vars
 import mindustry.entities.units.BuildPlan
 import mindustry.gen.Building
 import mindustry.gen.Teamc
@@ -19,14 +18,29 @@ import mindustry.world.blocks.Autotiler.SliceMode
 import mindustry.world.blocks.distribution.Conveyor
 import kotlin.math.min
 
+import mindustry.Vars.itemSize
+import mindustry.Vars.tilesize
+import mindustry.Vars.world
+
 /**
  * It may have defects, such as seams in the texture connection, and I don't want to fix it anymore.
  *
  * What kind of mental state was I in when I made this thing?
  */
 open class TubeConveyor(name: String) : Conveyor(name) {
+    val itemSpace = 0.4f
+    val tiles: Array<IntArray> = arrayOf(
+        intArrayOf(),
+        intArrayOf(0, 2), intArrayOf(1, 3), intArrayOf(0, 1),
+        intArrayOf(0, 2), intArrayOf(0, 2), intArrayOf(1, 2),
+        intArrayOf(0, 1, 2), intArrayOf(1, 3), intArrayOf(0, 3),
+        intArrayOf(1, 3), intArrayOf(0, 1, 3), intArrayOf(2, 3),
+        intArrayOf(0, 2, 3), intArrayOf(1, 2, 3), intArrayOf(0, 1, 2, 3)
+    )
+
     lateinit var topRegion: Array<Array<TextureRegion>>
     lateinit var capRegion: Array<TextureRegion>
+
     override fun drawPlanRegion(req: BuildPlan, list: Eachable<BuildPlan>) {
         super.drawPlanRegion(req, list)
         val directionals = arrayOfNulls<BuildPlan>(4)
@@ -70,7 +84,7 @@ open class TubeConveyor(name: String) : Conveyor(name) {
         return arrayOf(Core.atlas.find("$name-icon-editor"))
     }
 
-    inner class TubeConveyorBuild : ConveyorBuild() {
+    open inner class TubeConveyorBuild : ConveyorBuild() {
         var tiling: Int = 0
         var calls: Int = 0
         override fun updateProximity() {
@@ -101,30 +115,30 @@ open class TubeConveyor(name: String) : Conveyor(name) {
                     val dir = rotation - i
                     val rot = (if (i == 0) rotation * 90 else (dir) * 90).toFloat()
 
-                    Draw.rect(sliced(regions[0][frame], if (i != 0) SliceMode.bottom else SliceMode.top), x + Geometry.d4x(dir) * Vars.tilesize * 0.75f, y + Geometry.d4y(dir) * Vars.tilesize * 0.75f, rot)
+                    Draw.rect(sliced(regions[0][frame], if (i != 0) SliceMode.bottom else SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot)
                 }
             }
 
             Draw.z(Layer.block - 0.25f)
 
-            Draw.rect(regions[blendbits][frame], x, y, (Vars.tilesize * blendsclx).toFloat(), (Vars.tilesize * blendscly).toFloat(), (rotation * 90).toFloat())
+            Draw.rect(regions[blendbits][frame], x, y, (tilesize * blendsclx).toFloat(), (tilesize * blendscly).toFloat(), (rotation * 90).toFloat())
 
             Draw.z(Layer.block - 0.2f)
             val layer = Layer.block - 0.2f
-            val wwidth = Vars.world.unitWidth().toFloat()
-            val wheight = Vars.world.unitHeight().toFloat()
+            val wwidth = world.unitWidth().toFloat()
+            val wheight = world.unitHeight().toFloat()
             val scaling = 0.01f
 
             for (i in 0 until len) {
                 val item = ids[i]
-                Tmp.v1.trns((rotation * 90).toFloat(), Vars.tilesize.toFloat(), 0f)
-                Tmp.v2.trns((rotation * 90).toFloat(), -Vars.tilesize / 2f, xs[i] * Vars.tilesize / 2f)
+                Tmp.v1.trns((rotation * 90).toFloat(), tilesize.toFloat(), 0f)
+                Tmp.v2.trns((rotation * 90).toFloat(), -tilesize / 2f, xs[i] * tilesize / 2f)
 
                 val ix = (x + Tmp.v1.x * ys[i] + Tmp.v2.x)
                 val iy = (y + Tmp.v1.y * ys[i] + Tmp.v2.y)
 
                 Draw.z(layer + (ix / wwidth + iy / wheight) * scaling)
-                Draw.rect(item.fullIcon, ix, iy, Vars.itemSize, Vars.itemSize)
+                Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize)
             }
 
             Draw.z(Layer.block - 0.15f)
@@ -168,17 +182,5 @@ open class TubeConveyor(name: String) : Conveyor(name) {
             }
             tiling = tiling or (1 shl rotation)
         }
-    }
-
-    companion object {
-        private const val itemSpace = 0.4f
-        val tiles: Array<IntArray> = arrayOf(
-            intArrayOf(),
-            intArrayOf(0, 2), intArrayOf(1, 3), intArrayOf(0, 1),
-            intArrayOf(0, 2), intArrayOf(0, 2), intArrayOf(1, 2),
-            intArrayOf(0, 1, 2), intArrayOf(1, 3), intArrayOf(0, 3),
-            intArrayOf(1, 3), intArrayOf(0, 1, 3), intArrayOf(2, 3),
-            intArrayOf(0, 2, 3), intArrayOf(1, 2, 3), intArrayOf(0, 1, 2, 3)
-        )
     }
 }

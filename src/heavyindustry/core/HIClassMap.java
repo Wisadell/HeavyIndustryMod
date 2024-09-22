@@ -81,6 +81,8 @@ public class HIClassMap {
         classes.put("HackTurretBuild", HackTurret.HackTurretBuild.class);
         classes.put("AdaptDirectionalUnloader", AdaptDirectionalUnloader.class);
         classes.put("AdaptDirectionalUnloaderBuild", AdaptDirectionalUnloader.AdaptDirectionalUnloaderBuild.class);
+        classes.put("CoveredConveyor", CoveredConveyor.class);
+        classes.put("CoveredConveyorBuild", CoveredConveyor.CoveredConveyorBuild.class);
         classes.put("TubeConveyor", TubeConveyor.class);
         classes.put("TubeConveyorBuild", TubeConveyor.TubeConveyorBuild.class);
         classes.put("DuctJunction", DuctJunction.class);

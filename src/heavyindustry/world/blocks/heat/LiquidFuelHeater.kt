@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.heat
 
-import arc.func.Prov
 import mindustry.graphics.Pal
 import mindustry.ui.Bar
 import mindustry.world.blocks.heat.HeatProducer

@@ -13,13 +13,12 @@ import mindustry.world.meta.*;
  * it's time to learn how to generate electricity on your own.
  */
 public class GeneratorCrafter extends GenericCrafter {
-    public float powerProduction;
+    public float powerProduction = 1f;
     public GeneratorCrafter(String name){
         super(name);
         hasPower = true;
         consumesPower = false;
         outputsPower = true;
-        powerProduction = 1f;
     }
 
     @Override

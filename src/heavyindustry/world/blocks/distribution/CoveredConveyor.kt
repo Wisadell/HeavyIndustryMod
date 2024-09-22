@@ -38,7 +38,7 @@ open class CoveredConveyor(name: String) : Conveyor(name) {
         return arrayOf(regions[0][0], coverRegions[0])
     }
 
-    inner class CoveredConveyorBuild : ConveyorBuild() {
+    open inner class CoveredConveyorBuild : ConveyorBuild() {
         var backCap: Boolean = false
         var leftCap: Boolean = false
         var rightCap: Boolean = false
