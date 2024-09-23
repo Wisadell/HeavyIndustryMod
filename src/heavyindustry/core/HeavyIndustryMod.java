@@ -8,6 +8,7 @@ import heavyindustry.world.meta.*;
 import java.util.*;
 import arc.*;
 import arc.flabel.*;
+import arc.scene.*;
 import arc.scene.ui.*;
 import arc.util.*;
 import mindustry.Vars;
@@ -34,6 +35,7 @@ public class HeavyIndustryMod extends Mod{
         Events.on(ClientLoadEvent.class, e -> {
             HIIcon.load();
             if(onlyPlugIn) return;
+            Element label = new FLabel(bundle.get("mod.heavy-industry.author") + author);
             BaseDialog dialog = new BaseDialog(bundle.get("mod.heavy-industry.name")){{
                 buttons.button("@close", this::hide).size(210f, 64f);
                 buttons.button((bundle.get("mod.heavy-industry.linkGithub")), () -> {
@@ -45,7 +47,7 @@ public class HeavyIndustryMod extends Mod{
                 cont.pane(table -> {
                     table.image(atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
                     table.add(bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
-                    table.add(new FLabel(bundle.get("mod.heavy-industry.author") + author)).left().row();
+                    table.add(label).left().row();
                     table.add(bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
                     table.add(bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                     table.add(bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();

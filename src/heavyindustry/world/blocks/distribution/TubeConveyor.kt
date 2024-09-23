@@ -28,15 +28,17 @@ import mindustry.Vars.world
  * What kind of mental state was I in when I made this thing?
  */
 open class TubeConveyor(name: String) : Conveyor(name) {
-    val itemSpace = 0.4f
-    val tiles: Array<IntArray> = arrayOf(
-        intArrayOf(),
-        intArrayOf(0, 2), intArrayOf(1, 3), intArrayOf(0, 1),
-        intArrayOf(0, 2), intArrayOf(0, 2), intArrayOf(1, 2),
-        intArrayOf(0, 1, 2), intArrayOf(1, 3), intArrayOf(0, 3),
-        intArrayOf(1, 3), intArrayOf(0, 1, 3), intArrayOf(2, 3),
-        intArrayOf(0, 2, 3), intArrayOf(1, 2, 3), intArrayOf(0, 1, 2, 3)
-    )
+    companion object {
+        val itemSpace = 0.4f
+        val tiles: Array<IntArray> = arrayOf(
+            intArrayOf(),
+            intArrayOf(0, 2), intArrayOf(1, 3), intArrayOf(0, 1),
+            intArrayOf(0, 2), intArrayOf(0, 2), intArrayOf(1, 2),
+            intArrayOf(0, 1, 2), intArrayOf(1, 3), intArrayOf(0, 3),
+            intArrayOf(1, 3), intArrayOf(0, 1, 3), intArrayOf(2, 3),
+            intArrayOf(0, 2, 3), intArrayOf(1, 2, 3), intArrayOf(0, 1, 2, 3)
+        )
+    }
 
     lateinit var topRegion: Array<Array<TextureRegion>>
     lateinit var capRegion: Array<TextureRegion>
@@ -98,7 +100,7 @@ open class TubeConveyor(name: String) : Conveyor(name) {
 
         fun valid(i: Int): Boolean {
             val b = buildAt(i)
-            return b != null && (if (b is TubeConveyorBuild) (b.front() != null && b.front() === this) else b.block.acceptsItems)
+            return b != null && (if (b is TubeConveyorBuild) (b.front() != null && b.front() === this) else b.block.hasItems)
         }
 
         fun isEnd(i: Int): Boolean {

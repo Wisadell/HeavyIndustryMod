@@ -44,8 +44,8 @@ open class MinigunTurret(name: String) : ItemTurret(name) {
 
     init {
         drawer = object : DrawTurret() {
-            var barrel: TextureRegion? = null
-            var barrelOutline: TextureRegion? = null
+            lateinit var barrel: TextureRegion
+            lateinit var barrelOutline: TextureRegion
 
             override fun getRegionsToOutline(block: Block, out: Seq<TextureRegion>) {
                 super.getRegionsToOutline(block, out)

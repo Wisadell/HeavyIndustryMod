@@ -1162,16 +1162,10 @@ public class HIBlocks {
             health = 660;
             size = 4;
             itemCapacity = 50;
-            craftTime = 30f;
+            craftTime = 35f;
             outputItem = new ItemStack(Items.silicon, 10);
-            craftEffect = new RadialEffect(Fx.surgeCruciSmoke, 9, 45, 6);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawGlowRegion("-glow1"){{
-                alpha = 1f;
-                glowScale = 3f;
-            }}, new DrawGlowRegion("-glow2"){{
-                alpha = 0.9f;
-                glowScale = 3f;
-            }});
+            craftEffect = Fx.smeltsmoke;
+            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
             ambientSound = Sounds.smelter;
             ambientSoundVolume = 0.21f;
             consumeItems(with(Items.coal, 5, Items.sand, 8, Items.blastCompound, 1));

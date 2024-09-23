@@ -121,6 +121,8 @@ public class HIClassMap {
         classes.put("HyperGeneratorBuild", HyperGenerator.HyperGeneratorBuild.class);
         classes.put("GeneratorCrafter", GeneratorCrafter.class);
         classes.put("GeneratorCrafterBuild", GeneratorCrafter.GeneratorCrafterBuild.class);
+        classes.put("AttributeGenerator", AttributeGenerator.class);
+        classes.put("AttributeGeneratorBuild", AttributeGenerator.AttributeGeneratorBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);
         classes.put("LaserBeamDrillBuild", LaserBeamDrill.LaserBeamDrillBuild.class);
         classes.put("MultiDrill", MultiDrill.class);
