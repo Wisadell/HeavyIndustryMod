@@ -4,13 +4,13 @@ buildscript{
     repositories{
         mavenCentral()
     }
-    
+
     ext{
         //the build number that this mod is made for
         isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
         sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
     }
-    
+
     dependencies{
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
@@ -29,6 +29,7 @@ repositories{
 }
 
 dependencies{
+    //implementation "org.jetbrains.kotlinx:kotlinx-?:$kotlinxVersion"
     implementation "org.jetbrains:annotations:24.0.1"
 
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
