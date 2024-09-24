@@ -27,7 +27,7 @@ import mindustry.Vars.world
  *
  * What kind of mental state was I in when I made this thing?
  */
-open class TubeConveyor(name: String) : Conveyor(name) {
+open class TubeConveyor(name: String) : BeltConveyor(name) {
     companion object {
         val itemSpace = 0.4f
         val tiles: Array<IntArray> = arrayOf(
@@ -43,16 +43,16 @@ open class TubeConveyor(name: String) : Conveyor(name) {
     lateinit var topRegion: Array<Array<TextureRegion>>
     lateinit var capRegion: Array<TextureRegion>
 
-    override fun drawPlanRegion(req: BuildPlan, list: Eachable<BuildPlan>) {
-        super.drawPlanRegion(req, list)
+    override fun drawPlanRegion(plan: BuildPlan, list: Eachable<BuildPlan>) {
+        super.drawPlanRegion(plan, list)
         val directionals = arrayOfNulls<BuildPlan>(4)
         list.each { other: BuildPlan ->
-            if (other.breaking || other === req) return@each
+            if (other.breaking || other === plan) return@each
             for ((i, point) in Geometry.d4.withIndex()) {
-                val x = req.x + point.x
-                val y = req.y + point.y
+                val x = plan.x + point.x
+                val y = plan.y + point.y
                 if ((x >= other.x - (other.block.size - 1) / 2 && x <= other.x + (other.block.size / 2)) && y >= other.y - (other.block.size - 1) / 2 && y <= other.y + (other.block.size / 2)) {
-                    if ((if (other.block is Conveyor) (req.rotation == i || (other.rotation + 2) % 4 == i) else ((req.rotation == i && other.block.acceptsItems) || (req.rotation != i && other.block.outputsItems())))) {
+                    if ((if (other.block is Conveyor) (plan.rotation == i || (other.rotation + 2) % 4 == i) else ((plan.rotation == i && other.block.acceptsItems) || (plan.rotation != i && other.block.outputsItems())))) {
                         directionals[i] = other
                     }
                 }
@@ -65,12 +65,12 @@ open class TubeConveyor(name: String) : Conveyor(name) {
                 mask += (1 shl i)
             }
         }
-        mask = mask or (1 shl req.rotation)
-        Draw.rect(topRegion[0][mask], req.drawx(), req.drawy(), 0f)
+        mask = mask or (1 shl plan.rotation)
+        Draw.rect(topRegion[0][mask], plan.drawx(), plan.drawy(), 0f)
         for (i in tiles[mask]) {
-            if (directionals[i] == null || (if (directionals[i]!!.block is Conveyor) (directionals[i]!!.rotation + 2) % 4 == req.rotation else ((req.rotation == i && !directionals[i]!!.block.acceptsItems) || (req.rotation != i && !directionals[i]!!.block.outputsItems())))) {
+            if (directionals[i] == null || (if (directionals[i]!!.block is Conveyor) (directionals[i]!!.rotation + 2) % 4 == plan.rotation else ((plan.rotation == i && !directionals[i]!!.block.acceptsItems) || (plan.rotation != i && !directionals[i]!!.block.outputsItems())))) {
                 val id = if (i == 0 || i == 3) 1 else 0
-                Draw.rect(capRegion[id], req.drawx(), req.drawy(), (if (i == 0 || i == 2) 0 else -90).toFloat())
+                Draw.rect(capRegion[id], plan.drawx(), plan.drawy(), (if (i == 0 || i == 2) 0 else -90).toFloat())
             }
         }
     }
@@ -79,14 +79,13 @@ open class TubeConveyor(name: String) : Conveyor(name) {
         super.load()
         topRegion = HIUtils.splitLayers("$name-sheet", 32, 2)
         capRegion = arrayOf(topRegion[1][0], topRegion[1][1])
-        uiIcon = Core.atlas.find("$name-icon")
     }
 
     override fun icons(): Array<TextureRegion> {
         return arrayOf(Core.atlas.find("$name-icon-editor"))
     }
 
-    open inner class TubeConveyorBuild : ConveyorBuild() {
+    open inner class TubeConveyorBuild : BeltConveyorBuild() {
         var tiling: Int = 0
         var calls: Int = 0
         override fun updateProximity() {
@@ -111,6 +110,7 @@ open class TubeConveyor(name: String) : Conveyor(name) {
         override fun draw() {
             val frame = if (enabled && clogHeat <= 0.5f) (((Time.time * speed * 8f * timeScale * efficiency)) % 4).toInt() else 0
 
+            //draw extra conveyors facing this one for non-square tiling purposes
             Draw.z(Layer.blockUnder)
             for (i in 0..3) {
                 if ((blending and (1 shl i)) != 0) {
@@ -123,7 +123,7 @@ open class TubeConveyor(name: String) : Conveyor(name) {
 
             Draw.z(Layer.block - 0.25f)
 
-            Draw.rect(regions[blendbits][frame], x, y, (tilesize * blendsclx).toFloat(), (tilesize * blendscly).toFloat(), (rotation * 90).toFloat())
+            Draw.rect(conveyorParts[frame][blendbits], x, y, (tilesize * blendsclx).toFloat(), (tilesize * blendscly).toFloat(), (rotation * 90).toFloat())
 
             Draw.z(Layer.block - 0.2f)
             val layer = Layer.block - 0.2f
@@ -139,6 +139,7 @@ open class TubeConveyor(name: String) : Conveyor(name) {
                 val ix = (x + Tmp.v1.x * ys[i] + Tmp.v2.x)
                 val iy = (y + Tmp.v1.y * ys[i] + Tmp.v2.y)
 
+                //keep draw position deterministic.
                 Draw.z(layer + (ix / wwidth + iy / wheight) * scaling)
                 Draw.rect(item.fullIcon, ix, iy, itemSize, itemSize)
             }

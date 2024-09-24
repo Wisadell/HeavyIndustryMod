@@ -5,40 +5,35 @@ import arc.Core
 import arc.graphics.g2d.Draw
 import arc.graphics.g2d.TextureRegion
 import arc.util.Eachable
-import mindustry.Vars
 import mindustry.entities.units.BuildPlan
 import mindustry.gen.Unit
 import mindustry.graphics.Layer
-import mindustry.world.blocks.distribution.Conveyor
 
-open class CoveredConveyor(name: String) : Conveyor(name) {
-    var coverRegions: Array<TextureRegion?> = arrayOfNulls(5)
+import mindustry.Vars.tilesize
+
+open class CoveredConveyor(name: String) : BeltConveyor(name) {
+    lateinit var coverRegions: Array<TextureRegion>
     lateinit var inputRegion: TextureRegion
     lateinit var outputRegion: TextureRegion
 
     override fun load() {
         super.load()
-        for (i in 0..4) {
-            coverRegions[i] = Core.atlas.find("$name-cover-$i")
-        }
-        inputRegion = Core.atlas.find("$name-cover-in")
-        outputRegion = Core.atlas.find("$name-cover-out")
+        inputRegion = Core.atlas.find("$name-in")
+        outputRegion = Core.atlas.find("$name-out")
+
+        coverRegions = HIUtils.split("$name-construct", 32, 0)
     }
 
-    override fun drawPlanRegion(req: BuildPlan, list: Eachable<BuildPlan>) {
-        super.drawPlanRegion(req, list)
+    override fun drawPlanRegion(plan: BuildPlan, list: Eachable<BuildPlan>) {
+        super.drawPlanRegion(plan, list)
 
-        val bits = getTiling(req, list) ?: return
+        val bits = getTiling(plan, list) ?: return
 
         val region = coverRegions[bits[0]]
-        Draw.rect(region, req.drawx(), req.drawy(), region!!.width * bits[1] * Draw.scl, region.height * bits[2] * Draw.scl, (req.rotation * 90).toFloat())
+        Draw.rect(region, plan.drawx(), plan.drawy(), region.width * bits[1] * Draw.scl, region.height * bits[2] * Draw.scl, (plan.rotation * 90).toFloat())
     }
 
-    override fun icons(): Array<TextureRegion?> {
-        return arrayOf(regions[0][0], coverRegions[0])
-    }
-
-    open inner class CoveredConveyorBuild : ConveyorBuild() {
+    open inner class CoveredConveyorBuild : BeltConveyorBuild() {
         var backCap = false
         var leftCap = false
         var rightCap = false
@@ -48,7 +43,7 @@ open class CoveredConveyor(name: String) : Conveyor(name) {
             super.draw()
 
             Draw.z(Layer.block - 0.08f)
-            Draw.rect(coverRegions[blendbits], x, y, (Vars.tilesize * blendsclx).toFloat(), (Vars.tilesize * blendscly).toFloat(), (rotation * 90).toFloat())
+            Draw.rect(coverRegions[blendbits], x, y, (tilesize * blendsclx).toFloat(), (tilesize * blendscly).toFloat(), (rotation * 90).toFloat())
 
             if (frontCap) Draw.rect(outputRegion, x, y, rotdeg())
             if (!backCap) Draw.rect(inputRegion, x, y, rotdeg())
