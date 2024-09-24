@@ -75,9 +75,8 @@ public class HeavyIndustryMod extends Mod{
         if(onlyPlugIn) return;
         Log.info("Loading some heavy industry mod content.");
         HIItems.load();
-        HILiquids.load();
-        HIAttribute.load();
         HIStatusEffects.load();
+        HILiquids.load();
         HIBullets.load();
         HIUnitTypes.load();
         HIBlocks.load();

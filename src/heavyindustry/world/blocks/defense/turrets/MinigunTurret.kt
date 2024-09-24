@@ -116,7 +116,7 @@ open class MinigunTurret(name: String) : ItemTurret(name) {
         }
     }
 
-    inner class MinigunTurretBuild : ItemTurretBuild() {
+    open inner class MinigunTurretBuild : ItemTurretBuild() {
         var heats: FloatArray = floatArrayOf(0f, 0f, 0f, 0f)
         protected var spinSpeed: Float = 0f
         var spin: Float = 0f

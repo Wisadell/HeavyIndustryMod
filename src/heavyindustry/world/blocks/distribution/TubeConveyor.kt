@@ -23,9 +23,7 @@ import mindustry.Vars.tilesize
 import mindustry.Vars.world
 
 /**
- * It may have defects, such as seams in the texture connection, and I don't want to fix it anymore.
- *
- * What kind of mental state was I in when I made this thing?
+ * Compared to CoveredConverter, its upper layer texture has been changed to one that can have light and shadow effects.
  */
 open class TubeConveyor(name: String) : BeltConveyor(name) {
     companion object {

@@ -29,7 +29,6 @@ public class FallingBulletType extends BulletType {
     public boolean fallingHitCollideGround = false;
     public float minDistanceFallingCollide = 10f;
 
-
     public FallingBulletType(String sprite){
         super(1f, 0f);
 
