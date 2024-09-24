@@ -1,18 +1,18 @@
 package heavyindustry.gen;
 
+import heavyindustry.graphics.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import heavyindustry.graphics.Drawc;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
 
 import static mindustry.Vars.*;
-import static heavyindustry.graphics.Drawc.*;
+import static heavyindustry.graphics.Drawn.*;
 
 public interface Linkablec extends Buildingc, Ranged{
     Seq<Building> tmpSeq = new Seq<>(1);
@@ -36,7 +36,7 @@ public interface Linkablec extends Buildingc, Ranged{
             if(linkValid(link())){
                 Draw.color(getLinkColor());
                 Drawf.circles(getX(), getY(), block().size / 2f * tilesize + Mathf.absin(Time.time * sinScl, 6f, 1f), getLinkColor());
-                Drawc.link(this, link(), getLinkColor());
+                Drawn.link(this, link(), getLinkColor());
             }
         }else if(builds.size > 0){
             Draw.color(getLinkColor());
@@ -44,7 +44,7 @@ public interface Linkablec extends Buildingc, Ranged{
 
             for(Building b : builds){
                 if(!linkValid(b))continue;
-                Drawc.link(this, b, getLinkColor());
+                Drawn.link(this, b, getLinkColor());
             }
         }
 

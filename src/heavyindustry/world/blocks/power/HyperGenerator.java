@@ -1,5 +1,6 @@
 package heavyindustry.world.blocks.power;
 
+import heavyindustry.graphics.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -7,7 +8,6 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import heavyindustry.graphics.Drawc;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -116,7 +116,7 @@ public class HyperGenerator extends ImpactReactor {
                 });
 
                 if(Mathf.chanceDelta((b.fin() * 3 + 1) / 4f * 0.65f)){
-                    Drawc.randFadeLightningEffect(b.x, b.y, lightningRange * 1.5f, Mathf.random(12f, 20f), lightningColor, Mathf.chance(0.5));
+                    Drawn.randFadeLightningEffect(b.x, b.y, lightningRange * 1.5f, Mathf.random(12f, 20f), lightningColor, Mathf.chance(0.5));
                 }
 
                 if(Mathf.chanceDelta(0.2)){

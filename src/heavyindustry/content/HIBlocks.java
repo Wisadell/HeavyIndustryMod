@@ -18,7 +18,6 @@ import heavyindustry.world.blocks.storage.*;
 import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.blocks.logic.*;
 import heavyindustry.world.draw.*;
-import heavyindustry.graphics.Drawc;
 import heavyindustry.world.meta.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -1382,7 +1381,7 @@ public class HIBlocks {
             }}, new DrawRotator(1f, "-top"){
                 @Override
                 public void draw(Building build){
-                    Drawf.spinSprite(rotator, build.x + x, build.y + y, Drawc.rotator_90(Drawc.cycle(build.totalProgress() * rotateSpeed, 0, craftTime), 0.15f));
+                    Drawf.spinSprite(rotator, build.x + x, build.y + y, Drawn.rotator_90(Drawn.cycle(build.totalProgress() * rotateSpeed, 0, craftTime), 0.15f));
                 }
             });
             consumePower(9f);
@@ -2814,7 +2813,7 @@ public class HIBlocks {
                     sparkRad = 4 * 8;
                     sparkLen = 5f;
                     sparkStroke = 2f;
-                }}, new Effect(60, e -> Drawc.drawSnow(e.x, e.y, 2 * 8 * e.foutpow(), 0, HIPal.iceBlue)));
+                }}, new Effect(60, e -> Drawn.drawSnow(e.x, e.y, 2 * 8 * e.foutpow(), 0, HIPal.iceBlue)));
                 trailInterval = 0.5f;
                 trailEffect = new Effect(120, e -> {
                     Draw.color(HIPal.iceBlue);
@@ -2852,7 +2851,7 @@ public class HIBlocks {
                 trailColor = HIPal.iceBlue;
                 trailLength = 8;
                 trailWidth = 5;
-                trailEffect = new Effect(40, e -> Drawc.drawSnow(e.x, e.y, 12 * e.fout(), 360 * e.fin(), HIPal.iceBlue));
+                trailEffect = new Effect(40, e -> Drawn.drawSnow(e.x, e.y, 12 * e.fout(), 360 * e.fin(), HIPal.iceBlue));
                 trailInterval = 3;
                 fragBullets = 4;
                 fragBullet = frostFragBullrt;
@@ -2999,9 +2998,9 @@ public class HIBlocks {
                     }
 
                     Draw.color(getColor(b));
-                    Drawc.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke);
+                    Drawn.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke);
                     Draw.color(Color.white);
-                    Drawc.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke * 0.64f * (2 + darkenPartWarmup) / 3f);
+                    Drawn.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke * 0.64f * (2 + darkenPartWarmup) / 3f);
 
                     Drawf.light(b.aimX, b.aimY, b.x, b.y, stroke, tmpColor, 0.76f);
                     Drawf.light(b.x, b.y, stroke * 4, tmpColor, 0.76f);
@@ -3044,9 +3043,9 @@ public class HIBlocks {
                     if(darkenPartWarmup > 0.005f){
                         tmpColor.lerp(Color.black, 0.86f);
                         Draw.color(tmpColor);
-                        Drawc.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke * 0.55f * darkenPartWarmup);
+                        Drawn.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke * 0.55f * darkenPartWarmup);
                         Draw.z(HIFx.EFFECT_BOTTOM);
-                        Drawc.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke * 0.6f * darkenPartWarmup);
+                        Drawn.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke * 0.6f * darkenPartWarmup);
                         Draw.z(Layer.bullet);
                     }
 

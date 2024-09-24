@@ -1,6 +1,6 @@
 package heavyindustry.world.draw
 
-import heavyindustry.graphics.Drawc
+import heavyindustry.graphics.Drawn
 import heavyindustry.util.HIUtils
 import arc.graphics.Color
 import arc.graphics.g2d.Draw
@@ -27,7 +27,7 @@ open class DrawSpecConstruct : DrawBlock() {
         }
 
         Draw.draw(Layer.blockOver) {
-            Drawc.construct(build, stageRegions[stage], constructColor1, constructColor2, 0f, stageProgress, build.warmup() * build.efficiency(), build.totalProgress() * 1.6f)
+            Drawn.construct(build, stageRegions[stage], constructColor1, constructColor2, 0f, stageProgress, build.warmup() * build.efficiency(), build.totalProgress() * 1.6f)
         }
     }
 
