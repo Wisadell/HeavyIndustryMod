@@ -7,6 +7,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.graphics.Drawc;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -20,7 +21,6 @@ import heavyindustry.content.*;
 import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.gen.*;
-import heavyindustry.world.draw.*;
 
 import static mindustry.Vars.*;
 
@@ -116,7 +116,7 @@ public class HyperGenerator extends ImpactReactor {
                 });
 
                 if(Mathf.chanceDelta((b.fin() * 3 + 1) / 4f * 0.65f)){
-                    DrawFunc.randFadeLightningEffect(b.x, b.y, lightningRange * 1.5f, Mathf.random(12f, 20f), lightningColor, Mathf.chance(0.5));
+                    Drawc.randFadeLightningEffect(b.x, b.y, lightningRange * 1.5f, Mathf.random(12f, 20f), lightningColor, Mathf.chance(0.5));
                 }
 
                 if(Mathf.chanceDelta(0.2)){

@@ -12,6 +12,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
+import heavyindustry.graphics.Drawc;
 import mindustry.Vars;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -1503,7 +1504,7 @@ public class HIUnitTypes {
                     trailEffect = new Effect(10f, e -> {
                         color(trailColor, Color.white, e.fout() * 0.66f);
                         for(int s : Mathf.signs){
-                            DrawFunc.tri(e.x, e.y, 3f, 30f * Mathf.curve(e.fin(), 0, 0.1f) * e.fout(0.9f), e.rotation + 145f * s);
+                            Drawc.tri(e.x, e.y, 3f, 30f * Mathf.curve(e.fin(), 0, 0.1f) * e.fout(0.9f), e.rotation + 145f * s);
                         }
                     });
                     hitEffect = new MultiEffect(HIFx.square45_6_45, HIFx.hitSparkLarge);

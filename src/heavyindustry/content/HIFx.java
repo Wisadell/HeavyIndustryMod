@@ -4,7 +4,6 @@ import heavyindustry.entities.*;
 import heavyindustry.graphics.*;
 import heavyindustry.math.*;
 import heavyindustry.struct.*;
-import heavyindustry.world.draw.*;
 import heavyindustry.entities.bullet.*;
 import arc.*;
 import arc.graphics.*;
@@ -146,7 +145,7 @@ public class HIFx {
             Lines.circle(e.x, e.y, circleRad);
             for(int i = 0; i < Mathf.clamp(range / 12, 9, 60); i++){
                 Tmp.v1.set(1, 0).setToRandomDirection(rand).scl(circleRad);
-                DrawFunc.tri(e.x + Tmp.v1.x, e.y + Tmp.v1.y, rand.random(circleRad / 16, circleRad / 12) * e.fout(), rand.random(circleRad / 4, circleRad / 1.5f) * (1 + e.fin()) / 2, Tmp.v1.angle() - 180);
+                Drawc.tri(e.x + Tmp.v1.x, e.y + Tmp.v1.y, rand.random(circleRad / 16, circleRad / 12) * e.fout(), rand.random(circleRad / 4, circleRad / 1.5f) * (1 + e.fin()) / 2, Tmp.v1.angle() - 180);
             }
         });
     }
@@ -214,7 +213,7 @@ public class HIFx {
             float sizeDiv = size / 1.5f;
             float randL = rand.random(sizeDiv);
             for(int i = 0; i < 4; i++){
-                DrawFunc.tri(e.x, e.y, size / 20 * (e.fout() * 3f + 1) / 4 * (e.fout(Interp.pow3In) + 0.5f) / 1.5f, (sizeDiv + randL) * Mathf.curve(e.fin(), 0, 0.05f) * e.fout(Interp.pow3), i * 90 + rotate);
+                Drawc.tri(e.x, e.y, size / 20 * (e.fout() * 3f + 1) / 4 * (e.fout(Interp.pow3In) + 0.5f) / 1.5f, (sizeDiv + randL) * Mathf.curve(e.fin(), 0, 0.05f) * e.fout(Interp.pow3), i * 90 + rotate);
             }
         });
     }
@@ -239,15 +238,15 @@ public class HIFx {
             Draw.color(color);
 
             for(int i : Mathf.signs){
-                DrawFunc.tri(e.x, e.y, 8.0F * e.fout(), 85.0F, e.rotation + 90.0F * i);
-                DrawFunc.tri(e.x, e.y, 8.0F * e.fout(), 50.0F, 90 + 90.0F * i);
+                Drawc.tri(e.x, e.y, 8.0F * e.fout(), 85.0F, e.rotation + 90.0F * i);
+                Drawc.tri(e.x, e.y, 8.0F * e.fout(), 50.0F, 90 + 90.0F * i);
             }
 
             Draw.color(colorInner);
 
             for(int i : Mathf.signs){
-                DrawFunc.tri(e.x, e.y, 5F * e.fout(), 48.0F, e.rotation + 90.0F * i);
-                DrawFunc.tri(e.x, e.y, 5F * e.fout(), 29.0F, 90 + 90.0F * i);
+                Drawc.tri(e.x, e.y, 5F * e.fout(), 48.0F, e.rotation + 90.0F * i);
+                Drawc.tri(e.x, e.y, 5F * e.fout(), 29.0F, 90 + 90.0F * i);
             }
         });
     }
@@ -278,7 +277,7 @@ public class HIFx {
         return new Effect(37f, e -> {
             color(e.color, Color.white, e.fout() * 0.7f);
             rand.setSeed(e.id);
-            DrawFunc.randLenVectors(e.id, num, 4 + (size * 1.2f) * e.fin(), size * 0.15f * e.fin(), e.rotation, angleRange, (x, y) -> {
+            Drawc.randLenVectors(e.id, num, 4 + (size * 1.2f) * e.fin(), size * 0.15f * e.fin(), e.rotation, angleRange, (x, y) -> {
                 Lines.stroke(thick * e.fout(0.32f));
                 lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), (e.fslope() + e.fin()) * 0.5f * (size * rand.random(0.15f, 0.5f) + rand.random(2f)) + rand.random(2f));
                 Drawf.light(e.x + x, e.y + y, e.fslope() * (size * 0.5f + 14f) + 3, e.color, 0.7f);
@@ -330,15 +329,15 @@ public class HIFx {
                 float length = rand.random(range / 2, range * 1.1f) * e.fout();
 
                 Draw.color(colorExternal);
-                DrawFunc.tri(e.x + x, e.y + y, width, range / 3 * e.fout(Interp.pow2In), angle - 180);
-                DrawFunc.tri(e.x + x, e.y + y, width, length, angle);
+                Drawc.tri(e.x + x, e.y + y, width, range / 3 * e.fout(Interp.pow2In), angle - 180);
+                Drawc.tri(e.x + x, e.y + y, width, length, angle);
 
                 Draw.color(colorInternal);
 
                 width *= e.fout();
 
-                DrawFunc.tri(e.x + x, e.y + y, width / 2, range / 3 * e.fout(Interp.pow2In) * 0.9f * e.fout(), angle - 180);
-                DrawFunc.tri(e.x + x, e.y + y, width / 2, length / 1.5f * e.fout(), angle);
+                Drawc.tri(e.x + x, e.y + y, width / 2, range / 3 * e.fout(Interp.pow2In) * 0.9f * e.fout(), angle - 180);
+                Drawc.tri(e.x + x, e.y + y, width / 2, length / 1.5f * e.fout(), angle);
             });
         });
     }
@@ -356,13 +355,13 @@ public class HIFx {
 
             int i;
             for(i = 0; i < num; ++i) {
-                DrawFunc.tri(e.x, e.y, size / 12f, size * e.fout(), (float)(i * 90 + 45));
+                Drawc.tri(e.x, e.y, size / 12f, size * e.fout(), (float)(i * 90 + 45));
             }
 
             Draw.color();
 
             for(i = 0; i < num; ++i) {
-                DrawFunc.tri(e.x, e.y, size / 26f, size / 2.5f * e.fout(), (float)(i * 90 + 45));
+                Drawc.tri(e.x, e.y, size / 26f, size / 2.5f * e.fout(), (float)(i * 90 + 45));
             }
         });
     }
@@ -380,8 +379,8 @@ public class HIFx {
                 for(int j = 0; j < num; ++j) {
                     float rot = e.rotation + rand.range(size);
                     float w = 15f * e.fout() * m;
-                    DrawFunc.tri(e.x, e.y, w, (size + rand.range( size * 0.6f)) * m, rot);
-                    DrawFunc.tri(e.x, e.y, w, size * 0.3f * m, rot + 180.0F);
+                    Drawc.tri(e.x, e.y, w, (size + rand.range( size * 0.6f)) * m, rot);
+                    Drawc.tri(e.x, e.y, w, size * 0.3f * m, rot + 180.0F);
                 }
             }
 
@@ -465,7 +464,7 @@ public class HIFx {
                 randLenVectors(e.id + 1, 5, 8f + 60 * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 7f));
                 Drawf.light(e.x, e.y, e.fout() * 70f, e.color, 0.7f);
             }),
-            normalIceTrail = new Effect(90, e -> DrawFunc.drawSnow(e.x, e.y, e.rotation * e.foutpow(), e.fin() * 180f, e.color)),
+            normalIceTrail = new Effect(90, e -> Drawc.drawSnow(e.x, e.y, e.rotation * e.foutpow(), e.fin() * 180f, e.color)),
             boolSelector = new Effect(0, 0, e -> {}),
             lightningHitSmall = new Effect(Fx.chainLightning.lifetime, e -> {
                 color(Color.white, e.color, e.fin() + 0.25f);
@@ -692,7 +691,7 @@ public class HIFx {
                 Lines.circle(e.x, e.y, circleRad);
                 for(int i = 0; i < 24; i++){
                     Tmp.v1.set(1, 0).setToRandomDirection(rand).scl(circleRad);
-                    DrawFunc.tri(e.x + Tmp.v1.x, e.y + Tmp.v1.y, rand.random(circleRad / 16, circleRad / 12) * e.fout(), rand.random(circleRad / 4, circleRad / 1.5f) * (1 + e.fin()) / 2, Tmp.v1.angle() - 180);
+                    Drawc.tri(e.x + Tmp.v1.x, e.y + Tmp.v1.y, rand.random(circleRad / 16, circleRad / 12) * e.fout(), rand.random(circleRad / 4, circleRad / 1.5f) * (1 + e.fin()) / 2, Tmp.v1.angle() - 180);
                 }
 
                 Draw.blend(Blending.additive);
@@ -718,15 +717,15 @@ public class HIFx {
                         float length = rand.random(rad / 2, rad * 5) * i.fout(Interp.circleOut);
 
                         Draw.color(i.color);
-                        DrawFunc.tri(i.x + x, i.y + y, width, rad / 3 * i.fout(Interp.circleOut), angle - 180);
-                        DrawFunc.tri(i.x + x, i.y + y, width, length, angle);
+                        Drawc.tri(i.x + x, i.y + y, width, rad / 3 * i.fout(Interp.circleOut), angle - 180);
+                        Drawc.tri(i.x + x, i.y + y, width, length, angle);
 
                         Draw.color(Color.black);
 
                         width *= i.fout();
 
-                        DrawFunc.tri(i.x + x, i.y + y, width / 2, rad / 3 * i.fout(Interp.circleOut) * 0.9f * i.fout(), angle - 180);
-                        DrawFunc.tri(i.x + x, i.y + y, width / 2, length / 1.5f * i.fout(), angle);
+                        Drawc.tri(i.x + x, i.y + y, width / 2, rad / 3 * i.fout(Interp.circleOut) * 0.9f * i.fout(), angle - 180);
+                        Drawc.tri(i.x + x, i.y + y, width / 2, length / 1.5f * i.fout(), angle);
                     });
 
                     Draw.color(Color.black);

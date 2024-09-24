@@ -18,7 +18,6 @@ import static mindustry.Vars.*;
  * @author guiY
  */
 public class StackHelper extends Block {
-
     public StackHelper(String name) {
         super(name);
         update = true;
@@ -46,7 +45,8 @@ public class StackHelper extends Block {
             Drawf.dashRect(valid ? Pal.accent : Pal.remove, rect);
         }
     }
-    public class StackHelperBuild extends Building{
+
+    public class StackHelperBuild extends Building {
         @Override
         public void updateTile() {
             for(int i = 0; i < 4; i++){

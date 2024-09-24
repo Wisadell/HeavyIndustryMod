@@ -6,13 +6,13 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.graphics.Drawc;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
-import heavyindustry.world.draw.*;
 
 import static mindustry.Vars.*;
-import static heavyindustry.world.draw.DrawFunc.*;
+import static heavyindustry.graphics.Drawc.*;
 
 public interface Linkablec extends Buildingc, Ranged{
     Seq<Building> tmpSeq = new Seq<>(1);
@@ -36,7 +36,7 @@ public interface Linkablec extends Buildingc, Ranged{
             if(linkValid(link())){
                 Draw.color(getLinkColor());
                 Drawf.circles(getX(), getY(), block().size / 2f * tilesize + Mathf.absin(Time.time * sinScl, 6f, 1f), getLinkColor());
-                DrawFunc.link(this, link(), getLinkColor());
+                Drawc.link(this, link(), getLinkColor());
             }
         }else if(builds.size > 0){
             Draw.color(getLinkColor());
@@ -44,7 +44,7 @@ public interface Linkablec extends Buildingc, Ranged{
 
             for(Building b : builds){
                 if(!linkValid(b))continue;
-                DrawFunc.link(this, b, getLinkColor());
+                Drawc.link(this, b, getLinkColor());
             }
         }
 

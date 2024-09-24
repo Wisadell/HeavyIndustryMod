@@ -140,5 +140,6 @@ public class HIClassMap {
         classes.put("DrawPrinter", DrawPrinter.class);
         classes.put("DrawRotator", DrawRotator.class);
         classes.put("DrawScanLine", DrawScanLine.class);
+        classes.put("DrawSpecConstruct", DrawSpecConstruct.class);
     }
 }

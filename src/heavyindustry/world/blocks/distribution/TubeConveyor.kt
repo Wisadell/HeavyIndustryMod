@@ -1,5 +1,6 @@
 package heavyindustry.world.blocks.distribution
 
+import heavyindustry.util.HIUtils
 import arc.Core
 import arc.graphics.g2d.Draw
 import arc.graphics.g2d.TextureRegion
@@ -7,7 +8,6 @@ import arc.math.geom.Geometry
 import arc.util.Eachable
 import arc.util.Time
 import arc.util.Tmp
-import heavyindustry.util.HIUtils
 import mindustry.entities.units.BuildPlan
 import mindustry.gen.Building
 import mindustry.gen.Teamc
@@ -100,7 +100,7 @@ open class TubeConveyor(name: String) : Conveyor(name) {
 
         fun valid(i: Int): Boolean {
             val b = buildAt(i)
-            return b != null && (if (b is TubeConveyorBuild) (b.front() != null && b.front() === this) else b.block.hasItems)
+            return b != null && (if (b is TubeConveyorBuild) (b.front() != null && b.front() === this) else (b.block.acceptsItems || b.block.hasItems))
         }
 
         fun isEnd(i: Int): Boolean {
