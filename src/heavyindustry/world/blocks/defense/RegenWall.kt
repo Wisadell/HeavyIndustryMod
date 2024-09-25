@@ -14,6 +14,7 @@ import kotlin.math.abs
 
 import mindustry.Vars.tilesize
 
+/** A wall that can self restore life. */
 open class RegenWall(name: String) : RegenProjector(name) {
     @JvmField var chanceHeal = -1f
     @JvmField var chanceDeflect = -1f

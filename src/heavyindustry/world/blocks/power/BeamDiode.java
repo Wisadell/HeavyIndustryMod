@@ -20,6 +20,7 @@ import java.util.*;
 
 import static mindustry.Vars.*;
 
+/** Stitching it up is enough. */
 public class BeamDiode extends Block{
     public int range = 5;
 
@@ -103,12 +104,7 @@ public class BeamDiode extends Block{
                 }
             }
 
-            Drawf.dashLine(Pal.placing,
-                    x * tilesize + dx * (tilesize * size / 2f + 2),
-                    y * tilesize + dy * (tilesize * size / 2f + 2),
-                    x * tilesize + dx * (maxLen) * tilesize,
-                    y * tilesize + dy * (maxLen) * tilesize
-            );
+            Drawf.dashLine(Pal.placing, x * tilesize + dx * (tilesize * size / 2f + 2), y * tilesize + dy * (tilesize * size / 2f + 2), x * tilesize + dx * (maxLen) * tilesize, y * tilesize + dy * (maxLen) * tilesize);
 
             if(dest != null){
                 Drawf.square(dest.x, dest.y, dest.block.size * tilesize/2f + 2.5f, 0f);

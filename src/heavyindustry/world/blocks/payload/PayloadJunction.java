@@ -15,6 +15,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
+/** The bridge where two PayloadJunction intersect. */
 public class PayloadJunction extends Block{
     public float moveTime = 45f;
     public Interp interp = Interp.pow5;

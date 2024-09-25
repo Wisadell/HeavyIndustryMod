@@ -11,9 +11,13 @@ import mindustry.graphics.Pal
 import mindustry.world.Block
 import mindustry.world.draw.DrawBlock
 
+/** Display multi-layer textures in sequence according to the progress of the building. */
 open class DrawSpecConstruct : DrawBlock() {
+    /** Sprites layers. */
     @JvmField var stages = 3
+    /** Color of Item Surface Construction. */
     @JvmField var constructColor1: Color = Pal.accent
+    /** The color of the constructed lines. */
     @JvmField var constructColor2: Color = Pal.accent
 
     lateinit var stageRegions: Array<TextureRegion>

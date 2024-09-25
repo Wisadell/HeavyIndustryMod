@@ -11,11 +11,14 @@ import arc.math.geom.Point2
 import arc.struct.ObjectFloatMap
 import arc.struct.ObjectIntMap
 import arc.util.Time
+import arc.util.io.Reads
+import arc.util.io.Writes
 import mindustry.content.Fx
 import mindustry.entities.Effect
 import mindustry.game.Team
 import mindustry.gen.Building
 import mindustry.gen.Sounds
+import mindustry.graphics.Drawf
 import mindustry.graphics.Pal
 import mindustry.type.Item
 import mindustry.world.Block
@@ -33,16 +36,25 @@ open class MultiDrill(name: String) : Block(name) {
     val oreCount = ObjectIntMap<Item>()
 
     @JvmField var hardnessDrillMultiplier = 50f
+    /** Base time to drill one ore, in frames. */
     @JvmField var drillTime = 280f
+    /** How many times faster the drill will progress when boosted by liquid. */
     @JvmField var liquidBoostIntensity = 1.8f
 
+    /** Speed at which the drill speeds up. */
     @JvmField var warmupSpeed = 0.01f
+    /** Speed the drill bit rotates at. */
     @JvmField var rotateSpeed = 6f
 
+    /** Effect played when an item is produced. This is colored. */
     @JvmField var drillEffect: Effect = Fx.mineHuge
+    /** Effect randomly played while drilling. */
     @JvmField var updateEffect: Effect = Fx.pulverizeRed
+    /** Chance the update effect will appear. */
     @JvmField var updateEffectChance = 0.03f
 
+    @JvmField var drawRim = false
+    @JvmField var drawSpinSprite = false
     @JvmField var heatColor: Color = Color.valueOf("ff5512")
 
     lateinit var rimRegion: TextureRegion
@@ -223,16 +235,36 @@ open class MultiDrill(name: String) : Block(name) {
             Draw.rect(region, x, y)
             super.drawCracks()
 
-            Draw.color(heatColor)
-            Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)))
-            Draw.blend(Blending.additive)
-            Draw.rect(rimRegion, x, y)
-            Draw.blend()
-            Draw.color()
+            if (drawRim) {
+                Draw.color(heatColor)
+                Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)))
+                Draw.blend(Blending.additive)
+                Draw.rect(rimRegion, x, y)
+                Draw.blend()
+                Draw.color()
+            }
 
-            Draw.rect(rotatorRegion, x, y, timeDrilled * rotateSpeed)
+            if (drawSpinSprite) {
+                Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed)
+            } else {
+                Draw.rect(rotatorRegion, x, y, timeDrilled * rotateSpeed)
+            }
 
             Draw.rect(topRegion, x, y)
+        }
+
+        override fun write(write: Writes) {
+            super.write(write)
+            write.f(timeDrilled)
+            write.f(warmup)
+        }
+
+        override fun read(read: Reads, revision: Byte) {
+            super.read(read, revision)
+            if (revision >= 1) {
+                timeDrilled = read.f()
+                warmup = read.f()
+            }
         }
     }
 }

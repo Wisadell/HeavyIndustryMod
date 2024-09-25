@@ -17,6 +17,7 @@ import mindustry.world.blocks.defense.*;
 
 import static mindustry.Vars.*;
 
+/** A wall with insulation properties that change with opening and closing. */
 public class InsulationWall extends Wall{
     public final int timerToggle = timers++;
     public Effect openfx = Fx.dooropen;

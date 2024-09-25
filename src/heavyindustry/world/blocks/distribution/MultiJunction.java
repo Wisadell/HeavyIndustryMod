@@ -14,10 +14,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-/**
- * A connector that crosses between Conveyor and Conduit.
- * Um... As long as it can running...
- */
+/** A connector that crosses between Conveyor and Conduit. */
 public class MultiJunction extends LiquidBlock{
     public float speed = 26;
     public int capacity = 6;

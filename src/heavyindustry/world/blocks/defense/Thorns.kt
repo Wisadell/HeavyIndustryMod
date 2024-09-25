@@ -19,7 +19,7 @@ open class Thorns(name: String) : Block(name) {
         stats.add(Stat.damage, 60f / cooldown * damage, StatUnit.perSecond)
     }
 
-    inner class ThornsBuild : Building() {
+    open inner class ThornsBuild : Building() {
         override fun draw() {
             super.draw()
             Draw.color(team.color)

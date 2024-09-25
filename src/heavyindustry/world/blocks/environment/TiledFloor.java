@@ -7,6 +7,7 @@ import arc.math.geom.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
+/** @author LaoHuaJi */
 public class TiledFloor extends Floor {
     public TextureRegion full;
     public TextureRegion[][] largeSpilt;

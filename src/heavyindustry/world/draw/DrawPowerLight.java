@@ -6,8 +6,13 @@ import arc.graphics.g2d.*;
 import mindustry.gen.*;
 import mindustry.world.draw.*;
 
+/** Draw a bright light that changes with electricity. */
 public class DrawPowerLight extends DrawBlock {
     public Color lightColor;
+
+    public DrawPowerLight(){
+        lightColor = Color.white;
+    }
 
     public DrawPowerLight(Color lightColor){
         this.lightColor = lightColor;

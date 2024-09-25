@@ -16,7 +16,8 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class DuctJunction extends Block{
+/** Will Anuken actually install it in V8? */
+public class DuctJunction extends Block {
     public float speed = 5f;
     public Color transparentColor = new Color(0.4f, 0.4f, 0.4f, 0.1f);
     public TextureRegion bottomRegion;

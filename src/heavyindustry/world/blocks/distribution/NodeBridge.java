@@ -14,6 +14,10 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
+/**
+ * The difference from CardanItemBridge is that its connection has also been changed to the laser of the power node.
+ * @author guiY
+ */
 public class NodeBridge extends ItemBridge {
     public DrawBlock drawer = new DrawMulti(new DrawDefault(), new DrawNodeBridge());
 
@@ -28,6 +32,7 @@ public class NodeBridge extends ItemBridge {
         Drawf.dashCircle(x * tilesize, y * tilesize, range * tilesize, Pal.accent);
     }
 
+    /** Change its connection method to range connection. */
     @Override
     public boolean linkValid(Tile tile, Tile other, boolean checkDouble) {
         if(other == null || tile == null || other == tile) return false;
@@ -105,6 +110,7 @@ public class NodeBridge extends ItemBridge {
             drawer.draw(this);
         }
 
+        /** Modify its items and output items to be omnidirectional. */
         @Override
         protected boolean checkAccept(Building source, Tile other) {
             if(tile == null || linked(source)) return true;

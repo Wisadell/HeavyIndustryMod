@@ -23,6 +23,7 @@ import mindustry.world.meta.*;
 import static arc.util.Tmp.*;
 import static mindustry.Vars.*;
 
+/** A bridge with the same connection method as the power node. */
 public class CardanItemBridge extends ItemBridge {
     public Prov<Seq<Block>> connectBlocksGetter = Seq::new;
     Seq<Block> connectibleBlocks = new Seq<>();
@@ -149,6 +150,7 @@ public class CardanItemBridge extends ItemBridge {
         return super.getGeneratedIcons();
     }
 
+    /** Change its connection method to range connection. */
     @Override
     public boolean linkValid(Tile tile, Tile other){
         return linkValid(tile, other, true);

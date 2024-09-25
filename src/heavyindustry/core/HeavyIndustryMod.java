@@ -4,11 +4,9 @@ import heavyindustry.content.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.ui.dialogs.*;
-import heavyindustry.world.meta.*;
 import java.util.*;
 import arc.*;
 import arc.flabel.*;
-import arc.scene.*;
 import arc.scene.ui.*;
 import arc.util.*;
 import mindustry.Vars;
@@ -26,7 +24,11 @@ public class HeavyIndustryMod extends Mod{
         return modName + "-" + add;
     }
 
-    public static boolean onlyPlugIn = settings.getBool(name("plug-in-mode"));
+    public static String name(String start, String add){
+        return start + "."  + modName + "-" + add;
+    }
+
+    public static boolean homepageDialog = settings.getBool(name("homepage-dialog")), onlyPlugIn = settings.getBool(name("plug-in-mode"));
 
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
 
@@ -34,11 +36,11 @@ public class HeavyIndustryMod extends Mod{
         Log.info("Loaded HeavyIndustry Mod constructor.");
         Events.on(ClientLoadEvent.class, e -> {
             HIIcon.load();
-            if(onlyPlugIn) return;
-            Element label = new FLabel(bundle.get("mod.heavy-industry.author") + author);
-            BaseDialog dialog = new BaseDialog(bundle.get("mod.heavy-industry.name")){{
+            if(onlyPlugIn || homepageDialog) return;
+            FLabel label = new FLabel(bundle.get(name("dialog", "author")) + author);
+            BaseDialog dialog = new BaseDialog(bundle.get(name("dialog", "name"))){{
                 buttons.button("@close", this::hide).size(210f, 64f);
-                buttons.button((bundle.get("mod.heavy-industry.linkGithub")), () -> {
+                buttons.button((bundle.get(name("dialog", "link-github"))), () -> {
                     if (!app.openURI(linkGitHub)) {
                         ui.showErrorMessage("@linkfail");
                         app.setClipboardText(linkGitHub);
@@ -46,11 +48,11 @@ public class HeavyIndustryMod extends Mod{
                 }).size(210f, 64f);
                 cont.pane(table -> {
                     table.image(atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
-                    table.add(bundle.get("mod.heavy-industry.version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
+                    table.add(bundle.get(name("dialog", "version"))).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
                     table.add(label).left().row();
-                    table.add(bundle.get("mod.heavy-industry.class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
-                    table.add(bundle.get("mod.heavy-industry.note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    table.add(bundle.get("mod.heavy-industry.prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    table.add(bundle.get(name("dialog", "class"))).left().growX().wrap().pad(4).labelAlign(Align.left).row();
+                    table.add(bundle.get(name("dialog", "note"))).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    table.add(bundle.get(name("dialog", "prompt"))).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                 }).grow().center().maxWidth(600f);
             }};
             dialog.show();
@@ -70,7 +72,7 @@ public class HeavyIndustryMod extends Mod{
 
     @Override
     public void loadContent(){
-        EntityRegistry.register();
+        EntityRegistry.load();
         HISounds.load();
         if(onlyPlugIn) return;
         Log.info("Loading some heavy industry mod content.");
@@ -91,6 +93,7 @@ public class HeavyIndustryMod extends Mod{
     public void init(){
         super.init();
 
+        settings.defaults(name("homepage-dialog"), false);
         settings.defaults(name("plug-in-mode"), false);
 
         Vars.mods.locateMod(modName).meta.hidden = onlyPlugIn;
@@ -106,10 +109,11 @@ public class HeavyIndustryMod extends Mod{
                 dialog.hide();
                 app.exit();
             };
-            dialog.cont.add(bundle.format("mod.heavy-industry.reset-exit"));
+            dialog.cont.add(bundle.format(name("dialog", "reset-exit")));
             dialog.buttons.button("@confirm", exit).center().size(150, 50);
 
-            ui.settings.addCategory(bundle.format("mod.heavy-industry.settings"), t -> {
+            ui.settings.addCategory(bundle.format(name("dialog", "settings")), t -> {
+                t.checkPref(name("homepage-dialog"), false);
                 t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting(name("plug-in-mode"), false, null) {
                     @Override
                     public void add(SettingsMenuDialog.SettingsTable table) {

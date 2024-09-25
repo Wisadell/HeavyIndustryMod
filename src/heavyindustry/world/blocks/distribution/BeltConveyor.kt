@@ -58,6 +58,7 @@ open class BeltConveyor(name: String) : Conveyor(name) {
                     val rot = (if (i == 0) rotation * 90 else (dir) * 90).toFloat()
 
                     Draw.rect(sliced(conveyorParts[frame][0], if (i != 0) SliceMode.bottom else SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot)
+                    Draw.rect(sliced(edgeParts[(tile.x + tile.y) % 2][0], if (i != 0) SliceMode.bottom else SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot)
                 }
             }
 

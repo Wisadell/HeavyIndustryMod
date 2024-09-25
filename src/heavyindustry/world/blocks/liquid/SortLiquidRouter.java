@@ -14,9 +14,7 @@ import mindustry.world.blocks.liquid.*;
 
 import static mindustry.Vars.*;
 
-/**
- * @author guiY
- */
+/** @author guiY */
 public class SortLiquidRouter extends LiquidRouter {
     public SortLiquidRouter(String name) {
         super(name);

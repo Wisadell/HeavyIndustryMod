@@ -115,7 +115,8 @@ open class TubeConveyor(name: String) : BeltConveyor(name) {
                     val dir = rotation - i
                     val rot = (if (i == 0) rotation * 90 else (dir) * 90).toFloat()
 
-                    Draw.rect(sliced(regions[0][frame], if (i != 0) SliceMode.bottom else SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot)
+                    Draw.rect(sliced(conveyorParts[frame][0], if (i != 0) SliceMode.bottom else SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot)
+                    Draw.rect(sliced(topRegion[0][1], if (i != 0) SliceMode.bottom else SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot)
                 }
             }
 

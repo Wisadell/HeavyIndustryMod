@@ -7,6 +7,7 @@ import mindustry.world.blocks.environment.*;
 
 import static mindustry.Vars.*;
 
+/** @author LaoHuaJi */
 public class SideFloor extends Floor {
     public SideFloor(String name) {
         super(name);

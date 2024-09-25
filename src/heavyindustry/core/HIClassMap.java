@@ -30,7 +30,7 @@ public class HIClassMap {
         classes.put("DepotMinerAI", DepotMinerAI.class);
         //ability
         classes.put("JavelinAbility", JavelinAbility.class);
-        //bullet
+        //bullets
         classes.put("AccelBulletType", AccelBulletType.class);
         classes.put("AdaptedLightningBulletType", AdaptedLightningBulletType.class);
         classes.put("AimToPosBulletType", AimToPosBulletType.class);
@@ -49,11 +49,11 @@ public class HIClassMap {
         classes.put("LightningLinkerBulletType", LightningLinkerBulletType.class);
         classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
         classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
-        //effect
+        //effects
         classes.put("EffectWrapper", EffectWrapper.class);
-        //part
+        //parts
         classes.put("HIDrawPart", HIDrawPart.class);
-        //type
+        //types
         classes.put("BetterPlanet", BetterPlanet.class);
         classes.put("EffectWeather", EffectWeather.class);
         classes.put("HailStormWeather", HailStormWeather.class);
@@ -81,6 +81,8 @@ public class HIClassMap {
         classes.put("HackTurretBuild", HackTurret.HackTurretBuild.class);
         classes.put("AdaptDirectionalUnloader", AdaptDirectionalUnloader.class);
         classes.put("AdaptDirectionalUnloaderBuild", AdaptDirectionalUnloader.AdaptDirectionalUnloaderBuild.class);
+        classes.put("OverchargeDirectionalUnloader", OverchargeDirectionalUnloader.class);
+        classes.put("OverchargeDirectionalUnloaderBuild", OverchargeDirectionalUnloader.OverchargeDirectionalUnloaderBuild.class);
         classes.put("BeltConveyor", BeltConveyor.class);
         classes.put("BeltConveyorBuild", BeltConveyor.BeltConveyorBuild.class);
         classes.put("BeltConveyor", BeltArmoredConveyor.class);
@@ -91,6 +93,8 @@ public class HIClassMap {
         classes.put("TubeConveyorBuild", TubeConveyor.TubeConveyorBuild.class);
         classes.put("DuctJunction", DuctJunction.class);
         classes.put("DuctJunctionBuild", DuctJunction.DuctJunctionBuild.class);
+        classes.put("OverchargeDuct", OverchargeDuct.class);
+        classes.put("OverchargeDuctBuild", OverchargeDuct.OverchargeDuctBuild.class);
         classes.put("InvertedJunction", InvertedJunction.class);
         classes.put("InvertedJunctionBuild", InvertedJunction.InvertedJunctionBuild.class);
         classes.put("MultiJunction", MultiJunction.class);
@@ -109,8 +113,14 @@ public class HIClassMap {
         classes.put("LiquidFuelHeaterBuild", LiquidFuelHeater.LiquidFuelHeaterBuild.class);
         classes.put("ThermalHeater", ThermalHeater.class);
         classes.put("ThermalHeaterBuild", ThermalHeater.ThermalHeaterBuild.class);
+        classes.put("HeatDriver", HeatDriver.class);
+        classes.put("HeatDriverBuild", HeatDriver.HeatDriverBuild.class);
         classes.put("SortLiquidRouter", SortLiquidRouter.class);
         classes.put("SortLiquidRouterBuild", SortLiquidRouter.SortLiquidRouterBuild.class);
+        classes.put("LiquidUnloader", LiquidUnloader.class);
+        classes.put("LiquidUnloaderBuild", LiquidUnloader.LiquidUnloaderBuild.class);
+        classes.put("LiquidDirectionalUnloader", LiquidDirectionalUnloader.class);
+        classes.put("LiquidDirectionalUnloaderBuild", LiquidDirectionalUnloader.LiquidDirectionalUnloaderBuild.class);
         classes.put("CopyMemoryBlock", CopyMemoryBlock.class);
         classes.put("CopyMemoryBuild", CopyMemoryBlock.CopyMemoryBuild.class);
         classes.put("PayloadJunction", PayloadJunction.class);
@@ -133,7 +143,9 @@ public class HIClassMap {
         classes.put("MultiDrillBuild", MultiDrill.MultiDrillBuild.class);
         classes.put("AdaptUnloader", AdaptUnloader.class);
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
-        //draw
+        classes.put("OverchargeUnloader", OverchargeUnloader.class);
+        classes.put("OverchargeUnloaderBuild", OverchargeUnloader.OverchargeUnloaderBuild.class);
+        //draws
         classes.put("AimPart", AimPart.class);
         classes.put("BowHalo", BowHalo.class);
         classes.put("PartBow", PartBow.class);

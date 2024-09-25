@@ -1,16 +1,12 @@
 package heavyindustry.world.blocks.storage
 
-import arc.graphics.Color
-import arc.graphics.g2d.Draw
 import mindustry.world.blocks.storage.Unloader
 
-/**
- * The ultimate dream of Saturated Firepower.
- */
 open class AdaptUnloader(name: String) : Unloader(name) {
     open inner class AdaptUnloaderBuild : UnloaderBuild() {
         private var counter = 0f
 
+        /** Make its uninstallation speed no longer affected by frame rate. */
         override fun updateTile() {
             counter += edelta()
             val limit = speed
@@ -20,14 +16,6 @@ open class AdaptUnloader(name: String) : Unloader(name) {
                 super.updateTile()
                 counter -= limit
             }
-        }
-
-        override fun draw() {
-            Draw.rect(region, x, y, if (block.rotate) rotdeg() else 0f)
-            drawTeamTop()
-            Draw.color(if (sortItem == null) Color.clear else sortItem.color)
-            Draw.rect("$name-center", x, y)
-            Draw.color()
         }
     }
 }

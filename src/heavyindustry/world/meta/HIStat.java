@@ -8,5 +8,6 @@ public class HIStat {
     public static final Stat
             minSpeed = new Stat(name("min-speed")),
             maxSpeed = new Stat(name("max-speed")),
-            baseHealChance = new Stat(name("baseHealChance"));
+            baseHealChance = new Stat(name("baseHealChance")),
+            itemsMovedBoost = new Stat(name("items-moved-boost"), StatCat.optional);
 }
