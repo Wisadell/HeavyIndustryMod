@@ -12,7 +12,7 @@ public final class Annotations {
     /** Indicates that this class is an entities component. */
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.SOURCE)
-    public @interface EntityComponent {
+    public @interface Component {
         /** @return Whether this is a fetched component; in that case, do not generate interfaces. */
         boolean vanilla() default false;
 
@@ -23,16 +23,16 @@ public final class Annotations {
     /** All entities components will inherit from this. */
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.SOURCE)
-    public @interface EntityBaseComponent {}
+    public @interface BaseComponent {}
 
     /** Whether this interface wraps an entities component. */
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.SOURCE)
-    public @interface EntityInterface {}
+    public @interface Interface {}
 
     /** Generates an entities definition from given components. */
     @Retention(RetentionPolicy.SOURCE)
-    public @interface EntityDef {
+    public @interface Def {
         /** @return The interfaces that will be inherited by the generated entities class. */
         Class<?>[] value();
 

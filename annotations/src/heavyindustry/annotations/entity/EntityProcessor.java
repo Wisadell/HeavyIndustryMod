@@ -80,9 +80,9 @@ public class EntityProcessor extends BaseProcessor {
     protected void process() throws IOException{
         switch(round){
             case 1 -> {
-                for(var t : this.<ClassSymbol>with(EntityComponent.class)) comps.put(name(t), t);
-                for(var t : this.<ClassSymbol>with(EntityBaseComponent.class)) baseComps.add(t);
-                for(var s : with(EntityDef.class)) defs.add(s);
+                for(var t : this.<ClassSymbol>with(Component.class)) comps.put(name(t), t);
+                for(var t : this.<ClassSymbol>with(BaseComponent.class)) baseComps.add(t);
+                for(var s : with(Def.class)) defs.add(s);
 
                 pointer:
                 for(var t : this.<ClassSymbol>with(EntityPoint.class)){
@@ -170,12 +170,12 @@ public class EntityProcessor extends BaseProcessor {
                     imports.put(comp, imports(comp));
                     var deps = dependencies(comp);
 
-                    var compAnno = anno(comp, EntityComponent.class);
+                    var compAnno = anno(comp, Component.class);
                     if(!compAnno.vanilla()){
                         var intBuilder = TypeSpec.interfaceBuilder(intName(comp))
                             .addOriginatingElement(comp)
                             .addModifiers(PUBLIC, ABSTRACT)
-                            .addAnnotation(spec(EntityInterface.class))
+                            .addAnnotation(spec(Interface.class))
                             .addAnnotation(
                                 AnnotationSpec.builder(spec(SuppressWarnings.class))
                                     .addMember("value", "{$S, $S, $S}", "all", "unchecked", "deprecation")
@@ -240,7 +240,7 @@ public class EntityProcessor extends BaseProcessor {
                             var baseDeps = deps.copy().add(comp);
                             baseDependencies.get(comp, ObjectSet::new).addAll(baseDeps);
 
-                            if(anno(comp, EntityDef.class) == null){
+                            if(anno(comp, Def.class) == null){
                                 var tname = baseName(comp);
                                 var base = TypeSpec.classBuilder(tname)
                                     .addModifiers(PUBLIC, ABSTRACT)
@@ -282,7 +282,7 @@ public class EntityProcessor extends BaseProcessor {
             }
 
             case 2 -> {
-                for(var t : this.<ClassSymbol>with(EntityInterface.class)) inters.put(name(t), t);
+                for(var t : this.<ClassSymbol>with(Interface.class)) inters.put(name(t), t);
 
                 OrderedSet<String> registers = new OrderedSet<>();
                 registers.orderedItems().ordered = false;
@@ -308,7 +308,7 @@ public class EntityProcessor extends BaseProcessor {
 
                 ObjectSet<MethodSymbol> removal = new ObjectSet<>();
                 for(var def : defs){
-                    var defAnno = anno(def, EntityDef.class);
+                    var defAnno = anno(def, Def.class);
 
                     defComps.clear();
                     for(var comp : types(defAnno::value)){
@@ -322,7 +322,7 @@ public class EntityProcessor extends BaseProcessor {
 
                     ClassSymbol baseClassType = null;
                     for(var comp : defComps.values()){
-                        if(anno(comp, EntityComponent.class).base()){
+                        if(anno(comp, Component.class).base()){
                             if(baseClassType == null){
                                 baseClassType = comp;
                             }else{
@@ -332,7 +332,7 @@ public class EntityProcessor extends BaseProcessor {
                         }
                     }
 
-                    boolean typeIsBase = baseClassType != null && anno(def, EntityComponent.class) != null && anno(def, EntityComponent.class).base();
+                    boolean typeIsBase = baseClassType != null && anno(def, Component.class) != null && anno(def, Component.class).base();
                     var name = def instanceof ClassSymbol ? baseName(name(def)) : createName(defComps);
 
                     if(!typeIsBase && baseClassType != null && name.equals(baseName(baseClassType))) name += "Entity";
@@ -1178,7 +1178,7 @@ public class EntityProcessor extends BaseProcessor {
                 result.addAll(dependencies(type));
             }
 
-            if(anno(comp, EntityBaseComponent.class) == null) result.addAll(baseComps);
+            if(anno(comp, BaseComponent.class) == null) result.addAll(baseComps);
             dependencies.put(comp, result.toSeq());
         }
 
@@ -1204,9 +1204,9 @@ public class EntityProcessor extends BaseProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes(){
         return Set.of(
-            fName(EntityComponent.class),
-            fName(EntityBaseComponent.class),
-            fName(EntityDef.class),
+            fName(Component.class),
+            fName(BaseComponent.class),
+            fName(Def.class),
             fName(EntityPoint.class)
         );
     }
