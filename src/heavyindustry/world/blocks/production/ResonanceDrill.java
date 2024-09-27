@@ -1,26 +1,23 @@
 package heavyindustry.world.blocks.production;
 
-import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
-import heavyindustry.graphics.HIPal;
-import mindustry.entities.*;
+import heavyindustry.content.*;
+import heavyindustry.graphics.*;
 
-public class ResonanceDrill extends AdaptDrill{
+public class ResonanceDrill extends AdaptDrill {
     public ResonanceDrill(String name) {
         super(name);
-        updateEffect = new Effect(30f, e -> {
-            Rand rand = new Rand(e.id);
-            Draw.color(e.color, Color.white, e.fout() * 0.66f);
-            Draw.alpha(0.55f * e.fout() + 0.5f);
-            Angles.randLenVectors(e.id, 2, 4f + e.finpow() * 17f, (x, y) -> {
-                Fill.square(e.x + x, e.y + y, e.fout() * rand.random(2.5f, 4));
-            });
-        });
+        mineSpeed = 5;
+        mineCount = 2;
+
+        powerConsBase = 0f;
+
+        updateEffect = HIFx.resonance;
     }
 
-    public class ResonanceDrillBuild extends AdaptDrillBuild{
+    public class ResonanceDrillBuild extends AdaptDrillBuild {
         public void drawMining(){
             float rad = 9.2f + Mathf.absin(8, 1);
             float base = (Time.time / 70f);

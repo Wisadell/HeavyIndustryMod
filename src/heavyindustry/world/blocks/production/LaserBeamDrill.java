@@ -5,16 +5,16 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
-import mindustry.content.*;
-import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.world.blocks.production.*;
 
 /**
  * @author Yuria
  */
-public class LaserBeamDrill extends Drill {
-    public float shooterOffset = 8f;
+public class LaserBeamDrill extends AdaptDrill {
+    public TextureRegion laser;
+    public TextureRegion laserEnd;
+
+    public float shooterOffset = 12f;
     public float shooterExtendOffset = 1.8f;
     public float shooterMoveRange = 5.2f;
     public float shootY = 1.55f;
@@ -23,33 +23,19 @@ public class LaserBeamDrill extends Drill {
     public float moveScaleRand = 20f;
     public float laserScl = 0.2f;
 
-    public TextureRegion laser;
-    public TextureRegion laserEnd;
     public Color laserColor = Color.valueOf("f58349");
     public Color arcColor = Color.valueOf("f2d585");
     public float laserAlpha = 0.75f;
     public float laserAlphaSine = 0.2f;
 
-    public float coolSpeed = 0.03f;
-
     public int particles = 25;
-    public float particleLife = 40f;
-    public float particleRad = 9.75f;
-    public float particleLen = 4f;
-
-    protected static final Rand rand = new Rand();
+    public float particleLife = 40f, particleRad = 9.75f, particleLen = 4f;
 
     public LaserBeamDrill(String name){
         super(name);
-        solid = true;
-        hasItems = true;
-        itemCapacity = 50;
-        hardnessDrillMultiplier = 20f;
-        ambientSound = Sounds.minebeam;
-        ambientSoundVolume = 0.18f;
-        drillEffect = Fx.none;
-        updateEffectChance = 0.2f;
-        drawMineItem = false;
+        mineSpeed = 7.5f;
+        mineCount = 3;
+        powerConsBase = 300f;
     }
 
     @Override
@@ -64,39 +50,16 @@ public class LaserBeamDrill extends Drill {
         return new TextureRegion[]{region, topRegion};
     }
 
-    public class LaserBeamDrillBuild extends DrillBuild{
+    public class LaserBeamDrillBuild extends AdaptDrillBuild{
+        public Rand rand = new Rand();
         @Override
-        public void updateTile(){
-            if(!(items.total() < itemCapacity && dominantItems > 0 && efficiency > 0))warmup = Mathf.lerpDelta(warmup, 0, coolSpeed);
-            super.updateTile();
-        }
-
-        @Override
-        public void draw(){
-            float s = 0.3f;
-            float ts = 0.6f;
-
-            Draw.rect(region, x, y);
-
-            if(drawRim){
-                Draw.color(heatColor);
-                Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));
-                Draw.blend(Blending.additive);
-                Draw.rect(rimRegion, x, y);
-                Draw.blend();
-                Draw.color();
-            }
-
+        public void drawMining(){
+            float timeDrilled = Time.time / 1.5f;
             float
                     moveX = Mathf.sin(timeDrilled, moveScale + Mathf.randomSeed(id, -moveScaleRand, moveScaleRand), shooterMoveRange) + x,
                     moveY = Mathf.sin(timeDrilled + Mathf.randomSeed(id >> 1, moveScale), moveScale + Mathf.randomSeed(id >> 2, -moveScaleRand, moveScaleRand), shooterMoveRange) + y;
 
-            for(int i : Mathf.signs){
-                Draw.rect(rotatorRegion, x + (-shooterOffset + warmup * shooterExtendOffset) * i, moveY, -90 * i);
-                Draw.rect(rotatorRegion, moveX, y + (-shooterOffset + warmup * shooterExtendOffset) * i, 90 * i - 90);
-            }
-
-            float stroke = laserScl * Mathf.curve(warmup, 0, (items.total() < itemCapacity && dominantItems > 0 && efficiency > 0) ? efficiency() : 1);
+            float stroke = laserScl * warmup;
             Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f));
             Draw.alpha(laserAlpha + Mathf.absin(8f, laserAlphaSine));
             Draw.blend(Blending.additive);
@@ -122,9 +85,6 @@ public class LaserBeamDrill extends Drill {
 
             Draw.blend();
             Draw.reset();
-            Draw.rect(topRegion, x, y);
-
-            super.drawCracks();
         }
     }
 }

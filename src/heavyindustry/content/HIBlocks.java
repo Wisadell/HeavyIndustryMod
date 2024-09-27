@@ -489,8 +489,6 @@ public class HIBlocks {
             size = 4;
             health = 960;
             tier = 11;
-            drillTime = 140f;
-            warmupSpeed = 0.02f;
             consumePower(6f);
             consumeLiquid(Liquids.water, 0.1f).boost();
             buildCostMultiplier = 0.8f;

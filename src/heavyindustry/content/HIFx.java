@@ -791,6 +791,14 @@ public class HIFx {
                     Fill.circle(next.x, next.y, Lines.getStroke() / 2f);
                 }
             })).layer(Layer.effect - 0.001f),
+            resonance = new Effect(30f, e -> {
+                Rand rand = new Rand(e.id);
+                Draw.color(e.color, Color.white, e.fout() * 0.66f);
+                Draw.alpha(0.55f * e.fout() + 0.5f);
+                Angles.randLenVectors(e.id, 2, 4f + e.finpow() * 17f, (x, y) -> {
+                    Fill.square(e.x + x, e.y + y, e.fout() * rand.random(2.5f, 4));
+                });
+            }),
             crit = new Effect(120f, e -> {
                 v1.trns(e.rotation + 90f, 0f, 48f * e.fin(Interp.pow2Out));
 

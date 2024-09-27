@@ -78,6 +78,8 @@ public class HIClassMap {
         classes.put("MultiBulletTurretBuild", MultiBulletTurret.MultiBulletTurretBuild.class);
         classes.put("ShootMatchTurret", ShootMatchTurret.class);
         classes.put("ShootMatchTurretBuild", ShootMatchTurret.ShootMatchTurretBuild.class);
+        classes.put("MultTractorBeamTurret", MultTractorBeamTurret.class);
+        classes.put("MultTractorBeamBuild", MultTractorBeamTurret.MultTractorBeamBuild.class);
         classes.put("MinigunTurret", MinigunTurret.class);
         classes.put("MinigunTurretBuild", MinigunTurret.MinigunTurretBuild.class);
         classes.put("HackTurret", HackTurret.class);

@@ -1,11 +1,7 @@
 package heavyindustry.world.blocks.distribution;
 
-import arc.*;
-import arc.graphics.g2d.*;
-import arc.math.*;
 import arc.util.*;
 import arc.util.io.*;
-import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
@@ -14,59 +10,22 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-/** A connector that crosses between Conveyor and Conduit. */
-public class MultiJunction extends LiquidBlock{
+/** junction which allow both liquid and item to go through. */
+public class MultiJunction extends LiquidJunction {
+    /** frames taken to go through this junction. */
     public float speed = 26;
     public int capacity = 6;
 
-    protected TextureRegion[][] directionRegions;
-
     public MultiJunction(String name){
         super(name);
-        rotate = true;
-        rotateDraw = false;
-        drawArrow = false;
+        placeableLiquid = true;
+        update = true;
+        solid = false;
+        underBullets = true;
+        group = BlockGroup.transportation;
         unloadable = false;
         floating = true;
         noUpdateDisabled = true;
-        group = BlockGroup.transportation;
-    }
-
-    @Override
-    public void load(){
-        super.load();
-
-        directionRegions = new TextureRegion[2][2];
-        for(int j = 0; j <= 1; j++){
-            directionRegions[j][0] = Core.atlas.find(name + "-item" + j, name + "-item");
-            directionRegions[j][1] = Core.atlas.find(name + "-liquid" + j, name + "-liquid");
-        }
-    }
-
-    @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-        super.drawPlanRegion(plan, list);
-
-        for(int i = 0; i < 4; i++){
-            Draw.rect(directionRegions[i > 1 ? 1 : 0][(plan.rotation + i) % 2], plan.drawx(), plan.drawy(), i * 90f);
-        }
-    }
-
-    @Override
-    public TextureRegion[] icons(){
-        return new TextureRegion[]{region};
-    }
-
-    @Override
-    public void setStats(){
-        super.setStats();
-        stats.remove(Stat.liquidCapacity);
-    }
-
-    @Override
-    public void setBars(){
-        super.setBars();
-        removeBar("liquid");
     }
 
     @Override
@@ -74,51 +33,37 @@ public class MultiJunction extends LiquidBlock{
         return true;
     }
 
-    public class MultiJunctionBuild extends LiquidBuild{
+    public class MultiJunctionBuild extends LiquidJunctionBuild{
         public DirectionalItemBuffer buffer = new DirectionalItemBuffer(capacity);
 
         @Override
-        public void draw(){
-            Draw.rect(region, x, y);
-
-            for(int i = 0; i < 4; i++){
-                Draw.rect(directionRegions[i > 1 ? 1 : 0][(rotation + i) % 2], x, y, i * 90f);
-            }
-        }
-
-        @Override
-        public Building getLiquidDestination(Building source, Liquid liquid){
-            if(!enabled || relativeSelf(source) % 2 == 0) return this;
-
-            int relative = source.relativeTo(tile.x, tile.y);
-            int dir = (relative + 4) % 4;
-            Building next = nearby(dir);
-            if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction))){
-                return this;
-            }
-            return next.getLiquidDestination(this, liquid);
+        public int acceptStack(Item item, int amount, Teamc source){
+            return 0;
         }
 
         @Override
         public void updateTile(){
-            for(int i = 0; i < 2; i++){
-                int ii = rotation % 2 + i * 2;
-                if(buffer.indexes[ii] > 0){
-                    if(buffer.indexes[ii] > capacity) buffer.indexes[ii] = capacity;
-                    long l = buffer.buffers[ii][0];
+            super.updateTile();
+
+            for(int i = 0; i < 4; i++){
+                if(buffer.indexes[i] > 0){
+                    if(buffer.indexes[i] > capacity) buffer.indexes[i] = capacity;
+                    long l = buffer.buffers[i][0];
                     float time = BufferItem.time(l);
 
                     if(Time.time >= time + speed / timeScale || Time.time < time){
-                        Item item = content.item(BufferItem.item(l));
-                        Building dest = nearby(ii);
 
+                        Item item = content.item(BufferItem.item(l));
+                        Building dest = nearby(i);
+
+                        //skip blocks that don't want the item, keep waiting until they do
                         if(item == null || dest == null || !dest.acceptItem(this, item) || dest.team != team){
                             continue;
                         }
 
                         dest.handleItem(this, item);
-                        System.arraycopy(buffer.buffers[ii], 1, buffer.buffers[ii], 0, buffer.indexes[ii] - 1);
-                        buffer.indexes[ii]--;
+                        System.arraycopy(buffer.buffers[i], 1, buffer.buffers[i], 0, buffer.indexes[i] - 1);
+                        buffer.indexes[i] --;
                     }
                 }
             }
@@ -134,18 +79,9 @@ public class MultiJunction extends LiquidBlock{
         public boolean acceptItem(Building source, Item item){
             int relative = source.relativeTo(tile);
 
-            if(relative == -1 || !buffer.accepts(relative) || relativeSelf(source) % 2 == 1) return false;
+            if(relative == -1 || !buffer.accepts(relative)) return false;
             Building to = nearby(relative);
             return to != null && to.team == team;
-        }
-
-        public int relativeSelf(Building source){
-            return Mathf.mod(source.relativeTo(tile) - rotation, 4);
-        }
-
-        @Override
-        public int acceptStack(Item item, int amount, Teamc source){
-            return 0;
         }
 
         @Override

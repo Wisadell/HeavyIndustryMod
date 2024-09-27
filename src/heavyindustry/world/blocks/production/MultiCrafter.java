@@ -2,7 +2,7 @@ package heavyindustry.world.blocks.production;
 
 import arc.*;
 import arc.graphics.g2d.*;
-import arc.math.Mathf;
+import arc.math.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
@@ -17,7 +17,6 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.blocks.heat.*;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
@@ -29,7 +28,6 @@ import static heavyindustry.gen.HIIcon.*;
 
 public class MultiCrafter extends Block {
     public float warmupSpeed = 0.02f;
-    public float warmupRate = 0.15f;
     public int[] capacities = {};
     public Seq<Recipe> recipeSeq = new Seq<>();
     public DrawBlock drawer = new DrawDefault();
@@ -97,8 +95,8 @@ public class MultiCrafter extends Block {
         capacities = new int[Vars.content.items().size];
         for (Recipe r : recipeSeq) {
             if (r.inputLiquids != null || r.outputLiquids != null) hasLiquids = true;
-            if (r.inputPower > 0) consumesPower = true;
-            if (r.outputPower > 0) outputsPower = true;
+            if (r.inputPower > 0f) consumesPower = true;
+            if (r.outputPower > 0f) outputsPower = true;
             if (r.inputItems != null) {
                 for (ItemStack stack : r.inputItems) {
                     capacities[stack.item.id] = Math.max(capacities[stack.item.id], stack.amount * 10);
@@ -198,13 +196,11 @@ public class MultiCrafter extends Block {
         drawer.getRegionsToOutline(this, out);
     }
 
-    public class MultiCrafterBuild extends Building implements HeatBlock, HeatConsumer {
+    public class MultiCrafterBuild extends Building {
         public float progress;
         public float totalProgress;
         public float warmup;
         public int currentRecipeIndex = -1;
-        public float heat;
-        public float[] sideHeat = new float[4];
 
         @Override
         public void draw() {
@@ -218,7 +214,7 @@ public class MultiCrafter extends Block {
         }
 
         public @Nullable Recipe current() {
-            return currentRecipeIndex != -1? recipeSeq.get(currentRecipeIndex): null;
+            return currentRecipeIndex != -1 ? recipeSeq.get(currentRecipeIndex): null;
         }
 
         @Override
@@ -227,7 +223,7 @@ public class MultiCrafter extends Block {
         }
 
         public float getInputPower() {
-            return currentRecipeIndex != -1? current().inputPower: 0f;
+            return currentRecipeIndex != -1 ? current().inputPower: 0f;
         }
 
         @Override
@@ -241,7 +237,6 @@ public class MultiCrafter extends Block {
             if (currentRecipeIndex < 0 || currentRecipeIndex >= recipeSeq.size) currentRecipeIndex = -1;
 
             if (efficiency > 0 && currentRecipeIndex != -1) {
-
                 LiquidStack[] OutputLiquids = current().outputLiquids;
 
                 progress += getProgressIncrease(current().craftTime);
@@ -270,20 +265,17 @@ public class MultiCrafter extends Block {
             }
 
             dumpOutputs();
-
-            heat = Mathf.approachDelta(heat, current().heatOutput * efficiency, warmupRate * delta());
         }
 
         @Override
         public float getPowerProduction(){
-            if (current() == null) return 0;
-            //just prevent awful situation
-            return current().outputPower > 0 ? current().outputPower * warmup() + 0.00001f: 0;
+            if (current() == null) return 0f;
+            //just prevent awful situation.
+            return current().outputPower > 0f ? current().outputPower * warmup() + 0.00001f : 0f;
         }
 
         @Override
         public void buildConfiguration(Table table) {
-
             Table selection = new Table();
             selection.left().defaults().size(60f);
 
@@ -418,6 +410,7 @@ public class MultiCrafter extends Block {
         public boolean acceptItem(Building source, Item item) {
             return (currentRecipeIndex != -1 && current().inputItems != null && this.items.get(item) < this.getMaximumAccepted(item) && Structs.contains(current().inputItems, stack -> stack.item == item));
         }
+
         @Override
         public boolean canDump(Building to, Item item) {
             return true;
@@ -491,7 +484,6 @@ public class MultiCrafter extends Block {
 
         public void dumpOutputs() {
             if (currentRecipeIndex != -1) {
-
                 ItemStack[] OutputItems = current().outputItems;
                 LiquidStack[] OutputLiquids = current().outputLiquids;
                 int[] liquidOutputDirections = current().liquidOutputDirections;
@@ -513,32 +505,11 @@ public class MultiCrafter extends Block {
         }
 
         @Override
-        public float heatFrac(){
-            return heat / current().heatOutput;
-        }
-
-        @Override
-        public float heat(){
-            return heat;
-        }
-
-        @Override
-        public float[] sideHeat(){
-            return sideHeat;
-        }
-
-        @Override
-        public float heatRequirement(){
-            return current().visualMaxHeat;
-        }
-
-        @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.i(currentRecipeIndex);
             write.f(progress);
             write.f(warmup);
-            write.f(heat);
         }
 
         @Override
@@ -547,14 +518,13 @@ public class MultiCrafter extends Block {
             currentRecipeIndex = read.i();
             progress = read.f();
             warmup = read.f();
-            heat = read.f();
         }
     }
 
     public static class Recipe {
-        public Recipe(){}
+        public Recipe() {}
 
-        public Recipe(String name){
+        public Recipe(String name) {
             this.name = name;
 
             recipeName = Core.bundle.get("recipe." + this.name + ".name");
@@ -570,8 +540,6 @@ public class MultiCrafter extends Block {
         public @Nullable LiquidStack[] outputLiquids;
         public @Nullable float inputPower;
         public @Nullable float outputPower;
-        public @Nullable float visualMaxHeat;
-        public @Nullable float heatOutput;
         public float craftTime = 60f;
 
         public int[] liquidOutputDirections = {-1};
