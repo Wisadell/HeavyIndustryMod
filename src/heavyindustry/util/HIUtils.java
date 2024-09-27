@@ -3,6 +3,7 @@ package heavyindustry.util;
 import arc.graphics.g2d.*;
 import arc.util.*;
 import mindustry.content.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import org.jetbrains.annotations.*;
@@ -42,6 +43,66 @@ public final class HIUtils {
             tiles[step] = new TextureRegion(tex, step * (margin + size), layer * (margin + size), size, size);
         }
         return tiles;
+    }
+
+    public static TextureRegion[] splitRegionArray(TextureRegion region, int tileWidth, int tileHeight){
+        if(region.texture == null) return null;
+        int x = region.getX();
+        int y = region.getY();
+        int width = region.width;
+        int height = region.height;
+
+        int sw = width / tileWidth;
+        int sh = height / tileHeight;
+
+        int startX = x;
+        TextureRegion[] tiles = new TextureRegion[sw * sh];
+        for(int cy = 0; cy < sh; cy++, y += tileHeight){
+            x = startX;
+            for(int cx = 0; cx < sw; cx++, x += tileWidth){
+                tiles[cx + cy * sw] = new TextureRegion(region.texture, x, y, tileWidth, tileHeight);
+            }
+        }
+
+        return tiles;
+    }
+
+    public static TextureRegion[] splitRegionArray(TextureRegion region, int tileWidth, int tileHeight, int pad){
+        if(region.texture == null) return null;
+        int x = region.getX();
+        int y = region.getY();
+        int width = region.width;
+        int height = region.height;
+
+        int pWidth = tileWidth + pad * 2;
+        int pHeight = tileHeight + pad * 2;
+
+        int sw = width / pWidth;
+        int sh = height / pHeight;
+
+        int startX = x;
+        TextureRegion[] tiles = new TextureRegion[sw * sh];
+        for(int cy = 0; cy < sh; cy++, y += pHeight){
+            x = startX;
+            for(int cx = 0; cx < sw; cx++, x += pWidth){
+                tiles[cx + cy * sw] = new TextureRegion(region.texture, x + pad, y + pad, tileWidth, tileHeight);
+            }
+        }
+
+        return tiles;
+    }
+
+    /**
+     * {@link Tile#relativeTo(int, int)} does not account for building rotation.
+     * Taken from Goobrr/esoterum.
+     * */
+    public static int relativeDirection(Building from, Building to){
+        if(from == null || to == null) return -1;
+        if(from.x == to.x && from.y > to.y) return (7 - from.rotation) % 4;
+        if(from.x == to.x && from.y < to.y) return (5 - from.rotation) % 4;
+        if(from.x > to.x && from.y == to.y) return (6 - from.rotation) % 4;
+        if(from.x < to.x && from.y == to.y) return (4 - from.rotation) % 4;
+        return -1;
     }
 
     public static Item oreDrop(Tile tile){

@@ -105,9 +105,9 @@ open class MinigunTurret(name: String) : ItemTurret(name) {
 
     override fun setBars() {
         super.setBars()
-        addBar(HeavyIndustryMod.name("minigunSpeed")) { entity: MinigunTurretBuild ->
+        addBar("hi-minigun-speed") { entity: MinigunTurretBuild ->
             Bar(
-                { Core.bundle.format("bar." + HeavyIndustryMod.name("minigunSpeed"), HIUtils.stringsFixed(entity.speedf() * 100f)) },
+                { Core.bundle.format("bar.hi-minigun-speed", HIUtils.stringsFixed(entity.speedf() * 100f)) },
                 { entity.barColor() },
                 { entity.speedf() }
             )

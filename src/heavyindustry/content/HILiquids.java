@@ -6,7 +6,7 @@ import mindustry.content.*;
 import mindustry.entities.effect.*;
 import mindustry.type.*;
 
-import static heavyindustry.core.HeavyIndustryMod.name;
+import static heavyindustry.core.HeavyIndustryMod.*;
 
 /** Defines the {@linkplain Liquid liquid} this mod offers. */
 public class HILiquids {

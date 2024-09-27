@@ -18,7 +18,7 @@ import mindustry.graphics.g3d.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.core.HeavyIndustryMod.name;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
 import static mindustry.content.Planets.*;
 

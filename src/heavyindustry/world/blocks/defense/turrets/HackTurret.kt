@@ -14,7 +14,8 @@ import arc.util.io.Writes
 import mindustry.Vars
 import mindustry.entities.Units
 import mindustry.entities.Units.Sortf
-import mindustry.gen.*
+import mindustry.gen.Healthc
+import mindustry.gen.Sounds
 import mindustry.gen.Unit
 import mindustry.graphics.Drawf
 import mindustry.graphics.Layer
@@ -23,8 +24,7 @@ import mindustry.world.meta.Stat
 import mindustry.world.meta.StatUnit
 
 open class HackTurret(name: String) : BaseTurret(name) {
-
-    val targets = Seq<Unit>()
+    @JvmField val targets = Seq<Unit>()
 
     lateinit var baseRegion: TextureRegion
     lateinit var laser: TextureRegion
@@ -67,8 +67,7 @@ open class HackTurret(name: String) : BaseTurret(name) {
         return arrayOf(baseRegion, region)
     }
 
-    inner class HackTurretBuild : BaseTurretBuild() {
-
+    open inner class HackTurretBuild : BaseTurretBuild() {
         var target: Unit? = null
         var lastX = 0f
         var lastY = 0f

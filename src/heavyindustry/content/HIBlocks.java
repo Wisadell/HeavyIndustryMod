@@ -110,9 +110,9 @@ public class HIBlocks {
             //turret
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,dragonBreath,cloudbreaker,minigun,
             spike,fissure,
-            hurricane,frost,judgement,spark,fireworks
+            hurricane,frost,judgement,spark,fireworks,
             //turret-erekir
-            ;
+            tbd;
 
     /** Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
     public static void load(){
@@ -3411,5 +3411,34 @@ public class HIBlocks {
             buildCostMultiplier = 0.6f;
         }};
         //turrets-erekir
+
+        //TODO A placeholder that indicates that more content will be added in the future later. Not researchable.
+        tbd = new Block("tbd"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with());
+            unlocked = false;
+        }
+            @Override
+            public void unlock() {
+                //haha no
+            }
+
+            @Override
+            public boolean unlocked() {
+                //haha no
+                return false;
+            }
+
+            @Override
+            public boolean unlockedNow() {
+                //haha no
+                return false;
+            }
+
+            @Override
+            public boolean unlockedNowHost() {
+                //haha no
+                return false;
+            }
+        };
     }
 }

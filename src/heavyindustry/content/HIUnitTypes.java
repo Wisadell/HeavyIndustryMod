@@ -29,7 +29,7 @@ import mindustry.type.unit.*;
 import mindustry.type.weapons.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.core.HeavyIndustryMod.name;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.Vars.tilePayload;
@@ -51,13 +51,13 @@ public class HIUnitTypes {
         EntityMapping.nameMap.put(name("oracle"), EntityMapping.idMap[24]);
         EntityMapping.nameMap.put(name("havoc"), EntityMapping.idMap[5]);
         //other
-        EntityMapping.nameMap.put(name("scavenger"), TankLegacyUnit::create);
-        EntityMapping.nameMap.put(name("pioneer"), LegsPayloadLegacyUnit::create);
+        EntityMapping.nameMap.put(name("scavenger"), HITankUnit::create);
+        EntityMapping.nameMap.put(name("pioneer"), HILegsPayloadUnit::create);
         EntityMapping.nameMap.put(name("burner"), EntityMapping.idMap[4]);
         //other-erekir
-        EntityMapping.nameMap.put(name("draug"), NoCoreDepositBuildingTetherLegsUnit::create);
+        EntityMapping.nameMap.put(name("draug"), HINoCoreDepositBuildingTetherLegsUnit::create);
         //elite
-        EntityMapping.nameMap.put(name("desolation-lord"), LegsPayloadLegacyUnit::create);
+        EntityMapping.nameMap.put(name("desolation-lord"), HILegsPayloadUnit::create);
         //boss
         EntityMapping.nameMap.put(name("thunder"), EntityMapping.idMap[43]);
     }

@@ -32,7 +32,7 @@ public class ThermalHeater extends ThermalGenerator {
     public void setStats(){
         super.setStats();
 
-        stats.add(Stat.output, Core.bundle.format(name("stat", "outputHeat"), outputHeat * (size * size)));
+        stats.add(Stat.output, Core.bundle.format("stat.hi-output-heat", outputHeat * (size * size)));
     }
 
     @Override

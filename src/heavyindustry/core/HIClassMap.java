@@ -19,13 +19,14 @@ import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.blocks.power.*;
 import heavyindustry.world.blocks.production.*;
 import heavyindustry.world.blocks.storage.*;
+import heavyindustry.world.consumers.*;
 import heavyindustry.world.draw.*;
 
-import static mindustry.mod.ClassMap.classes;
+import static mindustry.mod.ClassMap.*;
 
 /** Generated class. Maps simple class names to concrete classes. For use in JSON attached mods. */
 public class HIClassMap {
-    static {
+    public static void load(){
         //ai
         classes.put("DepotMinerAI", DepotMinerAI.class);
         //ability
@@ -49,6 +50,8 @@ public class HIClassMap {
         classes.put("LightningLinkerBulletType", LightningLinkerBulletType.class);
         classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
         classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
+        classes.put("LiquidBulletData", LiquidMassDriver.LiquidBulletData.class);
+        classes.put("LiquidMassDriverBolt", LiquidMassDriverBolt.class);
         //effects
         classes.put("EffectWrapper", EffectWrapper.class);
         //parts
@@ -85,7 +88,7 @@ public class HIClassMap {
         classes.put("OverchargeDirectionalUnloaderBuild", OverchargeDirectionalUnloader.OverchargeDirectionalUnloaderBuild.class);
         classes.put("BeltConveyor", BeltConveyor.class);
         classes.put("BeltConveyorBuild", BeltConveyor.BeltConveyorBuild.class);
-        classes.put("BeltConveyor", BeltArmoredConveyor.class);
+        classes.put("BeltArmoredConveyor", BeltArmoredConveyor.class);
         classes.put("BeltArmoredConveyorBuild", BeltArmoredConveyor.BeltArmoredConveyorBuild.class);
         classes.put("CoveredConveyor", CoveredConveyor.class);
         classes.put("CoveredConveyorBuild", CoveredConveyor.CoveredConveyorBuild.class);
@@ -121,6 +124,8 @@ public class HIClassMap {
         classes.put("LiquidUnloaderBuild", LiquidUnloader.LiquidUnloaderBuild.class);
         classes.put("LiquidDirectionalUnloader", LiquidDirectionalUnloader.class);
         classes.put("LiquidDirectionalUnloaderBuild", LiquidDirectionalUnloader.LiquidDirectionalUnloaderBuild.class);
+        classes.put("LiquidMassDriver", LiquidMassDriver.class);
+        classes.put("LiquidMassDriverBuild", LiquidMassDriver.LiquidMassDriverBuild.class);
         classes.put("CopyMemoryBlock", CopyMemoryBlock.class);
         classes.put("CopyMemoryBuild", CopyMemoryBlock.CopyMemoryBuild.class);
         classes.put("PayloadJunction", PayloadJunction.class);
@@ -137,14 +142,28 @@ public class HIClassMap {
         classes.put("GeneratorCrafterBuild", GeneratorCrafter.GeneratorCrafterBuild.class);
         classes.put("AttributeGenerator", AttributeGenerator.class);
         classes.put("AttributeGeneratorBuild", AttributeGenerator.AttributeGeneratorBuild.class);
+        classes.put("MultiCrafter", MultiCrafter.class);
+        classes.put("MultiCrafterBuild", MultiCrafter.MultiCrafterBuild.class);
+        classes.put("Recipe", MultiCrafter.Recipe.class);
+        classes.put("AdaptDrill", AdaptDrill.class);
+        classes.put("AdaptDrillBuild", AdaptDrill.AdaptDrillBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);
         classes.put("LaserBeamDrillBuild", LaserBeamDrill.LaserBeamDrillBuild.class);
+        classes.put("ResonanceDrill", ResonanceDrill.class);
+        classes.put("ResonanceDrillBuild", ResonanceDrill.ResonanceDrillBuild.class);
+        classes.put("DrillModule", DrillModule.class);
+        classes.put("DrillModuleBuild", DrillModule.DrillModuleBuild.class);
         classes.put("MultiDrill", MultiDrill.class);
         classes.put("MultiDrillBuild", MultiDrill.MultiDrillBuild.class);
         classes.put("AdaptUnloader", AdaptUnloader.class);
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
         classes.put("OverchargeUnloader", OverchargeUnloader.class);
         classes.put("OverchargeUnloaderBuild", OverchargeUnloader.OverchargeUnloaderBuild.class);
+        //consume
+        classes.put("AdaptConsumeItemDynamic", AdaptConsumeItemDynamic.class);
+        classes.put("AdaptConsumeLiquidDynamic", AdaptConsumeLiquidDynamic.class);
+        classes.put("AdaptConsumerPower", AdaptConsumerPower.class);
+        classes.put("AdaptConsumeShowStat", AdaptConsumeShowStat.class);
         //draws
         classes.put("AimPart", AimPart.class);
         classes.put("BowHalo", BowHalo.class);
@@ -157,5 +176,6 @@ public class HIClassMap {
         classes.put("DrawRotator", DrawRotator.class);
         classes.put("DrawScanLine", DrawScanLine.class);
         classes.put("DrawSpecConstruct", DrawSpecConstruct.class);
+        classes.put("DrawLiquidMassDriver", DrawLiquidMassDriver.class);
     }
 }

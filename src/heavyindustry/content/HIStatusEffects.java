@@ -7,7 +7,7 @@ import mindustry.entities.effect.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 
-import static heavyindustry.core.HeavyIndustryMod.name;
+import static heavyindustry.core.HeavyIndustryMod.*;
 
 public class HIStatusEffects {
     public static StatusEffect repair,armorReduction;

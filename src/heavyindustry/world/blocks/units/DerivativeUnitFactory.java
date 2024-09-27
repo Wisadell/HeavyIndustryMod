@@ -18,8 +18,8 @@ import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.units.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.core.HeavyIndustryMod.name;
-import static arc.graphics.g2d.Draw.color;
+import static heavyindustry.core.HeavyIndustryMod.*;
+import static arc.graphics.g2d.Draw.*;
 import static mindustry.Vars.*;
 
 /** @author guiY */

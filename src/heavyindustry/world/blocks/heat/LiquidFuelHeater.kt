@@ -18,7 +18,7 @@ open class LiquidFuelHeater(name: String) : HeatProducer(name) {
     }
 
     inner class LiquidFuelHeaterBuild : HeatProducerBuild() {
-        private fun liquidHeat(): Float {
+        fun liquidHeat(): Float {
             return if (liquids.current() != null) {
                 liquids.current().flammability
             } else {
