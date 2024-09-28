@@ -129,7 +129,6 @@ public class MultiInvertedJunction extends MultiJunction {
             loc = loc == 1 ? 3 : 1;
             deselect();
             configure(loc);
-
         }
 
         @Override

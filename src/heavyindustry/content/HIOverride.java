@@ -85,15 +85,16 @@ public class HIOverride {
         Blocks.impactReactor.liquidCapacity = 80f;
         Blocks.neoplasiaReactor.canOverdrive = true;
         //Blocks-Production
-        //Blocks.disassembler.removeConsumer();
         Blocks.phaseWeaver.itemCapacity = 30;
         //Blocks-Production-Erekir
         Blocks.oxidationChamber.canOverdrive = true;
         Blocks.heatReactor.buildVisibility = BuildVisibility.shown;
-        //Blocks-Production-Erekir
         ((AttributeCrafter) Blocks.ventCondenser).maxBoost = 3f;
         ((GenericCrafter) Blocks.electrolyzer).outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60f, Liquids.hydrogen, 8f / 60f);
         ((HeatCrafter) Blocks.cyanogenSynthesizer).outputLiquid = new LiquidStack(Liquids.cyanogen, 4f / 60f);
+        //Blocks-Defense
+        //TODO They destroyed serpulo. Of course, you can also see them in sandbox mode.
+        Blocks.overdriveDome.buildVisibility = Blocks.overdriveProjector.buildVisibility = BuildVisibility.sandboxOnly;
         //Blocks-Storage
         Blocks.coreShard.buildVisibility = BuildVisibility.shown;
         Blocks.coreShard.health *= 2;

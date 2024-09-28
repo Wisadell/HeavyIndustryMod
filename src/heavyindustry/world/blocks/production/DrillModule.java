@@ -2,6 +2,7 @@ package heavyindustry.world.blocks.production;
 
 import arc.*;
 import arc.graphics.g2d.*;
+import arc.math.Mathf;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -17,6 +18,7 @@ import heavyindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
+/** Basic drill bit module. */
 public class DrillModule extends Block {
     public TextureRegion topFullRegions;
     public TextureRegion[] topRotRegions;
@@ -26,6 +28,8 @@ public class DrillModule extends Block {
     public float powerMul = 0f;
     public float powerExtra = 0f;
     public boolean coreSend = false;
+    public boolean stackable = false;
+
     public DrillModule(String name) {
         super(name);
         size = 2;
@@ -61,8 +65,8 @@ public class DrillModule extends Block {
     @Override
     public void setStats() {
         super.setStats();
-        if (powerMul != 0 || powerExtra != 0) stats.add(HIStat.powerConsModifier, Core.bundle.get("nh.stat.power-cons-modifier"), Strings.autoFixed(powerMul * 100, 0), Strings.autoFixed(powerExtra, 0));
-        if (boostSpeed != 0 || boostFinalMul != 0) stats.add(HIStat.minerBoosModifier, Core.bundle.get("nh.stat.miner-boost-modifier"), Strings.autoFixed(boostSpeed * 100, 0), Strings.autoFixed(boostFinalMul * 100, 0));
+        if (powerMul != 0 || powerExtra != 0) stats.add(HIStat.powerConsModifier, Core.bundle.get("stat.hi-power-cons-modifier"), Strings.autoFixed(powerMul * 100, 0), Strings.autoFixed(powerExtra, 0));
+        if (boostSpeed != 0 || boostFinalMul != 0) stats.add(HIStat.minerBoosModifier, Core.bundle.get("stat.hi-miner-boost-modifier"), Strings.autoFixed(boostSpeed * 100, 0), Strings.autoFixed(boostFinalMul * 100, 0));
         if (convertList.size > 0) stats.add(HIStat.itemConvertList, getConvertList());
     }
 
@@ -85,6 +89,8 @@ public class DrillModule extends Block {
     }
 
     public class DrillModuleBuild extends Building{
+        public @Nullable AdaptDrill.AdaptDrillBuild drillBuild;
+        public float smoothWarmup, targetWarmup;
 
         @Override
         public void draw() {
@@ -92,6 +98,14 @@ public class DrillModule extends Block {
             Draw.z(Layer.blockOver);
             drawTeamTop();
             Draw.rect(topRotRegions[rotation], x, y);
+
+            targetWarmup = drillBuild == null? 0: drillBuild.warmup;
+            smoothWarmup = Mathf.lerp(smoothWarmup, targetWarmup, 0.02f);
+        }
+
+        @Override
+        public void onProximityUpdate() {
+            super.onProximityUpdate();
         }
 
         public boolean canApply(AdaptDrill.AdaptDrillBuild drill){
@@ -102,8 +116,27 @@ public class DrillModule extends Block {
                     return false;
                 }
             }
+            return (drill.boostMul + boostSpeed <= drill.maxBoost() + 1) && checkConvert(drill) && checkSameModule(drill);
+        }
+
+        public boolean checkConvert(AdaptDrill.AdaptDrillBuild drill){
+            if (convertList.size == 0) return true;
+            for (Item[] convert: convertList){
+                if (drill.dominantItem == convert[0]){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public boolean checkSameModule(AdaptDrill.AdaptDrillBuild drill){
+            if (stackable) return true;
+            for (DrillModuleBuild module: drill.modules){
+                if (module.block == this.block) return false;
+            }
             return true;
         }
+
         public void apply(AdaptDrill.AdaptDrillBuild drill){
             drill.boostMul += boostSpeed;
             drill.boostFinalMul += boostFinalMul;

@@ -18,8 +18,10 @@ import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
+import mindustry.world.blocks.environment.Floor;
 import mindustry.world.meta.*;
 import heavyindustry.world.consumers.*;
+import heavyindustry.world.meta.*;
 import heavyindustry.ui.*;
 
 import static mindustry.Vars.*;
@@ -27,8 +29,6 @@ import static mindustry.Vars.*;
 public class AdaptDrill extends Block {
     final static Rand globalEffectRand = new Rand(0);
 
-    /** Maximum tier of blocks this drill can mine. */
-    public int tier = 2;
     /** output speed in items/sec. */
     public float mineSpeed = 5;
     /** output count once. */
@@ -36,22 +36,35 @@ public class AdaptDrill extends Block {
     /** Whether to draw the item this drill is mining. */
     public boolean drawMineItem = false;
 
+    /** yeah i want to make whitelist. */
+    public int mineTier;
     /** Special exemption item that this drill can't mine. */
     public Seq<Item> blockedItem = new Seq<>();
 
     /** return variables for countOre. */
-    protected int maxOreTileReq = size * size;
+    protected int maxOreTileReq = getSize();
 
     protected @Nullable Item returnItem;
     protected int returnCount;
     protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
     protected final Seq<Item> itemArray = new Seq<>();
 
-    public TextureRegion baseRegion, topRegion, oreRegion;
+    public TextureRegion baseRegion, rotatorRegion, topRegion, rimRegion, oreRegion;
     public float powerConsBase;
 
+    /** Chance of displaying the effect. Useful for extremely fast drills. */
     public float updateEffectChance = 0.02f;
+    /** Effect randomly played while drilling. */
     public Effect updateEffect = Fx.none;
+    /** Speed the drill bit rotates at. */
+    public float rotateSpeed = 2f;
+
+    public float maxBoost = 0f;
+
+    public Color heatColor = Color.valueOf("ff5512");
+
+    public boolean drawRim = false;
+    public boolean drawSpinSprite = true;
 
     public AdaptDrill(String name) {
         super(name);
@@ -66,11 +79,15 @@ public class AdaptDrill extends Block {
         hasLiquids = false;
         itemCapacity = 40;
 
+        canOverdrive = false;
+
         ambientSound = Sounds.drill;
         ambientSoundVolume = 0.018f;
 
         group = BlockGroup.drills;
         flags = EnumSet.of(BlockFlag.drill);
+
+        drawTeamOverlay = false;
 
         consumePower(AdaptDrillBuild::getPowerCons);
     }
@@ -80,12 +97,27 @@ public class AdaptDrill extends Block {
         consume(new AdaptConsumerPower((Floatf<Building>) usage));
     }
 
+    public float getMineSpeedHardnessMul(Item item){
+        if (item == null) return 0f;
+        if (item.hardness == 0) return 2f;
+        if (item.hardness <= 2) return 1.5f;
+        if (item.hardness <= 4) return 1f;
+        return 0.8f;
+    }
+
     @Override
     public void load() {
         super.load();
         baseRegion = Core.atlas.find(name + "-bottom");
+        rotatorRegion = Core.atlas.find(name + "-rotator");
         topRegion = Core.atlas.find(name + "-top");
+        rimRegion = Core.atlas.find(name + "-rim");
         oreRegion = Core.atlas.find(name + "-ore");
+    }
+
+    @Override
+    public TextureRegion[] icons(){
+        return drawSpinSprite ? new TextureRegion[]{baseRegion, rotatorRegion, topRegion} : new TextureRegion[]{baseRegion, topRegion};
     }
 
     @Override
@@ -109,12 +141,38 @@ public class AdaptDrill extends Block {
         return (60f / mineSpeed) * mineCount;
     }
 
+    public int getSize(){
+        return size * size;
+    }
+
     @Override
     public void setStats(){
         super.setStats();
 
         stats.add(Stat.drillSpeed, mineSpeed, StatUnit.itemsSecond);
-        stats.add(Stat.drillTier, StatValues.items(item -> item.hardness <= tier && !blockedItem.contains(item)));
+        stats.add(Stat.drillTier, table -> {
+            table.row();
+            table.table(c -> {
+                int i = 0;
+                for(Block block : content.blocks()){
+                    if (block.itemDrop == null || (blockedItem.contains(block.itemDrop) || block.itemDrop.hardness > mineTier)) continue;
+                    if ((block instanceof Floor && ((Floor) block).wallOre)) continue;
+
+                    c.table(Styles.grayPanel, b -> {
+                        b.image(block.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
+                        b.table(info -> {
+                            info.left();
+                            info.add(block.localizedName).left().row();
+                            info.add(block.itemDrop.emoji()).left();
+                        }).grow();
+                        b.add(Strings.autoFixed(mineSpeed * getMineSpeedHardnessMul(block.itemDrop), 1) + StatUnit.perSecond.localized())
+                                .right().pad(10f).padRight(15f).color(Color.lightGray);
+                    }).growX().pad(5);
+                    if(++i % 2 == 0) c.row();
+                }
+            }).growX().colspan(table.getColumns());
+        });
+        stats.add(HIStat.maxBoostPercent, Core.bundle.get("stat.hi-percent"), Strings.autoFixed(maxBoost * 100, 0));
     }
 
     @Override
@@ -154,7 +212,7 @@ public class AdaptDrill extends Block {
         countOre(tile);
 
         if(returnItem != null){
-            String oreCountText = (returnCount < maxOreTileReq? "[sky](": "[heal](") + returnCount + "/" +  maxOreTileReq + ")[] " +mineSpeed * Mathf.clamp((float) returnCount /maxOreTileReq) + "/s";
+            String oreCountText = (returnCount < maxOreTileReq? "[sky](": "[heal](") + returnCount + "/" +  maxOreTileReq + ")[] " + Strings.autoFixed(mineSpeed * Mathf.clamp((float) returnCount / maxOreTileReq) * getMineSpeedHardnessMul(returnItem), 1) + "/s";
             float width = drawPlaceText(oreCountText, x, y, valid);
             float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
             Draw.mixcol(Color.darkGray, 1f);
@@ -162,7 +220,7 @@ public class AdaptDrill extends Block {
             Draw.reset();
             Draw.rect(returnItem.fullIcon, dx, dy, s, s);
         }else {
-            Tile to = tile.getLinkedTilesAs(this, tempTiles).find(t -> t.drop() != null && t.drop().hardness > tier || blockedItem.contains(t.drop()));
+            Tile to = tile.getLinkedTilesAs(this, tempTiles).find(t -> t.drop() != null && t.drop().hardness > mineTier || blockedItem.contains(t.drop()));
             Item item = to == null ? null : to.drop();
             if(item != null){
                 drawPlaceText(Core.bundle.get("bar.drilltierreq"), x, y, valid);
@@ -208,7 +266,7 @@ public class AdaptDrill extends Block {
     protected boolean canMine(Tile tile){
         if(tile == null || tile.block().isStatic()) return false;
         Item drops = tile.drop();
-        return drops != null && drops.hardness <= tier && !blockedItem.contains(drops);
+        return drops != null && (!blockedItem.contains(drops) || drops.hardness > mineTier);
     }
 
     protected Item getDrop(Tile tile){
@@ -220,6 +278,7 @@ public class AdaptDrill extends Block {
 
         //only for visual
         public float warmup;
+        public float timeDrilled;
 
         public int dominantItems;
         public Item dominantItem;
@@ -233,6 +292,10 @@ public class AdaptDrill extends Block {
         public float powerConsMul = 1f;
         public float powerConsExtra = 0f;
         public Seq<DrillModule.DrillModuleBuild> modules = new Seq<>();
+
+        public float maxBoost(){
+            return maxBoost;
+        }
 
         @Override
         public void onProximityUpdate(){
@@ -252,6 +315,9 @@ public class AdaptDrill extends Block {
         @Override
         public void updateTile() {
             tryDump();
+
+            timeDrilled += warmup * delta();
+
             updateProgress();
             updateOutput();
             updateEffect();
@@ -293,16 +359,29 @@ public class AdaptDrill extends Block {
 
         @Override
         public void draw() {
+            float s = 0.3f;
+            float ts = 0.6f;
+
             Draw.rect(baseRegion, x, y);
-            if (efficiency > 0.001){
-                if (items.total() < itemCapacity && outputItem() != null){
-                    warmup = Mathf.lerp(warmup, efficiency, 0.005f);
-                }else {
-                    warmup = Mathf.lerp(warmup, 0, 0.01f);
-                }
+            if (warmup > 0f){
                 drawMining();
             }
+
             Draw.z(Layer.blockOver - 4f);
+
+            if(drawSpinSprite){
+                Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
+            }
+
+            if(drawRim){
+                Draw.color(heatColor);
+                Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));
+                Draw.blend(Blending.additive);
+                Draw.rect(rimRegion, x, y);
+                Draw.blend();
+                Draw.color();
+            }
+
             Draw.rect(topRegion, x, y);
             if(outputItem() != null && drawMineItem){
                 Draw.color(dominantItem.color);
@@ -342,7 +421,16 @@ public class AdaptDrill extends Block {
             powerConsMul = 1f;
             powerConsExtra = 0f;
             coreSend = false;
+            convertItem = null;
             modules.clear();
+        }
+
+        @Override
+        public void remove() {
+            super.remove();
+            for (DrillModule.DrillModuleBuild module: modules){
+                module.drillBuild = null;
+            }
         }
 
         public void updateDrillModule(){
@@ -350,6 +438,7 @@ public class AdaptDrill extends Block {
             for (Building building: proximity){
                 if (building instanceof DrillModule.DrillModuleBuild module) {
                     if (module.canApply(this)){
+                        module.drillBuild = this;
                         modules.add(module);
                         module.apply(this);
                     }
@@ -368,10 +457,6 @@ public class AdaptDrill extends Block {
             return outputItem() == null? Pal.darkishGray: Tmp.c1.set(outputItem().color).lerp(Color.black, 0.2f);
         }
 
-        public String getBuildInfo(){
-            return getMineSpeed() + "/s (" + (boostScl() >= 1? "+": "")+ (int)((boostScl() - 1) * 100) + "%)";
-        }
-
         //notice in tick
         public float getPowerCons(){
             return (powerConsBase * powerConsMul + powerConsExtra) / 60f;
@@ -379,16 +464,23 @@ public class AdaptDrill extends Block {
 
         private void updateProgress(){
             if (items.total() < itemCapacity){
-                progress += edelta() * Mathf.clamp((float) dominantItems/maxOreTileReq) * boostScl();
+                progress += edelta() * Mathf.clamp((float) dominantItems / maxOreTileReq) * boostScl();
+            }
+            if (!headless){
+                if (items.total() < itemCapacity && dominantItems > 0 && efficiency > 0){
+                    warmup = Mathf.approachDelta(warmup, efficiency, 0.01f);
+                }else {
+                    warmup = Mathf.approachDelta(warmup, 0, 0.01f);
+                }
             }
         }
 
         public float boostScl(){
-            return boostMul * boostFinalMul;
+            return boostMul * boostFinalMul * getMineSpeedHardnessMul(dominantItem);
         }
 
         private float getMineSpeed(){
-            return Mathf.clamp((float) dominantItems/maxOreTileReq) * boostScl() * mineSpeed;
+            return Mathf.clamp((float) dominantItems / maxOreTileReq) * boostScl() * mineSpeed;
         }
 
         @Override

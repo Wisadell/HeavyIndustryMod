@@ -70,7 +70,7 @@ public class HIBlocks {
             //wall-erekir
             berylliumWallHuge,berylliumWallGigantic,tungstenWallHuge,tungstenWallGigantic,blastDoorLarge,blastDoorHuge,reinforcedSurgeWallHuge,reinforcedSurgeWallGigantic,carbideWallHuge,carbideWallGigantic,shieldedWallLarge,shieldedWallHuge,
             //drill
-            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,speedModule,
+            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,speedModule,refineModule,deliveryModule,
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,unitMinerDepot,
             //distribution
@@ -472,28 +472,35 @@ public class HIBlocks {
         }};
         cuttingDrill = new AdaptDrill("cutting-drill"){{
             requirements(Category.production, with(Items.graphite, 100, Items.silicon, 120, Items.thorium, 50, Items.plastanium, 40, Items.surgeAlloy, 30));
-            size = 3;
+            size = 4;
             health = 590;
             armor = 3;
-            tier = 8;
-            maxOreTileReq = 8;
-            itemCapacity = 10;
+            mineTier = 8;
+            mineSpeed = 3.5f;
+            maxOreTileReq = getSize() - 2;
             updateEffect = Fx.mineBig;
+            powerConsBase = 180f;
+            drawRim = true;
         }};
         beamDrill = new LaserBeamDrill("beam-drill"){{
             requirements(Category.production, with(Items.lead, 160, Items.silicon, 120,  HIItems.chromium, 60, HIItems.nanocore, 35,Items.phaseFabric, 25));
             size = 4;
             health = 960;
-            tier = 11;
-            maxOreTileReq = 10;
+            mineTier = 11;
+            maxOreTileReq = getSize() - 2;
             buildCostMultiplier = 0.8f;
         }};
-        speedModule = new DrillModule("speed-module"){{
-            requirements(Category.production, with(Items.titanium, 35, Items.plastanium, 30, Items.phaseFabric, 25));
-            size = 2;
-            boostSpeed = 1f;
-            powerMul = 1.2f;
-            powerExtra = 180f;
+        speedModule = new SpeedModule("speed-module"){{
+            requirements(Category.production, with(Items.plastanium, 30, Items.surgeAlloy, 35, HIItems.nanocore, 25));
+        }};
+        refineModule = new RefineModule("refine-module"){{
+            requirements(Category.production, with(Items.copper, 25, Items.metaglass, 20, Items.titanium, 25));
+            convertList.add(new Item[]{Items.sand, Items.silicon}, new Item[]{Items.coal, Items.graphite}, new Item[]{Items.beryllium, Items.oxide});
+            buildCostMultiplier = 1.2f;
+        }};
+        deliveryModule = new DeliveryModule("delivery-module"){{
+            requirements(Category.production, with(Items.plastanium, 80, HIItems.nanocore, 40, HIItems.chromium, 50, HIItems.highEnergyFabric, 35));
+            buildCostMultiplier = 0.8f;
         }};
         //drill-erekir
         largeCliffCrusher = new WallCrafter("large-cliff-crusher"){{
@@ -617,7 +624,7 @@ public class HIBlocks {
             ((BeltArmoredConveyor) chromiumArmorConveyor).junctionReplacement = this;
             ((TubeConveyor) chromiumTubeConveyor).junctionReplacement = this;
         }};
-        chromiumInvertedJunction = new InvertedJunction("chromium-inverted-junction"){{
+        chromiumInvertedJunction = new MultiInvertedJunction("chromium-inverted-junction"){{
             requirements(Category.distribution, with(Items.copper, 2, HIItems.chromium, 2));
             health = 420;
             armor = 4;
@@ -1645,7 +1652,7 @@ public class HIBlocks {
             consumeItem(Items.phaseFabric, 1).boost();
         }};
         assignOverdrive = new AssignOverdrive("assign-overdrive"){{
-            requirements(Category.effect, with(Items.silicon, 150,Items.thorium, 120, Items.plastanium, 100, Items.surgeAlloy, 60, HIItems.chromium, 80));
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with(Items.silicon, 150,Items.thorium, 120, Items.plastanium, 100, Items.surgeAlloy, 60, HIItems.chromium, 80));
             size = 3;
             range = 240f;
             phaseRangeBoost = 0f;

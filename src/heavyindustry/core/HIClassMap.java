@@ -28,6 +28,7 @@ import static mindustry.mod.ClassMap.*;
 public class HIClassMap {
     public static void load(){
         //ai
+        classes.put("CircleAi", CircleAi.class);
         classes.put("DepotMinerAI", DepotMinerAI.class);
         //ability
         classes.put("JavelinAbility", JavelinAbility.class);
@@ -102,6 +103,8 @@ public class HIClassMap {
         classes.put("OverchargeDuctBuild", OverchargeDuct.OverchargeDuctBuild.class);
         classes.put("InvertedJunction", InvertedJunction.class);
         classes.put("InvertedJunctionBuild", InvertedJunction.InvertedJunctionBuild.class);
+        classes.put("MultiInvertedJunction", MultiInvertedJunction.class);
+        classes.put("MultiInvertedJunctionBuild", MultiInvertedJunction.MultiInvertedJunctionBuild.class);
         classes.put("MultiJunction", MultiJunction.class);
         classes.put("MultiJunctionBuild", MultiJunction.MultiJunctionBuild.class);
         classes.put("MultiRouter", MultiRouter.class);
@@ -151,10 +154,14 @@ public class HIClassMap {
         classes.put("AdaptDrillBuild", AdaptDrill.AdaptDrillBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);
         classes.put("LaserBeamDrillBuild", LaserBeamDrill.LaserBeamDrillBuild.class);
-        classes.put("ResonanceDrill", ResonanceDrill.class);
-        classes.put("ResonanceDrillBuild", ResonanceDrill.ResonanceDrillBuild.class);
         classes.put("DrillModule", DrillModule.class);
         classes.put("DrillModuleBuild", DrillModule.DrillModuleBuild.class);
+        classes.put("SpeedModule", SpeedModule.class);
+        classes.put("SpeedModuleBuild", SpeedModule.SpeedModuleBuild.class);
+        classes.put("RefineModule", RefineModule.class);
+        classes.put("RefineModuleBuild", RefineModule.RefineModuleBuild.class);
+        classes.put("DeliveryModule", DeliveryModule.class);
+        classes.put("DeliveryModuleBuild", DeliveryModule.DeliveryModuleBuild.class);
         classes.put("MultiDrill", MultiDrill.class);
         classes.put("MultiDrillBuild", MultiDrill.MultiDrillBuild.class);
         classes.put("AdaptUnloader", AdaptUnloader.class);

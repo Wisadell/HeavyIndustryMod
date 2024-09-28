@@ -6,6 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
 import mindustry.graphics.*;
+import heavyindustry.content.*;
 
 /** @author Yuria */
 public class LaserBeamDrill extends AdaptDrill {
@@ -22,38 +23,55 @@ public class LaserBeamDrill extends AdaptDrill {
     public float laserScl = 0.2f;
 
     public Color laserColor = Color.valueOf("f58349");
-    public Color arcColor = Color.valueOf("f2d585");
+
     public float laserAlpha = 0.75f;
     public float laserAlphaSine = 0.2f;
 
     public int particles = 25;
     public float particleLife = 40f, particleRad = 9.75f, particleLen = 4f;
 
-    public LaserBeamDrill(String name){
+    public LaserBeamDrill(String name) {
         super(name);
-        mineSpeed = 10f;
-        mineCount = 3;
-        powerConsBase = 300f;
+        mineSpeed = 7.5f;
+        mineCount = 5;
+
+        powerConsBase = 330f;
+        itemCapacity = 80;
+
+        maxBoost = 1f;
+
+        updateEffect = HIFx.laserBeam;
+        updateEffectChance = 0.01f;
+
+        drawSpinSprite = false;
     }
 
-    @Override
     public void load(){
         super.load();
         laser = Core.atlas.find("minelaser");
         laserEnd = Core.atlas.find("minelaser-end");
-    }
 
-    @Override
-    public TextureRegion[] icons(){
-        return new TextureRegion[]{region, topRegion};
     }
 
     public class LaserBeamDrillBuild extends AdaptDrillBuild{
         public Rand rand = new Rand();
 
         @Override
+        public void draw() {
+            Draw.rect(baseRegion, x, y);
+
+            if (warmup > 0f){
+                drawMining();
+            }
+
+            Draw.z(Layer.blockOver - 4f);
+            Draw.rect(topRegion, x, y);
+            drawTeamTop();
+        }
+
+        @Override
         public void drawMining(){
-            float timeDrilled = Time.time / 1.5f;
+            float timeDrilled = Time.time / 2.5f;
             float
                     moveX = Mathf.sin(timeDrilled, moveScale + Mathf.randomSeed(id, -moveScaleRand, moveScaleRand), shooterMoveRange) + x,
                     moveY = Mathf.sin(timeDrilled + Mathf.randomSeed(id >> 1, moveScale), moveScale + Mathf.randomSeed(id >> 2, -moveScaleRand, moveScaleRand), shooterMoveRange) + y;
@@ -65,13 +83,13 @@ public class LaserBeamDrill extends AdaptDrill {
             Drawf.laser(laser, laserEnd, x + (-shooterOffset + warmup * shooterExtendOffset + shootY), moveY, x - (-shooterOffset + warmup * shooterExtendOffset + shootY), moveY, stroke);
             Drawf.laser(laser, laserEnd, moveX, y + (-shooterOffset + warmup * shooterExtendOffset + shootY), moveX, y - (-shooterOffset + warmup * shooterExtendOffset + shootY), stroke);
 
-            Draw.color(arcColor);
+            Draw.color(dominantItem.color);
 
-            float sine = 1f + Mathf.sin(6f, 0.f);
+            float sine = 1f + Mathf.sin(6f, 0.1f);
 
-            Fill.circle(moveX, moveY, stroke * 8f * sine);
             Lines.stroke(stroke / laserScl / 2f);
             Lines.circle(moveX, moveY, stroke * 12f * sine);
+            Fill.circle(moveX, moveY, stroke * 8f * sine);
 
             rand.setSeed(id);
             float base = (Time.time / particleLife);

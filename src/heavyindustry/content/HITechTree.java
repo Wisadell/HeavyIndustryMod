@@ -46,7 +46,11 @@ public class HITechTree {
         });
         addToNode(blastDrill, () -> {
             node(cuttingDrill, Seq.with(new SectorComplete(impact0078)), () -> {});
-            node(beamDrill, () -> node(speedModule, () -> {}));
+            node(beamDrill, () -> {
+                node(speedModule, () -> {});
+                node(refineModule, () -> {});
+                node(deliveryModule, () -> {});
+            });
         });
         addToNode(oilExtractor, () -> node(reinforcedOilExtractor, () -> {}));
         //drill-erekir
@@ -150,9 +154,12 @@ public class HITechTree {
         addToNode(surgeCrucible, () -> node(largeSurgeCrucible, ItemStack.with(Items.graphite, 4400, Items.silicon, 4000, Items.tungsten, 4800, Items.oxide, 960, Items.surgeAlloy, 1600), () -> {}));
         addToNode(carbideCrucible, () -> node(largeCarbideCrucible, ItemStack.with(Items.thorium, 6000, Items.tungsten, 8000, Items.oxide, 1000, Items.carbide, 1200), () -> {}));
         //defense
+        //TODO They destroyed serpulo.
+        removeToNode(overdriveDome);
+        removeToNode(overdriveProjector);
         addToNode(illuminator, () -> node(lighthouse, () -> {}));
         addToNode(mendProjector, () -> node(mendDome, () -> {}));
-        addToNode(overdriveDome, () -> node(assignOverdrive, () -> {}));
+        //addToNode(overdriveDome, () -> node(assignOverdrive, () -> {}));
         //defense-erekir
         addToNode(radar, () -> node(largeRadar, ItemStack.with(Items.graphite, 3600, Items.silicon, 3200, Items.beryllium, 600, Items.tungsten, 200, Items.oxide, 10), () -> {}));
         //storage
@@ -217,9 +224,17 @@ public class HITechTree {
         });
         addToNode(planetaryTerminal, () -> node(bombardmentWarzone, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}));
     }
-    public static void addToNode(UnlockableContent p, Runnable c){
-        context = TechTree.all.find(t -> t.content == p);
-        c.run();
+
+    public static void addToNode(UnlockableContent content, Runnable children){
+        context = TechTree.all.find(t -> t.content == content);
+        children.run();
+    }
+
+    public static void removeToNode(UnlockableContent content){
+        context = TechTree.all.find(t -> t.content == content);
+        if(context != null){
+            context.remove();
+        }
     }
 
     public static void node(UnlockableContent content, Runnable children){

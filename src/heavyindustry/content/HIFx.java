@@ -792,6 +792,14 @@ public class HIFx {
                 Draw.color(e.color, Color.gray, e.fin());
                 randLenVectors(e.id, 2, tilesize * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.rotation * e.fout()));
             }),
+            laserBeam = new Effect(30f, e -> {
+                Rand rand = new Rand(e.id);
+                Draw.color(e.color, Color.white, e.fout() * 0.66f);
+                Draw.alpha(0.55f * e.fout() + 0.5f);
+                Angles.randLenVectors(e.id, 2, 4f + e.finpow() * 17f, (x, y) -> {
+                    Fill.square(e.x + x, e.y + y, e.fout() * rand.random(2.5f, 4), 45);
+                });
+            }),
             resonance = new Effect(30f, e -> {
                 Rand rand = new Rand(e.id);
                 Draw.color(e.color, Color.white, e.fout() * 0.66f);
