@@ -7,9 +7,7 @@ import arc.math.*;
 import arc.util.*;
 import mindustry.graphics.*;
 
-/**
- * @author Yuria
- */
+/** @author Yuria */
 public class LaserBeamDrill extends AdaptDrill {
     public TextureRegion laser;
     public TextureRegion laserEnd;
@@ -33,7 +31,7 @@ public class LaserBeamDrill extends AdaptDrill {
 
     public LaserBeamDrill(String name){
         super(name);
-        mineSpeed = 7.5f;
+        mineSpeed = 10f;
         mineCount = 3;
         powerConsBase = 300f;
     }
@@ -52,6 +50,7 @@ public class LaserBeamDrill extends AdaptDrill {
 
     public class LaserBeamDrillBuild extends AdaptDrillBuild{
         public Rand rand = new Rand();
+
         @Override
         public void drawMining(){
             float timeDrilled = Time.time / 1.5f;

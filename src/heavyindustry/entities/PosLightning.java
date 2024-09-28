@@ -16,6 +16,25 @@ import mindustry.entities.bullet.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 
+/**
+ * Provide methods that can generate Position to Position Lightning.<p>
+ * {@code Tmp} <b>var</b> is available.<p>
+ * Completely independent class.<p>
+ *
+ * @implNote The method implements the generation of random lightning effect <b>from point to point</b> and complete certain action at <b>target point</b> through {@link Cons}.<p>
+ * @apiNote
+ * <li> {@code hitPointMovement} {@link Cons} used to run specific action at the target point.
+ * <li> {@code WIDTH}: {@value WIDTH} used to control the stroke of the lightning.
+ * <li> {@code RANGE_RAND}: {@value RANGE_RAND} used to control the base xRand range of every part of the lightning.
+ * <li> {@code ROT_DST}: {@value ROT_DST} used to control the length of every part of the lightning.<p>
+ *
+ * @see Position
+ * @see Vec2
+ * @see Geometry
+ * @see Cons
+ *
+ * @author Yuria
+ */
 public class PosLightning {
     public static final BulletType hitter = new EffectBulletType(5f){{
         absorbable = true;
@@ -25,28 +44,47 @@ public class PosLightning {
         hittable = false;
     }};
 
+    /** Spawns Nothing at the hit point. */
     public static final Cons<Position> none = p -> {};
+    /** Lighting Effect Lifetime. */
     public static final float lifetime = Fx.chainLightning.lifetime;
+    /** Lighting Effect Default Width, apply it manually. */
     public static final float WIDTH = 2.5f;
+    /** Lighting Effect X-Rand. */
     public static final float RANGE_RAND = 5f;
+    /** Lighting Effect Length Between Nodes. */
     public static final float ROT_DST = Vars.tilesize * 0.6f;
+    /** Used for range spawn, make the lightning more random and has smoother spacing. */
     public static float trueHitChance = 1;
 
+    /** (0, 1] */
     public static void setHitChance(float f){
         trueHitChance = f;
     }
 
+    /** Must Hit */
     public static void setHitChanceDef(){
         trueHitChance = 1;
     }
 
-    private static float getBoltRandomRange() {return Mathf.random(1f, 7f); }
+    /** Lightning's randX. Modify it if needed. */
+    private static float getBoltRandomRange() {
+        return Mathf.random(1f, 7f);
+    }
 
     private static Building furthest;
     private static final Rect rect = new Rect();
     private static final Rand rand = new Rand();
     private static final FloatSeq floatSeq = new FloatSeq();
     private static final Vec2 tmp1 = new Vec2(), tmp2 = new Vec2(), tmp3 = new Vec2();
+
+    /**
+     * METHODS
+     * <p>
+     * create lightning to the enemies in range.
+     * <p>
+     * A radius create method that with a Bullet owner.
+     */
     public static void createRange(Bullet owner, float range, int maxHit, Color color, boolean createSubLightning, float width, int lightningNum, Cons<Position> hitPointMovement) {
         createRange(owner, owner, owner.team, range, maxHit, color, createSubLightning, 0, 0, width, lightningNum, hitPointMovement);
     }
@@ -57,7 +95,6 @@ public class PosLightning {
         for (Healthc p : entities)create(owner, team, from, p, color, createSubLightning, damage, subLightningLength, width, lightningNum, hitPointMovement);
     }
 
-
     public static void createRange(Bullet owner, Position from, Team team, float range, int maxHit, Color color, boolean createSubLightning, float damage, int subLightningLength, float width, int lightningNum, Cons<Position> hitPointMovement) {
         createRange(owner, owner == null || owner.type.collidesAir, owner == null || owner.type.collidesGround, from, team, range, maxHit, color, createSubLightning, damage, subLightningLength, width, lightningNum, hitPointMovement);
     }
@@ -66,6 +103,7 @@ public class PosLightning {
         create(owner, team, from, tmp2.trns(angle, length).add(from), color, createSubLightning, damage, subLightningLength, width, lightningNum, hitPointMovement);
     }
 
+    /** A create method that with a Bullet owner. */
     public static void create(Entityc owner, Team team, Position from, Position target, Color color, boolean createSubLightning, float damage, int subLightningLength, float lightningWidth, int lightningNum, Cons<Position> hitPointMovement) {
         if(!Mathf.chance(trueHitChance))return;
         Position sureTarget = findInterceptedPoint(from, target, team);
@@ -140,6 +178,7 @@ public class PosLightning {
         }
     }
 
+    /** Compute the proper hit position. */
     public static Position findInterceptedPoint(Position from, Position target, Team fromTeam) {
         furthest = null;
         return Geometry.raycast(
@@ -151,6 +190,7 @@ public class PosLightning {
         ) && furthest != null ? furthest : target;
     }
 
+    /** Add proper unit into the to hit Seq. */
     private static void whetherAdd(Seq<Healthc> points, Team team, Rect selectRect, int maxHit, boolean targetGround, boolean targetAir) {
         Units.nearbyEnemies(team, selectRect, unit -> {
             if(unit.checkTarget(targetAir, targetGround))points.add(unit);
@@ -167,6 +207,7 @@ public class PosLightning {
         points.truncate(maxHit);
     }
 
+    /** create lightning effect. */
     public static void createBoltEffect(Color color, float width, Vec2Seq vets) {
         vets.each(((x, y) -> {
             if(Mathf.chance(0.0855))HIFx.lightningSpark.at(x, y, rand.random(2f + width, 4f + width), color);

@@ -12,16 +12,12 @@ import arc.util.io.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.liquid.LiquidJunction;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
-/**
- * Inverted Junction
- * @author guiY
- */
-public class InvertedJunction extends Junction {
+public class MultiInvertedJunction extends MultiJunction {
     public String placeSprite;
 
     public final int size = 1;
@@ -30,12 +26,12 @@ public class InvertedJunction extends Junction {
 
     public TextureRegion arrow1, arrow2;
 
-    public InvertedJunction(String name) {
+    public MultiInvertedJunction(String name) {
         super(name);
 
         sync = true;
         configurable = true;
-        config(Integer.class, (InvertedJunctionBuild build, Integer loc) -> build.loc = loc);
+        config(Integer.class, (MultiInvertedJunctionBuild build, Integer loc) -> build.loc = loc);
     }
 
     @Override
@@ -45,7 +41,7 @@ public class InvertedJunction extends Junction {
         arrow2 = Core.atlas.find(name("arrow-2"));
     }
 
-    public class InvertedJunctionBuild extends JunctionBuild {
+    public class MultiInvertedJunctionBuild extends MultiJunctionBuild {
         public int loc = 1;
 
         @Override
@@ -68,6 +64,7 @@ public class InvertedJunction extends Junction {
                         Item item = content.item(BufferItem.item(l));
                         Building dest = nearby(p);
 
+                        //skip blocks that don't want the item, keep waiting until they do
                         if(item == null || dest == null || !dest.acceptItem(this, item) || dest.team != team){
                             continue;
                         }
@@ -84,6 +81,19 @@ public class InvertedJunction extends Junction {
         public void draw() {
             Draw.rect(Core.atlas.find(placeSprite), x, y);
             Draw.rect(Core.atlas.find(modName + "-junction-" + loc), x, y);
+        }
+
+        @Override
+        public Building getLiquidDestination(Building source, Liquid liquid) {
+            if(!enabled) return this;
+
+            int relative = source.relativeTo(tile.x, tile.y);
+            int dir = (relative + 4 + loc) % 4;
+            Building next = nearby(dir);
+            if(next == null || (!next.acceptLiquid(this, liquid) && !(next.block instanceof LiquidJunction))){
+                return this;
+            }
+            return next.getLiquidDestination(this, liquid);
         }
 
         @Override

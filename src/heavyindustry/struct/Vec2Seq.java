@@ -7,6 +7,14 @@ import arc.util.*;
 
 import java.util.*;
 
+/**
+ * Use floats to restore the coords of a 2D vector to improve the performance. <p>
+ * Used Mainly for {@link mindustry.entities.Effect} that need a cached sequence of vec2s to avoid constructing too much {@link Vec2} instances.
+ * <p>
+ * Similar implemented in {@link mindustry.graphics.Trail};
+ * @see FloatSeq
+ * @see Vec2
+ * */
 public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
     private final FloatSeq coordinates;
 
@@ -82,6 +90,7 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
         }
     }
 
+    //TODO should be faster.
     public void addAll(Vec2[] vec2s){
         for(Vec2 vec2 : vec2s){
             add(vec2);
@@ -194,6 +203,12 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
         }
     }
 
+    /**
+     * Low Performance
+     * Returns an iterator over elements of type {@code T}.
+     *
+     * @return an Iterator.
+     */
     @Override
     public Iterator<Vec2> iterator(){
         return asSeq().iterator();

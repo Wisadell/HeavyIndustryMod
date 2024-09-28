@@ -30,8 +30,8 @@ open class OverchargeDirectionalUnloader(name: String) : AdaptDirectionalUnloade
                 if (td <= 0) ts = 1f
             }
 
-            timeScale = Math.max(ts * powers, 0.001f)
-            timeScaleDuration = td / powers.coerceAtLeast(0.001f)
+            timeScale = (ts * powers).coerceAtLeast(0.001f)
+            timeScaleDuration = (td / powers).coerceAtLeast(0.001f)
 
             if (powers >= 0.999) super.updateTile()
         }

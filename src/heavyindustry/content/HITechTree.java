@@ -46,7 +46,7 @@ public class HITechTree {
         });
         addToNode(blastDrill, () -> {
             node(cuttingDrill, Seq.with(new SectorComplete(impact0078)), () -> {});
-            node(beamDrill, () -> {});
+            node(beamDrill, () -> node(speedModule, () -> {}));
         });
         addToNode(oilExtractor, () -> node(reinforcedOilExtractor, () -> {}));
         //drill-erekir

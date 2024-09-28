@@ -42,8 +42,8 @@ public class MultiCrafter extends Block {
 
         update = true;
         solid = true;
-        ambientSound = Sounds.machine;
         sync = true;
+        ambientSound = Sounds.machine;
         ambientSoundVolume = 0.03f;
         flags = EnumSet.of(BlockFlag.factory);
         drawArrow = false;
@@ -526,13 +526,9 @@ public class MultiCrafter extends Block {
 
         public Recipe(String name) {
             this.name = name;
-
-            recipeName = Core.bundle.get("recipe." + this.name + ".name");
-            recipeDescription = Core.bundle.get("recipe." + this.name + ".description");
-            recipeDetail = Core.bundle.get("recipe." + this.name + ".details");
         }
 
-        public String name = "";
+        public String name = "default";
 
         public @Nullable ItemStack[] inputItems;
         public @Nullable ItemStack[] outputItems;
@@ -550,8 +546,8 @@ public class MultiCrafter extends Block {
         public Effect updateEffect = Fx.none;
         public float updateEffectChance = 0.04f;
 
-        public @Nullable String recipeName = "";
-        public @Nullable String recipeDescription = "";
-        public @Nullable String recipeDetail = "";
+        public @Nullable String recipeName = Core.bundle.get("recipe." + name + ".name");
+        public @Nullable String recipeDescription = Core.bundle.get("recipe." + name + ".description");
+        public @Nullable String recipeDetail = Core.bundle.get("recipe." + name + ".details");
     }
 }

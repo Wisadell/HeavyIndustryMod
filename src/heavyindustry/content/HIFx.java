@@ -443,7 +443,7 @@ public class HIFx {
 
     public static final float lightningAlign = 0.5f;
 
-    public static Effect
+    public static final Effect
             circle = new Effect(25f, e -> {
                 color(e.color, Color.white, e.fout() * 0.65f);
                 stroke(Mathf.clamp(e.rotation / 18f, 2, 6) * e.fout());
@@ -560,7 +560,26 @@ public class HIFx {
                 Lines.stroke(2f * e.fin());
                 Lines.circle(e.x, e.y, 80 * e.fout(Interp.pow5Out));
             }),
-            /**{@link Effect.EffectContainer#data}<{@link Position}> as Target */
+            /** {@link PosLightning} */
+            posLightning = (new Effect(PosLightning.lifetime, 1200.0f, e -> {
+                if(!(e.data instanceof Vec2Seq)) return;
+                Vec2Seq lines = e.data();
+
+                Draw.color(e.color, Color.white, e.fout() * 0.6f);
+
+                Lines.stroke(e.rotation * e.fout());
+
+                Fill.circle(lines.firstTmp().x, lines.firstTmp().y, Lines.getStroke() / 2f);
+
+                for(int i = 0; i < lines.size() - 1; i++){
+                    Vec2 cur = lines.setVec2(i, Tmp.v1);
+                    Vec2 next = lines.setVec2(i + 1, Tmp.v2);
+
+                    Lines.line(cur.x, cur.y, next.x, next.y, false);
+                    Fill.circle(next.x, next.y, Lines.getStroke() / 2f);
+                }
+            })).layer(Layer.effect - 0.001f),
+            /** {@link Effect.EffectContainer#data}<{@link Position}> as Target */
             chainLightningFade = new Effect(220f, 500f, e -> {
                 if(!(e.data instanceof Position)) return;
                 Position p = e.data();
@@ -614,7 +633,7 @@ public class HIFx {
 
                 endLine();
             }).followParent(false),
-            /**{@link Effect.EffectContainer} as Target */
+            /** {@link Effect.EffectContainer} as Target */
             chainLightningFadeReversed = new Effect(220f, 500f, e -> {
                 if(!(e.data instanceof Position))return;
                 Position p = e.data();
@@ -773,24 +792,6 @@ public class HIFx {
                 Draw.color(e.color, Color.gray, e.fin());
                 randLenVectors(e.id, 2, tilesize * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.rotation * e.fout()));
             }),
-            posLightning = (new Effect(PosLightning.lifetime, 1200.0f, e -> {
-                if(!(e.data instanceof Vec2Seq)) return;
-                Vec2Seq lines = e.data();
-
-                Draw.color(e.color, Color.white, e.fout() * 0.6f);
-
-                Lines.stroke(e.rotation * e.fout());
-
-                Fill.circle(lines.firstTmp().x, lines.firstTmp().y, Lines.getStroke() / 2f);
-
-                for(int i = 0; i < lines.size() - 1; i++){
-                    Vec2 cur = lines.setVec2(i, Tmp.v1);
-                    Vec2 next = lines.setVec2(i + 1, Tmp.v2);
-
-                    Lines.line(cur.x, cur.y, next.x, next.y, false);
-                    Fill.circle(next.x, next.y, Lines.getStroke() / 2f);
-                }
-            })).layer(Layer.effect - 0.001f),
             resonance = new Effect(30f, e -> {
                 Rand rand = new Rand(e.id);
                 Draw.color(e.color, Color.white, e.fout() * 0.66f);

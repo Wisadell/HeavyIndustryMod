@@ -70,7 +70,7 @@ public class HIBlocks {
             //wall-erekir
             berylliumWallHuge,berylliumWallGigantic,tungstenWallHuge,tungstenWallGigantic,blastDoorLarge,blastDoorHuge,reinforcedSurgeWallHuge,reinforcedSurgeWallGigantic,carbideWallHuge,carbideWallGigantic,shieldedWallLarge,shieldedWallHuge,
             //drill
-            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,
+            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,speedModule,
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,unitMinerDepot,
             //distribution
@@ -470,28 +470,30 @@ public class HIBlocks {
             consumeLiquid(Liquids.water, 0.3f);
             buildCostMultiplier = 0.8f;
         }};
-        cuttingDrill = new Drill("cutting-drill"){{
+        cuttingDrill = new AdaptDrill("cutting-drill"){{
             requirements(Category.production, with(Items.graphite, 100, Items.silicon, 120, Items.thorium, 50, Items.plastanium, 40, Items.surgeAlloy, 30));
             size = 3;
             health = 590;
             armor = 3;
             tier = 8;
-            warmupSpeed = 0.06f;
+            maxOreTileReq = 8;
             itemCapacity = 10;
-            drillTime = 250f;
             updateEffect = Fx.mineBig;
-            hardnessDrillMultiplier = 15f;
-            consumePower(4f);
-            consumeLiquid(Liquids.water, 0.1f).boost();
         }};
         beamDrill = new LaserBeamDrill("beam-drill"){{
-            requirements(Category.production, with(Items.lead, 160, Items.silicon, 120,  HIItems.chromium, 60, HIItems.nanocore, 35,HIItems.highEnergyFabric, 25));
+            requirements(Category.production, with(Items.lead, 160, Items.silicon, 120,  HIItems.chromium, 60, HIItems.nanocore, 35,Items.phaseFabric, 25));
             size = 4;
             health = 960;
             tier = 11;
-            consumePower(6f);
-            consumeLiquid(Liquids.water, 0.1f).boost();
+            maxOreTileReq = 10;
             buildCostMultiplier = 0.8f;
+        }};
+        speedModule = new DrillModule("speed-module"){{
+            requirements(Category.production, with(Items.titanium, 35, Items.plastanium, 30, Items.phaseFabric, 25));
+            size = 2;
+            boostSpeed = 1f;
+            powerMul = 1.2f;
+            powerExtra = 180f;
         }};
         //drill-erekir
         largeCliffCrusher = new WallCrafter("large-cliff-crusher"){{

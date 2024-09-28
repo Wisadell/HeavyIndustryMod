@@ -25,20 +25,23 @@ import heavyindustry.ui.*;
 import static mindustry.Vars.*;
 
 public class AdaptDrill extends Block {
-    protected final static Rand globalEffectRand = new Rand(0);
+    final static Rand globalEffectRand = new Rand(0);
 
     /** Maximum tier of blocks this drill can mine. */
-    public int tier;
+    public int tier = 2;
     /** output speed in items/sec. */
     public float mineSpeed = 5;
     /** output count once. */
     public int mineCount = 2;
+    /** Whether to draw the item this drill is mining. */
+    public boolean drawMineItem = false;
 
     /** Special exemption item that this drill can't mine. */
     public Seq<Item> blockedItem = new Seq<>();
 
     /** return variables for countOre. */
-    protected final int maxOreTileReq = 10;
+    protected int maxOreTileReq = size * size;
+
     protected @Nullable Item returnItem;
     protected int returnCount;
     protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
@@ -52,7 +55,7 @@ public class AdaptDrill extends Block {
 
     public AdaptDrill(String name) {
         super(name);
-        size = 4;
+        size = 1;
 
         update = true;
         solid = true;
@@ -62,8 +65,6 @@ public class AdaptDrill extends Block {
         hasItems = true;
         hasLiquids = false;
         itemCapacity = 40;
-
-        canOverdrive = false;
 
         ambientSound = Sounds.drill;
         ambientSoundVolume = 0.018f;
@@ -137,7 +138,7 @@ public class AdaptDrill extends Block {
         if(tile == null) return;
 
         countOre(tile);
-        if(returnItem == null) return;
+        if(returnItem == null || !drawMineItem) return;
         Draw.color(returnItem.color);
         Draw.rect(oreRegion, plan.drawx(), plan.drawy());
         Draw.color();
@@ -303,7 +304,7 @@ public class AdaptDrill extends Block {
             }
             Draw.z(Layer.blockOver - 4f);
             Draw.rect(topRegion, x, y);
-            if(outputItem() != null){
+            if(outputItem() != null && drawMineItem){
                 Draw.color(dominantItem.color);
                 Draw.rect(oreRegion, x, y);
                 Draw.color();
