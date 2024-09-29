@@ -26,6 +26,10 @@ import heavyindustry.util.*;
 
 import static mindustry.Vars.*;
 
+/**
+ * AI for Unit Miner Depot units.
+ * @author MEEPofFaith
+ */
 public class UnitMinerDepot extends Block {
     public UnitType unitType = HIUnitTypes.draug;
     public float buildTime = 60f * 8f;

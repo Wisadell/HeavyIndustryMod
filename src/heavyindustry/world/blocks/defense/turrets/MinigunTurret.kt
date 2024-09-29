@@ -26,7 +26,11 @@ import mindustry.world.meta.Stat
 import mindustry.world.meta.StatUnit
 import kotlin.math.max
 
-/** Realize muzzle rotation and firing of Minigun. */
+/**
+ * Realize muzzle rotation and firing of Minigun.
+ * @author Wisadell
+ * @author MEEPofFaith
+ */
 open class MinigunTurret(name: String) : ItemTurret(name) {
     @JvmField var windupSpeed = 0.15f
     @JvmField var windDownSpeed = 0.05f

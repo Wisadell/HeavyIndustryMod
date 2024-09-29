@@ -2,6 +2,10 @@ package heavyindustry.world.blocks.distribution
 
 import mindustry.world.blocks.distribution.DirectionalUnloader
 
+/**
+ * A directional unloader that is not affected by game frame rates.
+ * @author Wisadell
+ */
 open class AdaptDirectionalUnloader(name: String) : DirectionalUnloader(name) {
     open inner class AdaptDirectionalUnloaderBuild : DirectionalUnloaderBuild() {
         private var counter = 0f

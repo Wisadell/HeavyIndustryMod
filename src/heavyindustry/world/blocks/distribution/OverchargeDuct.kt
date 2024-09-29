@@ -24,6 +24,7 @@ import mindustry.Vars.tilesize
  * Like BeltConversor, it only requires two or three sprites.
  *
  * At the same time, it has added a consumable power acceleration function.
+ * @author Wisadell
  */
 open class OverchargeDuct(name: String) : Duct(name) {
     lateinit var topAtlas: Array<TextureRegion>

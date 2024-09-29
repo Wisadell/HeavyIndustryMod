@@ -19,6 +19,7 @@ import mindustry.Vars.world
 
 /**
  * Compared to the original conveyor belt, there is an additional sprites on top of the item layer.
+ * @author Wisadell
  */
 open class CoveredConveyor(name: String) : BeltConveyor(name) {
     lateinit var coverRegions: Array<TextureRegion>

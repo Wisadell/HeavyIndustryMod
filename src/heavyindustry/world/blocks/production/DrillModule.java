@@ -18,7 +18,10 @@ import heavyindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-/** Basic drill bit module. */
+/**
+ * Basic drill bit expansion module.
+ * @author LaoHuaJi
+ */
 public class DrillModule extends Block {
     public TextureRegion topFullRegions;
     public TextureRegion[] topRotRegions;

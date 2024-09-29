@@ -31,6 +31,11 @@ import mindustry.world.meta.StatUnit
 import mindustry.Vars.tilesize
 import mindustry.Vars.world
 
+/**
+ * A drill bit that can simultaneously mine multiple ores.
+ * ###### Warning: This is an early work. It has no limit on mineral hardness.
+ * @author Wisadell
+ */
 open class MultiDrill(name: String) : Block(name) {
 
     val oreCount = ObjectIntMap<Item>()
@@ -54,7 +59,7 @@ open class MultiDrill(name: String) : Block(name) {
     @JvmField var updateEffectChance = 0.03f
 
     @JvmField var drawRim = false
-    @JvmField var drawSpinSprite = false
+    @JvmField var drawSpinSprite = true
     @JvmField var heatColor: Color = Color.valueOf("ff5512")
 
     lateinit var rimRegion: TextureRegion

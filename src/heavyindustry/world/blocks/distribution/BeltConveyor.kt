@@ -20,6 +20,7 @@ import mindustry.Vars.world
  * Are you still troubled by the 20 sprites of traditional conveyor belts?
  *
  * This Type only sprites 3 textures to handle!
+ * @author Wisadell
  */
 open class BeltConveyor(name: String) : Conveyor(name) {
     lateinit var conveyorPartAtlas: TextureRegion

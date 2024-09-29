@@ -9,8 +9,11 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
 
 /**
+ * A factory that can produce electricity.
+ * <p>
  * You are already a mature GenericCrafter,
  * it's time to learn how to generate electricity on your own.
+ * @author Wisadell
  */
 public class GeneratorCrafter extends GenericCrafter {
     public float powerProduction = 1f;

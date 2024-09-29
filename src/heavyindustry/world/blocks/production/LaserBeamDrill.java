@@ -8,7 +8,10 @@ import arc.util.*;
 import mindustry.graphics.*;
 import heavyindustry.content.*;
 
-/** @author Yuria */
+/**
+ * @author Yuria
+ * @author LaoHuaJi
+ */
 public class LaserBeamDrill extends AdaptDrill {
     public TextureRegion laser;
     public TextureRegion laserEnd;
@@ -42,8 +45,6 @@ public class LaserBeamDrill extends AdaptDrill {
 
         updateEffect = HIFx.laserBeam;
         updateEffectChance = 0.01f;
-
-        drawSpinSprite = false;
     }
 
     public void load(){

@@ -24,6 +24,7 @@ import mindustry.Vars.world
 
 /**
  * Compared to CoveredConverter, its upper layer texture has been changed to one that can have light and shadow effects.
+ * @author Wisadell
  */
 open class TubeConveyor(name: String) : BeltConveyor(name) {
     companion object {

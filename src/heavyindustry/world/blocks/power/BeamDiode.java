@@ -20,7 +20,12 @@ import java.util.*;
 
 import static mindustry.Vars.*;
 
-/** Stitching it up is enough. */
+/**
+ * Combining the characteristics of laser nodes and diodes.
+ * <p>
+ * Stitching it up is enough.
+ * @author Wisadell
+ */
 public class BeamDiode extends Block{
     public int range = 5;
 

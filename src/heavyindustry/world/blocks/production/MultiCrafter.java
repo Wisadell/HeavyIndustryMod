@@ -26,6 +26,10 @@ import heavyindustry.world.consumers.*;
 import static mindustry.Vars.*;
 import static heavyindustry.gen.HIIcon.*;
 
+/**
+ * A factory with multiple synthetic formulas.
+ * @author LaoHuaJi
+ */
 public class MultiCrafter extends Block {
     public float warmupSpeed = 0.02f;
     public int[] capacities = {};
@@ -526,9 +530,12 @@ public class MultiCrafter extends Block {
 
         public Recipe(String name) {
             this.name = name;
+            recipeName = Core.bundle.get("recipe." + name + ".name");
+            recipeDescription = Core.bundle.get("recipe." + name + ".description");
+            recipeDetail = Core.bundle.get("recipe." + name + ".details");
         }
 
-        public String name = "default";
+        public String name = "";
 
         public @Nullable ItemStack[] inputItems;
         public @Nullable ItemStack[] outputItems;
@@ -546,8 +553,8 @@ public class MultiCrafter extends Block {
         public Effect updateEffect = Fx.none;
         public float updateEffectChance = 0.04f;
 
-        public @Nullable String recipeName = Core.bundle.get("recipe." + name + ".name");
-        public @Nullable String recipeDescription = Core.bundle.get("recipe." + name + ".description");
-        public @Nullable String recipeDetail = Core.bundle.get("recipe." + name + ".details");
+        public @Nullable String recipeName = "";
+        public @Nullable String recipeDescription = "";
+        public @Nullable String recipeDetail = "";
     }
 }

@@ -23,7 +23,10 @@ import mindustry.world.meta.*;
 import static arc.util.Tmp.*;
 import static mindustry.Vars.*;
 
-/** A bridge with the same connection method as the power node. */
+/**
+ * A bridge with the same connection method as the power node.
+ * @author _stabu_
+ */
 public class CardanItemBridge extends ItemBridge {
     public Prov<Seq<Block>> connectBlocksGetter = Seq::new;
     Seq<Block> connectibleBlocks = new Seq<>();

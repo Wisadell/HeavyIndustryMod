@@ -10,6 +10,11 @@ import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.liquid.*;
 import mindustry.world.meta.*;
 
+/**
+ * router which allow both liquid and item to go through.
+ * @author LaoHuaJi
+ * @author Wisadell
+ */
 public class MultiRouter extends LiquidRouter {
     public float speed = 8f;
 

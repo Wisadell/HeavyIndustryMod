@@ -2,6 +2,10 @@ package heavyindustry.world.blocks.storage
 
 import mindustry.world.blocks.storage.Unloader
 
+/**
+ * A unloader that is not affected by game frame rates.
+ * @author Wisadell
+ */
 open class AdaptUnloader(name: String) : Unloader(name) {
     open inner class AdaptUnloaderBuild : UnloaderBuild() {
         private var counter = 0f

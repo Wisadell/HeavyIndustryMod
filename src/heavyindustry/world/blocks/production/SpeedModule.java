@@ -6,6 +6,10 @@ import arc.math.*;
 import arc.util.*;
 import mindustry.graphics.*;
 
+/**
+ * Module for improving drill bit speed.
+ * @author LaoHuaJi
+ */
 public class SpeedModule extends DrillModule {
     public TextureRegion[] arrow = new TextureRegion[3];
 

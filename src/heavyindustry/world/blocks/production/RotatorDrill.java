@@ -1,0 +1,89 @@
+package heavyindustry.world.blocks.production;
+
+import arc.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.content.*;
+import mindustry.graphics.*;
+
+/**
+ * Draw the original drill bit rotation.
+ * @author Wisadell
+ */
+public class RotatorDrill extends AdaptDrill {
+    public TextureRegion rotatorRegion, rimRegion;
+
+    /** Speed the drill bit rotates at. */
+    public float rotateSpeed = 2f;
+
+    public Color heatColor = Color.valueOf("ff5512");
+
+    public boolean drawRim = false;
+    public boolean drawSpinSprite = true;
+
+    public RotatorDrill(String name) {
+        super(name);
+        drillEffect = Fx.mine;
+    }
+
+    @Override
+    public void load() {
+        super.load();
+        rotatorRegion = Core.atlas.find(name + "-rotator");
+        rimRegion = Core.atlas.find(name + "-rim");
+    }
+
+    @Override
+    public TextureRegion[] icons() {
+        return new TextureRegion[]{baseRegion, rotatorRegion, topRegion};
+    }
+
+    public class RotatorDrillBuild extends AdaptDrillBuild {
+        public float timeDrilled;
+
+        @Override
+        public void updateTile() {
+            super.updateTile();
+            timeDrilled += warmup * delta();
+        }
+
+        @Override
+        public void draw() {
+            float s = 0.3f;
+            float ts = 0.6f;
+
+            Draw.rect(baseRegion, x, y);
+            if (warmup > 0f){
+                drawMining();
+            }
+
+            Draw.z(Layer.blockOver - 4f);
+
+            if(drawSpinSprite){
+                Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
+            } else {
+                Draw.rect(rotatorRegion, x, y, timeDrilled * rotateSpeed);
+            }
+
+            Draw.rect(topRegion, x, y);
+            if(outputItem() != null && drawMineItem){
+                Draw.color(dominantItem.color);
+                Draw.rect(oreRegion, x, y);
+                Draw.color();
+            }
+
+            if(drawRim){
+                Draw.color(heatColor);
+                Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));
+                Draw.blend(Blending.additive);
+                Draw.rect(rimRegion, x, y);
+                Draw.blend();
+                Draw.color();
+            }
+
+            drawTeamTop();
+        }
+    }
+}

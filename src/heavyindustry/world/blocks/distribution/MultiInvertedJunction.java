@@ -17,6 +17,10 @@ import mindustry.world.blocks.liquid.LiquidJunction;
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
+/**
+ * Inverted Junction
+ * @author guiY
+ */
 public class MultiInvertedJunction extends MultiJunction {
     public String placeSprite;
 

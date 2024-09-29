@@ -10,7 +10,11 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-/** junction which allow both liquid and item to go through. */
+/**
+ * junction which allow both liquid and item to go through.
+ * @author LaoHuaJi
+ * @author Wisadell
+ */
 public class MultiJunction extends LiquidJunction {
     /** frames taken to go through this junction. */
     public float speed = 26;

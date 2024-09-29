@@ -8,7 +8,10 @@ import mindustry.ui.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
 
-/** Same as GeneratorCrafter, but power output is affected by Attribute. */
+/**
+ * Same as GeneratorCrafter, but power output is affected by Attribute.
+ * @author Wisadell
+ */
 public class AttributeGenerator extends AttributeCrafter {
     public float powerProduction = 1f;
     public AttributeGenerator(String name) {

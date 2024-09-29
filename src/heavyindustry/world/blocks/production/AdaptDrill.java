@@ -19,6 +19,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.environment.StaticWall;
 import mindustry.world.meta.*;
 import heavyindustry.world.consumers.*;
 import heavyindustry.world.meta.*;
@@ -26,6 +27,11 @@ import heavyindustry.ui.*;
 
 import static mindustry.Vars.*;
 
+/**
+ * A drill bit that can enhance and expand its functionality through an external module.
+ * @author LaoHuaJi
+ * @author Wisadell
+ */
 public class AdaptDrill extends Block {
     final static Rand globalEffectRand = new Rand(0);
 
@@ -42,29 +48,27 @@ public class AdaptDrill extends Block {
     public Seq<Item> blockedItem = new Seq<>();
 
     /** return variables for countOre. */
-    protected int maxOreTileReq = getSize();
+    protected int maxOreTileReq = -1;
 
     protected @Nullable Item returnItem;
     protected int returnCount;
     protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
     protected final Seq<Item> itemArray = new Seq<>();
 
-    public TextureRegion baseRegion, rotatorRegion, topRegion, rimRegion, oreRegion;
+    public TextureRegion baseRegion, topRegion, oreRegion;
     public float powerConsBase;
 
     /** Chance of displaying the effect. Useful for extremely fast drills. */
     public float updateEffectChance = 0.02f;
     /** Effect randomly played while drilling. */
     public Effect updateEffect = Fx.none;
-    /** Speed the drill bit rotates at. */
-    public float rotateSpeed = 2f;
+
+    /** Effect played when an item is produced. This is colored. */
+    public Effect drillEffect = Fx.none;
+    /** Drill effect randomness. Block size by default. */
+    public float drillEffectRnd = -1f;
 
     public float maxBoost = 0f;
-
-    public Color heatColor = Color.valueOf("ff5512");
-
-    public boolean drawRim = false;
-    public boolean drawSpinSprite = true;
 
     public AdaptDrill(String name) {
         super(name);
@@ -97,6 +101,7 @@ public class AdaptDrill extends Block {
         consume(new AdaptConsumerPower((Floatf<Building>) usage));
     }
 
+    //TODO Is this a good idea to begin with?
     public float getMineSpeedHardnessMul(Item item){
         if (item == null) return 0f;
         if (item.hardness == 0) return 2f;
@@ -106,18 +111,23 @@ public class AdaptDrill extends Block {
     }
 
     @Override
+    public void init() {
+        super.init();
+        if(drillEffectRnd < 0) drillEffectRnd = size;
+        if(maxOreTileReq < 0) maxOreTileReq = size * size;
+    }
+
+    @Override
     public void load() {
         super.load();
         baseRegion = Core.atlas.find(name + "-bottom");
-        rotatorRegion = Core.atlas.find(name + "-rotator");
         topRegion = Core.atlas.find(name + "-top");
-        rimRegion = Core.atlas.find(name + "-rim");
         oreRegion = Core.atlas.find(name + "-ore");
     }
 
     @Override
     public TextureRegion[] icons(){
-        return drawSpinSprite ? new TextureRegion[]{baseRegion, rotatorRegion, topRegion} : new TextureRegion[]{baseRegion, topRegion};
+        return new TextureRegion[]{baseRegion, topRegion};
     }
 
     @Override
@@ -141,10 +151,6 @@ public class AdaptDrill extends Block {
         return (60f / mineSpeed) * mineCount;
     }
 
-    public int getSize(){
-        return size * size;
-    }
-
     @Override
     public void setStats(){
         super.setStats();
@@ -154,9 +160,9 @@ public class AdaptDrill extends Block {
             table.row();
             table.table(c -> {
                 int i = 0;
-                for(Block block : content.blocks()){
+                for (Block block : content.blocks()){
                     if (block.itemDrop == null || (blockedItem.contains(block.itemDrop) || block.itemDrop.hardness > mineTier)) continue;
-                    if ((block instanceof Floor && ((Floor) block).wallOre)) continue;
+                    if (block instanceof StaticWall || (block instanceof Floor && ((Floor) block).wallOre)) continue;//Screen out the wall ore.
 
                     c.table(Styles.grayPanel, b -> {
                         b.image(block.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
@@ -224,7 +230,7 @@ public class AdaptDrill extends Block {
             Item item = to == null ? null : to.drop();
             if(item != null){
                 drawPlaceText(Core.bundle.get("bar.drilltierreq"), x, y, valid);
-            }else {
+            } else {
                 drawPlaceText("No Ores", x, y, valid);
             }
         }
@@ -278,7 +284,6 @@ public class AdaptDrill extends Block {
 
         //only for visual
         public float warmup;
-        public float timeDrilled;
 
         public int dominantItems;
         public Item dominantItem;
@@ -315,15 +320,12 @@ public class AdaptDrill extends Block {
         @Override
         public void updateTile() {
             tryDump();
-
-            timeDrilled += warmup * delta();
-
             updateProgress();
             updateOutput();
             updateEffect();
         }
 
-        private void updateOutput(){
+        protected void updateOutput(){
             if (progress > mineInterval()){
                 int outCount = (int) (progress / mineInterval()) * mineCount;
                 for (int i = 0; i < outCount; i++){
@@ -336,6 +338,8 @@ public class AdaptDrill extends Block {
                     }
                 }
                 progress %= mineInterval();
+
+                if(wasVisible && Mathf.chanceDelta(updateEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
             }
         }
 
@@ -344,7 +348,7 @@ public class AdaptDrill extends Block {
             super.drawSelect();
 
             if(outputItem() != null){
-                float dx = x - size * tilesize/2f, dy = y + size * tilesize/2f, s = iconSmall / 4f;
+                float dx = x - size * tilesize / 2f, dy = y + size * tilesize / 2f, s = iconSmall / 4f;
                 Draw.mixcol(Color.darkGray, 1f);
                 Draw.rect(outputItem().fullIcon, dx, dy - 1, s, s);
                 Draw.reset();
@@ -359,28 +363,12 @@ public class AdaptDrill extends Block {
 
         @Override
         public void draw() {
-            float s = 0.3f;
-            float ts = 0.6f;
-
             Draw.rect(baseRegion, x, y);
             if (warmup > 0f){
                 drawMining();
             }
 
             Draw.z(Layer.blockOver - 4f);
-
-            if(drawSpinSprite){
-                Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
-            }
-
-            if(drawRim){
-                Draw.color(heatColor);
-                Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));
-                Draw.blend(Blending.additive);
-                Draw.rect(rimRegion, x, y);
-                Draw.blend();
-                Draw.color();
-            }
 
             Draw.rect(topRegion, x, y);
             if(outputItem() != null && drawMineItem){
@@ -394,7 +382,7 @@ public class AdaptDrill extends Block {
 
         public void drawMining(){}
 
-        private void tryDump(){
+        protected void tryDump(){
             if(timer(timerDump, dumpTime)){
                 if (outputItem() != null){
                     if (coreSend && items.has(outputItem()) && core() != null && core().acceptItem(this, outputItem())){
@@ -407,15 +395,13 @@ public class AdaptDrill extends Block {
             }
         }
 
-        private void updateEffect(){
-            if (!headless){
-                if (warmup > 0.8f && efficiency > 0 && outputItem() != null && globalEffectRand.chance(updateEffectChance * boostScl())){
-                    updateEffect.at(x + globalEffectRand.range(size * 3.6f), y + globalEffectRand.range(size * 3.6f), outputItem().color);
-                }
+        protected void updateEffect(){
+            if (!headless && warmup > 0.8f && efficiency > 0 && outputItem() != null && globalEffectRand.chance(updateEffectChance * boostScl())){
+                updateEffect.at(x + globalEffectRand.range(size * 3.6f), y + globalEffectRand.range(size * 3.6f), outputItem().color);
             }
         }
 
-        private void resetModule(){
+        protected void resetModule(){
             boostMul = 1f;
             boostFinalMul = 1f;
             powerConsMul = 1f;
@@ -462,7 +448,7 @@ public class AdaptDrill extends Block {
             return (powerConsBase * powerConsMul + powerConsExtra) / 60f;
         }
 
-        private void updateProgress(){
+        protected void updateProgress(){
             if (items.total() < itemCapacity){
                 progress += edelta() * Mathf.clamp((float) dominantItems / maxOreTileReq) * boostScl();
             }
@@ -479,7 +465,7 @@ public class AdaptDrill extends Block {
             return boostMul * boostFinalMul * getMineSpeedHardnessMul(dominantItem);
         }
 
-        private float getMineSpeed(){
+        protected float getMineSpeed(){
             return Mathf.clamp((float) dominantItems / maxOreTileReq) * boostScl() * mineSpeed;
         }
 

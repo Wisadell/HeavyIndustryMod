@@ -5,6 +5,10 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
 
+/**
+ * Make the drill output directly enter the core module.
+ * @author LaoHuaJi
+ */
 public class RefineModule extends DrillModule {
     public Color flameColor = Color.valueOf("f58349"), midColor = Color.valueOf("f2d585");
     public float flameRad = 1f, circleSpace = 2f, flameRadiusScl = 8f, flameRadiusMag = 0.6f, circleStroke = 1.5f;

@@ -23,6 +23,7 @@ import static mindustry.Vars.*;
  * A bridge with the same connection method as the power node.
  * <p>
  * Make its connecting strap have a liquid display similar to that of a container.
+ * @author _stabu_
  */
 public class CardanLiquidBridge extends CardanItemBridge {
     public float liquidPadding = 1f;

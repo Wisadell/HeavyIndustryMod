@@ -8,6 +8,10 @@ import arc.util.Time;
 import heavyindustry.graphics.Drawn;
 import mindustry.graphics.Layer;
 
+/**
+ * A module that directly converts drill bit products into another item.
+ * @author LaoHuaJi
+ */
 public class DeliveryModule extends DrillModule {
     public DeliveryModule(String name) {
         super(name);
