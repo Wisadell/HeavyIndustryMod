@@ -9,7 +9,10 @@ import mindustry.entities.effect.*;
 import mindustry.gen.*;
 import mindustry.graphics.Pal;
 
-/** Defines the {@linkplain BulletType bullet} this mod offers. */
+/**
+ * Defines the {@linkplain BulletType bullet} this mod offers.
+ * @author Wisadell
+ */
 public class HIBullets {
     public static BulletType hyperBlast,hyperBlastLinker;
 

@@ -10,6 +10,10 @@ import heavyindustry.world.blocks.production.UnitMinerDepot.*;
 
 import static mindustry.Vars.*;
 
+/**
+ * Unit Miner Depot.
+ * @author MEEPofFaith
+ */
 public class DepotMinerAI extends AIController {
     protected final Vec2 targetPos = new Vec2(), vecOut = new Vec2();
     protected int pathId = -1;

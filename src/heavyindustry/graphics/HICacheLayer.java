@@ -3,7 +3,10 @@ package heavyindustry.graphics;
 import mindustry.graphics.*;
 import mindustry.graphics.CacheLayer.*;
 
-/** Defines the {@linkplain CacheLayer cache layer}s this mod offers. */
+/**
+ * Defines the {@linkplain CacheLayer cache layer}s this mod offers.
+ * @author Wisadell
+ */
 public final class HICacheLayer {
     public static ShaderLayer nanofluid,dalani;
 

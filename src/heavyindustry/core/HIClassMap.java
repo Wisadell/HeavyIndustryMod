@@ -154,6 +154,10 @@ public class HIClassMap {
         classes.put("AdaptDrillBuild", AdaptDrill.AdaptDrillBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);
         classes.put("LaserBeamDrillBuild", LaserBeamDrill.LaserBeamDrillBuild.class);
+        classes.put("RotatorDrill", RotatorDrill.class);
+        classes.put("RotatorDrillBuild", RotatorDrill.RotatorDrillBuild.class);
+        classes.put("ImplosionDrill", ImplosionDrill.class);
+        classes.put("ImplosionDrillBuild", ImplosionDrill.ImplosionDrillBuild.class);
         classes.put("DrillModule", DrillModule.class);
         classes.put("DrillModuleBuild", DrillModule.DrillModuleBuild.class);
         classes.put("SpeedModule", SpeedModule.class);

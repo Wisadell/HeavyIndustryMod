@@ -55,7 +55,10 @@ import static arc.graphics.g2d.Draw.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
-/** Defines the {@linkplain Block blocks} this mod offers. */
+/**
+ * Defines the {@linkplain Block blocks} this mod offers.
+ * @author Wisadell
+ */
 public class HIBlocks {
     public static Block
             //environment
@@ -70,7 +73,7 @@ public class HIBlocks {
             //wall-erekir
             berylliumWallHuge,berylliumWallGigantic,tungstenWallHuge,tungstenWallGigantic,blastDoorLarge,blastDoorHuge,reinforcedSurgeWallHuge,reinforcedSurgeWallGigantic,carbideWallHuge,carbideWallGigantic,shieldedWallLarge,shieldedWallHuge,
             //drill
-            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,speedModule,refineModule,deliveryModule,
+            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,unitMinerDepot,
             //distribution
@@ -470,31 +473,60 @@ public class HIBlocks {
             consumeLiquid(Liquids.water, 0.3f);
             buildCostMultiplier = 0.8f;
         }};
-        cuttingDrill = new AdaptDrill("cutting-drill"){{
+        cuttingDrill = new RotatorDrill("cutting-drill"){{
             requirements(Category.production, with(Items.graphite, 100, Items.silicon, 120, Items.thorium, 50, Items.plastanium, 40, Items.surgeAlloy, 30));
             size = 4;
             health = 590;
             armor = 3;
             mineTier = 8;
             mineSpeed = 3.5f;
-            maxOreTileReq = getSize() - 2;
+            maxOreTileReq = 12;
             updateEffect = Fx.mineBig;
             powerConsBase = 180f;
+            rotateSpeed = 6f;
             drawRim = true;
-        }};
+        }
+            @Override
+            public float getMineSpeedHardnessMul(Item item) {
+                if (item == null) return 0f;
+                if (item.hardness == 0) return 2f;
+                if (item.hardness <= 3) return 5f / 3;
+                if (item.hardness <= 6) return 4f / 3;
+                return 1f;
+            }
+        };
         beamDrill = new LaserBeamDrill("beam-drill"){{
             requirements(Category.production, with(Items.lead, 160, Items.silicon, 120,  HIItems.chromium, 60, HIItems.nanocore, 35,Items.phaseFabric, 25));
             size = 4;
             health = 960;
             mineTier = 11;
-            maxOreTileReq = getSize() - 2;
+            maxOreTileReq = 10;
             buildCostMultiplier = 0.8f;
+        }};
+        implosionDrill = new ImplosionDrill("implosion-drill"){{
+            requirements(Category.production, with(Items.silicon, 180, HIItems.uranium, 40,HIItems.heavyAlloy, 80));
+            size = 5;
+            health = 2260;
+            mineSpeed = 10f;
+            mineCount = 35;
+            mineTier = 13;
+            maxOreTileReq = 18;
+            itemCapacity = 120;
+            maxBoost = 2f;
+            powerConsBase = 480f;
+            drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.dynamicSpikes.wrap(Color.white, 30f), Fx.mineImpactWave.wrap(Color.white, 45f));
+            shake = 4f;
+            arrowOffset = 2f;
+            arrowSpacing = 5f;
+            arrows = 2;
+            glowColor.a = 0.6f;
+            fogRadius = 5;
         }};
         speedModule = new SpeedModule("speed-module"){{
             requirements(Category.production, with(Items.plastanium, 30, Items.surgeAlloy, 35, HIItems.nanocore, 25));
         }};
         refineModule = new RefineModule("refine-module"){{
-            requirements(Category.production, with(Items.copper, 25, Items.metaglass, 20, Items.titanium, 25));
+            requirements(Category.production, with(Items.silicon, 35, Items.metaglass, 25, Items.titanium, 55));
             convertList.add(new Item[]{Items.sand, Items.silicon}, new Item[]{Items.coal, Items.graphite}, new Item[]{Items.beryllium, Items.oxide});
             buildCostMultiplier = 1.2f;
         }};
@@ -1710,6 +1742,7 @@ public class HIBlocks {
         }};
         rapidUnloader = new AdaptUnloader("rapid-unloader"){{
             requirements(Category.effect, with(Items.silicon, 35, Items.plastanium, 15, HIItems.nanocore, 10, HIItems.chromium, 15));
+            //TODO should this be higher?
             speed = 1f;
         }};
         coreBeStationed = new CoreBlock("core-be-stationed"){{
@@ -1720,7 +1753,7 @@ public class HIBlocks {
             unitCapModifier = 4;
         }
             @Override
-            public boolean canBreak(Tile tile){
+            public boolean canBreak(Tile tile) {
                 return Vars.state.teams.cores(tile.team()).size > 1;
             }
 
@@ -1730,7 +1763,7 @@ public class HIBlocks {
             }
 
             @Override
-            public boolean canPlaceOn(Tile tile, Team team, int rotation){
+            public boolean canPlaceOn(Tile tile, Team team, int rotation) {
                 return Vars.state.teams.cores(team).size < 5;
             }
         };

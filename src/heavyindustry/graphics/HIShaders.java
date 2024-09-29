@@ -14,7 +14,10 @@ import mindustry.type.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
-/** Defines the {@linkplain Shader shader}s this mod offers. */
+/**
+ * Defines the {@linkplain Shader shader}s this mod offers.
+ * @author Wisadell
+ */
 public final class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;

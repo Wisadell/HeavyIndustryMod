@@ -13,7 +13,10 @@ import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
 
-/** Defines the {@linkplain Weather weather} this mod offers. */
+/**
+ * Defines the {@linkplain Weather weather} this mod offers.
+ * @author Wisadell
+ */
 public class HIWeathers {
     public static Weather hailStone,wind;
     public static void load(){

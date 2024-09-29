@@ -25,7 +25,10 @@ import static arc.math.Angles.*;
 import static arc.util.Tmp.*;
 import static mindustry.Vars.*;
 
-/** Defines the {@linkplain Effect visual effects} this mod offers. */
+/**
+ * Defines the {@linkplain Effect visual effects} this mod offers.
+ * @author Wisadell
+ */
 public class HIFx {
     public static final float EFFECT_BOTTOM = Layer.bullet - 0.11f;
 
@@ -806,6 +809,14 @@ public class HIFx {
                 Draw.alpha(0.55f * e.fout() + 0.5f);
                 Angles.randLenVectors(e.id, 2, 4f + e.finpow() * 17f, (x, y) -> {
                     Fill.square(e.x + x, e.y + y, e.fout() * rand.random(2.5f, 4));
+                });
+            }),
+            implosion = new Effect(30f, e -> {
+                Rand rand = new Rand(e.id);
+                Draw.color(e.color, Color.white, e.fout() * 0.66f);
+                Draw.alpha(0.55f * e.fout() + 0.5f);
+                Angles.randLenVectors(e.id, 4, 4f + e.finpow() * 17f, (x, y) -> {
+                    Fill.poly(e.x + x, e.y + y, 3, e.fout() * rand.random(2.5f, 4), rand.random(360));
                 });
             }),
             crit = new Effect(120f, e -> {

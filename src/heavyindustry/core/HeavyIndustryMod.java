@@ -17,7 +17,10 @@ import mindustry.ui.dialogs.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
-/** Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings. */
+/**
+ * Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings.
+ * @author Wisadell
+ */
 public class HeavyIndustryMod extends Mod{
     /** Commonly used static read-only String. Please do not attempt to modify it! */
     public static final String modName = "heavy-industry";

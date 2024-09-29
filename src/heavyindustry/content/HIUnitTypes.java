@@ -34,7 +34,10 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.Vars.tilePayload;
 
-/** Defines the {@linkplain UnitType units} this mod offers. */
+/**
+ * Defines the {@linkplain UnitType units} this mod offers.
+ * @author Wisadell
+ */
 public class HIUnitTypes {
     //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
     static {

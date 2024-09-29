@@ -28,7 +28,10 @@ import static arc.graphics.g2d.Draw.color;
 import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.type.ItemStack.with;
 
-/** Covering the original content */
+/**
+ * Covering the original content
+ * @author Wisadell
+ */
 public class HIOverride {
     public static void load(){
         //Blocks-Environment
@@ -93,8 +96,6 @@ public class HIOverride {
         ((GenericCrafter) Blocks.electrolyzer).outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60f, Liquids.hydrogen, 8f / 60f);
         ((HeatCrafter) Blocks.cyanogenSynthesizer).outputLiquid = new LiquidStack(Liquids.cyanogen, 4f / 60f);
         //Blocks-Defense
-        //TODO They destroyed serpulo. Of course, you can also see them in sandbox mode.
-        Blocks.overdriveDome.buildVisibility = Blocks.overdriveProjector.buildVisibility = BuildVisibility.sandboxOnly;
         //Blocks-Storage
         Blocks.coreShard.buildVisibility = BuildVisibility.shown;
         Blocks.coreShard.health *= 2;

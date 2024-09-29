@@ -3,7 +3,10 @@ package heavyindustry.content;
 import arc.graphics.*;
 import mindustry.type.*;
 
-/** Defines the {@linkplain Item item} this mod offers. */
+/**
+ * Defines the {@linkplain Item item} this mod offers.
+ * @author Wisadell
+ */
 public class HIItems {
     public static Item
             rareEarth,

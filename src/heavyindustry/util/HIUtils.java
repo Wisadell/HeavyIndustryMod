@@ -10,7 +10,10 @@ import org.jetbrains.annotations.*;
 
 import static arc.Core.*;
 
-/** Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to require me to write a class for it. */
+/**
+ * Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to require me to write a class for it.
+ * @author Wisadell
+ */
 public final class HIUtils {
     public static String stringsFixed(float value){
         return Strings.autoFixed(value, 2);
@@ -94,7 +97,8 @@ public final class HIUtils {
 
     /**
      * {@link Tile#relativeTo(int, int)} does not account for building rotation.
-     * Taken from Goobrr/esoterum.
+     * @author Goobrr
+     * @author esoterum
      * */
     public static int relativeDirection(Building from, Building to){
         if(from == null || to == null) return -1;

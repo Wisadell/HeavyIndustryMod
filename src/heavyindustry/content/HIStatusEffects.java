@@ -9,6 +9,10 @@ import mindustry.type.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
 
+/**
+ * Sets up content {@link StatusEffect status effects}. Loaded after every other content is instantiated.
+ * @author Wisadell
+ */
 public class HIStatusEffects {
     public static StatusEffect repair,armorReduction;
     public static void load(){

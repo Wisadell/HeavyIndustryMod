@@ -14,7 +14,10 @@ import static mindustry.content.UnitTypes.*;
 import static mindustry.content.SectorPresets.*;
 import static mindustry.content.TechTree.*;
 
-/** Sets up content {@link TechNode tech tree nodes}. Loaded after every other content is instantiated. */
+/**
+ * Sets up content {@link TechNode tech tree nodes}. Loaded after every other content is instantiated.
+ * @author Wisadell
+ */
 public class HITechTree {
     public static TechNode context = null;
     public static void load(){
@@ -96,10 +99,8 @@ public class HITechTree {
             node(liquidSorter, () -> {});
             node(liquidValve, () -> {});
         });
-        addToNode(reinforcedConduit, () -> {
-            node(smallReinforcedPump, Seq.with(new OnSector(basin)), () -> {});
-            node(largeReinforcedPump, () -> {});
-        });
+        removeNode(reinforcedPump);
+        addToNode(reinforcedConduit, () -> node(smallReinforcedPump, Seq.with(new OnSector(basin)), () -> node(reinforcedPump, () -> node(largeReinforcedPump, () -> {}))));
         //power
         addToNode(powerNode, () -> node(windTurbine, () -> {}));
         addToNode(powerNodeLarge, () -> node(powerNodeGiant, () -> node(powerNodeHighEnergy, () -> {})));
@@ -154,12 +155,9 @@ public class HITechTree {
         addToNode(surgeCrucible, () -> node(largeSurgeCrucible, ItemStack.with(Items.graphite, 4400, Items.silicon, 4000, Items.tungsten, 4800, Items.oxide, 960, Items.surgeAlloy, 1600), () -> {}));
         addToNode(carbideCrucible, () -> node(largeCarbideCrucible, ItemStack.with(Items.thorium, 6000, Items.tungsten, 8000, Items.oxide, 1000, Items.carbide, 1200), () -> {}));
         //defense
-        //TODO They destroyed serpulo.
-        removeToNode(overdriveDome);
-        removeToNode(overdriveProjector);
         addToNode(illuminator, () -> node(lighthouse, () -> {}));
         addToNode(mendProjector, () -> node(mendDome, () -> {}));
-        //addToNode(overdriveDome, () -> node(assignOverdrive, () -> {}));
+        addToNode(overdriveDome, () -> node(assignOverdrive, () -> {}));
         //defense-erekir
         addToNode(radar, () -> node(largeRadar, ItemStack.with(Items.graphite, 3600, Items.silicon, 3200, Items.beryllium, 600, Items.tungsten, 200, Items.oxide, 10), () -> {}));
         //storage
@@ -230,7 +228,7 @@ public class HITechTree {
         children.run();
     }
 
-    public static void removeToNode(UnlockableContent content){
+    public static void removeNode(UnlockableContent content){
         context = TechTree.all.find(t -> t.content == content);
         if(context != null){
             context.remove();
