@@ -604,12 +604,13 @@ public class HIBlocks {
             speed = 0.18f;
             displayedSpeed = 18;
         }};
-        chromiumArmorConveyor = new BeltArmoredConveyor("chromium-armor-conveyor"){{
+        chromiumArmorConveyor = new BeltConveyor("chromium-armor-conveyor"){{
             requirements(Category.distribution, with(Items.metaglass, 1, Items.thorium, 1, Items.plastanium, 1, HIItems.chromium, 1));
             health = 560;
             armor = 5;
             speed = 0.18f;
             displayedSpeed = 18;
+            noSideBlend = true;
         }};
         chromiumTubeConveyor = new TubeConveyor("chromium-tube-conveyor"){{
             requirements(Category.distribution, BuildVisibility.sandboxOnly, with(Items.metaglass, 1, Items.silicon, 1, HIItems.chromium, 2));
@@ -655,7 +656,7 @@ public class HIBlocks {
             speed = 12;
             capacity = itemCapacity = 12;
             ((BeltConveyor) chromiumEfficientConveyor).junctionReplacement = this;
-            ((BeltArmoredConveyor) chromiumArmorConveyor).junctionReplacement = this;
+            ((BeltConveyor) chromiumArmorConveyor).junctionReplacement = this;
             ((TubeConveyor) chromiumTubeConveyor).junctionReplacement = this;
         }};
         chromiumInvertedJunction = new MultiInvertedJunction("chromium-inverted-junction"){{
@@ -680,7 +681,7 @@ public class HIBlocks {
             bridgeWidth = 8;
             buildCostMultiplier = 0.8f;
             ((BeltConveyor) chromiumEfficientConveyor).bridgeReplacement = this;
-            ((BeltArmoredConveyor) chromiumArmorConveyor).bridgeReplacement = this;
+            ((BeltConveyor) chromiumArmorConveyor).bridgeReplacement = this;
             ((TubeConveyor) chromiumTubeConveyor).bridgeReplacement = this;
         }};
         stackHelper = new StackHelper("stack-helper"){{
