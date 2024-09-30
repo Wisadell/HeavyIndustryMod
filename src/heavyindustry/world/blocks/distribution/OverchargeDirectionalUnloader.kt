@@ -2,7 +2,11 @@ package heavyindustry.world.blocks.distribution
 
 import arc.util.Time
 
-/** An electrically powered and accelerated unloader is one that adjusts the acceleration parameters of the original version and assigns them back after acceleration. */
+/**
+ * An electrically powered and accelerated unloader is one that adjusts the acceleration parameters of the original version and assigns them back after acceleration.
+ * @author Wisadell
+ * @author guiY
+ */
 open class OverchargeDirectionalUnloader(name: String) : AdaptDirectionalUnloader(name) {
     init {
         hasPower = true

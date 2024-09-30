@@ -11,7 +11,10 @@ import mindustry.graphics.Pal
 import mindustry.world.Block
 import mindustry.world.draw.DrawBlock
 
-/** Display multi-layer textures in sequence according to the progress of the building. */
+/**
+ * Display multi-layer textures in sequence according to the progress of the building.
+ * @author Wisadell
+ */
 open class DrawSpecConstruct : DrawBlock() {
     /** Sprites layers. */
     @JvmField var stages = 3

@@ -85,8 +85,9 @@ open class TubeConveyor(name: String) : BeltConveyor(name) {
     }
 
     open inner class TubeConveyorBuild : BeltConveyorBuild() {
-        var tiling: Int = 0
-        var calls: Int = 0
+        @JvmField var tiling = 0
+        @JvmField var calls = 0
+
         override fun updateProximity() {
             super.updateProximity()
             calls++

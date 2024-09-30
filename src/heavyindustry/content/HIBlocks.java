@@ -523,11 +523,13 @@ public class HIBlocks {
             fogRadius = 5;
         }};
         speedModule = new SpeedModule("speed-module"){{
-            requirements(Category.production, with(Items.plastanium, 30, Items.surgeAlloy, 35, HIItems.nanocore, 25));
+            requirements(Category.production, with(Items.plastanium, 50, Items.surgeAlloy, 45, HIItems.nanocore, 35));
         }};
         refineModule = new RefineModule("refine-module"){{
-            requirements(Category.production, with(Items.silicon, 35, Items.metaglass, 25, Items.titanium, 55));
-            convertList.add(new Item[]{Items.sand, Items.silicon}, new Item[]{Items.coal, Items.graphite}, new Item[]{Items.beryllium, Items.oxide});
+            requirements(Category.production, with(Items.silicon, 80, Items.metaglass, 25, Items.plastanium, 60, Items.surgeAlloy, 45));
+            convertList.add(new Item[]{Items.sand, Items.silicon}, new Item[]{Items.coal, Items.graphite});
+            convertMul.put(Items.sand, -0.3f);
+            convertMul.put(Items.coal, -0.2f);
             buildCostMultiplier = 1.2f;
         }};
         deliveryModule = new DeliveryModule("delivery-module"){{

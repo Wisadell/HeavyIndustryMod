@@ -9,6 +9,7 @@ import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.type.weather.*;
 import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
@@ -18,7 +19,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * @author Wisadell
  */
 public class HIWeathers {
-    public static Weather hailStone,wind;
+    public static Weather hailStone,wind,blizzard;
     public static void load(){
         hailStone = new HailStormWeather("hail-storm"){{
             attrs.set(Attribute.light, -0.5f);
@@ -76,6 +77,22 @@ public class HIWeathers {
             soundVol = 0.8f;
             maxSpawn = 2;
             duration = 8f * Time.toMinutes;
+        }};
+        blizzard = new ParticleWeather("blizzard"){{
+            particleRegion = "particle";
+            sizeMax = 14f;
+            sizeMin = 3f;
+            density = 600f;
+            baseSpeed = 15f;
+            yspeed = -2.5f;
+            xspeed = 8f;
+            minAlpha = 0.75f;
+            maxAlpha = 0.9f;
+            sound = Sounds.windhowl;
+            soundVol = 0.25f;
+            soundVolOscMag = 1.5f;
+            soundVolOscScl = 1100f;
+            soundVolMin = 0.15f;
         }};
     }
 }

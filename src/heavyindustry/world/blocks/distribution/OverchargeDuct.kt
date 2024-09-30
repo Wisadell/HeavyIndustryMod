@@ -69,14 +69,14 @@ open class OverchargeDuct(name: String) : Duct(name) {
 
     open inner class OverchargeDuctBuild : DuctBuild() {
         override fun draw() {
-            val rotation = rotdeg()
-            val r = this.rotation
+            val r1 = rotdeg()
+            val r2 = rotation
 
             //draw extra ducts facing this one for tiling purposes
             for (i in 0..3) {
                 if ((blending and (1 shl i)) != 0) {
-                    val dir = r - i
-                    val rot = if (i == 0) rotation else ((dir) * 90).toFloat()
+                    val dir = r2 - i
+                    val rot = if (i == 0) r1 else ((dir) * 90).toFloat()
                     drawAt(x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, 0, rot, if (i != 0) SliceMode.bottom else SliceMode.top)
                 }
             }
@@ -84,13 +84,13 @@ open class OverchargeDuct(name: String) : Duct(name) {
             //draw item
             if (current != null) {
                 Draw.z(Layer.blockUnder + 0.1f)
-                Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f).lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f, Mathf.clamp((progress + 1f) / 2f))
+                Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f).lerp(Geometry.d4x(r2) * tilesize / 2f, Geometry.d4y(r2) * tilesize / 2f, Mathf.clamp((progress + 1f) / 2f))
 
                 Draw.rect(current.fullIcon, x + Tmp.v1.x, y + Tmp.v1.y, itemSize, itemSize)
             }
 
             Draw.scl(xscl.toFloat(), yscl.toFloat())
-            drawAt(x, y, blendbits, rotation, SliceMode.none)
+            drawAt(x, y, blendbits, r1, SliceMode.none)
             Draw.reset()
         }
 
