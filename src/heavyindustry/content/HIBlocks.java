@@ -485,6 +485,7 @@ public class HIBlocks {
             powerConsBase = 180f;
             rotateSpeed = 6f;
             drawRim = true;
+            drawMineItem = true;
         }
             @Override
             public float getMineSpeedHardnessMul(Item item) {
@@ -516,11 +517,12 @@ public class HIBlocks {
             powerConsBase = 480f;
             drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.dynamicSpikes.wrap(Color.white, 30f), Fx.mineImpactWave.wrap(Color.white, 45f));
             shake = 4f;
-            arrowOffset = 2f;
-            arrowSpacing = 5f;
-            arrows = 2;
+            arrowOffset = 0f;
+            arrowSpacing = 0.5f;
+            arrows = 12;
             glowColor.a = 0.6f;
             fogRadius = 5;
+            drawMineItem = true;
         }};
         speedModule = new SpeedModule("speed-module"){{
             requirements(Category.production, with(Items.plastanium, 50, Items.surgeAlloy, 45, HIItems.nanocore, 35));

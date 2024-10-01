@@ -30,6 +30,8 @@ public class HIClassMap {
         //ai
         classes.put("CircleAi", CircleAi.class);
         classes.put("DepotMinerAI", DepotMinerAI.class);
+        classes.put("SniperAI", SniperAI.class);
+        classes.put("SurroundAI", SurroundAI.class);
         //ability
         classes.put("JavelinAbility", JavelinAbility.class);
         //bullets
@@ -79,8 +81,8 @@ public class HIClassMap {
         classes.put("MultiBulletTurretBuild", MultiBulletTurret.MultiBulletTurretBuild.class);
         classes.put("ShootMatchTurret", ShootMatchTurret.class);
         classes.put("ShootMatchTurretBuild", ShootMatchTurret.ShootMatchTurretBuild.class);
-        classes.put("MultTractorBeamTurret", MultTractorBeamTurret.class);
-        classes.put("MultTractorBeamBuild", MultTractorBeamTurret.MultTractorBeamBuild.class);
+        classes.put("MultiTractorBeamTurret", MultiTractorBeamTurret.class);
+        classes.put("MultiTractorBeamBuild", MultiTractorBeamTurret.MultiTractorBeamBuild.class);
         classes.put("MinigunTurret", MinigunTurret.class);
         classes.put("MinigunTurretBuild", MinigunTurret.MinigunTurretBuild.class);
         classes.put("HackTurret", HackTurret.class);
@@ -91,16 +93,16 @@ public class HIClassMap {
         classes.put("OverchargeDirectionalUnloaderBuild", OverchargeDirectionalUnloader.OverchargeDirectionalUnloaderBuild.class);
         classes.put("BeltConveyor", BeltConveyor.class);
         classes.put("BeltConveyorBuild", BeltConveyor.BeltConveyorBuild.class);
-        classes.put("BeltArmoredConveyor", BeltArmoredConveyor.class);
-        classes.put("BeltArmoredConveyorBuild", BeltArmoredConveyor.BeltArmoredConveyorBuild.class);
         classes.put("CoveredConveyor", CoveredConveyor.class);
         classes.put("CoveredConveyorBuild", CoveredConveyor.CoveredConveyorBuild.class);
         classes.put("TubeConveyor", TubeConveyor.class);
         classes.put("TubeConveyorBuild", TubeConveyor.TubeConveyorBuild.class);
+        classes.put("TubeDistributor", TubeDistributor.class);
+        classes.put("TubeDistributorBuild", TubeDistributor.TubeDistributorBuild.class);
         classes.put("DuctJunction", DuctJunction.class);
         classes.put("DuctJunctionBuild", DuctJunction.DuctJunctionBuild.class);
-        classes.put("OverchargeDuct", OverchargeDuct.class);
-        classes.put("OverchargeDuctBuild", OverchargeDuct.OverchargeDuctBuild.class);
+        classes.put("AdaptDuct", AdaptDuct.class);
+        classes.put("AdaptDuctBuild", AdaptDuct.AdaptDuctBuild.class);
         classes.put("InvertedJunction", InvertedJunction.class);
         classes.put("InvertedJunctionBuild", InvertedJunction.InvertedJunctionBuild.class);
         classes.put("MultiInvertedJunction", MultiInvertedJunction.class);
@@ -158,6 +160,8 @@ public class HIClassMap {
         classes.put("RotatorDrillBuild", RotatorDrill.RotatorDrillBuild.class);
         classes.put("ImplosionDrill", ImplosionDrill.class);
         classes.put("ImplosionDrillBuild", ImplosionDrill.ImplosionDrillBuild.class);
+        classes.put("HammerDrill", HammerDrill.class);
+        classes.put("HammerDrillBuild", HammerDrill.HammerDrillBuild.class);
         classes.put("DrillModule", DrillModule.class);
         classes.put("DrillModuleBuild", DrillModule.DrillModuleBuild.class);
         classes.put("SpeedModule", SpeedModule.class);
@@ -172,6 +176,8 @@ public class HIClassMap {
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
         classes.put("OverchargeUnloader", OverchargeUnloader.class);
         classes.put("OverchargeUnloaderBuild", OverchargeUnloader.OverchargeUnloaderBuild.class);
+        classes.put("CoreLinkBlock", CoreLinkBlock.class);
+        classes.put("CoreLinkBuild", CoreLinkBlock.CoreLinkBuild.class);
         //consume
         classes.put("AdaptConsumeItemDynamic", AdaptConsumeItemDynamic.class);
         classes.put("AdaptConsumeLiquidDynamic", AdaptConsumeLiquidDynamic.class);
