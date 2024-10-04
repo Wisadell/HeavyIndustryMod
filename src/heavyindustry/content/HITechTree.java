@@ -69,7 +69,6 @@ public class HITechTree {
         addToNode(phaseConveyor, () -> node(highEnergyItemNode, () -> {}));
         addToNode(titaniumConveyor, () -> node(chromiumEfficientConveyor, () -> {
             node(chromiumArmorConveyor, () -> node(chromiumStackConveyor, () -> node(chromiumStackRouter, () -> {})));
-            //node(chromiumTubeConveyor);
             node(chromiumItemBridge, () -> {});
             node(chromiumRouter, () -> {});
             node(chromiumJunction, () -> {});

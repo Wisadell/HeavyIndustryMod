@@ -64,6 +64,7 @@ public class HIBlocks {
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
             stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,labFloor,
+            boulderSmall,boulderBig,boulderGroupSmall,boulderGroupMiddle,boulderChromium,boulderUranium,
             nanofluid,
             stoneWater,shaleWater,basaltWater,
             softRareEarth,patternRareEarth,softRareEarthWall,
@@ -77,7 +78,7 @@ public class HIBlocks {
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,unitMinerDepot,
             //distribution
-            invertedJunction,cardanItemBridge,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
+            invertedJunction,cardanItemBridge,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             stackHelper,highEnergyItemNode,rapidDirectionalUnloader,
             //distribution-erekir
             ductJunction,armoredDuctBridge,waveDuct,waveDuctBridge,waveDuctRouter,overflowWaveDuct,underflowWaveDuct,rapidDuctUnloader,
@@ -191,6 +192,29 @@ public class HIBlocks {
         softRareEarthWall = new StaticWall("soft-rare-earth-wall"){{
             variants = 2;
             itemDrop = HIItems.rareEarth;
+        }};
+        boulderSmall = new AtlasTallBlock("boulder-small"){{
+            variants = 4;
+            splitSize = 74;
+        }};
+        boulderBig = new TallBlock("boulder-big");
+        boulderGroupSmall = new AtlasTallBlock("boulder-group-small"){{
+            variants = 6;
+            splitSize = 68;
+        }};
+        boulderGroupMiddle = new AtlasTallBlock("boulder-group-middle"){{
+            variants = 7;
+            splitSize = 98;
+        }};
+        boulderChromium = new AtlasTallBlock("boulder-chromium"){{
+            variants = 3;
+            itemDrop = HIItems.chromium;
+            splitSize = 68;
+        }};
+        boulderUranium = new AtlasTallBlock("boulder-uranium"){{
+            variants = 3;
+            itemDrop = HIItems.uranium;
+            splitSize = 68;
         }};
         nanofluid = new Floor("pooled-nanofluid", 0){{
             status = HIStatusEffects.repair;
@@ -505,7 +529,7 @@ public class HIBlocks {
             buildCostMultiplier = 0.8f;
         }};
         implosionDrill = new ImplosionDrill("implosion-drill"){{
-            requirements(Category.production, with(Items.silicon, 180, HIItems.uranium, 40,HIItems.heavyAlloy, 80));
+            requirements(Category.production, with(Items.silicon, 180, HIItems.nanocore, 30, HIItems.chromium, 50, HIItems.heavyAlloy, 80));
             size = 5;
             health = 2260;
             mineSpeed = 10f;
@@ -516,10 +540,10 @@ public class HIBlocks {
             maxBoost = 2f;
             powerConsBase = 480f;
             drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.dynamicSpikes.wrap(Color.white, 30f), Fx.mineImpactWave.wrap(Color.white, 45f));
-            shake = 4f;
-            arrowOffset = 0f;
-            arrowSpacing = 0.5f;
-            arrows = 12;
+            shake = 3f;
+            arrowOffset = 2f;
+            arrowSpacing = 5f;
+            arrows = 3;
             glowColor.a = 0.6f;
             fogRadius = 5;
             drawMineItem = true;
@@ -614,13 +638,6 @@ public class HIBlocks {
             displayedSpeed = 18;
             noSideBlend = true;
         }};
-        chromiumTubeConveyor = new TubeConveyor("chromium-tube-conveyor"){{
-            requirements(Category.distribution, BuildVisibility.sandboxOnly, with(Items.metaglass, 1, Items.silicon, 1, HIItems.chromium, 2));
-            health = 720;
-            armor = 8;
-            speed = 0.18f;
-            displayedSpeed = 18f;
-        }};
         chromiumStackConveyor = new StackConveyor("chromium-stack-conveyor"){{
             requirements(Category.distribution, with(Items.graphite, 1, Items.silicon, 1, Items.plastanium, 1, HIItems.chromium, 1));
             health = 380;
@@ -659,7 +676,6 @@ public class HIBlocks {
             capacity = itemCapacity = 12;
             ((BeltConveyor) chromiumEfficientConveyor).junctionReplacement = this;
             ((BeltConveyor) chromiumArmorConveyor).junctionReplacement = this;
-            ((TubeConveyor) chromiumTubeConveyor).junctionReplacement = this;
         }};
         chromiumInvertedJunction = new MultiInvertedJunction("chromium-inverted-junction"){{
             requirements(Category.distribution, with(Items.copper, 2, HIItems.chromium, 2));
@@ -684,7 +700,6 @@ public class HIBlocks {
             buildCostMultiplier = 0.8f;
             ((BeltConveyor) chromiumEfficientConveyor).bridgeReplacement = this;
             ((BeltConveyor) chromiumArmorConveyor).bridgeReplacement = this;
-            ((TubeConveyor) chromiumTubeConveyor).bridgeReplacement = this;
         }};
         stackHelper = new StackHelper("stack-helper"){{
             requirements(Category.distribution, with(Items.silicon, 20, Items.phaseFabric, 10, Items.plastanium, 20));
@@ -768,13 +783,15 @@ public class HIBlocks {
             regionRotated1 = 1;
         }};
         //liquid
-        chromiumArmorConduit = new ArmoredConduit("chromium-armor-conduit"){{
+        chromiumArmorConduit = new BeltConduit("chromium-armor-conduit"){{
             requirements(Category.liquid, with(Items.metaglass, 2, HIItems.chromium, 1));
             health = 420;
             armor = 4;
             liquidCapacity = 32;
             liquidPressure = 3.2f;
-            buildType = () -> new ArmoredConduitBuild(){
+            noSideBlend = true;
+            leaks = false;
+            buildType = () -> new BeltConduitBuild(){
                 @Override
                 public float moveLiquid(Building next, Liquid liquid) {
                     if (next == null) return 0f;
@@ -815,7 +832,7 @@ public class HIBlocks {
             range = 8;
             arrowSpacing = 6;
             bridgeWidth = 8;
-            ((ArmoredConduit) chromiumArmorConduit).bridgeReplacement = this;
+            ((BeltConduit) chromiumArmorConduit).bridgeReplacement = this;
         }};
         chromiumArmorLiquidContainer = new LiquidRouter("chromium-armor-liquid-container"){{
             requirements(Category.liquid, with(Items.metaglass, 15, HIItems.chromium, 6));
@@ -1536,8 +1553,8 @@ public class HIBlocks {
             hasLiquids = true;
             attribute = Attribute.steam;
             group = BlockGroup.liquids;
-            displayEfficiencyScale = 1f / 9f;
-            minEfficiency = 9f - 0.0001f;
+            displayEfficiencyScale = 1f / 9;
+            minEfficiency = 9 - 0.0001f;
             displayEfficiency = false;
             generateEffect = Fx.turbinegenerate;
             effectChance = 0.04f;
@@ -1545,8 +1562,8 @@ public class HIBlocks {
             ambientSoundVolume = 0.06f;
             drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
             squareSprite = false;
-            outputHeat = 15 / 9f;
-            outputLiquid = new LiquidStack(Liquids.water, 5f / 60f / 9f);
+            heatOutput = 15f / 9;
+            outputLiquid = new LiquidStack(Liquids.water, 5f / 60f / 9);
             buildCostMultiplier = 0.8f;
         }
             @Override
@@ -1582,7 +1599,7 @@ public class HIBlocks {
             }}, new DrawDefault());
             squareSprite = false;
         }};
-        liquidFuelHeater = new LiquidFuelHeater("liquid-fuel-heater"){{
+        liquidFuelHeater = new FuelHeater("liquid-fuel-heater"){{
             requirements(Category.crafting, with(Items.graphite, 160, Items.beryllium, 120, Items.tungsten, 80, Items.oxide, 30));
             size = 3;
             heatOutput = 10;

@@ -80,7 +80,6 @@ public class HeavyIndustryMod extends Mod{
         EntityRegistry.load();
         HISounds.load();
         if(onlyPlugIn) return;
-        Log.info("Loading some heavy industry mod content.");
         HIItems.load();
         HIStatusEffects.load();
         HILiquids.load();

@@ -37,7 +37,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.payloads.*;
-import mindustry.world.blocks.storage.*;
+import mindustry.world.blocks.storage.CoreBlock.*;
 
 @SuppressWarnings({"all", "unchecked", "deprecation"})
 public class HINoCoreDepositBuildingTetherLegsUnit extends Unit implements Boundedc, Builderc, BuildingTetherc, Drawc, Entityc, Flyingc, Healthc, Hitboxc, Itemsc, Legsc, Minerc, Physicsc, Posc, Rotc, Shieldc, Statusc, Syncc, Teamc, Unitc, Velc, Weaponsc, HINoCoreDepositc {
@@ -746,17 +746,17 @@ public class HINoCoreDepositBuildingTetherLegsUnit extends Unit implements Bound
     }
 
     @Override
-    public CoreBlock.CoreBuild closestCore() {
+    public CoreBuild closestCore() {
         return null;
     }
 
     @Override
-    public CoreBlock.CoreBuild closestEnemyCore() {
+    public CoreBuild closestEnemyCore() {
         return state.teams.closestEnemyCore(x, y, team);
     }
 
     @Override
-    public CoreBlock.CoreBuild core() {
+    public CoreBuild core() {
         return team.core();
     }
 

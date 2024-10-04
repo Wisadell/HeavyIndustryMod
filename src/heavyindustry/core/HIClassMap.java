@@ -7,6 +7,7 @@ import heavyindustry.entities.effect.*;
 import heavyindustry.entities.part.*;
 import heavyindustry.type.*;
 import heavyindustry.type.weather.*;
+import heavyindustry.world.blocks.*;
 import heavyindustry.world.blocks.defense.*;
 import heavyindustry.world.blocks.defense.turrets.*;
 import heavyindustry.world.blocks.distribution.*;
@@ -28,7 +29,6 @@ import static mindustry.mod.ClassMap.*;
 public class HIClassMap {
     public static void load(){
         //ai
-        classes.put("CircleAi", CircleAi.class);
         classes.put("DepotMinerAI", DepotMinerAI.class);
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
@@ -59,12 +59,17 @@ public class HIClassMap {
         classes.put("EffectWrapper", EffectWrapper.class);
         //parts
         classes.put("HIDrawPart", HIDrawPart.class);
+        classes.put("ConstructPart", ConstructPart.class);
         //types
         classes.put("BetterPlanet", BetterPlanet.class);
         classes.put("EffectWeather", EffectWeather.class);
         classes.put("HailStormWeather", HailStormWeather.class);
         classes.put("SpawnerWeather", SpawnerWeather.class);
         //blocks
+        classes.put("AtlasBlock", AtlasBlock.class);
+        classes.put("AtlasBuild", AtlasBlock.AtlasBuild.class);
+        classes.put("AtlasFloor", AtlasFloor.class);
+        classes.put("AtlasTallBlock", AtlasTallBlock.class);
         classes.put("SideFloor", SideFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);
@@ -85,12 +90,8 @@ public class HIClassMap {
         classes.put("MultiTractorBeamBuild", MultiTractorBeamTurret.MultiTractorBeamBuild.class);
         classes.put("MinigunTurret", MinigunTurret.class);
         classes.put("MinigunTurretBuild", MinigunTurret.MinigunTurretBuild.class);
-        classes.put("HackTurret", HackTurret.class);
-        classes.put("HackTurretBuild", HackTurret.HackTurretBuild.class);
         classes.put("AdaptDirectionalUnloader", AdaptDirectionalUnloader.class);
         classes.put("AdaptDirectionalUnloaderBuild", AdaptDirectionalUnloader.AdaptDirectionalUnloaderBuild.class);
-        classes.put("OverchargeDirectionalUnloader", OverchargeDirectionalUnloader.class);
-        classes.put("OverchargeDirectionalUnloaderBuild", OverchargeDirectionalUnloader.OverchargeDirectionalUnloaderBuild.class);
         classes.put("BeltConveyor", BeltConveyor.class);
         classes.put("BeltConveyorBuild", BeltConveyor.BeltConveyorBuild.class);
         classes.put("CoveredConveyor", CoveredConveyor.class);
@@ -119,14 +120,16 @@ public class HIClassMap {
         classes.put("StackHelperBuild", StackHelper.StackHelperBuild.class);
         classes.put("CardanLiquidBridge", CardanLiquidBridge.class);
         classes.put("CardanLiquidBridgeBuild", CardanLiquidBridge.CardanLiquidBridgeBuild.class);
-        classes.put("LiquidFuelHeater", LiquidFuelHeater.class);
-        classes.put("LiquidFuelHeaterBuild", LiquidFuelHeater.LiquidFuelHeaterBuild.class);
+        classes.put("FuelHeater", FuelHeater.class);
+        classes.put("FuelHeaterBuild", FuelHeater.FuelHeaterBuild.class);
         classes.put("ThermalHeater", ThermalHeater.class);
         classes.put("ThermalHeaterBuild", ThermalHeater.ThermalHeaterBuild.class);
         classes.put("HeatDriver", HeatDriver.class);
         classes.put("HeatDriverBuild", HeatDriver.HeatDriverBuild.class);
         classes.put("SortLiquidRouter", SortLiquidRouter.class);
         classes.put("SortLiquidRouterBuild", SortLiquidRouter.SortLiquidRouterBuild.class);
+        classes.put("BeltConduit", BeltConduit.class);
+        classes.put("BeltConduitBuild", BeltConduit.BeltConduitBuild.class);
         classes.put("LiquidUnloader", LiquidUnloader.class);
         classes.put("LiquidUnloaderBuild", LiquidUnloader.LiquidUnloaderBuild.class);
         classes.put("LiquidDirectionalUnloader", LiquidDirectionalUnloader.class);
@@ -170,12 +173,8 @@ public class HIClassMap {
         classes.put("RefineModuleBuild", RefineModule.RefineModuleBuild.class);
         classes.put("DeliveryModule", DeliveryModule.class);
         classes.put("DeliveryModuleBuild", DeliveryModule.DeliveryModuleBuild.class);
-        classes.put("MultiDrill", MultiDrill.class);
-        classes.put("MultiDrillBuild", MultiDrill.MultiDrillBuild.class);
         classes.put("AdaptUnloader", AdaptUnloader.class);
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
-        classes.put("OverchargeUnloader", OverchargeUnloader.class);
-        classes.put("OverchargeUnloaderBuild", OverchargeUnloader.OverchargeUnloaderBuild.class);
         classes.put("CoreLinkBlock", CoreLinkBlock.class);
         classes.put("CoreLinkBuild", CoreLinkBlock.CoreLinkBuild.class);
         //consume

@@ -17,8 +17,10 @@ public class HISounds {
             fissure = new Sound(),
             hugeBlast = new Sound(),
             largeBeam = new Sound(),
+            hammer = new Sound(),
             hailRain = new Sound(),
-            bigHailstoneHit = new Sound();
+            bigHailstoneHit = new Sound(),
+            giantHailstoneHit = new Sound();
 
     public static void load() {
         ct1 = tree.loadSound("ct1");
@@ -32,7 +34,9 @@ public class HISounds {
         fissure = tree.loadSound("fissure");
         hugeBlast = tree.loadSound("hugeBlast");
         largeBeam = tree.loadSound("largeBeam");
+        hammer = tree.loadSound("hammer");
         hailRain = tree.loadSound("hailRain");
         bigHailstoneHit = tree.loadSound("bigHailstoneHit");
+        giantHailstoneHit = tree.loadSound("giantHailstoneHit");
     }
 }
