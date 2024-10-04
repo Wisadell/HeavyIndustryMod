@@ -1,14 +1,16 @@
 package heavyindustry.world.blocks.environment;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
 import static mindustry.Vars.*;
 
-/** @author LaoHuaJi */
-public class SideFloor extends Floor {
+/**
+ * @author Wisadell
+ * @author LaoHuaJi
+ */
+public class SideFloor extends AtlasFloor {
     public SideFloor(String name) {
         super(name);
     }
@@ -23,24 +25,13 @@ public class SideFloor extends Floor {
     }
 
     @Override
-    public TextureRegion[] editorVariantRegions(){
-        if(editorVariantRegions == null){
-            variantRegions();
-            editorVariantRegions = new TextureRegion[1];
-            TextureAtlas.AtlasRegion region = (TextureAtlas.AtlasRegion)variantRegions[0];
-            editorVariantRegions[0] = Core.atlas.find("editor-" + region.name);
-        }
-        return editorVariantRegions;
-    }
-
-    @Override
     protected boolean doEdge(Tile tile, Tile otherTile, Floor other){
         return false;
     }
 
     @Override
     public void drawBase(Tile tile) {
-        Draw.rect(variantRegions[getTileIndex(tile)], tile.worldx(), tile.worldy());
+        Draw.rect(splitRegion[getTileIndex(tile)], tile.worldx(), tile.worldy());
         Draw.alpha(1f);
         drawEdges(tile);
         drawOverlay(tile);

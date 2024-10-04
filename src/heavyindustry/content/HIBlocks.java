@@ -166,16 +166,14 @@ public class HIBlocks {
             variants = 2;
             attributes.set(Attribute.sand, 2f);
         }};
-        arkyciteSandBoulder = new Prop("arkycite-sand-boulder"){{
-            variants = 2;
+        arkyciteSandBoulder = new AtlasProp("arkycite-sand-boulder"){{
             arkyciteSand.asFloor().decoration = this;
         }};
-        darksandBoulder = new Prop("darksand-boulder"){{
-            variants = 2;
+        darksandBoulder = new AtlasProp("darksand-boulder"){{
             Blocks.darksand.asFloor().decoration = this;
         }};
         asphalt = new Floor("asphalt", 0);
-        asphaltSide = new SideFloor("asphalt-side", 16){{
+        asphaltSide = new SideFloor("asphalt-side"){{
             blendGroup = asphalt;
         }};
         labFloor = new TiledFloor("lab-floor", 8, 1);
@@ -194,27 +192,22 @@ public class HIBlocks {
             itemDrop = HIItems.rareEarth;
         }};
         boulderSmall = new AtlasTallBlock("boulder-small"){{
-            variants = 4;
-            splitSize = 74;
+            atlasSize = 74;
         }};
         boulderBig = new TallBlock("boulder-big");
         boulderGroupSmall = new AtlasTallBlock("boulder-group-small"){{
-            variants = 6;
-            splitSize = 68;
+            atlasSize = 68;
         }};
         boulderGroupMiddle = new AtlasTallBlock("boulder-group-middle"){{
-            variants = 7;
-            splitSize = 98;
+            atlasSize = 98;
         }};
         boulderChromium = new AtlasTallBlock("boulder-chromium"){{
-            variants = 3;
             itemDrop = HIItems.chromium;
-            splitSize = 68;
+            atlasSize = 68;
         }};
         boulderUranium = new AtlasTallBlock("boulder-uranium"){{
-            variants = 3;
             itemDrop = HIItems.uranium;
-            splitSize = 68;
+            atlasSize = 68;
         }};
         nanofluid = new Floor("pooled-nanofluid", 0){{
             status = HIStatusEffects.repair;

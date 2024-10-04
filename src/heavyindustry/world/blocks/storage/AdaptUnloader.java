@@ -14,7 +14,6 @@ public class AdaptUnloader extends Unloader {
     public class AdaptUnloaderBuild extends UnloaderBuild {
         private float counter;
 
-        /** Make its uninstallation speed no longer affected by frame rate. */
         @Override
         public void updateTile() {
             counter += edelta();
