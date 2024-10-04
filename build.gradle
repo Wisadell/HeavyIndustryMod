@@ -1,26 +1,8 @@
+apply plugin: "java"
+
 version '1.0'
 
-buildscript{
-    repositories{
-        mavenCentral()
-    }
-
-    ext{
-        //the build number that this mod is made for
-        isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
-        sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
-    }
-
-    dependencies{
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    }
-}
-
-apply plugin: "java"
-apply plugin: "kotlin"
-
 sourceSets.main.java.srcDir('src')
-sourceSets.main.kotlin.srcDirs('src')
 
 repositories{
     mavenCentral()
@@ -28,8 +10,24 @@ repositories{
     maven{ url 'https://www.jitpack.io' }
 }
 
+java{
+    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+ext{
+    //the build number that this mod is made for
+    isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
+    sdkRoot = System.getenv("ANDROID_HOME") ?: System.getenv("ANDROID_SDK_ROOT")
+}
+
+allprojects{
+    tasks.withType(JavaCompile) {
+        options.compilerArgs.addAll(['--release', '8'])
+    }
+}
+
 dependencies{
-    //implementation "org.jetbrains.kotlinx:kotlinx-?:$kotlinxVersion"
     implementation "org.jetbrains:annotations:24.0.1"
 
     compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
@@ -38,19 +36,11 @@ dependencies{
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
 }
 
-java {
-    targetCompatibility = JavaVersion.VERSION_1_8
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
-compileKotlin {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-allprojects {
-    tasks.withType(JavaCompile) {
-        options.compilerArgs.addAll(['--release', '8'])
+configurations.all{
+    resolutionStrategy.eachDependency { details ->
+        if(details.requested.group == 'com.github.Anuken.Arc'){
+            details.useVersion "$mindustryVersion"
+        }
     }
 }
 
@@ -71,13 +61,12 @@ task jarAndroid{
 
         //dex and desugar files - this requires d8 in your PATH
         "$d8 $dependencies --min-api 14 --output ${project.archivesBaseName}Android.jar ${project.archivesBaseName}Desktop.jar"
-            .execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
+                .execute(null, new File("$buildDir/libs")).waitForProcessOutput(System.out, System.err)
     }
 }
 
 jar{
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveFileName = "${project.archivesBaseName}Desktop.jar"
+    archiveFileName = "${base.archivesBaseName}Desktop.jar"
 
     from{
         configurations.runtimeClasspath.collect{ it.isDirectory() ? it : zipTree(it) }
@@ -95,8 +84,7 @@ jar{
 task deploy(type: Jar){
     dependsOn jarAndroid
     dependsOn jar
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    archiveFileName = "${project.archivesBaseName}.jar"
+    archiveFileName = "${base.archivesBaseName}.jar"
 
     from{ [zipTree("$buildDir/libs/${project.archivesBaseName}Desktop.jar"), zipTree("$buildDir/libs/${project.archivesBaseName}Android.jar")] }
 
