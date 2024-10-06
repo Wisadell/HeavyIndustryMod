@@ -30,9 +30,8 @@ import mindustry.type.weapons.*;
 import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
-import static arc.graphics.g2d.Draw.color;
-import static arc.graphics.g2d.Lines.stroke;
-import static mindustry.Vars.tilePayload;
+import static mindustry.Vars.*;
+import static mindustry.gen.EntityMapping.*;
 
 /**
  * Defines the {@linkplain UnitType units} this mod offers.
@@ -42,27 +41,27 @@ public class HIUnitTypes {
     //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
     static {
         //tier6
-        EntityMapping.nameMap.put(name("suzerain"), EntityMapping.idMap[4]);
-        EntityMapping.nameMap.put(name("supernova"), EntityMapping.idMap[24]);
-        EntityMapping.nameMap.put(name("cancer"), EntityMapping.idMap[33]);
-        EntityMapping.nameMap.put(name("sunlit"), EntityMapping.idMap[3]);
-        EntityMapping.nameMap.put(name("windstorm"), EntityMapping.idMap[5]);
-        EntityMapping.nameMap.put(name("mosasaur"), EntityMapping.idMap[20]);
-        EntityMapping.nameMap.put(name("killer-whale"), EntityMapping.idMap[20]);
+        nameMap.put(name("suzerain"), idMap[4]);
+        nameMap.put(name("supernova"), idMap[24]);
+        nameMap.put(name("cancer"), idMap[33]);
+        nameMap.put(name("sunlit"), idMap[3]);
+        nameMap.put(name("windstorm"), idMap[5]);
+        nameMap.put(name("mosasaur"), idMap[20]);
+        nameMap.put(name("killer-whale"), idMap[20]);
         //erekir-tier6
-        EntityMapping.nameMap.put(name("dominate"), EntityMapping.idMap[43]);
-        EntityMapping.nameMap.put(name("oracle"), EntityMapping.idMap[24]);
-        EntityMapping.nameMap.put(name("havoc"), EntityMapping.idMap[5]);
+        nameMap.put(name("dominate"), idMap[43]);
+        nameMap.put(name("oracle"), idMap[24]);
+        nameMap.put(name("havoc"), idMap[5]);
         //other
-        EntityMapping.nameMap.put(name("scavenger"), HITankUnit::create);
-        EntityMapping.nameMap.put(name("pioneer"), HILegsPayloadUnit::create);
-        EntityMapping.nameMap.put(name("burner"), EntityMapping.idMap[4]);
+        nameMap.put(name("scavenger"), HITankUnit::create);
+        nameMap.put(name("pioneer"), HILegsPayloadUnit::create);
+        nameMap.put(name("burner"), idMap[4]);
         //other-erekir
-        EntityMapping.nameMap.put(name("draug"), HINoCoreDepositBuildingTetherLegsUnit::create);
+        nameMap.put(name("draug"), HINoCoreDepositBuildingTetherLegsUnit::create);
         //elite
-        EntityMapping.nameMap.put(name("desolation-lord"), HILegsPayloadUnit::create);
+        nameMap.put(name("desolation-lord"), HILegsPayloadUnit::create);
         //boss
-        EntityMapping.nameMap.put(name("thunder"), EntityMapping.idMap[43]);
+        nameMap.put(name("thunder"), idMap[43]);
     }
 
     public static UnitType
@@ -489,18 +488,18 @@ public class HIUnitTypes {
                     hitSound = Sounds.plasmaboom;
                     clipSize = 250f;
                     trailEffect = new Effect(16f, e -> {
-                        color(Pal.heal);
+                        Draw.color(Pal.heal);
                         for(int s : Mathf.signs){
                             Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f*s);
                         }
                     });
                     hitEffect = new Effect(50f, 100f, e -> {
                         e.scaled(7f, b -> {
-                            color(Pal.heal, b.fout());
+                            Draw.color(Pal.heal, b.fout());
                             Fill.circle(e.x, e.y, rad);
                         });
-                        color(Pal.heal);
-                        stroke(e.fout() * 3f);
+                        Draw.color(Pal.heal);
+                        Lines.stroke(e.fout() * 3f);
                         Lines.circle(e.x, e.y, rad);
                         int points = 10;
                         float offset = Mathf.randomSeed(e.id, 360f);
@@ -509,7 +508,7 @@ public class HIUnitTypes {
                             Drawf.tri(e.x + Angles.trnsx(angle, rad), e.y + Angles.trnsy(angle, rad), 6f, 50f * e.fout(), angle);
                         }
                         Fill.circle(e.x, e.y, 12f * e.fout());
-                        color();
+                        Draw.color();
                         Fill.circle(e.x, e.y, 6f * e.fout());
                         Drawf.light(e.x, e.y, rad * 1.6f, Pal.heal, e.fout());
                     });
@@ -660,18 +659,18 @@ public class HIUnitTypes {
                     hitSound = Sounds.plasmaboom;
                     clipSize = 250f;
                     trailEffect = new Effect(16f, e -> {
-                        color(Pal.heal);
+                        Draw.color(Pal.heal);
                         for(int s : Mathf.signs){
                             Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f*s);
                         }
                     });
                     hitEffect = new Effect(50f, 100f, e -> {
                         e.scaled(7f, b -> {
-                            color(Pal.heal, b.fout());
+                            Draw.color(Pal.heal, b.fout());
                             Fill.circle(e.x, e.y, rad);
                         });
-                        color(Pal.heal);
-                        stroke(e.fout() * 3f);
+                        Draw.color(Pal.heal);
+                        Lines.stroke(e.fout() * 3f);
                         Lines.circle(e.x, e.y, rad);
                         int points = 10;
                         float offset = Mathf.randomSeed(e.id, 360f);
@@ -680,7 +679,7 @@ public class HIUnitTypes {
                             Drawf.tri(e.x + Angles.trnsx(angle, rad), e.y + Angles.trnsy(angle, rad), 6f, 50f * e.fout(), angle);
                         }
                         Fill.circle(e.x, e.y, 12f * e.fout());
-                        color();
+                        Draw.color();
                         Fill.circle(e.x, e.y, 6f * e.fout());
                         Drawf.light(e.x, e.y, rad * 1.6f, Pal.heal, e.fout());
                     });
@@ -1469,7 +1468,7 @@ public class HIUnitTypes {
                 }};
                 inaccuracy = 1.3f;
                 shootSound = HISounds.flak;
-                bullet = new AccelBulletType(200, "missile-large"){{
+                bullet = new AccelBulletType(1, 200, "missile-large"){{
                     lightOpacity = 0.7f;
                     healPercent = 20f;
                     reflectable = false;
@@ -1504,7 +1503,7 @@ public class HIUnitTypes {
                     keepVelocity = true;
                     hitSound = Sounds.plasmaboom;
                     trailEffect = new Effect(10f, e -> {
-                        color(trailColor, Color.white, e.fout() * 0.66f);
+                        Draw.color(trailColor, Color.white, e.fout() * 0.66f);
                         for(int s : Mathf.signs){
                             Drawn.tri(e.x, e.y, 3f, 30f * Mathf.curve(e.fin(), 0, 0.1f) * e.fout(0.9f), e.rotation + 145f * s);
                         }

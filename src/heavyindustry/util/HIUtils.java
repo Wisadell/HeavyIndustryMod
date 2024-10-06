@@ -37,13 +37,13 @@ public final class HIUtils {
     }
 
     public static TextureRegion[] split(String name, int size, int layer){
-        TextureRegion tex = atlas.find(name);
+        TextureRegion textures = atlas.find(name);
         int margin = 0;
-        int countX = tex.width / size;
+        int countX = textures.width / size;
         TextureRegion[] tiles = new TextureRegion[countX];
 
         for(int i = 0; i < countX; i++){
-            tiles[i] = new TextureRegion(tex, i * (margin + size), layer * (margin + size), size, size);
+            tiles[i] = new TextureRegion(textures, i * (margin + size), layer * (margin + size), size, size);
         }
         return tiles;
     }

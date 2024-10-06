@@ -127,6 +127,7 @@ public class HIFx {
     public static float fslope(float fin){
         return (0.5f - Math.abs(fin - 0.5f)) * 2f;
     }
+
     public static Effect circleOut(float lifetime, float radius, float thick){
         return new Effect(lifetime, radius * 2f, e -> {
             Draw.color(e.color, Color.white, e.fout() * 0.7f);
@@ -442,6 +443,10 @@ public class HIFx {
     }
 
     public static final Effect
+            smolSquare = new Effect(25f, e -> {
+                Draw.color(e.color);
+                Fill.square(e.x, e.y, e.fout() * 1.3f + 0.01f, 45f);
+            }),
             circle = new Effect(25f, e -> {
                 Draw.color(e.color, Color.white, e.fout() * 0.65f);
                 Lines.stroke(Mathf.clamp(e.rotation / 18f, 2, 6) * e.fout());

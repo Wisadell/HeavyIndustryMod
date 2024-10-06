@@ -28,7 +28,7 @@ public class HIWeathers {
             soundVol = 0.05f;
             sound = HISounds.hailRain;
             setBullets(
-                    new HailStoneBulletType(name("rockfall-giant"), 1){{
+                    new HailStoneBulletType(name("rockfall-giant"), 0){{
                         hitEffect = Fx.explosion.layer(Layer.power);
                         hitSound = HISounds.giantHailstoneHit;
                         hitSoundVolume = 6;

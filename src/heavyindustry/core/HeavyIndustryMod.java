@@ -64,6 +64,7 @@ public class HeavyIndustryMod extends Mod{
         });
 
         Events.on(FileTreeInitEvent.class, e -> {
+            HISounds.load();
             app.post(() -> {
                 HIShaders.init();
                 HICacheLayer.init();
@@ -78,7 +79,6 @@ public class HeavyIndustryMod extends Mod{
     @Override
     public void loadContent(){
         EntityRegistry.load();
-        HISounds.load();
         if(onlyPlugIn) return;
         HIItems.load();
         HIStatusEffects.load();

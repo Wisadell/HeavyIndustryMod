@@ -21,14 +21,11 @@ import static mindustry.Vars.*;
 public final class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
-    public static @Nullable HISurfaceShader nanofluid,dalani;
+    public static HISurfaceShader nanofluid, dalani;
     public static PlanetTextureShader planetTextureShader;
 
     /** Loads the shaders. */
     public static void init(){
-        String prevVert = Shader.prependVertexCode, prevFrag = Shader.prependFragmentCode;
-        Shader.prependVertexCode = Shader.prependFragmentCode = "";
-
         if(graphics.getGLVersion().type == GLVersion.GlType.OpenGL){
             Shader.prependFragmentCode = "#define HAS_GL_FRAGDEPTH\n";
         }
@@ -40,9 +37,6 @@ public final class HIShaders {
         dalani = new HISurfaceShader("dalani");
 
         planetTextureShader = new PlanetTextureShader();
-
-        Shader.prependVertexCode = prevVert;
-        Shader.prependFragmentCode = prevFrag;
     }
 
     public static void dispose(){

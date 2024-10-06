@@ -7,7 +7,6 @@ import heavyindustry.entities.effect.*;
 import heavyindustry.entities.part.*;
 import heavyindustry.type.*;
 import heavyindustry.type.weather.*;
-import heavyindustry.world.blocks.*;
 import heavyindustry.world.blocks.defense.*;
 import heavyindustry.world.blocks.defense.turrets.*;
 import heavyindustry.world.blocks.distribution.*;
@@ -66,9 +65,10 @@ public class HIClassMap {
         classes.put("HailStormWeather", HailStormWeather.class);
         classes.put("SpawnerWeather", SpawnerWeather.class);
         //blocks
-        classes.put("AtlasBlock", AtlasBlock.class);
-        classes.put("AtlasBuild", AtlasBlock.AtlasBuild.class);
+        classes.put("AdaptOreBlock", AdaptOreBlock.class);
         classes.put("AtlasFloor", AtlasFloor.class);
+        classes.put("AtlasProp", AtlasProp.class);
+        classes.put("AtlasStaticWall", AtlasStaticWall.class);
         classes.put("AtlasTallBlock", AtlasTallBlock.class);
         classes.put("SideFloor", SideFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
@@ -94,6 +94,8 @@ public class HIClassMap {
         classes.put("AdaptDirectionalUnloaderBuild", AdaptDirectionalUnloader.AdaptDirectionalUnloaderBuild.class);
         classes.put("BeltConveyor", BeltConveyor.class);
         classes.put("BeltConveyorBuild", BeltConveyor.BeltConveyorBuild.class);
+        classes.put("BeltStackConveyor", BeltStackConveyor.class);
+        classes.put("BeltStackConveyorBuild", BeltStackConveyor.BeltStackConveyorBuild.class);
         classes.put("CoveredConveyor", CoveredConveyor.class);
         classes.put("CoveredConveyorBuild", CoveredConveyor.CoveredConveyorBuild.class);
         classes.put("TubeConveyor", TubeConveyor.class);
@@ -112,14 +114,16 @@ public class HIClassMap {
         classes.put("MultiJunctionBuild", MultiJunction.MultiJunctionBuild.class);
         classes.put("MultiRouter", MultiRouter.class);
         classes.put("MultiRouterBuild", MultiRouter.MultiRouterBuild.class);
-        classes.put("CardanItemBridge", CardanItemBridge.class);
-        classes.put("CardanItemBridgeBuild", CardanItemBridge.CardanItemBridgeBuild.class);
+        classes.put("TubeItemBridge", TubeItemBridge.class);
+        classes.put("TubeItemBridgeBuild", TubeItemBridge.TubeItemBridgeBuild.class);
         classes.put("NodeBridge", NodeBridge.class);
         classes.put("NodeBridgeBuild", NodeBridge.NodeBridgeBuild.class);
         classes.put("StackHelper", StackHelper.class);
         classes.put("StackHelperBuild", StackHelper.StackHelperBuild.class);
-        classes.put("CardanLiquidBridge", CardanLiquidBridge.class);
-        classes.put("CardanLiquidBridgeBuild", CardanLiquidBridge.CardanLiquidBridgeBuild.class);
+        classes.put("TubeLiquidBridge", TubeLiquidBridge.class);
+        classes.put("TubeLiquidBridgeBuild", TubeLiquidBridge.TubeLiquidBridgeBuild.class);
+        classes.put("HeatPipe", HeatPipe.class);
+        classes.put("HeatPipeBuild", HeatPipe.HeatPipeBuild.class);
         classes.put("FuelHeater", FuelHeater.class);
         classes.put("FuelHeaterBuild", FuelHeater.FuelHeaterBuild.class);
         classes.put("ThermalHeater", ThermalHeater.class);
@@ -138,6 +142,10 @@ public class HIClassMap {
         classes.put("LiquidMassDriverBuild", LiquidMassDriver.LiquidMassDriverBuild.class);
         classes.put("CopyMemoryBlock", CopyMemoryBlock.class);
         classes.put("CopyMemoryBuild", CopyMemoryBlock.CopyMemoryBuild.class);
+        classes.put("ProcessorCooler", ProcessorCooler.class);
+        classes.put("ProcessorCoolerBuild", ProcessorCooler.ProcessorCoolerBuild.class);
+        classes.put("ProcessorFan", ProcessorFan.class);
+        classes.put("ProcessorFanBuild", ProcessorFan.ProcessorFanBuild.class);
         classes.put("PayloadJunction", PayloadJunction.class);
         classes.put("PayloadJunctionBuild", PayloadJunction.PayloadJunctionBuild.class);
         classes.put("DerivativeUnitFactory", DerivativeUnitFactory.class);
@@ -157,6 +165,8 @@ public class HIClassMap {
         classes.put("Recipe", MultiCrafter.Recipe.class);
         classes.put("AdaptDrill", AdaptDrill.class);
         classes.put("AdaptDrillBuild", AdaptDrill.AdaptDrillBuild.class);
+        classes.put("DrawerDrill", DrawerDrill.class);
+        classes.put("DrawerDrillBuild", DrawerDrill.DrawerDrillBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);
         classes.put("LaserBeamDrillBuild", LaserBeamDrill.LaserBeamDrillBuild.class);
         classes.put("RotatorDrill", RotatorDrill.class);
@@ -193,6 +203,7 @@ public class HIClassMap {
         classes.put("DrawPrinter", DrawPrinter.class);
         classes.put("DrawRotator", DrawRotator.class);
         classes.put("DrawScanLine", DrawScanLine.class);
+        classes.put("DrawAtlasFrames", DrawAtlasFrames.class);
         classes.put("DrawSpecConstruct", DrawSpecConstruct.class);
         classes.put("DrawLiquidMassDriver", DrawLiquidMassDriver.class);
     }

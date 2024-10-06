@@ -27,7 +27,7 @@ public class HIPlanets {
     public static Planet kepler;
     public static void load(){
         kepler = new BetterPlanet("kepler", sun, 1f, 3){{
-            icon = "kepler";
+            icon = "kepler-icon";
             orbitRadius = 40f;
             atmosphereRadIn = 0f;
             atmosphereRadOut = 0.3f;

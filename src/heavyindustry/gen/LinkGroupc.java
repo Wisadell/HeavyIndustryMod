@@ -4,7 +4,7 @@ import arc.struct.*;
 import mindustry.*;
 import mindustry.gen.*;
 
-public interface LinkGroupc extends Linkablec{
+public interface LinkGroupc extends Linkablec {
     default Seq<Building> linkBuilds(){
         Seq<Building> buildings = new Seq<>();
         for(int pos : linkGroup().shrink()){

@@ -27,9 +27,11 @@ public class EffectWrapper extends Effect {
     public static EffectWrapper wrap(Effect effect, Color color){
         return new EffectWrapper(effect, color);
     }
+
     public static EffectWrapper wrap(Effect effect, Color color, float rot){
         return new EffectWrapper(effect, color, rot);
     }
+
     public static EffectWrapper wrap(Effect effect, float rot, boolean rotModifier){
         return new EffectWrapper(effect, Color.white, rot).setRotModifier(rotModifier);
     }

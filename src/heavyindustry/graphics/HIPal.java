@@ -24,6 +24,7 @@ public class HIPal {
     /** Static read-only palettes that are used throughout the mod. */
     public static final Color
             nanocoreGreen = HIItems.nanocore.color,
+            nanocoreErekirOrange = HIItems.nanocoreErekir.color,
             highEnergyYellow = HIItems.highEnergyFabric.color,
             uraniumGrey = HIItems.uranium.color,
             chromiumGrey = HIItems.chromium.color,

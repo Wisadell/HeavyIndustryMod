@@ -370,5 +370,6 @@ public class HIOverride {
         Items.phaseFabric.hardness = 3;
         Items.carbide.hardness = 6;
         Items.serpuloItems.addAll(HIItems.rareEarth, HIItems.nanocore, HIItems.chromium, HIItems.uranium, HIItems.heavyAlloy, HIItems.highEnergyFabric);
+        Items.erekirItems.addAll(HIItems.nanocoreErekir);
     }
 }

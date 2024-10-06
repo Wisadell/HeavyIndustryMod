@@ -74,7 +74,6 @@ public class HITechTree {
             node(chromiumJunction, () -> {});
             node(chromiumInvertedJunction, () -> {});
         }));
-        addToNode(itemBridge, () -> node(cardanItemBridge, () -> {}));
         //distribution-erekir
         addToNode(duct, () -> node(ductJunction, () -> {}));
         addToNode(armoredDuct, () -> {
@@ -86,7 +85,6 @@ public class HITechTree {
         });
         addToNode(ductUnloader, () -> node(rapidDuctUnloader, () -> {}));
         //liquid
-        addToNode(bridgeConduit, () -> node(cardanLiquidBridge, () -> {}));
         addToNode(impulsePump, () -> node(turboPump, () -> {}));
         addToNode(phaseConduit, () -> node(highEnergyLiquidNode, () -> {}));
         addToNode(platedConduit, () -> node(chromiumArmorConduit, () -> {
@@ -113,7 +111,6 @@ public class HITechTree {
         });
         addToNode(turbineCondenser, () -> node(liquidConsumeGenerator, ItemStack.with(Items.beryllium, 2200, Items.graphite, 2400, Items.silicon, 2300, Items.tungsten, 1600, Items.oxide, 60), () -> {}));
         //production
-        addToNode(kiln, () -> node(largeKiln, Seq.with(new SectorComplete(windsweptIslands)), () -> {}));
         addToNode(pulverizer, () -> node(largePulverizer, () -> {
             node(uraniumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
             node(chromiumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
