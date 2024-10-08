@@ -25,15 +25,15 @@ import static mindustry.Vars.*;
  * @author Wisadell
  */
 public class HIFx {
+    public static final float EFFECT_MASK = Layer.effect + 0.0001f;
     public static final float EFFECT_BOTTOM = Layer.bullet - 0.11f;
 
     public static final float lightningAlign = 0.5f;
 
-    private static final Rand rand = new Rand();
+    public static final Rand rand = new Rand(), rand0 = new Rand(0), globalEffectRand = new Rand(0);
+    public static final Vec2 v7 = new Vec2(), v8 = new Vec2();
 
     public static final IntMap<Effect> same = new IntMap<>();
-
-    public static final Vec2 vec = new Vec2(), vec2 = new Vec2();
 
     public static Effect shoot(Color color){
         return new Effect(12, e -> {
@@ -402,6 +402,14 @@ public class HIFx {
         });
     }
 
+    public static Effect polyTrail(Color fromColor, Color toColor, float size, float lifetime){
+        return new Effect(lifetime, size * 2, e -> {
+            Draw.color(fromColor, toColor, e.fin());
+            Fill.poly(e.x, e.y, 6, size * e.fout(), e.rotation);
+            Drawf.light(e.x, e.y, e.fout() * size, fromColor, 0.7f);
+        });
+    }
+
     public static Effect genericCharge(Color color, float size, float range, float lifetime){
         return new Effect(lifetime, e -> {
             Draw.color(color);
@@ -446,6 +454,20 @@ public class HIFx {
             smolSquare = new Effect(25f, e -> {
                 Draw.color(e.color);
                 Fill.square(e.x, e.y, e.fout() * 1.3f + 0.01f, 45f);
+            }),
+            shuttleLerp = new Effect(180f, 800f, e -> {
+                if(!(e.data instanceof Float))return;
+                float f = Mathf.curve(e.fin(Interp.pow5In), 0f, 0.07f) * Mathf.curve(e.fout(), 0f, 0.4f);
+                float len = e.data();
+
+                Draw.color(e.color);
+                v7.trns(e.rotation - 90, (len + Mathf.randomSeed(e.id, 0, len)) * e.fin(Interp.circleOut));
+                for(int i : Mathf.signs) Drawn.tri(e.x + v7.x, e.y + v7.y, Mathf.clamp(len / 8, 8, 25) * (f + e.fout(0.2f) * 2f) / 3.5f, len * 1.75f * e.fin(Interp.circleOut), e.rotation + 90 + i * 90);
+            }),
+            line = new Effect(30f, e -> {
+                Draw.color(e.color, Color.white, e.fout() * 0.75f);
+                Lines.stroke(2 * e.fout());
+                Angles.randLenVectors(e.id, 6, 3 + e.rotation * e.fin(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 4));
             }),
             circle = new Effect(25f, e -> {
                 Draw.color(e.color, Color.white, e.fout() * 0.65f);
@@ -517,6 +539,113 @@ public class HIFx {
                 Vec2 last = points.tmpVec2(points.size() - 2);
                 Fill.circle(last.x, last.y, Lines.getStroke() / 2);
             })).layer(Layer.effect - 0.001f),
+            techBlueExplosion = new Effect(40, e -> {
+                Draw.color(Pal.techBlue);
+                e.scaled(20, i -> {
+                    Lines.stroke(3f * i.foutpow());
+                    Lines.circle(e.x, e.y, 3f + i.finpow() * 80f);
+                });
+
+                Lines.stroke(e.fout());
+                Angles.randLenVectors(e.id + 1, 8, 1f + 60f * e.finpow(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1f + e.fout() * 3f));
+
+                Draw.color(Color.gray);
+
+                Angles.randLenVectors(e.id, 5, 2f + 70 * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4f + 0.5f));
+
+                Drawf.light(e.x, e.y, e.fout(Interp.pow2Out) * 100f, Pal.techBlue, 0.7f);
+            }),
+            techBlueCharge = new Effect(130f, e -> {
+                rand.setSeed(e.id);
+                Angles.randLenVectors(e.id, 12, 140f * e.fout(Interp.pow3Out), (x, y) -> {
+                    Draw.color(Pal.techBlue);
+                    float rad = rand.random(9f, 18f);
+                    float scl = rand.random(0.6f, 1f);
+                    float dx = e.x + scl * x, dy = e.y + scl * y;
+                    Fill.circle(dx, dy, e.fin() * rad);
+                    Draw.color(Pal.techBlue);
+                    Draw.z(EFFECT_MASK);
+                    Fill.circle(dx, dy, e.fin() * rad / 1.8f);
+                    Draw.z(EFFECT_BOTTOM);
+                    Fill.circle(dx, dy, e.fin() * rad / 1.8f);
+                    Draw.z(Layer.effect);
+                    Drawf.light(dx, dy, e.fin() * rad * 1.5f, Pal.techBlue, 0.7f);
+                });
+            }),
+            techBlueChargeBegin = new Effect(130f, e -> {
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fin() * 32);
+                Lines.stroke(e.fin() * 3.7f);
+                Lines.circle(e.x, e.y, e.fout() * 80);
+                Draw.z(EFFECT_MASK);
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fin() * 20);
+
+                Draw.z(EFFECT_BOTTOM);
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fin() * 22);
+                Drawf.light(e.x, e.y, e.fin() * 35f, Pal.techBlue, 0.7f);
+            }),
+            largeTechBlueHitCircle = new Effect(20f, e -> {
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fout() * 44);
+                Angles.randLenVectors(e.id, 5, 60f * e.fin(), (x,y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 8));
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fout() * 30);
+                Drawf.light(e.x, e.y, e.fout() * 55f, Pal.techBlue, 0.7f);
+            }),
+            largeTechBlueHit = new Effect(50, e -> {
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fout() * 44);
+                Lines.stroke(e.fout() * 3.2f);
+                Lines.circle(e.x, e.y, e.fin() * 80);
+                Lines.stroke(e.fout() * 2.5f);
+                Lines.circle(e.x, e.y, e.fin() * 50);
+                Lines.stroke(e.fout() * 3.2f);
+                Angles.randLenVectors(e.id, 30, 18 + 80 * e.fin(), (x, y) -> {
+                    Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 5);
+                });
+
+                Draw.z(EFFECT_MASK);
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fout() * 30);
+                Drawf.light(e.x, e.y, e.fout() * 80f, Pal.techBlue, 0.7f);
+
+                Draw.z(EFFECT_BOTTOM);
+                Fill.circle(e.x, e.y, e.fout() * 31);
+                Draw.z(Layer.effect - 0.0001f);
+            }).layer(Layer.effect - 0.0001f),
+            mediumTechBlueHit = new Effect(23, e -> {
+                Draw.color(Pal.techBlue);
+                Lines.stroke(e.fout() * 2.8f);
+                Lines.circle(e.x, e.y, e.fin() * 60);
+                Lines.stroke(e.fout() * 2.12f);
+                Lines.circle(e.x, e.y, e.fin() * 35);
+
+                Lines.stroke(e.fout() * 2.25f);
+                Angles.randLenVectors(e.id, 9, 7f + 60f * e.finpow(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 4f + e.fout() * 12f));
+
+                Fill.circle(e.x, e.y, e.fout() * 22);
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fout() * 14);
+                Drawf.light(e.x, e.y, e.fout() * 80f, Pal.techBlue, 0.7f);
+            }),
+            techBlueSmokeBig = new Effect(30f, e -> {
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fout() * 32);
+                Draw.color(Pal.techBlue);
+                Fill.circle(e.x, e.y, e.fout() * 20);
+                Drawf.light(e.x, e.y, e.fout() * 36f, Pal.techBlue, 0.7f);
+            }),
+            techBlueShootBig = new Effect(40f, 100, e -> {
+                Draw.color(Pal.techBlue);
+                Lines.stroke(e.fout() * 3.7f);
+                Lines.circle(e.x, e.y, e.fin() * 100 + 15);
+                Lines.stroke(e.fout() * 2.5f);
+                Lines.circle(e.x, e.y, e.fin() * 60 + 15);
+                Angles.randLenVectors(e.id, 15, 7f + 60f * e.finpow(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 4f + e.fout() * 16f));
+                Drawf.light(e.x, e.y, e.fout() * 120f, Pal.techBlue, 0.7f);
+            }),
             hugeTrail = new Effect(40f, e -> {
                 Draw.color(e.color);
                 Draw.alpha(e.fout(0.85f) * 0.85f);
@@ -776,6 +905,16 @@ public class HIFx {
                     Lines.lineAngle(e.x + x, e.y + y, ang, e.fout() * rand.random(4, 8) + 2f);
                 });
             }),
+            hitSparkHuge = new Effect(70, e -> {
+                Draw.color(e.color, Color.white, e.fout() * 0.3f);
+                Lines.stroke(e.fout() * 1.6f);
+
+                rand.setSeed(e.id);
+                Angles.randLenVectors(e.id, 26, e.finpow() * 65f, (x, y) -> {
+                    float ang = Mathf.angle(x, y);
+                    Lines.lineAngle(e.x + x, e.y + y, ang, e.fout() * rand.random(6, 9) + 3f);
+                });
+            }),
             shareDamage = new Effect(45f, e-> {
                 if(!(e.data instanceof Number))return;
                 Draw.color(e.color);
@@ -899,10 +1038,10 @@ public class HIFx {
             fellStone = new Effect(120f, e -> {
                 if(!(e.data instanceof HailStoneBulletType.HailStoneData data)) return;
 
-                vec2.trns(Mathf.randomSeed(e.id) * 360, data.fallTime/2 + Mathf.randomSeed(e.id + 1) * data.fallTime);
+                v7.trns(Mathf.randomSeed(e.id) * 360, data.fallTime/2 + Mathf.randomSeed(e.id + 1) * data.fallTime);
                 float scl = Interp.bounceIn.apply(e.fout() - 0.3f);
-                float rot = vec2.angle();
-                float x = e.x + (vec2.x * e.finpow()), y = e.y + (vec2.y * e.finpow());
+                float rot = v7.angle();
+                float x = e.x + (v7.x * e.finpow()), y = e.y + (v7.y * e.finpow());
 
                 Draw.z(Layer.power + 0.1f);
                 Drawm.shadow(data.region, x, y, rot, Math.min(e.fout(), Pal.shadow.a));
@@ -937,11 +1076,11 @@ public class HIFx {
                     float x = (scl * dis) + Mathf.cos(scl * 10) * force * rx;
                     float y = Mathf.sin(scl * 10) * force * ry;
 
-                    vec.trns(e.rotation,x, y);
-                    vec.add(e.x, e.y);
-                    vec.add(Math3D.xOffset(e.x, z), Math3D.yOffset(e.y, z));
+                    v8.trns(e.rotation,x, y);
+                    v8.add(e.x, e.y);
+                    v8.add(Math3D.xOffset(e.x, z), Math3D.yOffset(e.y, z));
 
-                    windTailPoints[i] = new Vec3(vec.x, vec.y, e.fslope());
+                    windTailPoints[i] = new Vec3(v8.x, v8.y, e.fslope());
                 }
 
                 for (int i = 0; i < windTailPoints.length - 1; i++) {

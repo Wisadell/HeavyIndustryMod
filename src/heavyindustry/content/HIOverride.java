@@ -29,7 +29,7 @@ import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.type.ItemStack.with;
 
 /**
- * Covering the original content
+ * Covering the original content.
  * @author Wisadell
  */
 public class HIOverride {
@@ -59,9 +59,9 @@ public class HIOverride {
         ((MassDriver) Blocks.massDriver).reload = 150f;
         //Blocks-Liquid
         ((Pump) Blocks.impulsePump).pumpAmount = 0.3f;
-        Blocks.phaseConduit.liquidCapacity = 16;
+        Blocks.phaseConduit.liquidCapacity = 16f;
         //Blocks-Liquid-Erekir
-        Blocks.reinforcedLiquidRouter.liquidCapacity = 40;
+        Blocks.reinforcedLiquidRouter.liquidCapacity = 40f;
         //Blocks-Drill-Erekir
         ((BurstDrill) Blocks.impactDrill).drillMultipliers.put(Items.sand, 4f);
         ((BurstDrill) Blocks.impactDrill).drillMultipliers.put(Items.scrap, 4f);
@@ -122,11 +122,11 @@ public class HIOverride {
             pierceArmor = true;
             shootEffect = Fx.shootBig;
             smokeEffect = Fx.shootBigSmoke;
-            ammoMultiplier = 4;
+            ammoMultiplier = 4f;
             lifetime = 50f;
         }});
         ((ItemTurret) Blocks.fuse).ammoTypes.put(HIItems.uranium, new ShrapnelBulletType(){{
-            length = 100;
+            length = 100f;
             damage = 135f;
             ammoMultiplier = 6f;
             toColor = Color.valueOf("a5b2c2");
@@ -159,27 +159,28 @@ public class HIOverride {
         }});
         ((ItemTurret) Blocks.foreshadow).ammo(Items.surgeAlloy, new RailBulletType(){{
             shootEffect = Fx.railShoot;
-            length = 600;
-            pointEffectSpace = 60;
+            length = 600f;
+            pointEffectSpace = 60f;
             pierceEffect = Fx.railHit;
             pointEffect = Fx.railTrail;
             hitEffect = Fx.massiveExplosion;
-            ammoMultiplier = 1;
+            ammoMultiplier = 1f;
             smokeEffect = Fx.smokeCloud;
             damage = 1450f;
             pierceDamageFactor = 0.5f;
             buildingDamageMultiplier = 0.3f;
         }});
         ((ItemTurret) Blocks.spectre).range = 280f;
-        ((ItemTurret) Blocks.spectre).ammoTypes.put(HIItems.uranium, new BasicBulletType(9f, 100){{
-            hitSize = 5;
+        ((ItemTurret) Blocks.spectre).ammoTypes.put(HIItems.uranium, new BasicBulletType(9f, 105f){{
+            hitSize = 5f;
             width = 16f;
             height = 23f;
             shootEffect = Fx.shootBig;
             pierceCap = 3;
             pierceArmor = pierceBuilding = true;
             knockback = 0.7f;
-            ammoMultiplier = 1;
+            status = StatusEffects.melting;
+            statusDuration = 270f;
         }});
         ((LaserTurret) Blocks.meltdown).range = 245;
         ((LaserTurret) Blocks.meltdown).shootType = new ContinuousLaserBulletType(96){{
@@ -194,14 +195,14 @@ public class HIOverride {
             ammoMultiplier = 1f;
         }};
         //Blocks-Turret-Erekir
-        Blocks.breach.armor = 2;
-        Blocks.diffuse.armor = 3;
-        Blocks.sublimate.armor = 4;
-        ((ContinuousLiquidTurret) Blocks.sublimate).range = 120;
+        Blocks.breach.armor = 2f;
+        Blocks.diffuse.armor = 3f;
+        Blocks.sublimate.armor = 4f;
+        ((ContinuousLiquidTurret) Blocks.sublimate).range = 120f;
         ((ContinuousLiquidTurret) Blocks.sublimate).ammo(
                 HILiquids.methane, new ContinuousFlameBulletType(){{
                     damage = 40f;
-                    length = 120;
+                    length = 120f;
                     knockback = 1f;
                     pierceCap = 2;
                     buildingDamageMultiplier = 0.3f;
@@ -212,7 +213,7 @@ public class HIOverride {
                 Liquids.hydrogen, new ContinuousFlameBulletType(){{
                     damage = 60f;
                     rangeChange = 10f;
-                    length = 130;
+                    length = 130f;
                     knockback = 1f;
                     pierceCap = 2;
                     buildingDamageMultiplier = 0.3f;
@@ -222,7 +223,7 @@ public class HIOverride {
                 Liquids.cyanogen, new ContinuousFlameBulletType(){{
                     damage = 130f;
                     rangeChange = 80f;
-                    length = 200;
+                    length = 200f;
                     knockback = 2f;
                     pierceCap = 3;
                     buildingDamageMultiplier = 0.3f;
@@ -230,16 +231,16 @@ public class HIOverride {
                     lightColor = hitColor = flareColor = Color.valueOf("89e8b6");
                 }}
         );
-        Blocks.titan.armor = 13;
+        Blocks.titan.armor = 13f;
         Blocks.titan.researchCost = with(Items.thorium, 4000, Items.silicon, 3000, Items.tungsten, 2500);
-        Blocks.disperse.armor = 9;
-        Blocks.afflict.armor = 16;
-        Blocks.lustre.armor = 15;
-        Blocks.scathe.armor = 15;
-        Blocks.smite.armor = 21;
+        Blocks.disperse.armor = 9f;
+        Blocks.afflict.armor = 16f;
+        Blocks.lustre.armor = 15f;
+        Blocks.scathe.armor = 15f;
+        Blocks.smite.armor = 21f;
         ((ItemTurret) Blocks.smite).minWarmup = 0.98f;
         ((ItemTurret) Blocks.smite).warmupMaintainTime = 45f;
-        Blocks.malign.armor = 19;
+        Blocks.malign.armor = 19f;
         ((PowerTurret) Blocks.malign).minWarmup = 0.98f;
         ((PowerTurret) Blocks.malign).warmupMaintainTime = 45f;
         //Blocks-Units

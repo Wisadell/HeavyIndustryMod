@@ -2,6 +2,7 @@ package heavyindustry.graphics;
 
 import heavyindustry.content.*;
 import heavyindustry.math.*;
+import arc.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -28,6 +29,44 @@ public class Drawn {
         Draw.reset();
     }
 
+    public static void circlePercent(float x, float y, float rad, float percent, float angle) {
+//        Lines.swirl(x, y, rad, 360 * percent, angle);
+        float p = Mathf.clamp(percent);
+
+        int sides = Lines.circleVertices(rad);
+
+        float space = 360.0F / (float)sides;
+        float len = 2 * rad * Mathf.sinDeg(space / 2);
+        float hstep = Lines.getStroke() / 2.0F / Mathf.cosDeg(space / 2.0F);
+        float r1 = rad - hstep;
+        float r2 = rad + hstep;
+
+        int i;
+
+        for(i = 0; i < sides * p - 1; ++i){
+            float a = space * (float)i + angle;
+            float cos = Mathf.cosDeg(a);
+            float sin = Mathf.sinDeg(a);
+            float cos2 = Mathf.cosDeg(a + space);
+            float sin2 = Mathf.sinDeg(a + space);
+            Fill.quad(x + r1 * cos, y + r1 * sin, x + r1 * cos2, y + r1 * sin2, x + r2 * cos2, y + r2 * sin2, x + r2 * cos, y + r2 * sin);
+        }
+
+        float a = space * i + angle;
+        float cos = Mathf.cosDeg(a);
+        float sin = Mathf.sinDeg(a);
+        float cos2 = Mathf.cosDeg(a + space);
+        float sin2 = Mathf.sinDeg(a + space);
+        float f = sides * p - i;
+        vec21.trns(a, 0, len * (f - 1));
+        Fill.quad(x + r1 * cos, y + r1 * sin, x + r1 * cos2 + vec21.x, y + r1 * sin2 + vec21.y, x + r2 * cos2 + vec21.x, y + r2 * sin2 + vec21.y, x + r2 * cos, y + r2 * sin);
+    }
+
+    public static void circlePercentFlip(float x, float y, float rad, float in, float scl){
+        float f = Mathf.cos(in % (scl * 3f), scl, 1.1f);
+        circlePercent(x, y, rad, f > 0 ? f : -f, in + -90 * Mathf.sign(f));
+    }
+
     public static void link(Buildingc from, Buildingc to, Color color){
         float
                 sin = Mathf.absin(Time.time * sinScl, 6f, 1f),
@@ -52,12 +91,34 @@ public class Drawn {
 
         Drawf.circles(x2, y2, r2, color);
     }
+
     public static float rotator_90(float in, float margin){
         return 90 * HIInterp.pow10.apply(Mathf.curve(in, margin, 1 - margin));
     }
+
+    public static float cameraDstScl(float x, float y, float norDst){
+        vec21.set(Core.camera.position);
+        float dst = Mathf.dst(x, y, vec21.x, vec21.y);
+        return 1 - Mathf.clamp(dst / norDst);
+    }
+
     public static void tri(float x, float y, float width, float length, float angle){
         float wx = Angles.trnsx(angle + 90, width), wy = Angles.trnsy(angle + 90, width);
         Fill.tri(x + wx, y + wy, x - wx, y - wy, Angles.trnsx(angle, length) + x, Angles.trnsy(angle, length) + y);
+    }
+
+    public static void surround(long id, float x, float y, float rad, int num, float innerSize, float outerSize, float interp){
+        Rand rand = HIFx.rand0;
+
+        rand.setSeed(id);
+        for(int i = 0; i < num; i++){
+            float len = rad * rand.random(0.75f, 1.5f);
+            vec21.trns(rand.random(360f) + rand.range(2f) * (1.5f - Mathf.curve(len, rad * 0.75f, rad * 1.5f)) * Time.time, len);
+            float angle = vec21.angle();
+            vec21.add(x, y);
+            tri(vec21.x, vec21.y, (interp + 1) * outerSize + rand.random(0, outerSize / 8), outerSize * (Interp.exp5In.apply(interp) + 0.25f) / 2f, angle);
+            tri(vec21.x, vec21.y, (interp + 1) / 2 * innerSize + rand.random(0, innerSize / 8), innerSize * (Interp.exp5In.apply(interp) + 0.5f), angle - 180);
+        }
     }
 
     public static void randLenVectors(long seed, int amount, float length, float minLength, float angle, float range, Floatc2 cons){

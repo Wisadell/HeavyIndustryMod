@@ -16,7 +16,6 @@ import mindustry.ui.dialogs.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
-
 /**
  * Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings.
  * @author Wisadell
@@ -58,6 +57,7 @@ public class HeavyIndustryMod extends Mod{
                     table.add(bundle.get("hi-class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
                     table.add(bundle.get("hi-note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                     table.add(bundle.get("hi-prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    table.add(bundle.get("hi-contributor")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                 }).grow().center().maxWidth(600f);
             }};
             dialog.show();

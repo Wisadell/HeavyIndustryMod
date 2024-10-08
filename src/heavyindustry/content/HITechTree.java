@@ -29,6 +29,8 @@ public class HITechTree {
         addToNode(Items.thorium, () -> nodeProduce(HIItems.uranium, () -> nodeProduce(HIItems.chromium, () -> {})));
         addToNode(Items.surgeAlloy, () -> nodeProduce(HIItems.heavyAlloy, () -> {}));
         addToNode(Items.phaseFabric, () -> nodeProduce(HIItems.highEnergyFabric, () -> {}));
+        //items,liquids-erekir
+        addToNode(Items.oxide, () -> nodeProduce(HIItems.nanocoreErekir, () -> {}));
         //wall
         addToNode(copperWall, () -> node(armoredWall, () -> node(armoredWallLarge, () -> {})));
         addToNode(thoriumWall, () -> node(uraniumWall, () -> {
@@ -111,6 +113,7 @@ public class HITechTree {
         });
         addToNode(turbineCondenser, () -> node(liquidConsumeGenerator, ItemStack.with(Items.beryllium, 2200, Items.graphite, 2400, Items.silicon, 2300, Items.tungsten, 1600, Items.oxide, 60), () -> {}));
         //production
+        addToNode(kiln, () -> node(largeKiln, () -> {}));
         addToNode(pulverizer, () -> node(largePulverizer, () -> {
             node(uraniumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
             node(chromiumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
@@ -141,6 +144,7 @@ public class HITechTree {
         addToNode(siliconArcFurnace, () -> {
             node(chemicalSiliconSmelter, ItemStack.with(Items.graphite, 2800, Items.silicon, 1000, Items.tungsten, 2400, Items.oxide, 50), () -> {});
             node(ventHeater, () -> {});
+            node(nanocoreConstructorErekir, Seq.with(new SectorComplete(crossroads)), () -> node(nanocorePrinterErekir, Seq.with(new SectorComplete(origin)), () -> {}));
         });
         addToNode(electricHeater, () -> {
             node(largeElectricHeater, ItemStack.with(Items.tungsten, 3000, Items.oxide, 2400, Items.carbide, 800), () -> {});
@@ -172,6 +176,12 @@ public class HITechTree {
         addToNode(basicAssemblerModule, () -> node(seniorAssemblerModule, () -> {}));
         //logic
         addToNode(memoryCell, () -> node(buffrerdMemoryCell, () -> node(buffrerdMemoryBank, () -> {})));
+        addToNode(hyperProcessor, () -> node(matrixProcessor, () -> {}));
+        addToNode(largeLogicDisplay, () -> node(hugeLogicDisplay, () -> {}));
+        addToNode(switchBlock, () -> node(heatSink, () -> {
+            node(heatFan, () -> {});
+            node(heatSinkLarge, () -> {});
+        }));
         //turret
         addToNode(segment, () -> node(dissipation, () -> {}));
         addToNode(duo, () -> {
@@ -192,6 +202,7 @@ public class HITechTree {
             node(judgement, () -> {});
         });
         //turret-erekir
+        addToNode(breach, () -> node(rupture, () -> {}));
         //tier6
         addToNode(reign, () -> node(suzerain, () -> {}));
         addToNode(corvus, () -> node(supernova, () -> {}));
@@ -200,7 +211,7 @@ public class HITechTree {
         addToNode(oct, () -> node(windstorm, () -> {}));
         addToNode(omura, () -> node(mosasaur, () -> {}));
         addToNode(navanax, () -> node(killerWhale, () -> {}));
-        //erekir-tier6
+        //tier6-erekir
         addToNode(conquer, () -> node(dominate, () -> {}));
         addToNode(collaris, () -> node(oracle, () -> {}));
         addToNode(disrupt, () -> node(havoc, () -> {}));

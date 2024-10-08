@@ -14,9 +14,6 @@ import mindustry.graphics.*;
 import heavyindustry.content.*;
 import heavyindustry.entities.*;
 
-import static arc.graphics.g2d.Draw.*;
-import static arc.math.Angles.*;
-
 public class LightningLinkerBulletType extends BasicBulletType{
     public float hitSpacing = 10f;
     public float size = 30f;
@@ -92,10 +89,10 @@ public class LightningLinkerBulletType extends BasicBulletType{
             Lines.stroke((i < 0 ? e.fin() : e.fout()) * 3f);
             Lines.circle(e.x, e.y, (i > 0 ? e.fin() : e.fout()) * size * 1.1f);
         });
-        if(spreadEffect == null)spreadEffect = new Effect(32f, e -> randLenVectors(e.id, 2, 6 + 45 * e.fin(), (x, y) -> {
-            color(backColor);
+        if(spreadEffect == null)spreadEffect = new Effect(32f, e -> Angles.randLenVectors(e.id, 2, 6 + 45 * e.fin(), (x, y) -> {
+            Draw.color(backColor);
             Fill.circle(e.x + x, e.y + y, e.fout() * size / 2f);
-            color(frontColor);
+            Draw.color(frontColor);
             Fill.circle(e.x + x, e.y + y, e.fout() * (size / 3f - 1f));
         })).layer(Layer.effect + 0.00001f);
 
@@ -153,9 +150,9 @@ public class LightningLinkerBulletType extends BasicBulletType{
         drawTrail(b);
 
         if(drawCircle){
-            color(backColor);
+            Draw.color(backColor);
             Fill.circle(b.x, b.y, size);
-            color(frontColor);
+            Draw.color(frontColor);
             Fill.circle(b.x, b.y, size / 7f + size / 3 * Mathf.curve(b.fout(), 0.1f, 0.35f));
         }else{
             super.draw(b);
