@@ -15,9 +15,6 @@ import static heavyindustry.util.HIUtils.*;
  * @author Wisadell
  */
 public class DrawSpecConstruct extends DrawBlock {
-    /** Sprites layers. */
-    public int stages = 3;
-
     /** Color of Item Surface Construction. */
     public Color constructColor1 = Pal.accent;
     /** The color of the constructed lines. */
@@ -27,8 +24,8 @@ public class DrawSpecConstruct extends DrawBlock {
 
     @Override
     public void draw(Building build) {
-        int stage = (int) (build.progress() * stages);
-        float stageProgress = (build.progress() * stages) % 1f;
+        int stage = (int) (build.progress() * stageRegions.length);
+        float stageProgress = (build.progress() * stageRegions.length) % 1f;
 
         for (int i = 0; i < stage; i++) {
             Draw.rect(stageRegions[i], build.x, build.y);

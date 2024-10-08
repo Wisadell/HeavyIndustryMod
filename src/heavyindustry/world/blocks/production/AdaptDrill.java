@@ -8,6 +8,7 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.content.HIFx;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -32,8 +33,6 @@ import static mindustry.Vars.*;
  * @author Wisadell
  */
 public abstract class AdaptDrill extends Block {
-    final static Rand globalEffectRand = new Rand(0);
-
     /** output speed in items/sec. */
     public float mineSpeed = 5;
     /** output count once. */
@@ -396,8 +395,8 @@ public abstract class AdaptDrill extends Block {
         }
 
         protected void updateEffect(){
-            if (!headless && warmup > 0.8f && efficiency > 0 && outputItem() != null && globalEffectRand.chance(updateEffectChance * boostScl())){
-                updateEffect.at(x + globalEffectRand.range(size * 3.6f), y + globalEffectRand.range(size * 3.6f), outputItem().color);
+            if (!headless && warmup > 0.8f && efficiency > 0 && outputItem() != null && HIFx.globalEffectRand.chance(updateEffectChance * boostScl())){
+                updateEffect.at(x + HIFx.globalEffectRand.range(size * 3.6f), y + HIFx.globalEffectRand.range(size * 3.6f), outputItem().color);
             }
         }
 
