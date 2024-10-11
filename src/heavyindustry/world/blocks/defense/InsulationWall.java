@@ -23,8 +23,7 @@ import static mindustry.Vars.*;
  */
 public class InsulationWall extends Wall{
     public final int timerToggle = timers++;
-    public Effect openfx = Fx.dooropen;
-    public Effect closefx = Fx.doorclose;
+    public Effect openFx = Fx.dooropen, closeFx = Fx.doorclose;
     public Sound doorSound = Sounds.door;
     public TextureRegion openRegion;
 
@@ -75,7 +74,7 @@ public class InsulationWall extends Wall{
         }
 
         public void effect(){
-            (open ? closefx : openfx).at(this, size);
+            (open ? closeFx : openFx).at(this, size);
         }
 
         @Override

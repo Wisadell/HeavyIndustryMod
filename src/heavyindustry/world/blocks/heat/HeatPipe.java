@@ -22,8 +22,8 @@ public class HeatPipe extends HeatConductor {
     public void load() {
         super.load();
         uiIcon = Core.atlas.find(name + "-icon");
-        fullRegion = splitLayers(name + "-full", 32, 3);
-        heatRegion = split(name + "-heat", 32, 3);
+        fullRegion = splitLayers(name + "-full", 32, 2);
+        heatRegion = split(name + "-heat", 32, 0);
     }
 
     @Override
@@ -42,9 +42,8 @@ public class HeatPipe extends HeatConductor {
         @Override
         public void draw() {
             Draw.rect(fullRegion[0][tiling], x, y, 0);
-            Draw.rect(fullRegion[1][tiling], x, y, 0);
             //TODO Draw the heat by the heating core.
-            Draw.rect(fullRegion[2][tiling], x, y, 0);
+            Draw.rect(fullRegion[1][tiling], x, y, 0);
         }
 
         @Override

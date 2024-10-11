@@ -11,19 +11,10 @@ import heavyindustry.entities.*;
 import heavyindustry.struct.*;
 
 public class TrailFadeBulletType extends AccelBulletType {
-    public int tracers = 2;
-    public float tracerStroke = 3F;
-    public int tracerFadeOffset = 10;
-    public int tracerStrokeOffset = 15;
+    public int tracers = 2, tracerFadeOffset = 10, tracerStrokeOffset = 15;
+    public float tracerStroke = 3f, tracerSpacing = 8f, tracerRandX = 6f, tracerUpdateSpacing = 0.3f;
 
-    public float tracerSpacing = 8f;
-    public float tracerRandX = 6f;
-
-    public float tracerUpdateSpacing = 0.3f;
-
-    public boolean addBeginPoint = false;
-    public boolean hitBlinkTrail = true;
-    public boolean despawnBlinkTrail = false;
+    public boolean addBeginPoint = false, hitBlinkTrail = true, despawnBlinkTrail = false;
 
     public TrailFadeBulletType(){
         super();

@@ -16,14 +16,12 @@ import heavyindustry.math.*;
 import static mindustry.Vars.*;
 
 public class FallingBulletType extends BulletType {
-    public float fallTime = 50f;
-    public float fallSpread = 60;
+    public float fallTime = 50f, fallSpread = 60f;
     public String sprite;
     public TextureRegion region;
     public Color regionColor = Color.white;
     public boolean canCollideFalling = false;
-    public float fallingRadius = 20f;
-    public float fallingDamage = 100f;
+    public float fallingRadius = 20f, fallingDamage = 100f;
     public Effect hitFallingEffect = Fx.none;
     public Color hitFallingColor = Color.white;
     public boolean fallingHitCollideGround = false;

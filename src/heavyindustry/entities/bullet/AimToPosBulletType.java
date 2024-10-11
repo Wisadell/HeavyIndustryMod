@@ -8,12 +8,12 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
 public class AimToPosBulletType extends BulletType {
-    public float before = 30;
-    public float rotSpeed = 4f;
+    public float before = 30f, rotSpeed = 4f;
+
     public AimToPosBulletType(){
         reflectable = false;
-        homingRange = 80;
-        homingDelay = 15;
+        homingRange = 80f;
+        homingDelay = 15f;
     }
     @Override
     public void updateHoming(Bullet b) {

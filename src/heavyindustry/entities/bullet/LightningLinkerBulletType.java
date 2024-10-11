@@ -15,14 +15,9 @@ import heavyindustry.content.*;
 import heavyindustry.entities.*;
 
 public class LightningLinkerBulletType extends BasicBulletType{
-    public float hitSpacing = 10f;
-    public float size = 30f;
-    public float linkRange = 240f;
-    public float boltWidth = PosLightning.WIDTH;
+    public float hitSpacing = 10f, size = 30f, linkRange = 240f, boltWidth = PosLightning.WIDTH;
 
-    public float randomGenerateRange = -1f;
-    public float randomGenerateChance = 0.03f;
-    public float randomLightningChance = 0.1f;
+    public float randomGenerateRange = -1f, randomGenerateChance = 0.03f, randomLightningChance = 0.1f;
     public int randomLightningNum = 4;
     public Sound randomGenerateSound = Sounds.plasmaboom;
 
@@ -33,10 +28,8 @@ public class LightningLinkerBulletType extends BasicBulletType{
     public int maxHit = 20;
     public int boltNum = 1;
 
-    public int   effectLingtning = 2;
-    public float effectLightningChance = 0.35f;
-    public float effectLightningLength = -1;
-    public float effectLightningLengthRand = -1;
+    public int effectLingtning = 2;
+    public float effectLightningChance = 0.35f, effectLightningLength = -1f, effectLightningLengthRand = -1f;
 
     public float trueHitChance = 0.66f;
 

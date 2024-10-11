@@ -42,7 +42,7 @@ public class HIPal {
             thurmixRedDark = thurmixRed.cpy().lerp(Color.black, 0.9f),
             rainBowRed = Color.valueOf("ff8787"),
             MIKU = Color.valueOf("39c5bb");
-    public static Color
+    public static final Color
             EC1 = new Color(),
             EC2 = new Color(),
             EC3 = new Color(),
@@ -67,7 +67,7 @@ public class HIPal {
     public static class EPos implements Position {
         public float x, y;
 
-        public HIPal.EPos set(float x, float y){
+        public EPos set(float x, float y){
             this.x = x;
             this.y = y;
             return this;

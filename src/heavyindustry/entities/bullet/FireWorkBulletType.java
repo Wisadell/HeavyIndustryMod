@@ -14,23 +14,24 @@ import mindustry.graphics.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
 
+/**
+ * Show bullets the effect of fireworks. Although its memory usage may be slightly high.
+ * @author guiY
+ */
 public class FireWorkBulletType extends BulletType {
     public String sprite;
-    public boolean colorful = false;
-    public boolean childColorful = true;
-    public Color[] colors = new Color[]{Color.valueOf("FF4B4B"), Color.valueOf("FEFF4A"), Color.valueOf("724AFF"), Color.valueOf("89C2FF"), Color.valueOf("39c5bb"), Color.white};
-    public Color color;
+    public boolean colorful = false, childColorful = true, outline = false;
 
-    public boolean outline = false;
-    public float width = 15;
-    public float height = 15;
+    public Color color;
+    public Color[] colors = new Color[]{Color.valueOf("ff4b4b"), Color.valueOf("feff4a"), Color.valueOf("724aff"), Color.valueOf("89c2ff"), Color.valueOf("39c5bb"), Color.white};
+
+    public float width = 15f, height = 15f;
 
     public int num = 30;
 
-    public @Nullable BulletType fire;
-    public @Nullable BulletType textFire = null;
+    public @Nullable BulletType fire, textFire = null;
 
-    public FireWorkBulletType(float damage, float speed, String sprite, Color color, float rad){
+    public FireWorkBulletType(float damage, float speed, String sprite, Color color, float rad) {
         this.damage = damage;
         this.speed = speed;
         this.sprite = sprite;
@@ -47,7 +48,7 @@ public class FireWorkBulletType extends BulletType {
             sparkColor = color;
             smokeColor = Pal.darkerGray;
             waveRad = rad;
-            smokeSize = rad/8f;
+            smokeSize = rad / 8f;
             smokes = 7;
             smokeSizeBase = 0f;
             sparks = 10;
@@ -55,8 +56,7 @@ public class FireWorkBulletType extends BulletType {
             sparkLen = 6f;
             sparkStroke = 2f;
         }};
-        shootEffect = Fx.none;
-        smokeEffect = Fx.none;
+        shootEffect = smokeEffect = Fx.none;
         despawnSound = hitSound = Sounds.bang;
         lifetime = 65;
         ammoMultiplier = 1;
@@ -65,18 +65,17 @@ public class FireWorkBulletType extends BulletType {
         fire = new ColorFireBulletType(true);
     }
 
-    public FireWorkBulletType(float damage, float speed, Color color){
+    public FireWorkBulletType(float damage, float speed, Color color) {
         this(damage, speed, name("mb-fireworks"), color, 6 * 8);
     }
 
-    public FireWorkBulletType(float damage, float speed){
+    public FireWorkBulletType(float damage, float speed) {
         this(damage, speed, name("mb-fireworks"), Color.gray, 6 * 8);
     }
 
-
     @Override
     public void drawTrail(Bullet b) {
-        if(trailLength > 0 && b.trail != null){
+        if(trailLength > 0 && b.trail != null) {
             float z = Draw.z();
             Draw.z(z - 0.0001f);
             b.trail.draw(colorful ? HIPal.EC1.set(HIPal.rainBowRed).a(0.7f).shiftHue(b.time * 2) : color, trailWidth);
@@ -127,12 +126,9 @@ public class FireWorkBulletType extends BulletType {
         }
     }
 
-    public static class ColorFireBulletType extends BulletType{
+    public static class ColorFireBulletType extends BulletType {
         public boolean stop;
-        public float stopFrom = 0.3f;
-        public float stopTo = 0.6f;
-        public float rotSpeed = 4f;
-        public float speedRod = 1;
+        public float stopFrom = 0.3f, stopTo = 0.6f, rotSpeed = 4f, speedRod = 1f;
 
         public ColorFireBulletType(boolean stop, float speed, float lifetime){
             this.stop = stop;
@@ -186,10 +182,10 @@ public class FireWorkBulletType extends BulletType {
         }
     }
 
-    public static class SpriteBulletType extends BulletType{
+    public static class SpriteBulletType extends BulletType {
         public String sprite;
-        public float width;
-        public float height;
+        public float width, height;
+
         public SpriteBulletType(String sprite, float width, float height){
             this.sprite = sprite;
             this.width = width;
@@ -203,9 +199,11 @@ public class FireWorkBulletType extends BulletType {
             absorbable = false;
             keepVelocity = false;
         }
+
         public SpriteBulletType(String sprite){
             this(sprite, 96, 96);
         }
+
         @Override
         public void draw(Bullet b) {
             super.draw(b);

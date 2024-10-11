@@ -4,7 +4,6 @@ import heavyindustry.content.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.ui.dialogs.*;
-import java.util.*;
 import arc.*;
 import arc.flabel.*;
 import arc.scene.ui.*;
@@ -13,6 +12,8 @@ import mindustry.Vars;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
+
+import java.util.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;

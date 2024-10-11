@@ -29,7 +29,6 @@ public class DeliveryModule extends DrillModule {
             Draw.color(team.color, Color.white, 0.2f);
             Lines.stroke(1.2f * smoothWarmup);
 
-
             float ang1 = Drawn.rotator_90(Drawn.cycle(Time.time / 4f, 0, 45), 0.15f);
             float ang2 = Drawn.rotator_90(Drawn.cycle(Time.time / 3f, 0, 120), 0.15f);
 

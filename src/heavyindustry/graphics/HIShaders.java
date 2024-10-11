@@ -26,10 +26,6 @@ public class HIShaders {
 
     /** Loads the shaders. */
     public static void init(){
-        if(graphics.getGLVersion().type == GLVersion.GlType.OpenGL){
-            Shader.prependFragmentCode = "#define HAS_GL_FRAGDEPTH\n";
-        }
-
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
 

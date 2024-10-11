@@ -16,17 +16,11 @@ import mindustry.graphics.*;
 import static mindustry.Vars.*;
 
 public class DelayedPointBulletType extends BulletType {
-    protected static float cdist = 0f;
+    protected static float cdist = 0f, lengthFalloff = 0.5f;
     protected static Position result;
     protected static Color[] colors = {new Color(1, 1, 1, 0f).a(-5f), new Color(1, 1, 1, 1f), new Color(1, 1, 1, 1f)};
-    protected static float lengthFalloff = 0.5f;
 
-    public float errorCorrectionRadius = 16;
-
-    public float width = 8f;
-    public float trailSpacing = 10f;
-
-    public float delayEffectLifeTime = 30f;
+    public float errorCorrectionRadius = 16f, width = 8f, trailSpacing = 10f, delayEffectLifeTime = 30f;
 
     public static Effect laser = new Effect(60f, 2000f, b -> {
         if(!(b.data instanceof Position))return;
@@ -203,7 +197,7 @@ public class DelayedPointBulletType extends BulletType {
     public void handlePierce(Bullet b, float initialHealth, float x, float y){
     }
 
-    public static class AdaptedBullet extends Bullet{
+    public static class AdaptedBullet extends Bullet {
         static{
             Pools.get(AdaptedBullet.class, AdaptedBullet::new, 1000);
         }

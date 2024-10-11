@@ -67,10 +67,17 @@ public class HITechTree {
             node(invertedJunction, () -> {});
             node(itemLiquidJunction, () -> {});
         });
-        addToNode(plastaniumConveyor, () -> node(stackHelper, () -> {}));
+        addToNode(plastaniumConveyor, () -> {
+            node(plastaniumRouter, () -> {});
+            node(plastaniumBridge, () -> {});
+            node(stackHelper, () -> {});
+        });
         addToNode(phaseConveyor, () -> node(highEnergyItemNode, () -> {}));
         addToNode(titaniumConveyor, () -> node(chromiumEfficientConveyor, () -> {
-            node(chromiumArmorConveyor, () -> node(chromiumStackConveyor, () -> node(chromiumStackRouter, () -> {})));
+            node(chromiumArmorConveyor, () -> node(chromiumStackConveyor, () -> {
+                node(chromiumStackRouter, () -> {});
+                node(chromiumStackBridge, () -> {});
+            }));
             node(chromiumItemBridge, () -> {});
             node(chromiumRouter, () -> {});
             node(chromiumJunction, () -> {});

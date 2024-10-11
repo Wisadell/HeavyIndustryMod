@@ -6,10 +6,7 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
 public class AccelBulletType extends BasicBulletType {
-    public float velocityBegin = -1;
-    public float velocityIncrease = 0;
-    public float accelerateBegin = 0.1f;
-    public float accelerateEnd = 0.6f;
+    public float velocityBegin = -1, velocityIncrease = 0f, accelerateBegin = 0.1f, accelerateEnd = 0.6f;
 
     public Interp accelInterp = Interp.linear;
 

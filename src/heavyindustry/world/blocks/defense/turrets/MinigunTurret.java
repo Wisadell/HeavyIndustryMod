@@ -26,7 +26,7 @@ import static mindustry.Vars.*;
  * @author MEEPofFaith
  */
 public class MinigunTurret extends ItemTurret {
-    public float windupSpeed = 0.125f, windDownSpeed = 0.25f, minFiringSpeed = 3f, logicSpeedScl = 0.25f, maxSpeed = 30f;
+    public float windupSpeed = 0.2f, windDownSpeed = 0.1f, minFiringSpeed = 3f, logicSpeedScl = 0.25f, maxSpeed = 30f;
     public float barX, barY, barStroke, barLength;
     public float barWidth = 1.5f, barHeight = 0.75f;
 

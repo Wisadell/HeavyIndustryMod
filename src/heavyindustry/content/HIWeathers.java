@@ -19,60 +19,8 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * @author Wisadell
  */
 public class HIWeathers {
-    public static Weather rockfall,hailStone,wind,blizzard;
+    public static Weather hailStone,wind,blizzard;
     public static void load(){
-        rockfall = new HailStormWeather("rockfall"){{
-            drawParticles = inBounceCam = drawNoise = false;
-            duration = 15f * Time.toMinutes;
-            bulletChange = 0.5f;
-            soundVol = 0.05f;
-            sound = HISounds.hailRain;
-            setBullets(
-                    new HailStoneBulletType(name("rockfall-giant"), 0){{
-                        hitEffect = Fx.explosion.layer(Layer.power);
-                        hitSound = HISounds.giantHailstoneHit;
-                        hitSoundVolume = 6;
-                        despawnEffect = Fx.none;
-                        damage = 2000f;
-                        splashDamage = 4000f;
-                        splashDamageRadius = 116;
-                        fallTime = 200f;
-                        hitShake = 40f;
-                    }}, 1/800f,
-                    new HailStoneBulletType(name("rockfall-big"), 3){{
-                        hitEffect = Fx.explosion.layer(Layer.power);
-                        hitSound = HISounds.bigHailstoneHit;
-                        hitSoundVolume = 0.2f;
-                        despawnEffect = HIFx.staticStone;
-                        damage = splashDamage = 95f;
-                        splashDamageRadius = 40f;
-                        canCollideFalling = pierce = true;
-                        fallingDamage = 120f;
-                        fallingRadius = 30f;
-                        minDistanceFallingCollide = 15f;
-                        hitFallingEffect = HIFx.bigExplosionStone;
-                        hitFallingColor = Color.valueOf("5e9098");
-                    }}, 1/200f,
-                    new HailStoneBulletType(name("rockfall-middle"), 2){{
-                        hitEffect = Fx.dynamicWave.layer(Layer.power);
-                        despawnEffect = HIFx.fellStone;
-                        damage = splashDamage = 10f;
-                        splashDamageRadius = 25f;
-                        canCollideFalling = true;
-                        fallingDamage = 25f;
-                        fallingRadius = 15f;
-                        minDistanceFallingCollide = 5f;
-                        hitFallingEffect = HIFx.explosionStone;
-                        hitFallingColor = Color.valueOf("5e9098");
-                    }}, 1/6f,
-                    new HailStoneBulletType(name("rockfall-small"), 5){{
-                        hitEffect = Fx.none;
-                        despawnEffect = HIFx.fellStone;
-                        splashDamage = 0f;
-                        splashDamageRadius = 0;
-                    }}, 1f
-            );
-        }};
         hailStone = new HailStormWeather("hail-storm"){{
             attrs.set(Attribute.light, -0.5f);
             drawParticles = inBounceCam = drawNoise = false;

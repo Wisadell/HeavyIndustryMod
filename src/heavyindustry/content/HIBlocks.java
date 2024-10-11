@@ -67,14 +67,14 @@ public class HIBlocks {
             softRareEarth,patternRareEarth,softRareEarthWall,
             oreUranium,oreChromium,
             //wall
-            armoredWall,armoredWallLarge,uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,
+            armoredWall,armoredWallLarge,uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,shapedWall,
             //drill
             largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,unitMinerDepot,
             //distribution
-            invertedJunction,itemLiquidJunction,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
-            stackHelper,highEnergyItemNode,rapidDirectionalUnloader,
+            invertedJunction,itemLiquidJunction,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
+            highEnergyItemNode,rapidDirectionalUnloader,
             //distribution-erekir
             ductJunction,armoredDuctBridge,waveDuct,waveDuctBridge,waveDuctRouter,overflowWaveDuct,underflowWaveDuct,rapidDuctUnloader,
             //liquid
@@ -148,7 +148,7 @@ public class HIBlocks {
             attributes.set(Attribute.water, 0.2f);
             attributes.set(Attribute.oil, 0.5f);
             playerUnmineable = true;
-        }};
+        }}; 
         snowySandWall = new StaticWall("snowy-sand-wall"){{
             variants = 2;
             attributes.set(Attribute.sand, 2f);
@@ -325,6 +325,18 @@ public class HIBlocks {
             chanceHeal = 0.15f;
             regenPercent = 0.5f;
         }};
+        shapedWall = new ShapedWall("shaped-wall"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with(HIItems.heavyAlloy, 5, HIItems.nanocore, 2, HIItems.highEnergyFabric, 10));
+            health = 4440;
+            armor = 16f;
+            insulated = absorbLasers = true;
+            crushDamageMultiplier = 0.025f;
+        }
+            @Override
+            public void unlock() {
+                //haha no
+            }
+        };
         //drill
         largeWaterExtractor = new SolidPump("large-water-extractor"){{
             requirements(Category.production, with(Items.lead, 60, Items.titanium, 40, Items.thorium, 20, Items.graphite, 80, Items.metaglass, 50));
@@ -378,8 +390,7 @@ public class HIBlocks {
             updateEffect = Fx.mineBig;
             powerConsBase = 180f;
             rotateSpeed = 6f;
-            drawRim = true;
-            drawMineItem = true;
+            drawRim = drawMineItem = true;
         }
             @Override
             public float getMineSpeedHardnessMul(Item item) {
@@ -485,6 +496,20 @@ public class HIBlocks {
         itemLiquidJunction = new MultiJunction("item-liquid-junction"){{
             requirements(Category.distribution, with(Items.copper, 4, Items.graphite, 6, Items.metaglass, 10));
         }};
+        plastaniumRouter = new StackRouter("plastanium-router"){{
+            requirements(Category.distribution, with(Items.plastanium, 5, Items.silicon, 5, Items.graphite, 5));
+            speed = 8f;
+        }};
+        plastaniumBridge = new StackBridge("plastanium-bridge"){{
+            requirements(Category.distribution, with(Items.lead, 15, Items.silicon, 12, Items.titanium, 15, Items.plastanium, 10));
+            itemCapacity = 10;
+            range = 6;
+        }};
+        stackHelper = new StackHelper("stack-helper"){{
+            requirements(Category.distribution, with(Items.silicon, 20, Items.phaseFabric, 10, Items.plastanium, 20));
+            size = 1;
+            health = 60;
+        }};
         chromiumEfficientConveyor = new BeltConveyor("chromium-efficient-conveyor"){{
             requirements(Category.distribution, with(Items.lead, 1, HIItems.chromium, 1));
             health = 240;
@@ -507,10 +532,6 @@ public class HIBlocks {
             speed = 0.125f;
             itemCapacity = 20;
             outputRouter = false;
-            loadEffect = unloadEffect = new Effect(30f, e -> {
-                Lines.stroke(1.5f * e.fout(Interp.pow2Out), HIPal.chromiumGrey);
-                Lines.square(e.x, e.y, tilesize / 8f * Mathf.sqrt2 * (e.fin(Interp.pow2Out) * 3 + 1f), 45f);
-            });
         }};
         chromiumStackRouter = new StackRouter("chromium-stack-router"){{
             requirements(Category.distribution, with(Items.graphite, 4, Items.silicon, 5, Items.plastanium, 3, HIItems.chromium, 1));
@@ -518,6 +539,14 @@ public class HIBlocks {
             armor = 4f;
             speed = 0.125f;
             itemCapacity = 20;
+            buildCostMultiplier = 0.8f;
+        }};
+        chromiumStackBridge = new StackBridge("chromium-stack-bridge"){{
+            requirements(Category.distribution, with(Items.lead, 15, Items.silicon, 12, Items.plastanium, 10, HIItems.chromium, 5));
+            health = 420;
+            armor = 4f;
+            itemCapacity = 20;
+            range = 8;
             buildCostMultiplier = 0.8f;
         }};
         chromiumRouter = new MultiRouter("chromium-router"){{
@@ -562,11 +591,6 @@ public class HIBlocks {
             buildCostMultiplier = 0.8f;
             ((BeltConveyor) chromiumEfficientConveyor).bridgeReplacement = this;
             ((BeltConveyor) chromiumArmorConveyor).bridgeReplacement = this;
-        }};
-        stackHelper = new StackHelper("stack-helper"){{
-            requirements(Category.distribution, with(Items.silicon, 20, Items.phaseFabric, 10, Items.plastanium, 20));
-            size = 1;
-            health = 60;
         }};
         highEnergyItemNode = new NodeBridge("high-energy-item-node"){{
             requirements(Category.distribution, with( Items.lead, 30, HIItems.chromium , 10, Items.silicon, 15, HIItems.highEnergyFabric, 10));
@@ -785,7 +809,7 @@ public class HIBlocks {
         powerNodeHighEnergy = new PowerNode("power-node-high-energy"){{
             requirements(Category.power, ItemStack.with(Items.plastanium, 5, HIItems.heavyAlloy, 15, HIItems.highEnergyFabric, 10));
             size = 1;
-            health = 3000;
+            health = 2200;
             armor = 30;
             absorbLasers = true;
             maxNodes = 20;
@@ -875,7 +899,6 @@ public class HIBlocks {
                 lifetime = 60f;
                 colorFrom = colorTo = HIPal.uraniumGrey;
             }});
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidRegion(Liquids.cryofluid), new DrawDefault(), new DrawGlowRegion());
             ambientSound = Sounds.hum;
             ambientSoundVolume = 0.24f;
             consumeItem(HIItems.uranium);
@@ -1115,7 +1138,7 @@ public class HIBlocks {
             craftTime = 150f;
             outputItem = new ItemStack(HIItems.nanocore, 12);
             craftEffect = Fx.none;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawSpecConstruct(){{
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.cryofluid, 54 / 4f), new DrawRegion("-mid"), new DrawSpecConstruct(){{
                 constructColor1 = constructColor2 = HIPal.nanocoreGreen;
             }}, new DrawDefault());
             consumePower(25f);
@@ -1519,7 +1542,7 @@ public class HIBlocks {
             requirements(Category.crafting, with( Items.beryllium, 120, Items.tungsten, 100, Items.silicon, 150, Items.oxide, 50));
             size = 2;
             itemCapacity = 15;
-            craftTime = 180f;
+            craftTime = 120f;
             outputItem = new ItemStack(HIItems.nanocoreErekir, 1);
             craftEffect = Fx.none;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawSpecConstruct(){{
@@ -3170,7 +3193,7 @@ public class HIBlocks {
                                 fire = new ColorFireBulletType(false, 2.3f, 60){{
                                     stopFrom = 0.55f;
                                     stopTo = 0.55f;
-                                    rotSpeed = 666;
+                                    rotSpeed = 666f;
                                 }};
                                 num = 15;
                             }},
@@ -3183,13 +3206,12 @@ public class HIBlocks {
                                     outline = true;
                                     trailWidth = 3.5f;
                                     trailLength = 10;
-                                    trailInterval = 0;
-                                    width = 22;
-                                    height = 22;
-                                    fire = new ColorFireBulletType(false, 3.6f, 60){{
+                                    trailInterval = 0f;
+                                    width = height = 22f;
+                                    fire = new ColorFireBulletType(false, 3.6f, 60f){{
                                         stopFrom = 0.7f;
                                         stopTo = 0.7f;
-                                        rotSpeed = 666;
+                                        rotSpeed = 666f;
                                         hittable = true;
                                     }};
                                     textFire = new SpriteBulletType(name("fire-fireworks1"));
@@ -3429,7 +3451,7 @@ public class HIBlocks {
             armor = 8f;
             reload = 44f;
             range = 223.6f;
-            coolantMultiplier = 3;
+            coolantMultiplier = 3f;
             minWarmup = 0.6f;
             warmupMaintainTime = 45f;
             shootWarmupSpeed = 0.08f;
@@ -3457,7 +3479,7 @@ public class HIBlocks {
             squareSprite = false;
         }};
         //tbd
-        ohNo = new PowerTurret("oh-no"){{
+        ohNo = new PlatformTurret("oh-no"){{
             requirements(Category.turret, BuildVisibility.sandboxOnly, with());
             health = 10000;
             armor = 30f;
@@ -3475,18 +3497,18 @@ public class HIBlocks {
                 //haha no
             }
         };
-        wrongTextureFolder = new PowerTurret("wrong-texture-folder"){{
+        wrongTextureFolder = new PlatformTurret("wrong-texture-folder"){{
             requirements(Category.turret, BuildVisibility.sandboxOnly, with());
             health = 10000;
             armor = 30f;
             size = 5;
-            range = 800f;
+            range = 900f;
             canOverdrive = false;
             shootSound = Sounds.none;
             shootCone = 5f;
-            reload = 600f;
+            reload = 800f;
             shootType = HIBullets.collapse;
-            buildType = () -> new PowerTurretBuild(){
+            buildType = () -> new PlatformTurretBuild(){
                 @Override
                 protected void shoot(BulletType type){
                     //TODO Generate a bullet at the target point.

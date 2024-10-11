@@ -49,7 +49,7 @@ public class StackHelper extends Block {
     public class StackHelperBuild extends Building {
         @Override
         public void updateTile() {
-            for(int i = 0; i < 4; i++){
+            for(int i = 0; i < 4; i++) {
                 Building b = nearby(i);
                 if(b instanceof StackConveyorBuild && b.block instanceof StackConveyor && b.team == team && ((StackConveyorBuild)b).state == 1) ((StackConveyorBuild)b).cooldown = 0;
             }
@@ -59,7 +59,7 @@ public class StackHelper extends Block {
         public void drawSelect() {
             for(int i = 0; i < 4; i++){
                 Building b = nearby(i);
-                if(b instanceof StackConveyorBuild && b.block instanceof StackConveyor && b.team == team && ((StackConveyorBuild)b).state == 1){
+                if(b instanceof StackConveyorBuild && b.block instanceof StackConveyor && b.team == team && ((StackConveyorBuild)b).state == 1) {
                     float sin = Mathf.absin(Time.time, 5, 1);
                     Lines.stroke(sin * 1.3f, Pal.accent);
                     Lines.square(b.x, b.y, b.block.size * 5, 0);

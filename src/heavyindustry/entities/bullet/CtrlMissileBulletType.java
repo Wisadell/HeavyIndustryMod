@@ -16,8 +16,8 @@ import mindustry.world.blocks.*;
 public class CtrlMissileBulletType extends BulletType {
     public String sprite;
     public float width, height;
-    public boolean autoHoming = false;
-    public boolean low = false;
+    public boolean autoHoming = false, low = false;
+
     public Sound loopSound = Sounds.missileTrail;
     public float loopSoundVolume = 0.1f;
 

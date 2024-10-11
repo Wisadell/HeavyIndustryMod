@@ -474,6 +474,13 @@ public class HIFx {
                 Lines.stroke(Mathf.clamp(e.rotation / 18f, 2, 6) * e.fout());
                 Lines.circle(e.x, e.y, e.rotation * e.finpow());
             }),
+            circleSplash = new Effect(26f, e -> {
+                Draw.color(Color.white, e.color, e.fin() + 0.15f);
+                Angles.randLenVectors(e.id, 4, 3 + 23 * e.fin(), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 3f);
+                    Drawf.light(e.x + x, e.y + y, e.fout() * 3.5f, e.color, 0.7f);
+                });
+            }),
             hyperCloud = new Effect(140.0F, 400.0F, e -> {
                 Angles.randLenVectors(e.id, 20, e.finpow() * 160.0F, (x, y) -> {
                     float size = e.fout() * 15.0F;

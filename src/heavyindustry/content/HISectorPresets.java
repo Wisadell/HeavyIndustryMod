@@ -1,6 +1,5 @@
 package heavyindustry.content;
 
-import heavyindustry.core.*;
 import mindustry.type.*;
 
 import static mindustry.content.Planets.*;
@@ -12,8 +11,10 @@ import static mindustry.content.Planets.*;
 public class HISectorPresets {
     public static SectorPreset
             //serpulo
-            iceboundTributary,whiteoutPlains,desertWastes,snowyLands,sunkenPier,coastalCliffs,fallenStronghold,bombardmentWarzone;
-    /** Instantiates all contents. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
+            iceboundTributary,whiteoutPlains,desertWastes,snowyLands,sunkenPier,coastalCliffs,fallenStronghold,bombardmentWarzone
+            //erekir
+            ;
+
     public static void load(){
         iceboundTributary = new SectorPreset("iceboundTributary", serpulo, 99){{
             difficulty = 3;

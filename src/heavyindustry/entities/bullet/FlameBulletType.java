@@ -11,8 +11,7 @@ import mindustry.gen.*;
 import static mindustry.Vars.*;
 
 public class FlameBulletType extends BulletType {
-    public float flameLength;
-    public float flameCone;
+    public float flameLength, flameCone;
     public int particleNumber;
 
     public float damageBoost = 3f;

@@ -56,6 +56,7 @@ public class HIOverride {
         ((Wall) Blocks.reinforcedSurgeWall).lightningChance = 0.1f;
         ((Wall) Blocks.reinforcedSurgeWallLarge).lightningChance = 0.1f;
         //Blocks-Distribution
+        ((StackConveyor) Blocks.plastaniumConveyor).outputRouter = false;
         ((MassDriver) Blocks.massDriver).reload = 150f;
         //Blocks-Liquid
         ((Pump) Blocks.impulsePump).pumpAmount = 0.3f;

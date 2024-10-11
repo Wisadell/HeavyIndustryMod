@@ -51,6 +51,7 @@ public class HIUnitTypes {
         nameMap.put(name("oracle"), idMap[24]);
         nameMap.put(name("havoc"), idMap[5]);
         //other
+        nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("scavenger"), HITankUnit::create);
         nameMap.put(name("pioneer"), HILegsPayloadUnit::create);
         nameMap.put(name("burner"), idMap[4]);
@@ -68,6 +69,7 @@ public class HIUnitTypes {
             //erekir-tier6
             dominate,oracle,havoc,
             //other
+            vulture,
             scavenger,
             pioneer,
             burner,
@@ -1160,6 +1162,61 @@ public class HIUnitTypes {
             setEnginesMirror(new UnitEngine(95f / 4f, -56f / 4, 5f, 330f), new UnitEngine(89f / 4, -95f / 4, 4f, 315f));
         }};
         //other
+        vulture = new UnitType("vulture"){{
+            aiController = SurroundAI::new;
+            weapons.add(new Weapon(){{
+                top = false;
+                rotate = true;
+                alternate = true;
+                mirror = false;
+                x = 0f;
+                y = -10f;
+                reload = 6f;
+                inaccuracy = 3f;
+                ejectEffect = Fx.none;
+                bullet = new AccelBulletType(4f, 20f, "missile-large"){{
+                    shrinkX = shrinkY = 0.35f;
+                    buildingDamageMultiplier = 1.5f;
+                    keepVelocity = false;
+                    velocityBegin = 0.5f;
+                    velocityIncrease = 3f;
+                    accelerateBegin = 0.01f;
+                    accelerateEnd = 0.9f;
+                    homingPower = 0f;
+                    hitColor = trailColor = lightningColor = backColor = lightColor = Pal.accent;
+                    frontColor = Pal.bulletYellow;
+                    splashDamageRadius = 20;
+                    splashDamage = damage * 0.3f;
+                    width = height = 8f;
+                    trailChance = 0.2f;
+                    trailParam = 1.75f;
+                    trailEffect = HIFx.trailToGray;
+                    lifetime = 120f;
+                    collidesAir = false;
+                    hitSound = Sounds.explosion;
+                    hitEffect = HIFx.square45_4_45;
+                    shootEffect = HIFx.circleSplash;
+                    smokeEffect = Fx.shootBigSmoke;
+                    despawnEffect = HIFx.crossBlast(hitColor, 50f);
+                }};
+                shootSound = HISounds.blaster;
+            }});
+            abilities.add(new MoveLightningAbility(10, 16, 0.2f, 12, 4, 6, Pal.accent));
+            targetAir = false;
+            maxRange = 200;
+            engineOffset = 14.0F;
+            engineSize = 4f;
+            speed = 5f;
+            accel = 0.04F;
+            drag = 0.0075F;
+            circleTarget = true;
+            hitSize = 14f;
+            health = 1000f;
+            baseRotateSpeed = 1.5f;
+            rotateSpeed = 2.5f;
+            armor = 3.5f;
+            flying = true;
+        }};
         scavenger = new TankUnitType("scavenger"){{
             hitSize = 26f;
             treadPullOffset = 5;
@@ -1576,6 +1633,5 @@ public class HIUnitTypes {
             }
             drownTimeMultiplier = 26f;
         }};
-        //tbd
     }
 }

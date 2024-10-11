@@ -90,6 +90,8 @@ public class HIClassMap {
         classes.put("MultiTractorBeamBuild", MultiTractorBeamTurret.MultiTractorBeamBuild.class);
         classes.put("MinigunTurret", MinigunTurret.class);
         classes.put("MinigunTurretBuild", MinigunTurret.MinigunTurretBuild.class);
+        classes.put("PlatformTurret", PlatformTurret.class);
+        classes.put("PlatformTurretBuild", PlatformTurret.PlatformTurretBuild.class);
         classes.put("AdaptDirectionalUnloader", AdaptDirectionalUnloader.class);
         classes.put("AdaptDirectionalUnloaderBuild", AdaptDirectionalUnloader.AdaptDirectionalUnloaderBuild.class);
         classes.put("BeltConveyor", BeltConveyor.class);
@@ -120,6 +122,8 @@ public class HIClassMap {
         classes.put("NodeBridgeBuild", NodeBridge.NodeBridgeBuild.class);
         classes.put("StackHelper", StackHelper.class);
         classes.put("StackHelperBuild", StackHelper.StackHelperBuild.class);
+        classes.put("StackBridge", StackBridge.class);
+        classes.put("StackBridgeBuild", StackBridge.StackBridgeBuild.class);
         classes.put("TubeLiquidBridge", TubeLiquidBridge.class);
         classes.put("TubeLiquidBridgeBuild", TubeLiquidBridge.TubeLiquidBridgeBuild.class);
         classes.put("HeatPipe", HeatPipe.class);
