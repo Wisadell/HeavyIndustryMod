@@ -1,5 +1,6 @@
 package heavyindustry.util;
 
+import arc.*;
 import arc.graphics.g2d.*;
 import arc.util.*;
 import mindustry.content.*;
@@ -7,8 +8,6 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import org.jetbrains.annotations.*;
-
-import static arc.Core.*;
 
 /**
  * Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to require me to write a class for it.
@@ -37,7 +36,7 @@ public final class HIUtils {
     }
 
     public static TextureRegion[] split(String name, int size, int layer){
-        TextureRegion textures = atlas.find(name);
+        TextureRegion textures = Core.atlas.find(name);
         int margin = 0;
         int countX = textures.width / size;
         TextureRegion[] tiles = new TextureRegion[countX];

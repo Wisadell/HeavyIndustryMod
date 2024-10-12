@@ -15,6 +15,8 @@ public class HISounds {
             flak2 = new Sound(),
             gauss = new Sound(),
             fissure = new Sound(),
+            blaster = new Sound(),
+            hugeShoot = new Sound(),
             hugeBlast = new Sound(),
             largeBeam = new Sound(),
             hammer = new Sound(),
@@ -33,6 +35,8 @@ public class HISounds {
         flak2 = tree.loadSound("flak2");
         gauss = tree.loadSound("gauss");
         fissure = tree.loadSound("fissure");
+        blaster = tree.loadSound("blaster");
+        hugeShoot = tree.loadSound("hugeShoot");
         hugeBlast = tree.loadSound("hugeBlast");
         largeBeam = tree.loadSound("largeBeam");
         hammer = tree.loadSound("hammer");

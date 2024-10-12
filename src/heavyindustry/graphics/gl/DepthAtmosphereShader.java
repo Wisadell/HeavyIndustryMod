@@ -14,7 +14,7 @@ import static heavyindustry.graphics.HIShaders.*;
  * cost of performance.
  * @author GlFolker
  */
-public class DepthAtmosphereShader extends Shader{
+public class DepthAtmosphereShader extends Shader {
     private static final Mat3D mat = new Mat3D();
 
     public Camera3D camera;

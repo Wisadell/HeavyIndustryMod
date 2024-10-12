@@ -66,7 +66,7 @@ public class HIBlocks {
             stoneWater,shaleWater,basaltWater,
             softRareEarth,patternRareEarth,softRareEarthWall,
             oreUranium,oreChromium,
-            //wall
+            //wall; ok, these names are getting ridiculous, but at least I don't have humongous walls yet
             armoredWall,armoredWallLarge,uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,shapedWall,
             //drill
             largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
@@ -410,7 +410,7 @@ public class HIBlocks {
             buildCostMultiplier = 0.8f;
         }};
         implosionDrill = new ImplosionDrill("implosion-drill"){{
-            requirements(Category.production, with(Items.silicon, 180, HIItems.nanocore, 30, HIItems.chromium, 50, HIItems.heavyAlloy, 80));
+            requirements(Category.production, with(Items.silicon, 180, Items.plastanium, 120, Items.surgeAlloy, 100, HIItems.chromium, 60, HIItems.heavyAlloy, 80));
             size = 5;
             health = 2260;
             mineSpeed = 10f;
@@ -504,6 +504,7 @@ public class HIBlocks {
             requirements(Category.distribution, with(Items.lead, 15, Items.silicon, 12, Items.titanium, 15, Items.plastanium, 10));
             itemCapacity = 10;
             range = 6;
+            bridgeWidth = 8f;
         }};
         stackHelper = new StackHelper("stack-helper"){{
             requirements(Category.distribution, with(Items.silicon, 20, Items.phaseFabric, 10, Items.plastanium, 20));
@@ -542,12 +543,13 @@ public class HIBlocks {
             buildCostMultiplier = 0.8f;
         }};
         chromiumStackBridge = new StackBridge("chromium-stack-bridge"){{
-            requirements(Category.distribution, with(Items.lead, 15, Items.silicon, 12, Items.plastanium, 10, HIItems.chromium, 5));
+            requirements(Category.distribution, with(Items.lead, 15, Items.silicon, 12, Items.plastanium, 10, HIItems.chromium, 10));
             health = 420;
             armor = 4f;
             itemCapacity = 20;
             range = 8;
-            buildCostMultiplier = 0.8f;
+            bridgeWidth = 8f;
+            buildCostMultiplier = 0.6f;
         }};
         chromiumRouter = new MultiRouter("chromium-router"){{
             requirements(Category.distribution, with(Items.copper, 3, HIItems.chromium, 2));
@@ -717,7 +719,7 @@ public class HIBlocks {
             hasPower = false;
             range = 8;
             arrowSpacing = 6;
-            bridgeWidth = 8;
+            bridgeWidth = 8f;
             ((BeltConduit) chromiumArmorConduit).bridgeReplacement = this;
         }};
         chromiumArmorLiquidContainer = new LiquidRouter("chromium-armor-liquid-container"){{
@@ -2276,7 +2278,7 @@ public class HIBlocks {
             }});
             canOverdrive = false;
             shootSound = HISounds.dd1;
-            consumePower(6f);
+            consumePowerCond(6f, TurretBuild::isActive);
         }};
         dragonBreath = new ItemTurret("dragon-breath"){{
             requirements(Category.turret, with(Items.copper, 60, Items.graphite, 40, Items.silicon, 25, Items.titanium, 30));

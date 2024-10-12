@@ -52,7 +52,7 @@ public class HeavyIndustryMod extends Mod{
                     }
                 }).size(210f, 64f);
                 cont.pane(table -> {
-                    table.image(atlas.find(name("cover"))).left().size(600f, 287f).pad(3f).row();
+                    table.image(atlas.find(name("cover"))).left().size(600f, 338f).pad(3f).row();
                     table.add(bundle.get("hi-version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
                     table.add(label).left().row();
                     table.add(bundle.get("hi-class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();

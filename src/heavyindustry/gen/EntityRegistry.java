@@ -3,7 +3,6 @@ package heavyindustry.gen;
 import arc.func.*;
 import arc.struct.*;
 import mindustry.gen.*;
-import heavyindustry.core.*;
 
 /**
  * Registered the {@linkplain UnitEntity unit type} this mod offers.
@@ -21,7 +20,6 @@ public class EntityRegistry {
         return ids.get(type, -1);
     }
 
-    /** Registered entity. Called in the main thread in {@link HeavyIndustryMod#loadContent()}. */
     public static void load() {
         register("HILegsPayloadUnit", HILegsPayloadUnit.class, HILegsPayloadUnit::new);
         register("HITankUnit", HITankUnit.class, HITankUnit::new);
