@@ -89,7 +89,7 @@ public class UnitMinerDepot extends Block {
         }
     }
 
-    public class UnitMinerDepotBuild extends Building implements UnitTetherBlock{
+    public class UnitMinerDepotBuild extends Building implements UnitTetherBlock {
         //needs to be "unboxed" after reading, since units are read after buildings.
         public int readUnitId = -1;
         public float buildProgress, totalProgress;

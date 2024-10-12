@@ -23,7 +23,6 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
 import heavyindustry.world.consumers.*;
 import heavyindustry.world.meta.*;
-import heavyindustry.ui.*;
 
 import static mindustry.Vars.*;
 
@@ -81,8 +80,6 @@ public abstract class AdaptDrill extends Block {
         hasLiquids = false;
         itemCapacity = 40;
 
-        canOverdrive = false;
-
         ambientSound = Sounds.drill;
         ambientSoundVolume = 0.018f;
 
@@ -130,19 +127,8 @@ public abstract class AdaptDrill extends Block {
 
     @Override
     public void setBars(){
-        barMap.clear();
-        addBar("health", e -> new ExtendBar(Core.bundle.format("bar.hi-health", e.health(), health, Strings.autoFixed(e.healthf() * 100, 0)), Pal.health, e::healthf, Iconc.add + "").blink(Color.white));
-        addBar("power", (AdaptDrillBuild e) -> new ExtendBar(
-                Core.bundle.format("bar.hi-power-detail", Strings.autoFixed(e.getPowerCons() * 60f, 0), Strings.autoFixed((e.powerConsMul), 1), e.powerConsExtra),
-                Pal.powerBar,
-                () -> (Mathf.zero(consPower.requestedPower(e)) && e.power.graph.getPowerProduced() + e.power.graph.getBatteryStored() > 0f) ? 1f : e.power.status,
-                Iconc.power + ""));
-        addBar("outputOre", (AdaptDrillBuild e) -> new ExtendBar(e::getMineInfo, e::getMineColor, () -> 1f, Iconc.settings + ""));
-        addBar("drillSpeed", (AdaptDrillBuild e) -> new ExtendBar(
-                () -> Core.bundle.format("bar.hi-drill-speed", Strings.autoFixed(e.getMineSpeed(), 2), Strings.autoFixed((e.boostMul - 1) * 100, 1), e.boostFinalMul),
-                () -> Pal.ammo,
-                () -> e.warmup,
-                Iconc.production + ""));
+        super.setBars();
+        addBar("drillSpeed", (AdaptDrillBuild e) -> new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.getMineSpeed() * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));
     }
 
     public float mineInterval(){
@@ -177,7 +163,7 @@ public abstract class AdaptDrill extends Block {
                 }
             }).growX().colspan(table.getColumns());
         });
-        stats.add(HIStat.maxBoostPercent, Core.bundle.get("stat.hi-percent"), Strings.autoFixed(maxBoost * 100, 0));
+        stats.add(HIStat.maxBoostPercent, Core.bundle.get("stat.hi-f-percent"), Strings.autoFixed(maxBoost * 100, 0));
     }
 
     @Override
@@ -224,12 +210,12 @@ public abstract class AdaptDrill extends Block {
             Draw.rect(returnItem.fullIcon, dx, dy - 1, s, s);
             Draw.reset();
             Draw.rect(returnItem.fullIcon, dx, dy, s, s);
-        }else {
+        }else{
             Tile to = tile.getLinkedTilesAs(this, tempTiles).find(t -> t.drop() != null && t.drop().hardness > mineTier || blockedItem.contains(t.drop()));
             Item item = to == null ? null : to.drop();
             if(item != null){
                 drawPlaceText(Core.bundle.get("bar.drilltierreq"), x, y, valid);
-            } else {
+            }else{
                 drawPlaceText("No Ores", x, y, valid);
             }
         }
@@ -429,17 +415,6 @@ public abstract class AdaptDrill extends Block {
                     }
                 }
             }
-        }
-
-        public String getMineInfo(){
-            return outputItem() == null ?
-                    Iconc.cancel + " No Available Resource": convertItem == null?
-                    Fonts.getUnicodeStr(outputItem().name) + " " + outputItem().localizedName:
-                    Fonts.getUnicodeStr(dominantItem.name) + " " + dominantItem.localizedName + " -> " + Fonts.getUnicodeStr(outputItem().name) + " " + outputItem().localizedName;
-        }
-
-        public Color getMineColor(){
-            return outputItem() == null ? Pal.darkishGray: Tmp.c1.set(outputItem().color).lerp(Color.black, 0.2f);
         }
 
         //notice in tick

@@ -30,7 +30,7 @@ public class SpeedModule extends DrillModule {
         }
     }
 
-    public class SpeedModuleBuild extends DrillModuleBuild{
+    public class SpeedModuleBuild extends DrillModuleBuild {
         @Override
         public void draw() {
             super.draw();

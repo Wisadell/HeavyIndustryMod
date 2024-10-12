@@ -25,8 +25,7 @@ import static mindustry.Vars.*;
  */
 public class AssignOverdrive extends OverdriveProjector{
     public int maxLink = 4;
-    public float strokeOffset = 0.1f;
-    public float strokeClamp = 0;
+    public float strokeOffset = 0.1f, strokeClamp = 0f;
 
     public AssignOverdrive(String name){
         super(name);

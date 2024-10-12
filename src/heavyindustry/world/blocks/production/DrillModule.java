@@ -67,8 +67,8 @@ public abstract class DrillModule extends Block {
     @Override
     public void setStats() {
         super.setStats();
-        if (powerMul != 0 || powerExtra != 0) stats.add(HIStat.powerConsModifier, Core.bundle.get("stat.hi-power-cons-modifier"), Strings.autoFixed(powerMul * 100, 0), Strings.autoFixed(powerExtra, 0));
-        if (boostSpeed != 0 || boostFinalMul != 0) stats.add(HIStat.minerBoosModifier, Core.bundle.get("stat.hi-miner-boost-modifier"), Strings.autoFixed(boostSpeed * 100, 0), Strings.autoFixed(boostFinalMul * 100, 0));
+        if (powerMul != 0 || powerExtra != 0) stats.add(HIStat.powerConsModifier, Core.bundle.get("stat.hi-f-power-cons-modifier"), Strings.autoFixed(powerMul * 100, 0), Strings.autoFixed(powerExtra, 0));
+        if (boostSpeed != 0 || boostFinalMul != 0) stats.add(HIStat.minerBoosModifier, Core.bundle.get("stat.hi-f-miner-boost-modifier"), Strings.autoFixed(boostSpeed * 100, 0), Strings.autoFixed(boostFinalMul * 100, 0));
         if (convertList.size > 0) stats.add(HIStat.itemConvertList, getConvertList());
     }
 

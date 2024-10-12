@@ -14,10 +14,6 @@ public class AtlasFloor extends Floor {
         super(name);
     }
 
-    public AtlasFloor(String name, int variants){
-        super(name, variants);
-    }
-
     @Override
     public void load(){
         super.load();

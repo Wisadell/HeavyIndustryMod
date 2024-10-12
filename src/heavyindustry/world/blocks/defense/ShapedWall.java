@@ -80,7 +80,7 @@ public class ShapedWall extends Wall {
 
                 for (Point2 pos : posArray) {
                     Building build = world.build(tileX() + pos.x, tileY() + pos.y);
-                    if (!(build instanceof ShapeWallBuild)) {
+                    if (!(build instanceof ShapeWallBuild && build.team == team)) {
                         diagonal = false;
                         break;
                     }

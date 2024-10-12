@@ -15,10 +15,6 @@ public class SideFloor extends AtlasFloor {
         super(name);
     }
 
-    public SideFloor(String name, int variants){
-        super(name, variants);
-    }
-
     @Override
     public void load() {
         super.load();

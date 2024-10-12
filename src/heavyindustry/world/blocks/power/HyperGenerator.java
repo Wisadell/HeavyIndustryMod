@@ -9,7 +9,6 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.*;
-import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.game.*;
@@ -46,6 +45,8 @@ public class HyperGenerator extends ImpactReactor {
     public Cons<HyperGeneratorBuild> explodeAction = entity -> {};
     public Cons<Position> explodeSub = entity -> {};
 
+    public float explosionRadius = 220f, explosionDamage = 14000f;
+
     public float maxVelScl = 1.25f, minVelScl = 0.75f;
     public float maxTimeScl = 1.25f, minTimeScl = 0.75f;
 
@@ -53,15 +54,12 @@ public class HyperGenerator extends ImpactReactor {
     public float triLength = 100f;
     public Color effectColor = Pal.techBlue;
 
-    protected BulletType destroyed;
+    public BulletType destroyed;
     public float attract = 8f;
 
     public HyperGenerator(String name) {
         super(name);
         baseExplosiveness = 1000f;
-        explosionRadius = 220;
-        explosionDamage = 14000;
-        explodeEffect = Fx.none;
 
         destroyed = new EffectBulletType(600f){{
             absorbable = hittable = false;
@@ -214,6 +212,11 @@ public class HyperGenerator extends ImpactReactor {
             }
 
             Damage.damage(x, y, explosionRadius, explosionDamage);
+        }
+
+        @Override
+        public void createExplosion(){
+            //TODO The original explosion is no longer in use.
         }
     }
 }
