@@ -118,7 +118,6 @@ public class TubeLiquidBridge extends TubeItemBridge {
     }
 
     public class TubeLiquidBridgeBuild extends TubeItemBridgeBuild {
-
         @Override
         public void draw() {
             Draw.rect(bottomRegion, x, y);

@@ -42,7 +42,7 @@ public class ProcessorCooler extends Block {
         liquidConsumer = findConsumer(c -> c instanceof ConsumeLiquidBase);
 
         if(acceptCoolant && liquidConsumer == null){
-            liquidConsumer = consume(new ConsumeLiquidFilter(liquid -> liquid.temperature <= 0.5f && liquid.flammability < 0.1f, 0.15f));
+            liquidConsumer = consume(new ConsumeLiquidFilter(l -> l.temperature <= 0.5f && l.flammability < 0.1f && !l.gas, 0.15f));
         }
 
         super.init();
@@ -76,8 +76,8 @@ public class ProcessorCooler extends Block {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("boost", (ProcessorCoolerBuild entity) -> new Bar(() -> bundle.format("bar.boost", entity.realBoost() * 100), () -> Pal.accent, () -> (float)entity.realBoost() / maxBoost));
-        addBar("links", (ProcessorCoolerBuild entity) -> new Bar(() -> bundle.format("bar.hi-coolprocs", entity.usedLinks, maxProcessors), () -> Pal.ammo, () -> entity.heat));
+        addBar("boost", (ProcessorCoolerBuild e) -> new Bar(() -> bundle.format("bar.boost", e.realBoost() * 100), () -> Pal.accent, () -> e.realBoost() / maxBoost));
+        addBar("links", (ProcessorCoolerBuild e) -> new Bar(() -> bundle.format("bar.hi-coolprocs", e.usedLinks, maxProcessors), () -> Pal.ammo, () -> e.heat));
     }
 
     public class ProcessorCoolerBuild extends Building {

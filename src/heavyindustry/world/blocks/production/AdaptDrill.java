@@ -93,7 +93,7 @@ public abstract class AdaptDrill extends Block {
 
     @SuppressWarnings("unchecked")
     public <T extends Building> void consumePower(Floatf<T> usage){
-        consume(new AdaptConsumerPower((Floatf<Building>) usage));
+        consume(new ConsumerPowerF((Floatf<Building>) usage));
     }
 
     //TODO Is this a good idea to begin with?
@@ -203,7 +203,7 @@ public abstract class AdaptDrill extends Block {
         countOre(tile);
 
         if(returnItem != null){
-            String oreCountText = (returnCount < maxOreTileReq ? "[sky](": "[forest](") + returnCount + "/" +  maxOreTileReq + ")[] " + Strings.autoFixed(mineSpeed * Mathf.clamp((float) returnCount / maxOreTileReq) * getMineSpeedHardnessMul(returnItem), 1) + "/s";
+            String oreCountText = (returnCount < maxOreTileReq ? "[sky](": "[heal](") + returnCount + "/" +  maxOreTileReq + ")[] " + Strings.autoFixed(mineSpeed * Mathf.clamp((float) returnCount / maxOreTileReq) * getMineSpeedHardnessMul(returnItem), 1) + "/s";
             float width = drawPlaceText(oreCountText, x, y, valid);
             float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
             Draw.mixcol(Color.darkGray, 1f);

@@ -71,7 +71,7 @@ public class HIBlocks {
             //drill
             largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
             //drill-erekir
-            largeCliffCrusher,heavyPlasmaBore,unitMinerDepot,
+            largeCliffCrusher,heavyPlasmaBore,
             //distribution
             invertedJunction,itemLiquidJunction,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             highEnergyItemNode,rapidDirectionalUnloader,
@@ -109,7 +109,7 @@ public class HIBlocks {
             //turret
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,dragonBreath,cloudbreaker,minigun,
             spike,fissure,
-            hurricane,frost,judgement,spark,fireworks,
+            hurricane,frost,judgement,spark,flaringFire,
             //turret-erekir
             rupture,
             //tbd
@@ -1100,8 +1100,16 @@ public class HIBlocks {
             itemCapacity = 50;
             craftTime = 35f;
             outputItem = new ItemStack(Items.silicon, 10);
-            craftEffect = Fx.smeltsmoke;
-            drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+            craftEffect = new RadialEffect(Fx.surgeCruciSmoke, 9, 45f, 6f);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawGlowRegion(){{
+                alpha = 0.9f;
+                glowScale = 3.14f;
+                color = Color.valueOf("ff0000");
+            }}, new DrawGlowRegion("-glow1"){{
+                alpha = 0.9f;
+                glowScale = 3.14f;
+                color = Color.valueOf("eb564b");
+            }});
             ambientSound = Sounds.smelter;
             ambientSoundVolume = 0.21f;
             consumeItems(with(Items.coal, 5, Items.sand, 8, Items.blastCompound, 1));
@@ -1799,7 +1807,7 @@ public class HIBlocks {
             size = 3;
             boost = 2;
             maxProcessors = 6;
-            liquidCapacity = 640;
+            liquidCapacity = 60;
             acceptCoolant = true;
         }};
         //turret
@@ -2272,7 +2280,7 @@ public class HIBlocks {
             consumePowerCond(6f, TurretBuild::isActive);
         }};
         dragonBreath = new ItemTurret("dragon-breath"){{
-            requirements(Category.turret, with(Items.copper, 60, Items.graphite, 40, Items.silicon, 25, Items.titanium, 30));
+            requirements(Category.turret, with(Items.graphite, 40, Items.silicon, 25, Items.titanium, 60, Items.plastanium, 30));
             ammo(Items.coal, new FlameBulletType(Pal.lightFlame, Pal.darkFlame, Color.gray, range + 8, 14, 60, 22), Items.pyratite, new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8, 20, 72, 22){{
                 damage = 98;
                 statusDuration = 60 * 6;
@@ -2755,7 +2763,7 @@ public class HIBlocks {
             recoilTime = 60f;
             shootEffect = HIFx.ellipse(30, 30, 15, HIPal.iceBlue);
             outlineColor = Pal.darkOutline;
-            drawer = new DrawTurret("reinforced-"){{parts.add(new DrawFrostWing(){{
+            drawer = new DrawTurret(){{parts.add(new DrawFrostWing(){{
                 x = 0;
                 y = -7;
                 layer = Layer.effect;
@@ -2887,7 +2895,6 @@ public class HIBlocks {
                 }
             };
             consumePowerCond(12f, TurretBuild::isActive);
-            squareSprite = false;
             buildCostMultiplier = 0.8f;
         }};
         judgement = new ContinuousTurret("judgement"){{
@@ -3100,7 +3107,6 @@ public class HIBlocks {
             scaledHealth = 300;
             armor = 10f;
             unitSort = UnitSorts.strongest;
-            squareSprite = false;
             consumePower(16);
             consumeLiquid(HILiquids.nanofluid, 12f / 60f);
         }};
@@ -3140,7 +3146,6 @@ public class HIBlocks {
                             }}
                     }
             );
-            drawer = new DrawTurret("reinforced-");
             outlineColor = Pal.darkOutline;
             shoot = new ShootSpread(2, 4);
             inaccuracy = 3;
@@ -3154,9 +3159,8 @@ public class HIBlocks {
             rotateSpeed = 3.2f;
             coolant = consumeCoolant(0.3f);
             shootSound = Sounds.missile;
-            squareSprite = false;
         }};
-        fireworks = new MultiBulletTurret("fireworks"){{
+        flaringFire = new MultiBulletTurret("flaring-fire"){{
             requirements(Category.turret, with(Items.silicon, 600, Items.graphite, 800, Items.thorium, 500, HIItems.uranium, 400, HIItems.heavyAlloy, 300));
             ammo(
                     Items.blastCompound, new BulletType[]{
@@ -3359,7 +3363,6 @@ public class HIBlocks {
                             }
                     }
             });
-            drawer = new DrawTurret("reinforced-");
             outlineColor = Pal.darkOutline;
             size = 5;
             inaccuracy = 3;
@@ -3378,7 +3381,6 @@ public class HIBlocks {
             shootCone = 16;
             canOverdrive = false;
             maxAmmo = 10;
-            squareSprite = false;
             buildCostMultiplier = 0.6f;
         }};
         //turrets-erekir

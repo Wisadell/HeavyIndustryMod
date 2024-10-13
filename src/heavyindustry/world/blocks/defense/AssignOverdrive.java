@@ -132,8 +132,13 @@ public class AssignOverdrive extends OverdriveProjector{
                 linkBuilds().each(other -> other.applyBoost(realBoost(), reload + 1f));
             }
 
-            if(timer(timerUse, useTime) && efficiency > 0){
+            if(efficiency > 0){
+                useProgress += delta();
+            }
+
+            if(useProgress >= useTime){
                 consume();
+                useProgress %= useTime;
             }
         }
 

@@ -1,7 +1,7 @@
 package heavyindustry.world.blocks.distribution;
 
+import arc.Core;
 import heavyindustry.world.meta.*;
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -12,6 +12,7 @@ import mindustry.world.blocks.distribution.*;
 import mindustry.world.meta.*;
 
 import static heavyindustry.util.HIUtils.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -36,11 +37,16 @@ public class AdaptDuct extends Duct {
     @Override
     public void load() {
         super.load();
-        uiIcon = Core.atlas.find(name + "-icon");
+        uiIcon = atlas.find(name + "-icon");
 
         botAtlas = split(name + "-bot", 32, 0);
         topAtlas = split(name + "-top", 32, 0);
         glowAtlas = split(name + "-glow", 32, 0);
+    }
+
+    @Override
+    public TextureRegion[] icons() {
+        return new TextureRegion[]{uiIcon};
     }
 
     @Override

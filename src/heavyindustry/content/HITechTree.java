@@ -8,7 +8,6 @@ import mindustry.type.*;
 
 import static heavyindustry.content.HIBlocks.*;
 import static heavyindustry.content.HIUnitTypes.*;
-import static heavyindustry.content.HISectorPresets.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.UnitTypes.*;
 import static mindustry.content.SectorPresets.*;
@@ -60,7 +59,6 @@ public class HITechTree {
         addToNode(oilExtractor, () -> node(reinforcedOilExtractor, () -> {}));
         //drill-erekir
         addToNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
-        addToNode(impactDrill, () -> node(unitMinerDepot, () -> {}));
         addToNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
         //distribution
         addToNode(junction, () -> {
@@ -132,9 +130,9 @@ public class HITechTree {
             node(largeCryofluidMixer, Seq.with(new SectorComplete(impact0078)), () -> {});
             node(nanocoreActivator, () -> {});
         });
-        addToNode(pyratiteMixer, () -> node(largePyratiteMixer, () -> {}));
-        addToNode(blastMixer, () -> node(largeBlastMixer, () -> {}));
-        addToNode(cultivator, () -> node(largeCultivator, () -> {}));
+        addToNode(pyratiteMixer, () -> node(largePyratiteMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
+        addToNode(blastMixer, () -> node(largeBlastMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
+        addToNode(cultivator, () -> node(largeCultivator, Seq.with(new SectorComplete(taintedWoods)), () -> {}));
         addToNode(plastaniumCompressor, () -> node(largePlastaniumCompressor, Seq.with(new SectorComplete(tarFields)), () -> {}));
         addToNode(surgeSmelter, ()-> node(largeSurgeSmelter, () -> {}));
         addToNode(siliconCrucible, () -> node(blastSiliconSmelter, () -> {}));
@@ -177,7 +175,7 @@ public class HITechTree {
         //payload-erekir
         addToNode(reinforcedPayloadConveyor, () -> node(reinforcedPayloadJunction, () -> {}));
         //unit
-        addToNode(tetrativeReconstructor, () -> node(titanReconstructor, () -> node(experimentalUnitFactory, Seq.with(new SectorComplete(bombardmentWarzone)), () -> {})));
+        addToNode(tetrativeReconstructor, () -> node(titanReconstructor, () -> node(experimentalUnitFactory, () -> {})));
         //unit-erekir
         addToNode(unitRepairTower, () -> node(largeUnitRepairTower, ItemStack.with(Items.graphite, 2400, Items.silicon, 3000, Items.tungsten, 2600, Items.oxide, 1200, Items.carbide, 600), Seq.with(new OnSector(siege)), () -> {}));
         addToNode(basicAssemblerModule, () -> node(seniorAssemblerModule, () -> {}));
@@ -193,7 +191,7 @@ public class HITechTree {
         addToNode(segment, () -> node(dissipation, () -> {}));
         addToNode(duo, () -> {
             node(rocketLauncher, Seq.with(new SectorComplete(ruinousShores)), () -> node(multipleRocketLauncher, Seq.with(new SectorComplete(stainedMountains)), () -> {
-                node(largeRocketLauncher, Seq.with(new SectorComplete(extractionOutpost)), () -> node(spark, () -> node(fireworks, Seq.with(new SectorComplete(bombardmentWarzone)), () -> {})));
+                node(largeRocketLauncher, Seq.with(new SectorComplete(extractionOutpost)), () -> node(spark, () -> node(flaringFire, () -> {})));
                 node(rocketSilo, Seq.with(new SectorComplete(tarFields)), () -> {});
             }));
             node(cloudbreaker, () -> {});
@@ -205,7 +203,7 @@ public class HITechTree {
             node(minigun, () -> {});
         });
         addToNode(meltdown, () -> {
-            node(frost, Seq.with(new SectorComplete(fallenStronghold)), () -> {});
+            node(frost, () -> {});
             node(judgement, () -> {});
         });
         //turret-erekir
@@ -223,18 +221,6 @@ public class HITechTree {
         addToNode(collaris, () -> node(oracle, () -> {}));
         addToNode(disrupt, () -> node(havoc, () -> {}));
         //sector presets
-        addToNode(SectorPresets.craters, () -> node(iceboundTributary, Seq.with(new SectorComplete(SectorPresets.craters), new Research(Items.metaglass)), () -> {}));
-        addToNode(ruinousShores, () -> {
-            node(desertWastes, Seq.with(new SectorComplete(ruinousShores), new Research(airFactory)), () -> {});
-            node(whiteoutPlains, Seq.with(new SectorComplete(ruinousShores)), () -> {});
-        });
-        addToNode(windsweptIslands, () -> node(snowyLands, Seq.with(new SectorComplete(windsweptIslands)), () -> {}));
-        addToNode(coastline, () -> node(sunkenPier, Seq.with(new SectorComplete(coastline)), () -> {}));
-        addToNode(desolateRift, () -> {
-            node(fallenStronghold, Seq.with(new SectorComplete(desolateRift)), () -> {});
-            node(coastalCliffs, Seq.with(new SectorComplete(desolateRift), new Research(overdriveProjector), new Research(swarmer), new Research(foreshadow), new Research(navanax)), () -> {});
-        });
-        addToNode(planetaryTerminal, () -> node(bombardmentWarzone, Seq.with(new SectorComplete(planetaryTerminal)), () -> {}));
     }
 
     public static void addToNode(UnlockableContent content, Runnable children){
