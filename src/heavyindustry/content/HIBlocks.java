@@ -474,15 +474,6 @@ public class HIBlocks {
             consumeLiquid(Liquids.hydrogen, 1.5f / 60f);
             consumeLiquid(Liquids.nitrogen, 7.5f / 60f).boost();
         }};
-        unitMinerDepot = new UnitMinerDepot("unit-miner-depot"){{
-            requirements(Category.production, with(Items.beryllium, 200, Items.graphite, 120, Items.silicon, 80, Items.tungsten, 100, Items.oxide, 30));
-            size = 3;
-            buildTime = 60f * 8f;
-            consumePower(8f / 60f);
-            consumeLiquid(Liquids.nitrogen, 10f / 60f);
-            itemCapacity = 100;
-            squareSprite = false;
-        }};
         //distribution
         invertedJunction = new InvertedJunction("inverted-junction"){{
             requirements(Category.distribution, with(Items.copper, 2));

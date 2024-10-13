@@ -79,7 +79,6 @@ public class HeavyIndustryMod extends Mod{
 
     @Override
     public void loadContent(){
-        EntityRegistry.load();
         if(onlyPlugIn) return;
         HIItems.load();
         HIStatusEffects.load();
@@ -89,6 +88,7 @@ public class HeavyIndustryMod extends Mod{
         HIBlocks.load();
         HIWeathers.load();
         HIOverride.load();
+        HIReflector.load();
         HIPlanets.load();
         HISectorPresets.load();
         HITechTree.load();

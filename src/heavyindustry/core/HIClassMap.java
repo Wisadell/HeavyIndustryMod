@@ -28,7 +28,6 @@ import static mindustry.mod.ClassMap.*;
 public class HIClassMap {
     public static void load(){
         //ai
-        classes.put("DepotMinerAI", DepotMinerAI.class);
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
         //ability

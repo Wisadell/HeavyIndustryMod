@@ -52,13 +52,7 @@ public class HIUnitTypes {
         nameMap.put(name("havoc"), idMap[5]);
         //other
         nameMap.put(name("vulture"), idMap[3]);
-        nameMap.put(name("scavenger"), HITankUnit::create);
-        nameMap.put(name("pioneer"), HILegsPayloadUnit::create);
         nameMap.put(name("burner"), idMap[4]);
-        //other-erekir
-        nameMap.put(name("draug"), HINoCoreDepositBuildingTetherLegsUnit::create);
-        //elite
-        nameMap.put(name("desolation-lord"), HILegsPayloadUnit::create);
         //boss
         nameMap.put(name("thunder"), idMap[43]);
     }
@@ -69,14 +63,7 @@ public class HIUnitTypes {
             //erekir-tier6
             dominate,oracle,havoc,
             //other
-            vulture,
-            scavenger,
-            pioneer,
-            burner,
-            //other-erekir
-            draug,
-            //elite
-            desolationLord,
+            vulture,burner,
             //boss
             thunder;
 
@@ -1217,77 +1204,6 @@ public class HIUnitTypes {
             armor = 3.5f;
             flying = true;
         }};
-        scavenger = new TankUnitType("scavenger"){{
-            hitSize = 26f;
-            treadPullOffset = 5;
-            speed = 0.64f;
-            rotateSpeed = 1.5f;
-            health = 3500;
-            armor = 10f;
-            itemCapacity = 1000;
-            treadRects = new Rect[]{new Rect(16f - 60, 48f - 70, 30f, 75f), new Rect(44f - 60, 17f - 70, 17f, 60f)};
-            researchCostMultiplier = 0f;
-            buildSpeed = 4.5f;
-            weapons.add(new Weapon(){{
-                x = 22f / 4;
-                y = -3f;
-                shootX = -3f / 4;
-                shootY = 4.5f / 4;
-                rotate = true;
-                rotateSpeed = 35f;
-                reload = 35f;
-                shootSound = Sounds.laser;
-                bullet = new LaserBulletType(){{
-                    damage = 45f;
-                    sideAngle = 30f;
-                    sideWidth = 1f;
-                    sideLength = 5.25f * 8;
-                    length = 13.75f * 8;
-                    colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
-                }};
-            }}, new RepairBeamWeapon("repair-beam-weapon-center-large"){{
-                x = 8.5f;
-                y = -3.5f;
-                shootY = 6f;
-                beamWidth = 1f;
-                repairSpeed = 1.8f;
-                bullet = new BulletType(){{
-                    maxRange = 120f;
-                }};
-            }});
-        }};
-        Seq<Item> ores = Seq.with(Items.copper, Items.lead, Items.titanium, Items.thorium, Items.beryllium, Items.graphite, Items.tungsten, HIItems.uranium, HIItems.chromium);
-        pioneer = new UnitType("pioneer"){{
-            speed = 0.3f;
-            hitSize = 40f;
-            health = 35000f;
-            armor = 28f;
-            rotateSpeed = 1.9f;
-            drownTimeMultiplier = 4f;
-            legCount = 8;
-            legMoveSpace = 0.8f;
-            legPairOffset = 3;
-            legLength = 80f;
-            legExtension = -22;
-            legBaseOffset = 8f;
-            stepShake = 1f;
-            legLengthScl = 0.93f;
-            rippleScale = 3.4f;
-            legSpeed = 0.18f;
-            ammoType = new ItemAmmoType(Items.graphite, 12);
-            legSplashDamage = 200;
-            legSplashRange = 64;
-            hovering = true;
-            shadowElevation = 0.95f;
-            groundLayer = Layer.legUnit;
-            mineTier = 5;
-            mineSpeed = 6f;
-            mineWalls = true;
-            mineItems = ores;
-            itemCapacity = 3000;
-            buildSpeed = 6f;
-            payloadCapacity = (5.5f * 5.5f) * tilePayload;
-        }};
         burner = new UnitType("burner"){{
             speed = 0.36f;
             hitSize = 24f;
@@ -1343,148 +1259,6 @@ public class HIUnitTypes {
                     return range;
                 }
             });
-        }};
-        //other-erekir
-        draug = new ErekirUnitType("draug"){{
-            controller = u -> new DepotMinerAI();
-            isEnemy = false;
-            allowedInPayloads = false;
-            logicControllable = false;
-            playerControllable = false;
-            hidden = true;
-            hideDetails = false;
-            hitSize = 14f;
-            speed = 1f;
-            rotateSpeed = 2.5f;
-            health = 1300f;
-            armor = 5f;
-            omniMovement = false;
-            rotateMoveFirst = true;
-            itemOffsetY = 5f;
-            itemCapacity = 50;
-            mineTier = 5;
-            mineSpeed = 6f;
-            mineWalls = true;
-            mineItems = Seq.with(Items.beryllium, Items.graphite, Items.tungsten);
-            allowLegStep = true;
-            legCount = 6;
-            legGroupSize = 3;
-            legLength = 12f;
-            lockLegBase = true;
-            legContinuousMove = true;
-            legExtension = -3f;
-            legBaseOffset = 5f;
-            legMaxLength = 1.1f;
-            legMinLength = 0.2f;
-            legForwardScl = 1f;
-            legMoveSpace = 2.5f;
-            hovering = true;
-            weapons.add(new Weapon(name("draug-weapon")){{
-                x = 22f / 4f;
-                y = -3f;
-                shootX = -3f / 4f;
-                shootY = 4.5f / 4f;
-                rotate = true;
-                rotateSpeed = 35f;
-                reload = 35f;
-                shootSound = Sounds.laser;
-                bullet = new LaserBulletType(){{
-                    damage = 45f;
-                    sideAngle = 30f;
-                    sideWidth = 1f;
-                    sideLength = 5.25f * 8;
-                    length = 13.75f * 8f;
-                    colors = new Color[]{Pal.heal.cpy().a(0.4f), Pal.heal, Color.white};
-                }};
-            }});
-            abilities.add(new RegenAbility(){{
-                percentAmount = 1f / (90f * 60f) * 100f;
-            }});
-        }};
-        //elite
-        desolationLord = new UnitType("desolation-lord"){{
-            speed = 0.3f;
-            hitSize = 40f;
-            health = 85000;
-            armor = 36;
-            rotateSpeed = 1.9f;
-            drownTimeMultiplier = 4f;
-            legCount = 8;
-            legMoveSpace = 0.8f;
-            legPairOffset = 3;
-            legLength = 80f;
-            legExtension = -22;
-            legBaseOffset = 8f;
-            stepShake = 1f;
-            legLengthScl = 0.93f;
-            rippleScale = 3.4f;
-            legSpeed = 0.18f;
-            ammoType = new PowerAmmoType(4000);
-            legSplashDamage = 200;
-            legSplashRange = 64;
-            hovering = true;
-            shadowElevation = 0.95f;
-            groundLayer = Layer.legUnit;
-            mineTier = 5;
-            mineSpeed = 6f;
-            mineWalls = true;
-            mineItems = ores;
-            itemCapacity = 1500;
-            buildSpeed = 4f;
-            payloadCapacity = (6.5f * 6.5f) * tilePayload;
-            weapons.add(new Weapon(name("desolation-lord-weapon")){{
-                mirror = false;
-                rotate = true;
-                layerOffset = 0.1f;
-                rotateSpeed = 0.9f;
-                shootSound = Sounds.release;
-                reload = 180;
-                recoil = 5.5f;
-                shake = 5;
-                x = 0;
-                y = -1f;
-                minWarmup = 0.9f;
-                bullet = new BallistaBulletType(Color.valueOf("feb380")){{
-                    hitSound = despawnSound = Sounds.explosionbig;
-                    damage = 410;
-                    splashDamage = 390;
-                    splashDamageRadius = 12 * 8f;
-                    buildingDamageMultiplier = 0.8f;
-                    hitEffect = despawnEffect = new ExplosionEffect(){{
-                        lifetime = 30f;
-                        waveStroke = 5f;
-                        waveLife = 10f;
-                        waveRad = splashDamageRadius;
-                        waveColor = Color.valueOf("feb380");
-                        smokes = 7;
-                        smokeSize = 13;
-                        smokeColor = Color.valueOf("feb380");
-                        smokeRad = splashDamageRadius;
-                        sparkColor = Color.valueOf("feb380");
-                        sparks = 14;
-                        sparkRad = splashDamageRadius;
-                        sparkLen = 6f;
-                        sparkStroke = 2f;
-                    }};
-                    pierce = true;
-                    pierceCap = 2;
-                    pierceBuilding = true;
-                    speed = 10;
-                    trailWidth = 7;
-                    trailLength = 12;
-                    trailColor = Color.valueOf("feb380");
-                    fragBullet = null;
-                    fragBullets= 0;
-                    healPercent = -1;
-                }
-                    @Override
-                    public void draw(Bullet b){
-                        super.draw(b);
-                        Draw.color(Color.valueOf("feb380"));
-                        Drawf.tri(b.x, b.y, 13f, 12f, b.rotation());
-                    }
-                };
-            }});
         }};
         //boss
         thunder = new UnitType("thunder"){{
