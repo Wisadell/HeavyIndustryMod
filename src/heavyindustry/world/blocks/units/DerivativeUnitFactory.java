@@ -29,7 +29,6 @@ public class DerivativeUnitFactory extends UnitFactory {
         Fill.circle(e.x, e.y, e.rotation * e.fout());
     });
 
-
     public DerivativeUnitFactory(String name) {
         super(name);
 

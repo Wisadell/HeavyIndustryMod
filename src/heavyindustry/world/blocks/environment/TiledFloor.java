@@ -1,11 +1,12 @@
 package heavyindustry.world.blocks.environment;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
 import arc.math.geom.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
+
+import static arc.Core.*;
 
 /** @author LaoHuaJi */
 public class TiledFloor extends Floor {
@@ -31,7 +32,7 @@ public class TiledFloor extends Floor {
     public void load(){
         super.load();
 
-        full = Core.atlas.find(name + "-full");
+        full = atlas.find(name + "-full");
         largeSpilt = new TextureRegion[splitTileSize * splitVariants][splitTileSize];
         for (int i = 0; i < splitVariants; i++){
             largeSpilt = full.split(32, 32);

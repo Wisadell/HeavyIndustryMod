@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.payload;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -13,6 +12,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.meta.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -42,18 +42,18 @@ public class PayloadJunction extends Block {
     @Override
     public void load(){
         super.load();
-        topRegion = Core.atlas.find(name + "-top");
-        lightRegion = Core.atlas.find(name + "-light");
+        topRegion = atlas.find(name + "-top");
+        lightRegion = atlas.find(name + "-light");
 
-        TextureRegion hLightRegion = Core.atlas.find(name + "-light-h");
+        TextureRegion hLightRegion = atlas.find(name + "-light-h");
         if(hLightRegion.found()){
-            dLightRegions = new TextureRegion[]{hLightRegion, Core.atlas.find(name + "-light-v")};
+            dLightRegions = new TextureRegion[]{hLightRegion, atlas.find(name + "-light-v")};
         }
     }
 
     @Override
     protected TextureRegion[] icons(){
-        return new TextureRegion[]{Core.atlas.find(name + "-icon")};
+        return new TextureRegion[]{atlas.find(name + "-icon")};
     }
 
     @Override

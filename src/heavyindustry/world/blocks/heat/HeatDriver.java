@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.heat;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -16,6 +15,7 @@ import mindustry.world.blocks.heat.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /** @author guiY */
@@ -52,10 +52,11 @@ public class HeatDriver extends Block {
         super.drawPlace(x, y, rotation, valid);
         Drawf.dashCircle(x * tilesize + this.offset, y * tilesize + this.offset, range, Pal.accent);
     }
+
     @Override
     public void setBars(){
         super.setBars();
-        addBar("heat", (HeatDriverBuild entity) -> new Bar(() -> Core.bundle.format("bar.heatamount", (int)(entity.heat + 0.001f)), () -> Pal.lightOrange, () -> entity.heat / visualMaxHeat));
+        addBar("heat", (HeatDriverBuild e) -> new Bar(() -> bundle.format("bar.heatamount", (int)(e.heat + 0.001f)), () -> Pal.lightOrange, () -> e.heat / visualMaxHeat));
     }
 
     @Override

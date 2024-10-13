@@ -1,12 +1,12 @@
 package heavyindustry.world.blocks.heat;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.util.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.world.blocks.heat.*;
 
+import static arc.Core.*;
 import static heavyindustry.util.HIUtils.*;
 
 public class HeatPipe extends HeatConductor {
@@ -21,7 +21,7 @@ public class HeatPipe extends HeatConductor {
     @Override
     public void load() {
         super.load();
-        uiIcon = Core.atlas.find(name + "-icon");
+        uiIcon = atlas.find(name + "-icon");
         fullRegion = splitLayers(name + "-full", 32, 2);
         heatRegion = split(name + "-heat", 32, 0);
     }

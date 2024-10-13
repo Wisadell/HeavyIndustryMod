@@ -23,6 +23,7 @@ import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -60,7 +61,7 @@ public class MultiBulletTurret extends Turret {
         stats.add(Stat.ammo, HIStatValues.ammo(ammoTypes));
         if(all){
             stats.remove(Stat.reload);
-            stats.add(Stat.reload, Core.bundle.format("stat.hi-shoot-time", Strings.autoFixed(reload/60f, 2)));
+            stats.add(Stat.reload, bundle.format("stat.hi-shoot-time", Strings.autoFixed(reload/60f, 2)));
         }
     }
 

@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.liquid;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.scene.ui.layout.*;
@@ -14,11 +13,12 @@ import mindustry.world.blocks.*;
 import mindustry.world.blocks.liquid.LiquidBlock.*;
 import mindustry.world.meta.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /** @author guiY */
 public class LiquidUnloader extends Block {
-    public String center;
+    public TextureRegion centerRegion;
     public float speed = 3f;
 
     public LiquidUnloader(String name){
@@ -44,7 +44,7 @@ public class LiquidUnloader extends Block {
     @Override
     public void load() {
         super.load();
-        center = name + "-center";
+        centerRegion = atlas.find(name + "-center");
     }
 
     @Override
@@ -56,7 +56,7 @@ public class LiquidUnloader extends Block {
 
     @Override
     public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list){
-        drawPlanConfigCenter(plan, plan.config, center, true);
+        drawPlanConfigCenter(plan, plan.config, name + "-center", true);
     }
 
 
@@ -101,7 +101,7 @@ public class LiquidUnloader extends Block {
         public void draw() {
             super.draw();
             Draw.color(sortLiquid == null ? Color.clear : sortLiquid.color);
-            Draw.rect(Core.atlas.find(center), x, y);
+            Draw.rect(centerRegion, x, y);
             Draw.color();
         }
 

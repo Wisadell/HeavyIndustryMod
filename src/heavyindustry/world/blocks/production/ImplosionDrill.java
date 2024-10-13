@@ -1,16 +1,16 @@
 package heavyindustry.world.blocks.production;
 
-import arc.*;
 import arc.math.*;
-import arc.util.Tmp;
+import arc.util.*;
 import heavyindustry.content.*;
 import arc.audio.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import mindustry.entities.Effect;
+import mindustry.entities.*;
 import mindustry.gen.*;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Layer;
+import mindustry.graphics.*;
+
+import static arc.Core.*;
 
 /**
  * Draw the animation of the original impact drill bit.
@@ -40,10 +40,10 @@ public class ImplosionDrill extends AdaptDrill {
     @Override
     public void load() {
         super.load();
-        topInvertRegion = Core.atlas.find(name + "-top-invert");
-        glowRegion = Core.atlas.find(name + "-glow");
-        arrowRegion = Core.atlas.find(name + "-arrow");
-        arrowBlurRegion = Core.atlas.find(name + "-arrow-blur");
+        topInvertRegion = atlas.find(name + "-top-invert");
+        glowRegion = atlas.find(name + "-glow");
+        arrowRegion = atlas.find(name + "-arrow");
+        arrowBlurRegion = atlas.find(name + "-arrow-blur");
     }
 
     public class ImplosionDrillBuild extends AdaptDrillBuild {

@@ -1,12 +1,12 @@
 package heavyindustry.world.blocks.environment;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
+import static arc.Core.*;
 import static heavyindustry.util.HIUtils.*;
 
 public class AtlasTallBlock extends TallBlock {
@@ -22,7 +22,7 @@ public class AtlasTallBlock extends TallBlock {
     @Override
     public void load(){
         super.load();
-        region = Core.atlas.find(name);
+        region = atlas.find(name);
 
         splitRegion = split(name + "-full", atlasSize, 0);
         splitShadowRegion = split(name + "-shadow", atlasSize, 0);

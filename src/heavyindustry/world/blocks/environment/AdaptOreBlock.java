@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.environment;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -8,6 +7,7 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class AdaptOreBlock extends OreBlock {
@@ -23,7 +23,7 @@ public class AdaptOreBlock extends OreBlock {
     private boolean findAtlas(TextureRegion... ts){
         if(ts.length == 0) return false;
         for(var t : ts){
-            if(!Core.atlas.isFound(t)) return false;
+            if(!atlas.isFound(t)) return false;
         }
         return true;
     }
@@ -49,7 +49,7 @@ public class AdaptOreBlock extends OreBlock {
             larges = new TextureRegion[variantsLarge];
             split = new TextureRegion[variantsLarge][][];
             for (int i = 0; i < variantsLarge; i++) {
-                larges[i] = Core.atlas.find(name + "-large" + i);
+                larges[i] = atlas.find(name + "-large" + i);
                 split[i] = larges[i].split(32, 32);
             }
         }

@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.production;
 
-import arc.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -24,6 +23,7 @@ import mindustry.world.meta.*;
 import heavyindustry.world.consumers.*;
 import heavyindustry.world.meta.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -115,9 +115,9 @@ public abstract class AdaptDrill extends Block {
     @Override
     public void load() {
         super.load();
-        baseRegion = Core.atlas.find(name + "-bottom");
-        topRegion = Core.atlas.find(name + "-top");
-        oreRegion = Core.atlas.find(name + "-ore");
+        baseRegion = atlas.find(name + "-bottom");
+        topRegion = atlas.find(name + "-top");
+        oreRegion = atlas.find(name + "-ore");
     }
 
     @Override
@@ -128,7 +128,7 @@ public abstract class AdaptDrill extends Block {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("drillSpeed", (AdaptDrillBuild e) -> new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.getMineSpeed() * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));
+        addBar("drillSpeed", (AdaptDrillBuild e) -> new Bar(() -> bundle.format("bar.drillspeed", Strings.fixed(e.getMineSpeed() * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));
     }
 
     public float mineInterval(){
@@ -163,7 +163,7 @@ public abstract class AdaptDrill extends Block {
                 }
             }).growX().colspan(table.getColumns());
         });
-        stats.add(HIStat.maxBoostPercent, Core.bundle.get("stat.hi-f-percent"), Strings.autoFixed(maxBoost * 100, 0));
+        stats.add(HIStat.maxBoostPercent, bundle.get("stat.hi-f-percent"), Strings.autoFixed(maxBoost * 100, 0));
     }
 
     @Override
@@ -214,7 +214,7 @@ public abstract class AdaptDrill extends Block {
             Tile to = tile.getLinkedTilesAs(this, tempTiles).find(t -> t.drop() != null && t.drop().hardness > mineTier || blockedItem.contains(t.drop()));
             Item item = to == null ? null : to.drop();
             if(item != null){
-                drawPlaceText(Core.bundle.get("bar.drilltierreq"), x, y, valid);
+                drawPlaceText(bundle.get("bar.drilltierreq"), x, y, valid);
             }else{
                 drawPlaceText("No Ores", x, y, valid);
             }

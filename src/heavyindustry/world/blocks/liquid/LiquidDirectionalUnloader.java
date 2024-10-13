@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.liquid;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.scene.ui.layout.*;
@@ -12,12 +11,13 @@ import mindustry.world.*;
 import mindustry.world.blocks.*;
 import mindustry.world.meta.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /** @author guiY */
 public class LiquidDirectionalUnloader extends Block {
-    public String center;
-    public String arrow;
+    public TextureRegion arrowRegion, centerRegion, topRegion;
+
     public float speed = 10f;
 
     public LiquidDirectionalUnloader(String name){
@@ -42,8 +42,9 @@ public class LiquidDirectionalUnloader extends Block {
     @Override
     public void load() {
         super.load();
-        center = name + "-center";
-        arrow = name + "-arrow";
+        arrowRegion = atlas.find(name + "-arrow");
+        centerRegion = atlas.find(name + "-center");
+        topRegion = atlas.find(name + "-top");
     }
 
     @Override
@@ -51,7 +52,7 @@ public class LiquidDirectionalUnloader extends Block {
         super.setBars();
         removeBar("liquid");
         addBar("back", (LiquidDirectionalUnloaderBuild entity) -> new Bar(
-                () -> Core.bundle.get("bar.input"),
+                () -> bundle.get("bar.input"),
                 () -> entity.sortLiquid == null ? Color.black : entity.sortLiquid.color,
                 () -> {
                     if(entity.sortLiquid != null && entity.back() != null && entity.back().block != null && entity.back().block.hasLiquids && entity.back().block.liquidCapacity > 0) {
@@ -60,7 +61,7 @@ public class LiquidDirectionalUnloader extends Block {
                 }
         ));
         addBar("front", (LiquidDirectionalUnloaderBuild entity) -> new Bar(
-                () -> Core.bundle.get("bar.output"),
+                () -> bundle.get("bar.output"),
                 () -> entity.sortLiquid == null ? Color.black : entity.sortLiquid.color,
                 () -> {
                     if(entity.sortLiquid != null && entity.front() != null && entity.front().block != null && entity.front().block.hasLiquids && entity.front().block.liquidCapacity > 0) {
@@ -73,14 +74,14 @@ public class LiquidDirectionalUnloader extends Block {
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
-        Draw.rect(Core.atlas.find(name), x, y, 0);
-        Draw.rect(Core.atlas.find(name + "-top"), x, y, 0);
-        Draw.rect(Core.atlas.find(arrow), x, y, rotation);
+        Draw.rect(region, x, y, 0);
+        Draw.rect(topRegion, x, y, 0);
+        Draw.rect(arrowRegion, x, y, rotation);
     }
 
     @Override
     protected TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find(name), Core.atlas.find(name + "-top"), Core.atlas.find(arrow)};
+        return new TextureRegion[]{region, topRegion, arrowRegion};
     }
 
     public class LiquidDirectionalUnloaderBuild extends Building{
@@ -102,14 +103,15 @@ public class LiquidDirectionalUnloader extends Block {
                 }
             }
         }
+
         @Override
         public void draw() {
-            Draw.rect(Core.atlas.find(name), x, y);
+            Draw.rect(region, x, y);
             Draw.color(sortLiquid == null ? Color.clear : sortLiquid.color);
-            Draw.rect(Core.atlas.find(center), x, y);
+            Draw.rect(centerRegion, x, y);
             Draw.color();
-            Draw.rect(Core.atlas.find(name + "-top"), x, y);
-            Draw.rect(Core.atlas.find(arrow), x, y, rotdeg());
+            Draw.rect(topRegion, x, y);
+            Draw.rect(arrowRegion, x, y, rotdeg());
         }
 
         @Override

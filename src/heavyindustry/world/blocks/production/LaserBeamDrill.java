@@ -1,12 +1,13 @@
 package heavyindustry.world.blocks.production;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
 import mindustry.graphics.*;
 import heavyindustry.content.*;
+
+import static arc.Core.*;
 
 /**
  * @author Yuria
@@ -49,8 +50,8 @@ public class LaserBeamDrill extends AdaptDrill {
 
     public void load(){
         super.load();
-        laser = Core.atlas.find("minelaser");
-        laserEnd = Core.atlas.find("minelaser-end");
+        laser = atlas.find("minelaser");
+        laserEnd = atlas.find("minelaser-end");
 
     }
 

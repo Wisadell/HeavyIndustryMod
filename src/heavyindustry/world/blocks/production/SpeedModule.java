@@ -1,10 +1,11 @@
 package heavyindustry.world.blocks.production;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
 import mindustry.graphics.*;
+
+import static arc.Core.*;
 
 /**
  * Module for improving drill bit speed.
@@ -26,7 +27,7 @@ public class SpeedModule extends DrillModule {
     public void load() {
         super.load();
         for (int i = 0; i < 3; i++){
-            arrow[i] = Core.atlas.find(name + "-arrow-" + i);
+            arrow[i] = atlas.find(name + "-arrow-" + i);
         }
     }
 

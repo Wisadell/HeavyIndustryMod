@@ -3,12 +3,13 @@ package heavyindustry.world.blocks.production;
 import heavyindustry.gen.*;
 import arc.math.*;
 import arc.util.*;
-import arc.*;
 import arc.graphics.g2d.*;
 import mindustry.entities.units.*;
 import mindustry.game.Team;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+
+import static arc.Core.*;
 
 public class HammerDrill extends ImplosionDrill {
     public TextureRegion hammerRegion;
@@ -22,7 +23,7 @@ public class HammerDrill extends ImplosionDrill {
     @Override
     public void load() {
         super.load();
-        hammerRegion = Core.atlas.find(name + "-hammer");
+        hammerRegion = atlas.find(name + "-hammer");
     }
 
     @Override

@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.logic;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -14,6 +13,8 @@ import mindustry.world.blocks.liquid.*;
 import mindustry.world.blocks.logic.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
+
+import static arc.Core.*;
 
 public class ProcessorCooler extends Block {
     public TextureRegion heatRegion, liquidRegion, topRegion;
@@ -50,12 +51,12 @@ public class ProcessorCooler extends Block {
     @Override
     public void load(){
         super.load();
-        heatRegion = Core.atlas.find(name + "-heat", region);
+        heatRegion = atlas.find(name + "-heat", region);
         if(liquidConsumer != null){
-            liquidRegion = Core.atlas.find(name + "-liquid");
+            liquidRegion = atlas.find(name + "-liquid");
         }
-        topRegion = Core.atlas.find(name + "-top");
-        useTopRegion = Core.atlas.isFound(topRegion);
+        topRegion = atlas.find(name + "-top");
+        useTopRegion = atlas.isFound(topRegion);
     }
 
     @Override
@@ -75,8 +76,8 @@ public class ProcessorCooler extends Block {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("boost", (ProcessorCoolerBuild entity) -> new Bar(() -> Core.bundle.format("bar.boost", entity.realBoost() * 100), () -> Pal.accent, () -> (float)entity.realBoost() / maxBoost));
-        addBar("links", (ProcessorCoolerBuild entity) -> new Bar(() -> Core.bundle.format("bar.hi-coolprocs", entity.usedLinks, maxProcessors), () -> Pal.ammo, () -> entity.heat));
+        addBar("boost", (ProcessorCoolerBuild entity) -> new Bar(() -> bundle.format("bar.boost", entity.realBoost() * 100), () -> Pal.accent, () -> (float)entity.realBoost() / maxBoost));
+        addBar("links", (ProcessorCoolerBuild entity) -> new Bar(() -> bundle.format("bar.hi-coolprocs", entity.usedLinks, maxProcessors), () -> Pal.ammo, () -> entity.heat));
     }
 
     public class ProcessorCoolerBuild extends Building {

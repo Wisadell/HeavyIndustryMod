@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.production;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -8,6 +7,8 @@ import arc.util.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.graphics.*;
+
+import static arc.Core.*;
 
 /**
  * Draw the original drill bit rotation.
@@ -31,8 +32,8 @@ public class RotatorDrill extends AdaptDrill {
     @Override
     public void load() {
         super.load();
-        rotatorRegion = Core.atlas.find(name + "-rotator");
-        rimRegion = Core.atlas.find(name + "-rim");
+        rotatorRegion = atlas.find(name + "-rotator");
+        rimRegion = atlas.find(name + "-rim");
     }
 
     @Override

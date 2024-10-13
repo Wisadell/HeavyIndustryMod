@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.defense;
 
-import arc.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -17,6 +16,7 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.meta.*;
 import heavyindustry.gen.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -52,7 +52,7 @@ public class AssignOverdrive extends OverdriveProjector{
     @Override
     public void setBars(){
         super.setBars();
-        addBar("boost", (AssignOverdriveBuild entity) -> new Bar(() -> Core.bundle.format("bar.boost", (int)(entity.realBoost() * 100)), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
+        addBar("boost", (AssignOverdriveBuild entity) -> new Bar(() -> bundle.format("bar.boost", (int)(entity.realBoost() * 100)), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
     }
 
     public class AssignOverdriveBuild extends OverdriveBuild implements LinkGroupc {
@@ -69,10 +69,10 @@ public class AssignOverdrive extends OverdriveProjector{
 
         @Override
         public void draw(){
-            if (this.block.variants != 0 && this.block.variantRegions != null) {
-                Draw.rect(this.block.variantRegions[Mathf.randomSeed((long)this.tile.pos(), 0, Math.max(0, this.block.variantRegions.length - 1))], this.x, this.y, this.drawrot());
+            if (block.variants != 0 && block.variantRegions != null) {
+                Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0,block.variantRegions.length - 1))], x, y, drawrot());
             } else {
-                Draw.rect(this.block.region, this.x, this.y, this.drawrot());
+                Draw.rect(block.region, x, y, drawrot());
             }
 
             this.drawTeamTop();

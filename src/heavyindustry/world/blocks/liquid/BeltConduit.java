@@ -1,7 +1,5 @@
 package heavyindustry.world.blocks.liquid;
 
-import heavyindustry.util.*;
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.util.*;
 import mindustry.entities.units.*;
@@ -12,7 +10,9 @@ import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.liquid.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.HIUtils.*;
 
 public class BeltConduit extends Conduit {
     public static final float rotatePad = 6, hpad = rotatePad / 2f / 4f;
@@ -27,10 +27,10 @@ public class BeltConduit extends Conduit {
     @Override
     public void load() {
         super.load();
-        uiIcon = Core.atlas.find(name + "-icon");
+        uiIcon = atlas.find(name + "-icon");
 
-        topParts = HIUtils.split(name + "-top", 32, 0);
-        botParts = HIUtils.split(name + "-bot", 32, 0);
+        topParts = split(name + "-top", 32, 0);
+        botParts = split(name + "-bot", 32, 0);
     }
 
     @Override

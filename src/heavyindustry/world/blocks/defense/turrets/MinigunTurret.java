@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.defense.turrets;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -18,6 +17,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 import static heavyindustry.util.HIUtils.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -46,8 +46,8 @@ public class MinigunTurret extends ItemTurret {
             public void load(Block block){
                 super.load(block);
 
-                barrel = Core.atlas.find(block.name + "-barrel");
-                barrelOutline = Core.atlas.find(block.name + "-barrel-outline");
+                barrel = atlas.find(block.name + "-barrel");
+                barrelOutline = atlas.find(block.name + "-barrel-outline");
             }
 
             @Override
@@ -102,11 +102,7 @@ public class MinigunTurret extends ItemTurret {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("hi-minigun-speed", (MinigunTurretBuild entity) -> new Bar(
-                () -> Core.bundle.format("bar.hi-minigun-speed", stringsFixed(entity.speedf() * 100f)),
-                entity::barColor,
-                entity::speedf
-        ));
+        addBar("hi-minigun-speed", (MinigunTurretBuild e) -> new Bar(() -> bundle.format("bar.hi-minigun-speed", stringsFixed(e.speedf() * 100f)), e::barColor, e::speedf));
     }
 
     public class MinigunTurretBuild extends ItemTurretBuild{

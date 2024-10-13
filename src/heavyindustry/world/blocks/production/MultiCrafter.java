@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.production;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.ui.*;
@@ -23,6 +22,7 @@ import mindustry.world.meta.*;
 import heavyindustry.ui.display.*;
 import heavyindustry.world.consumers.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 import static heavyindustry.gen.HIIcon.*;
 
@@ -165,7 +165,7 @@ public class MultiCrafter extends Block {
                             }
                         }).size(160,0);
                     }).right().grow().pad(20f).row();
-                    if (Core.bundle.has(r.recipeDetail)){
+                    if (bundle.has(r.recipeDetail)){
                         Table detail = new Table();
                         detail.label(() -> "[gray]" + r.recipeDetail).pad(0,15,8,15).size(460, 0).wrap().left().row();
                         Collapser coll = new Collapser(detail, true);
@@ -173,7 +173,7 @@ public class MultiCrafter extends Block {
 
                         info.table(ft -> {
                             ft.left();
-                            ft.label(() -> Core.bundle.get("recipe.expand-detail"));
+                            ft.label(() -> bundle.get("recipe.expand-detail"));
                             ft.button(Icon.downOpen, Styles.emptyi, () -> coll.toggle(false)).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).size(8).padLeft(16f).expandX();
                         }).pad(0,10,5,0).left();
                         info.row();
@@ -530,9 +530,9 @@ public class MultiCrafter extends Block {
 
         public Recipe(String name) {
             this.name = name;
-            recipeName = Core.bundle.get("recipe." + name + ".name");
-            recipeDescription = Core.bundle.get("recipe." + name + ".description");
-            recipeDetail = Core.bundle.get("recipe." + name + ".details");
+            recipeName = bundle.get("recipe." + name + ".name");
+            recipeDescription = bundle.get("recipe." + name + ".description");
+            recipeDetail = bundle.get("recipe." + name + ".details");
         }
 
         public String name = "";

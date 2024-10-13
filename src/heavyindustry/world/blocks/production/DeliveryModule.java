@@ -1,12 +1,11 @@
 package heavyindustry.world.blocks.production;
 
-import arc.graphics.Color;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.math.Mathf;
-import arc.util.Time;
-import heavyindustry.graphics.Drawn;
-import mindustry.graphics.Layer;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import mindustry.graphics.*;
+import heavyindustry.graphics.*;
 
 /**
  * A module that directly converts drill bit products into another item.

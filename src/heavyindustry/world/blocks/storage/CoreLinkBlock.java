@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.storage;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
@@ -12,6 +11,8 @@ import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.meta.*;
 import mindustry.world.modules.*;
+
+import static arc.Core.*;
 
 /**
  * Connect the core warehouse.
@@ -49,13 +50,9 @@ public class CoreLinkBlock extends StorageBlock {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("warmup", (CoreLinkBuild entity) -> new Bar(() -> Mathf.equal(entity.warmup, 1, 0.015f) ? Core.bundle.get("done") : Core.bundle.get("research.load"), () -> Mathf.equal(entity.warmup, 1, 0.015f) ? Pal.heal : Pal.redderDust, () -> entity.warmup));
+        addBar("warmup", (CoreLinkBuild e) -> new Bar(() -> Mathf.equal(e.warmup, 1, 0.015f) ? bundle.get("done") : bundle.get("research.load"), () -> Mathf.equal(e.warmup, 1, 0.015f) ? Pal.heal : Pal.redderDust, () -> e.warmup));
         removeBar("items");
-        addBar("items", (CoreLinkBuild entity) -> new Bar(
-                () -> Core.bundle.format("bar.items", entity.items.total()),
-                () -> Pal.items,
-                () -> (float)(entity.items.total() / ((tmpCoreBuild = entity.core()) == null ? Integer.MAX_VALUE : tmpCoreBuild.storageCapacity)))
-        );
+        addBar("items", (CoreLinkBuild e) -> new Bar(() -> bundle.format("bar.items", e.items.total()), () -> Pal.items, () -> (float)(e.items.total() / ((tmpCoreBuild = e.core()) == null ? Integer.MAX_VALUE : tmpCoreBuild.storageCapacity))));
     }
 
     public class CoreLinkBuild extends StorageBuild {
@@ -64,16 +61,16 @@ public class CoreLinkBlock extends StorageBlock {
         @Override
         public void updateTile(){
             if(efficiency() > 0 && core() != null){
-                if(Mathf.equal(warmup, 1, 0.015F))warmup = 1f;
+                if(Mathf.equal(warmup, 1, 0.015f))warmup = 1f;
                 else warmup = Mathf.lerpDelta(warmup, 1, 0.01f);
             }else{
-                if(Mathf.equal(warmup, 0, 0.015F))warmup = 0f;
+                if(Mathf.equal(warmup, 0, 0.015f))warmup = 0f;
                 else warmup = Mathf.lerpDelta(warmup, 0, 0.03f);
             }
 
             progress += warmup * efficiency() * Time.delta;
 
-            if(Mathf.equal(warmup, 1, 0.015F)){
+            if(Mathf.equal(warmup, 1, 0.015f)){
                 if(linkedCore == null || !linkedCore.isValid() && core() != null){
                     linkedCore = core();
                     items = linkedCore.items;
