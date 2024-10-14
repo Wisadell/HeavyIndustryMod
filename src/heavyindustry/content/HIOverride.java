@@ -371,7 +371,7 @@ public class HIOverride {
         Items.surgeAlloy.hardness = 6;
         Items.phaseFabric.hardness = 3;
         Items.carbide.hardness = 6;
-        Items.serpuloItems.addAll(HIItems.rareEarth, HIItems.nanocore, HIItems.chromium, HIItems.uranium, HIItems.heavyAlloy, HIItems.highEnergyFabric);
+        Items.serpuloItems.addAll(HIItems.rareEarth, HIItems.nanocore, HIItems.chromium, HIItems.uranium, HIItems.heavyAlloy);
         Items.erekirItems.addAll(HIItems.nanocoreErekir);
     }
 }

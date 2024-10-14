@@ -27,7 +27,6 @@ public class HITechTree {
         addToNode(Items.silicon, () -> nodeProduce(HIItems.nanocore, () -> nodeProduce(HILiquids.nanofluid, () -> {})));
         addToNode(Items.thorium, () -> nodeProduce(HIItems.uranium, () -> nodeProduce(HIItems.chromium, () -> {})));
         addToNode(Items.surgeAlloy, () -> nodeProduce(HIItems.heavyAlloy, () -> {}));
-        addToNode(Items.phaseFabric, () -> nodeProduce(HIItems.highEnergyFabric, () -> {}));
         //items,liquids-erekir
         addToNode(Items.oxide, () -> nodeProduce(HIItems.nanocoreErekir, () -> {}));
         //wall
@@ -59,6 +58,7 @@ public class HITechTree {
         addToNode(oilExtractor, () -> node(reinforcedOilExtractor, () -> {}));
         //drill-erekir
         addToNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
+        addToNode(implosionDrill, () -> node(minerPoint, () -> node(minerCenter, () -> {})));
         addToNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
         //distribution
         addToNode(junction, () -> {
@@ -70,7 +70,7 @@ public class HITechTree {
             node(plastaniumBridge, () -> {});
             node(stackHelper, () -> {});
         });
-        addToNode(phaseConveyor, () -> node(highEnergyItemNode, () -> {}));
+        addToNode(phaseConveyor, () -> node(phaseItemNode, () -> {}));
         addToNode(titaniumConveyor, () -> node(chromiumEfficientConveyor, () -> {
             node(chromiumArmorConveyor, () -> node(chromiumStackConveyor, () -> {
                 node(chromiumStackRouter, () -> {});
@@ -93,7 +93,7 @@ public class HITechTree {
         addToNode(ductUnloader, () -> node(rapidDuctUnloader, () -> {}));
         //liquid
         addToNode(impulsePump, () -> node(turboPump, () -> {}));
-        addToNode(phaseConduit, () -> node(highEnergyLiquidNode, () -> {}));
+        addToNode(phaseConduit, () -> node(phaseLiquidNode, () -> {}));
         addToNode(platedConduit, () -> node(chromiumArmorConduit, () -> {
             node(chromiumLiquidBridge, () -> {});
             node(chromiumArmorLiquidContainer, () -> node(chromiumArmorLiquidTank, () -> {}));
@@ -107,7 +107,7 @@ public class HITechTree {
         addToNode(reinforcedConduit, () -> node(smallReinforcedPump, Seq.with(new OnSector(basin)), () -> node(reinforcedPump, () -> node(largeReinforcedPump, () -> {}))));
         //power
         addToNode(powerNode, () -> node(windTurbine, () -> {}));
-        addToNode(powerNodeLarge, () -> node(powerNodeGiant, () -> node(powerNodeHighEnergy, () -> {})));
+        addToNode(powerNodeLarge, () -> node(powerNodeHuge, () -> node(powerNodePhase, () -> {})));
         addToNode(thoriumReactor, () -> node(uraniumReactor, () -> {}));
         addToNode(impactReactor, () -> node(magneticStormRadiationReactor, () -> {}));
         addToNode(batteryLarge, () -> node(armoredCoatedBattery, () -> {}));
@@ -138,13 +138,7 @@ public class HITechTree {
         addToNode(siliconCrucible, () -> node(blastSiliconSmelter, () -> {}));
         addToNode(siliconSmelter, () -> node(nanocoreConstructor, Seq.with(new SectorComplete(impact0078)), () -> node(nanocorePrinter, () -> {})));
         addToNode(sporePress, () -> node(nitrificationReactor, () -> node(nitratedOilSedimentationTank, () -> {})));
-        addToNode(phaseWeaver, () -> {
-            node(highEnergyEnergizer, Seq.with(new SectorComplete(impact0078)), () -> {
-                node(highEnergyReactor, () -> {});
-                node(highEnergyFabricFusionInstrument, () -> {});
-            });
-            node(highEnergyPhaseWeaver, () -> {});
-        });
+        addToNode(phaseWeaver, () -> node(largePhaseWeaver, () -> node(phaseFusionInstrument, () -> {})));
         //production-erekir
         addToNode(siliconArcFurnace, () -> {
             node(chemicalSiliconSmelter, ItemStack.with(Items.graphite, 2800, Items.silicon, 1000, Items.tungsten, 2400, Items.oxide, 50), () -> {});

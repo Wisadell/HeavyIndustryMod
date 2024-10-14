@@ -116,7 +116,7 @@ public class HIFx {
     public static Effect fireworksShoot(float r){
         return new Effect(30, e -> {
             Draw.z(Layer.effect - 0.1f);
-            Draw.color(HIPal.EC9.set(HIPal.rainBowRed).shiftHue(Time.time * 2.0f));
+            Draw.color(HIGet.EC9.set(HIPal.rainBowRed).shiftHue(Time.time * 2.0f));
             Angles.randLenVectors(e.id, 1, e.fin() * 20f, e.rotation + r, 0, (x, y) -> Fill.circle(e.x + x, e.y + y, 2 * e.fout()));
             Angles.randLenVectors(e.id, 1, e.fin() * 20f, e.rotation - r, 0, (x, y) -> Fill.circle(e.x + x, e.y + y, 2 * e.fout()));
             Draw.blend();

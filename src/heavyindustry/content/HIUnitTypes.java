@@ -4,6 +4,7 @@ import heavyindustry.ai.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.world.draw.*;
+import heavyindustry.entities.abilities.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.entities.bullet.*;
 import arc.graphics.*;
@@ -11,6 +12,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
+import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -50,6 +52,9 @@ public class HIUnitTypes {
         nameMap.put(name("dominate"), idMap[43]);
         nameMap.put(name("oracle"), idMap[24]);
         nameMap.put(name("havoc"), idMap[5]);
+        //miner-erekir
+        nameMap.put(name("miner"), idMap[36]);
+        nameMap.put(name("large-miner"), idMap[36]);
         //other
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
@@ -60,8 +65,10 @@ public class HIUnitTypes {
     public static UnitType
             //tier6
             suzerain,supernova,cancer,sunlit,windstorm,mosasaur,killerWhale,
-            //erekir-tier6
+            //tier6-erekir
             dominate,oracle,havoc,
+            //miner-erekir
+            miner,largeMiner,
             //other
             vulture,burner,
             //boss
@@ -362,7 +369,7 @@ public class HIUnitTypes {
                     incendAmount = 1;
                     collidesTeam = true;
                 }};
-            }}, new Weapon(name("sunlit-m")){{
+            }}, new Weapon(name("sunlit-weapon-small")){{
                 x = 35f;
                 y = 23f;
                 rotateSpeed = 2f;
@@ -672,7 +679,7 @@ public class HIUnitTypes {
                 }};
             }});
         }};
-        //erekir-tier6
+        //tier6-erekir
         dominate = new TankUnitType("dominate"){{
             hitSize = 57f;
             treadPullOffset = 1;
@@ -977,7 +984,7 @@ public class HIUnitTypes {
                         }}, Fx.blastExplosion);
                     }};
                 }};
-            }}, new Weapon(name("oracle-weapon")){{
+            }}, new Weapon(name("oracle-weapon-small")){{
                 shootSound = Sounds.malignShoot;
                 mirror = true;
                 rotate = true;
@@ -1148,6 +1155,72 @@ public class HIUnitTypes {
             }});
             setEnginesMirror(new UnitEngine(95f / 4f, -56f / 4, 5f, 330f), new UnitEngine(89f / 4, -95f / 4, 4f, 315f));
         }};
+        //miner-erekir
+        miner = new ErekirUnitType("miner"){{
+            defaultCommand = UnitCommand.mineCommand;
+            controller = u -> new MinerPointAI();
+            flying = true;
+            drag = 0.06f;
+            accel = 0.12f;
+            speed = 1.5f;
+            health = 100;
+            engineSize = 1.8f;
+            engineOffset = 5.7f;
+            range = 50f;
+            hitSize = 12f;
+            itemCapacity = 20;
+            isEnemy = false;
+            payloadCapacity = 0;
+            mineTier = 10;//The stronghold determines the tier.
+            mineSpeed = 1.6f;
+            mineWalls = true;
+            mineFloor = true;
+            useUnitCap = false;
+            logicControllable = false;
+            playerControllable = false;
+            allowedInPayloads = false;
+            createWreck = false;
+            envEnabled = Env.any;
+            envDisabled = Env.none;
+            hidden = true;
+            targetable = false;
+            hittable = false;
+            targetPriority = -2;
+            setEnginesMirror(new UnitEngine(24 / 4f, -24 / 4f, 2.3f, 315f));
+        }};
+        largeMiner = new ErekirUnitType("large-miner"){{
+            defaultCommand = UnitCommand.mineCommand;
+            controller = u -> new MinerPointAI();
+            flying = true;
+            drag = 0.06f;
+            accel = 0.12f;
+            speed = 1.5f;
+            health = 100;
+            engineSize = 2.6f;
+            engineOffset = 9.8f;
+            range = 50f;
+            mineRange = 100f;
+            hitSize = 16f;
+            itemCapacity = 50;
+            isEnemy = false;
+            payloadCapacity = 0;
+            mineTier = 10;
+            mineSpeed = 3.2f;
+            mineWalls = true;
+            mineFloor = true;
+            useUnitCap = false;
+            logicControllable = false;
+            playerControllable = false;
+            allowedInPayloads = false;
+            createWreck = false;
+            envEnabled = Env.any;
+            envDisabled = Env.none;
+            hidden = true;
+            targetable = false;
+            hittable = false;
+            targetPriority = -2;
+            setEnginesMirror(new UnitEngine(40 / 4f, -40 / 4f, 3f, 315f));
+        }};
         //other
         vulture = new UnitType("vulture"){{
             aiController = SurroundAI::new;
@@ -1158,10 +1231,10 @@ public class HIUnitTypes {
                 mirror = false;
                 x = 0f;
                 y = -10f;
-                reload = 6f;
+                reload = 25f;
                 inaccuracy = 3f;
                 ejectEffect = Fx.none;
-                bullet = new AccelBulletType(4f, 20f, "missile-large"){{
+                bullet = new AccelBulletType(4f, 50f, "missile-large"){{
                     shrinkX = shrinkY = 0.35f;
                     buildingDamageMultiplier = 1.5f;
                     keepVelocity = false;
@@ -1188,7 +1261,13 @@ public class HIUnitTypes {
                 }};
                 shootSound = HISounds.blaster;
             }});
-            abilities.add(new MoveLightningAbility(10, 16, 0.2f, 12, 4, 6, Pal.accent));
+            abilities.add(new JavelinAbility(20f, 5f, 29f){{
+                minDamage = 5f;
+                minSpeed = 2f;
+                maxSpeed = 4f;
+                magX = 0.2f;
+                magY = 0.1f;
+            }});
             targetAir = false;
             maxRange = 200;
             engineOffset = 14.0F;
@@ -1201,7 +1280,7 @@ public class HIUnitTypes {
             health = 1000f;
             baseRotateSpeed = 1.5f;
             rotateSpeed = 2.5f;
-            armor = 3.5f;
+            armor = 10.5f;
             flying = true;
         }};
         burner = new UnitType("burner"){{
@@ -1265,7 +1344,7 @@ public class HIUnitTypes {
             health = 122000f;
             armor = 115f;
             rotateSpeed = 1f;
-            speed = 0.5f;
+            speed = 0.8f;
             squareShape = true;
             omniMovement = false;
             rotateMoveFirst = true;
@@ -1296,7 +1375,7 @@ public class HIUnitTypes {
                 }};
                 inaccuracy = 1.3f;
                 shootSound = HISounds.flak;
-                bullet = new AccelBulletType(1, 200, "missile-large"){{
+                bullet = new AccelBulletType(1, 800, "missile-large"){{
                     lightOpacity = 0.7f;
                     healPercent = 20f;
                     reflectable = false;
@@ -1315,11 +1394,11 @@ public class HIUnitTypes {
                     lifetime = 40f;
                     frontColor = Color.white;
                     lightning = 2;
-                    lightningDamage = damage / 4f + 10f;
+                    lightningDamage = damage / 8f + 10f;
                     lightningLength = 7;
                     lightningLengthRand = 16;
                     splashDamageRadius = 36f;
-                    splashDamage = damage / 2f;
+                    splashDamage = damage / 3f;
                     width = 13f;
                     height = 35f;
                     speed = 8f;

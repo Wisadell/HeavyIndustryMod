@@ -10,7 +10,7 @@ import mindustry.type.*;
 public class HIItems {
     public static Item
             rareEarth,
-            nanocore,nanocoreErekir,highEnergyFabric,
+            nanocore,nanocoreErekir,
             uranium,chromium,heavyAlloy;
     public static void load(){
         rareEarth = new Item("rare-earth", Color.valueOf("b1bd99")){{
@@ -26,12 +26,6 @@ public class HIItems {
         nanocoreErekir = new Item("nanocore-erekir", Color.valueOf("d06b53")){{
             cost = -0.75f;
             hardness = 6;
-        }};
-        highEnergyFabric = new Item("high-energy-fabric", Color.valueOf("eec591")){{
-            cost = 1.8f;
-            hardness = 3;
-            healthScaling = 0.25f;
-            radioactivity = 4;
         }};
         uranium = new Item("uranium", Color.valueOf("a5b2c2")){{
             cost = 4;

@@ -30,6 +30,7 @@ public class HIClassMap {
         //ai
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
+        classes.put("MinerPointAI", MinerPointAI.class);
         //ability
         classes.put("JavelinAbility", JavelinAbility.class);
         //bullets
@@ -186,15 +187,17 @@ public class HIClassMap {
         classes.put("RefineModuleBuild", RefineModule.RefineModuleBuild.class);
         classes.put("DeliveryModule", DeliveryModule.class);
         classes.put("DeliveryModuleBuild", DeliveryModule.DeliveryModuleBuild.class);
+        classes.put("MinerPoint", MinerPoint.class);
+        classes.put("MinerPointBuild", MinerPoint.MinerPointBuild.class);
         classes.put("AdaptUnloader", AdaptUnloader.class);
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
         classes.put("CoreLinkBlock", CoreLinkBlock.class);
         classes.put("CoreLinkBuild", CoreLinkBlock.CoreLinkBuild.class);
         //consume
-        classes.put("AdaptConsumeItemDynamic", AdaptConsumeItemDynamic.class);
-        classes.put("AdaptConsumeLiquidDynamic", AdaptConsumeLiquidDynamic.class);
-        classes.put("AdaptConsumerPower", AdaptConsumerPower.class);
-        classes.put("AdaptConsumeShowStat", AdaptConsumeShowStat.class);
+        classes.put("ConsumeItemDynamicF", ConsumeItemDynamicF.class);
+        classes.put("ConsumeLiquidDynamicF", ConsumeLiquidDynamicF.class);
+        classes.put("ConsumerPowerF", ConsumerPowerF.class);
+        classes.put("ConsumeShowStat", ConsumeShowStat.class);
         //draws
         classes.put("AimPart", AimPart.class);
         classes.put("BowHalo", BowHalo.class);

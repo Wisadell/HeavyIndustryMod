@@ -19,70 +19,44 @@ import mindustry.type.*;
 import mindustry.world.meta.*;
 
 public class JavelinAbility extends Ability {
-    public String suffix = "";
+    public String suffix = "-overlay";
     public String name;
 
-    /**
-     * Base damaged applied when this ability is active.
-     */
+    /** Base damaged applied when this ability is active. */
     public float damage = 1;
-    /**
-     * Min damage that this ability will apply
-     */
+    /** Min damage that this ability will apply. */
     public float minDamage = 0f;
-    /**
-     * Time taken for the ability to apply the damage. In ticks.
-     */
+    /** Time taken for the ability to apply the damage. In ticks. */
     public float damageInterval = 5f;
-    /**
-     * Radius of ability. Set to unit's hitSize by default.
-     */
+    /** Radius of ability. Set to unit's hitSize by default. */
     public float radius = -1;
 
     public boolean targetAir = true, targetGround = true;
 
-    /**
-     * Min speed that the abiility functions.
-     */
+    /** Min speed that the abiility functions. */
     public float minSpeed = 0.8f;
-    /**
-     * Max speed where it stops getting better.
-     */
+    /** Max speed where it stops getting better. */
     public float maxSpeed = 1.2f;
 
-    /**
-     * Position offset relative to the unit.
-     */
+    /** Position offset relative to the unit. */
     public float x, y;
 
-    /**
-     * Layer offset relative to unit;.
-     */
+    /** Layer offset relative to unit. */
     public float layerOffset = 0f;
 
-    /**
-     * Position offset based on sine wave. Purely visual.
-     */
+    /** Position offset based on sine wave. Purely visual. */
     public float sclX = 1, magX = 0;
     public float sclY = 1, magY = 0;
     public float sinOffset = Mathf.PI;
 
-    /**
-     * Overlay region and effect tint.
-     */
+    /** Overlay region and effect tint. */
     public Color color = Color.white;
-    /**
-     * Overaly blending mode;
-     */
+    /** Overaly blending mode. */
     public Blending blending = Blending.additive;
-    /**
-     * When true, draws an overlay sprite on top of the unit.
-     */
+    /** When true, draws an overlay sprite on top of the unit. */
     public boolean drawOverlay = true;
 
-    /**
-     * Effect applied on every target that has been damaged by this ability. uses the unit's rotation.
-     */
+    /** Effect applied on every target that has been damaged by this ability. uses the unit's rotation. */
     public Effect hitEffect = Fx.none;
 
     public TextureRegion overlayRegion;
@@ -90,12 +64,17 @@ public class JavelinAbility extends Ability {
     protected float timer;
     protected final Seq<Healthc> targets = new Seq<>();
 
+    public JavelinAbility(float damage, float damageInterval, float radius, String suffix) {
+        this.damage = damage;
+        this.damageInterval = damageInterval;
+        this.radius = radius;
+        this.suffix = suffix;
+    }
+
     public JavelinAbility(float damage, float damageInterval, float radius) {
         this.damage = damage;
         this.damageInterval = damageInterval;
         this.radius = radius;
-
-        suffix = "-overlay";
     }
 
     public JavelinAbility() {}
