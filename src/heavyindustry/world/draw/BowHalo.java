@@ -1,6 +1,5 @@
 package heavyindustry.world.draw;
 
-import heavyindustry.graphics.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -12,7 +11,7 @@ public class BowHalo extends DrawPart {
     public float x = 0, y = -25;
     public float stroke = 4;
     public float radius = 12f;
-    public Color color = HIPal.highEnergyYellow;
+    public Color color = Pal.accent;
     public float rotateSpeed = 1, w1 = 3, h1 = 6, w2 = 4, h2 = 18;
     public float layer = Layer.effect;
     public PartProgress progress = PartProgress.warmup.delay(0.5f);

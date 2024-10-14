@@ -1,12 +1,12 @@
 package heavyindustry.world.draw;
 
-import heavyindustry.graphics.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.turrets.Turret.*;
 import mindustry.world.draw.*;
@@ -14,7 +14,7 @@ import mindustry.world.draw.*;
 public class RunningLight extends DrawBlock {
     public int size;
     public TextureRegion[] regions;
-    public Color color = HIPal.highEnergyYellow;
+    public Color color = Pal.accent;
     public boolean contrary = true;
 
     public RunningLight(int size){
