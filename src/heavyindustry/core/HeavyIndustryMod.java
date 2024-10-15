@@ -87,8 +87,8 @@ public class HeavyIndustryMod extends Mod{
         HIUnitTypes.load();
         HIBlocks.load();
         HIWeathers.load();
+        HIOverride.loadReflect();
         HIOverride.load();
-        HIReflector.load();
         HIPlanets.load();
         HISectorPresets.load();
         HITechTree.load();

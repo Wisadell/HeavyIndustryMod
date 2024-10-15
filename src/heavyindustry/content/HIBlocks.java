@@ -49,6 +49,7 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
+import static arc.Core.atlas;
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
@@ -66,8 +67,10 @@ public class HIBlocks {
             stoneWater,shaleWater,basaltWater,
             softRareEarth,patternRareEarth,softRareEarthWall,
             oreUranium,oreChromium,
-            //wall; ok, these names are getting ridiculous, but at least I don't have humongous walls yet
-            armoredWall,armoredWallLarge,uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,shapedWall,
+            //wall;
+            copperWallHuge,copperWallGigantic,titaniumWallHuge,titaniumWallGigantic,armoredWall,armoredWallLarge,armoredWallHuge,armoredWallGigantic,uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,shapedWall,
+            //wall-erekir
+            berylliumWallHuge,berylliumWallGigantic,tungstenWallHuge,tungstenWallGigantic,blastDoorLarge,blastDoorHuge,reinforcedSurgeWallHuge,reinforcedSurgeWallGigantic,carbideWallHuge,carbideWallGigantic,shieldedWallLarge,shieldedWallHuge,
             //drill
             largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
             //drill-erekir
@@ -82,14 +85,14 @@ public class HIBlocks {
             //liquid-erekir
             liquidSorter,liquidValve,smallReinforcedPump,largeReinforcedPump,
             //power
-            powerNodePhase,powerNodeHuge,windTurbine,uraniumReactor,magneticStormRadiationReactor,armoredCoatedBattery,
+            powerNodePhase,powerNodeHuge,windTurbine,uraniumReactor,magneticStormRadiationReactor,hugeBattery,armoredCoatedBattery,
             //power-erekir
             beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
             nanocoreConstructor,nanocorePrinter,nanocoreActivator,largePhaseWeaver,phaseFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
-            heatPipe,heatPipeRouter,ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,
+            heatPipe,heatPipeRouter,ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
             //defense
             lighthouse,mendDome,assignOverdrive,largeShieldGenerator,
             //defense-erekir
@@ -237,6 +240,30 @@ public class HIBlocks {
             oreScale = 20;
         }};
         //wall
+        copperWallHuge = new Wall("copper-wall-huge"){{
+            requirements(Category.defense, with(Items.copper, 54));
+            size = 3;
+            health = 2880;
+            armor = 1f;
+        }};
+        copperWallGigantic = new Wall("copper-wall-gigantic"){{
+            requirements(Category.defense, with(Items.copper, 96));
+            size = 3;
+            health = 5120;
+            armor = 1f;
+        }};
+        titaniumWallHuge = new Wall("titanium-wall-huge"){{
+            requirements(Category.defense, with(Items.copper, 54));
+            size = 3;
+            health = 3960;
+            armor = 2f;
+        }};
+        titaniumWallGigantic = new Wall("titanium-wall-gigantic"){{
+            requirements(Category.defense, with(Items.copper, 96));
+            size = 4;
+            health = 7040;
+            armor = 2f;
+        }};
         armoredWall = new Wall("armored-wall"){{
             requirements(Category.defense, with(Items.copper, 5, Items.lead, 3, Items.graphite, 2));
             size = 1;
@@ -247,6 +274,18 @@ public class HIBlocks {
             requirements(Category.defense, with(Items.copper, 20, Items.lead, 12, Items.graphite, 8));
             size = 2;
             health = 1440;
+            armor = 5f;
+        }};
+        armoredWallHuge = new Wall("armored-wall"){{
+            requirements(Category.defense, with(Items.copper, 45, Items.lead, 27, Items.graphite, 18));
+            size = 1;
+            health = 3240;
+            armor = 5f;
+        }};
+        armoredWallGigantic = new Wall("armored-wall-large"){{
+            requirements(Category.defense, with(Items.copper, 80, Items.lead, 48, Items.graphite, 32));
+            size = 1;
+            health = 5760;
             armor = 5f;
         }};
         uraniumWall = new Wall("uranium-wall"){{
@@ -331,12 +370,108 @@ public class HIBlocks {
             armor = 16f;
             insulated = absorbLasers = true;
             crushDamageMultiplier = 0.025f;
-        }
-            @Override
-            public void unlock() {
-                //haha no
-            }
-        };
+        }};
+        //wall-erekir
+        berylliumWallHuge = new Wall("beryllium-wall-huge"){{
+            requirements(Category.defense, with(Items.beryllium, 54));
+            health = 4680;
+            armor = 2f;
+            buildCostMultiplier = 3f;
+            size = 3;
+        }};
+        berylliumWallGigantic = new Wall("beryllium-wall-gigantic"){{
+            requirements(Category.defense, with(Items.beryllium, 96));
+            health = 8320;
+            armor = 2f;
+            buildCostMultiplier = 2f;
+            size = 4;
+        }};
+        tungstenWallHuge = new Wall("tungsten-wall-huge"){{
+            requirements(Category.defense, with(Items.tungsten, 54));
+            health = 6480;
+            armor = 14f;
+            buildCostMultiplier = 3f;
+            size = 3;
+        }};
+        tungstenWallGigantic = new Wall("tungsten-wall-gigantic"){{
+            requirements(Category.defense, with(Items.tungsten, 96));
+            health = 11520;
+            armor = 14f;
+            buildCostMultiplier = 2f;
+            size = 4;
+        }};
+        blastDoorLarge = new AutoDoor("blast-door-large"){{
+            requirements(Category.defense, with(Items.tungsten, 54, Items.silicon, 54));
+            health = 6300;
+            armor = 14f;
+            size = 3;
+        }};
+        blastDoorHuge = new AutoDoor("blast-door-huge"){{
+            requirements(Category.defense, with(Items.tungsten, 96, Items.silicon, 96));
+            health = 11200;
+            armor = 14f;
+            size = 4;
+        }};
+        reinforcedSurgeWallHuge = new Wall("reinforced-surge-wall-huge"){{
+            requirements(Category.defense, with(Items.surgeAlloy, 54, Items.tungsten, 18));
+            health = 9000;
+            lightningChance = 0.1f;
+            lightningDamage = 30f;
+            armor = 20f;
+            size = 3;
+            researchCost = with(Items.surgeAlloy, 120, Items.tungsten, 600);
+        }};
+        reinforcedSurgeWallGigantic = new Wall("reinforced-surge-wall-gigantic"){{
+            requirements(Category.defense, with(Items.surgeAlloy, 96, Items.tungsten, 32));
+            health = 16000;
+            lightningChance = 0.1f;
+            lightningDamage = 30f;
+            armor = 20f;
+            size = 4;
+            researchCost = with(Items.surgeAlloy, 240, Items.tungsten, 1200);
+        }};
+        carbideWallHuge = new Wall("carbide-wall-huge"){{
+            requirements(Category.defense, with(Items.thorium, 54, Items.carbide, 54));
+            health = 9720;
+            armor = 16f;
+            size = 3;
+        }};
+        carbideWallGigantic = new Wall("carbide-wall-gigantic"){{
+            requirements(Category.defense, with(Items.thorium, 96, Items.carbide, 96));
+            health = 17280;
+            armor = 16f;
+            size = 4;
+        }};
+        shieldedWallLarge = new ShieldWall("shielded-wall-large"){{
+            requirements(Category.defense, with(Items.phaseFabric, 45, Items.surgeAlloy, 27, Items.beryllium, 27));
+            outputsPower = false;
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            chanceDeflect = 8f;
+            health = 9360;
+            armor = 15f;
+            size = 3;
+            shieldHealth = 2200f;
+            breakCooldown = 60f * 15f;
+            regenSpeed = 2f;
+            consumePower(4f / 60f);
+        }};
+        shieldedWallHuge = new ShieldWall("shielded-wall-huge"){{
+            requirements(Category.defense, with(Items.phaseFabric, 80, Items.surgeAlloy, 48, Items.beryllium, 48));
+            outputsPower = false;
+            hasPower = true;
+            consumesPower = true;
+            conductivePower = true;
+            chanceDeflect = 8f;
+            health = 16640;
+            armor = 15f;
+            size = 4;
+            shieldHealth = 3600f;
+            breakCooldown = 60f * 15f;
+            regenSpeed = 2f;
+            consumePower(6f / 60f);
+        }};
         //drill
         largeWaterExtractor = new SolidPump("large-water-extractor"){{
             requirements(Category.production, with(Items.lead, 60, Items.titanium, 40, Items.thorium, 20, Items.graphite, 80, Items.metaglass, 50));
@@ -940,16 +1075,26 @@ public class HIBlocks {
             consumeLiquid(HILiquids.nanofluid, 0.25f);
             buildCostMultiplier = 0.6f;
         }};
-        armoredCoatedBattery = new Battery("armored-coated-battery"){{
-            requirements(Category.power, with(Items.lead, 150, Items.silicon, 180, Items.plastanium, 120, HIItems.chromium, 100, Items.phaseFabric, 30));
-            size = 4;
-            health = 4200;
-            armor = 16f;
-            consumePowerBuffered(625000);
+        hugeBattery = new Battery("huge-battery"){{
+            requirements(Category.power, with(Items.lead, 225, Items.graphite, 125, Items.phaseFabric, 80, Items.thorium, 110, Items.plastanium, 100));
+            size = 5;
+            health = 1600;
             drawer = new DrawMulti(new DrawDefault(), new DrawPower(){{
                 emptyLightColor = Color.valueOf("18473f");
                 fullLightColor = Color.valueOf("ffd197");
             }}, new DrawRegion("-top"));
+            consumePowerBuffered(750000f);
+        }};
+        armoredCoatedBattery = new Battery("armored-coated-battery"){{
+            requirements(Category.power, with(Items.lead, 150, Items.silicon, 180, Items.plastanium, 120, HIItems.chromium, 100, Items.phaseFabric, 50));
+            size = 4;
+            health = 6600;
+            armor = 28f;
+            drawer = new DrawMulti(new DrawDefault(), new DrawPower(){{
+                emptyLightColor = Color.valueOf("18473f");
+                fullLightColor = Color.valueOf("ffd197");
+            }}, new DrawRegion("-top"));
+            consumePowerBuffered(425000f);
         }};
         //power-erekir
         beamDiode = new BeamDiode("beam-diode"){{
@@ -1046,7 +1191,8 @@ public class HIBlocks {
             solid = true;
             outputsLiquid = true;
             envEnabled = Env.any;
-            liquidCapacity = 54f;
+            itemCapacity = 20;
+            liquidCapacity = 60f;
             craftTime = 50;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water), new DrawLiquidTile(Liquids.cryofluid), new DrawDefault());
             lightLiquid = Liquids.cryofluid;
@@ -1059,6 +1205,7 @@ public class HIBlocks {
             outputItem = new ItemStack(Items.pyratite, 3);
             envEnabled |= Env.space;
             size = 3;
+            itemCapacity = 20;
             consumePower(0.5f);
             consumeItems(with(Items.coal, 3, Items.lead, 4, Items.sand, 5));
         }};
@@ -1066,6 +1213,7 @@ public class HIBlocks {
             requirements(Category.crafting, with(Items.lead, 60, Items.titanium, 40, Items.silicon, 20));
             outputItem = new ItemStack(Items.blastCompound, 3);
             size = 3;
+            itemCapacity = 20;
             envEnabled |= Env.space;
             consumeItems(with(Items.pyratite, 3, Items.sporePod, 3));
             consumePower(1f);
@@ -1079,6 +1227,8 @@ public class HIBlocks {
             hasLiquids = true;
             hasPower = true;
             hasItems = true;
+            itemCapacity = 20;
+            liquidCapacity = 60f;
             craftEffect = Fx.none;
             envRequired |= Env.spores;
             attribute = Attribute.spores;
@@ -1527,9 +1677,9 @@ public class HIBlocks {
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawSpecConstruct(){{
                 constructColor1 = constructColor2 = HIPal.nanocoreErekirOrange;
             }}, new DrawDefault());
-            squareSprite = false;
             consumePower(2.5f);
             consumeItems(ItemStack.with(Items.tungsten, 2, Items.silicon, 3));
+            squareSprite = false;
         }};
         nanocorePrinterErekir = new HeatCrafter("nanocore-printer-erekir"){{
             requirements(Category.crafting, with( Items.beryllium, 400, Items.tungsten, 300, Items.silicon, 250, Items.oxide, 150, Items.carbide, 50, Items.phaseFabric, 50));
@@ -1542,12 +1692,129 @@ public class HIBlocks {
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawSpecConstruct(){{
                 constructColor1 = constructColor2 = HIPal.nanocoreErekirOrange;
             }}, new DrawDefault(), new DrawHeatInput());
-            squareSprite = false;
-            heatRequirement = 6f;
+            heatRequirement = 8f;
+            maxEfficiency = 4f;
             consumePower(17.5f);
             consumeItems(with(Items.tungsten, 6, Items.silicon, 9));
             buildCostMultiplier = 0.8f;
+            squareSprite = false;
         }};
+        uraniumFuser = new HeatCrafter("uranium-fuser"){{
+            requirements(Category.crafting, with(Items.silicon, 120, Items.graphite, 60, Items.tungsten, 100, Items.oxide, 40, Items.surgeAlloy, 60));
+            size = 3;
+            itemCapacity = 20;
+            heatRequirement = 10f;
+            craftTime = 120f;
+            liquidCapacity = 300f;
+            hasLiquids = true;
+            outputItem = new ItemStack(HIItems.uranium, 1);
+            craftEffect = new Effect(50f, e -> {
+                Draw.color(Liquids.slag.color);
+                Draw.alpha(e.fslope() * 0.8f);
+                Mathf.rand.setSeed(e.id + 2);
+                Angles.randLenVectors(e.id, 5, 3f, 9f * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, Mathf.rand.random(0.65f, 1.5f)));
+            }).layer(Layer.bullet - 1f);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.slag, 3f), new DrawDefault(), new DrawHeatInput(), new DrawGlowRegion("-glow"){{
+                color = Color.valueOf("70170b");
+            }}, new DrawBlurSpin("-rotator", 12f));
+            consumeItem(Items.thorium, 1);
+            consumeLiquid(Liquids.slag, 30f / 60f);
+            consumePower(2f);
+            squareSprite = false;
+        }};
+        chromiumFuser = new GenericCrafter("chromium-fuser"){{
+            requirements(Category.crafting, with(Items.silicon, 120, Items.graphite, 60, Items.tungsten, 100, Items.oxide, 40, Items.surgeAlloy, 60));
+            size = 3;
+            itemCapacity = 20;
+            craftTime = 40f;
+            liquidCapacity = 300f;
+            hasLiquids = true;
+            craftEffect = Fx.none;
+            outputItem = new ItemStack(HIItems.chromium, 1);
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.hydrogen, 3f), new DrawDefault(), new DrawHeatInput());
+            consumeItem(Items.tungsten, 1);
+            consumeLiquids(LiquidStack.with(Liquids.slag, 80f / 60f, Liquids.hydrogen, 16f / 60f));
+            consumePower(12f);
+            squareSprite = false;
+            buildType = () -> new GenericCrafterBuild(){
+                private boolean nextFlash;
+                public float heatf, warmupf;
+
+                @Override
+                public void updateTile(){
+                    super.updateTile();
+                    if(!nextFlash && heatf < 0.001f && Mathf.chance(0.01f * edelta()) && canConsume() && efficiency() > 0.0001f){
+                        nextFlash = true;
+                        heatf = 1f;
+                    }else if(nextFlash && heatf < 0.001f){
+                        nextFlash = false;
+                        heatf = 1f;
+                    }
+                    heatf = Mathf.approachDelta(heatf, 0f, 0.05f);
+                    warmupf = Mathf.approachDelta(warmupf, efficiency(), 0.04f);
+                }
+
+                @Override
+                public void craft(){
+                    super.craft();
+                    int n = Mathf.random(0, 3) + 5;
+                    for(int i = 0; i < n; i++){
+                        Tmp.v1.trns(Mathf.random(360f), size * tilesize / 1.414f).clamp(-size * tilesize /2f, -size * tilesize / 2f, size * tilesize /2f, size * tilesize / 2f);
+                        Tmp.v2.set(Tmp.v1).scl((size * tilesize / 2f + 4f) / (size * tilesize / 2f));
+                        Tile t = world.tileWorld(Tmp.v2.x + x, Tmp.v2.y + y);
+                        if(t == null || !t.solid()){
+                            HIFx.smolSquare.at(Tmp.v1.x + x, Tmp.v1.y + y, Mathf.chance(0.33f) ? color1 : (Mathf.chance(0.5f) ? color2 : new Color()));
+                        }
+                    }
+                }
+
+                @Override
+                public void draw() {
+                    super.draw();
+                    setFlameColor(Tmp.c4);
+                    if(heatf >= 0.001f){
+                        Draw.z(Layer.bullet - 0.01f);
+                        Draw.color(Color.white, Tmp.c4, Mathf.clamp(heatf * 3f - 2f));
+                        Draw.alpha(Mathf.clamp(heatf * 1.5f));
+                        Draw.rect(lightRegion, x, y);
+                    }
+                    Draw.z(Layer.blockOver);
+                    Draw.blend(Blending.additive);
+                    if(heatf >= 0.001f){
+                        Draw.alpha(Mathf.clamp(heatf * 1.5f) * 0.2f);
+                        Draw.rect(heatRegion, x, y);
+                    }
+                    Draw.alpha(Mathf.absin(11f, 0.2f * warmupf));
+                    Draw.rect(shadowRegion, x, y, sizeScl * Draw.scl * Draw.xscl, sizeScl * Draw.scl * Draw.yscl);
+                    Draw.blend();
+                    Draw.color();
+                }
+
+                @Override
+                public void drawLight(){
+                    super.drawLight();
+                    setFlameColor(Tmp.c4);
+                    Drawf.light(x, y, (lightRadius * (1f + Mathf.clamp(heatf) * 0.1f) + Mathf.absin(10f, 5f)) * warmupf * block.size, Tmp.c4, 0.65f);
+                }
+
+                public void setFlameColor(Color tmp){
+                    tmp.set(color1).lerp(color2, Mathf.absin(Time.time + Mathf.randomSeed(pos(), 0f, 9f * 6.29f), 9f, 1f));
+                }
+            };
+        }
+            public TextureRegion lightRegion, heatRegion, shadowRegion;
+
+            public final float sizeScl = 15 * 6f;
+            public final Color color1 = Pal.lancerLaser, color2 = Pal.sapBullet;
+
+            @Override
+            public void load() {
+                super.load();
+                lightRegion = atlas.find(name + "-light");
+                heatRegion = atlas.find(name + "-light-heat");
+                shadowRegion = atlas.find("circle-shadow");
+            }
+        };
         //defense
         lighthouse = new LightBlock("lighthouse"){{
             requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 20, Items.silicon, 10, Items.lead, 30, Items.titanium, 15));

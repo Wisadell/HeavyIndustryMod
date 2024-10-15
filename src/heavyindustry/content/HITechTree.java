@@ -28,9 +28,15 @@ public class HITechTree {
         addToNode(Items.thorium, () -> nodeProduce(HIItems.uranium, () -> nodeProduce(HIItems.chromium, () -> {})));
         addToNode(Items.surgeAlloy, () -> nodeProduce(HIItems.heavyAlloy, () -> {}));
         //items,liquids-erekir
+        addToNode(Items.tungsten, () -> {
+            nodeProduce(HIItems.uranium, () -> {});
+            nodeProduce(HIItems.chromium, () -> {});
+        });
         addToNode(Items.oxide, () -> nodeProduce(HIItems.nanocoreErekir, () -> {}));
         //wall
-        addToNode(copperWall, () -> node(armoredWall, () -> node(armoredWallLarge, () -> {})));
+        addToNode(copperWall, () -> node(armoredWall, () -> node(armoredWallLarge, () -> node(armoredWallHuge, () -> node(armoredWallGigantic, () -> {})))));
+        addToNode(copperWallLarge, () -> node(copperWallHuge, () -> node(copperWallGigantic, () -> {})));
+        addToNode(titaniumWallLarge, () -> node(titaniumWallHuge, () -> node(titaniumWallGigantic, () -> {})));
         addToNode(thoriumWall, () -> node(uraniumWall, () -> {
             node(uraniumWallLarge, () -> {});
             node(chromiumWall, () -> {
@@ -42,6 +48,13 @@ public class HITechTree {
             node(heavyAlloyWallLarge, () -> {});
             node(nanoCompositeWall, () -> node(nanoCompositeWallLarge, () -> {}));
         }));
+        //wall-erekir
+        addToNode(berylliumWallLarge, () -> node(berylliumWallHuge, () -> node(berylliumWallGigantic, () -> {})));
+        addToNode(tungstenWallLarge, () -> node(tungstenWallHuge, () -> node(tungstenWallGigantic, () -> {})));
+        addToNode(blastDoor, () -> node(blastDoorLarge, () -> node(blastDoorHuge, () -> {})));
+        addToNode(reinforcedSurgeWallLarge, () -> node(reinforcedSurgeWallHuge, () -> node(reinforcedSurgeWallGigantic, () -> {})));
+        addToNode(carbideWallLarge, () -> node(carbideWallHuge, () -> node(carbideWallGigantic, () -> {})));
+        addToNode(shieldedWall, () -> node(shieldedWallLarge, () -> node(shieldedWallHuge, () -> {})));
         //drill
         addToNode(waterExtractor, () -> {
             node(largeWaterExtractor, () -> {});
@@ -54,11 +67,12 @@ public class HITechTree {
                 node(refineModule, () -> {});
                 node(deliveryModule, () -> {});
             });
+            node(implosionDrill, () -> {});
         });
         addToNode(oilExtractor, () -> node(reinforcedOilExtractor, () -> {}));
         //drill-erekir
         addToNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
-        addToNode(implosionDrill, () -> node(minerPoint, () -> node(minerCenter, () -> {})));
+        addToNode(impactDrill, () -> node(minerPoint, Seq.with(new Research(electrolyzer)), () -> node(minerCenter, Seq.with(new Research(atmosphericConcentrator)), () -> {})));
         addToNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
         //distribution
         addToNode(junction, () -> {
@@ -110,7 +124,10 @@ public class HITechTree {
         addToNode(powerNodeLarge, () -> node(powerNodeHuge, () -> node(powerNodePhase, () -> {})));
         addToNode(thoriumReactor, () -> node(uraniumReactor, () -> {}));
         addToNode(impactReactor, () -> node(magneticStormRadiationReactor, () -> {}));
-        addToNode(batteryLarge, () -> node(armoredCoatedBattery, () -> {}));
+        addToNode(batteryLarge, () -> {
+            node(hugeBattery, () -> {});
+            node(armoredCoatedBattery, () -> {});
+        });
         //power-erekir
         addToNode(beamNode, () -> {
             node(beamDiode, () -> {});
@@ -133,7 +150,7 @@ public class HITechTree {
         addToNode(pyratiteMixer, () -> node(largePyratiteMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
         addToNode(blastMixer, () -> node(largeBlastMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
         addToNode(cultivator, () -> node(largeCultivator, Seq.with(new SectorComplete(taintedWoods)), () -> {}));
-        addToNode(plastaniumCompressor, () -> node(largePlastaniumCompressor, Seq.with(new SectorComplete(tarFields)), () -> {}));
+        addToNode(plastaniumCompressor, () -> node(largePlastaniumCompressor, Seq.with(new SectorComplete(facility32m)), () -> {}));
         addToNode(surgeSmelter, ()-> node(largeSurgeSmelter, () -> {}));
         addToNode(siliconCrucible, () -> node(blastSiliconSmelter, () -> {}));
         addToNode(siliconSmelter, () -> node(nanocoreConstructor, Seq.with(new SectorComplete(impact0078)), () -> node(nanocorePrinter, () -> {})));
@@ -143,12 +160,13 @@ public class HITechTree {
         addToNode(siliconArcFurnace, () -> {
             node(chemicalSiliconSmelter, ItemStack.with(Items.graphite, 2800, Items.silicon, 1000, Items.tungsten, 2400, Items.oxide, 50), () -> {});
             node(ventHeater, () -> {});
-            node(nanocoreConstructorErekir, Seq.with(new SectorComplete(crossroads)), () -> node(nanocorePrinterErekir, Seq.with(new SectorComplete(origin)), () -> {}));
+            node(nanocoreConstructorErekir, Seq.with(new OnSector(crossroads)), () -> node(nanocorePrinterErekir, Seq.with(new OnSector(origin)), () -> {}));
         });
         addToNode(electricHeater, () -> {
             node(largeElectricHeater, ItemStack.with(Items.tungsten, 3000, Items.oxide, 2400, Items.carbide, 800), () -> {});
             node(liquidFuelHeater, () -> {});
             node(heatReactor, () -> {});
+            node(uraniumFuser, Seq.with(new OnSector(origin)), () ->  node(chromiumFuser, () -> {}));
         });
         addToNode(oxidationChamber, () -> node(largeOxidationChamber, ItemStack.with(Items.tungsten, 3600, Items.graphite, 4400, Items.silicon, 4400, Items.beryllium, 6400, Items.oxide, 600, Items.carbide, 1400), () -> {}));
         addToNode(surgeCrucible, () -> node(largeSurgeCrucible, ItemStack.with(Items.graphite, 4400, Items.silicon, 4000, Items.tungsten, 4800, Items.oxide, 960, Items.surgeAlloy, 1600), () -> {}));
@@ -157,10 +175,11 @@ public class HITechTree {
         addToNode(illuminator, () -> node(lighthouse, () -> {}));
         addToNode(mendProjector, () -> node(mendDome, () -> {}));
         addToNode(overdriveDome, () -> node(assignOverdrive, () -> {}));
+        addToNode(forceProjector, () -> node(largeShieldGenerator, () -> {}));
         //defense-erekir
         addToNode(radar, () -> node(largeRadar, ItemStack.with(Items.graphite, 3600, Items.silicon, 3200, Items.beryllium, 600, Items.tungsten, 200, Items.oxide, 10), () -> {}));
         //storage
-        addToNode(coreShard, () -> node(coreBeStationed, () -> {}));
+        addToNode(coreShard, () -> node(coreBeStationed, ItemStack.with(Items.copper, 2000, Items.lead, 2000, Items.silicon, 1000), () -> {}));
         addToNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> node(machineryUnloader, ItemStack.with(Items.copper, 300, Items.lead, 200), () -> {})));
         addToNode(vault, () -> node(cargo, () -> {}));
         addToNode(unloader, () -> node(rapidUnloader, () -> node(rapidDirectionalUnloader, () -> {})));

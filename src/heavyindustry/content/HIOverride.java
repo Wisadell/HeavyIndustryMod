@@ -7,6 +7,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
+import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
@@ -14,6 +15,7 @@ import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.distribution.*;
@@ -22,11 +24,13 @@ import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.*;
+import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
-import static arc.graphics.g2d.Draw.color;
-import static arc.graphics.g2d.Lines.stroke;
-import static mindustry.type.ItemStack.with;
+import java.lang.reflect.Field;
+import java.util.Objects;
+
+import static mindustry.type.ItemStack.*;
 
 /**
  * Covering the original content.
@@ -314,8 +318,8 @@ public class HIOverride {
         UnitTypes.disrupt.weapons.get(0).shake = 1f;
         UnitTypes.anthicus.weapons.get(0).bullet = new CtrlMissileBulletType("anthicus-missile", -1, -1){{
             shootEffect = new MultiEffect(Fx.shootBigColor, new Effect(9, e -> {
-                color(Color.white, e.color, e.fin());
-                stroke(0.7f + e.fout());
+                Draw.color(Color.white, e.color, e.fin());
+                Lines.stroke(0.7f + e.fout());
                 Lines.square(e.x, e.y, e.fin() * 5f, e.rotation + 45f);
                 Drawf.light(e.x, e.y, 23f, e.color, e.fout() * 0.7f);
             }), new WaveEffect(){{
@@ -372,6 +376,45 @@ public class HIOverride {
         Items.phaseFabric.hardness = 3;
         Items.carbide.hardness = 6;
         Items.serpuloItems.addAll(HIItems.rareEarth, HIItems.nanocore, HIItems.chromium, HIItems.uranium, HIItems.heavyAlloy);
-        Items.erekirItems.addAll(HIItems.nanocoreErekir);
+        Items.erekirItems.addAll(HIItems.nanocoreErekir, HIItems.uranium, HIItems.chromium);
+    }
+
+    public static void loadReflect(){
+        try {
+            removeConsumeItems(Blocks.disassembler);
+        } catch (Exception e) {
+            Log.err(e);
+        }
+    }
+
+    //TODO It's all Anuke's fault!
+    public static void removeAllConsume(Block block) throws Exception {
+        Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
+        field.setAccessible(true);
+
+        @SuppressWarnings("unchecked")
+        Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
+
+        consumeBuilder.removeAll(Objects::nonNull);
+    }
+
+    public static void removeConsumeItems(Block block) throws Exception {
+        Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
+        field.setAccessible(true);
+
+        @SuppressWarnings("unchecked")
+        Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
+
+        consumeBuilder.removeAll(b -> b instanceof ConsumeItems);
+    }
+
+    public static void removeConsumeLiquids(Block block) throws Exception {
+        Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
+        field.setAccessible(true);
+
+        @SuppressWarnings("unchecked")
+        Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
+
+        consumeBuilder.removeAll(b -> b instanceof ConsumeLiquidBase);
     }
 }

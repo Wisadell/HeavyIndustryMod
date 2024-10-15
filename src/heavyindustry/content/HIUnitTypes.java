@@ -685,7 +685,7 @@ public class HIUnitTypes {
             treadPullOffset = 1;
             speed = 0.48f;
             health = 60000f;
-            armor = 52f;
+            armor = 55f;
             crushDamage = 10f;
             rotateSpeed = 0.8f;
             treadRects = new Rect[]{new Rect(-113f, 34f, 70f, 100f), new Rect(-113f, -113f, 70f, 90f)};
@@ -744,8 +744,8 @@ public class HIUnitTypes {
                 }});
                 bullet = new BallistaBulletType(Color.valueOf("feb380")){{
                     hitSound = despawnSound = Sounds.explosionbig;
-                    damage = 410f;
-                    splashDamage = 390f;
+                    damage = 660f;
+                    splashDamage = 960f;
                     splashDamageRadius = 12f * 8;
                     buildingDamageMultiplier = 0.8f;
                     hitEffect = despawnEffect = new ExplosionEffect(){{
@@ -771,8 +771,6 @@ public class HIUnitTypes {
                     trailWidth = 7f;
                     trailLength = 12;
                     trailColor = Color.valueOf("feb380");
-                    fragBullet = null;
-                    fragBullets = 0;
                     healPercent = -1f;
                 }
                     @Override
@@ -848,7 +846,7 @@ public class HIUnitTypes {
             drag = 0.1f;
             speed = 0.9f;
             hitSize = 50f;
-            health = 51000f;
+            health = 47000f;
             armor = 30f;
             rotateSpeed = 1.6f;
             lockLegBase = true;
@@ -1070,14 +1068,14 @@ public class HIUnitTypes {
             abilities.add(new SuppressionFieldAbility(){{
                 orbRadius = orbRad;
                 particleSize = partRad;
-                y = -3.2f;
+                y = 10f;
                 particles = parts;
             }});
             for(float i : new float[]{14.2f, -14.2f}){
                 abilities.add(new SuppressionFieldAbility(){{
                     orbRadius = orbRad;
                     particleSize = partRad;
-                    y = -12.4f;
+                    y = -8f;
                     x = i;
                     particles = parts;
                     display = active = false;
