@@ -15,7 +15,7 @@ import mindustry.graphics.*;
 import static mindustry.Vars.*;
 
 public class Drawn {
-    private static final Vec2 vec21 = new Vec2();
+    private static final Vec2 vec21 = new Vec2(), vec31 = new Vec2(), vec32 = new Vec2(), vec33 = new Vec2(), vec34 = new Vec2();
     private static final Rand rand = new Rand();
     public static final float sinScl = 1f;
 
@@ -175,5 +175,26 @@ public class Drawn {
         Lines.lineAngleCenter(t.x + Mathf.sin(time, 20f, size / 2f), t.y, 90, size);
 
         Draw.reset();
+    }
+
+    public static void spinningCircle(int seed, float time, float x, float y, float radius, int spikes, float spikeDuration, float durationRnd, float spikeWidth, float spikeHeight, float pointOffset){
+        spinningCircle(seed, time, time, x, y, radius, spikes, spikeDuration, durationRnd, spikeWidth, spikeHeight, pointOffset);
+    }
+
+    public static void spinningCircle(int seed, float angle, float time, float x, float y, float radius, int spikes, float spikeDuration, float durationRnd, float spikeWidth, float spikeHeight, float pointOffset){
+        Fill.circle(x, y, radius);
+
+        for(int i = 0; i < spikes; i++){
+            float d = spikeDuration + Mathf.randomSeedRange(seed + i + spikes, durationRnd);
+            float timeOffset = Mathf.randomSeed((seed + i) * 314L, 0f, d);
+            int timeSeed = Mathf.floor((time + timeOffset) / d);
+            float a = angle + Mathf.randomSeed(Math.max(timeSeed, 1) + ((i + seed) * 245L), 360f);
+            float fin = ((time + timeOffset) % d) / d;
+            float fslope = (0.5f - Math.abs(fin - 0.5f)) * 2f;
+            vec31.trns(a + spikeWidth / 2f, radius).add(x, y);
+            vec32.trns(a - spikeWidth / 2f, radius).add(x, y);
+            vec33.trns(a + pointOffset, radius + spikeHeight * fslope).add(x, y);
+            Fill.tri(vec31.x, vec31.y, vec32.x, vec32.y, vec33.x, vec33.y);
+        }
     }
 }

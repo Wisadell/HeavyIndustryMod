@@ -66,10 +66,10 @@ public class CritBulletType extends BasicBulletType{
     public void update(Bullet b){
         if(!headless && trailLength > 0){
             if(b.trail == null){
-                b.trail = new HITrail(trailLength);
+                b.trail = new CritTrail(trailLength);
             }
             b.trail.length = trailLength;
-            ((HITrail)(b.trail)).updateRot(b.x, b.y, b.rotation());
+            ((CritTrail)(b.trail)).updateRot(b.x, b.y, b.rotation());
         }
 
         if(Mathf.chanceDelta(1) && isCrit(b)){
@@ -119,7 +119,7 @@ public class CritBulletType extends BasicBulletType{
     @Override
     public void removed(Bullet b){
         if(trailLength > 0 && b.trail != null && b.trail.size() > 0){
-            HIFx.critTrailFade.at(b.x, b.y, trailWidth, backColor, ((HITrail)(b.trail)).copyPM());
+            HIFx.critTrailFade.at(b.x, b.y, trailWidth, backColor, ((CritTrail)(b.trail)).copyCrit());
         }
     }
 

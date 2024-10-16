@@ -18,6 +18,7 @@ import mindustry.world.blocks.defense.turrets.*;
 
 import java.util.*;
 
+import static arc.graphics.Color.valueOf;
 import static mindustry.Vars.*;
 
 public class HIPal {
@@ -39,6 +40,7 @@ public class HIPal {
             thurmixRed = Color.valueOf("#ff9492"),
             thurmixRedLight = Color.valueOf("#ffced0"),
             thurmixRedDark = thurmixRed.cpy().lerp(Color.black, 0.9f),
-            rainBowRed = Color.valueOf("ff8787");
+            rainBowRed = Color.valueOf("ff8787"),
+            cold = valueOf("6bc7ff");
 
 }

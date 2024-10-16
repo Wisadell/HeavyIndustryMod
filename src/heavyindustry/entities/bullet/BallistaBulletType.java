@@ -35,21 +35,20 @@ public class BallistaBulletType extends BulletType {
             healColor = color;
             buildingDamageMultiplier = 0.7f;
         }};
-        ff = new BulletType(){
-            {
-                lifetime = 90;
-                speed = 3;
-                hitEffect = despawnEffect = Fx.none;
-                trailLength = 15;
-                trailWidth = 3;
-                trailColor = color;
-                keepVelocity = false;
-                damage = 0;
-                collides = false;
-                collidesAir = collidesGround = false;
-                absorbable = false;
-                reflectable = false;
-            }
+        ff = new BulletType(){{
+            lifetime = 90;
+            speed = 3;
+            hitEffect = despawnEffect = Fx.none;
+            trailLength = 15;
+            trailWidth = 3;
+            trailColor = color;
+            keepVelocity = false;
+            damage = 0;
+            collides = false;
+            collidesAir = collidesGround = false;
+            absorbable = false;
+            reflectable = false;
+        }
             @Override
             public void draw(Bullet b) {
                 super.draw(b);
@@ -82,8 +81,6 @@ public class BallistaBulletType extends BulletType {
             sparkLen = 6f;
             sparkStroke = 1f;
         }};
-        fragBullet = fb;
-        fragBullets = 42 * 3;
         reflectable = false;
     }
 
