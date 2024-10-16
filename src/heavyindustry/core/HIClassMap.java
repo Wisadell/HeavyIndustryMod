@@ -52,9 +52,11 @@ public class HIClassMap {
         classes.put("LightningLinkerBulletType", LightningLinkerBulletType.class);
         classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
         classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
+        classes.put("MagmaBulletType", MagmaBulletType.class);
         classes.put("LiquidBulletData", LiquidMassDriver.LiquidBulletData.class);
         classes.put("LiquidMassDriverBolt", LiquidMassDriverBolt.class);
         //effects
+        classes.put("LightningEffect", LightningEffect.class);
         classes.put("EffectWrapper", EffectWrapper.class);
         //parts
         classes.put("HIDrawPart", HIDrawPart.class);
@@ -92,6 +94,10 @@ public class HIClassMap {
         classes.put("MinigunTurretBuild", MinigunTurret.MinigunTurretBuild.class);
         classes.put("PlatformTurret", PlatformTurret.class);
         classes.put("PlatformTurretBuild", PlatformTurret.PlatformTurretBuild.class);
+        classes.put("EruptorTurret", EruptorTurret.class);
+        classes.put("EruptorTurretBuild", EruptorTurret.EruptorTurretBuild.class);
+        classes.put("TeslaTurret", TeslaTurret.class);
+        classes.put("TeslaTurretBuild", TeslaTurret.TeslaTurretBuild.class);
         classes.put("AdaptDirectionalUnloader", AdaptDirectionalUnloader.class);
         classes.put("AdaptDirectionalUnloaderBuild", AdaptDirectionalUnloader.AdaptDirectionalUnloaderBuild.class);
         classes.put("BeltConveyor", BeltConveyor.class);
@@ -126,8 +132,6 @@ public class HIClassMap {
         classes.put("StackBridgeBuild", StackBridge.StackBridgeBuild.class);
         classes.put("TubeLiquidBridge", TubeLiquidBridge.class);
         classes.put("TubeLiquidBridgeBuild", TubeLiquidBridge.TubeLiquidBridgeBuild.class);
-        classes.put("HeatPipe", HeatPipe.class);
-        classes.put("HeatPipeBuild", HeatPipe.HeatPipeBuild.class);
         classes.put("FuelHeater", FuelHeater.class);
         classes.put("FuelHeaterBuild", FuelHeater.FuelHeaterBuild.class);
         classes.put("ThermalHeater", ThermalHeater.class);
@@ -167,6 +171,8 @@ public class HIClassMap {
         classes.put("MultiCrafter", MultiCrafter.class);
         classes.put("MultiCrafterBuild", MultiCrafter.MultiCrafterBuild.class);
         classes.put("Recipe", MultiCrafter.Recipe.class);
+        classes.put("SporeFarm", SporeFarm.class);
+        classes.put("SporeFarmBuild", SporeFarm.SporeFarmBuild.class);
         classes.put("AdaptDrill", AdaptDrill.class);
         classes.put("AdaptDrillBuild", AdaptDrill.AdaptDrillBuild.class);
         classes.put("DrawerDrill", DrawerDrill.class);
@@ -191,8 +197,8 @@ public class HIClassMap {
         classes.put("MinerPointBuild", MinerPoint.MinerPointBuild.class);
         classes.put("AdaptUnloader", AdaptUnloader.class);
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
-        classes.put("CoreLinkBlock", CoreLinkBlock.class);
-        classes.put("CoreLinkBuild", CoreLinkBlock.CoreLinkBuild.class);
+        classes.put("CoreStorageBlock", CoreStorageBlock.class);
+        classes.put("CoreStorageBuild", CoreStorageBlock.CoreStorageBuild.class);
         //consume
         classes.put("ConsumeItemDynamicF", ConsumeItemDynamicF.class);
         classes.put("ConsumeLiquidDynamicF", ConsumeLiquidDynamicF.class);

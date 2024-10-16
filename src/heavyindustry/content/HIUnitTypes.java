@@ -784,7 +784,7 @@ public class HIUnitTypes {
             int i = 0;
             for(float f : new float[]{19f, -19f}){
                 int fi = i ++;
-                weapons.add(new Weapon("locus-weapon"){{
+                weapons.add(new Weapon(name("dominate-weapon-small")){{
                     reload = 35f + fi * 5;
                     x = 18f;
                     y = f;
@@ -1347,9 +1347,9 @@ public class HIUnitTypes {
             omniMovement = false;
             rotateMoveFirst = true;
             envDisabled = Env.none;
-            hitSize = 72f;
+            hitSize = 70f;
             accel = 0.25f;
-            treadRects = new Rect[]{new Rect(-85.0f, -104.0f, 28.0f, 208.0f)};
+            treadRects = new Rect[]{new Rect(-115f, 118f, 52f, 48f), new Rect(-118f, -160f, 79f, 144f)};
             hoverable = hovering = true;
             ammoType = new PowerAmmoType(3000);
             crushDamage = 20;

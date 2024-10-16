@@ -49,8 +49,8 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
-import static arc.Core.atlas;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
@@ -72,7 +72,7 @@ public class HIBlocks {
             //wall-erekir
             berylliumWallHuge,berylliumWallGigantic,tungstenWallHuge,tungstenWallGigantic,blastDoorLarge,blastDoorHuge,reinforcedSurgeWallHuge,reinforcedSurgeWallGigantic,carbideWallHuge,carbideWallGigantic,shieldedWallLarge,shieldedWallHuge,
             //drill
-            largeWaterExtractor,slagExtractor,reinforcedOilExtractor,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
+            largeWaterExtractor,slagExtractor,oilRig,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,minerPoint,minerCenter,
             //distribution
@@ -89,16 +89,18 @@ public class HIBlocks {
             //power-erekir
             beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
-            largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
+            largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,sporeFarm,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
             nanocoreConstructor,nanocorePrinter,nanocoreActivator,largePhaseWeaver,phaseFusionInstrument,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
-            heatPipe,heatPipeRouter,ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
+            ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
             //defense
             lighthouse,mendDome,assignOverdrive,largeShieldGenerator,
             //defense-erekir
             largeRadar,
             //storage
-            cargo,bin,machineryUnloader,rapidUnloader,coreBeStationed,
+            cargo,bin,machineryUnloader,rapidUnloader,coreBeStationed,coreStorage,
+            //storage-erekir
+            reinforcedCoreStorage,
             //unit
             titanReconstructor,experimentalUnitFactory,
             //payload
@@ -110,7 +112,7 @@ public class HIBlocks {
             //logic
             matrixProcessor,hugeLogicDisplay,buffrerdMemoryCell,buffrerdMemoryBank,heatSink,heatFan,heatSinkLarge,
             //turret
-            dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,dragonBreath,cloudbreaker,minigun,
+            dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,coilBlaster,dragonBreath,cloudbreaker,minigun,blaze,
             spike,fissure,
             hurricane,frost,judgement,spark,flaringFire,
             //turret-erekir
@@ -248,18 +250,18 @@ public class HIBlocks {
         }};
         copperWallGigantic = new Wall("copper-wall-gigantic"){{
             requirements(Category.defense, with(Items.copper, 96));
-            size = 3;
+            size = 4;
             health = 5120;
             armor = 1f;
         }};
         titaniumWallHuge = new Wall("titanium-wall-huge"){{
-            requirements(Category.defense, with(Items.copper, 54));
+            requirements(Category.defense, with(Items.titanium, 54));
             size = 3;
             health = 3960;
             armor = 2f;
         }};
         titaniumWallGigantic = new Wall("titanium-wall-gigantic"){{
-            requirements(Category.defense, with(Items.copper, 96));
+            requirements(Category.defense, with(Items.titanium, 96));
             size = 4;
             health = 7040;
             armor = 2f;
@@ -276,15 +278,15 @@ public class HIBlocks {
             health = 1440;
             armor = 5f;
         }};
-        armoredWallHuge = new Wall("armored-wall"){{
+        armoredWallHuge = new Wall("armored-wall-huge"){{
             requirements(Category.defense, with(Items.copper, 45, Items.lead, 27, Items.graphite, 18));
-            size = 1;
+            size = 3;
             health = 3240;
             armor = 5f;
         }};
-        armoredWallGigantic = new Wall("armored-wall-large"){{
+        armoredWallGigantic = new Wall("armored-wall-gigantic"){{
             requirements(Category.defense, with(Items.copper, 80, Items.lead, 48, Items.graphite, 32));
-            size = 1;
+            size = 4;
             health = 5760;
             armor = 5f;
         }};
@@ -497,18 +499,18 @@ public class HIBlocks {
             envRequired |= Env.none;
             consumePower(3.5f);
         }};
-        reinforcedOilExtractor = new Fracker("reinforced-oil-extractor"){{
-            requirements(Category.production, with(Items.graphite, 175, Items.lead, 115, HIItems.chromium, 135, Items.silicon, 75));
-            size = 3;
-            itemCapacity = 10;
-            liquidCapacity = 30;
+        oilRig = new Fracker("oil-rig"){{
+            requirements(Category.production, with(Items.copper, 220, Items.lead, 120, Items.graphite, 180, Items.silicon, 100, Items.thorium, 150, HIItems.chromium, 110));
+            size = 4;
+            itemCapacity = 20;
+            liquidCapacity = 100;
             result = Liquids.oil;
             attribute = Attribute.oil;
             updateEffect = Fx.pulverize;
             updateEffectChance = 0.05f;
             baseEfficiency = 0;
             itemUseTime = 30;
-            pumpAmount = 0.9f;
+            pumpAmount = 1.5f;
             consumePower(5);
             consumeItem(Items.sand);
             consumeLiquid(Liquids.water, 0.3f);
@@ -621,7 +623,6 @@ public class HIBlocks {
         minerCenter = new MinerPoint("miner-center"){{
             requirements(Category.production, with(Items.beryllium, 480, Items.tungsten, 360, Items.oxide, 125, Items.carbide, 120, Items.surgeAlloy, 130));
             range = 18;
-            alwaysCons = true;
             dronesCreated = 6;
             droneConstructTime = 60 * 7f;
             tier = 7;
@@ -629,7 +630,7 @@ public class HIBlocks {
             itemCapacity = 300;
             MinerUnit = HIUnitTypes.largeMiner;
             consumePower(3);
-            consumeLiquid(Liquids.nitrogen, 3 / 60f);
+            consumeLiquid(Liquids.nitrogen, 9 / 60f);
             buildCostMultiplier = 0.8f;
             squareSprite = false;
         }};
@@ -1238,6 +1239,14 @@ public class HIBlocks {
             consumePower(3f);
             consumeLiquid(Liquids.water, 36f / 60f);
         }};
+        sporeFarm = new SporeFarm("spore-farm"){{
+            requirements(Category.production, with(Items.copper, 5, Items.lead, 5));
+            health = 50;
+            rebuildable = false;
+            hasItems = true;
+            itemCapacity = 2;
+            breakSound = Sounds.splash;
+        }};
         largePlastaniumCompressor = new GenericCrafter("large-plastanium-compressor"){{
             requirements(Category.crafting, with(Items.silicon, 150, Items.lead, 220, Items.graphite, 120, Items.titanium, 150, Items.thorium, 100));
             hasLiquids = true;
@@ -1514,21 +1523,6 @@ public class HIBlocks {
             consumeLiquid(HILiquids.nitratedOil, 36f / 60f);
         }};
         //production-erekir
-        heatPipe = new HeatPipe("heat-pipe"){{
-            requirements(Category.crafting, BuildVisibility.debugOnly, with(Items.graphite, 2, Items.tungsten, 2, Items.oxide, 1));
-            group = BlockGroup.heat;
-            size = 1;
-            regionRotated1 = 1;
-            researchCostMultiplier = 10f;
-        }};
-        heatPipeRouter = new HeatConductor("heat-pipe-router"){{
-            requirements(Category.crafting, BuildVisibility.debugOnly, with(Items.graphite, 3, Items.tungsten, 3, Items.oxide, 2));
-            group = BlockGroup.heat;
-            size = 1;
-            regionRotated1 = 1;
-            researchCostMultiplier = 10f;
-            splitHeat = true;
-        }};
         ventHeater = new ThermalHeater("vent-heater"){{
             requirements(Category.crafting, with(Items.beryllium, 60, Items.graphite, 70, Items.tungsten, 80, Items.oxide, 50));
             size = 3;
@@ -1726,14 +1720,14 @@ public class HIBlocks {
             requirements(Category.crafting, with(Items.silicon, 120, Items.graphite, 60, Items.tungsten, 100, Items.oxide, 40, Items.surgeAlloy, 60));
             size = 3;
             itemCapacity = 20;
-            craftTime = 40f;
+            craftTime = 35f;
             liquidCapacity = 300f;
             hasLiquids = true;
             craftEffect = Fx.none;
             outputItem = new ItemStack(HIItems.chromium, 1);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.hydrogen, 3f), new DrawDefault(), new DrawHeatInput());
             consumeItem(Items.tungsten, 1);
-            consumeLiquids(LiquidStack.with(Liquids.slag, 80f / 60f, Liquids.hydrogen, 16f / 60f));
+            consumeLiquids(LiquidStack.with(Liquids.slag, 80f / 60f, Liquids.hydrogen, 12f / 60f));
             consumePower(12f);
             squareSprite = false;
             buildType = () -> new GenericCrafterBuild(){
@@ -1846,7 +1840,6 @@ public class HIBlocks {
             useTime = 400f;
             maxLink = 9;
             hasBoost = true;
-            squareSprite = false;
             strokeOffset = -0.05f;
             strokeClamp = 0.06f;
             consumePower(14f);
@@ -1918,9 +1911,19 @@ public class HIBlocks {
 
             @Override
             public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-                return state.teams.cores(team).size < 5;
+                return state.teams.cores(team).size < 3;
             }
         };
+        coreStorage = new CoreStorageBlock("core-storage"){{
+            requirements(Category.effect, with(Items.lead, 600, Items.titanium, 400, Items.silicon, 300, Items.thorium, 150, Items.plastanium, 120));
+            size = 3;
+        }};
+        //storage-erekir
+        reinforcedCoreStorage = new CoreStorageBlock("reinforced-core-storage"){{
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with(Items.beryllium, 300, Items.tungsten, 200, Items.silicon, 220, Items.thorium, 120, Items.surgeAlloy, 80));
+            size = 3;
+            squareSprite = false;
+        }};
         //payload
         payloadJunction = new PayloadJunction("payload-junction"){{
             requirements(Category.units, with(Items.graphite, 15, Items.copper, 20));
@@ -2526,6 +2529,19 @@ public class HIBlocks {
             shootSound = HISounds.dd1;
             consumePowerCond(6f, TurretBuild::isActive);
         }};
+        coilBlaster = new TeslaTurret("coil-blaster"){{
+            requirements(Category.turret, with(Items.copper, 60, Items.lead, 85, Items.graphite, 40, Items.silicon, 55, Items.titanium, 80));
+            size = 2;
+            scaledHealth = 200f;
+            reload = 20f;
+            range = 130f;
+            maxTargets = 5;
+            rings.add(new TeslaRing(2f), new TeslaRing(6f));
+            damage = 23f;
+            status = StatusEffects.shocked;
+            consumePower(4.8f);
+            coolant = consumeCoolant(0.2f);
+        }};
         dragonBreath = new ItemTurret("dragon-breath"){{
             requirements(Category.turret, with(Items.graphite, 40, Items.silicon, 25, Items.titanium, 60, Items.plastanium, 30));
             ammo(Items.coal, new FlameBulletType(Pal.lightFlame, Pal.darkFlame, Color.gray, range + 8, 14, 60, 22), Items.pyratite, new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8, 20, 72, 22){{
@@ -2694,6 +2710,23 @@ public class HIBlocks {
                 };
             }};
             ammoUseEffect = HIFx.casing(32f);
+        }};
+        blaze = new EruptorTurret("blaze"){{
+            requirements(Category.turret, with(Items.copper, 350, Items.lead, 550, Items.graphite, 550, Items.silicon, 600, Items.titanium, 350, Items.surgeAlloy, 200));
+            size = 4;
+            scaledHealth = 190;
+            shootDuration = 120f;
+            range = 280f;
+            reload = 150f;
+            shootY = 0.25f;
+            rotateSpeed = 3.5f;
+            recoil = 4f;
+            beamEffect = HIFx.blazeBeam;
+            shootType = new MagmaBulletType(152f, 24f){{
+                shake = 2f;
+            }};
+            coolant = consumeCoolant(0.2f);
+            consumePower(17f);
         }};
         spike = new ItemTurret("spike"){{
             requirements(Category.turret, with(Items.copper, 30, Items.lead, 60, Items.graphite, 40, Items.titanium, 50));

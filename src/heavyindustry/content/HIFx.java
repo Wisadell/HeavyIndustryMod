@@ -1,6 +1,7 @@
 package heavyindustry.content;
 
 import heavyindustry.entities.*;
+import heavyindustry.entities.effect.*;
 import heavyindustry.graphics.*;
 import heavyindustry.math.*;
 import heavyindustry.struct.*;
@@ -653,6 +654,12 @@ public class HIFx {
                 Angles.randLenVectors(e.id, 15, 7f + 60f * e.finpow(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 4f + e.fout() * 16f));
                 Drawf.light(e.x, e.y, e.fout() * 120f, Pal.techBlue, 0.7f);
             }),
+            eruptorBurn = new Effect(30f, e -> {
+                Draw.color(Pal.slagOrange);
+                Angles.randLenVectors(e.id, 6, 64 * e.fin(), e.rotation, 20f, (x, y) -> {
+                    Lines.lineAngle(e.x + x, e.y + y, Angles.angle(x, y), 8f * e.fout());
+                });
+            }),
             hugeTrail = new Effect(40f, e -> {
                 Draw.color(e.color);
                 Draw.alpha(e.fout(0.85f) * 0.85f);
@@ -1010,7 +1017,7 @@ public class HIFx {
                 });
             }),
             critTrailFade = new Effect(400f, e -> {
-                if(!(e.data instanceof HITrail trail)) return;
+                if(!(e.data instanceof CritTrail trail)) return;
 
                 e.lifetime = trail.length * 1.4f;
 
@@ -1099,4 +1106,12 @@ public class HIFx {
                     Lines.line(v1.x, v1.y, v2.x, v2.y);
                 }
             });
+
+    public static final LightningEffect
+            groundCrack = new LightningEffect(20f, 500f, 1.5f).layer(Layer.debris - 0.01f).extend(true).width(10f),
+            staticLightning = new LightningEffect(10f, 500f, 2f).colorFrom(Color.white).layer(Layer.bullet + 0.01f).width(5f),
+            teslaLightning = new LightningEffect(10f, 500f, 3.5f).colorFrom(Color.white).layer(Layer.bullet + 0.01f).shrink(true),
+            flameBeam = new LightningEffect(10f, 500f, 3f).colorFrom(Color.white).layer(Layer.bullet + 0.01f).width(16f).shrink(true),
+            blazeBeam = new LightningEffect(10f, 500f, 4f).colorFrom(Color.white).layer(Layer.bullet + 0.01f).width(20f).shrink(true),
+            empLightning = new LightningEffect(60f, 500f, 2f).colorFrom(Color.white).width(12f).extend(true);
 }

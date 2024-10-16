@@ -29,6 +29,7 @@ import static heavyindustry.gen.HIIcon.*;
 /**
  * A factory with multiple synthetic formulas.
  * @author LaoHuaJi
+ * @author Wisadell
  */
 public class MultiCrafter extends Block {
     public float warmupSpeed = 0.02f;
@@ -98,7 +99,11 @@ public class MultiCrafter extends Block {
         super.init();
         capacities = new int[Vars.content.items().size];
         for (Recipe r : recipeSeq) {
-            if (r.inputLiquids != null || r.outputLiquids != null) hasLiquids = true;
+            if (r.inputLiquids != null) hasLiquids = true;
+            if (r.outputLiquids != null) {
+                hasLiquids = true;
+                outputsLiquid = true;
+            }
             if (r.inputPower > 0f) consumesPower = true;
             if (r.outputPower > 0f) outputsPower = true;
             if (r.inputItems != null) {

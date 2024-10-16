@@ -56,20 +56,20 @@ public class HITechTree {
         addToNode(carbideWallLarge, () -> node(carbideWallHuge, () -> node(carbideWallGigantic, () -> {})));
         addToNode(shieldedWall, () -> node(shieldedWallLarge, () -> node(shieldedWallHuge, () -> {})));
         //drill
+        addToNode(pneumaticDrill, () -> node(sporeFarm, () -> {}));
         addToNode(waterExtractor, () -> {
             node(largeWaterExtractor, () -> {});
             node(slagExtractor, () -> {});
         });
-        addToNode(blastDrill, () -> {
-            node(cuttingDrill, Seq.with(new SectorComplete(impact0078)), () -> {});
+        addToNode(blastDrill, () -> node(cuttingDrill, Seq.with(new SectorComplete(impact0078)), () -> {
             node(beamDrill, () -> {
                 node(speedModule, () -> {});
                 node(refineModule, () -> {});
                 node(deliveryModule, () -> {});
             });
             node(implosionDrill, () -> {});
-        });
-        addToNode(oilExtractor, () -> node(reinforcedOilExtractor, () -> {}));
+        }));
+        addToNode(oilExtractor, () -> node(oilRig, () -> {}));
         //drill-erekir
         addToNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
         addToNode(impactDrill, () -> node(minerPoint, Seq.with(new Research(electrolyzer)), () -> node(minerCenter, Seq.with(new Research(atmosphericConcentrator)), () -> {})));
@@ -181,7 +181,10 @@ public class HITechTree {
         //storage
         addToNode(coreShard, () -> node(coreBeStationed, ItemStack.with(Items.copper, 2000, Items.lead, 2000, Items.silicon, 1000), () -> {}));
         addToNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> node(machineryUnloader, ItemStack.with(Items.copper, 300, Items.lead, 200), () -> {})));
-        addToNode(vault, () -> node(cargo, () -> {}));
+        addToNode(vault, () -> {
+            node(cargo, () -> {});
+            node(coreStorage, () -> {});
+        });
         addToNode(unloader, () -> node(rapidUnloader, () -> node(rapidDirectionalUnloader, () -> {})));
         //payload
         addToNode(payloadConveyor, () -> node(payloadJunction, () -> {}));
@@ -210,12 +213,13 @@ public class HITechTree {
             node(cloudbreaker, () -> {});
         });
         addToNode(scorch, () -> node(dragonBreath, () -> {}));
-        addToNode(arc, () -> node(hurricane, () -> {}));
+        addToNode(arc, () -> node(coilBlaster, () -> node(hurricane, () -> {})));
         addToNode(salvo, () -> {
             node(spike, () -> node(fissure, () -> {}));
             node(minigun, () -> {});
         });
         addToNode(meltdown, () -> {
+            node(blaze, () -> {});
             node(frost, () -> {});
             node(judgement, () -> {});
         });

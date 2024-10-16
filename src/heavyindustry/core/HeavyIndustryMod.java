@@ -8,7 +8,6 @@ import arc.*;
 import arc.flabel.*;
 import arc.scene.ui.*;
 import arc.util.*;
-import mindustry.Vars;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.ui.dialogs.*;
@@ -17,6 +16,7 @@ import java.util.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
+
 /**
  * Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings.
  * @author Wisadell
@@ -75,6 +75,10 @@ public class HeavyIndustryMod extends Mod{
         Events.on(DisposeEvent.class, e -> {
             HIShaders.dispose();
         });
+
+        Events.on(ResetEvent.class, e -> {
+            HIRegister.clear();
+        });
     }
 
     @Override
@@ -101,11 +105,11 @@ public class HeavyIndustryMod extends Mod{
         settings.defaults("hi-homepage-dialog", false);
         settings.defaults("hi-plug-in-mode", false);
 
-        Vars.mods.locateMod(modName).meta.hidden = onlyPlugIn;
+        mods.locateMod(modName).meta.hidden = onlyPlugIn;
         if(onlyPlugIn){
-            Mods.LoadedMod mod = Vars.mods.locateMod(modName);
+            Mods.LoadedMod mod =mods.locateMod(modName);
             mod.meta.displayName = mod.meta.displayName + "-Plug-In";
-            mod.meta.version = Vars.mods.locateMod(modName).meta.version + "-plug-in";
+            mod.meta.version = mods.locateMod(modName).meta.version + "-plug-in";
         }
 
         if(ui != null && ui.settings != null){
@@ -119,6 +123,7 @@ public class HeavyIndustryMod extends Mod{
 
             ui.settings.addCategory(bundle.format("hi-settings"), t -> {
                 t.checkPref("hi-homepage-dialog", false);
+                t.checkPref("hi-tesla-range", true);
                 t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting("hi-plug-in-mode", false, null) {
                     @Override
                     public void add(SettingsMenuDialog.SettingsTable table) {

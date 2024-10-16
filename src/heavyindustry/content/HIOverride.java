@@ -361,6 +361,7 @@ public class HIOverride {
         UnitTypes.tecta.armor = 11f;
         UnitTypes.collaris.armor = 15f;
         //Liquids
+        Liquids.slag.temperature = 2f;
         Liquids.hydrogen.flammability = 1.5f;
         Liquids.hydrogen.explosiveness = 1.5f;
         Liquids.ozone.flammability = 0f;
