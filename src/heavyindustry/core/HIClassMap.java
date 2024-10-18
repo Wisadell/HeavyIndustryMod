@@ -37,8 +37,6 @@ public class HIClassMap {
         classes.put("AccelBulletType", AccelBulletType.class);
         classes.put("AdaptedLightningBulletType", AdaptedLightningBulletType.class);
         classes.put("AimToPosBulletType", AimToPosBulletType.class);
-        classes.put("BallistaBulletType", BallistaBulletType.class);
-        classes.put("StopHomingBulletType", BallistaBulletType.StopHomingBulletType.class);
         classes.put("CritBulletType", CritBulletType.class);
         classes.put("CtrlMissileBulletType", CtrlMissileBulletType.class);
         classes.put("DelayedPointBulletType", DelayedPointBulletType.class);
@@ -72,8 +70,9 @@ public class HIClassMap {
         classes.put("AtlasProp", AtlasProp.class);
         classes.put("AtlasStaticWall", AtlasStaticWall.class);
         classes.put("AtlasTallBlock", AtlasTallBlock.class);
-        classes.put("SideFloor", SideFloor.class);
+        classes.put("GrooveFloor", GrooveFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
+        classes.put("SizedVent", SizedVent.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);
         classes.put("AssignOverdriveBuild", AssignOverdrive.AssignOverdriveBuild.class);
         classes.put("InsulationWall", InsulationWall.class);
@@ -160,8 +159,6 @@ public class HIClassMap {
         classes.put("DerivativeUnitFactoryBuild", DerivativeUnitFactory.DerivativeUnitFactoryBuild.class);
         classes.put("BeamDiode", BeamDiode.class);
         classes.put("BeamDiodeBuild", BeamDiode.BeamDiodeBuild.class);
-        classes.put("WindGenerator", WindGenerator.class);
-        classes.put("WindGeneratorBuild", WindGenerator.WindGeneratorBuild.class);
         classes.put("HyperGenerator", HyperGenerator.class);
         classes.put("HyperGeneratorBuild", HyperGenerator.HyperGeneratorBuild.class);
         classes.put("GeneratorCrafter", GeneratorCrafter.class);

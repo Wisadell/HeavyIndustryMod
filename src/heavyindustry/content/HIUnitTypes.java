@@ -59,6 +59,7 @@ public class HIUnitTypes {
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
         //boss
+        nameMap.put(name("tiger"), idMap[4]);
         nameMap.put(name("thunder"), idMap[43]);
     }
 
@@ -72,7 +73,7 @@ public class HIUnitTypes {
             //other
             vulture,burner,
             //boss
-            thunder;
+            tiger,thunder;
 
     public static void load(){
         //tier6
@@ -742,9 +743,8 @@ public class HIUnitTypes {
                     spacing = 10f;
                     color = Color.valueOf("feb380");
                 }});
-                bullet = new BallistaBulletType(Color.valueOf("feb380")){{
+                bullet = new BasicBulletType(10f, 660f){{
                     hitSound = despawnSound = Sounds.explosionbig;
-                    damage = 660f;
                     splashDamage = 960f;
                     splashDamageRadius = 12f * 8;
                     buildingDamageMultiplier = 0.8f;
@@ -767,11 +767,13 @@ public class HIUnitTypes {
                     pierce = true;
                     pierceCap = 2;
                     pierceBuilding = true;
-                    speed = 10f;
                     trailWidth = 7f;
                     trailLength = 12;
                     trailColor = Color.valueOf("feb380");
                     healPercent = -1f;
+                    despawnHit = true;
+                    keepVelocity = false;
+                    reflectable = false;
                 }
                     @Override
                     public void draw(Bullet b){
@@ -1232,7 +1234,7 @@ public class HIUnitTypes {
                 reload = 25f;
                 inaccuracy = 3f;
                 ejectEffect = Fx.none;
-                bullet = new AccelBulletType(4f, 50f, "missile-large"){{
+                bullet = new AccelBulletType(6f, 50f, "missile-large"){{
                     shrinkX = shrinkY = 0.35f;
                     buildingDamageMultiplier = 1.5f;
                     keepVelocity = false;
@@ -1249,7 +1251,7 @@ public class HIUnitTypes {
                     trailChance = 0.2f;
                     trailParam = 1.75f;
                     trailEffect = HIFx.trailToGray;
-                    lifetime = 120f;
+                    lifetime = 90f;
                     collidesAir = false;
                     hitSound = Sounds.explosion;
                     hitEffect = HIFx.square45_4_45;
@@ -1338,11 +1340,209 @@ public class HIUnitTypes {
             });
         }};
         //boss
+        tiger = new UnitType("tiger"){{
+            drawShields = false;
+            engineOffset = 18f;
+            engineSize = 9f;
+            speed = 0.32f;
+            hitSize = 52f;
+            health = 102000f;
+            buildSpeed = 4f;
+            armor = 86f;
+            envDisabled = Env.none;
+            ammoType = new PowerAmmoType(3000f);
+            weapons.add(new Weapon(name("tiger-cannon")){{
+                top = false;
+                rotate = true;
+                rotationLimit = 13f;
+                rotateSpeed = 0.75f;
+                alternate = true;
+                shake = 3.5f;
+                shootY = 32f;
+                x = 42f;
+                y = -2f;
+                recoil = 3.4f;
+                predictTarget = true;
+                shootCone = 30f;
+                reload = 60f;
+                parts.add(new RegionPart("-shooter"){{
+                    under = turretShading = true;
+                    outline = true;
+                    mirror = false;
+                    moveY = -8f;
+                    progress = PartProgress.recoil;
+                }});
+                shoot = new ShootPattern(){{
+                    shots = 3;
+                    shotDelay = 3.5f;
+                }};
+                velocityRnd = 0.075f;
+                inaccuracy = 6.0F;
+                ejectEffect = Fx.none;
+                bullet = new BasicBulletType(8, 200f, name("strike")){{
+                    trailColor = lightningColor = backColor = lightColor = Pal.techBlue;
+                    frontColor = Pal.techBlue;
+                    lightning = 2;
+                    lightningCone = 360;
+                    lightningLengthRand = lightningLength = 8;
+                    homingPower = 0;
+                    scaleLife = true;
+                    collides = false;
+                    trailLength = 15;
+                    trailWidth = 3.5f;
+                    splashDamage = lightningDamage = damage;
+                    splashDamageRadius = 48f;
+                    lifetime = 95f;
+                    width = 22f;
+                    height = 35f;
+                    trailEffect = HIFx.trailToGray;
+                    trailParam = 3f;
+                    trailChance = 0.35f;
+                    hitShake = 7f;
+                    hitSound = Sounds.explosion;
+                    hitEffect = HIFx.hitSpark(backColor, 75f, 24, 95f, 2.8f, 16);
+                    smokeEffect = new MultiEffect(HIFx.hugeSmokeGray, HIFx.circleSplash(backColor, 60f, 8, 60f, 6));
+                    shootEffect = HIFx.hitSpark(backColor, 30f, 15, 35f, 1.7f, 8);
+                    despawnEffect = HIFx.blast(backColor, 60);
+                    fragBullet = HIBullets.basicSkyFrag;
+                    fragBullets = 5;
+                    fragLifeMax = 0.6f;
+                    fragLifeMin = 0.2f;
+                    fragVelocityMax = 0.35f;
+                    fragVelocityMin = 0.074f;
+                }
+                    @Override
+                    public void hit(Bullet b, float x, float y){
+                        super.hit(b, x, y);
+                        UltFire.createChance(b, splashDamageRadius, 0.4f);
+                    }
+                };
+                shootSound = Sounds.artillery;
+            }}, new Weapon(){{
+                mirror = false;
+                rotate = true;
+                rotateSpeed = 25f;
+                x = 0;
+                y = 12f;
+                recoil = 2.7f;
+                shootY = 7f;
+                shootCone = 40f;
+                velocityRnd = 0.075f;
+                reload = 150f;
+                xRand = 18f;
+                shoot = new ShootSine(){{
+                    shots = 12;
+                    shotDelay = 4f;
+                }};
+                inaccuracy = 5f;
+                ejectEffect = Fx.none;
+                bullet = HIBullets.annMissile;
+                shootSound = HISounds.launch;
+            }}, new Weapon(){{
+                x = 26f;
+                y = -12.5f;
+                reload = 60f;
+                shoot = new ShootPattern(){{
+                    shots = 3;
+                    shotDelay = 8f;
+                }};
+                shake = 3f;
+                shootX = 2;
+                xRand = 5;
+                mirror = true;
+                rotateSpeed = 2.5f;
+                alternate = true;
+                shootSound = HISounds.launch;
+                shootCone = 30f;
+                shootY = 5f;
+                top = true;
+                rotate = true;
+                bullet = new BasicBulletType(5.25f, 150f, name("strike")){{
+                    lifetime = 60;
+                    knockback = 12f;
+                    width = 11f;
+                    height = 28f;
+                    trailWidth = 2.2f;
+                    trailLength = 20;
+                    drawSize = 300f;
+                    homingDelay = 5f;
+                    homingPower = 0.0075f;
+                    homingRange = 140f;
+                    splashDamageRadius = 16f;
+                    splashDamage = damage * 0.75f;
+                    backColor = lightColor = lightningColor = trailColor = hitColor = frontColor = Pal.techBlue;
+                    hitEffect = HIFx.circleSplash(backColor, 40f, 4, 40f, 6f);
+                    despawnEffect = HIFx.hitSparkLarge;
+                    shootEffect = HIFx.shootCircleSmall(backColor);
+                    smokeEffect = Fx.shootBigSmoke2;
+                    trailChance = 0.6f;
+                    trailEffect = HIFx.trailToGray;
+                    hitShake = 3f;
+                    hitSound = Sounds.plasmaboom;
+                }};
+            }}, new Weapon(){{
+                mirror = false;
+                top = alternate = autoTarget = rotate = true;
+                predictTarget = controllable = false;
+                x = 0f;
+                y = 14f;
+                reload = 12f;
+                recoil = 3f;
+                inaccuracy = 0;
+                shoot = new ShootPattern();
+                rotateSpeed = 25f;
+                shootSound = HISounds.gauss;
+                bullet = new ShrapnelBulletType(){{
+                    lifetime = 45f;
+                    length = 200f;
+                    damage = 180.0F;
+                    status = StatusEffects.shocked;
+                    statusDuration = 60f;
+                    fromColor = toColor = Pal.techBlue;
+                    serrationSpaceOffset = 40f;
+                    width = 6f;
+                    shootEffect = HIFx.lightningHitSmall(fromColor);
+                    smokeEffect = new MultiEffect(HIFx.techBlueCircleSplash, new Effect(lifetime + 10f, b -> {
+                        Draw.color(fromColor, b.fin());
+                        Fill.circle(b.x, b.y, (width / 1.75f) * b.fout());
+                    }));
+                }};
+            }});
+            for(float[] i : new float[][]{{22f, 18f}, {25f, 2f}}){
+                weapons.add(new PointDefenseWeapon(name("tiger-cannon-small")){{
+                    x = i[0];
+                    y = i[1];
+                    color = Pal.techBlue;
+                    mirror = top = alternate = true;
+                    reload = 6.0F;
+                    targetInterval = 6.0F;
+                    targetSwitchInterval = 6.0F;
+                    bullet = new BulletType(){{
+                        shootEffect = HIFx.shootLineSmall(color);
+                        hitEffect = HIFx.lightningHitSmall;
+                        hitColor = color;
+                        maxRange = 240.0F;
+                        damage = 150f;
+                    }};
+                }});
+            }
+            groundLayer = Layer.legUnit + 0.1f;
+            mechLandShake = 12f;
+            stepShake = 5f;
+            rotateSpeed = 1f;
+            fallSpeed = 0.03f;
+            mechStepParticles = true;
+            canDrown = false;
+            mechFrontSway = 2.2f;
+            mechSideSway = 0.8f;
+            canBoost = true;
+            boostMultiplier = 2.5f;
+        }};
         thunder = new UnitType("thunder"){{
-            health = 122000f;
+            health = 162000f;
             armor = 115f;
             rotateSpeed = 1f;
-            speed = 0.8f;
+            speed = 0.66f;
             squareShape = true;
             omniMovement = false;
             rotateMoveFirst = true;
@@ -1373,7 +1573,7 @@ public class HIUnitTypes {
                 }};
                 inaccuracy = 1.3f;
                 shootSound = HISounds.flak;
-                bullet = new AccelBulletType(1, 800, "missile-large"){{
+                bullet = new AccelBulletType(1f, 1100f, "missile-large"){{
                     lightOpacity = 0.7f;
                     healPercent = 20f;
                     reflectable = false;
@@ -1464,7 +1664,7 @@ public class HIUnitTypes {
                     autoTarget = true;
                     controllable = false;
                     shootSound = HISounds.gauss;
-                    bullet = new BasicBulletType(12f,180f){{
+                    bullet = new BasicBulletType(12f,220f){{
                         width = 9f;
                         height = 28f;
                         trailWidth = 1.3f;

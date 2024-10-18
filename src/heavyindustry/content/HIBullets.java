@@ -20,6 +20,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 
 import static mindustry.Vars.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 
 /**
  * Some preset bullets. Perhaps it will be used multiple times.
@@ -28,12 +29,108 @@ import static mindustry.Vars.*;
  */
 public class HIBullets {
     public static BulletType
+            ultFireball,basicSkyFrag,annMissile,
             hyperBlast,hyperBlastLinker,
             arc9000frag,arc9000,arc9000hyper,
             //It is not recommended to use it directly.
             collapseFrag,collapse;
 
     public static void load(){
+        ultFireball = new FireBulletType(1f, 10){{
+            colorFrom = colorMid = Pal.techBlue;
+            lifetime = 12f;
+            radius = 4f;
+            trailEffect = HIFx.ultFireBurn;
+        }
+            @Override
+            public void draw(Bullet b){
+                Draw.color(colorFrom, colorMid, colorTo, b.fin());
+                Fill.square(b.x, b.y, radius * b.fout(), 45);
+                Draw.reset();
+            }
+
+            @Override
+            public void update(Bullet b){
+                if(Mathf.chanceDelta(fireTrailChance)){
+                    UltFire.create(b.tileOn());
+                }
+
+                if(Mathf.chanceDelta(fireEffectChance)){
+                    trailEffect.at(b.x, b.y);
+                }
+
+                if(Mathf.chanceDelta(fireEffectChance2)){
+                    trailEffect2.at(b.x, b.y);
+                }
+            }
+        };
+        basicSkyFrag = new BasicBulletType(3.8f, 50){{
+            speed = 6f;
+            trailLength = 12;
+            trailWidth = 2f;
+            lifetime = 60;
+            despawnEffect = HIFx.square45_4_45;
+            knockback = 4f;
+            width = 15f;
+            height = 37f;
+            lightningDamage = damage * 0.65f;
+            backColor = lightColor = lightningColor = trailColor = hitColor = frontColor = Pal.techBlue;
+            lightning = 2;
+            lightningLength = lightningLengthRand = 3;
+            smokeEffect = Fx.shootBigSmoke2;
+            trailChance = 0.2f;
+            trailEffect = HIFx.skyTrail;
+            drag = 0.015f;
+            hitShake = 2f;
+            hitSound = Sounds.explosion;
+            hitEffect = new Effect(45f, e -> {
+                Fx.rand.setSeed(e.id);
+                Draw.color(lightColor, e.fin());
+                Lines.stroke(1.75f * e.fout());
+                Lines.spikes(e.x, e.y, Fx.rand.random(14, 28) * e.finpow(), Fx.rand.random(1, 5) * e.fout() + Fx.rand.random(5, 8) * e.fin(HIInterp.parabola4Reversed), 4, 45);
+                Lines.square(e.x, e.y, Fx.rand.random(4, 14) * e.fin(Interp.pow3Out), 45);
+            });
+        }
+            @Override
+            public void hit(Bullet b){
+                super.hit(b);
+                UltFire.createChance(b, 12, 0.0075f);
+            }
+        };
+        annMissile = new BasicBulletType(5.6f, 80f, name("strike")){{
+            trailColor = lightningColor = backColor = lightColor = frontColor = Pal.techBlue;
+            lightning = 3;
+            lightningCone = 360;
+            lightningLengthRand = lightningLength = 9;
+            splashDamageRadius = 60;
+            splashDamage = lightningDamage = damage * 0.7f;
+            range = 320f;
+            scaleLife = true;
+            width = 12f;
+            height = 30f;
+            trailLength = 15;
+            drawSize = 250f;
+            trailParam = 1.4f;
+            trailChance = 0.35f;
+            lifetime = 50f;
+            homingDelay = 10f;
+            homingPower = 0.05f;
+            homingRange = 150f;
+            hitEffect = HIFx.lightningHitLarge(lightColor);
+            shootEffect = HIFx.hugeSmokeGray;
+            smokeEffect = new Effect(45f, e -> {
+                Draw.color(lightColor, Color.white, e.fout() * 0.7f);
+                Angles.randLenVectors(e.id, 8, 5 + 55 * e.fin(), e.rotation, 45, (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 3f));
+            });
+            despawnEffect = new Effect(32f, e -> {
+                Draw.color(Color.gray);
+                Angles.randLenVectors(e.id + 1, 8, 2.0F + 30.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4.0F + 0.5F));
+                Draw.color(lightColor, Color.white, e.fin());
+                Lines.stroke(e.fout() * 2);
+                Fill.circle(e.x, e.y, e.fout() * e.fout() * 13);
+                Angles.randLenVectors(e.id, 4, 7 + 40 * e.fin(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 8 + 3));
+            });
+        }};
         hyperBlast = new BasicBulletType(3.3f, 400){{
             lifetime = 60;
 

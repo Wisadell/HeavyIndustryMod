@@ -21,7 +21,7 @@ import static mindustry.Vars.*;
  * Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings.
  * @author Wisadell
  */
-public class HeavyIndustryMod extends Mod{
+public class HeavyIndustryMod extends Mod {
     /** Commonly used static read-only String. Please do not attempt to modify it! */
     public static final String modName = "heavy-industry";
 
@@ -51,14 +51,14 @@ public class HeavyIndustryMod extends Mod{
                         app.setClipboardText(linkGitHub);
                     }
                 }).size(210f, 64f);
-                cont.pane(table -> {
-                    table.image(atlas.find(name("cover"))).left().size(600f, 338f).pad(3f).row();
-                    table.add(bundle.get("hi-version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
-                    table.add(label).left().row();
-                    table.add(bundle.get("hi-class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
-                    table.add(bundle.get("hi-note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    table.add(bundle.get("hi-prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    table.add(bundle.get("hi-contributor")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                cont.pane(t -> {
+                    t.image(atlas.find(name("cover"))).left().size(600f, 338f).pad(3f).row();
+                    t.add(bundle.get("hi-version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
+                    t.add(label).left().row();
+                    t.add(bundle.get("hi-class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
+                    t.add(bundle.get("hi-note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    t.add(bundle.get("hi-prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    t.add(bundle.get("hi-contributor")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                 }).grow().center().maxWidth(600f);
             }};
             dialog.show();

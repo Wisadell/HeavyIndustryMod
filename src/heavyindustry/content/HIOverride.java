@@ -36,6 +36,7 @@ import static mindustry.type.ItemStack.*;
  * Covering the original content.
  * @author Wisadell
  */
+@SuppressWarnings("unchecked")
 public class HIOverride {
     public static void load(){
         //Blocks-Environment
@@ -393,7 +394,6 @@ public class HIOverride {
         Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
         field.setAccessible(true);
 
-        @SuppressWarnings("unchecked")
         Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
 
         consumeBuilder.removeAll(Objects::nonNull);
@@ -403,7 +403,6 @@ public class HIOverride {
         Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
         field.setAccessible(true);
 
-        @SuppressWarnings("unchecked")
         Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
 
         consumeBuilder.removeAll(b -> b instanceof ConsumeItems);
@@ -413,7 +412,6 @@ public class HIOverride {
         Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
         field.setAccessible(true);
 
-        @SuppressWarnings("unchecked")
         Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
 
         consumeBuilder.removeAll(b -> b instanceof ConsumeLiquidBase);

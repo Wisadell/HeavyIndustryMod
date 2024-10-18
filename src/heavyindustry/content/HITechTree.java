@@ -120,7 +120,6 @@ public class HITechTree {
         removeNode(reinforcedPump);
         addToNode(reinforcedConduit, () -> node(smallReinforcedPump, Seq.with(new OnSector(basin)), () -> node(reinforcedPump, () -> node(largeReinforcedPump, () -> {}))));
         //power
-        addToNode(powerNode, () -> node(windTurbine, () -> {}));
         addToNode(powerNodeLarge, () -> node(powerNodeHuge, () -> node(powerNodePhase, () -> {})));
         addToNode(thoriumReactor, () -> node(uraniumReactor, () -> {}));
         addToNode(impactReactor, () -> node(magneticStormRadiationReactor, () -> {}));

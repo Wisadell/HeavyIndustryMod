@@ -157,7 +157,7 @@ public class TeslaTurret extends Block{
         }
     }
 
-    public class TeslaTurretBuild extends Building implements Ranged{
+    public class TeslaTurretBuild extends Building implements Ranged {
         protected float[] heats = new float[rings.size];
         protected float rotation = 90f, speedScl, curStroke, reloadCounter;
         protected boolean nearby;

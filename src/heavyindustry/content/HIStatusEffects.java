@@ -5,6 +5,7 @@ import arc.math.*;
 import mindustry.content.*;
 import mindustry.entities.effect.*;
 import mindustry.gen.*;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
@@ -14,7 +15,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * @author Wisadell
  */
 public class HIStatusEffects {
-    public static StatusEffect repair,armorReduction;
+    public static StatusEffect repair,armorReduction,ultFireBurn;
     public static void load(){
         repair = new StatusEffect("repair"){{
             color = Color.valueOf("97ffa8");
@@ -48,5 +49,11 @@ public class HIStatusEffects {
                 if (unit.armor > 0f) unit.armor /= 2f;
             }
         };
+        ultFireBurn = new StatusEffect("ult-fire-burn"){{
+            color = Pal.techBlue;
+            damage = 1.5f;
+            speedMultiplier = 1.2f;
+            effect = HIFx.ultFireBurn;
+        }};
     }
 }

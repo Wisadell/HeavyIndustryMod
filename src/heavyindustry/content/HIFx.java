@@ -321,6 +321,18 @@ public class HIFx {
         });
     }
 
+    public static Effect circleSplash(Color color, float lifetime, int num, float range, float size){
+        return new Effect(lifetime, e -> {
+            Draw.color(color);
+            rand.setSeed(e.id);
+            Angles.randLenVectors(e.id, num, range * e.finpow(), (x, y) -> {
+                float s = e.fout(Interp.pow3In) * (size + rand.range(size / 3f));
+                Fill.circle(e.x + x, e.y + y, s);
+                Drawf.light(e.x + x, e.y + y, s * 2.25f, color, 0.7f);
+            });
+        });
+    }
+
     public static Effect sharpBlast(Color colorExternal, Color colorInternal, float lifetime, float range){
         return new Effect(lifetime, range * 2, e -> {
             Angles.randLenVectors(e.id, (int)Mathf.clamp(range / 8, 4, 18), range / 8, range * (1 + e.fout(Interp.pow2OutInverse)) / 2f, (x, y) -> {
@@ -470,6 +482,14 @@ public class HIFx {
                 Lines.stroke(2 * e.fout());
                 Angles.randLenVectors(e.id, 6, 3 + e.rotation * e.fin(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 4));
             }),
+            skyTrail = new Effect(22, e -> {
+                Draw.color(Pal.techBlue, Pal.gray, e.fin() * 0.6f);
+
+                rand.setSeed(e.id);
+                Angles.randLenVectors(e.id, 3, e.finpow() * 13, e.rotation - 180, 30f, (x, y) -> {
+                    Fill.poly(e.x + x, e.y + y, 6, rand.random(2, 4) * e.foutpow(), e.rotation);
+                });
+            }),
             circle = new Effect(25f, e -> {
                 Draw.color(e.color, Color.white, e.fout() * 0.65f);
                 Lines.stroke(Mathf.clamp(e.rotation / 18f, 2, 6) * e.fout());
@@ -497,6 +517,13 @@ public class HIFx {
                 Angles.randLenVectors(e.id + 1, 5, 8f + 60 * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 7f));
                 Drawf.light(e.x, e.y, e.fout() * 70f, e.color, 0.7f);
             }),
+            ultFireBurn = new Effect(25f, e -> {
+                Draw.color(Pal.techBlue, Color.gray, e.fin() * 0.75f);
+
+                Angles.randLenVectors(e.id, 2, 2f + e.fin() * 7f, (x, y) -> {
+                    Fill.square(e.x + x, e.y + y, 0.2f + e.fout() * 1.5f, 45);
+                });
+            }).layer(Layer.bullet + 1),
             normalIceTrail = new Effect(90, e -> Drawn.drawSnow(e.x, e.y, e.rotation * e.foutpow(), e.fin() * 180f, e.color)),
             boolSelector = new Effect(0, 0, e -> {}),
             lightningHitSmall = new Effect(Fx.chainLightning.lifetime, e -> {
@@ -547,6 +574,13 @@ public class HIFx {
                 Vec2 last = points.tmpVec2(points.size() - 2);
                 Fill.circle(last.x, last.y, Lines.getStroke() / 2);
             })).layer(Layer.effect - 0.001f),
+            techBlueCircleSplash = new Effect(26f, e -> {
+                Draw.color(Pal.techBlue);
+                Angles.randLenVectors(e.id, 4, 3 + 23 * e.fin(), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 3f);
+                    Drawf.light(e.x + x, e.y + y, e.fout() * 3.5f, Pal.techBlue, 0.7f);
+                });
+            }),
             techBlueExplosion = new Effect(40, e -> {
                 Draw.color(Pal.techBlue);
                 e.scaled(20, i -> {

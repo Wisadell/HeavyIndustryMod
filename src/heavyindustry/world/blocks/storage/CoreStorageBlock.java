@@ -33,11 +33,6 @@ public class CoreStorageBlock extends StorageBlock {
     }
 
     @Override
-    protected TextureRegion[] icons() {
-        return teamRegion.found() ? new TextureRegion[]{region, teamRegions[Team.sharded.id]} : new TextureRegion[]{region};
-    }
-
-    @Override
     public boolean isAccessible() {
         return true;
     }
