@@ -30,8 +30,9 @@ allprojects{
 dependencies{
     implementation "org.jetbrains:annotations:24.0.1"
 
-    compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
-    compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    compileOnly files("F:\\anuken\\Mindustry-BE-Desktop-25394.jar")
+    //compileOnly "com.github.Anuken.Arc:arc-core:$mindustryVersion"
+    //compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
 
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
 }
