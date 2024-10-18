@@ -20,6 +20,8 @@ import mindustry.gen.*;
 
 import javax.annotation.processing.*;
 import javax.lang.model.element.*;
+import javax.tools.StandardLocation;
+
 import java.io.*;
 import java.lang.*;
 import java.util.*;
@@ -36,7 +38,7 @@ public class EntityProcessor extends BaseProcessor {
         return priority == null ? 0 : priority.value();
     }), Structs.comparing(BaseProcessor::name));
 
-    protected Fi revDir;
+    protected Fi rootDirectory;
 
     protected OrderedMap<String, ClassSymbol> comps = new OrderedMap<>();
     protected OrderedMap<String, ClassSymbol> inters = new OrderedMap<>();
@@ -75,7 +77,14 @@ public class EntityProcessor extends BaseProcessor {
     public synchronized void init(ProcessingEnvironment env){
         super.init(env);
 
-        revDir = Fi.get("revision");
+        try{
+            String path = Fi.get(filer.getResource(StandardLocation.CLASS_OUTPUT, "no", "no")
+                            .toUri().toURL().toString().substring(OS.isWindows ? 6 : "file:".length()))
+                    .parent().parent().parent().parent().parent().parent().parent().toString().replace("%20", " ");
+            rootDirectory = Fi.get(path).parent();
+        }catch(IOException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -652,7 +661,7 @@ public class EntityProcessor extends BaseProcessor {
                         syncedFields.sortComparing(BaseProcessor::name);
 
                         if(hasIO){
-                            if(io == null) io = new EntityIO(this, name, builder, allFieldSpecs, serializer, revDir.child(name));
+                            if(io == null) io = new EntityIO(this, name, builder, allFieldSpecs, serializer, rootDirectory.child("annotations/resources/revisions").child(name));
                             if((mname.equals("read") || mname.equals("write"))){
                                 io.write(methBuilder, mname.equals("write"));
                             }
@@ -1143,7 +1152,7 @@ public class EntityProcessor extends BaseProcessor {
 
     protected String baseName(String compName){
         if(!compName.endsWith("Comp")){
-            err("All types annotated with @EntityComponent must have 'Comp' as the name's suffix: '" + compName + "'.");
+            err("All types annotated with @Component must have 'Comp' as the name's suffix: '" + compName + "'.");
             return compName;
         }
 

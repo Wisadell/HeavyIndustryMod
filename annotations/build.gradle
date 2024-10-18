@@ -1,10 +1,5 @@
-apply plugin: 'java-library'
+apply plugin: "java"
 apply plugin: 'maven-publish'
-
-sourceSets.main{
-    java.srcDirs = [layout.projectDirectory.dir('src')]
-    resources.srcDirs = [layout.projectDirectory.dir('assets')]
-}
 
 repositories{
     mavenCentral()
@@ -12,21 +7,19 @@ repositories{
     maven{ url 'https://www.jitpack.io' }
 }
 
+sourceSets.main{
+    java.srcDirs = ['src/']
+    resources.srcDirs = ['assets/']
+}
+
 dependencies{
-    implementation files("F:\\anuken\\Mindustry-BE-Desktop-25311.jar")
     implementation "com.squareup:javapoet:$javapoetVersion"
+    implementation files("F:\\anuken\\Mindustry-BE-Desktop-25394.jar")
 
     annotationProcessor "com.github.Anuken:jabel:$jabelVersion"
 }
 
-tasks.withType(JavaCompile).configureEach{
-    options.incremental = true
-    options.encoding = 'UTF-8'
-
-    sourceCompatibility = 17
+tasks.withType(JavaCompile){
     targetCompatibility = 8
-
-    doFirst{
-        sourceCompatibility = 8
-    }
+    sourceCompatibility = JavaVersion.VERSION_17
 }
