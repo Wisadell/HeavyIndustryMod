@@ -10,16 +10,16 @@ public class HIRegister {
 
     private static final ObjectMap<String, Prov<? extends Entityc>> map = new ObjectMap<>();
 
-    public static <T extends Entityc> void register(String name, Class<T> type, Prov<? extends T> prov) {
+    public static <T extends Entityc> void register(String name, Class<T> type, Prov<? extends T> prov){
         map.put(name, prov);
         ids.put(type, EntityMapping.register(name, prov));
     }
 
-    public static int getID(Class<? extends Entityc> type) {
+    public static int getID(Class<? extends Entityc> type){
         return ids.get(type, -1);
     }
 
-    public static void register() {
+    public static void register(){
     }
 
     public static void clear(){
