@@ -40,12 +40,11 @@ public class TubeConveyor extends BeltConveyor {
         super.load();
         topRegion = splitLayers(name + "-sheet", 32, 2);
         capRegion = new TextureRegion[]{topRegion[1][0], topRegion[1][1]};
-        uiIcon = Core.atlas.find(name + "-icon");
     }
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find(name + "-icon-editor")};
+        return new TextureRegion[]{Core.atlas.find(name + "-editor")};
     }
 
     @Override

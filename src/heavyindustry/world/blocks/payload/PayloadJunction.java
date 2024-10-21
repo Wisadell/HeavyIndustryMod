@@ -82,7 +82,7 @@ public class PayloadJunction extends Block {
         clipSize = Math.max(clipSize, size * tilesize * 2.1f);
     }
 
-    public class PayloadJunctionBuild extends Building{
+    public class PayloadJunctionBuild extends Building {
         public Payload[] payloads = new Payload[2];
         public Building[] surrounding = new Building[4];
         public boolean[] blocked = new boolean[4];
@@ -209,7 +209,6 @@ public class PayloadJunction extends Block {
                 if(accept != null && (
                         //same size
                         (accept.block.size == size && tileX() + Geometry.d4(i).x * size == accept.tileX() && tileY() + Geometry.d4(i).y * size == accept.tileY()) ||
-
                                 //differing sizes
                                 (accept.block.size > size &&
                                         (i % 2 == 0 ? //check orientation

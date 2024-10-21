@@ -24,14 +24,12 @@ public class BeltStackConveyor extends StackConveyor {
     @Override
     public void load() {
         super.load();
-        uiIcon = Core.atlas.find(name + "-icon");
-
         fullRegion = split(name + "-full", 32, 0);
     }
 
     @Override
     protected TextureRegion[] icons() {
-        return new TextureRegion[]{uiIcon};
+        return new TextureRegion[]{region};
     }
 
     @Override

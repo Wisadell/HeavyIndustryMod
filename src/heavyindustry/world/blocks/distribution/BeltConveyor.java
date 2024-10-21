@@ -29,20 +29,18 @@ public class BeltConveyor extends Conveyor {
     @Override
     public void load() {
         super.load();
-        uiIcon = Core.atlas.find(name + "-icon");
-
         conveyorAtlas = Core.atlas.find(name + "-base").split(32, 32);
         edgeAtlas = Core.atlas.find(name + "-edge").split(32, 32);
     }
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
-        Draw.rect(uiIcon, plan.drawx(), plan.drawy(), (plan.rotation * 90));
+        Draw.rect(region, plan.drawx(), plan.drawy(), (plan.rotation * 90));
     }
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{uiIcon};
+        return new TextureRegion[]{region};
     }
 
     @Override

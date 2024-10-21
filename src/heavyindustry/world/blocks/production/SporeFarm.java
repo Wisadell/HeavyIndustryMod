@@ -7,12 +7,16 @@ import arc.util.io.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.gen.*;
+import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.environment.*;
 
 import static arc.Core.*;
 import static heavyindustry.util.HIUtils.*;
 
+/**
+ * e.
+ * @author Wisadell
+ */
 public class SporeFarm extends Block {
     protected static final byte[] tileMap = {
             39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
@@ -39,6 +43,17 @@ public class SporeFarm extends Block {
     public TextureRegion[] sporeRegions, groundRegions, fenceRegions;
     public TextureRegion cageFloor;
 
+    /** Regarding the growth rate. */
+    public float speed1 = 0.05f, speed2 = 0.15f, speed3 = 0.45f;
+    /** Production time after growth. */
+    public float dumpTime = 5f;
+    /** If true, nearby floors need to contain growthLiquid in order to grow. */
+    public boolean hasGrowthLiquid = true;
+    /** The liquid required for growth. TODO Can it also be slag? */
+    public Liquid growthLiquid = Liquids.water;
+    /** Output Item. */
+    public Item dumpItem = Items.sporePod;
+
     public SporeFarm(String name){
         super(name);
 
@@ -62,14 +77,14 @@ public class SporeFarm extends Block {
     }
 
     public class SporeFarmBuild extends Building{
-        public float growth, delay = -1;
+        public float growth, delay = -1f;
         public int tileIndex = -1;
         public boolean needsTileUpdate;
 
         public boolean randomChk(){
             Tile cTile = Vars.world.tile(tileX() + Mathf.range(3), tileY() + Mathf.range(3));
 
-            return cTile != null && cTile.floor().liquidDrop == Liquids.water;
+            return cTile != null && cTile.floor().liquidDrop == growthLiquid;
         }
 
         public void updateTilings(){
@@ -113,19 +128,18 @@ public class SporeFarm extends Block {
                 if(delay == -1){
                     delay = (tileX() * 89f + tileY() * 13f) % 21f;
                 }else{
-                    boolean chk = randomChk();
+                    boolean chk = !hasGrowthLiquid || randomChk();
 
-                    if(growth == 0f && !chk) return;
-                    growth += chk ? growth > frames - 2 ? 0.1f : 0.45f : -0.1f;
+                    growth += chk ? growth > frames - 2 ? speed2 : speed3 : speed1;
 
                     if(growth >= frames){
                         growth = frames - 1f;
-                        if(items.total() < 1) offload(Items.sporePod);
+                        if(items.total() < 1) offload(dumpItem);
                     }
                     if(growth < 0f) growth = 0f;
                 }
             }
-            if(timer(timerDump, 15f)) dump(Items.sporePod);
+            if(timer(timerDump, dumpTime)) dump(dumpItem);
         }
 
         @Override
@@ -134,15 +148,6 @@ public class SporeFarm extends Block {
             float rrot2 = (tileX() * 69f + tileY() * 42f) % 4f;
 
             if(growth < frames - 0.5f){
-                Tile t = Vars.world.tileWorld(x, y);
-
-                if(t != null && t.floor() != Blocks.air){
-                    Floor f = t.floor();
-
-                    Mathf.rand.setSeed(t.pos());
-                    Draw.rect(f.variantRegions()[Mathf.randomSeed(t.pos(), 0, Math.max(0, variantRegions().length - 1))], x, y);
-                }
-
                 Draw.rect(cageFloor, x, y);
             }
 

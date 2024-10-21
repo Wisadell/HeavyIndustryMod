@@ -1,9 +1,7 @@
 package heavyindustry.world.blocks.storage;
 
-import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.struct.*;
-import mindustry.*;
+import arc.math.geom.*;
+import arc.util.*;
 import mindustry.game.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
@@ -22,6 +20,8 @@ import static mindustry.Vars.*;
  */
 public class CoreStorageBlock extends StorageBlock {
     protected CoreBuild tmpCoreBuild;
+
+    public int range = 15;
 
     public CoreStorageBlock(String name) {
         super(name);
@@ -46,10 +46,6 @@ public class CoreStorageBlock extends StorageBlock {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("maxPlace", (CoreStorageBuild e) -> new Bar(
-                () -> "Max Place | " + coreStorageBlock[e.team.id].size + " / " + maxPlaceNum(e.team),
-                () -> coreStorageBlock[e.team.id].size < maxPlaceNum(e.team) ? Pal.accent : Pal.redderDust,
-                () -> (float)coreStorageBlock[e.team.id].size / maxPlaceNum(e.team)));
         removeBar("items");
         addBar("items", (CoreStorageBuild e) -> new Bar(
                 () -> bundle.format("bar.items", e.items.total()),
@@ -57,33 +53,51 @@ public class CoreStorageBlock extends StorageBlock {
                 () -> (float)(e.items.total() / ((tmpCoreBuild = e.core()) == null ? Integer.MAX_VALUE : tmpCoreBuild.storageCapacity))));
     }
 
+    @Override
     public void drawPlace(int x, int y, int rotation, boolean valid) {
-        if(maxPlaceNum(Vars.player.team()) <= coreStorageBlock[Vars.player.team().id].size){
-            drawPlaceText("Maximum Placement Quantity Reached", x, y, false);
+        super.drawPlace(x, y, rotation, valid);
+
+        if(state.rules.infiniteResources) return;
+
+        if(world.tile(x, y) != null) {
+            if (!canPlaceOn(world.tile(x, y), player.team(), rotation)) {
+                drawPlaceText(bundle.get(
+                        (player.team().core() != null && player.team().core().items.has(requirements, state.rules.buildCostMultiplier)) || state.rules.infiniteResources ?
+                                "bar.hi-close" :
+                                "bar.noresources"
+                ), x, y, valid);
+            }
         }
+        x *= tilesize;
+        y *= tilesize;
+
+        Drawf.square(x, y, range * tilesize * 1.414f, 90, player.team().color);
     }
 
-    public int maxPlaceNum(Team team){
-        return (team == Vars.state.rules.waveTeam && !state.rules.pvp) || team.rules().cheat ? Integer.MAX_VALUE : Mathf.clamp(Vars.world.width() * Vars.world.height() / 10000, 3, 10);
+    public Rect getRect(Rect rect, float x, float y, float range){
+        rect.setCentered(x, y, range * 2 * tilesize);
+
+        return rect;
     }
 
     @Override
     public boolean canPlaceOn(Tile tile, Team team, int rotation){
-        return super.canPlaceOn(tile, team, rotation) && coreStorageBlock[team.id].size < maxPlaceNum(team);
+        if(state.rules.infiniteResources) return true;
+
+        CoreBlock.CoreBuild core = team.core();
+        if(core == null || (!state.rules.infiniteResources && !core.items.has(requirements, state.rules.buildCostMultiplier))) return false;
+
+        Rect rect = getRect(Tmp.r1, tile.worldx() + offset, tile.worldy() + offset, range).grow(0.1f);
+        return !indexer.getFlagged(team, BlockFlag.storage).contains(b -> {
+            if(b instanceof CoreStorageBuild build) {
+                CoreStorageBlock block = (CoreStorageBlock) b.block;
+                return getRect(Tmp.r2, build.x, build.y, block.range).overlaps(rect);
+            }
+            return false;
+        });
     }
 
     public class CoreStorageBuild extends StorageBuild {
-        @Override
-        public void onRemoved(){
-            super.onRemoved();
-            coreStorageBlock[team.id].remove(this);
-        }
-
-        @Override
-        public void created(){
-            app.post(() -> coreStorageBlock[team.id].add(this));
-        }
-
         @Override
         public void updateTile(){
             if(core() != null){
@@ -104,20 +118,5 @@ public class CoreStorageBlock extends StorageBlock {
 
         @Override
         public void drawSelect(){}
-    }
-
-    @SuppressWarnings("unchecked")
-    protected static final ObjectSet<CoreStorageBuild>[] coreStorageBlock = new ObjectSet[Team.all.length];
-
-    public static void clear(){
-        for(ObjectSet<CoreStorageBuild> set : coreStorageBlock){
-            set.clear();
-        }
-    }
-
-    static{
-        for(int i = 0; i < Team.all.length; i++){
-            coreStorageBlock[i] = new ObjectSet<>(i < 6 ? 20 : 1);
-        }
     }
 }

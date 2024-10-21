@@ -2,7 +2,6 @@ package heavyindustry.world.blocks.production;
 
 import heavyindustry.ai.*;
 import heavyindustry.content.*;
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -23,6 +22,7 @@ import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.world.meta.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -69,7 +69,7 @@ public class MinerPoint extends Block {
         super.drawPlace(x, y, rotation, valid);
         if (world.tile(x, y) != null) {
             if (!canPlaceOn(world.tile(x, y), player.team(), rotation)) {
-                drawPlaceText(Core.bundle.get((player.team().core() != null && player.team().core().items.has(requirements, state.rules.buildCostMultiplier)) || state.rules.infiniteResources ? "bar.hi-close" : "bar.noresources"), x, y, valid);
+                drawPlaceText(bundle.get((player.team().core() != null && player.team().core().items.has(requirements, state.rules.buildCostMultiplier)) || state.rules.infiniteResources ? "bar.hi-close" : "bar.noresources"), x, y, valid);
             }
         }
         x *= tilesize;
@@ -120,7 +120,7 @@ public class MinerPoint extends Block {
     public void setBars() {
         super.setBars();
         addBar("units", (MinerPointBuild e) -> new Bar(
-                () -> Core.bundle.format("bar.unitcap", Fonts.getUnicodeStr(MinerUnit.name), e.units.size, dronesCreated),
+                () -> bundle.format("bar.unitcap", Fonts.getUnicodeStr(MinerUnit.name), e.units.size, dronesCreated),
                 () -> Pal.power,
                 () -> (float) e.units.size / dronesCreated));
     }
@@ -214,8 +214,8 @@ public class MinerPoint extends Block {
             if (units.size < dronesCreated && (droneProgress += edelta() * state.rules.unitBuildSpeed(team) * powerStatus / droneConstructTime) >= 1f) {
                 if (!net.client()) {
                     Unit unit = MinerUnit.create(team);
-                    if (unit instanceof BuildingTetherc) {
-                        ((BuildingTetherc) unit).building(this);
+                    if (unit instanceof BuildingTetherc u) {
+                        u.building(this);
                     }
                     unit.set(x, y);
                     unit.rotation = 90f;
@@ -270,7 +270,7 @@ public class MinerPoint extends Block {
 
             Drawf.dashSquare(Pal.accent, x, y, range * tilesize * 2);
 
-            if(Core.settings != null && Core.settings.getBool("eu-show-miner-point")) {
+            if(settings != null && settings.getBool("eu-show-miner-point")) {
                 if (tiles.size == 0 && !placeInAir) {
                     findOre();
                     if (tiles.size == 0) {

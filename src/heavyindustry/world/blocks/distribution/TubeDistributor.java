@@ -32,7 +32,6 @@ public class TubeDistributor extends Router {
         rotorRegion = Core.atlas.find(name + "-rotator");
         lockedRegion1 = Core.atlas.find(name + "-locked-side1");
         lockedRegion2 = Core.atlas.find(name + "-locked-side2");
-        uiIcon = Core.atlas.find(name + "-icon");
     }
 
     @Override
@@ -46,7 +45,7 @@ public class TubeDistributor extends Router {
 
     @Override
     public TextureRegion[] icons(){
-        return new TextureRegion[]{Core.atlas.find(name + "-icon")};
+        return new TextureRegion[]{region};
     }
 
     public class TubeDistributorBuild extends RouterBuild {
