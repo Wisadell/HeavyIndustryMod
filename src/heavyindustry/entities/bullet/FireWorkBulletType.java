@@ -16,7 +16,7 @@ import mindustry.graphics.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
 
 /**
- * Show bullets the effect of fireworks. Although its memory usage may be slightly high.
+ * Draw the effect of bullet fireworks. Although its memory usage may be slightly high.
  * @author guiY
  */
 public class FireWorkBulletType extends BulletType {

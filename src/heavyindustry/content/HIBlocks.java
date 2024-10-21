@@ -62,24 +62,26 @@ public class HIBlocks {
     public static Block
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
-            stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,labFloor,
+            stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
+            labFloor,labFloorDark,
             nanofluid,
             stoneWater,shaleWater,basaltWater,
             softRareEarth,patternRareEarth,softRareEarthWall,
             oreUranium,oreChromium,
-            //wall;
+            //wall
             copperWallHuge,copperWallGigantic,titaniumWallHuge,titaniumWallGigantic,armoredWall,armoredWallLarge,armoredWallHuge,armoredWallGigantic,uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge, shapedWall,
             //wall-erekir
             berylliumWallHuge,berylliumWallGigantic,tungstenWallHuge,tungstenWallGigantic,blastDoorLarge,blastDoorHuge,reinforcedSurgeWallHuge,reinforcedSurgeWallGigantic,carbideWallHuge,carbideWallGigantic,shieldedWallLarge,shieldedWallHuge,
+            aparajito,aparajitoLarge,
             //drill
-            largeWaterExtractor,slagExtractor,oilRig,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
+            titaniumDrill,largeWaterExtractor,slagExtractor,oilRig,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,minerPoint,minerCenter,
             //distribution
             invertedJunction,itemLiquidJunction,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             phaseItemNode,rapidDirectionalUnloader,
             //distribution-erekir
-            ductJunction,armoredDuctBridge,waveDuct,waveDuctBridge,waveDuctRouter,overflowWaveDuct,underflowWaveDuct,rapidDuctUnloader,
+            ductJunction,armoredDuctBridge,rapidDuctUnloader,
             //liquid
             turboPump,phaseLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
             //liquid-erekir
@@ -94,19 +96,19 @@ public class HIBlocks {
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
             //defense
-            lighthouse,mendDome,assignOverdrive,largeShieldGenerator,
+            lighthouse,mendDome,assignOverdrive,largeShieldGenerator,detonator,
             //defense-erekir
             largeRadar,
             //storage
-            cargo,bin,machineryUnloader,rapidUnloader,coreBeStationed,coreStorage,
+            cargo,bin,machineryUnloader,rapidUnloader,coreStorage,
             //storage-erekir
             reinforcedCoreStorage,
-            //unit
-            titanReconstructor,experimentalUnitFactory,
             //payload
             payloadJunction,
             //payload-erekir
             reinforcedPayloadJunction,
+            //unit
+            titanReconstructor,experimentalUnitFactory,
             //unit-erekir
             largeUnitRepairTower,seniorAssemblerModule,
             //logic
@@ -114,7 +116,7 @@ public class HIBlocks {
             //turret
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,coilBlaster,dragonBreath,cloudbreaker,minigun,blaze,
             spike,fissure,
-            hurricane,frost,judgement,spark,flaringFire,
+            hurricane,judgement,
             //turret-erekir
             rupture,
             //tbd
@@ -178,6 +180,7 @@ public class HIBlocks {
             blendGroup = asphalt;
         }};
         labFloor = new TiledFloor("lab-floor", 8, 1);
+        labFloorDark = new TiledFloor("lab-floor-dark", 8, 1);
         softRareEarth = new Floor("soft-rare-earth", 3){{
             itemDrop = HIItems.rareEarth;
             playerUnmineable = true;
@@ -474,7 +477,28 @@ public class HIBlocks {
             regenSpeed = 2f;
             consumePower(6f / 60f);
         }};
+        aparajito = new AparajitoWall("aparajito"){{
+            requirements(Category.defense, with(HIItems.chromium, 6, HIItems.nanocoreErekir, 2));
+            size = 1;
+            health = 2055;
+            armor = 44;
+            healColor = HIPal.chromiumGrey;
+        }};
+        aparajitoLarge = new AparajitoWall("aparajito-large"){{
+            requirements(Category.defense, with(HIItems.chromium, 24, HIItems.nanocoreErekir, 8));
+            size = 2;
+            health = 8220;
+            armor = 44;
+            healColor = HIPal.chromiumGrey;
+        }};
         //drill
+        titaniumDrill = new Drill("titanium-drill"){{
+            requirements(Category.production, with(Items.copper, 20, Items.graphite, 15, Items.titanium, 10));
+            size = 2;
+            drillTime = 340f;
+            tier = 4;
+            consumeLiquid(Liquids.water, 0.06f).boost();
+        }};
         largeWaterExtractor = new SolidPump("large-water-extractor"){{
             requirements(Category.production, with(Items.lead, 60, Items.titanium, 40, Items.thorium, 20, Items.graphite, 80, Items.metaglass, 50));
             result = Liquids.water;
@@ -500,18 +524,18 @@ public class HIBlocks {
             consumePower(3.5f);
         }};
         oilRig = new Fracker("oil-rig"){{
-            requirements(Category.production, with(Items.copper, 220, Items.lead, 120, Items.graphite, 180, Items.silicon, 100, Items.thorium, 150, HIItems.chromium, 110));
+            requirements(Category.production, with(Items.lead, 220, Items.graphite, 200, Items.silicon, 100, Items.thorium, 180, Items.plastanium, 120, Items.phaseFabric, 30));
             size = 4;
             itemCapacity = 20;
-            liquidCapacity = 100;
+            liquidCapacity = 100f;
             result = Liquids.oil;
             attribute = Attribute.oil;
             updateEffect = Fx.pulverize;
             updateEffectChance = 0.05f;
-            baseEfficiency = 0;
-            itemUseTime = 30;
+            baseEfficiency = 0f;
+            itemUseTime = 30f;
             pumpAmount = 1.5f;
-            consumePower(5);
+            consumePower(8f);
             consumeItem(Items.sand);
             consumeLiquid(Liquids.water, 0.3f);
             buildCostMultiplier = 0.8f;
@@ -649,18 +673,19 @@ public class HIBlocks {
         }};
         plastaniumRouter = new StackRouter("plastanium-router"){{
             requirements(Category.distribution, with(Items.plastanium, 5, Items.silicon, 5, Items.graphite, 5));
+            health = 90;
             speed = 8f;
         }};
         plastaniumBridge = new StackBridge("plastanium-bridge"){{
             requirements(Category.distribution, with(Items.lead, 15, Items.silicon, 12, Items.titanium, 15, Items.plastanium, 10));
+            health = 90;
             itemCapacity = 10;
             range = 6;
             bridgeWidth = 8f;
         }};
         stackHelper = new StackHelper("stack-helper"){{
             requirements(Category.distribution, with(Items.silicon, 20, Items.phaseFabric, 10, Items.plastanium, 20));
-            size = 1;
-            health = 60;
+            health = 90;
         }};
         chromiumEfficientConveyor = new BeltConveyor("chromium-efficient-conveyor"){{
             requirements(Category.distribution, with(Items.lead, 1, HIItems.chromium, 1));
@@ -776,41 +801,6 @@ public class HIBlocks {
             speed = 4;
             buildCostMultiplier = 2;
             ((Duct) Blocks.armoredDuct).bridgeReplacement = this;
-        }};
-        waveDuct = new Duct("wave-duct"){{
-            requirements(Category.distribution, with(Items.beryllium, 2, Items.tungsten, 1, Items.surgeAlloy, 1));
-            health = 240;
-            speed = 2;
-        }};
-        waveDuctBridge = new DuctBridge("wave-duct-bridge"){{
-            requirements(Category.distribution, with(Items.beryllium, 20, Items.tungsten, 10, Items.surgeAlloy, 5));
-            health = 240;
-            range = 8;
-            speed = 2;
-            buildCostMultiplier = 2;
-            ((Duct) waveDuct).bridgeReplacement = this;
-        }};
-        waveDuctRouter = new DuctRouter("wave-duct-router"){{
-            requirements(Category.distribution, with(Items.beryllium, 15, Items.tungsten, 10, Items.surgeAlloy, 5));
-            health = 240;
-            speed = 2f;
-            regionRotated1 = 1;
-            solid = false;
-        }};
-        overflowWaveDuct = new OverflowDuct("overflow-wave-duct"){{
-            requirements(Category.distribution, with(Items.graphite, 8, Items.beryllium, 8, Items.tungsten, 6, Items.surgeAlloy, 4));
-            health = 240;
-            speed = 2f;
-            solid = false;
-            researchCostMultiplier = 1.5f;
-        }};
-        underflowWaveDuct = new OverflowDuct("underflow-wave-duct"){{
-            requirements(Category.distribution, with(Items.graphite, 8, Items.beryllium, 8, Items.tungsten, 6, Items.surgeAlloy, 4));
-            health = 240;
-            speed = 2f;
-            solid = false;
-            invert = true;
-            researchCostMultiplier = 1.5f;
         }};
         rapidDuctUnloader = new AdaptDirectionalUnloader("rapid-duct-unloader"){{
             requirements(Category.distribution, with(Items.graphite, 25, Items.silicon, 30, Items.tungsten, 20, Items.oxide, 15));
@@ -1307,7 +1297,7 @@ public class HIBlocks {
             craftTime = 150f;
             outputItem = new ItemStack(HIItems.nanocore, 12);
             craftEffect = Fx.none;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.cryofluid, 54 / 4f), new DrawRegion("-mid"), new DrawSpecConstruct(){{
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.cryofluid, 28f / 4f), new DrawRegion("-mid"), new DrawSpecConstruct(){{
                 constructColor1 = constructColor2 = HIPal.nanocoreGreen;
             }}, new DrawDefault());
             consumePower(25f);
@@ -1849,6 +1839,12 @@ public class HIBlocks {
                 return teamRegion.found() ? new TextureRegion[]{region, teamRegions[Team.sharded.id]} : new TextureRegion[]{region};
             }
         };
+        detonator = new Detonator("detonator"){{
+            requirements(Category.effect, HIBuildVisibility.campaignOrSandboxOnly, with(Items.lead, 30, Items.graphite, 20, Items.thorium, 10, Items.blastCompound, 10));
+            health = 160;
+            size = 3;
+            squareSprite = false;
+        }};
         //defense-erekir
         largeRadar = new Radar("large-radar"){{
             requirements(Category.effect, BuildVisibility.fogOnly, with(Items.graphite, 180, Items.silicon, 160, Items.beryllium, 30, Items.tungsten, 10, Items.oxide, 20));
@@ -1892,33 +1888,6 @@ public class HIBlocks {
             speed = 1f;
             group = BlockGroup.transportation;
         }};
-        coreBeStationed = new CoreBlock("core-be-stationed"){{
-            requirements(Category.effect, with(Items.copper, 500, Items.lead, 350, Items.silicon, 200));
-            size = 2;
-            health = 900;
-            itemCapacity = 1000;
-            unitCapModifier = 4;
-        }
-            @Override
-            public boolean canBreak(Tile tile) {
-                return state.teams.cores(tile.team()).size > 1;
-            }
-
-            @Override
-            public boolean canReplace(Block other) {
-                return other.alwaysReplace;
-            }
-
-            @Override
-            public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-                return state.teams.cores(team).size < 3;
-            }
-
-            @Override
-            protected TextureRegion[] icons() {
-                return teamRegion.found() ? new TextureRegion[]{region, teamRegions[Team.sharded.id]} : new TextureRegion[]{region};
-            }
-        };
         coreStorage = new CoreStorageBlock("core-storage"){{
             requirements(Category.effect, with(Items.lead, 600, Items.titanium, 400, Items.silicon, 300, Items.thorium, 150, Items.plastanium, 120));
             size = 3;
@@ -1999,8 +1968,7 @@ public class HIBlocks {
                                 time += itemStack.amount * itemStack.item.cost;
                             }
                         }
-                        if(u.armor < 55) plans.add(new UnitPlan(u, time * 2, os));
-                        else plans.add(new UnitPlan(u, time * 2, is));
+                        plans.add(new UnitPlan(u, time * 2, is));
                     }
                 }
                 super.init();
@@ -2466,15 +2434,15 @@ public class HIBlocks {
                 parts.addAll(new RegionPart("-cover-top"){{
                     progress = PartProgress.warmup;
                     moveY = -6f;
-                }}, new RegionPart("-cover-top"){{
+                }}, new RegionPart("-cover-left"){{
                     progress = PartProgress.warmup;
-                    moveY = 6f;
+                    moveX = 6f;
                 }}, new RegionPart("-cover-bottom"){{
                     progress = PartProgress.warmup;
                     moveY = 6f;
                 }}, new RegionPart("-cover-right"){{
                     progress = PartProgress.warmup;
-                    moveY = -6f;
+                    moveX = -6f;
                 }});
             }};
             shoot = new ShootBarrel(){{
@@ -2494,7 +2462,7 @@ public class HIBlocks {
                 length = 45;
                 lifetime = 40;
                 lightOpacity = 0;
-                colorFrom = Color.valueOf("ffffff80");
+                colorFrom = Color.white.cpy().a(0.5f);
                 colorTo = Color.valueOf("78787870");
                 cone = 80;
             }}, new WaveEffect(){{
@@ -2703,7 +2671,7 @@ public class HIBlocks {
             rotateSpeed = 3.5f;
             recoil = 4f;
             beamEffect = HIFx.blazeBeam;
-            shootType = new MagmaBulletType(144f, 24f){{
+            shootType = new MagmaBulletType(322, 24f){{
                 shake = 2f;
             }};
             coolant = consumeCoolant(0.2f);
@@ -2762,13 +2730,9 @@ public class HIBlocks {
                         hitEffect = HIFx.crossBlast(hitColor, height + width);
                         shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
                     }},
-                    Items.thorium, new BasicBulletType(5f, 39f){{
+                    Items.thorium, new BasicBulletType(5f, 38f){{
                         width = 8f;
                         height = 25f;
-                        lightning = 2;
-                        lightningLength = 2;
-                        lightningLengthRand = 6;
-                        lightningDamage = damage;
                         status = StatusEffects.shocked;
                         statusDuration = 15f;
                         ammoMultiplier = 12;
@@ -2973,7 +2937,7 @@ public class HIBlocks {
             shootCone = 24f;
             shootSound = Sounds.spark;
             shootType = new PositionLightningBulletType(50f){{
-                lightningColor = hitColor = HIPal.lightSkyBack;
+                lightningColor = hitColor = Pal.techBlue;
                 maxRange = rangeOverride = 250f;
                 hitEffect = HIFx.hitSpark;
                 smokeEffect = Fx.shootBigSmoke2;
@@ -3005,157 +2969,6 @@ public class HIBlocks {
             coolant = new ConsumeCoolant(0.15f);
             consumePowerCond(35f, TurretBuild::isActive);
             canOverdrive = false;
-        }};
-        frost = new PowerTurret("frost"){{
-            requirements(Category.turret, with(Items.silicon, 600, Items.metaglass, 400, Items.plastanium, 350, HIItems.chromium, 220, Items.phaseFabric, 180));
-            coolant = consumeCoolant(0.5f);
-            coolantMultiplier = 1.2f;
-            range = 55 * 8;
-            reload = 120;
-            size = 5;
-            shootSound = Sounds.release;
-            shootWarmupSpeed = 0.06f;
-            minWarmup = 0.9f;
-            health = 4160;
-            smokeEffect = Fx.none;
-            rotateSpeed = 2.5f;
-            recoil = 2f;
-            recoilTime = 60f;
-            shootEffect = HIFx.ellipse(30, 30, 15, HIPal.iceBlue);
-            outlineColor = Pal.darkOutline;
-            drawer = new DrawTurret(){{parts.add(new DrawFrostWing(){{
-                x = 0;
-                y = -7;
-                layer = Layer.effect;
-            }}, new BowHalo(){{
-                progress = PartProgress.warmup.delay(0.8f);
-                x = 0;
-                y = 18;
-                stroke = 3;
-                w2 = h2 = 0;
-                w1 = 3;
-                h1 = 6;
-                radius = 4;
-                color = HIPal.iceBlue;
-            }});
-            }};
-            BulletType frostFragBullrt = new AimToPosBulletType(){{
-                damage = 180;
-                splashDamage = 180;
-                splashDamageRadius = 3 * 8;
-                speed = 10;
-                lifetime = 140;
-                hitEffect = despawnEffect = new MultiEffect(new ExplosionEffect(){{
-                    lifetime = 40f;
-                    sparkColor = HIPal.iceBlue;
-                    waveRad = smokeSize = smokeSizeBase = 0f;
-                    smokes = 0;
-                    sparks = 5;
-                    sparkRad = 4 * 8;
-                    sparkLen = 5f;
-                    sparkStroke = 2f;
-                }}, new Effect(60, e -> Drawn.drawSnow(e.x, e.y, 2 * 8 * e.foutpow(), 0, HIPal.iceBlue)));
-                trailInterval = 0.5f;
-                trailEffect = new Effect(120, e -> {
-                    Draw.color(HIPal.iceBlue);
-                    Fill.circle(e.x, e.y, 3 * e.foutpow());
-                });
-                trailLength = 16;
-                trailWidth = 3;
-                trailColor = HIPal.iceBlue;
-                buildingDamageMultiplier = 0.5f;
-            }
-                @Override
-                public void draw(Bullet b) {
-                    super.draw(b);
-                    Draw.color(HIPal.iceBlue);
-                    Drawf.tri(b.x, b.y, 5, 12, b.rotation());
-                    Drawf.tri(b.x, b.y, 5, 5, b.rotation() - 180);
-                    Lines.stroke(1, HIPal.iceBlueDark);
-                    Lines.lineAngle(b.x, b.y, b.rotation(), 9f);
-                    Lines.lineAngle(b.x, b.y, b.rotation() - 180, 3f);
-                }
-
-                @Override
-                public void update(Bullet b) {
-                    super.update(b);
-                    if(b.timer.get(1, 6)) HIFx.normalIceTrail.at(b.x + Mathf.random(-6, 6), b.y + Mathf.random(-6, 6), 7, Color.valueOf("c0ecff"));
-                }
-            };
-            shootType = new BulletType(){{
-                reflectable = false;
-                speed = 20;
-                lifetime = 22;
-                damage = 550;
-                splashDamage = 400;
-                splashDamageRadius = 64;
-                trailColor = HIPal.iceBlue;
-                trailLength = 8;
-                trailWidth = 5;
-                trailEffect = new Effect(40, e -> Drawn.drawSnow(e.x, e.y, 12 * e.fout(), 360 * e.fin(), HIPal.iceBlue));
-                trailInterval = 3;
-                fragBullets = 4;
-                fragBullet = frostFragBullrt;
-                status = StatusEffects.freezing;
-                hitEffect = despawnEffect = new ExplosionEffect(){{
-                    lifetime = 40f;
-                    waveStroke = 5f;
-                    waveLife = 8f;
-                    waveColor = HIPal.iceBlueDark;
-                    sparkColor = HIPal.iceBlue;
-                    waveRad = 64;
-                    smokeSize = smokes = 0;
-                    smokeSizeBase = 0f;
-                    sparks = 6;
-                    sparkRad = 80;
-                    sparkLen = 7f;
-                    sparkStroke = 3f;
-                }};
-                shootEffect = smokeEffect = Fx.none;
-                buildingDamageMultiplier = 0.5f;
-            }
-                @Override
-                public void hitEntity(Bullet b, Hitboxc entity, float health) {
-                    if(!pierce || b.collided.size >= pierceCap) explode(b);
-                    super.hitEntity(b, entity, health);
-                }
-
-                @Override
-                public void hit(Bullet b) {
-                    explode(b);
-                    super.hit(b);
-                }
-
-                public void explode(Bullet b){
-                    if(!(b.owner instanceof PowerTurretBuild tb)) return;
-                    for(int i = 0; i < 4; i++){
-                        float angleOffset = i * 40 - (4 - 1) * 40 / 2f;
-
-                        Position p1 = HIGet.pos(tb.x, tb.y);
-                        Position p2 = HIGet.pos(b.x, b.y);
-
-                        Position[] pos = {p1, p2};
-
-                        frostFragBullrt.create(tb, tb.team, tb.x, tb.y, tb.rotation - 180 + angleOffset + Mathf.random(-5, 5), -1, 1, 1, pos);
-                    }
-                }
-
-                @Override
-                public void createFrags(Bullet b, float x, float y) {}
-
-                @Override
-                public void draw(Bullet b) {
-                    super.draw(b);
-                    Draw.color(HIPal.iceBlue);
-                    Drawf.tri(b.x, b.y, 15, 18, b.rotation());
-                    Drawf.tri(b.x, b.y, 15, 6, b.rotation() - 180);
-                    Lines.stroke(1, HIPal.iceBlueDark);
-                    Lines.lineAngle(b.x, b.y, b.rotation(), 15f);
-                    Lines.lineAngle(b.x, b.y, b.rotation() - 180, 4f);
-                }
-            };
-            consumePowerCond(12f, TurretBuild::isActive);
-            buildCostMultiplier = 0.8f;
         }};
         judgement = new ContinuousTurret("judgement"){{
             requirements(Category.turret, with(Items.silicon, 1200, Items.metaglass, 400, Items.plastanium, 800, Items.surgeAlloy, 650, Items.phaseFabric, 550, HIItems.heavyAlloy, 400));
@@ -3369,279 +3182,6 @@ public class HIBlocks {
             unitSort = UnitSorts.strongest;
             consumePower(16);
             consumeLiquid(HILiquids.nanofluid, 12f / 60f);
-        }};
-        spark = new MultiBulletTurret("spark"){{
-            requirements(Category.turret, with(Items.graphite, 120, Items.silicon, 160, Items.titanium, 140, Items.thorium, 80));
-            ammo(
-                    Items.blastCompound, new BulletType[]{
-                            new FireWorkBulletType(100, 4.5f, name("mb-fireworks"), Color.valueOf("ea8878"), 6 * 8),
-                            new FireWorkBulletType(100, 4.5f, Color.valueOf("5cfad5")),
-                            new FireWorkBulletType(100, 4.5f){{
-                                colorful = true;
-                                fire = new ColorFireBulletType(false, 3f, 60){{
-                                    stopFrom = 0f;
-                                    stopTo = 0f;
-                                    trailLength = 9;
-                                }};
-                                splashDamageRadius = 10 * tilesize;
-                                trailInterval = 0;
-                                trailWidth = 2;
-                                trailLength = 8;
-                            }}
-                    },
-                    Items.plastanium, new BulletType[]{
-                            new FireWorkBulletType(88, 4.5f, name("mb-fireworks"), Color.valueOf("ea8878"), 6 * 8){{
-                                status = StatusEffects.none;
-                            }},
-                            new FireWorkBulletType(88, 4.5f, Color.valueOf("5cfad5")){{
-                                status = StatusEffects.none;
-                            }},
-                            new FireWorkBulletType(88, 4.5f, Items.plastanium.color){{
-                                fire = new ColorFireBulletType(true, 5f, 60){{
-                                    trailLength = 9;
-                                    stopFrom = 0.1f;
-                                    stopTo = 0.7f;
-                                }};
-                                splashDamageRadius = 8 * tilesize;
-                            }}
-                    }
-            );
-            outlineColor = Pal.darkOutline;
-            shoot = new ShootSpread(2, 4);
-            inaccuracy = 3;
-            scaledHealth = 180;
-            size = 3;
-            range = 270f;
-            shake = 2f;
-            recoil = 1f;
-            reload = 60f;
-            shootY = 12f;
-            rotateSpeed = 3.2f;
-            coolant = consumeCoolant(0.3f);
-            shootSound = Sounds.missile;
-        }};
-        flaringFire = new MultiBulletTurret("flaring-fire"){{
-            requirements(Category.turret, with(Items.silicon, 600, Items.graphite, 800, Items.thorium, 500, HIItems.uranium, 400, HIItems.heavyAlloy, 300));
-            ammo(
-                    Items.blastCompound, new BulletType[]{
-                            new FireWorkBulletType(120f, 5f, name("mb-fireworks"), Color.valueOf("FF8097"), 6 * 8){{
-                                outline = true;
-                                trailInterval = 20f;
-                                trailEffect = new ExplosionEffect(){{
-                                    lifetime = 60f;
-                                    waveStroke = 5f;
-                                    waveLife = 8f;
-                                    waveColor = Color.white;
-                                    sparkColor = Pal.lightOrange;
-                                    smokeColor = Pal.darkerGray;
-                                    waveRad = 0f;
-                                    smokeSize = 4f;
-                                    smokes = 7;
-                                    smokeSizeBase = 0f;
-                                    sparks = 10;
-                                    sparkRad = 3 * 8;
-                                    sparkLen = 6f;
-                                    sparkStroke = 2f;
-                                }};
-                                trailWidth = 2.4f;
-                                trailLength = 10;
-                                pierce = true;
-                                pierceCap = 3;
-                                fire = new ColorFireBulletType(false, 2.3f, 60){{
-                                    stopFrom = 0.55f;
-                                    stopTo = 0.55f;
-                                    rotSpeed = 666f;
-                                }};
-                                num = 15;
-                            }},
-                            new BulletType(){{
-                                ammoMultiplier = 1;
-                                damage = 0f;
-                                speed = 0f;
-                                lifetime = 0f;
-                                fragBullet = new FireWorkBulletType(150, 6.7f, name("mb-fireworks"), Color.valueOf("FFD080"), 12 * 8){{
-                                    outline = true;
-                                    trailWidth = 3.5f;
-                                    trailLength = 10;
-                                    trailInterval = 0f;
-                                    width = height = 22f;
-                                    fire = new ColorFireBulletType(false, 3.6f, 60f){{
-                                        stopFrom = 0.7f;
-                                        stopTo = 0.7f;
-                                        rotSpeed = 666f;
-                                        hittable = true;
-                                    }};
-                                    textFire = new SpriteBulletType(name("fire-fireworks1"));
-                                    status = StatusEffects.none;
-                                    num = 18;
-                                }
-                                    @Override
-                                    public void update(Bullet b) {
-                                        super.update(b);
-                                        b.rotation(b.rotation() + Time.delta * 2.2f);
-                                        if(b.timer.get(3, 6)) HIFx.ellipse(14, 8/2, 40, color).at(b.x, b.y, b.rotation());
-                                    }
-                                };
-                                fragBullets = 1;
-                                collides = false;
-                                absorbable = false;
-                                hittable = false;
-                                despawnEffect = hitEffect = Fx.none;
-                            }
-                                public void createFrags(Bullet b, float x, float y){
-                                    if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
-                                        fragBullet.create(b, b.x, b.y, b.rotation() - 60);
-                                    }
-                                }
-                            },
-                            new FireWorkBulletType(120f, 5f, name("mb-fireworks"), Color.valueOf("FFF980"), 6 * 8){{
-                                outline = true;
-                                trailInterval = 0f;
-                                trailWidth = 2f;
-                                trailLength = 10;
-                                weaveMag = 8f;
-                                weaveScale = 2f;
-                                fire = new ColorFireBulletType(false, 2.3f, 60){{
-                                    stopFrom = 0.55f;
-                                    stopTo = 0.55f;
-                                    rotSpeed = 666f;
-                                    hittable = true;
-                                }};
-                                textFire = new SpriteBulletType(name("fire-fireworks2"));
-                                status = StatusEffects.none;
-                                num = 18;
-                            }},
-                            new FireWorkBulletType(120f, 5f, name("mb-fireworks"), Color.valueOf("80FF9D"), 6 * 8){{
-                                outline = true;
-                                trailInterval = 0f;
-                                trailWidth = 2.4f;
-                                trailLength = 10;
-                                homingPower = 1f;
-                                homingRange = 32 * 8;
-                                width = 10f;
-                                height = 10f;
-                                status = StatusEffects.electrified;
-                                fire = new ColorFireBulletType(false, 2.3f, 60){{
-                                    stopFrom = 0.55f;
-                                    stopTo = 0.55f;
-                                    rotSpeed = 666f;
-                                }};
-                                num = 10;
-                            }},
-                            new BulletType(){{
-                                ammoMultiplier = 1;
-                                damage = 0f;
-                                speed = 0f;
-                                lifetime = 0f;
-                                fragBullet = new FireWorkBulletType(110f, 6f, name("mb-fireworks"), Color.valueOf("80B5FF"), 8 * 8){{
-                                    outline = true;
-                                    trailInterval = 0f;
-                                    trailWidth = 3f;
-                                    trailLength = 10;
-                                    width = 19f;
-                                    height = 19f;
-                                    status = StatusEffects.wet;
-                                    weaveMag = 8f;
-                                    weaveScale = 6f;
-                                    weaveRandom = false;
-                                    fire = new ColorFireBulletType(false, 2.8f, 60f){{
-                                        stopFrom = 0.55f;
-                                        stopTo = 0.55f;
-                                        rotSpeed = 666;
-                                    }};
-                                    num = 20;
-                                }
-                                    public void updateWeaving(Bullet b){
-                                        if(weaveMag != 0 && b.data instanceof Integer){
-                                            b.vel.rotateRadExact((float)Math.sin((b.time + Math.PI * weaveScale/2f) / weaveScale) * weaveMag * Time.delta * Mathf.degRad * (int)b.data);
-                                        }
-                                    }
-                                };
-                                fragBullets = 2;
-                                collides = false;
-                                absorbable = false;
-                                hittable = false;
-                                despawnEffect = hitEffect = Fx.none;
-                            }
-                                public void createFrags(Bullet b, float x, float y){
-                                    if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
-                                        for(int i : new int[]{-1, 1}) fragBullet.create(b, b.team, b.x, b.y, b.rotation() - 10 * i, -1, 1, 1, i);
-                                    }
-                                }
-                            },
-                            new BulletType(){{
-                                ammoMultiplier = 1;
-                                damage = 0f;
-                                speed = 0f;
-                                lifetime = 0f;
-                                fragBullet = new FireWorkBulletType(100, 5, name("mb-fireworks"), Color.valueOf("D580FF"), 4 * 8){{
-                                    outline = true;
-                                    trailInterval = 0;
-                                    trailWidth = 2f;
-                                    trailLength = 10;
-                                    width = 9;
-                                    height = 9;
-                                    status = StatusEffects.sapped;
-                                    fire = new ColorFireBulletType(true, 4, 60){{
-                                        hittable = true;
-                                    }};
-                                }
-
-                                    @Override
-                                    public void update(Bullet b) {
-                                        super.update(b);
-                                        if(b.data instanceof Float){
-                                            if(b.time > 10) b.rotation(Angles.moveToward(b.rotation(), (float) b.data, Time.delta * 0.5f));
-                                        }
-                                    }
-                                };
-                                fragBullets = 3;
-                                collides = false;
-                                absorbable = false;
-                                hittable = false;
-                                despawnEffect = hitEffect = Fx.none;
-                            }
-                                public void createFrags(Bullet b, float x, float y){
-                                    if(fragBullet != null && (fragOnAbsorb || !b.absorbed)){
-                                        for(int i : new int[]{-1, 0, 1}) fragBullet.create(b, b.team, b.x, b.y, b.rotation() - 10 * i, -1, 1, 1, b.rotation());
-                                    }
-                                }
-                            },
-                            new FireWorkBulletType(125f, 5f, name("mb-fireworks"), Color.valueOf("FF7DF4"), 10 * 8){{
-                                outline = true;
-                                trailInterval = 0;
-                                trailWidth = 2.4f;
-                                trailLength = 10;
-                                status = StatusEffects.none;
-                                textFire = new SpriteBulletType(name("fire-fireworks3"), 128f, 128f);
-                                fire = new ColorFireBulletType(false, 3f, 60f){{
-                                    stopFrom = 0.6f;
-                                    stopTo = 0.6f;
-                                    rotSpeed = 666f;
-                                    hittable = true;
-                                }};
-                            }
-                    }
-            });
-            outlineColor = Pal.darkOutline;
-            size = 5;
-            inaccuracy = 3;
-            shootEffect = HIFx.fireworksShoot(90);
-            smokeEffect = Fx.none;
-            scaledHealth = 180;
-            range = 320;
-            shake = 2f;
-            recoil = 2f;
-            reload = 10;
-            shootY = 20;
-            rotateSpeed = 2.6f;
-            coolant = consumeCoolant(36f / 60f);
-            coolantMultiplier = 0.85f;
-            shootSound = Sounds.missile;
-            shootCone = 16;
-            canOverdrive = false;
-            maxAmmo = 10;
-            buildCostMultiplier = 0.6f;
         }};
         //turrets-erekir
         rupture = new ItemTurret("rupture"){{

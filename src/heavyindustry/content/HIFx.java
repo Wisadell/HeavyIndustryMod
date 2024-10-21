@@ -69,32 +69,6 @@ public class HIFx {
         }).layer(Layer.bullet);
     }
 
-    public static Effect ellipse(float startRad, int num, float lifetime, Color color){
-        return ellipse(startRad, 2, num, lifetime, color);
-    }
-
-    public static Effect ellipse(float startRad, float rad, int num, float lifetime, Color color){
-        return new Effect(lifetime, e -> {
-            float length = startRad * e.fin();
-            float width = length/2;
-
-            Draw.color(color);
-
-            for(int i = 0; i <= num; i++){
-                float rot = -90f + 180f * i / (float)num;
-                Tmp.v1.trnsExact(rot, width);
-
-                point((Tmp.v1.x) / width * length, Tmp.v1.y, e.x, e.y, e.rotation + 90, rad * e.fout());
-            }
-            for(int i = 0; i <= num; i++){
-                float rot = 90f + 180f * i / (float)num;
-                Tmp.v1.trnsExact(rot, width);
-
-                point((Tmp.v1.x) / width * length, Tmp.v1.y, e.x, e.y, e.rotation + 90, rad * e.fout());
-            }
-        });
-    }
-
     public static Effect edessp(float lifetime){
         return new Effect(lifetime, e -> {
             if(!(e.data instanceof Object[] objects) || objects.length < 4) return;
@@ -524,7 +498,6 @@ public class HIFx {
                     Fill.square(e.x + x, e.y + y, 0.2f + e.fout() * 1.5f, 45);
                 });
             }).layer(Layer.bullet + 1),
-            normalIceTrail = new Effect(90, e -> Drawn.drawSnow(e.x, e.y, e.rotation * e.foutpow(), e.fin() * 180f, e.color)),
             boolSelector = new Effect(0, 0, e -> {}),
             lightningHitSmall = new Effect(Fx.chainLightning.lifetime, e -> {
                 Draw.color(Color.white, e.color, e.fin() + 0.25f);

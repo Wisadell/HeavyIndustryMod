@@ -13,9 +13,9 @@ import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
 import heavyindustry.content.*;
-import heavyindustry.graphics.*;
 
 import static mindustry.Vars.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static heavyindustry.util.HIUtils.*;
 
 public class UltFire extends Fire {
@@ -24,7 +24,7 @@ public class UltFire extends Fire {
     public static final Effect remove = new Effect(70f, e -> {
         Draw.alpha(e.fout());
         Draw.rect(ultRegion[((int)(e.rotation + e.fin() * Fire.frames)) % Fire.frames], e.x + Mathf.randomSeedRange((int)e.y, 2), e.y + Mathf.randomSeedRange((int)e.x, 2));
-        Drawf.light(e.x, e.y, 50f + Mathf.absin(5f, 5f), HIPal.lightSkyBack, 0.6f  * e.fout());
+        Drawf.light(e.x, e.y, 50f + Mathf.absin(5f, 5f), Pal.techBlue, 0.6f  * e.fout());
     });
 
     public static final float baseLifetime = 1200f;
@@ -86,7 +86,7 @@ public class UltFire extends Fire {
     }
 
     static {
-        ultRegion = split("heavy-industry-ult-fire", 160, 10, 4);
+        ultRegion = split(name("ult-fire"), 160, 10, 4);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class UltFire extends Fire {
         Draw.z(110f);
         Draw.rect(ultRegion[Math.min((int)animation, ultRegion.length - 1)], x + Mathf.randomSeedRange((int)y, 2f), y + Mathf.randomSeedRange((int)x, 2f));
         Draw.reset();
-        Drawf.light(x, y, 50f + Mathf.absin(5f, 5f), HIPal.lightSkyBack, 0.6f * Mathf.clamp(warmup / 20f));
+        Drawf.light(x, y, 50f + Mathf.absin(5f, 5f), Pal.techBlue, 0.6f * Mathf.clamp(warmup / 20f));
     }
 
     @Override
@@ -170,7 +170,7 @@ public class UltFire extends Fire {
 
     @Override
     public int classId(){
-        return HIRegister.getID(getClass());
+        return HIRegister.getID(UltFire.class);
     }
 
     @Override

@@ -12,6 +12,7 @@ import mindustry.entities.*;
 import mindustry.entities.Damage.*;
 import mindustry.entities.Units.*;
 import mindustry.game.*;
+import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
@@ -19,11 +20,14 @@ import mindustry.world.*;
 import static mindustry.Vars.*;
 
 public class HIDamage {
+    private static final UnitDamageEvent bulletDamageEvent = new UnitDamageEvent();
     private static final Rect rect = new Rect();
     private static final Rect hitrect = new Rect();
     private static final Vec2 tr = new Vec2(), seg1 = new Vec2(), seg2 = new Vec2();
+    private static final Seq<Building> builds = new Seq<>();
     private static final Seq<Unit> units = new Seq<>();
     private static final IntSet collidedBlocks = new IntSet();
+    private static final IntFloatMap damages = new IntFloatMap();
     private static final Seq<Collided> collided = new Seq<>();
     private static final Pool<Collided> collidePool = Pools.get(Collided.class, Collided::new);
     private static final FloatSeq distances = new FloatSeq();

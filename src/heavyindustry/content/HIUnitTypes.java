@@ -56,6 +56,7 @@ public class HIUnitTypes {
         nameMap.put(name("miner"), idMap[36]);
         nameMap.put(name("large-miner"), idMap[36]);
         //other
+        nameMap.put(name("pioneer"), LegsPayloadUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
         //boss
@@ -71,7 +72,7 @@ public class HIUnitTypes {
             //miner-erekir
             miner,largeMiner,
             //other
-            vulture,burner,
+            pioneer,vulture,burner,
             //boss
             tiger,thunder;
 
@@ -370,7 +371,7 @@ public class HIUnitTypes {
                     incendAmount = 1;
                     collidesTeam = true;
                 }};
-            }}, new Weapon(name("sunlit-weapon-small")){{
+            }}, new Weapon("large-artillery"){{
                 x = 35f;
                 y = 23f;
                 rotateSpeed = 2f;
@@ -389,7 +390,7 @@ public class HIUnitTypes {
                     lifetime = 32f;
                     status = StatusEffects.blasted;
                 }};
-            }}, new Weapon(name("sunlit-bubble")){{
+            }}, new Weapon("large-artillery"){{
                 y = 29f;
                 x = 14f;
                 reload = 8f;
@@ -1222,6 +1223,37 @@ public class HIUnitTypes {
             setEnginesMirror(new UnitEngine(40 / 4f, -40 / 4f, 3f, 315f));
         }};
         //other
+        pioneer = new UnitType("pioneer"){{
+            drag = 0.1f;
+            speed = 0.62f;
+            hitSize = 23f;
+            health = 8000;
+            armor = 6f;
+            rotateSpeed = 2.7f;
+            legCount = 6;
+            legMoveSpace = 1f;
+            legPairOffset = 3;
+            legLength = 30f;
+            legExtension = -15;
+            legBaseOffset = 10f;
+            stepShake = 1f;
+            legLengthScl = 0.96f;
+            rippleScale = 2f;
+            legSpeed = 0.2f;
+            ammoType = new PowerAmmoType(2000);
+            legSplashDamage = 32;
+            legSplashRange = 30;
+            drownTimeMultiplier = 2f;
+            hovering = true;
+            shadowElevation = 0.65f;
+            groundLayer = Layer.legUnit;
+            payloadCapacity = (3 * 3) * tilePayload;
+            buildSpeed = 2.5f;
+            buildBeamOffset = 23;
+            range = 140f;
+            mineTier = 4;
+            mineSpeed = 8f;
+        }};
         vulture = new UnitType("vulture"){{
             aiController = SurroundAI::new;
             weapons.add(new Weapon(){{
@@ -1346,7 +1378,7 @@ public class HIUnitTypes {
             engineSize = 9f;
             speed = 0.32f;
             hitSize = 52f;
-            health = 102000f;
+            health = 182000f;
             buildSpeed = 4f;
             armor = 86f;
             envDisabled = Env.none;
@@ -1539,7 +1571,7 @@ public class HIUnitTypes {
             boostMultiplier = 2.5f;
         }};
         thunder = new UnitType("thunder"){{
-            health = 162000f;
+            health = 226000f;
             armor = 115f;
             rotateSpeed = 1f;
             speed = 0.66f;

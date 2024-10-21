@@ -59,6 +59,7 @@ public class HeavyIndustryMod extends Mod {
                     t.add(bundle.get("hi-note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                     t.add(bundle.get("hi-prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                     t.add(bundle.get("hi-contributor")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    t.add(bundle.get("hi-close-homepage-dialog")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                 }).grow().center().maxWidth(600f);
             }};
             dialog.show();
@@ -75,14 +76,11 @@ public class HeavyIndustryMod extends Mod {
         Events.on(DisposeEvent.class, e -> {
             HIShaders.dispose();
         });
-
-        Events.on(ResetEvent.class, e -> {
-            HIRegister.clear();
-        });
     }
 
     @Override
     public void loadContent(){
+        HIRegister.load();
         if(onlyPlugIn) return;
         HIItems.load();
         HIStatusEffects.load();
@@ -107,7 +105,7 @@ public class HeavyIndustryMod extends Mod {
 
         mods.locateMod(modName).meta.hidden = onlyPlugIn;
         if(onlyPlugIn){
-            Mods.LoadedMod mod =mods.locateMod(modName);
+            Mods.LoadedMod mod = mods.locateMod(modName);
             mod.meta.displayName = mod.meta.displayName + "-Plug-In";
             mod.meta.version = mods.locateMod(modName).meta.version + "-plug-in";
         }

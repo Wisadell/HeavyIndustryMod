@@ -3,7 +3,6 @@ package heavyindustry.graphics;
 import heavyindustry.graphics.gl.*;
 import arc.files.*;
 import arc.graphics.*;
-import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.math.geom.*;
 import arc.util.*;
@@ -21,7 +20,7 @@ import static mindustry.Vars.*;
 public class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
-    public static @Nullable HISurfaceShader nanofluid, dalani;
+    public static HISurfaceShader nanofluid,dalani;
     public static PlanetTextureShader planetTextureShader;
 
     /** Loads the shaders. */
@@ -45,7 +44,7 @@ public class HIShaders {
     /**
      * Resolves shader files from this mod via {@link Vars#tree}.
      * @param name The shader file name, e.g. {@code my-shader.frag}.
-     * @return     The shader file, located inside {@code shaders/confictura/}.
+     * @return     The shader file, located inside {@code shaders/}.
      */
     public static Fi file(String name) {
         return tree.get("shaders/" + name);
@@ -82,20 +81,9 @@ public class HIShaders {
         }
     }
 
-    public static class HILoadShader extends Shader{
+    public static class HILoadShader extends Shader {
         public HILoadShader(String fragment, String vertex){
             super(file(vertex + ".vert"), file(fragment + ".frag"));
-        }
-
-        public void set(){
-            Draw.shader(this);
-        }
-
-        @Override
-        public void apply(){
-            super.apply();
-
-            setUniformf("u_time_millis", System.currentTimeMillis() / 1000f * 60f);
         }
     }
 

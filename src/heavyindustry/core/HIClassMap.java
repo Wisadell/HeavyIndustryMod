@@ -65,7 +65,7 @@ public class HIClassMap {
         classes.put("HailStormWeather", HailStormWeather.class);
         classes.put("SpawnerWeather", SpawnerWeather.class);
         //blocks
-        classes.put("AdaptOreBlock", AdaptOreBlock.class);
+        classes.put("EdgeOreBlock", EdgeOreBlock.class);
         classes.put("AtlasFloor", AtlasFloor.class);
         classes.put("AtlasProp", AtlasProp.class);
         classes.put("AtlasStaticWall", AtlasStaticWall.class);
@@ -81,8 +81,12 @@ public class HIClassMap {
         classes.put("RegenWallBuild", RegenWall.RegenWallBuild.class);
         classes.put("ShapedWall", ShapedWall.class);
         classes.put("ShapeWallBuild", ShapedWall.ShapeWallBuild.class);
+        classes.put("AparajitoWall", AparajitoWall.class);
+        classes.put("AparajitoWallBuild", AparajitoWall.AparajitoWallBuild.class);
         classes.put("Thorns", Thorns.class);
         classes.put("ThornsBuild", Thorns.ThornsBuild.class);
+        classes.put("Detonator", Detonator.class);
+        classes.put("DetonatorBuild", Detonator.DetonatorBuild.class);
         classes.put("MultiBulletTurret", MultiBulletTurret.class);
         classes.put("MultiBulletTurretBuild", MultiBulletTurret.MultiBulletTurretBuild.class);
         classes.put("ShootMatchTurret", ShootMatchTurret.class);
@@ -111,8 +115,6 @@ public class HIClassMap {
         classes.put("TubeDistributorBuild", TubeDistributor.TubeDistributorBuild.class);
         classes.put("DuctJunction", DuctJunction.class);
         classes.put("DuctJunctionBuild", DuctJunction.DuctJunctionBuild.class);
-        classes.put("AdaptDuct", AdaptDuct.class);
-        classes.put("AdaptDuctBuild", AdaptDuct.AdaptDuctBuild.class);
         classes.put("InvertedJunction", InvertedJunction.class);
         classes.put("InvertedJunctionBuild", InvertedJunction.InvertedJunctionBuild.class);
         classes.put("MultiInvertedJunction", MultiInvertedJunction.class);

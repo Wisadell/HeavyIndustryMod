@@ -1,12 +1,9 @@
 package heavyindustry.util;
 
-import arc.graphics.Color;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
-import heavyindustry.graphics.HIPal;
 import mindustry.gen.*;
-import mindustry.graphics.Pal;
 import mindustry.world.*;
 import org.jetbrains.annotations.*;
 
