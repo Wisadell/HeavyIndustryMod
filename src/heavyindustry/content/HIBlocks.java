@@ -65,7 +65,10 @@ public class HIBlocks {
             stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
             labFloor,labFloorDark,
             nanofluid,
-            stoneWater,shaleWater,basaltWater,
+            stoneWater,shaleWater,basaltWater,darkWater,deepDarkWater,mudDarkWater,
+            mud,overgrownGrass,overgrownShrubs,overgrownPine,
+            corruptedMoss,corruptedSporeMoss,corruptedSporeRocks,corruptedSporePine,corruptedSporeFern,corruptedSporePlant,corruptedSporeTree,
+            mycelium,myceliumSpore,myceliumShrubs,myceliumPine,
             softRareEarth,patternRareEarth,softRareEarthWall,
             oreUranium,oreChromium,
             //wall
@@ -231,6 +234,75 @@ public class HIBlocks {
             cacheLayer = CacheLayer.water;
             albedo = 0.9f;
             supportsOverlay = true;
+        }};
+        darkWater = new Floor("darkwater", 0){{
+            speedMultiplier = 0.6f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+            supportsOverlay = true;
+        }};
+        deepDarkWater = new Floor("deep-darkwater", 0){{
+            speedMultiplier = 0.6f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+        }};
+        mudDarkWater = new Floor("mud-darkwater", 0){{
+            speedMultiplier = 0.5f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+        }};
+        mud = new Floor("mud", 3){{
+            speedMultiplier = 0.8f;
+        }};
+        overgrownGrass = new Floor("overgrown-grass", 3){{
+            speedMultiplier = 0.9f;
+            wall = overgrownShrubs;
+        }};
+        overgrownShrubs = new StaticWall("overgrown-shrubs"){{
+            variants = 2;
+        }};
+        overgrownPine = new StaticWall("overgrown-pine"){{
+            variants = 2;
+        }};
+        corruptedMoss = new Floor("corrupted-moss", 3){{
+            speedMultiplier = 0.9f;
+            attributes.set(Attribute.water, 0.1f);
+        }};
+        corruptedSporeMoss = new Floor("corrupted-spore-moss", 3){{
+            speedMultiplier = 0.85f;
+            attributes.set(Attribute.water, 0.1f);
+            wall = corruptedSporeRocks;
+        }};
+        corruptedSporeRocks = new StaticWall("corrupted-spore-rocks"){{
+            variants = 2;
+        }};
+        corruptedSporePine = new StaticWall("corrupted-spore-pine"){{
+            variants = 2;
+        }};
+        corruptedSporeFern = new TreeBlock("corrupted-spore-fern");
+        corruptedSporePlant = new TreeBlock("corrupted-spore-plant");
+        corruptedSporeTree = new TreeBlock("corrupted-spore-tree");
+        mycelium = new Floor("mycelium", 3){{
+            speedMultiplier = 0.9f;
+            attributes.set(Attribute.water, 0.1f);
+            wall = myceliumShrubs;
+        }};
+        myceliumSpore = new Floor("mycelium-spore", 3){{
+            speedMultiplier = 0.9f;
+            attributes.set(Attribute.water, 0.1f);
+            wall = myceliumShrubs;
+        }};
+        myceliumShrubs = new StaticWall("mycelium-shrubs"){{
+            variants = 2;
+        }};
+        myceliumPine = new StaticWall("mycelium-pine"){{
+            variants = 2;
         }};
         oreUranium = new OreBlock("ore-uranium", HIItems.uranium){{
             variants = 3;
@@ -824,25 +896,26 @@ public class HIBlocks {
                 @Override
                 public float moveLiquid(Building next, Liquid liquid) {
                     if (next == null) return 0f;
-                    float hotLine = 0.7f;
-                    float coldLine = 0.55f;
+
                     next = next.getLiquidDestination(this, liquid);
-                    if (next.team == this.team && next.block.hasLiquids && this.liquids.get(liquid) > 0f) {
+
+                    if (next.team == team && next.block.hasLiquids && liquids.get(liquid) > 0f) {
                         float ofract = next.liquids.get(liquid) / next.block.liquidCapacity;
-                        float fract = this.liquids.get(liquid) / this.block.liquidCapacity * this.block.liquidPressure;
-                        float flow = Math.min(Mathf.clamp(fract - ofract) * this.block.liquidCapacity, this.liquids.get(liquid));
+                        float fract = liquids.get(liquid) / block.liquidCapacity * block.liquidPressure;
+                        float flow = Math.min(Mathf.clamp(fract - ofract) * block.liquidCapacity, liquids.get(liquid));
                         flow = Math.min(flow, next.block.liquidCapacity - next.liquids.get(liquid));
-                        if (flow > 0 && ofract <= fract && next.acceptLiquid(this, liquid)) {
+
+                        if (flow > 0f && ofract <= fract && next.acceptLiquid(this, liquid)) {
                             next.handleLiquid(this, liquid, flow);
-                            this.liquids.remove(liquid, flow);
+                            liquids.remove(liquid, flow);
                             return flow;
                         } else if (next.liquids.currentAmount() / next.block.liquidCapacity > 0.1f && fract > 0.1f) {
-                            float fx = (this.x + next.x) / 2f;
-                            float fy = (this.y + next.y) / 2f;
+                            float fx = (x + next.x) / 2f, fy = (y + next.y) / 2f;
+
                             Liquid other = next.liquids.current();
                             // There was flammability logics, removed
-                            if ((liquid.temperature > hotLine && other.temperature < coldLine) || (other.temperature > hotLine && liquid.temperature < coldLine)) {
-                                this.liquids.remove(liquid, Math.min(this.liquids.get(liquid), hotLine * Time.delta));
+                            if ((liquid.temperature > 0.7f && other.temperature < 0.55f) || (other.temperature > 0.7f && liquid.temperature < 0.55f)) {
+                                liquids.remove(liquid, Math.min(liquids.get(liquid), 0.7f * Time.delta));
                                 if (Mathf.chance(0.2f * Time.delta)) {
                                     Fx.steam.at(fx, fy);
                                 }
@@ -989,48 +1062,108 @@ public class HIBlocks {
             explosionRadius = 35;
             explosionDamage = 7200;
             explodeSound = HISounds.dbz1;
-            explodeEffect = new MultiEffect(new WaveEffect(){{
-                lifetime = 20;
-                sizeFrom = strokeTo = 0f;
-                sizeTo = 320f;
-                strokeFrom = 30f;
-                colorFrom = Pal.accent;
-                colorTo = Color.white;
-            }}, new ParticleEffect(){{
-                particles = 35;
-                interp = Interp.pow10Out;
-                sizeInterp = Interp.pow5In;
-                sizeFrom = 30f;
-                sizeTo = baseLength = 0f;
-                length = 290f;
-                lifetime = 300f;
-                colorFrom = colorTo = HIPal.uraniumGrey;
-            }}, new ParticleEffect(){{
-                particles = 40;
-                interp = Interp.pow10Out;
-                sizeInterp = Interp.pow5In;
-                sizeFrom = 20f;
-                sizeTo = baseLength = 0f;
-                length = 300f;
-                lifetime = 350f;
-                colorFrom = colorTo = HIPal.uraniumGrey;
-            }}, new ParticleEffect(){{
-                particles = 25;
-                interp = Interp.pow10Out;
-                sizeInterp = Interp.pow3In;
-                sizeFrom = 3f;
-                sizeTo = lenTo = 0;
-                lenFrom = 150f;
-                length = 220f;
-                baseLength = 60f;
-                lifetime = 60f;
-                colorFrom = colorTo = HIPal.uraniumGrey;
-            }});
+            explodeEffect = new Effect(30, 500f, b -> {
+                float intensity = 8f;
+                float baseLifetime = 25f + intensity * 15f;
+                b.lifetime = 50f + intensity * 64f;
+
+                Draw.color(HIPal.uraniumGrey);
+                Draw.alpha(0.8f);
+                for(int i = 0; i < 5; i++){
+                    Fx.rand.setSeed(b.id * 2L + i);
+                    float lenScl = Fx.rand.random(0.25f, 1f);
+                    int fi = i;
+                    b.scaled(b.lifetime * lenScl, e -> Angles.randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.8f * intensity), 25f * intensity, (x, y, in, out) -> {
+                        float fout = e.fout(Interp.pow5Out) * Fx.rand.random(0.5f, 1f);
+                        float rad = fout * ((2f + intensity) * 2.35f);
+
+                        Fill.circle(e.x + x, e.y + y, rad);
+                        Drawf.light(e.x + x, e.y + y, rad * 2.6f, HIPal.uraniumGrey, 0.7f);
+                    }));
+                }
+
+                b.scaled(baseLifetime, e -> {
+                    Draw.color();
+                    e.scaled(5 + intensity * 2f, i -> {
+                        Lines.stroke((3.1f + intensity/5f) * i.fout());
+                        Lines.circle(e.x, e.y, (3f + i.fin() * 14f) * intensity);
+                        Drawf.light(e.x, e.y, i.fin() * 14f * 2f * intensity, Color.white, 0.9f * e.fout());
+                    });
+
+                    Draw.color(Color.white, HIPal.uraniumGrey, e.fin());
+                    Lines.stroke((2f * e.fout()));
+
+                    Draw.z(Layer.effect + 0.001f);
+                    Angles.randLenVectors(e.id + 1, e.finpow() + 0.001f, (int)(8 * intensity), 30f * intensity, (x, y, in, out) -> {
+                        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1f + out * 4 * (4f + intensity));
+                        Drawf.light(e.x + x, e.y + y, (out * 4 * (3f + intensity)) * 3.5f, Draw.getColor(), 0.8f);
+                    });
+                });
+            });
             ambientSound = Sounds.hum;
             ambientSoundVolume = 0.24f;
             consumeItem(HIItems.uranium);
             consumeLiquid(Liquids.cryofluid, heating / coolantPower).update(false);
-        }};
+            buildType = () -> new NuclearReactorBuild(){
+                @Override
+                public void draw() {
+                    Draw.rect(bottomRegion, x, y);
+
+                    Draw.color(coolColor, hotColor, heat);
+                    Fill.rect(x, y, size * tilesize, size * tilesize);
+
+                    Draw.color(liquids.current().color);
+                    Draw.alpha(liquids.currentAmount() / liquidCapacity);
+                    Draw.rect(topRegion, x, y);
+                    Draw.reset();
+
+                    Draw.rect(region, x, y);
+
+                    drawGlow();
+
+                    if(heat > flashThreshold){
+                        flash += (1f + ((heat - flashThreshold) / (1f - flashThreshold)) * 5.4f) * Time.delta;
+                        Draw.color(Color.red, Color.yellow, Mathf.absin(flash, 9f, 1f));
+                        Draw.alpha(0.3f);
+                        Draw.rect(lightsRegion, x, y);
+                    }
+
+                    Draw.reset();
+                }
+
+                public void drawGlow() {
+                    if(warmup() <= 0.001f) return;
+
+                    float z = Draw.z();
+                    Draw.z(layer);
+                    Draw.blend(blending);
+                    Draw.color(color);
+                    Draw.alpha((Mathf.absin(totalProgress(), glowScale, alpha) * glowIntensity + 1f - glowIntensity) * warmup() * alpha);
+                    Draw.rect(glowRegion, x, y, 0f);
+                    Draw.reset();
+                    Draw.blend();
+                    Draw.z(z);
+                }
+            };
+        }
+            public TextureRegion bottomRegion, glowRegion;
+
+            public final Blending blending = Blending.additive;
+            public final float alpha = 0.9f, glowScale = 10f, glowIntensity = 0.5f, layer = Layer.blockAdditive;
+            public final Color color = Color.red.cpy();
+
+            @Override
+            public void load() {
+                super.load();
+                bottomRegion = atlas.find(name + "-bottom");
+                glowRegion = atlas.find(name + "-glow");
+            }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{bottomRegion, region};
+            }
+        };
         magneticStormRadiationReactor = new HyperGenerator("magnetic-storm-radiation-reactor"){{
             requirements(Category.power, with(Items.titanium, 1200, Items.metaglass, 1300, Items.plastanium, 800, Items.silicon, 1600, Items.phaseFabric, 1200, HIItems.chromium, 2500, HIItems.heavyAlloy, 2200));
             size = 6;
@@ -1084,14 +1217,13 @@ public class HIBlocks {
         }};
         liquidConsumeGenerator = new ConsumeGenerator("liquid-generator"){{
             requirements(Category.power, with(Items.beryllium, 180, Items.graphite, 120, Items.silicon, 115, Items.tungsten, 80, Items.oxide, 120));
-            squareSprite = false;
             size = 3;
+            hasLiquids = true;
             powerProduction = 660f / 60f;
             drawer = new DrawMulti(new DrawDefault(), new DrawWarmupRegion(){{
                 sinMag = 0;
                 sinScl = 1;
             }}, new DrawLiquidRegion());
-            hasLiquids = true;
             generateEffect = new RadialEffect(new Effect(160f, e -> {
                 Draw.color(Color.valueOf("6e685a"));
                 Draw.alpha(0.6f);
@@ -1108,6 +1240,7 @@ public class HIBlocks {
             }), 4, 90, 8f);
             effectChance = 0.2f;
             consume(new ConsumeLiquidFlammable(0.4f, 0.2f));
+            squareSprite = false;
         }};
         //production
         largeKiln = new GenericCrafter("large-kiln"){{
@@ -1819,6 +1952,7 @@ public class HIBlocks {
             strokeClamp = 0.06f;
             consumePower(14f);
             consumeItem(Items.phaseFabric).boost();
+            squareSprite = false;
         }};
         largeShieldGenerator = new ForceProjector("large-shield-generator") {{
             requirements(Category.effect, with(Items.silicon, 120, Items.lead, 250, Items.graphite, 180, Items.plastanium, 150, Items.phaseFabric, 40, HIItems.chromium, 60));

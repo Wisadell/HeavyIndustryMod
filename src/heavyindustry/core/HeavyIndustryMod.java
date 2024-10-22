@@ -122,6 +122,7 @@ public class HeavyIndustryMod extends Mod {
             ui.settings.addCategory(bundle.format("hi-settings"), t -> {
                 t.checkPref("hi-homepage-dialog", false);
                 t.checkPref("hi-tesla-range", true);
+                t.checkPref("hi-enable-serpulo-sector-invasion", true);
                 t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting("hi-plug-in-mode", false, null) {
                     @Override
                     public void add(SettingsMenuDialog.SettingsTable table) {

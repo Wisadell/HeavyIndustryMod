@@ -47,7 +47,7 @@ public class Detonator extends Block {
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
         // no blowing up the core.
         for (var core : team.data().cores) {
-            if (tile.within(core, range * tilesize * 2)) return false;
+            if (tile.within(core, range * tilesize * 3)) return false;
         }
 
         return true;

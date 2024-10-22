@@ -28,8 +28,9 @@ import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
 import java.lang.reflect.Field;
-import java.util.Objects;
+import java.util.*;
 
+import static arc.Core.*;
 import static mindustry.type.ItemStack.*;
 
 /**
@@ -379,6 +380,8 @@ public class HIOverride {
         Items.carbide.hardness = 6;
         Items.serpuloItems.addAll(HIItems.rareEarth, HIItems.nanocore, HIItems.chromium, HIItems.uranium, HIItems.heavyAlloy);
         Items.erekirItems.addAll(HIItems.nanocoreErekir, HIItems.uranium, HIItems.chromium);
+        //planet
+        Planets.serpulo.allowSectorInvasion = settings.getBool("hi-enable-serpulo-sector-invasion");
     }
 
     public static void loadReflect(){
@@ -397,6 +400,7 @@ public class HIOverride {
         Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
 
         consumeBuilder.removeAll(Objects::nonNull);
+        block.consPower = null;
     }
 
     public static void removeConsumeItems(Block block) throws Exception {

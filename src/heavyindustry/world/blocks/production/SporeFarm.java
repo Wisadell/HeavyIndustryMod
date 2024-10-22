@@ -156,7 +156,8 @@ public class SporeFarm extends Block {
                 Draw.rect(sporeRegions[Mathf.floor(growth)], x, y, rrot2 * 90f);
             }
 
-            Draw.rect(fenceRegions[tileMap[tileIndex]], x, y, 8f, 8f);
+            //Mainly to prevent terrible situations.
+            Draw.rect(fenceRegions[tileMap[Math.max(tileIndex, 0)]], x, y, 8f, 8f);
             drawTeamTop();
         }
 
