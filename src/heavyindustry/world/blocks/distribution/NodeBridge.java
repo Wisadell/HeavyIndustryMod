@@ -1,9 +1,10 @@
 package heavyindustry.world.blocks.distribution;
 
-import heavyindustry.world.draw.*;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -12,6 +13,7 @@ import mindustry.world.blocks.distribution.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -120,6 +122,45 @@ public class NodeBridge extends ItemBridge {
         @Override
         protected boolean checkDump(Building to) {
             return true;
+        }
+    }
+
+    public static class DrawNodeBridge extends DrawBlock {
+        public TextureRegion bridgeRegion;
+        public TextureRegion endRegion;
+
+        @Override
+        public void draw(Building build) {
+            if(!(build instanceof NodeBridgeBuild)) return;
+            drawR((NodeBridgeBuild) build);
+        }
+
+        public void drawR(NodeBridgeBuild build){
+            Draw.z(Layer.power);
+            Building other = Vars.world.build(build.link);
+            if(other == null) return;
+            float op = settings.getInt("bridgeopacity") / 100f;
+            if(Mathf.zero(op)) return;
+
+            Draw.color(Color.white);
+            if(build.block.hasPower) Draw.alpha(Math.max(build.power.status, 0.25f) * op);
+            else Draw.alpha(op);
+
+            Draw.rect(endRegion, build.x, build.y);
+            Draw.rect(endRegion, other.x, other.y);
+
+            Lines.stroke(8);
+
+            Tmp.v1.set(build.x, build.y).sub(other.x, other.y).setLength(Vars.tilesize/2f).scl(-1);
+
+            Lines.line(bridgeRegion, build.x, build.y, other.x, other.y, false);
+            Draw.reset();
+        }
+
+        @Override
+        public void load(Block block) {
+            bridgeRegion = atlas.find(block.name + "-bridge");
+            endRegion = atlas.find(block.name + "-end");
         }
     }
 }

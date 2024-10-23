@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.distribution;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -15,6 +14,7 @@ import mindustry.ui.*;
 import mindustry.world.blocks.distribution.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -41,8 +41,8 @@ public class InvertedJunction extends Junction {
     @Override
     public void load() {
         super.load();
-        arrow1 = Core.atlas.find(name("arrow-1"));
-        arrow2 = Core.atlas.find(name("arrow-2"));
+        arrow1 = atlas.find(name("arrow-1"));
+        arrow2 = atlas.find(name("arrow-2"));
     }
 
     public class InvertedJunctionBuild extends JunctionBuild {
@@ -82,8 +82,8 @@ public class InvertedJunction extends Junction {
 
         @Override
         public void draw() {
-            Draw.rect(Core.atlas.find(placeSprite), x, y);
-            Draw.rect(Core.atlas.find(modName + "-junction-" + loc), x, y);
+            Draw.rect(atlas.find(placeSprite), x, y);
+            Draw.rect(atlas.find(modName + "-junction-" + loc), x, y);
         }
 
         @Override
@@ -112,7 +112,7 @@ public class InvertedJunction extends Junction {
 
         @Override
         public void buildConfiguration(Table table) {
-            table.button(new TextureRegionDrawable(Core.atlas.find(modName + "-flip", Core.atlas.find("clear"))), Styles.cleari, this::switchF).size(36f).tooltip("switch");
+            table.button(new TextureRegionDrawable(atlas.find(modName + "-flip", atlas.find("clear"))), Styles.cleari, this::switchF).size(36f).tooltip("switch");
         }
 
         public void switchF(){

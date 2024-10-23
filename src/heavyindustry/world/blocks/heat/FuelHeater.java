@@ -8,6 +8,10 @@ import mindustry.ui.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.consumers.*;
+import mindustry.world.draw.DrawBlock;
+import mindustry.world.draw.DrawDefault;
+import mindustry.world.draw.DrawHeatOutput;
+import mindustry.world.draw.DrawMulti;
 import mindustry.world.meta.*;
 
 public class FuelHeater extends GenericCrafter {
@@ -18,6 +22,11 @@ public class FuelHeater extends GenericCrafter {
 
     public FuelHeater(String name) {
         super(name);
+        drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput());
+        rotate = true;
+        rotateDraw = false;
+        canOverdrive = false;
+        drawArrow = true;
     }
 
     @Override
@@ -29,7 +38,7 @@ public class FuelHeater extends GenericCrafter {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("heat", (FuelHeaterBuild e) -> new Bar("bar.heat", Pal.lightOrange, () -> e.heat / heatOutput));
+        addBar("heat", (FuelHeaterBuild e) -> new Bar("bar.heat", Pal.lightOrange, () -> Math.min(e.heat / heatOutput, 1f)));
     }
 
     @Override
