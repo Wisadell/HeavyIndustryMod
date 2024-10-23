@@ -40,7 +40,14 @@ import static mindustry.gen.EntityMapping.*;
 public class HIUnitTypes {
     //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
     static {
-        //tier6
+        //vanilla-tank
+        nameMap.put(name("vanguard"), idMap[43]);
+        nameMap.put(name("striker"), idMap[43]);
+        nameMap.put(name("counterattack"), idMap[43]);
+        nameMap.put(name("crush"), idMap[43]);
+        nameMap.put(name("destruction"), idMap[43]);
+        nameMap.put(name("purgatory"), idMap[43]);
+        //vanilla-tier6
         nameMap.put(name("suzerain"), idMap[4]);
         nameMap.put(name("supernova"), idMap[24]);
         nameMap.put(name("cancer"), idMap[33]);
@@ -48,7 +55,7 @@ public class HIUnitTypes {
         nameMap.put(name("windstorm"), idMap[5]);
         nameMap.put(name("mosasaur"), idMap[20]);
         nameMap.put(name("killer-whale"), idMap[20]);
-        //erekir-tier6
+        //vanilla-erekir-tier6
         nameMap.put(name("dominate"), idMap[43]);
         nameMap.put(name("oracle"), idMap[24]);
         nameMap.put(name("havoc"), idMap[5]);
@@ -65,9 +72,11 @@ public class HIUnitTypes {
     }
 
     public static UnitType
-            //tier6
+            //vanilla-tank
+            vanguard,striker,counterattack,crush,destruction,purgatory,
+            //vanilla-tier6
             suzerain,supernova,cancer,sunlit,windstorm,mosasaur,killerWhale,
-            //tier6-erekir
+            //vanilla-tier6-erekir
             dominate,oracle,havoc,
             //miner-erekir
             miner,largeMiner,
@@ -77,7 +86,672 @@ public class HIUnitTypes {
             tiger,thunder;
 
     public static void load(){
-        //tier6
+        //vanilla-tank
+        vanguard = new UnitType("vanguard"){{
+            squareShape = true;
+            omniMovement = false;
+            rotateMoveFirst = false;
+            rotateSpeed = 3f;
+            speed = 2.4f;
+            hitSize = 9.5f;
+            ammoCapacity = 300;
+            health = 250f;
+            armor = 5f;
+            drag = 0.08f;
+            accel = 0.1f;
+            itemCapacity = 5;
+            faceTarget = false;
+            abilities.add(new StatusFieldAbility(StatusEffects.overclock, 250f, 300f, 30f){{
+                applyEffect = Fx.none;
+                activeEffect = new WaveEffect(){{
+                    lifetime = 10f;
+                    sizeFrom = 8f;
+                    sizeTo = 40f;
+                    strokeFrom = 2f;
+                    strokeTo = 0f;
+                    colorFrom = colorTo = Color.white;
+                }};
+            }});
+            weapons.add(new Weapon(name("vanguard-weapon")){{
+                reload = 7.6f;
+                recoil = 0f;
+                x = 0f;
+                y = 0f;
+                rotate = true;
+                rotateSpeed = 15f;
+                mirror = false;
+                inaccuracy = 0.5f;
+                ejectEffect = Fx.casing1;
+                shootSound = Sounds.shoot;
+                alternate = false;
+                bullet = new BasicBulletType(9f, 10f){{
+                    buildingDamageMultiplier = 0.8f;
+                    lifetime = 18f;
+                    width = 3f;
+                    height = 10f;
+                }};
+            }});
+        }};
+        striker = new UnitType("striker"){{
+            squareShape = true;
+            omniMovement = false;
+            rotateMoveFirst = false;
+            hovering = true;
+            canDrown = false;
+            speed = 1.8f;
+            hitSize = 18f;
+            ammoType = new ItemAmmoType(Items.graphite);
+            ammoCapacity = 80;
+            health = 660f;
+            armor = 5f;
+            drag = 0.08f;
+            accel = 0.1f;
+            rotateSpeed = 3f;
+            itemCapacity = 0;
+            faceTarget = false;
+            weapons.add(new Weapon(name("striker-weapon")){{
+                reload = 120;
+                x = 0f;
+                y = -1f;
+                rotate = true;
+                rotateSpeed = 9f;
+                mirror = false;
+                inaccuracy = 0f;
+                ejectEffect = Fx.casing2;
+                shootSound = Sounds.artillery;
+                alternate = false;
+                bullet = new BasicBulletType(11f, 108f){{
+                    hitSize = 40;
+                    splashDamageRadius = 46;
+                    splashDamage = 96;
+                    damage = 108;
+                    status = StatusEffects.blasted;
+                    statusDuration = 60;
+                    sprite = name("missile");
+                    backColor = HIPal.orangeBack;
+                    frontColor = HIPal.lightGrey;
+                    lifetime = 30f;
+                    speed = 11f;
+                    homingPower = 0.03f;
+                    homingRange = 80f;
+                    knockback = 8;
+                    width = 12f;
+                    height = 40f;
+                    ammoMultiplier = 3f;
+                    despawnEffect = Fx.none;
+                    shootEffect = Fx.shootPyraFlame;
+                    hitEffect = new MultiEffect(new ParticleEffect(){{
+                        particles = 8;
+                        sizeFrom = 6f;
+                        sizeTo = 0f;
+                        length = 25f;
+                        baseLength = 23f;
+                        lifetime = 35f;
+                        colorFrom = colorTo = HIPal.darkGrey;
+                    }}, new ParticleEffect(){{
+                        particles = 12;
+                        line = true;
+                        length = 43f;
+                        baseLength = 3f;
+                        lifetime = 22f;
+                        colorFrom = Color.white;
+                        colorTo = HIPal.lightYellow;
+                    }}, new WaveEffect(){{
+                        lifetime = 10f;
+                        sizeFrom = 1f;
+                        sizeTo = 48f;
+                        strokeFrom = 2f;
+                        strokeTo = 0f;
+                        colorFrom = HIPal.lightYellow;
+                        colorTo = Color.white;
+                    }});
+                }};
+            }});
+        }};
+        counterattack = new UnitType("counterattack"){{
+            treadFrames = 8;
+            treadPullOffset = 8;
+            treadRects = new Rect[]{new Rect(-45f, -45f, 24f, 88f)};
+            speed = 1.3f;
+            hitSize = 20f;
+            ammoType = new ItemAmmoType(Items.blastCompound);
+            ammoCapacity = 16;
+            squareShape = true;
+            omniMovement = false;
+            rotateMoveFirst = false;
+            health = 1200f;
+            armor = 13f;
+            rotateSpeed = 2f;
+            itemCapacity = 0;
+            faceTarget = false;
+            weapons.add(new Weapon(name("counterattack-weapon")){{
+                reload = 12f;
+                x = 0f;
+                y = 0f;
+                rotate = true;
+                mirror = true;
+                alternate = false;
+                rotateSpeed = 1.3f;
+                minWarmup = 0.93f;
+                shootWarmupSpeed = 0.05f;
+                parts.add(new RegionPart("-top"){{
+                    mirror = true;
+                    under = true;
+                    moveY = -4f;
+                    progress = PartProgress.warmup;
+                }});
+                xRand = 4f;
+                inaccuracy = 6f;
+                shootSound = Sounds.missile;
+                shootStatus = StatusEffects.unmoving;
+                shootStatusDuration = 200f;
+                velocityRnd = 0.1f;
+                bullet = new MissileBulletType(12f, 36f){{
+                    sprite = name("missile");
+                    backColor = Color.valueOf("ff7055");
+                    frontColor = HIPal.lightGrey;
+                    width = 8f;
+                    height = 45f;
+                    trailChance = 0f;
+                    trailInterval = 1f;
+                    trailEffect = new ParticleEffect(){{
+                        particles = 3;
+                        length = 30f;
+                        baseLength = sizeTo = 0f;
+                        sizeInterp = Interp.pow5In;
+                        lifetime = 10f;
+                        colorFrom = HIPal.lightGrey;
+                        colorTo = HIPal.lightGrey.cpy().a(0.5f);
+                        sizeFrom = 2.6f;
+                        cone = 8f;
+                    }};
+                    trailRotation = true;
+                    splashDamage = 105f;
+                    splashDamageRadius = 45f;
+                    buildingDamageMultiplier = 1.33f;
+                    status = StatusEffects.blasted;
+                    shootEffect = Fx.shootSmallFlame;
+                    smokeEffect = new ParticleEffect(){{
+                        particles = 9;
+                        interp = Interp.pow10Out;
+                        sizeInterp = Interp.pow10In;
+                        sizeFrom = 6f;
+                        sizeTo = 0f;
+                        length = -58f;
+                        baseLength = -20f;
+                        lifetime = 42f;
+                        colorFrom = colorTo = HIPal.darkGrey.cpy().a(0.55f);
+                        cone = 40f;
+                        layer = 49f;
+                    }};
+                    lifetime = 41.6f;
+                    hitShake = 2;
+                    hitSound = Sounds.explosion;
+                    hitEffect = new MultiEffect(new ParticleEffect(){{
+                        particles = 8;
+                        sizeFrom = 10f;
+                        sizeTo = 0f;
+                        length = lifetime = 35f;
+                        baseLength = 33f;
+                        colorFrom = colorTo = HIPal.darkGrey;
+                    }}, new ParticleEffect(){{
+                        particles = 12;
+                        line = true;
+                        strokeFrom = 2f;
+                        strokeTo = 0f;
+                        lenFrom = 16f;
+                        lenTo = 8f;
+                        length = 66f;
+                        baseLength = 3f;
+                        lifetime = 12f;
+                        colorFrom = Color.white;
+                        colorTo = HIPal.lightYellow;
+                    }}, new ParticleEffect(){{
+                        particles = 1;
+                        sizeFrom = baseLength = 0f;
+                        sizeTo = 45f;
+                        length = 0f;
+                        sizeInterp = Interp.pow5Out;
+                        lifetime = 12f;
+                        layer = 50f;
+                        colorFrom = Color.white.cpy().a(0.5f);
+                        colorTo = HIPal.darkGrey;
+                    }}, new WaveEffect(){{
+                        lifetime = 10;
+                        sizeFrom = strokeTo = 0f;
+                        sizeTo = 48f;
+                        interp = Interp.circleOut;
+                        strokeFrom = 15f;
+                        layer = 50f;
+                        colorFrom = Color.white;
+                        colorTo = HIPal.darkGrey.cpy().a(0.5f);
+                    }});
+                    despawnEffect = Fx.flakExplosionBig;
+                }};
+            }});
+            parts.add(new RegionPart("-bracket"){{
+                mirror = true;
+                y = -4.75f;
+                layer = 59f;
+                moveX = 5.55f;
+                moveY = -8f;
+                moveRot = -30f;
+                progress = PartProgress.warmup;
+            }});
+        }};
+        crush = new UnitType("crush"){{
+            squareShape = true;
+            omniMovement = false;
+            rotateMoveFirst = false;
+            speed = 1.2f;
+            hitSize = 28f;
+            crushDamage = 2.33f;
+            drownTimeMultiplier = 2f;
+            treadPullOffset = 0;
+            treadFrames = 8;
+            treadRects = new Rect[]{new Rect(-67f, -84f, 39f, 167f)};
+            ammoType = new ItemAmmoType(Items.surgeAlloy);
+            ammoCapacity = 120;
+            targetAir = true;
+            health = 11000f;
+            armor = 16f;
+            rotateSpeed = 1.5f;
+            itemCapacity = 0;
+            faceTarget = false;
+            immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.shocked);
+            targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret};
+            abilities.add(new StatusFieldAbility(StatusEffects.overclock, 1200f, 1200f, 45f){{
+                applyEffect = Fx.none;
+                activeEffect = new WaveEffect(){{
+                    lifetime = 10;
+                    sizeFrom = 8f;
+                    sizeTo = 40f;
+                    strokeFrom = 2f;
+                    strokeTo = 0f;
+                    colorFrom = colorTo = HIPal.canaryYellow;
+                }};
+            }});
+            weapons.add(new Weapon(name("crush-weapon")){{
+                reload = 90f;
+                shootY = 19.2f;
+                x = 0f;
+                y = 0f;
+                rotate = true;
+                rotateSpeed = 1.9f;
+                mirror = false;
+                recoil = 4f;
+                inaccuracy = 0f;
+                shootSound = Sounds.laser;
+                shake = 3f;
+                alternate = false;
+                bullet = new PointBulletType(){{
+                    trailEffect = new ParticleEffect(){{
+                        particles = 1;
+                        length = strokeTo = cone = 0f;
+                        baseLength = 1f;
+                        lifetime = lenFrom = lenTo = 10;
+                        line = true;
+                        randLength = false;
+                        strokeFrom = 4f;
+                        colorFrom = colorTo = HIPal.canaryYellow;
+                    }};
+                    trailSpacing = 9f;
+                    damage = 360f;
+                    splashDamage = 340f;
+                    splashDamageRadius = 16f;
+                    buildingDamageMultiplier = 1.1f;
+                    speed = 20f;
+                    lifetime = 15f;
+                    hitSound = Sounds.lasercharge2;
+                    smokeEffect = Fx.bigShockwave;
+                    shootEffect = new ParticleEffect(){{
+                        particles = 1;
+                        sizeFrom = 5f;
+                        sizeTo = length = baseLength = 0f;
+                        lifetime = 11f;
+                        colorFrom = colorTo = HIPal.canaryYellow;
+                    }};
+                    hitEffect = new ParticleEffect(){{
+                        particles = 1;
+                        sizeFrom = 10f;
+                        sizeTo = length = baseLength = 0f;
+                        lifetime = 15f;
+                        colorFrom = colorTo = HIPal.canaryYellow;
+                    }};
+                    despawnEffect = Fx.bigShockwave;
+                    fragLifeMin = 1f;
+                    fragVelocityMax = 0f;
+                    fragBullets = 1;
+                    fragBullet = new BasicBulletType(){{
+                        lifetime = 15;
+                        height = width = 0f;
+                        collides = false;
+                        hittable = false;
+                        absorbable = false;
+                        //status = TODO;
+                        statusDuration = 180;
+                        buildingDamageMultiplier = 1.2f;
+                        splashDamageRadius = 66.4f;
+                        splashDamage = 395f;
+                        hitShake = 1f;
+                        hitSound = Sounds.plasmaboom;
+                        hitEffect = new MultiEffect(new ParticleEffect(){{
+                            particles = 4;
+                            sizeFrom = 15f;
+                            sizeTo = 0f;
+                            length = 20f;
+                            baseLength = 48f;
+                            lifetime = 25f;
+                            colorFrom = HIPal.canaryYellow.cpy().a(0.5f);
+                            colorTo = HIPal.canaryYellow.cpy().a(0f);
+                        }}, new ParticleEffect(){{
+                            particles = 22;
+                            line = true;
+                            strokeFrom = 3f;
+                            strokeTo = lenTo = baseLength = 0f;
+                            lenFrom = lifetime = 20f;
+                            length = 63f;
+                            colorFrom = colorTo = HIPal.canaryYellow;
+                        }}, new WaveEffect(){{
+                            lifetime = 25f;
+                            sizeFrom = strokeTo = 0f;
+                            sizeTo = 66f;
+                            strokeFrom = 3f;
+                            colorFrom = colorTo = HIPal.canaryYellow;
+                        }});
+                        despawnEffect = Fx.none;
+                        fragBullets = 4;
+                        fragBullet = new PointBulletType(){{
+                            trailSpacing = 9;
+                            trailEffect = new ParticleEffect(){{
+                                particles = 1;
+                                length = 0f;
+                                baseLength = 1f;
+                                lifetime = 6f;
+                                line = true;
+                                randLength = false;
+                                lenFrom = lenTo = 10f;
+                                strokeFrom = 2f;
+                                strokeTo = cone = 0f;
+                                colorFrom = colorTo = HIPal.canaryYellow;
+                            }};
+                            lifetime = 8;
+                            speed = 15;
+                            //status = TODO;
+                            statusDuration = 60f;
+                            buildingDamageMultiplier = 1.2f;
+                            splashDamageRadius = 10f;
+                            splashDamage = 80f;
+                            hitShake = 1f;
+                            hitSound = Sounds.laser;
+                            hitEffect = new ParticleEffect(){{
+                                particles = 1;
+                                sizeFrom = 5f;
+                                sizeTo = length = baseLength = 0f;
+                                lifetime = 11f;
+                                colorFrom = colorTo = HIPal.canaryYellow;
+                            }};
+                            despawnEffect = Fx.none;
+                        }};
+                    }};
+                }};
+            }});
+        }};
+        destruction = new UnitType("destruction"){{
+            squareShape = true;
+            omniMovement = false;
+            rotateMoveFirst = false;
+            speed = 1f;
+            hitSize = 48f;
+            drownTimeMultiplier = 2.6f;
+            crushDamage = 6f;
+            treadRects = new Rect[]{new Rect(-86f, -108f, 42f, 112f), new Rect(-72f, -124f, 21f, 16f), new Rect(-86f, 9f, 42f, 119f)};
+            ammoType = new ItemAmmoType(Items.surgeAlloy);
+            ammoCapacity = 50;
+            targetAir = true;
+            health = 28000f;
+            armor = 28f;
+            rotateSpeed = 1.22f;
+            itemCapacity = 30;
+            faceTarget = false;
+            immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.shocked);
+            targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret};
+            weapons.add(new Weapon(name("destruction-weapon")){{
+                reload = 110f;
+                x = 0f;
+                y = -0.5f;
+                shootY = 33f;
+                cooldownTime = 100f;
+                rotate = true;
+                top = true;
+                rotateSpeed = 1.6f;
+                recoil = 5f;
+                mirror = false;
+                inaccuracy = 0f;
+                shootSound = Sounds.mediumCannon;
+                shake = 8;
+                bullet = new BasicBulletType(31f, 750f){{
+                    splashDamage = 415f;
+                    splashDamageRadius = 55f;
+                    buildingDamageMultiplier = 1.2f;
+                    lifetime = 15f;
+                    //status = TODO;
+                    statusDuration = 400f;
+                    lightning = 2;
+                    lightningDamage = 110f;
+                    lightningLength = 15;
+                    lightningColor = backColor = trailColor = HIPal.canaryYellow;
+                    shrinkY = 0f;
+                    frontColor = Color.white;
+                    trailLength = 15;
+                    trailWidth = 2.2f;
+                    pierce = true;
+                    pierceCap = 4;
+                    knockback = 8f;
+                    hitEffect = new MultiEffect(new ParticleEffect(){{
+                        particles = 9;
+                        sizeFrom = 10f;
+                        sizeTo = baseLength = 0f;
+                        length = 65f;
+                        lifetime = 15f;
+                        colorFrom = HIPal.canaryYellow;
+                        colorTo = Color.white;
+                        cone = 40f;
+                    }}, new WaveEffect(){{
+                        lifetime = 10f;
+                        sizeFrom = 2f;
+                        sizeTo = 60f;
+                        strokeFrom = 10f;
+                        strokeTo = 0f;
+                        colorFrom = HIPal.canaryYellow;
+                    }});
+                    shootEffect = new MultiEffect(new ParticleEffect(){{
+                        particles = 6;
+                        sizeFrom = 8f;
+                        sizeTo = baseLength = 0f;
+                        length = 55f;
+                        lifetime = 33f;
+                        colorFrom = HIPal.canaryYellow;
+                        colorTo = Color.white;
+                        cone = 35f;
+                    }}, new WaveEffect(){{
+                        lifetime = 10f;
+                        sizeFrom = strokeTo = 0f;
+                        sizeTo = 30f;
+                        strokeFrom = 3f;
+                        colorFrom = HIPal.canaryYellow;
+                    }});
+                    smokeEffect = Fx.smokeCloud;
+                    width = 16f;
+                    height = 28f;
+                    hitSound = Sounds.plasmaboom;
+                    fragLifeMin = 0.1f;
+                    fragBullets = 3;
+                    fragRandomSpread = 60;
+                    fragBullet = new PointBulletType(){{
+                        trailEffect = Fx.none;
+                        despawnEffect = Fx.none;
+                        status = StatusEffects.blasted;
+                        hitEffect = new MultiEffect(new ParticleEffect(){{
+                            particles = 9;
+                            sizeFrom = 8f;
+                            sizeTo = baseLength = 0f;
+                            length = 55f;
+                            lifetime = 15f;
+                            colorFrom = colorTo = HIPal.canaryYellow;
+                        }}, new WaveEffect(){{
+                            lifetime = 15f;
+                            sizeFrom = 2f;
+                            sizeTo = 40f;
+                            strokeFrom = 6f;
+                            strokeTo = 0f;
+                            colorFrom = colorTo = HIPal.canaryYellow;
+                        }});
+                        hitSound = Sounds.laser;
+                        collides = false;
+                        damage = 550f;
+                        splashDamageRadius = 40f;
+                        splashDamage = 175f;
+                        buildingDamageMultiplier = 1.1f;
+                        lifetime = 10;
+                        speed = 8f;
+                    }};
+                    despawnEffect = Fx.bigShockwave;
+                }};
+                parts.add(new RegionPart("-barrel"){{
+                    mirror = true;
+                    under = true;
+                    moveY = -4;
+                    heatProgress = PartProgress.recoil;
+                    progress = PartProgress.recoil;
+                }});
+            }});
+        }};
+        purgatory = new UnitType("purgatory"){{
+            squareShape = true;
+            omniMovement = false;
+            rotateMoveFirst = false;
+            drownTimeMultiplier = 5f;
+            speed = 0.8f;
+            crushDamage = 10f;
+            treadRects = new Rect[]{new Rect(-115f, 118f, 52f, 48f), new Rect(-118f, -160f, 79f, 144f)};
+            hitSize = 66f;
+            immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.shocked, StatusEffects.electrified, StatusEffects.unmoving);
+            ammoType = new ItemAmmoType(Items.surgeAlloy);
+            ammoCapacity = 80;
+            targetAir = true;
+            health = 82000f;
+            armor = 36f;
+            drag = 0.3f;
+            rotateSpeed = 1f;
+            itemCapacity = 55;
+            faceTarget = false;
+            weapons.add(new Weapon(name("purgatory-weapon")){{
+                reload = 78f;
+                x = 0f;
+                y = 0f;
+                shoot = new ShootBarrel(){{
+                    shots = 2;
+                    shotDelay = 8f;
+                    barrels = new float[]{
+                            -9f, 40f, 0f,
+                            9f, 40f, 0f};
+                }};
+                cooldownTime = 100f;
+                rotate = true;
+                rotateSpeed = 2f;
+                recoil = 6f;
+                mirror = false;
+                inaccuracy = 0.5f;
+                shootSound = Sounds.largeCannon;
+                shake = 8f;
+                bullet = new BasicBulletType(24f, 810f){{
+                    splashDamage = 385f;
+                    splashDamageRadius = 80f;
+                    buildingDamageMultiplier = 1.1f;
+                    sprite = name("missile");
+                    width = 10;
+                    height = 26;
+                    hitSize = 18f;
+                    lifetime = 17f;
+                    drag = -0.01f;
+                    absorbable = false;
+                    hittable = false;
+                    pierce = true;
+                    pierceArmor = true;
+                    pierceBuilding = true;
+                    pierceCap = 3;
+                    hitShake = 5;
+                    status = StatusEffects.unmoving;
+                    statusDuration = 80;
+                    lightning = 2;
+                    lightningDamage = 110f;
+                    lightningLength = 15;
+                    lightningColor = backColor = trailColor = HIPal.canaryYellow;
+                    frontColor = Color.white;
+                    trailLength = 8;
+                    trailWidth = 4;
+                    trailRotation = true;
+                    trailChance = 1;
+                    trailInterval = 33;
+                    trailEffect = new ParticleEffect(){{
+                        particles = 3;
+                        sizeFrom = 3f;
+                        sizeTo = baseLength = 0f;
+                        interp = Interp.circleOut;
+                        sizeInterp =  Interp.pow3In;
+                        length = 10f;
+                        lifetime = 8f;
+                        colorFrom = colorTo = HIPal.canaryYellow;
+                    }};
+                    shrinkY = 0f;
+                    hitEffect = new MultiEffect(new ParticleEffect(){{
+                        particles = 9;
+                        sizeFrom = 10f;
+                        sizeTo = 0f;
+                        length = 90f;
+                        baseLength = 8f;
+                        lifetime = 35f;
+                        colorFrom = colorTo = HIPal.canaryYellow;
+                    }}, new WaveEffect(){{
+                        lifetime = 10;
+                        sizeFrom = 2f;
+                        sizeTo = 60f;
+                        strokeFrom = 10f;
+                        strokeTo = 0f;
+                        colorFrom = colorTo = HIPal.canaryYellow;
+                    }});
+                    hitSound = Sounds.plasmaboom;
+                    shootEffect = new MultiEffect(new ParticleEffect(){{
+                        particles = 6;
+                        line = true;
+                        strokeFrom = 6f;
+                        strokeTo = lenTo = baseLength = 0f;
+                        lenFrom = 25f;
+                        length = 50f;
+                        lifetime = 11f;
+                        colorFrom = colorTo = HIPal.canaryYellow;
+                        cone = 15f;
+                    }}, new WaveEffect(){{
+                        lifetime = 10;
+                        sizeFrom = strokeTo = 0f;
+                        sizeTo = 35f;
+                        strokeFrom = 4f;
+                        colorFrom = colorTo = HIPal.canaryYellow;
+                    }});
+                    smokeEffect = Fx.smokeCloud;
+                    despawnEffect = new ParticleEffect(){{
+                        particles = 1;
+                        sizeFrom = 10f;
+                        sizeTo = length = baseLength = 0f;
+                        lifetime = 65f;
+                        colorFrom = HIPal.canaryYellow;
+                        colorTo = Color.white;
+                    }};
+                }};
+            }});
+        }};
+        //vanilla-tier6
         suzerain = new UnitType("suzerain"){{
             speed = 0.3f;
             hitSize = 40f;
@@ -609,7 +1283,7 @@ public class HIUnitTypes {
                 particles = 10;
                 color = particleColor = /*effectColor = */Pal.heal;
             }});
-            weapons.addAll(new Weapon(name("killer-whale-weapons")){{
+            weapons.addAll(new Weapon("emp-cannon-mount"){{
                 rotate = true;
                 x = 18f;
                 y = 7f;
@@ -681,7 +1355,7 @@ public class HIUnitTypes {
                 }};
             }});
         }};
-        //tier6-erekir
+        //vanilla-tier6-erekir
         dominate = new TankUnitType("dominate"){{
             hitSize = 57f;
             treadPullOffset = 1;

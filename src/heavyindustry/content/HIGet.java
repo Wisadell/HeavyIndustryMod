@@ -25,28 +25,25 @@ import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
 public class HIGet {
-    public static final Color
-            MIKU = Color.valueOf("39c5bb"),
-            EC1 = new Color(),
-            EC2 = new Color(),
-            EC3 = new Color(),
-            EC4 = new Color(),
-            EC5 = new Color(),
-            EC6 = new Color(),
-            EC7 = new Color(),
-            EC8 = new Color(),
-            EC9 = new Color(),
-            EC10 = new Color(),
-            EC11 = new Color(),
-            EC12 = new Color(),
-            EC13 = new Color(),
-            EC14 = new Color(),
-            EC15 = new Color(),
-            EC16 = new Color(),
-            EC17 = new Color(),
-            EC18 = new Color(),
-            EC19 = new Color(),
-            EC20 = new Color();
+    public static Color
+            rainbowRed = Color.valueOf("ff8787");
+
+    public static Color
+            c1 = new Color(),
+            c2 = new Color(),
+            c3 = new Color(),
+            c4 = new Color(),
+            c5 = new Color(),
+            c6 = new Color(),
+            c7 = new Color(),
+            c8 = new Color(),
+            c9 = new Color(),
+            c10 = new Color();
+
+    public static Vec2
+            v1 = new Vec2(),
+            v2 = new Vec2(),
+            v3 = new Vec2();
 
     public static class EPos implements Position {
         public float x, y;
@@ -257,22 +254,7 @@ public class HIGet {
                 Liquids.arkycite, Liquids.gallium, Liquids.neoplasm,
                 Liquids.ozone, Liquids.hydrogen, Liquids.nitrogen, Liquids.cyanogen}){
             if(l.hidden) continue;
-            ObjectMap<Integer, Cons<Liquid>> cons = new ObjectMap<>();
-            for(int i = 1; i < 10; i++){
-                int finalI = i;
-                cons.put(i, ld -> {
-                    PixmapRegion base = Core.atlas.getPixmap(l.uiIcon);
-                    var mix = base.crop();
-                    var number = Core.atlas.find(name("number-" + finalI));
-                    if(number.found()) {
-                        PixmapRegion region = TextureAtlas.blankAtlas().getPixmap(number);
-
-                        mix.draw(region.pixmap, region.x, region.y, region.width, region.height, 0, base.height - size, size, size, false, true);
-                    }
-
-                    ld.uiIcon = ld.fullIcon = new TextureRegion(new Texture(mix));
-                });
-            }
+            ObjectMap<Integer, Cons<Liquid>> cons = getEntries(l, size);
             liquid(cons, l.name, l.color, l.explosiveness, l.flammability, l.heatCapacity, l.viscosity, l.temperature);
         }
 
@@ -280,28 +262,57 @@ public class HIGet {
                 Items.phaseFabric, Items.surgeAlloy, Items.sporePod, Items.sand, Items.blastCompound, Items.pyratite, Items.metaglass,
                 Items.beryllium, Items.tungsten, Items.oxide, Items.carbide, Items.fissileMatter, Items.dormantCyst}){
             if(item.hidden) continue;
-            ObjectMap<Integer, Cons<Item>> cons = new ObjectMap<>();
-            for(int i = 1; i < 10; i++){
-                int finalI = i;
-                cons.put(i, it -> {
-                    PixmapRegion base = Core.atlas.getPixmap(item.uiIcon);
-                    var mix = base.crop();
-                    var number = Core.atlas.find(name("number-" + finalI));
-                    if(number.found()) {
-                        PixmapRegion region = TextureAtlas.blankAtlas().getPixmap(number);
-
-                        mix.draw(region.pixmap, region.x, region.y, region.width, region.height, 0, base.height - size, size, size, false, true);
-                    }
-
-                    it.uiIcon = it.fullIcon = new TextureRegion(new Texture(mix));
-
-                    it.buildable = item.buildable;
-                    it.hardness = item.hardness + finalI;
-                    it.lowPriority = item.lowPriority;
-                });
-            }
+            ObjectMap<Integer, Cons<Item>> cons = getEntries(item, size);
             item(cons, item.name, item.color, item.explosiveness, item.flammability, item.cost, item.radioactivity, item.charge, item.healthScaling);
         }
         Draw.color();
+    }
+
+    private static ObjectMap<Integer, Cons<Item>> getEntries(Item item, int size) {
+        ObjectMap<Integer, Cons<Item>> cons = new ObjectMap<>();
+        for(int i = 1; i < 10; i++){
+            int finalI = i;
+            cons.put(i, it -> {
+                PixmapRegion base = Core.atlas.getPixmap(item.uiIcon);
+                var mix = base.crop();
+                var number = Core.atlas.find(name("number-" + finalI));
+                if(number.found()) {
+                    PixmapRegion region = TextureAtlas.blankAtlas().getPixmap(number);
+
+                    mix.draw(region.pixmap, region.x, region.y, region.width, region.height, 0, base.height - size, size, size, false, true);
+                }
+
+                it.uiIcon = it.fullIcon = new TextureRegion(new Texture(mix));
+
+                it.buildable = item.buildable;
+                it.hardness = item.hardness + finalI;
+                it.lowPriority = item.lowPriority;
+            });
+        }
+        return cons;
+    }
+
+    private static ObjectMap<Integer, Cons<Liquid>> getEntries(Liquid liquid, int size) {
+        ObjectMap<Integer, Cons<Liquid>> cons = new ObjectMap<>();
+        for(int i = 1; i < 10; i++){
+            int finalI = i;
+            cons.put(i, ld -> {
+                PixmapRegion base = Core.atlas.getPixmap(liquid.uiIcon);
+                var mix = base.crop();
+                var number = Core.atlas.find(name("number-" + finalI));
+                if(number.found()) {
+                    PixmapRegion region = TextureAtlas.blankAtlas().getPixmap(number);
+
+                    mix.draw(region.pixmap, region.x, region.y, region.width, region.height, 0, base.height - size, size, size, false, true);
+                }
+
+                ld.uiIcon = ld.fullIcon = new TextureRegion(new Texture(mix));
+            });
+        }
+        return cons;
+    }
+
+    public static Color rainStart(Color c){
+        return c.set(rainbowRed);
     }
 }

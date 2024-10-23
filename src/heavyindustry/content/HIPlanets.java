@@ -120,6 +120,7 @@ public class HIPlanets {
             enemyCoreSpawnReplace = true;
             allowLaunchLoadout = true;
             prebuildBase = false;
+            defaultEnv = Env.terrestrial | Env.groundOil | Env.groundWater | Env.oxygen;
             ruleSetter = r -> {
                 r.waveTeam = Team.crux;
                 r.placeRangeCheck = false;

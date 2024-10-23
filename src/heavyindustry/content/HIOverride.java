@@ -251,6 +251,11 @@ public class HIOverride {
         ((PowerTurret) Blocks.malign).minWarmup = 0.98f;
         ((PowerTurret) Blocks.malign).warmupMaintainTime = 45f;
         //Blocks-Units
+        ((UnitFactory) Blocks.groundFactory).plans.add(new UnitFactory.UnitPlan(HIUnitTypes.vanguard, 1200f, with(Items.lead, 25, Items.titanium, 25, Items.silicon, 30)));
+        ((Reconstructor) Blocks.additiveReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.vanguard, HIUnitTypes.striker});
+        ((Reconstructor) Blocks.multiplicativeReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.striker, HIUnitTypes.counterattack});
+        ((Reconstructor) Blocks.exponentialReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.counterattack, HIUnitTypes.crush});
+        ((Reconstructor) Blocks.tetrativeReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.crush, HIUnitTypes.destruction});
         //Blocks-Units-Erekir
         ((Constructor) Blocks.constructor).filter = Seq.with();
         ((UnitAssembler) Blocks.tankAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.dominate, 60f * 60f * 4f, PayloadStack.list(UnitTypes.precept, 4, Blocks.shieldedWall, 20)));

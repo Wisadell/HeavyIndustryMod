@@ -223,6 +223,7 @@ public class HITechTree {
         //turret-erekir
         addToNode(breach, () -> node(rupture, () -> {}));
         //tier6
+        addToNode(dagger, () -> node(vanguard, () -> node(striker, () -> node(counterattack, () -> node(crush, () -> node(destruction, () -> node(purgatory, () -> {})))))));
         addToNode(reign, () -> node(suzerain, () -> {}));
         addToNode(corvus, () -> node(supernova, () -> {}));
         addToNode(toxopid, () -> node(cancer, () -> {}));

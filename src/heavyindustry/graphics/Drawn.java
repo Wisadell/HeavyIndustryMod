@@ -15,7 +15,7 @@ import mindustry.graphics.*;
 import static mindustry.Vars.*;
 
 public class Drawn {
-    private static final Vec2 vec21 = new Vec2(), vec31 = new Vec2(), vec32 = new Vec2(), vec33 = new Vec2(), vec34 = new Vec2();
+    private static final Vec2 vec21 = new Vec2(), vec31 = new Vec2(), vec32 = new Vec2(), vec33 = new Vec2(), vec34 = new Vec2(), rv = new Vec2();
     private static final Rand rand = new Rand();
     public static final float sinScl = 1f;
 

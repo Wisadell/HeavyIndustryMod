@@ -22,7 +22,7 @@ import static mindustry.Vars.*;
  * @author Wisadell
  */
 public class HeavyIndustryMod extends Mod {
-    /** Commonly used static read-only String. Please do not attempt to modify it! */
+    /** Commonly used static read-only String. Do not attempt to modify it unless you know what you are doing. */
     public static final String modName = "heavy-industry";
 
     /** Omitting longer mod names is generally used to load mod sprites. */
@@ -30,7 +30,7 @@ public class HeavyIndustryMod extends Mod {
         return modName + "-" + add;
     }
 
-    public static boolean homepageDialog = settings.getBool("hi-homepage-dialog"), onlyPlugIn = settings.getBool("hi-plug-in-mode");
+    public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode");
 
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
 
@@ -41,7 +41,7 @@ public class HeavyIndustryMod extends Mod {
 
         Events.on(ClientLoadEvent.class, e -> {
             HIIcon.load();
-            if(onlyPlugIn || homepageDialog) return;
+            if(onlyPlugIn || settings.getBool("hi-homepage-dialog")) return;
             FLabel label = new FLabel(bundle.get("hi-author") + author);
             BaseDialog dialog = new BaseDialog(bundle.get("hi-name")){{
                 buttons.button("@close", this::hide).size(210f, 64f);
@@ -76,6 +76,11 @@ public class HeavyIndustryMod extends Mod {
         Events.on(DisposeEvent.class, e -> {
             HIShaders.dispose();
         });
+
+        Events.on(MusicRegisterEvent.class, e -> {
+            if (!settings.getBool("hi-covering-vanilla-music")) return;
+            HIMusics.load();
+        });
     }
 
     @Override
@@ -101,6 +106,8 @@ public class HeavyIndustryMod extends Mod {
         super.init();
 
         settings.defaults("hi-homepage-dialog", false);
+        settings.defaults("hi-covering-vanilla-music", true);
+        settings.defaults("hi-tesla-range", true);
         settings.defaults("hi-plug-in-mode", false);
 
         mods.locateMod(modName).meta.hidden = onlyPlugIn;
@@ -121,6 +128,7 @@ public class HeavyIndustryMod extends Mod {
 
             ui.settings.addCategory(bundle.format("hi-settings"), t -> {
                 t.checkPref("hi-homepage-dialog", false);
+                t.checkPref("hi-covering-vanilla-music", true);
                 t.checkPref("hi-tesla-range", true);
                 t.checkPref("hi-enable-serpulo-sector-invasion", true);
                 t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting("hi-plug-in-mode", false, null) {

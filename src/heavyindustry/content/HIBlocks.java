@@ -172,10 +172,10 @@ public class HIBlocks {
             variants = 2;
             attributes.set(Attribute.sand, 2f);
         }};
-        arkyciteSandBoulder = new AtlasProp("arkycite-sand-boulder"){{
+        arkyciteSandBoulder = new Prop("arkycite-sand-boulder"){{
             arkyciteSand.asFloor().decoration = this;
         }};
-        darksandBoulder = new AtlasProp("darksand-boulder"){{
+        darksandBoulder = new Prop("darksand-boulder"){{
             Blocks.darksand.asFloor().decoration = this;
         }};
         asphalt = new Floor("asphalt", 0);
@@ -1352,6 +1352,7 @@ public class HIBlocks {
             rebuildable = false;
             hasItems = true;
             itemCapacity = 2;
+            envRequired |= Env.spores;
             breakSound = Sounds.splash;
             buildCostMultiplier = 0.1f;
         }};
@@ -2063,11 +2064,12 @@ public class HIBlocks {
                     new UnitType[]{UnitTypes.oct, HIUnitTypes.windstorm},
                     new UnitType[]{UnitTypes.corvus, HIUnitTypes.supernova},
                     new UnitType[]{UnitTypes.omura, HIUnitTypes.mosasaur},
-                    new UnitType[]{UnitTypes.navanax, HIUnitTypes.killerWhale}
+                    new UnitType[]{UnitTypes.navanax, HIUnitTypes.killerWhale},
+                    new UnitType[]{HIUnitTypes.destruction, HIUnitTypes.purgatory}
             );
             consumePower(35f);
             consumeLiquid(Liquids.cryofluid, 4f);
-            consumeItems(ItemStack.with(Items.silicon, 1500, /*Items.phaseFabric, 100,*/ HIItems.uranium, 200, HIItems.chromium, 300));
+            consumeItems(ItemStack.with(Items.silicon, 1500, HIItems.nanocore, 100, HIItems.uranium, 200, HIItems.chromium, 300));
         }};
         experimentalUnitFactory = new DerivativeUnitFactory("experimental-unit-factory"){{
             requirements(Category.units, with(Items.silicon, 2500, Items.plastanium, 1500, Items.surgeAlloy, 1000, HIItems.nanocore, 800, Items.phaseFabric, 400, HIItems.heavyAlloy, 600));
@@ -2192,8 +2194,8 @@ public class HIBlocks {
                 splashDamage = 15f;
                 splashDamageRadius = 18f;
                 drag = -0.028f;
-                backColor = trailColor = Color.valueOf("b0c4de");
-                frontColor = Color.valueOf("e3e3e3");
+                backColor = trailColor = HIPal.brightSteelBlue;
+                frontColor = HIPal.lightGrey;
                 lifetime = 36;
                 homingPower = 0.045f;
                 homingRange = 40f;
@@ -2207,7 +2209,7 @@ public class HIBlocks {
                 drag = -0.028f;
                 makeFire = true;
                 backColor = trailColor = Color.valueOf("ffb90f");
-                frontColor = Color.valueOf("e3e3e3");
+                frontColor = HIPal.lightGrey;
                 lifetime = 36;
                 homingPower = 0.03f;
                 homingRange = 40f;
@@ -2219,8 +2221,8 @@ public class HIBlocks {
                 splashDamage = 47f;
                 splashDamageRadius = 32f;
                 drag = -0.026f;
-                backColor = trailColor = Color.valueOf("ff7f24");
-                frontColor = Color.valueOf("e3e3e3");
+                backColor = trailColor = HIPal.orangeBack;
+                frontColor = HIPal.lightGrey;
                 lifetime = 38;
                 homingPower = 0.03f;
                 homingRange = 40f;
@@ -2249,8 +2251,8 @@ public class HIBlocks {
                     Items.graphite, new MissileBulletType(5f, 24f){{
                         splashDamage = 12f;
                         splashDamageRadius = 18f;
-                        backColor = trailColor = Color.valueOf("b0c4de");
-                        frontColor = Color.valueOf("e3e3e3");
+                        backColor = trailColor = HIPal.brightSteelBlue;
+                        frontColor = HIPal.lightGrey;
                         lifetime = 55;
                         homingPower = 0.36f;
                         homingRange = 40f;
@@ -2261,7 +2263,7 @@ public class HIBlocks {
                         splashDamage = 32f;
                         splashDamageRadius = 22f;
                         backColor = trailColor = Color.valueOf("ffb90f");
-                        frontColor = Color.valueOf("e3e3e3");
+                        frontColor = HIPal.lightGrey;
                         status = StatusEffects.burning;
                         statusDuration = 360f;
                         lifetime = 45;
@@ -2273,8 +2275,8 @@ public class HIBlocks {
                     Items.blastCompound, new MissileBulletType(4.5f, 12f){{
                         splashDamage = 40f;
                         splashDamageRadius = 32f;
-                        backColor = trailColor = Color.valueOf("ff7f24");
-                        frontColor = Color.valueOf("e3e3e3");
+                        backColor = trailColor = HIPal.orangeBack;
+                        frontColor = HIPal.lightGrey;
                         status = StatusEffects.blasted;
                         lifetime = 60;
                         homingPower = 0.036f;
@@ -2311,7 +2313,7 @@ public class HIBlocks {
                 lifetime = 32;
                 hitShake = 2;
                 backColor = Color.valueOf("ffb90f");
-                frontColor = Color.valueOf("e3e3e3");
+                frontColor = HIPal.lightGrey;
                 trailColor = Color.valueOf("ffb90f");
                 status = StatusEffects.burning;
                 statusDuration = 600;
@@ -2327,7 +2329,7 @@ public class HIBlocks {
                     length = 15;
                     baseLength = 15;
                     lifetime = 35;
-                    colorFrom = colorTo = Color.valueOf("737373");
+                    colorFrom = colorTo = HIPal.darkGrey;
                 }}, new ParticleEffect(){{
                     particles = 12;
                     line = true;
@@ -2335,15 +2337,14 @@ public class HIBlocks {
                     baseLength = 8;
                     lifetime = 22;
                     colorFrom = Color.white;
-                    colorTo = Color.valueOf("ffe176");
+                    colorTo = HIPal.lightYellow;
                 }}, new WaveEffect(){{
                     lifetime = 10;
                     sizeFrom = 1;
                     sizeTo = 36;
                     strokeFrom = 8;
                     strokeTo = 0;
-                    colorFrom = Color.valueOf("ffe176");
-                    colorTo = Color.valueOf("ffe176");
+                    colorFrom = colorTo = HIPal.lightYellow;
                 }});
             }}, Items.blastCompound, new MissileBulletType(10f, 46f, name("missile")){{
                 recoil = 1;
@@ -2355,9 +2356,8 @@ public class HIBlocks {
                 splashDamageRadius = 76f;
                 lifetime = 32;
                 hitShake = 2;
-                backColor = Color.valueOf("ff7f24");
-                frontColor = Color.valueOf("e3e3e3");
-                trailColor = Color.valueOf("ff7f24");
+                backColor = trailColor = HIPal.orangeBack;
+                frontColor = HIPal.lightGrey;
                 status = StatusEffects.burning;
                 statusDuration = 600;
                 width = 14;
@@ -2372,8 +2372,8 @@ public class HIBlocks {
                     sizeTo = 0f;
                     length = lifetime = 35f;
                     baseLength = 33f;
-                    colorFrom = Color.valueOf("737373");
-                    colorTo = Color.valueOf("73737388");
+                    colorFrom = HIPal.darkGrey;
+                    colorTo = HIPal.darkGrey.cpy().a(0.5f);
                 }}, new ParticleEffect(){{
                     particles = 12;
                     line = true;
@@ -2386,14 +2386,14 @@ public class HIBlocks {
                     baseLength = 23f;
                     lifetime = 22f;
                     colorFrom = Color.white;
-                    colorTo = Color.valueOf("ffe176");
+                    colorTo = HIPal.lightYellow;
                 }}, new WaveEffect(){{
                     lifetime = 10f;
                     sizeFrom = 1f;
                     sizeTo = 78f;
                     strokeFrom = 8f;
                     strokeTo = 0f;
-                    colorFrom = colorTo = Color.valueOf("ffe176");
+                    colorFrom = colorTo = HIPal.lightYellow;
                 }});
             }});
             size = 3;
@@ -2426,7 +2426,7 @@ public class HIBlocks {
                 baseLength = -15;
                 lifetime = 65;
                 colorFrom = Color.white;
-                colorTo = Color.valueOf("e3e3e378");
+                colorTo = HIPal.lightGrey.cpy().a(0.45f);
                 layer = 49;
                 interp = Interp.pow5Out;
                 sizeInterp = Interp.pow10In;
@@ -2454,8 +2454,8 @@ public class HIBlocks {
                         homingDelay = 10f;
                         homingRange = 800f;
                         homingPower = 0.15f;
-                        backColor = Color.valueOf("b0c4de");
-                        frontColor = Color.valueOf("e3e3e3");
+                        backColor = HIPal.brightSteelBlue;
+                        frontColor = HIPal.lightGrey;
                         trailLength = 15;
                         trailWidth = 1.5f;
                         trailColor = Color.white.cpy().a(0.5f);
@@ -2479,7 +2479,7 @@ public class HIBlocks {
                         homingDelay = 10f;
                         homingRange = 800f;
                         backColor = Color.valueOf("ffb90f");
-                        frontColor = Color.valueOf("e3e3e3");
+                        frontColor = HIPal.lightGrey;
                         trailLength = 15;
                         trailWidth = 1.5f;
                         trailColor = Color.white.cpy().a(0.5f);
@@ -2502,7 +2502,7 @@ public class HIBlocks {
                         homingDelay = 10f;
                         homingRange = 800f;
                         backColor = Color.valueOf("ff7055");
-                        frontColor = Color.valueOf("e3e3e3");
+                        frontColor = HIPal.lightGrey;
                         trailLength = 15;
                         trailWidth = 1.5f;
                         trailColor = Color.white.cpy().a(0.5f);
@@ -2528,7 +2528,7 @@ public class HIBlocks {
                         homingDelay = 10f;
                         homingRange = 800f;
                         backColor = Color.valueOf("f2e770");
-                        frontColor = Color.valueOf("e3e3e3");
+                        frontColor = HIPal.lightGrey;
                         trailLength = 16;
                         trailWidth = 2.5f;
                         trailColor = Color.white.cpy().a(0.5f);

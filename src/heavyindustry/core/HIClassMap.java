@@ -59,17 +59,20 @@ public class HIClassMap {
         //parts
         classes.put("HIDrawPart", HIDrawPart.class);
         classes.put("ConstructPart", ConstructPart.class);
+        classes.put("GatherPart", GatherPart.class);
+        classes.put("GatherRegionPart", GatherRegionPart.class);
+        classes.put("RainbowPart", RainbowPart.class);
         //types
         classes.put("BetterPlanet", BetterPlanet.class);
         classes.put("EffectWeather", EffectWeather.class);
         classes.put("HailStormWeather", HailStormWeather.class);
         classes.put("SpawnerWeather", SpawnerWeather.class);
         //blocks
-        classes.put("EdgeOreBlock", EdgeOreBlock.class);
         classes.put("AtlasFloor", AtlasFloor.class);
         classes.put("AtlasProp", AtlasProp.class);
-        classes.put("AtlasStaticWall", AtlasStaticWall.class);
         classes.put("AtlasTallBlock", AtlasTallBlock.class);
+        classes.put("TileOreBlock", TileOreBlock.class);
+        classes.put("TileStaticWall", TileStaticWall.class);
         classes.put("GrooveFloor", GrooveFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
         classes.put("SizedVent", SizedVent.class);
@@ -137,8 +140,6 @@ public class HIClassMap {
         classes.put("FuelHeaterBuild", FuelHeater.FuelHeaterBuild.class);
         classes.put("ThermalHeater", ThermalHeater.class);
         classes.put("ThermalHeaterBuild", ThermalHeater.ThermalHeaterBuild.class);
-        classes.put("HeatDriver", HeatDriver.class);
-        classes.put("HeatDriverBuild", HeatDriver.HeatDriverBuild.class);
         classes.put("SortLiquidRouter", SortLiquidRouter.class);
         classes.put("SortLiquidRouterBuild", SortLiquidRouter.SortLiquidRouterBuild.class);
         classes.put("BeltConduit", BeltConduit.class);
@@ -209,13 +210,14 @@ public class HIClassMap {
         classes.put("PartBow", PartBow.class);
         classes.put("RunningLight", RunningLight.class);
         classes.put("DrawFactories", DrawFactories.class);
-        classes.put("DrawFrostWing", DrawFrostWing.class);
         classes.put("DrawPowerLight", DrawPowerLight.class);
         classes.put("DrawPrinter", DrawPrinter.class);
         classes.put("DrawRotator", DrawRotator.class);
         classes.put("DrawScanLine", DrawScanLine.class);
         classes.put("DrawAtlasFrames", DrawAtlasFrames.class);
         classes.put("DrawSpecConstruct", DrawSpecConstruct.class);
-        classes.put("DrawLiquidMassDriver", DrawLiquidMassDriver.class);
+        classes.put("NodeBridge", NodeBridge.DrawNodeBridge.class);
+        classes.put("DrawLiquidMassDriver", LiquidMassDriver.DrawLiquidMassDriver.class);
+        classes.put("DrawMinigun", MinigunTurret.DrawMinigun.class);
     }
 }
