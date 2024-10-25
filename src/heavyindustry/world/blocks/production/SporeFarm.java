@@ -4,13 +4,13 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.io.*;
-import mindustry.*;
 import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 
 import static arc.Core.*;
+import static mindustry.Vars.*;
 import static heavyindustry.util.HIUtils.*;
 
 /**
@@ -82,7 +82,7 @@ public class SporeFarm extends Block {
         public boolean needsTileUpdate;
 
         public boolean randomChk(){
-            Tile cTile = Vars.world.tile(tileX() + Mathf.range(3), tileY() + Mathf.range(3));
+            Tile cTile = world.tile(tileX() + Mathf.range(3), tileY() + Mathf.range(3));
 
             return cTile != null && cTile.floor().liquidDrop == growthLiquid;
         }

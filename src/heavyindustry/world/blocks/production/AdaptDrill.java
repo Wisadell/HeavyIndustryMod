@@ -7,7 +7,6 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import heavyindustry.content.HIFx;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -20,6 +19,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
+import heavyindustry.content.*;
 import heavyindustry.world.consumers.*;
 import heavyindustry.world.meta.*;
 

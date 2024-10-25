@@ -4,7 +4,6 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
-import mindustry.Vars;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -126,8 +125,7 @@ public class NodeBridge extends ItemBridge {
     }
 
     public static class DrawNodeBridge extends DrawBlock {
-        public TextureRegion bridgeRegion;
-        public TextureRegion endRegion;
+        public TextureRegion bridgeRegion, endRegion;
 
         @Override
         public void draw(Building build) {
@@ -137,7 +135,7 @@ public class NodeBridge extends ItemBridge {
 
         public void drawR(NodeBridgeBuild build){
             Draw.z(Layer.power);
-            Building other = Vars.world.build(build.link);
+            Building other = world.build(build.link);
             if(other == null) return;
             float op = settings.getInt("bridgeopacity") / 100f;
             if(Mathf.zero(op)) return;
@@ -151,7 +149,7 @@ public class NodeBridge extends ItemBridge {
 
             Lines.stroke(8);
 
-            Tmp.v1.set(build.x, build.y).sub(other.x, other.y).setLength(Vars.tilesize/2f).scl(-1);
+            Tmp.v1.set(build.x, build.y).sub(other.x, other.y).setLength(tilesize / 2f).scl(-1);
 
             Lines.line(bridgeRegion, build.x, build.y, other.x, other.y, false);
             Draw.reset();
