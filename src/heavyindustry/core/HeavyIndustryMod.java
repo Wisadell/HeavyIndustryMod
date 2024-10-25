@@ -126,7 +126,7 @@ public class HeavyIndustryMod extends Mod {
             dialog.cont.add(bundle.format("hi-reset-exit"));
             dialog.buttons.button("@confirm", exit).center().size(150, 50);
 
-            ui.settings.addCategory(bundle.format("hi-settings"), t -> {
+            ui.settings.addCategory(bundle.format("hi-settings"), HIIcon.reactionIcon, t -> {
                 t.checkPref("hi-homepage-dialog", false);
                 t.checkPref("hi-covering-vanilla-music", true);
                 t.checkPref("hi-tesla-range", true);

@@ -119,7 +119,7 @@ public class HIBlocks {
             matrixProcessor,hugeLogicDisplay,buffrerdMemoryCell,buffrerdMemoryBank,heatSink,heatFan,heatSinkLarge,
             //turret
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,coilBlaster,dragonBreath,cloudbreaker,minigun,blaze,
-            spike,fissure,rainbow,
+            spike,fissure,
             hurricane,silent,judgement,
             //turret-erekir
             rupture,

@@ -1,9 +1,11 @@
 package heavyindustry.content;
 
 import heavyindustry.ai.*;
+import heavyindustry.entities.part.AimPart;
+import heavyindustry.entities.part.BowHalo;
+import heavyindustry.entities.part.PartBow;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
-import heavyindustry.world.draw.*;
 import heavyindustry.entities.abilities.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.entities.bullet.*;
