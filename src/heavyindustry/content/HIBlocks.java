@@ -2,6 +2,7 @@ package heavyindustry.content;
 
 import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
+import heavyindustry.entities.part.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.world.blocks.environment.*;
@@ -118,8 +119,8 @@ public class HIBlocks {
             matrixProcessor,hugeLogicDisplay,buffrerdMemoryCell,buffrerdMemoryBank,heatSink,heatFan,heatSinkLarge,
             //turret
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,coilBlaster,dragonBreath,cloudbreaker,minigun,blaze,
-            spike,fissure,
-            hurricane,judgement,
+            spike,fissure,rainbow,
+            hurricane,silent,judgement,
             //turret-erekir
             rupture,
             //tbd
@@ -173,9 +174,11 @@ public class HIBlocks {
             attributes.set(Attribute.sand, 2f);
         }};
         arkyciteSandBoulder = new Prop("arkycite-sand-boulder"){{
+            variants = 2;
             arkyciteSand.asFloor().decoration = this;
         }};
         darksandBoulder = new Prop("darksand-boulder"){{
+            variants = 2;
             Blocks.darksand.asFloor().decoration = this;
         }};
         asphalt = new Floor("asphalt", 0);
@@ -199,7 +202,7 @@ public class HIBlocks {
             itemDrop = HIItems.rareEarth;
         }};
         nanofluid = new Floor("pooled-nanofluid", 0){{
-            status = HIStatusEffects.repair;
+            status = HIStatusEffects.regenerating;
             statusDuration = 60f;
             drownTime = 160f;
             speedMultiplier = 0.6f;
@@ -1841,7 +1844,7 @@ public class HIBlocks {
             squareSprite = false;
             buildType = () -> new GenericCrafterBuild(){
                 private boolean nextFlash;
-                public float heatf, warmupf;
+                private float heatf, warmupf;
 
                 @Override
                 public void updateTile(){
@@ -1905,10 +1908,10 @@ public class HIBlocks {
                 }
             };
         }
-            public TextureRegion lightRegion, heatRegion, shadowRegion;
+            private TextureRegion lightRegion, heatRegion, shadowRegion;
 
-            public final float sizeScl = 15 * 6f;
-            public final Color color1 = Pal.lancerLaser, color2 = Pal.sapBullet;
+            private final float sizeScl = 15 * 6f;
+            private final Color color1 = Pal.lancerLaser, color2 = Pal.sapBullet;
 
             @Override
             public void load() {
@@ -2411,7 +2414,7 @@ public class HIBlocks {
             minWarmup = 0.8f;
             shootSound = Sounds.missileSmall;
             drawer = new DrawTurret(){{
-                parts.add(new RegionPart(){{
+                parts.add(new RegionPart("-side"){{
                     mirror = true;
                     moveX = 1.5f;
                     moveY = 0f;
@@ -2434,9 +2437,9 @@ public class HIBlocks {
             }};
             shoot = new ShootAlternate(){{
                 barrels = 2;
-                spread = 11;
+                spread = 11f;
                 shots = 3;
-                shotDelay = 8;
+                shotDelay = 8f;
             }};
             consumeAmmoOnce = false;
             maxAmmo = 24;
@@ -3005,7 +3008,7 @@ public class HIBlocks {
                         pierceArmor = true;
                         trailWidth = 1.7f;
                         trailLength = 9;
-                        status = HIStatusEffects.armorReduction;
+                        status = HIStatusEffects.breached;
                         trailColor = backColor = hitColor = lightColor = lightningColor = HIPal.chromiumGrey;
                         frontColor = backColor.cpy().lerp(Color.white, 0.35f);
                         shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
@@ -3103,6 +3106,133 @@ public class HIBlocks {
             coolant = new ConsumeCoolant(0.15f);
             consumePowerCond(35f, TurretBuild::isActive);
             canOverdrive = false;
+        }};
+        silent = new PowerTurret("silent"){{
+            requirements(Category.turret, with(Items.lead, 200, Items.graphite, 100, Items.plastanium, 80, Items.surgeAlloy, 50, HIItems.nanocore, 100));
+            health = 3200;
+            velocityRnd = 0.2f;
+            shootType = new BasicBulletType(6.5f, 110f){{
+                scaleLife = true;
+                shootEffect = Fx.shootBig;
+                shrinkX = 0.15f;
+                shrinkY = 0.63f;
+                shrinkInterp = Interp.slope;
+                lifetime = 80f;
+                hitShake = despawnShake = 2f;
+                hitSound = Sounds.none;
+                homingRange = 22f;
+                homingPower = 0.13f;
+                backColor = lightColor = lightningColor = trailColor = hitColor = Pal.techBlue;
+                fragBullets = 1;
+                fragBullet = new ContinuousBulletType(){{
+                    speed = 0f;
+                    lifetime = 120f;
+                    collides = false;
+                    hittable = false;
+                    absorbable = false;
+                    damage = 75f;
+                    buildingDamageMultiplier = 0f;
+                    despawnEffect = hitEffect = Fx.none;
+                    lightningColor = backColor;
+                }
+                    public final float radIncrease = 0.28f, radius = 16f;
+                    public final StatusEffect status = StatusEffects.none;
+                    public final Effect effect = HIFx.triSpark(26f, backColor, Color.white);
+
+                    @Override
+                    public void draw(Bullet b) {
+                        float rad = (float) b.data;
+                        for (int i = 0; i < 2; i++) {
+                            float chance = Mathf.lerp(0.5f, 0.2f, b.time/b.lifetime);
+                            if (Mathf.chance(chance) && state.isPlaying() && b.timer(1, 1)){
+                                float a0 = Mathf.random(360) + b.rotation(), a1 = Mathf.random(360) + b.rotation();
+                                float r0 = Mathf.random(-rad/5, rad/2) + rad, r1 = Mathf.random(-rad/5, rad/2) + rad;
+
+                                Vec2 pos0 = new Vec2(b.x + r0 * Mathf.sinDeg(a0), b.y + r0 * Mathf.cosDeg(a0));
+                                Vec2 pos1 = new Vec2(b.x + r1 * Mathf.sinDeg(a1), b.y + r1 * Mathf.cosDeg(a1));
+
+                                PosLightning.createEffect(pos0, pos1, lightningColor, 1, 2.5f);
+                                effect.at(pos0);
+                                effect.at(pos1);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void init(Bullet b) {
+                        super.init(b);
+                        b.data = radius;
+                    }
+
+                    @Override
+                    public void update(Bullet b) {
+                        super.update(b);
+                        float rad = (float) b.data;
+                        rad += radIncrease;
+                        b.data = rad;
+                        if (b.timer(2, damageInterval)){
+                            Damage.damage(b.team, b.x, b.y, rad * 1.2f, damage * b.damageMultiplier());
+                            Units.nearby(null, b.x, b.y, rad, unit -> {
+                                if (status != StatusEffects.none && unit.team != b.team){
+                                    unit.apply(status, 30f);
+                                }
+                            });
+                        }
+                    }
+                };
+                trailChance = 0.8f;
+                trailEffect = HIFx.triSpark(26f, backColor, Color.white);
+                rangeChange = 45;
+                despawnEffect = Fx.none;
+                hitEffect = new MultiEffect(HIFx.smoothColorCircle(backColor, 100f, 125f, 0.3f), HIFx.circleOut(150f, 100f, 4), HIFx.circleOut(78f, 75f, 2), HIFx.subEffect(130f, 85f, 12, 30f, Interp.pow2Out, ((i, x, y, rot, fin) -> {
+                    float fout = Interp.pow2Out.apply(1 - fin);
+                    float finpow = Interp.pow3Out.apply(fin);
+                    Tmp.v1.trns(rot, 25 * finpow);
+                    Draw.color(backColor);
+                    for(int s : Mathf.signs) {
+                        Drawf.tri(x, y, 14 * fout, 30 * Mathf.curve(finpow, 0, 0.3f) * HIFx.fout(fin, 0.15f), rot + s * 90);
+                    }
+                })));
+            }};
+            reload = 150f;
+            shootY = 10f;
+            rotateSpeed = 2f;
+            shootCone = 15f;
+            consumeAmmoOnce = true;
+            shootSound = HISounds.blaster;
+            drawer = new DrawTurret(){{parts.addAll(new RegionPart("-blade"){{
+                mirror = true;
+                moveX = 1f;
+                moveY = -1.5f;
+                progress = PartProgress.warmup;
+                heatColor = Pal.techBlue;
+                heatLightOpacity = 0.2f;
+            }}, new RegionPart("-barrel"){{
+                moveY = -3f;
+                progress = PartProgress.recoil;
+                heatColor = Pal.techBlue;
+                heatLightOpacity = 0.2f;
+            }}, new RegionPart("-bottom"){{
+                mirror = true;
+                under = true;
+                moveY = -0.8f;
+                moveX = 0.8f;
+                progress = PartProgress.recoil;
+                heatColor = Pal.techBlue;
+                heatLightOpacity = 0.2f;
+            }}, new RegionPart("-upper"){{
+                mirror = true;
+                under = true;
+            }});
+            }};
+            minWarmup = 0.8f;
+            shootWarmupSpeed = 0.08f;
+            scaledHealth = 300;
+            range = 350f;
+            size = 4;
+            shootEffect = HIFx.square(Pal.techBlue, 55f, 12, 60, 6);
+            consumePowerCond(22f, TurretBuild::isActive);
+            coolant = consumeCoolant(0.2f);
         }};
         judgement = new ContinuousTurret("judgement"){{
             requirements(Category.turret, with(Items.silicon, 1200, Items.metaglass, 400, Items.plastanium, 800, Items.surgeAlloy, 650, Items.phaseFabric, 550, HIItems.heavyAlloy, 400));

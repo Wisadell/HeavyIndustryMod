@@ -16,6 +16,12 @@ public class EffectBulletType extends BulletType {
         drawSize = 120f;
     }
 
+    public EffectBulletType(float lifetime, float damage, float splashDamage){
+        this(lifetime);
+        this.damage = damage;
+        this.splashDamage = splashDamage;
+    }
+
     @Override
     public void draw(Bullet b){}
 

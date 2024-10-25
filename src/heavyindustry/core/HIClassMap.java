@@ -57,11 +57,8 @@ public class HIClassMap {
         classes.put("LightningEffect", LightningEffect.class);
         classes.put("EffectWrapper", EffectWrapper.class);
         //parts
-        classes.put("HIDrawPart", HIDrawPart.class);
+        classes.put("HIDrawPart", HIPartProgress.class);
         classes.put("ConstructPart", ConstructPart.class);
-        classes.put("GatherPart", GatherPart.class);
-        classes.put("GatherRegionPart", GatherRegionPart.class);
-        classes.put("RainbowPart", RainbowPart.class);
         //types
         classes.put("BetterPlanet", BetterPlanet.class);
         classes.put("EffectWeather", EffectWeather.class);
@@ -75,7 +72,7 @@ public class HIClassMap {
         classes.put("TileStaticWall", TileStaticWall.class);
         classes.put("GrooveFloor", GrooveFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
-        classes.put("SizedVent", SizedVent.class);
+        classes.put("SizedVent", TileVent.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);
         classes.put("AssignOverdriveBuild", AssignOverdrive.AssignOverdriveBuild.class);
         classes.put("InsulationWall", InsulationWall.class);

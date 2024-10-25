@@ -160,14 +160,14 @@ public class HIUnitTypes {
                 ejectEffect = Fx.casing2;
                 shootSound = Sounds.artillery;
                 alternate = false;
-                bullet = new BasicBulletType(11f, 108f){{
+                bullet = new MissileBulletType(11f, 108f){{
                     hitSize = 40;
                     splashDamageRadius = 46;
                     splashDamage = 96;
                     damage = 108;
                     status = StatusEffects.blasted;
                     statusDuration = 60;
-                    sprite = name("missile");
+                    sprite = "missile";
                     backColor = HIPal.orangeBack;
                     frontColor = HIPal.lightGrey;
                     lifetime = 30f;
@@ -175,8 +175,8 @@ public class HIUnitTypes {
                     homingPower = 0.03f;
                     homingRange = 80f;
                     knockback = 8;
-                    width = 12f;
-                    height = 40f;
+                    width = 8f;
+                    height = 32f;
                     ammoMultiplier = 3f;
                     despawnEffect = Fx.none;
                     shootEffect = Fx.shootPyraFlame;
@@ -225,33 +225,36 @@ public class HIUnitTypes {
             itemCapacity = 0;
             faceTarget = false;
             weapons.add(new Weapon(name("counterattack-weapon")){{
-                reload = 12f;
+                reload = 80f;
                 x = 0f;
                 y = 0f;
                 rotate = true;
-                mirror = true;
+                mirror = false;
                 alternate = false;
                 rotateSpeed = 1.3f;
-                minWarmup = 0.93f;
-                shootWarmupSpeed = 0.05f;
                 parts.add(new RegionPart("-top"){{
                     mirror = true;
                     under = true;
                     moveY = -4f;
                     progress = PartProgress.warmup;
                 }});
+                shoot = new ShootAlternate(4f){{
+                    shots = 3;
+                    shotDelay = 8f;
+                    barrels = 3;
+                }};
                 xRand = 4f;
                 inaccuracy = 6f;
                 shootSound = Sounds.missile;
-                shootStatus = StatusEffects.unmoving;
-                shootStatusDuration = 200f;
+                shootStatus = StatusEffects.slow;
+                shootStatusDuration = reload + 1f;
                 velocityRnd = 0.1f;
                 bullet = new MissileBulletType(12f, 36f){{
-                    sprite = name("missile");
+                    sprite = "missile";
                     backColor = Color.valueOf("ff7055");
                     frontColor = HIPal.lightGrey;
                     width = 8f;
-                    height = 45f;
+                    height = 32f;
                     trailChance = 0f;
                     trailInterval = 1f;
                     trailEffect = new ParticleEffect(){{
@@ -266,24 +269,11 @@ public class HIUnitTypes {
                         cone = 8f;
                     }};
                     trailRotation = true;
-                    splashDamage = 105f;
+                    splashDamage = 86f;
                     splashDamageRadius = 45f;
                     buildingDamageMultiplier = 1.33f;
                     status = StatusEffects.blasted;
                     shootEffect = Fx.shootSmallFlame;
-                    smokeEffect = new ParticleEffect(){{
-                        particles = 9;
-                        interp = Interp.pow10Out;
-                        sizeInterp = Interp.pow10In;
-                        sizeFrom = 6f;
-                        sizeTo = 0f;
-                        length = -58f;
-                        baseLength = -20f;
-                        lifetime = 42f;
-                        colorFrom = colorTo = HIPal.darkGrey.cpy().a(0.55f);
-                        cone = 40f;
-                        layer = 49f;
-                    }};
                     lifetime = 41.6f;
                     hitShake = 2;
                     hitSound = Sounds.explosion;
@@ -328,15 +318,6 @@ public class HIUnitTypes {
                     }});
                     despawnEffect = Fx.flakExplosionBig;
                 }};
-            }});
-            parts.add(new RegionPart("-bracket"){{
-                mirror = true;
-                y = -4.75f;
-                layer = 59f;
-                moveX = 5.55f;
-                moveY = -8f;
-                moveRot = -30f;
-                progress = PartProgress.warmup;
             }});
         }};
         crush = new UnitType("crush"){{
@@ -514,7 +495,7 @@ public class HIUnitTypes {
             rotateSpeed = 1.22f;
             itemCapacity = 30;
             faceTarget = false;
-            immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.shocked);
+            immunities = ObjectSet.with(StatusEffects.burning);
             targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret};
             weapons.add(new Weapon(name("destruction-weapon")){{
                 reload = 110f;
@@ -636,7 +617,7 @@ public class HIUnitTypes {
             crushDamage = 10f;
             treadRects = new Rect[]{new Rect(-115f, 118f, 52f, 48f), new Rect(-118f, -160f, 79f, 144f)};
             hitSize = 66f;
-            immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.shocked, StatusEffects.electrified, StatusEffects.unmoving);
+            immunities = ObjectSet.with(StatusEffects.burning);
             ammoType = new ItemAmmoType(Items.surgeAlloy);
             ammoCapacity = 80;
             targetAir = true;
@@ -768,8 +749,8 @@ public class HIUnitTypes {
             itemCapacity = 200;
             ammoType = new ItemAmmoType(HIItems.uranium);
             weapons.add(new Weapon(name("suzerain-weapon")){{
-                y = 0f;
-                x = 25f;
+                y = -1f;
+                x = 28f;
                 shootY = 17f;
                 reload = 36f;
                 recoil = 5f;
@@ -1018,9 +999,9 @@ public class HIUnitTypes {
             }});
             weapons.add(new Weapon(name("sunlit-weapon")){{
                 shake = 1f;
-                shootY = 9f;
+                shootY = 18f;
                 x = 18f;
-                y = 5f;
+                y = -20f;
                 rotateSpeed = 5f;
                 reload = 120f;
                 recoil = 4f;
@@ -1031,8 +1012,8 @@ public class HIUnitTypes {
                 rotate = true;
                 bullet = new ContinuousLaserBulletType(){{
                     damage = 72f;
-                    width = 4f;
-                    length = 200f;
+                    width = 6f;
+                    length = 300f;
                     drawSize = 200f;
                     lifetime = 180f;
                     shake = 1f;
@@ -1045,9 +1026,9 @@ public class HIUnitTypes {
                     incendAmount = 1;
                     collidesTeam = true;
                 }};
-            }}, new Weapon("large-artillery"){{
-                x = 35f;
-                y = 23f;
+            }}, new Weapon(name("sunlit-weapon-small")){{
+                x = 16f;
+                y = 18f;
                 rotateSpeed = 2f;
                 reload = 9f;
                 shootSound = Sounds.shootBig;
@@ -1064,9 +1045,9 @@ public class HIUnitTypes {
                     lifetime = 32f;
                     status = StatusEffects.blasted;
                 }};
-            }}, new Weapon("large-artillery"){{
-                y = 29f;
-                x = 14f;
+            }}, new Weapon(name("sunlit-weapon-small")){{
+                y = 32f;
+                x = -16f;
                 reload = 8f;
                 ejectEffect = Fx.casing1;
                 rotateSpeed = 2f;
@@ -1224,7 +1205,7 @@ public class HIUnitTypes {
                 reload = 110f;
                 cooldownTime = 90f;
                 recoil = 5f;
-            }}, new Weapon(name("mosasaur-weapon-missile")){{
+            }}, new Weapon("sei-launcher"){{
                 x = 24f;
                 y = 1f;
                 rotate = true;
@@ -1586,55 +1567,49 @@ public class HIUnitTypes {
                         moves.add(new PartMove(PartProgress.reload.inv().mul(1.8f).inv().curve(fi / 5f, 0.2f), 0f, 0f, 36f));
                     }});
                 }
-                bullet = new ArtilleryBulletType(5.5f, 420f){{
-                    collidesTiles = collides = true;
-                    lifetime = 70f;
-                    shootEffect = Fx.shootBigColor;
-                    smokeEffect = Fx.shootSmokeSquareBig;
-                    frontColor = Color.white;
-                    trailEffect = new MultiEffect(Fx.artilleryTrail, Fx.artilleryTrailSmoke);
-                    hitSound = Sounds.none;
+                bullet = new TrailFadeBulletType(7f, 360f){{
+                    lifetime = 60f;
+                    trailLength = 90;
+                    trailWidth = 3.6f;
+                    tracers = 2;
+                    tracerFadeOffset = 20;
+                    keepVelocity = true;
+                    tracerSpacing = 10f;
+                    tracerUpdateSpacing *= 1.25f;
+                    removeAfterPierce = false;
+                    hitColor = backColor = lightColor = lightningColor = trailColor = frontColor = Pal.techBlue;
                     width = 18f;
-                    height = 24f;
-                    lightColor = trailColor = hitColor = backColor = Pal.techBlue;
-                    lightRadius = 40f;
-                    lightOpacity = 0.7f;
-                    trailWidth = 4.5f;
-                    trailLength = 19;
-                    trailChance = -1f;
-                    despawnEffect = Fx.none;
-                    despawnSound = Sounds.dullExplosion;
-                    hitEffect = despawnEffect = new ExplosionEffect(){{
-                        lifetime = 34f;
-                        waveStroke = 4f;
-                        waveColor = sparkColor = trailColor;
-                        waveRad = 25f;
-                        smokeSize = 0f;
-                        smokeSizeBase = 0f;
-                        sparks = 10;
-                        sparkRad = 25f;
-                        sparkLen = 8f;
-                        sparkStroke = 3f;
-                    }};
-                    splashDamage = 175f;
-                    splashDamageRadius = 50f;
+                    height = 60f;
+                    homingPower = 0.01f;
+                    homingRange = 300f;
+                    homingDelay = 5f;
+                    hitSound = Sounds.plasmaboom;
+                    despawnShake = hitShake = 5f;
+                    pierce = pierceArmor = pierceBuilding = true;
+                    lightning = 3;
+                    lightningLength = 6;
+                    lightningLengthRand = 18;
+                    lightningDamage = 40f;
+                    smokeEffect = EffectWrapper.wrap(HIFx.hitSparkHuge, hitColor);
+                    shootEffect = HIFx.instShoot(backColor, frontColor);
+                    despawnEffect = HIFx.lightningHitLarge;
+                    hitEffect = new MultiEffect(HIFx.hitSpark(backColor, 75f, 24, 90f, 2f, 12f), HIFx.square45_6_45, HIFx.lineCircleOut(backColor, 18f, 20, 2), HIFx.sharpBlast(backColor, frontColor, 120f, 40f));
                     fragBullets = 15;
                     fragVelocityMin = 0.5f;
                     fragRandomSpread = 130f;
                     fragLifeMin = 0.3f;
-                    despawnShake = 5f;
-                    fragBullet = new BasicBulletType(5.5f, 90f){{
+                    fragBullet = new BasicBulletType(5f, 70f){{
                         pierceCap = 2;
                         pierceBuilding = true;
                         homingPower = 0.09f;
                         homingRange = 150f;
-                        lifetime = 50f;
+                        lifetime = 60f;
                         shootEffect = Fx.shootBigColor;
                         smokeEffect = Fx.shootSmokeSquareBig;
                         frontColor = Color.white;
                         hitSound = Sounds.none;
-                        width = 12f;
-                        height = 20f;
+                        width = 15f;
+                        height = 25f;
                         lightColor = trailColor = hitColor = backColor = Pal.techBlue;
                         lightRadius = 40f;
                         lightOpacity = 0.7f;
@@ -1643,8 +1618,8 @@ public class HIUnitTypes {
                         trailChance = -1f;
                         collidesAir = false;
                         despawnEffect = Fx.none;
-                        splashDamage = 72f;
-                        splashDamageRadius = 40f;
+                        splashDamage = 46f;
+                        splashDamageRadius = 30f;
                         hitEffect = despawnEffect = new MultiEffect(new ExplosionEffect(){{
                             lifetime = 30f;
                             waveStroke = 2f;

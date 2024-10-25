@@ -29,13 +29,260 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  */
 public class HIBullets {
     public static BulletType
+            hitter,ncBlackHole,nuBlackHole,
             ultFireball,basicSkyFrag,annMissile,
             hyperBlast,hyperBlastLinker,
             arc9000frag,arc9000,arc9000hyper,
             //It is not recommended to use it directly.
             collapseFrag,collapse;
 
+    @SuppressWarnings("unchecked")
     public static void load(){
+        hitter = new EffectBulletType(15f){{
+            speed = 0;
+
+            scaledSplashDamage = true;
+            collidesTiles = collidesGround = collides = collidesAir = true;
+            damage = 500;
+            splashDamage = 600f;
+            lightningDamage = 200f;
+            lightColor = lightningColor = trailColor = hitColor = Pal.techBlue;
+            lightning = 5;
+            lightningLength = 12;
+            lightningLengthRand = 16;
+            splashDamageRadius = 60f;
+            hitShake = despawnShake = 20f;
+            hitSound = despawnSound = Sounds.explosionbig;
+            hitEffect = despawnEffect = new MultiEffect(HIFx.square45_8_45, HIFx.hitSparkHuge, HIFx.crossBlast_45);
+        }
+            @Override
+            public void despawned(Bullet b){
+                if(despawnHit){
+                    hit(b);
+                }else{
+                    createUnits(b, b.x, b.y);
+                }
+
+                if(!fragOnHit){
+                    createFrags(b, b.x, b.y);
+                }
+
+                despawnEffect.at(b.x, b.y, b.rotation(), lightColor);
+                despawnSound.at(b);
+
+                Effect.shake(despawnShake, despawnShake, b);
+            }
+
+            @Override
+            public void hit(Bullet b, float x, float y){
+                hitEffect.at(x, y, b.rotation(), lightColor);
+                hitSound.at(x, y, hitSoundPitch, hitSoundVolume);
+
+                Effect.shake(hitShake, hitShake, b);
+
+                if(fragOnHit){
+                    createFrags(b, x, y);
+                }
+                createPuddles(b, x, y);
+                createIncend(b, x, y);
+                createUnits(b, x, y);
+
+                if(suppressionRange > 0){
+                    //bullets are pooled, require separate Vec2 instance
+                    Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y));
+                }
+
+                createSplashDamage(b, x, y);
+
+                for(int i = 0; i < lightning; i++){
+                    Lightning.create(b, lightColor, lightningDamage < 0 ? damage : lightningDamage, b.x, b.y, b.rotation() + Mathf.range(lightningCone/2) + lightningAngle, lightningLength + Mathf.random(lightningLengthRand));
+                }
+            }
+        };
+        ncBlackHole = new EffectBulletType(120f, 1200f, 2200f){{
+            despawnHit = true;
+            splashDamageRadius = 240;
+
+            lightColor = Pal.techBlue;
+            lightningDamage = 600f;
+            lightning = 2;
+            lightningLength = 4;
+            lightningLengthRand = 8;
+
+            scaledSplashDamage = true;
+            collidesAir = collidesGround = collidesTiles = true;
+        }
+            @Override
+            public void draw(Bullet b){
+                if(!(b.data instanceof Seq))return;
+                Seq<Sized> data = (Seq<Sized>)b.data;
+
+                Draw.color(lightColor, Color.white, b.fin() * 0.7f);
+                Draw.alpha(b.fin(Interp.pow3Out) * 1.1f);
+                Lines.stroke(2 * b.fout());
+                for(Sized s : data){
+                    if(s instanceof Building){
+                        Fill.square(s.getX(), s.getY(), s.hitSize() / 2);
+                    }else{
+                        Lines.spikes(s.getX(), s.getY(), s.hitSize() * (0.5f + b.fout() * 2f), s.hitSize() / 2f * b.fslope() + 12 * b.fin(), 4, 45);
+                    }
+                }
+
+                Drawf.light(b.x, b.y, b.fdata, lightColor, 0.3f + b.fin() * 0.8f);
+            }
+
+            public void hitT(Sized target, Entityc o, Team team, float x, float y){
+                for(int i = 0; i < lightning; i++){
+                    Lightning.create(team, lightColor, lightningDamage, x, y, Mathf.random(360), lightningLength + Mathf.random(lightningLengthRand));
+                }
+
+                if(target instanceof Unit){
+                    if(((Unit)target).health > 1000)HIBullets.hitter.create(o, team, x, y, 0);
+                }
+            }
+
+            @Override
+            public void update(Bullet b){
+                super.update(b);
+
+                if(!(b.data instanceof Seq))return;
+                Seq<Sized> data = (Seq<Sized>)b.data;
+                data.remove(d -> !((Healthc)d).isValid());
+            }
+
+            @Override
+            public void despawned(Bullet b){
+                super.despawned(b);
+
+                float rad = 33;
+
+                Vec2 v = new Vec2().set(b);
+
+                for(int i = 0; i < 5; i++){
+                    Time.run(i * 0.35f + Mathf.random(2), () -> {
+                        Tmp.v1.rnd(rad / 3).scl(Mathf.random());
+                        HIFx.shuttle.at(v.x + Tmp.v1.x, v.y + Tmp.v1.y, Tmp.v1.angle(), lightColor, Mathf.random(rad * 3f, rad * 12f));
+                    });
+                }
+
+                if(!(b.data instanceof Seq))return;
+                Entityc o = b.owner();
+                Seq<Sized> data = (Seq<Sized>)b.data;
+                for(Sized s : data){
+                    float size = Math.min(s.hitSize(), 85);
+                    Time.run(Mathf.random(44), () -> {
+                        if(Mathf.chance(0.32) || data.size < 8)HIFx.shuttle.at(s.getX(), s.getY(), 45, lightColor, Mathf.random(size * 3f, size * 12f));
+                        hitT(s, o, b.team, s.getX(), s.getY());
+                    });
+                }
+
+                createSplashDamage(b, b.x, b.y);
+            }
+
+            @Override
+            public void init(Bullet b){
+                super.init(b);
+                if(!(b.data instanceof Float))return;
+                float fdata = (Float)b.data();
+
+                Seq<Sized> data = new Seq<>();
+
+                indexer.eachBlock(null, b.x, b.y, fdata, bu -> bu.team != b.team, data::add);
+
+                Groups.unit.intersect(b.x - fdata / 2, b.y - fdata / 2, fdata, fdata, u -> {
+                    if(u.team != b.team)data.add(u);
+                });
+
+                b.data = data;
+
+                HIFx.circleOut.at(b.x, b.y, fdata * 1.25f, lightColor);
+            }
+        };
+        nuBlackHole = new EffectBulletType(20f, 1000f, 0f){{
+            despawnHit = true;
+            splashDamageRadius = 36;
+
+            lightColor = hitColor = Pal.techBlue;
+            lightningDamage = 40f;
+            lightning = 2;
+            lightningLength = 4;
+            lightningLengthRand = 8;
+
+            scaledSplashDamage = true;
+            collidesAir = collidesGround = collidesTiles = true;
+        }
+            @Override
+            public void draw(Bullet b){
+                if(!(b.data instanceof Seq))return;
+                Seq<Sized> data = (Seq<Sized>)b.data;
+
+                Draw.color(lightColor, Color.white, b.fin() * 0.7f);
+                Draw.alpha(b.fin(Interp.pow3Out) * 1.1f);
+                Lines.stroke(2 * b.fout());
+                for(Sized s : data){
+                    if(s instanceof Building){
+                        Fill.square(s.getX(), s.getY(), s.hitSize() / 2);
+                    }else{
+                        Lines.spikes(s.getX(), s.getY(), s.hitSize() * (0.5f + b.fout() * 2f), s.hitSize() / 2f * b.fslope() + 12 * b.fin(), 4, 45);
+                    }
+                }
+
+                Drawf.light(b.x, b.y, b.fdata, lightColor, 0.3f + b.fin() * 0.8f);
+            }
+
+            public void hitT(Entityc o, Team team, float x, float y){
+                for(int i = 0; i < lightning; i++){
+                    Lightning.create(team, lightColor, lightningDamage, x, y, Mathf.random(360), lightningLength + Mathf.random(lightningLengthRand));
+                }
+
+                HIBullets.hitter.create(o, team, x, y, 0, 3000, 1, 1, null);
+            }
+
+            @Override
+            public void update(Bullet b){
+                super.update(b);
+
+                if(!(b.data instanceof Seq) || b.timer(0, 5))return;
+                Seq<Sized> data = (Seq<Sized>)b.data;
+                data.remove(d -> !((Healthc)d).isValid());
+            }
+
+            @Override
+            public void despawned(Bullet b){
+                super.despawned(b);
+
+                if(!(b.data instanceof Seq))return;
+                Entityc o = b.owner();
+                Seq<Sized> data = (Seq<Sized>)b.data;
+                for(Sized s : data){
+                    float size = Math.min(s.hitSize(), 75);
+                    if(Mathf.chance(0.32) || data.size < 8){
+                        float sd = Mathf.random(size * 3f, size * 12f);
+
+                        HIFx.shuttleDark.at(s.getX() + Mathf.range(size), s.getY() + Mathf.range(size), 45, lightColor, sd);
+                    }
+                    hitT(o, b.team, s.getX(), s.getY());
+                }
+
+                createSplashDamage(b, b.x, b.y);
+            }
+
+            @Override
+            public void init(Bullet b){
+                super.init(b);
+                b.fdata = splashDamageRadius;
+
+                Seq<Sized> data = new Seq<>();
+
+                indexer.eachBlock(null, b.x, b.y, b.fdata, bu -> bu.team != b.team, data::add);
+
+                Groups.unit.intersect(b.x - b.fdata / 2, b.y - b.fdata / 2, b.fdata, b.fdata, u -> {
+                    if(u.team != b.team)data.add(u);
+                });
+
+                b.data = data;
+            }
+        };
         ultFireball = new FireBulletType(1f, 10){{
             colorFrom = colorMid = Pal.techBlue;
             lifetime = 12f;

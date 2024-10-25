@@ -211,7 +211,10 @@ public class HITechTree {
             node(cloudbreaker, () -> {});
         });
         addToNode(scorch, () -> node(dragonBreath, () -> {}));
-        addToNode(arc, () -> node(coilBlaster, () -> node(hurricane, () -> {})));
+        addToNode(arc, () -> node(coilBlaster, () -> {
+            node(silent, () -> {});
+            node(hurricane, () -> {});
+        }));
         addToNode(salvo, () -> {
             node(spike, () -> node(fissure, () -> {}));
             node(minigun, () -> {});

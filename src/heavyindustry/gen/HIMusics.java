@@ -3,9 +3,9 @@ package heavyindustry.gen;
 import arc.audio.*;
 import arc.struct.*;
 import arc.util.*;
-import mindustry.gen.*;
 
 import static mindustry.Vars.*;
+import static mindustry.gen.Musics.*;
 
 /**
  * Manages music, including vanilla and custom tracks.
@@ -15,12 +15,33 @@ public class HIMusics {
     private static final ObjectMap<String, Seq<Music>> musicSets = new ObjectMap<>();
 
     public static Music
-            MSRMiaayStoryteller = new Music();
+            MSRStoryteller = new Music(),
+            MSRFireEmbrace = new Music(),
+            MSRTheOpening = new Music(),
+            MSRFoundingStone = new Music(),
+            MSRSilentTales = new Music();
 
     public static void load() {
-        MSRMiaayStoryteller = tree.loadMusic("MSRMiaayStoryteller");
+        MSRStoryteller = tree.loadMusic("MSRStoryteller");
+        MSRSilentTales = tree.loadMusic("MSRSilentTales");
 
-        Musics.menu = MSRMiaayStoryteller;
+        String[] ambientTracks = {"MSRFoundingStone"};
+        String[] darkTracks = {"MSRFireEmbrace", "MSRTheOpening"};
+
+        loadMusicSet("", ambientTracks);
+        loadMusicSet("", darkTracks);
+
+        musicSets.put("vanillaAmbient", new Seq<>(control.sound.ambientMusic));
+        musicSets.put("vanillaDark", new Seq<>(control.sound.darkMusic));
+
+        musicSets.put("modAmbient", Seq.with(MSRFoundingStone));
+        musicSets.put("modDark", Seq.with(MSRFireEmbrace, MSRTheOpening));
+
+        mixMusicSets("vanillaAmbient", "modAmbient", control.sound.ambientMusic);
+        mixMusicSets("vanillaDark", "modDark", control.sound.darkMusic);
+
+        menu = MSRStoryteller;
+        launch = MSRSilentTales;
     }
 
     /**
