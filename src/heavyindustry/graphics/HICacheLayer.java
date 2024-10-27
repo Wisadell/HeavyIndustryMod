@@ -8,12 +8,13 @@ import mindustry.graphics.CacheLayer.*;
  * @author Wisadell
  */
 public class HICacheLayer {
-    public static ShaderLayer nanofluid,dalani;
+    public static ShaderLayer dalani,brine,nanofluid;
 
     /** Loads the cache layers. */
     public static void init() {
-        nanofluid = new ShaderLayer(HIShaders.nanofluid);
         dalani = new ShaderLayer(HIShaders.dalani);
-        CacheLayer.add(nanofluid,dalani);
+        brine = new ShaderLayer(HIShaders.brine);
+        nanofluid = new ShaderLayer(HIShaders.nanofluid);
+        CacheLayer.add(dalani,brine,nanofluid);
     }
 }

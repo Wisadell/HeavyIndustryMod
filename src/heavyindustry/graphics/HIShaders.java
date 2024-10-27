@@ -20,7 +20,7 @@ import static mindustry.Vars.*;
 public class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
-    public static HISurfaceShader nanofluid,dalani;
+    public static HISurfaceShader dalani,brine,nanofluid;
     public static PlanetTextureShader planetTextureShader;
 
     /** Loads the shaders. */
@@ -28,8 +28,9 @@ public class HIShaders {
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
 
-        nanofluid = new HISurfaceShader("nanofluid");
         dalani = new HISurfaceShader("dalani");
+        brine = new HISurfaceShader("brine");
+        nanofluid = new HISurfaceShader("nanofluid");
 
         planetTextureShader = new PlanetTextureShader();
     }

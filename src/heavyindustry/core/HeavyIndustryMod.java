@@ -1,6 +1,7 @@
 package heavyindustry.core;
 
 import heavyindustry.content.*;
+import heavyindustry.game.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.ui.dialogs.*;
@@ -76,17 +77,13 @@ public class HeavyIndustryMod extends Mod {
         Events.on(DisposeEvent.class, e -> {
             HIShaders.dispose();
         });
-
-        Events.on(MusicRegisterEvent.class, e -> {
-            if (!settings.getBool("hi-covering-vanilla-music")) return;
-            HIMusics.load();
-        });
     }
 
     @Override
     public void loadContent(){
         HIRegister.load();
         if(onlyPlugIn) return;
+        HITeams.load();
         HIItems.load();
         HIStatusEffects.load();
         HILiquids.load();
@@ -106,7 +103,6 @@ public class HeavyIndustryMod extends Mod {
         super.init();
 
         settings.defaults("hi-homepage-dialog", false);
-        settings.defaults("hi-covering-vanilla-music", true);
         settings.defaults("hi-tesla-range", true);
         settings.defaults("hi-plug-in-mode", false);
 
@@ -128,7 +124,6 @@ public class HeavyIndustryMod extends Mod {
 
             ui.settings.addCategory(bundle.format("hi-settings"), HIIcon.reactionIcon, t -> {
                 t.checkPref("hi-homepage-dialog", false);
-                t.checkPref("hi-covering-vanilla-music", true);
                 t.checkPref("hi-tesla-range", true);
                 t.checkPref("hi-enable-serpulo-sector-invasion", true);
                 t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting("hi-plug-in-mode", false, null) {

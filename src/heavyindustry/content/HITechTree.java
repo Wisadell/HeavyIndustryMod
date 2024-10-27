@@ -21,9 +21,13 @@ public class HITechTree {
     public static TechNode context = null;
     public static void load(){
         //items,liquids
+        addToNode(Liquids.water, () -> nodeProduce(HILiquids.brine, () -> {}));
         addToNode(Liquids.oil, () -> nodeProduce(HILiquids.nitratedOil, () -> {}));
         addToNode(Liquids.ozone, () -> nodeProduce(HILiquids.methane, () -> {}));
-        addToNode(Items.sand, () -> nodeProduce(HIItems.rareEarth, () -> {}));
+        addToNode(Items.sand, () -> {
+            nodeProduce(HIItems.rareEarth, () -> {});
+            nodeProduce(HIItems.salt, () -> {});
+        });
         addToNode(Items.silicon, () -> nodeProduce(HIItems.nanocore, () -> nodeProduce(HILiquids.nanofluid, () -> {})));
         addToNode(Items.thorium, () -> nodeProduce(HIItems.uranium, () -> nodeProduce(HIItems.chromium, () -> {})));
         addToNode(Items.surgeAlloy, () -> nodeProduce(HIItems.heavyAlloy, () -> {}));
@@ -138,7 +142,10 @@ public class HITechTree {
             node(uraniumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
             node(chromiumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
         }));
-        addToNode(melter, () -> node(largeMelter, () -> {}));
+        addToNode(melter, () -> {
+            node(largeMelter, () -> {});
+            node(clarifier, () -> {});
+        });
         addToNode(surgeSmelter, () -> node(heavyAlloySmelter, () -> {}));
         addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(desolateRift)), () -> {}));
         addToNode(cryofluidMixer, () -> {
@@ -184,6 +191,8 @@ public class HITechTree {
             node(coreStorage, () -> {});
         });
         addToNode(unloader, () -> node(rapidUnloader, () -> node(rapidDirectionalUnloader, () -> {})));
+        //storage-erekir
+        addToNode(reinforcedVault, () -> node(reinforcedCoreStorage, () -> {}));
         //payload
         addToNode(payloadConveyor, () -> node(payloadJunction, () -> {}));
         //payload-erekir

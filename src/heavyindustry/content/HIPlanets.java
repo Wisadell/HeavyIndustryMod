@@ -1,6 +1,5 @@
 package heavyindustry.content;
 
-import heavyindustry.core.*;
 import heavyindustry.graphics.g3d.*;
 import heavyindustry.maps.ColorPass.*;
 import heavyindustry.maps.HeightPass;
@@ -11,12 +10,11 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import mindustry.*;
 import mindustry.content.*;
-import mindustry.game.*;
+import mindustry.game.Team;
 import mindustry.graphics.g3d.*;
 import mindustry.type.*;
-import mindustry.world.meta.*;
+import mindustry.world.meta.Env;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
@@ -37,7 +35,7 @@ public class HIPlanets {
 
             generator = new KeplerPlanetGenerator(){{
                 baseHeight = 0;
-                baseColor = Blocks.basalt.mapColor;
+                baseColor = Blocks.stone.mapColor;
 
                 Mathf.rand.setSeed(2);
                 heights.add(new NoiseHeight(){{
@@ -66,7 +64,7 @@ public class HIPlanets {
                             magnitude = 1.2f;
                             min = 0.3f;
                             max = 0.6f;
-                            out = Blocks.stone.mapColor;
+                            out = HIBlocks.corruptedMoss.mapColor;
                             offset.set(1500f, 300f, -500f);
                         }},
                         new NoiseColorPass(){{
@@ -77,7 +75,7 @@ public class HIPlanets {
                             magnitude = 1.2f;
                             min = 0.1f;
                             max = 0.4f;
-                            out = Blocks.grass.mapColor;
+                            out = HIBlocks.overgrownGrass.mapColor;
                             offset.set(1500f, 300f, -500f);
                         }},
                         new NoiseColorPass(){{
@@ -88,7 +86,7 @@ public class HIPlanets {
                             magnitude = 1.2f;
                             min = 0.1f;
                             max = 0.4f;
-                            out = Blocks.sand.mapColor;
+                            out = HIBlocks.mycelium.mapColor;
                             offset.set(1500f, 300f, -500f);
                         }}
                 );
@@ -113,22 +111,18 @@ public class HIPlanets {
                 );
             }};
             sectorSeed = 3;
+            defaultEnv = Env.terrestrial | Env.groundOil | Env.groundWater | Env.oxygen;
             allowWaves = true;
             allowWaveSimulation = true;
-            allowSectorInvasion = true;
+            allowSectorInvasion = false;
             allowLaunchSchematics = true;
             enemyCoreSpawnReplace = true;
             allowLaunchLoadout = true;
             prebuildBase = false;
-            defaultEnv = Env.terrestrial | Env.groundOil | Env.groundWater | Env.oxygen;
             ruleSetter = r -> {
                 r.waveTeam = Team.crux;
                 r.placeRangeCheck = false;
                 r.showSpawns = false;
-                r.bannedBlocks = Vars.content.blocks().select(b -> {
-                    if (b.buildVisibility == BuildVisibility.sandboxOnly) return false;
-                    return b.minfo.mod == null || !b.minfo.mod.name.equals(HeavyIndustryMod.modName);
-                }).asSet();
             };
             alwaysUnlocked = true;
             meshLoader = () -> new MultiMesh(

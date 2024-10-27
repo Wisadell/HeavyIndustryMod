@@ -14,10 +14,15 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  */
 public class HILiquids {
     public static Liquid
-            methane,nanofluid,nitratedOil;
+            brine,methane,nanofluid,nitratedOil;
     public static void load(){
-        methane = new Liquid("methane"){{
-            color = gasColor = barColor = lightColor = Color.valueOf("fbd367");
+        brine = new Liquid("brine", Color.valueOf("b8c89f")){{
+            coolant = false;
+            viscosity = 0.8f;
+            explosiveness = 0.1f;
+        }};
+        methane = new Liquid("methane", Color.valueOf("fbd367")){{
+            gasColor = barColor = lightColor = color;
             gas = true;
             flammability = 1f;
             explosiveness = 1f;

@@ -1270,15 +1270,12 @@ public class HIFx {
                 Draw.color(e.color, e.fout());
                 Angles.randLenVectors(e.id, 6, 24f, (x, y) -> {
                     float rot = Mathf.randomSeed((long)(e.id + x + y), 360);
-                    float tx = x * e.fin(Interp.pow2Out);
-                    float ty = y * e.fin(Interp.pow2Out);
+                    float tx = x * e.fin(Interp.pow2Out), ty = y * e.fin(Interp.pow2Out);
                     Drawm.plus(e.x + tx + Tmp.v1.x, e.y + ty + Tmp.v1.y, 4f, rot);
                 });
             }),
             critPierce = new Effect(20f, e -> {
-                float rot = e.rotation - 90f;
-                float fin = e.fin(Interp.pow5Out);
-                float end = e.lifetime - 6f;
+                float rot = e.rotation - 90f, fin = e.fin(Interp.pow5Out), end = e.lifetime - 6f;
                 float fout = 1f - Interp.pow2Out.apply(Mathf.curve(e.time, end, e.lifetime));
                 float width = fin * fout;
 
@@ -1366,7 +1363,6 @@ public class HIFx {
                 Draw.rect(data.region, e.x, e.y, Mathf.randomSeed(e.id) * 360);
             }),
             windTail = new Effect(100f, e -> {
-
                 Draw.color(Color.white);
                 Draw.z(Layer.space - 0.1f);
 

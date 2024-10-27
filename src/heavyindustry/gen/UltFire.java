@@ -36,7 +36,7 @@ public class UltFire extends Fire {
     }
 
     public static void createChance(Position pos, double chance){
-        if(Mathf.chanceDelta(chance))UltFire.create(pos);
+        if(Mathf.chanceDelta(chance)) UltFire.create(pos);
     }
 
     public static void createChance(float x, float y, float range, float chance, Team team){

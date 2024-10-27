@@ -1,14 +1,12 @@
 package heavyindustry.content;
 
 import heavyindustry.ai.*;
-import heavyindustry.entities.part.AimPart;
-import heavyindustry.entities.part.BowHalo;
-import heavyindustry.entities.part.PartBow;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.entities.abilities.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.entities.bullet.*;
+import heavyindustry.entities.part.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -513,7 +511,7 @@ public class HIUnitTypes {
                 inaccuracy = 0f;
                 shootSound = Sounds.mediumCannon;
                 shake = 8;
-                bullet = new BasicBulletType(31f, 750f){{
+                bullet = new BasicBulletType(31f, 650f){{
                     splashDamage = 415f;
                     splashDamageRadius = 55f;
                     buildingDamageMultiplier = 1.2f;
@@ -521,7 +519,7 @@ public class HIUnitTypes {
                     //status = TODO;
                     statusDuration = 400f;
                     lightning = 2;
-                    lightningDamage = 110f;
+                    lightningDamage = 40f;
                     lightningLength = 15;
                     lightningColor = backColor = trailColor = HIPal.canaryYellow;
                     shrinkY = 0f;
@@ -649,7 +647,7 @@ public class HIUnitTypes {
                 shootSound = Sounds.largeCannon;
                 shake = 8f;
                 bullet = new BasicBulletType(24f, 810f){{
-                    splashDamage = 385f;
+                    splashDamage = 475f;
                     splashDamageRadius = 80f;
                     buildingDamageMultiplier = 1.1f;
                     sprite = name("missile");
@@ -665,8 +663,6 @@ public class HIUnitTypes {
                     pierceBuilding = true;
                     pierceCap = 3;
                     hitShake = 5;
-                    status = StatusEffects.unmoving;
-                    statusDuration = 80;
                     lightning = 2;
                     lightningDamage = 110f;
                     lightningLength = 15;

@@ -73,6 +73,8 @@ public class HIClassMap {
         classes.put("GrooveFloor", GrooveFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
         classes.put("SizedVent", TileVent.class);
+        classes.put("StaticSpawner", StaticSpawner.class);
+        classes.put("StaticSpawnerBuild", StaticSpawner.StaticSpawnerBuild.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);
         classes.put("AssignOverdriveBuild", AssignOverdrive.AssignOverdriveBuild.class);
         classes.put("InsulationWall", InsulationWall.class);
@@ -157,8 +159,12 @@ public class HIClassMap {
         classes.put("PayloadJunctionBuild", PayloadJunction.PayloadJunctionBuild.class);
         classes.put("DerivativeUnitFactory", DerivativeUnitFactory.class);
         classes.put("DerivativeUnitFactoryBuild", DerivativeUnitFactory.DerivativeUnitFactoryBuild.class);
+        classes.put("AdaptPayloadSource", AdaptPayloadSource.class);
+        classes.put("AdaptPayloadSourceBuild", AdaptPayloadSource.AdaptPayloadSourceBuild.class);
         classes.put("BeamDiode", BeamDiode.class);
         classes.put("BeamDiodeBuild", BeamDiode.BeamDiodeBuild.class);
+        classes.put("SpaceGenerator", SpaceGenerator.class);
+        classes.put("SpaceGeneratorBuild", SpaceGenerator.SpaceGeneratorBuild.class);
         classes.put("HyperGenerator", HyperGenerator.class);
         classes.put("HyperGeneratorBuild", HyperGenerator.HyperGeneratorBuild.class);
         classes.put("GeneratorCrafter", GeneratorCrafter.class);

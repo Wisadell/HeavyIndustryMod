@@ -26,9 +26,6 @@ import static mindustry.Vars.*;
 
 public class HIGet {
     public static Color
-            rainbowRed = Color.valueOf("ff8787");
-
-    public static Color
             c1 = new Color(),
             c2 = new Color(),
             c3 = new Color(),
@@ -45,10 +42,10 @@ public class HIGet {
             v2 = new Vec2(),
             v3 = new Vec2();
 
-    public static class EPos implements Position {
+    public static class ExtendedPosition implements Position {
         public float x, y;
 
-        public EPos set(float x, float y){
+        public ExtendedPosition set(float x, float y){
             this.x = x;
             this.y = y;
             return this;
@@ -310,9 +307,5 @@ public class HIGet {
             });
         }
         return cons;
-    }
-
-    public static Color rainStart(Color c){
-        return c.set(rainbowRed);
     }
 }
