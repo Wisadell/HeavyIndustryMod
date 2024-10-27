@@ -128,7 +128,7 @@ public abstract class AdaptDrill extends Block {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("drillSpeed", (AdaptDrillBuild e) -> new Bar(() -> bundle.format("bar.drillspeed", Strings.fixed(e.getMineSpeed() * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));
+        addBar("drillSpeed", (AdaptDrillBuild e) -> new Bar(() -> bundle.format("bar.drillspeed", Strings.fixed(e.getMineSpeed(), 2)), () -> Pal.ammo, () -> e.warmup));
     }
 
     public float mineInterval(){
@@ -440,7 +440,7 @@ public abstract class AdaptDrill extends Block {
         }
 
         protected float getMineSpeed(){
-            return Mathf.clamp((float) dominantItems / maxOreTileReq) * boostScl() * mineSpeed;
+            return Mathf.clamp((float) dominantItems / maxOreTileReq) * boostScl() * mineSpeed * timeScale() * efficiency();
         }
 
         @Override

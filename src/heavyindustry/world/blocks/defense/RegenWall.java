@@ -1,10 +1,11 @@
 package heavyindustry.world.blocks.defense;
 
-import heavyindustry.world.meta.*;
+import arc.*;
+import arc.struct.*;
 import arc.math.*;
 import arc.util.*;
-import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.meta.*;
@@ -15,11 +16,15 @@ import static mindustry.Vars.*;
  * A wall that can self restore life.
  * @author Wisadell
  */
-public class RegenWall extends RegenProjector {
+public class RegenWall extends Wall {
+    private static final IntSet taken = new IntSet();
+    private static final IntFloatMap mendMap = new IntFloatMap();
+    private static long lastUpdateFrame = -1;
+
+    //per frame
+    public float healPercent = 12f / 60f;
     /** Chance of wall to heal itself on collision. -1 to disable. */
     public float chanceHeal = -1f;
-    /** {@link Wall} */
-    public float chanceDeflect = -1f;
     /** How much wall heals at collision. Based on bullet damage. */
     public float regenPercent = 0.1f;
 
@@ -33,18 +38,7 @@ public class RegenWall extends RegenProjector {
         hasPower = false;
         hasItems = false;
         canOverdrive = false;
-        range = 1;
-        effect = Fx.none;
         envEnabled = Env.any;
-    }
-
-    @Override
-    public void setStats(){
-        super.setStats();
-
-        stats.remove(Stat.range);
-        stats.addPercent(HIStat.baseHealChance, chanceHeal);
-        if(chanceDeflect > 0f) stats.add(Stat.baseDeflectChance, chanceDeflect);
     }
 
     @Override
@@ -53,13 +47,75 @@ public class RegenWall extends RegenProjector {
         drawOverlay(x * tilesize + offset, y * tilesize + offset, rotation);
     }
 
-    public class RegenWallBuild extends RegenProjectorBuild {
+    @Override
+    public boolean outputsItems(){
+        return false;
+    }
+
+    public class RegenWallBuild extends WallBuild {
         protected float healAmount, hit;
         protected boolean heals;
 
+        public Seq<Building> targets = new Seq<>();
+        public int lastChange = -2;
+        public float warmup, totalTime;
+        public boolean anyTargets = false;
+        public boolean didRegen = false;
+
+        public void updateTargets(){
+            targets.clear();
+            taken.clear();
+            indexer.eachBlock(team, Tmp.r1.setCentered(x, y, tilesize), b -> true, targets::add);
+        }
+
         @Override
         public void updateTile(){
-            super.updateTile();
+            if(lastChange != world.tileChanges){
+                lastChange = world.tileChanges;
+                updateTargets();
+            }
+
+            //TODO should warmup depend on didRegen?
+            warmup = Mathf.approachDelta(warmup, didRegen ? 1f : 0f, 1f / 70f);
+            totalTime += warmup * Time.delta;
+            didRegen = false;
+            anyTargets = false;
+
+            //no healing when suppressed
+            if(checkSuppression()){
+                return;
+            }
+
+            anyTargets = targets.contains(Building::damaged);
+
+            if(efficiency > 0){
+                float healAmount = optionalEfficiency * healPercent;
+
+                //use Math.max to prevent stacking
+                for(var build : targets){
+                    if(!build.damaged() || build.isHealSuppressed()) continue;
+
+                    didRegen = true;
+
+                    int pos = build.pos();
+                    //TODO periodic effect
+                    float value = mendMap.get(pos);
+                    mendMap.put(pos, Math.min(Math.max(value, healAmount * edelta() * build.block.health / 100f), build.block.health - build.health));
+                }
+            }
+
+            if(lastUpdateFrame != state.updateId){
+                lastUpdateFrame = state.updateId;
+
+                for(var entry : mendMap.entries()){
+                    var build = world.build(entry.key);
+                    if(build != null){
+                        build.heal(entry.value);
+                        build.recentlyHealed();
+                    }
+                }
+                mendMap.clear();
+            }
 
             hit = Mathf.clamp(hit - Time.delta / 10f);
 
@@ -71,7 +127,20 @@ public class RegenWall extends RegenProjector {
 
         @Override
         public boolean collision(Bullet bullet){
-            super.collision(bullet);
+            boolean wasDead = health <= 0;
+
+            float damage = bullet.damage() * bullet.type().buildingDamageMultiplier;
+            if(!bullet.type.pierceArmor){
+                damage = Damage.applyArmor(damage, block.armor);
+            }
+
+            damage(bullet.team, damage);
+            Events.fire(bulletDamageEvent.set(self(), bullet));
+
+            if(health <= 0 && !wasDead){
+                Events.fire(new BuildingBulletDestroyEvent(self(), bullet));
+            }
+
             hit = 1f;
 
             if(Mathf.chance(chanceHeal)){
@@ -100,6 +169,16 @@ public class RegenWall extends RegenProjector {
         @Override
         public void drawSelect(){
             block.drawOverlay(x, y, rotation);
+        }
+
+        @Override
+        public float warmup(){
+            return warmup;
+        }
+
+        @Override
+        public float totalProgress(){
+            return totalTime;
         }
     }
 }

@@ -1,7 +1,9 @@
 package heavyindustry.world.meta;
 
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.scene.style.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
@@ -17,7 +19,6 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class HIStatValues {
-
     public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map){
         return ammo(map, 0, false);
     }
@@ -150,5 +151,16 @@ public class HIStatValues {
 
     private static TextureRegion icon(UnlockableContent t){
         return t.uiIcon;
+    }
+
+    public static StatValue colorString(Color color, CharSequence s){
+        return table -> {
+            table.row();
+            table.table(c -> {
+                c.image(((TextureRegionDrawable)Tex.whiteui).tint(color)).size(32).scaling(Scaling.fit).padRight(4).left().top();
+                c.add(s).padRight(10).left().top();
+            }).left();
+            table.row();
+        };
     }
 }

@@ -6,23 +6,26 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.entities.units.*;
+import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
-import heavyindustry.util.*;
+import heavyindustry.world.blocks.production.AdaptDrill.*;
 import heavyindustry.world.meta.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.HIUtils.*;
 
 /**
  * Basic drill bit expansion module.
  * @author LaoHuaJi
  */
 public abstract class DrillModule extends Block {
+    public TextureRegion baseRegion;
     public TextureRegion[] topRotRegions;
     public Seq<Item[]> convertList = new Seq<>();
     public ObjectFloatMap<Item> convertMul = new ObjectFloatMap<>();
@@ -61,7 +64,8 @@ public abstract class DrillModule extends Block {
     @Override
     public void load() {
         super.load();
-        topRotRegions = HIUtils.split(name + "-top-full", 80, 0);
+        baseRegion = atlas.find(name + "-base");
+        topRotRegions = split(name + "-top-full", 80, 0);
     }
 
     @Override
@@ -84,18 +88,26 @@ public abstract class DrillModule extends Block {
 
     @Override
     public void drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-        Draw.rect(region, plan.drawx(), plan.drawy());
+        if (teamRegion != null && teamRegion.found()) {
+            Draw.rect(baseRegion, plan.drawx(), plan.drawy());
+            Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());
+        } else Draw.rect(region, plan.drawx(), plan.drawy());
         Draw.rect(topRotRegions[plan.rotation], plan.drawx(), plan.drawy());
         drawPlanConfig(plan, list);
     }
 
-    public class DrillModuleBuild extends Building{
-        public @Nullable AdaptDrill.AdaptDrillBuild drillBuild;
+    @Override
+    protected TextureRegion[] icons() {
+        return teamRegion.found() ? new TextureRegion[]{baseRegion, teamRegions[Team.sharded.id]} : new TextureRegion[]{region};
+    }
+
+    public class DrillModuleBuild extends Building {
+        public @Nullable AdaptDrillBuild drillBuild;
         public float smoothWarmup, targetWarmup;
 
         @Override
         public void draw() {
-            Draw.rect(region, x, y);
+            Draw.rect(baseRegion, x, y);
             Draw.z(Layer.blockOver);
             drawTeamTop();
             Draw.rect(topRotRegions[rotation], x, y);
@@ -109,7 +121,7 @@ public abstract class DrillModule extends Block {
             super.onProximityUpdate();
         }
 
-        public boolean canApply(AdaptDrill.AdaptDrillBuild drill){
+        public boolean canApply(AdaptDrillBuild drill){
             for (int i = 0; i < size; i++){
                 Point2 p = Edges.getEdges(size)[rotation * size + i];
                 Building t = world.build(tileX() + p.x, tileY() + p.y);
@@ -120,7 +132,7 @@ public abstract class DrillModule extends Block {
             return (drill.boostMul + boostSpeed <= drill.maxBoost() + 1) && checkConvert(drill) && checkSameModule(drill);
         }
 
-        public boolean checkConvert(AdaptDrill.AdaptDrillBuild drill){
+        public boolean checkConvert(AdaptDrillBuild drill){
             if (convertList.size == 0) return true;
             for (Item[] convert: convertList){
                 if (drill.dominantItem == convert[0]){
@@ -130,7 +142,7 @@ public abstract class DrillModule extends Block {
             return false;
         }
 
-        public boolean checkSameModule(AdaptDrill.AdaptDrillBuild drill){
+        public boolean checkSameModule(AdaptDrillBuild drill){
             if (stackable) return true;
             for (DrillModuleBuild module: drill.modules){
                 if (module.block == this.block) return false;
@@ -138,7 +150,7 @@ public abstract class DrillModule extends Block {
             return true;
         }
 
-        public void apply(AdaptDrill.AdaptDrillBuild drill){
+        public void apply(AdaptDrillBuild drill){
             drill.powerConsMul += powerMul;
             drill.powerConsExtra += powerExtra;
             drill.boostMul += boostSpeed;

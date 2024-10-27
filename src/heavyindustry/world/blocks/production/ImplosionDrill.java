@@ -88,7 +88,7 @@ public class ImplosionDrill extends AdaptDrill {
                 drawMining();
             }
 
-            Draw.z(Layer.blockOver - 4f);
+            Draw.z(Layer.block);
 
             Draw.rect(topRegion, x, y);
             if(invertTime > 0 && topInvertRegion.found()){
@@ -112,7 +112,7 @@ public class ImplosionDrill extends AdaptDrill {
                     float a = Mathf.clamp(fract * arrows - arrowFract);
                     Tmp.v1.trns(i * 90 + 45, j * arrowSpacing + arrowOffset);
 
-                    Draw.z(Layer.block);
+                    Draw.z(Layer.blockOver - 4f);
                     Draw.color(baseArrowColor, arrowColor, a);
                     Draw.rect(arrowRegion, x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
 

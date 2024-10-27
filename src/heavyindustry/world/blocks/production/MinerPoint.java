@@ -317,18 +317,18 @@ public class MinerPoint extends Block {
             return Mathf.equal(tile.x, t.x, range) && Mathf.equal(tile.y, t.y, range);
         }
 
-        private boolean validOre(Tile t) {
+        protected boolean validOre(Tile t) {
             return (t.solid() && t.wallDrop() != null && !blockedItem.contains(t.wallDrop()) && t.wallDrop().hardness <= tier) || (t.block() == Blocks.air && t.drop() != null && !blockedItem.contains(t.drop()) && t.drop().hardness <= tier);
         }
 
-        private Item oreDrop(Tile t){
+        protected Item oreDrop(Tile t){
             if(t.solid() && t.wallDrop() != null) return t.wallDrop();
             if(t.block() == Blocks.air && t.drop() != null) return t.drop();
 
             return null;
         }
 
-        private void findOre() {
+        protected void findOre() {
             tiles.clear();
 
             int tx = tile.x, ty = tile.y;
