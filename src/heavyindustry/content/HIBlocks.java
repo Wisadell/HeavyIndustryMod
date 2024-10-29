@@ -13,7 +13,6 @@ import heavyindustry.world.blocks.power.*;
 import heavyindustry.world.blocks.production.*;
 import heavyindustry.world.blocks.liquid.*;
 import heavyindustry.world.blocks.heat.*;
-import heavyindustry.world.blocks.sandbox.*;
 import heavyindustry.world.blocks.storage.*;
 import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.blocks.logic.*;
