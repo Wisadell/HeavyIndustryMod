@@ -12,6 +12,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
+import arc.util.*;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -30,6 +31,7 @@ import mindustry.type.weapons.*;
 import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 import static mindustry.gen.EntityMapping.*;
 
@@ -63,12 +65,15 @@ public class HIUnitTypes {
         nameMap.put(name("miner"), idMap[36]);
         nameMap.put(name("large-miner"), idMap[36]);
         //other
+        nameMap.put(name("armored-carrier-vehicle"), idMap[43]);
         nameMap.put(name("pioneer"), LegsPayloadUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
-        //boss
+        //elite
         nameMap.put(name("tiger"), idMap[4]);
         nameMap.put(name("thunder"), idMap[43]);
+        //boss
+        nameMap.put(name("qln-quillon-mahathasa"), EnergyUnit::new);
     }
 
     public static UnitType
@@ -81,9 +86,11 @@ public class HIUnitTypes {
             //miner-erekir
             miner,largeMiner,
             //other
-            pioneer,vulture,burner,
+            armoredCarrierVehicle,pioneer,vulture,burner,
+            //elite
+            tiger,thunder,
             //boss
-            tiger,thunder;
+            qlnQuillonMahathasa;
 
     public static void load(){
         //vanilla-tank
@@ -1224,23 +1231,25 @@ public class HIUnitTypes {
                     spread = 4f;
                     barrels = 3;
                 }};
-                bullet = new MissileBulletType(6f, 70f){{
-                    homingPower = 0.12f;
-                    width = height = 8f;
-                    shrinkX = shrinkY = 0f;
-                    drag = -0.003f;
-                    homingRange = 80f;
-                    keepVelocity = false;
-                    splashDamageRadius = 45f;
-                    splashDamage = 95f;
-                    lifetime = 72f;
-                    trailColor = Pal.bulletYellowBack;
-                    backColor = Pal.bulletYellowBack;
+                bullet = new MissileBulletType(6f, 60f){{
+                    sprite = "missile";
+                    trailColor = backColor = Pal.bulletYellowBack;
                     frontColor = Pal.bulletYellow;
+                    width = 8f;
+                    height = 32f;
+                    trailChance = 0f;
+                    trailInterval = 1f;
+                    trailRotation = true;
+                    splashDamage = 86f;
+                    splashDamageRadius = 45f;
+                    buildingDamageMultiplier = 1.33f;
+                    status = StatusEffects.blasted;
+                    shootEffect = Fx.shootSmallFlame;
+                    lifetime = 41.6f;
+                    hitShake = 2;
+                    hitSound = Sounds.explosion;
                     hitEffect = Fx.blastExplosion;
-                    despawnEffect = Fx.blastExplosion;
-                    weaveScale = 8f;
-                    weaveMag = 2f;
+                    despawnEffect = Fx.flakExplosionBig;
                 }};
             }});
         }};
@@ -1870,6 +1879,48 @@ public class HIUnitTypes {
             setEnginesMirror(new UnitEngine(40 / 4f, -40 / 4f, 3f, 315f));
         }};
         //other
+        armoredCarrierVehicle = new UnitType("armored-carrier-vehicle"){{
+            healFlash = false;
+            treadFrames = 16;
+            treadPullOffset = 8;
+            crushDamage = 2f;
+            treadRects = new Rect[]{new Rect(-60f, -76f, 24f, 152f)};
+            rotateSpeed = 0.7f;
+            speed = 0.55f;
+            accel = 0.08f;
+            drag = 0.08f;
+            hitSize = 32f;
+            ammoType = new PowerAmmoType(10000f);
+            ammoCapacity = 30;
+            hovering = true;
+            canDrown = false;
+            health = 8700f;
+            armor = 24f;
+            itemCapacity = 2000;
+            faceTarget = false;
+            itemOffsetY = 15f;
+            lightRadius = 60f;
+            fogRadius = 30f;
+            deathExplosionEffect = new MultiEffect(new WaveEffect(){{
+                interp = Interp.circleOut;
+                lifetime = 45f;
+                sizeFrom = 0f;
+                sizeTo = 78f;
+                sides = 8;
+                strokeFrom = 7f;
+                strokeTo = 0f;
+                colorFrom = colorTo = HIPal.canaryYellow;
+            }}, new WaveEffect(){{
+                interp = Interp.circleOut;
+                lifetime = 45;
+                sizeFrom = 0;
+                sizeTo = 90;
+                sides = 8;
+                strokeFrom = 9;
+                strokeTo = 0;
+                colorFrom = colorTo = HIPal.canaryYellow;
+            }});
+        }};
         pioneer = new UnitType("pioneer"){{
             drag = 0.1f;
             speed = 0.62f;
@@ -2038,7 +2089,7 @@ public class HIUnitTypes {
                 }
             });
         }};
-        //boss
+        //elite
         tiger = new UnitType("tiger"){{
             drawShields = false;
             engineOffset = 18f;
@@ -2383,5 +2434,152 @@ public class HIUnitTypes {
             }
             drownTimeMultiplier = 26f;
         }};
+        qlnQuillonMahathasa = new UnitType("qln-quillon-mahathasa"){{
+            clipSize = 260f;
+            engineLayer = Layer.effect;
+            engineOffset = 5f;
+            deathExplosionEffect = Fx.none;
+            deathSound = Sounds.plasmaboom;
+            trailScl = 3f;
+            Seq<StatusEffect> statusEffects = Seq.with(StatusEffects.none, StatusEffects.boss, StatusEffects.invincible);
+            immunities = ObjectSet.with(content.statusEffects().select(s -> s != null && !statusEffects.contains(s)));
+            armor = 77f;
+            hitSize = 45;
+            speed = 1.5f;
+            accel = 0.07F;
+            drag = 0.075F;
+            health = 2250000f;
+            itemCapacity = 0;
+            rotateSpeed = 6;
+            engineSize = 8f;
+            flying = true;
+            trailLength = 70;
+            buildSpeed = 10f;
+            crashDamageMultiplier = Mathf.clamp(hitSize / 10f, 1, 10);
+            buildBeamOffset = 0;
+            aiController = SniperAI::new;
+        }
+            public Effect slopeEffect = HIFx.boolSelector;
+
+            public final float[][] rotator = {{75f, 0, 8.5f, 1.35f, 0.1f}, {55f, 0, 6.5f, -1.7f, 0.1f}, {25, 0, 13, 0.75f, 0.3f}, {100f, 33.5f, 11, 0.75f, 0.7f}, {60f, -20, 6f, -0.5f, 1.25f}};
+
+            public final float bodySize = 24f;
+
+            @Override
+            public void load(){
+                super.load();
+                shadowRegion = uiIcon = fullIcon = atlas.find(name("jump-gate-pointer"));
+            }
+
+            @Override
+            public void init(){
+                super.init();
+                if(trailLength < 0) trailLength = (int)bodySize * 4;
+                if(slopeEffect == HIFx.boolSelector) slopeEffect = new Effect(30, b -> {
+                    if(!(b.data instanceof Integer))return;
+                    int i = b.data();
+                    Draw.color(b.color);
+                    Angles.randLenVectors(b.id, (int)(b.rotation / 8f), b.rotation / 4f + b.rotation * 2f * b.fin(), (x, y) -> Fill.circle(b.x + x, b.y + y, b.fout() * b.rotation / 2.25f));
+                    Lines.stroke((i < 0 ? b.fin(Interp.pow2InInverse) : b.fout(Interp.pow2Out)) * 2f);
+                    Lines.circle(b.x, b.y, (i > 0 ? (b.fin(Interp.pow2InInverse) + 0.5f) : b.fout(Interp.pow2Out)) * b.rotation);
+                }).layer(Layer.bullet);
+
+                engineSize = bodySize / 4;
+                engineSize *= -1;
+            }
+
+            @Override
+            public void draw(Unit unit){
+                super.draw(unit);
+            }
+
+            @Override
+            public void drawBody(Unit unit){
+                float sizeF = 1 + Mathf.absin(4f, 0.1f);
+                Draw.z(Layer.flyingUnitLow + 5f);
+                Draw.color(Color.black);
+                Fill.circle(unit.x, unit.y, bodySize * sizeF * 0.71f * unit.healthf());
+
+                Drawf.light(unit.x,unit.y, unit.hitSize * 4.05f, unit.team.color, 0.68f);
+                Draw.z(Layer.effect + 0.001f);
+                Draw.color(unit.team.color, Color.white, Mathf.absin(4f, 0.3f) + Mathf.clamp(unit.hitTime) / 5f * 3f);
+                Draw.alpha(0.65f);
+                Fill.circle(unit.x, unit.y, bodySize * sizeF * 1.1f);
+                Draw.alpha(1f);
+                Fill.circle(unit.x, unit.y, bodySize * sizeF);
+
+                for(float[] j : rotator){
+                    for(int i : Mathf.signs){
+                        float ang = Time.time * j[3] + 90 + 90 * i + Mathf.randomSeed(unit.id, 360);
+                        Tmp.v1.trns(ang, hitSize * j[4]).add(unit);
+                        Drawn.arrow(Tmp.v1.x, Tmp.v1.y, j[2], j[0], j[1], ang);
+                    }
+                }
+
+                Draw.reset();
+            }
+
+            @Override
+            public void update(Unit unit){
+                super.update(unit);
+                if(Mathf.chanceDelta(0.1))for(int i : Mathf.signs)slopeEffect.at(unit.x + Mathf.range(bodySize), unit.y + Mathf.range(bodySize), bodySize, unit.team.color, i);
+            }
+
+            @Override
+            public void drawCell(Unit unit){}
+
+            @Override
+            public void drawControl(Unit unit){
+                Draw.z(Layer.effect + 0.001f);
+                Draw.color(unit.team.color, Color.white, Mathf.absin(4f, 0.3f) +  Mathf.clamp(unit.hitTime) / 5f);
+                for(int i = 0; i < 4; i++){
+                    float rotation = Time.time * 1.5f + i * 90;
+                    Tmp.v1.trns(rotation, bodySize * 1.5f).add(unit);
+                    Draw.rect(atlas.find(name("jump-gate-arrow")), Tmp.v1.x, Tmp.v1.y, rotation + 90);
+                }
+                Draw.reset();
+            }
+
+            @Override
+            public void drawItems(Unit unit){
+                super.drawItems(unit);
+            }
+
+            @Override
+            public void drawLight(Unit unit){
+                Drawf.light(unit.x, unit.y, bodySize * 3f, unit.team.color, lightOpacity);
+            }
+
+            @Override
+            public void drawMech(Mechc mech){}
+
+            @Override
+            public void drawOutline(Unit unit){}
+
+            @Override
+            public void drawEngines(Unit unit){}
+
+            @Override
+            public void drawTrail(Unit unit){}
+
+            @Override
+            public <T extends Unit & Payloadc> void drawPayload(T unit){}
+
+            @Override
+            public void drawShadow(Unit unit){}
+
+            @Override
+            public void drawShield(Unit unit){
+                float alpha = unit.shieldAlpha();
+                float radius = unit.hitSize() * 1.3f;
+                Fill.light(unit.x, unit.y, Lines.circleVertices(radius), radius, Tmp.c1.set(Pal.shield), Tmp.c2.set(unit.team.color).a(0.7f).lerp(Color.white, Mathf.clamp(unit.hitTime() / 2f)).a(Pal.shield.a * alpha));
+            }
+
+            @Override
+            public void drawSoftShadow(Unit unit){}
+
+            @Override
+            public void drawWeapons(Unit unit){}
+        };
     }
 }

@@ -125,7 +125,7 @@ public class HITechTree {
         //power
         addToNode(powerNodeLarge, () -> node(powerNodeHuge, () -> node(powerNodePhase, () -> {})));
         addToNode(thoriumReactor, () -> node(uraniumReactor, () -> {}));
-        addToNode(impactReactor, () -> node(magneticStormRadiationReactor, () -> {}));
+        addToNode(impactReactor, () -> node(hypermagneticReactor, () -> {}));
         addToNode(batteryLarge, () -> {
             node(hugeBattery, () -> {});
             node(armoredCoatedBattery, () -> {});

@@ -2,6 +2,8 @@ package heavyindustry.content;
 
 import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
+import heavyindustry.entities.effect.*;
+import heavyindustry.entities.part.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.world.blocks.environment.*;
@@ -13,6 +15,7 @@ import heavyindustry.world.blocks.power.*;
 import heavyindustry.world.blocks.production.*;
 import heavyindustry.world.blocks.liquid.*;
 import heavyindustry.world.blocks.heat.*;
+import heavyindustry.world.blocks.sandbox.*;
 import heavyindustry.world.blocks.storage.*;
 import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.blocks.logic.*;
@@ -22,6 +25,9 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.scene.style.*;
+import arc.scene.ui.*;
+import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -33,6 +39,7 @@ import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.ui.Styles;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
@@ -43,9 +50,7 @@ import mindustry.world.blocks.liquid.*;
 import mindustry.world.blocks.logic.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.sandbox.ItemSource;
-import mindustry.world.blocks.sandbox.LiquidSource;
-import mindustry.world.blocks.sandbox.PowerSource;
+import mindustry.world.blocks.sandbox.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.blocks.units.*;
 import mindustry.world.consumers.*;
@@ -97,7 +102,7 @@ public class HIBlocks {
             //liquid-erekir
             liquidSorter,liquidValve,smallReinforcedPump,largeReinforcedPump,
             //power
-            powerNodePhase,powerNodeHuge,uraniumReactor,magneticStormRadiationReactor,hugeBattery,armoredCoatedBattery,
+            powerNodePhase,powerNodeHuge,uraniumReactor,hypermagneticReactor,hugeBattery,armoredCoatedBattery,
             //power-erekir
             beamDiode,beamInsulator,liquidConsumeGenerator,
             //production
@@ -129,10 +134,13 @@ public class HIBlocks {
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,coilBlaster,dragonBreath,cloudbreaker,minigun,blaze,
             spike,fissure,
             hurricane,silent,judgement,
+            mystery,executor,dawn,
             //turret-erekir
             rupture,
-            //sandbox//
-            reinforcedItemSource,reinforcedLiquidSource,reinforcedPowerSource,reinforcedPayloadSource,omniNode,errorTurret,envErrorTurret,invincibleWall,invincibleWallLarge,invincibleWallHuge;
+            //sandbox
+            reinforcedItemSource,reinforcedLiquidSource,reinforcedPowerSource,reinforcedPayloadSource,allSource,
+            omniNode,
+            teamChanger,barrierProjector,invincibleWall,invincibleWallLarge,invincibleWallHuge,invincibleRefractionWallHuge;
 
     public static void load(){
         //environment
@@ -483,7 +491,7 @@ public class HIBlocks {
             health = 2680;
             armor = 42f;
             absorbLasers = insulated = true;
-            healPercent = 2f / 60f;
+            healPercent = 3f / 60f;
             chanceHeal = 0.15f;
             regenPercent = 0.5f;
         }};
@@ -493,13 +501,13 @@ public class HIBlocks {
             health = 10720;
             armor = 42f;
             absorbLasers = insulated = true;
-            healPercent = 2f / 60f;
+            healPercent = 3f / 60f;
             chanceHeal = 0.15f;
             regenPercent = 0.5f;
         }};
         shapedWall = new ShapedWall("shaped-wall"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with(HIItems.heavyAlloy, 8, Items.phaseFabric, 6));
-            health = 4440;
+            health = 3220;
             armor = 16f;
             insulated = absorbLasers = true;
             crushDamageMultiplier = 0.025f;
@@ -650,7 +658,34 @@ public class HIBlocks {
             pumpAmount = 0.9f;
             envRequired |= Env.none;
             consumePower(3.5f);
-        }};
+            buildType = () -> new SolidPumpBuild(){
+                @Override
+                public void draw() {
+                    Draw.rect(bottomRegion, x, y);
+                    Draw.z(Layer.blockCracks);
+                    super.drawCracks();
+                    Draw.z(Layer.blockAfterCracks);
+
+                    Drawf.liquid(liquidRegion, x, y, liquids.get(result) / liquidCapacity, result.color);
+                    Drawf.spinSprite(rotatorRegion, x, y, pumpTime * rotateSpeed);
+                    Drawf.spinSprite(rotatorRegion1, x, y, pumpTime * -rotateSpeed / 3);
+                    Draw.rect(topRegion, x, y);
+                }
+            };
+        }
+            public TextureRegion rotatorRegion1;
+
+            @Override
+            public void load() {
+                super.load();
+                rotatorRegion1 = atlas.find(name + "-rotator1");
+            }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region};
+            }
+        };
         oilRig = new Fracker("oil-rig"){{
             requirements(Category.production, with(Items.lead, 220, Items.graphite, 200, Items.silicon, 100, Items.thorium, 180, Items.plastanium, 120, Items.phaseFabric, 30));
             size = 4;
@@ -1127,7 +1162,7 @@ public class HIBlocks {
                 Draw.color(HIPal.uraniumGrey);
                 Draw.alpha(0.8f);
                 for(int i = 0; i < 5; i++){
-                    Fx.rand.setSeed(b.id * 2L + i);
+                    Fx.rand.setSeed(b.id * 2l + i);
                     float lenScl = Fx.rand.random(0.25f, 1f);
                     int fi = i;
                     b.scaled(b.lifetime * lenScl, e -> Angles.randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.8f * intensity), 25f * intensity, (x, y, in, out) -> {
@@ -1221,7 +1256,7 @@ public class HIBlocks {
                 return new TextureRegion[]{bottomRegion, region};
             }
         };
-        magneticStormRadiationReactor = new HyperGenerator("magnetic-storm-radiation-reactor"){{
+        hypermagneticReactor = new HyperGenerator("hypermagnetic-reactor"){{
             requirements(Category.power, with(Items.titanium, 1200, Items.metaglass, 1300, Items.plastanium, 800, Items.silicon, 1600, Items.phaseFabric, 1200, HIItems.chromium, 2500, HIItems.heavyAlloy, 2200));
             size = 6;
             health = 16500;
@@ -1245,16 +1280,12 @@ public class HIBlocks {
             requirements(Category.power, with(Items.lead, 225, Items.graphite, 125, Items.phaseFabric, 80, Items.thorium, 110, Items.plastanium, 100));
             size = 5;
             health = 1600;
-            drawer = new DrawMulti(new DrawDefault(), new DrawPower(){{
-                emptyLightColor = Color.valueOf("18473f");
-                fullLightColor = Color.valueOf("ffd197");
-            }}, new DrawRegion("-top"));
             consumePowerBuffered(750000f);
         }};
         armoredCoatedBattery = new Battery("armored-coated-battery"){{
             requirements(Category.power, with(Items.lead, 150, Items.silicon, 180, Items.plastanium, 120, HIItems.chromium, 100, Items.phaseFabric, 50));
             size = 4;
-            health = 6600;
+            health = 8400;
             armor = 28f;
             drawer = new DrawMulti(new DrawDefault(), new DrawPower(){{
                 emptyLightColor = Color.valueOf("18473f");
@@ -1600,7 +1631,7 @@ public class HIBlocks {
             outputLiquid = new LiquidStack(Liquids.water, 0.35f);
             outputItem = new ItemStack(HIItems.salt, 1);
             Color color1 = Color.valueOf("85966a"), color2 = Color.valueOf("f1ffdc"), color3 = Color.valueOf("728259");
-            drawer = new DrawMulti(new DrawRegion("-bottom"),new DrawLiquidTile(HILiquids.brine, 2), new DrawCultivator(){{
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(HILiquids.brine, 2), new DrawCultivator(){{
                 timeScl = 120;
                 bottomColor = color1;
                 plantColorLight = color2;
@@ -1621,6 +1652,7 @@ public class HIBlocks {
             }}*/);
             consumeLiquid(HILiquids.brine, 0.4f);
             consumePower(1.5f);
+            squareSprite = false;
         }};
         uraniumSynthesizer = new GenericCrafter("uranium-synthesizer"){{
             requirements(Category.crafting, with(Items.graphite, 50, Items.silicon, 40, Items.plastanium, 30, Items.phaseFabric, 15));
@@ -1657,7 +1689,7 @@ public class HIBlocks {
             }});
             consumePower(7.5f);
             consumeLiquid(Liquids.slag, 12f / 60f);
-            consumeItems(with(Items.titanium, 8, Items.phaseFabric, 1));
+            consumeItem(Items.titanium, 8);
         }};
         heavyAlloySmelter = new GenericCrafter("heavy-alloy-smelter"){{
             requirements(Category.crafting, with(Items.lead, 80, Items.silicon, 60, HIItems.chromium, 30, Items.phaseFabric, 10));
@@ -3598,6 +3630,216 @@ public class HIBlocks {
             consumePower(16);
             consumeLiquid(HILiquids.nanofluid, 12f / 60f);
         }};
+        mystery = new PowerTurret("mystery"){{
+            requirements(Category.turret, with( Items.silicon, 4000, Items.metaglass, 1500, Items.plastanium, 3000, Items.surgeAlloy, 2000, Items.phaseFabric, 2500, HIItems.chromium, 2200));
+            size = 8;
+            health = 220000;
+            armor = 80f;
+            range = 900f;
+            canOverdrive = false;
+            shootSound = Sounds.none;
+            shootCone = 5f;
+            drawer = new DrawTurret(){
+                public TextureRegion arrowRegion;
+
+                @Override
+                public void draw(Building build) {
+                    super.draw(build);
+                    if (!(build instanceof PowerTurretBuild tb)) return;
+                    float z = Draw.z();
+
+                    Tmp.v1.trns(tb.rotation, tb.y);
+                    float f = 1 - -tb.reloadCounter / reload;
+                    float rad = 12f;
+
+                    float f1 = Mathf.curve(f,  0.4f, 1f);
+                    Draw.z(Layer.bullet);
+                    Draw.color(heatColor);
+                    for(int i : Mathf.signs){
+                        for(int j : Mathf.signs){
+                            Drawn.tri(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, f1 * rad / 3f + Mathf.num(j > 0) * 2f * (f1 + 1) / 2, (rad * 3f + Mathf.num(j > 0) * 20f) * f1, j * Time.time + 90 * i);
+                        }
+                    }
+
+                    Tmp.v6.set(tb.targetPos.x, tb.targetPos.y).sub(tb);
+                    Tmp.v2.set(tb.targetPos.x, tb.targetPos.y).sub(tb).nor().scl(Math.min(Tmp.v6.len(), range)).add(tb);
+
+                    for (int l = 0; l < 4; l++) {
+                        float angle = 45 + 90 * l;
+                        for (int i = 0; i < 4; i++) {
+                            Tmp.v3.trns(angle, (i - 4) * tilesize + tilesize).add(Tmp.v2);
+                            float fS = (100 - (Time.time + 25 * i) % 100) / 100 * f1 / 4;
+                            Draw.rect(arrowRegion, Tmp.v3.x, Tmp.v3.y, arrowRegion.width * fS, arrowRegion.height * fS, angle + 90);
+                        }
+                    }
+
+                    Lines.stroke((1.5f + Mathf.absin( Time.time + 4, 8f, 1.5f)) * f1, heatColor);
+                    Lines.square(Tmp.v2.x, Tmp.v2.y, 4 + Mathf.absin(8f, 4f), 45);
+
+                    Lines.stroke(rad / 2.5f * tb.heat, heatColor);
+                    Lines.circle(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, rad * 2 * (1 - tb.heat));
+
+                    Draw.color(heatColor);
+                    Fill.circle(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, f * rad);
+                    Lines.stroke(f * 1.5f);
+                    Drawn.circlePercentFlip(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, f * rad + 5, Time.time, 20f);
+                    Draw.color(Color.white);
+                    Fill.circle(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, f * rad * 0.7f);
+
+                    Draw.z(z);
+                    Draw.reset();
+                }
+
+                @Override
+                public void load(Block block) {
+                    super.load(block);
+                    arrowRegion = atlas.find(name("jump-gate-arrow"));
+                }
+            };
+            reload = 800f;
+            rotateSpeed = 100f;
+            shootType = HIBullets.collapse;
+            buildType = () -> new PowerTurretBuild(){
+                @Override
+                protected void shoot(BulletType type){
+                    float bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY), bulletY = y + Angles.trnsy(rotation - 90, shootX, shootY);
+
+                    shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
+
+                    Tmp.v6.set(targetPos.x, targetPos.y).sub(this);
+                    Tmp.v1.set(targetPos.x, targetPos.y).sub(this).nor().scl(Math.min(Tmp.v6.len(), range)).add(this);
+
+                    Bullet b = shootType.create(this, team, Tmp.v1.x, Tmp.v1.y, 0);
+                    b.vel.setZero();
+                    b.set(Tmp.v1);
+
+                    if(headless) return;
+                    Vec2 vec2 = new Vec2().trns(rotation, y).add(this);
+                    PosLightning.createEffect(vec2, b, HIPal.thurmixRed, 3, 2.5f);
+                    for(int i = 0; i < 5; i++){
+                        Time.run(i * 6f, () -> HIFx.chainLightningFade.at(vec2.x, vec2.y, Mathf.random(8, 14), HIPal.thurmixRed, b));
+                    }
+
+                    shootType.shootEffect.at(bulletX, bulletY, rotation);
+                    shootType.smokeEffect.at(bulletX, bulletY, rotation);
+                }
+            };
+            consumePowerCond(220f, TurretBuild::isActive);
+        }};
+        executor = new PowerTurret("executor"){{
+            requirements(Category.turret, with(Items.plastanium, 10000, Items.surgeAlloy, 8000, Items.phaseFabric, 5000, HIItems.nanocore, 2000, HIItems.uranium, 6000, HIItems.chromium, 3000));
+            size = 12;
+            health = 470000;
+            armor = 90f;
+            range = 1100f;
+            rotateSpeed = 1.1f;
+            reload = 90f;
+            inaccuracy = 1.5f;
+            velocityRnd = 0.075f;
+            shootSound = HISounds.flak;
+            shoot = new ShootBarrel(){{
+                shots = 2;
+                barrels = new float[]{-20f, 0f, 0f, 20f, 0f, 0f};
+            }};
+            shootType = new TrailFadeBulletType(28f, 1800f){{
+                lifetime = 40f;
+                trailLength = 90;
+                trailWidth = 3.6F;
+                tracers = 2;
+                tracerFadeOffset = 20;
+                keepVelocity = true;
+                tracerSpacing = 10f;
+                tracerUpdateSpacing *= 1.25f;
+                removeAfterPierce = false;
+                hitColor = backColor = lightColor = lightningColor = HIPal.ancient;
+                trailColor = HIPal.ancientLightMid;
+                frontColor = HIPal.ancientLight;
+                width = 18f;
+                height = 60f;
+                homingPower = 0.01f;
+                homingRange = 300f;
+                homingDelay = 5f;
+                hitSound = Sounds.plasmaboom;
+                despawnShake = hitShake = 18f;
+                statusDuration = 1200f;
+                pierce = pierceArmor = pierceBuilding = true;
+                lightning = 3;
+                lightningLength = 6;
+                lightningLengthRand = 18;
+                lightningDamage = 400;
+                smokeEffect = EffectWrapper.wrap(HIFx.hitSparkHuge, hitColor);
+                shootEffect = HIFx.instShoot(backColor, frontColor);
+                despawnEffect = HIFx.lightningHitLarge;
+                hitEffect = new MultiEffect(HIFx.hitSpark(backColor, 75f, 24, 90f, 2f, 12f), HIFx.square45_6_45, HIFx.lineCircleOut(backColor, 18f, 20, 2), HIFx.sharpBlast(backColor, frontColor, 120f, 40f));
+            }
+                @Override
+                public void createFrags(Bullet b, float x, float y){
+                    super.createFrags(b, x, y);
+                    HIBullets.nuBlackHole.create(b, x, y, 0);
+                }
+            };
+            drawer = new DrawTurret(){{parts.add(new RegionPart("-barrel"){{
+                outline = true;
+                moveY = -5f;
+                progress = PartProgress.recoil;
+            }});
+            }};
+            consumePowerCond(680f, TurretBuild::isActive);
+            consumeLiquid(HILiquids.nanofluid, 0.9f);
+        }};
+        dawn = new PowerTurret("dawn"){{
+            requirements(Category.turret, with(Items.lead, 15000, Items.surgeAlloy, 6000, Items.phaseFabric, 3000, HIItems.nanocore, 3000, HIItems.heavyAlloy, 8000));
+            size = 16;
+            health = 860000;
+            armor = 110f;
+            range = 1200f;
+            heatColor = Pal.techBlue;
+            shake = 80f;
+            shootSound = Sounds.laserblast;
+            shootCone = 5f;
+            inaccuracy = 0;
+            reload = 600f;
+            shootType = HIBullets.arc9000hyper;
+            shootEffect = new Effect(120f, 2000f, e -> {
+                float scl = 1f, chargeCircleFrontRad = 12f;
+                if(e.data instanceof Float f) scl *= f;
+                Draw.color(heatColor, Color.white, e.fout() * 0.25f);
+
+                float rand = Mathf.randomSeed(e.id, 60f);
+                float extend = Mathf.curve(e.fin(Interp.pow10Out), 0.075f, 1f) * scl;
+                float rot = e.fout(Interp.pow10In);
+
+                for(int i : Mathf.signs){
+                    Drawn.tri(e.x, e.y, chargeCircleFrontRad * 1.2f * e.foutpowdown() * scl,200 + 500 * extend, e.rotation + (90 + rand) * rot + 90 * i - 45);
+                }
+
+                for(int i : Mathf.signs){
+                    Drawn.tri(e.x, e.y, chargeCircleFrontRad * 1.2f * e.foutpowdown() * scl,200 + 500 * extend, e.rotation + (90 + rand) * rot + 90 * i + 45);
+                }
+            });
+            smokeEffect = new Effect(50, e -> {
+                Draw.color(heatColor);
+                Lines.stroke(e.fout() * 5f);
+                Lines.circle(e.x, e.y, e.fin() * 300);
+                Lines.stroke(e.fout() * 3f);
+                Lines.circle(e.x, e.y, e.fin() * 180);
+                Lines.stroke(e.fout() * 3.2f);
+                Angles.randLenVectors(e.id, 30, 18 + 80 * e.fin(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 5));
+                Draw.color(Color.white);
+                Drawf.light(e.x, e.y, e.fout() * 120, heatColor, 0.7f);
+            });
+            drawer = new DrawTurret(){{parts.addAll(new ArcCharge(){{
+                progress = PartProgress.smoothReload.inv().curve(Interp.pow5Out);
+                color = Pal.techBlue;
+                chargeY = t -> -35f;
+                shootY = t -> 90 * curve.apply(1 - t.smoothReload);
+            }});
+            }};
+            rotateSpeed = 1.2f;
+            canOverdrive = false;
+            consumePowerCond(760f, TurretBuild::isActive);
+            consumeLiquid(Liquids.cryofluid, 1.2f);
+        }};
         //turrets-erekir
         rupture = new ItemTurret("rupture"){{
             requirements(Category.turret, with(Items.graphite, 360, Items.silicon, 250, Items.beryllium, 380, Items.tungsten, 180, Items.oxide, 45));
@@ -3703,56 +3945,47 @@ public class HIBlocks {
                     return super.dump(item);
                 }
             };
-        }
-            @Override
-            public void unlock() {}
-        };
+        }};
         reinforcedLiquidSource = new LiquidSource("reinforced-liquid-source"){{
             requirements(Category.liquid, BuildVisibility.sandboxOnly, with());
             health = 1000;
-        }
-            @Override
-            public void unlock() {}
-        };
+        }};
         reinforcedPowerSource = new PowerSource("reinforced-power-source"){{
             requirements(Category.power, BuildVisibility.sandboxOnly, with());
             health = 1000;
             powerProduction = 10000000f / 60f;
-        }
-            @Override
-            public void unlock() {}
-        };
+        }};
         reinforcedPayloadSource = new AdaptPayloadSource("reinforced-payload-source"){{
             requirements(Category.units, BuildVisibility.sandboxOnly, with());
             size = 5;
             health = 1000;
             placeableLiquid = true;
             floating = true;
-        }
-            @Override
-            public void unlock() {}
-        };
+        }};
+        allSource = new ResourceSource("all-source"){{
+            requirements(Category.distribution, BuildVisibility.sandboxOnly, with());
+            health = 1000;
+        }};
         omniNode = new NodeBridge("omni-node"){{
             requirements(Category.distribution, BuildVisibility.sandboxOnly, with());
             range = 35;
             hasPower = false;
             hasLiquids = true;
             hasItems = true;
+            liquidCapacity = 100f;
+            itemCapacity = 20;
             outputsLiquid = true;
             transportTime = 1f;
+            squareSprite = false;
         }};
-        errorTurret = new PlatformTurret("error-turret"){{
-            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
+        teamChanger = new CoreBlock("team-changer"){{
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with());
+            size = 3;
             health = 1000;
-            size = 5;
-            range = 1200f;
-            canOverdrive = false;
-            shake = 80f;
-            shootSound = Sounds.laserblast;
-            shootCone = 5f;
-            reload = 600f;
-            shootType = HIBullets.arc9000hyper;
-            buildType = () -> new PlatformTurretBuild(){
+            itemCapacity = 10000;
+            unitCapModifier = 1;
+            configurable = true;
+            buildType = () -> new CoreBuild(){
                 @Override
                 public void damage(float damage) {}
 
@@ -3760,47 +3993,81 @@ public class HIBlocks {
                 public float handleDamage(float amount) {
                     return 0f;
                 }
-            };
-        }
-            @Override
-            public void unlock() {}
-        };
-        envErrorTurret = new PlatformTurret("env-error-turret"){{
-            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
-            health = 1000;
-            size = 5;
-            range = 900f;
-            canOverdrive = false;
-            shootSound = Sounds.none;
-            shootCone = 5f;
-            reload = 800f;
-            shootType = HIBullets.collapse;
-            buildType = () -> new PlatformTurretBuild(){
+
                 @Override
-                protected void shoot(BulletType type){
-                    //TODO Generate a bullet at the target point.
-                    float bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY), bulletY = y + Angles.trnsy(rotation - 90, shootX, shootY);
-
-                    shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
-
-                    Tmp.v6.set(targetPos.x, targetPos.y).sub(this);
-                    Tmp.v1.set(targetPos.x, targetPos.y).sub(this).nor().scl(Math.min(Tmp.v6.len(), range)).add(this);
-
-                    Bullet b = shootType.create(this, team, Tmp.v1.x, Tmp.v1.y, 0);
-                    b.vel.setZero();
-                    b.set(Tmp.v1);
-
-                    if(headless)return;
-                    Vec2 vec2 = new Vec2().trns(rotation, y).add(this);
-                    PosLightning.createEffect(vec2, b, HIPal.thurmixRed, 3, 2.5f);
-                    for(int i = 0; i < 5; i++){
-                        Time.run(i * 6f, () -> HIFx.chainLightningFade.at(vec2.x, vec2.y, Mathf.random(8, 14), HIPal.thurmixRed, b));
+                public void buildConfiguration(Table table) {
+                    ButtonGroup<ImageButton> g = new ButtonGroup<>();
+                    Table cont = new Table();
+                    cont.defaults().size(55);
+                    int i = 0;
+                    for(; i < AdaptPayloadSource.teams.length; i++){
+                        Team team1 = AdaptPayloadSource.teams[i];
+                        ImageButton button = cont.button(((TextureRegionDrawable)Tex.whiteui).tint(team1.color), Styles.clearTogglei, 35, () -> {}).group(g).get();
+                        button.changed(() -> {
+                            if(button.isChecked()) {
+                                if(player.team() == team){
+                                    configure(team1.id);
+                                } else deselect();
+                            }
+                        });
+                        button.update(() -> button.setChecked(team == team1));
                     }
-
-                    shootType.shootEffect.at(bulletX, bulletY, rotation);
-                    shootType.smokeEffect.at(bulletX, bulletY, rotation);
+                    ScrollPane pane = new ScrollPane(cont, Styles.smallPane);
+                    pane.setScrollingDisabled(true, false);
+                    pane.setOverscroll(false, false);
+                    table.add(pane).maxHeight(Scl.scl(40 * 2)).left();
+                    table.row();
                 }
 
+                @Override
+                public void configured(Unit builder, Object value) {
+                    if (builder != null && builder.isPlayer() && value instanceof Integer v) {
+                        Team t = Team.get(v);
+                        builder.team = t;
+                        builder.getPlayer().team(t);
+
+                        onRemoved();
+                        team = t;
+                        onProximityUpdate();
+                    }
+                }
+            };
+        }
+            @Override
+            public boolean canBreak(Tile tile) {
+                return state.teams.cores(tile.team()).size > 1;
+            }
+
+            @Override
+            public boolean canReplace(Block other) {
+                return other.alwaysReplace;
+            }
+
+            @Override
+            public boolean canPlaceOn(Tile tile, Team team, int rotation) {
+                return true;
+            }
+
+            @Override
+            public void placeBegan(Tile tile, Block previous) {}
+
+            @Override
+            public void beforePlaceBegan(Tile tile, Block previous) {}
+
+            @Override
+            public void drawPlace(int x, int y, int rotation, boolean valid) {}
+
+            @Override
+            protected TextureRegion[] icons() {
+                return teamRegion.found() ? new TextureRegion[]{region, teamRegions[Team.sharded.id]} : new TextureRegion[]{region};
+            }
+        };
+        barrierProjector = new BaseShield("barrier-projector"){{
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with());
+            size = 2;
+            hasPower = false;
+            radius = 300f;
+            buildType = () -> new BaseShieldBuild(){
                 @Override
                 public void damage(float damage) {}
 
@@ -3809,15 +4076,11 @@ public class HIBlocks {
                     return 0f;
                 }
             };
-        }
-            @Override
-            public void unlock() {}
-        };
+        }};
         invincibleWall = new Wall("invincible-wall"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with());
             health = 1000;
             size = 1;
-            chanceDeflect = Float.MAX_VALUE;
             absorbLasers = insulated = true;
             unlocked = false;
             buildType = () -> new WallBuild(){
@@ -3829,15 +4092,11 @@ public class HIBlocks {
                     return 0f;
                 }
             };
-        }
-            @Override
-            public void unlock() {}
-        };
+        }};
         invincibleWallLarge = new Wall("invincible-wall-large"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with());
-            health = 1000;
+            health = 4000;
             size = 2;
-            chanceDeflect = Float.MAX_VALUE;
             absorbLasers = insulated = true;
             unlocked = false;
             buildType = () -> new WallBuild(){
@@ -3849,15 +4108,11 @@ public class HIBlocks {
                     return 0f;
                 }
             };
-        }
-            @Override
-            public void unlock() {}
-        };
+        }};
         invincibleWallHuge = new Wall("invincible-wall-huge"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with());
-            health = 1000;
+            health = 9000;
             size = 3;
-            chanceDeflect = Float.MAX_VALUE;
             absorbLasers = insulated = true;
             unlocked = false;
             buildType = () -> new WallBuild(){
@@ -3869,9 +4124,23 @@ public class HIBlocks {
                     return 0f;
                 }
             };
-        }
-            @Override
-            public void unlock() {}
-        };
+        }};
+        invincibleRefractionWallHuge = new Wall("invincible-refraction-wall-huge"){{
+            requirements(Category.defense, BuildVisibility.sandboxOnly, with());
+            health = 9000;
+            size = 3;
+            absorbLasers = insulated = true;
+            chanceDeflect = Float.MAX_VALUE;
+            unlocked = false;
+            buildType = () -> new WallBuild(){
+                @Override
+                public void damage(float damage) {}
+
+                @Override
+                public float handleDamage(float amount) {
+                    return 0f;
+                }
+            };
+        }};
     }
 }

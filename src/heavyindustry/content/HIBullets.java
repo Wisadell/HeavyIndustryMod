@@ -46,7 +46,7 @@ public class HIBullets {
             damage = 500;
             splashDamage = 600f;
             lightningDamage = 200f;
-            lightColor = lightningColor = trailColor = hitColor = Pal.techBlue;
+            lightColor = lightningColor = trailColor = hitColor = HIPal.ancient;
             lightning = 5;
             lightningLength = 12;
             lightningLengthRand = 16;
@@ -95,16 +95,16 @@ public class HIBullets {
                 createSplashDamage(b, x, y);
 
                 for(int i = 0; i < lightning; i++){
-                    Lightning.create(b, lightColor, lightningDamage < 0 ? damage : lightningDamage, b.x, b.y, b.rotation() + Mathf.range(lightningCone/2) + lightningAngle, lightningLength + Mathf.random(lightningLengthRand));
+                    Lightning.create(b, lightColor, lightningDamage < 0 ? damage : lightningDamage, b.x, b.y, b.rotation() + Mathf.range(lightningCone / 2) + lightningAngle, lightningLength + Mathf.random(lightningLengthRand));
                 }
             }
         };
-        ncBlackHole = new EffectBulletType(120f, 1200f, 2200f){{
+        ncBlackHole = new EffectBulletType(120f, 10000f, 3800f){{
             despawnHit = true;
             splashDamageRadius = 240;
 
-            lightColor = Pal.techBlue;
-            lightningDamage = 600f;
+            lightColor = HIPal.ancient;
+            lightningDamage = 2000f;
             lightning = 2;
             lightningLength = 4;
             lightningLengthRand = 8;
@@ -137,7 +137,7 @@ public class HIBullets {
                 }
 
                 if(target instanceof Unit){
-                    if(((Unit)target).health > 1000)HIBullets.hitter.create(o, team, x, y, 0);
+                    if(((Unit)target).health > 1000) HIBullets.hitter.create(o, team, x, y, 0);
                 }
             }
 
@@ -198,12 +198,12 @@ public class HIBullets {
                 HIFx.circleOut.at(b.x, b.y, fdata * 1.25f, lightColor);
             }
         };
-        nuBlackHole = new EffectBulletType(20f, 1000f, 0f){{
+        nuBlackHole = new EffectBulletType(20f, 10000f, 0f){{
             despawnHit = true;
             splashDamageRadius = 36;
 
-            lightColor = hitColor = Pal.techBlue;
-            lightningDamage = 40f;
+            lightColor = hitColor = HIPal.ancient;
+            lightningDamage = 2000f;
             lightning = 2;
             lightningLength = 4;
             lightningLengthRand = 8;

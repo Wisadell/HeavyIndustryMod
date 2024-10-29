@@ -11,10 +11,10 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.content.*;
-import mindustry.game.Team;
+import mindustry.game.*;
 import mindustry.graphics.g3d.*;
 import mindustry.type.*;
-import mindustry.world.meta.Env;
+import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;

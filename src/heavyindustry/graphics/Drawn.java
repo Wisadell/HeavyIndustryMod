@@ -107,6 +107,14 @@ public class Drawn {
         Fill.tri(x + wx, y + wy, x - wx, y - wy, Angles.trnsx(angle, length) + x, Angles.trnsy(angle, length) + y);
     }
 
+    public static void arrow(float x, float y, float width, float length, float backLength, float angle){
+        float wx = Angles.trnsx(angle + 90, width), wy = Angles.trnsy(angle + 90, width);
+        float ox = Angles.trnsx(angle, backLength), oy = Angles.trnsy(angle, backLength);
+        float cx = Angles.trnsx(angle, length) + x, cy = Angles.trnsy(angle, length) + y;
+        Fill.tri(x + ox, y + oy, x - wx, y - wy, cx, cy);
+        Fill.tri(x + wx, y + wy, x + ox, y + oy, cx, cy);
+    }
+
     public static void surround(long id, float x, float y, float rad, int num, float innerSize, float outerSize, float interp){
         Rand rand = HIFx.rand0;
 
@@ -154,6 +162,25 @@ public class Drawn {
         (in ? HIFx.chainLightningFadeReversed : HIFx.chainLightningFade).at(x, y, lightningPieceLength, color, vec21.cpy());
     }
 
+    public static void teleportUnitNet(Unit before, float x, float y, float angle, Player player){
+        if(net.active() || headless){
+            if(player != null){
+                player.set(x, y);
+                player.snapInterpolation();
+                player.snapSync();
+                player.lastUpdated = player.updateSpacing = 0;
+            }
+            before.set(x, y);
+            before.snapInterpolation();
+            before.snapSync();
+            before.updateSpacing = 0;
+            before.lastUpdated = 0;
+        }else{
+            before.set(x, y);
+        }
+        before.rotation = angle;
+    }
+
     public static void construct(Building t, TextureRegion region, Color color1, Color color2, float rotation, float progress, float alpha, float time){
         construct(t, region, color1, color2, rotation, progress, alpha, time, t.block.size * tilesize - 4f);
     }
@@ -186,9 +213,9 @@ public class Drawn {
 
         for(int i = 0; i < spikes; i++){
             float d = spikeDuration + Mathf.randomSeedRange(seed + i + spikes, durationRnd);
-            float timeOffset = Mathf.randomSeed((seed + i) * 314L, 0f, d);
+            float timeOffset = Mathf.randomSeed((seed + i) * 314l, 0f, d);
             int timeSeed = Mathf.floor((time + timeOffset) / d);
-            float a = angle + Mathf.randomSeed(Math.max(timeSeed, 1) + ((i + seed) * 245L), 360f);
+            float a = angle + Mathf.randomSeed(Math.max(timeSeed, 1) + ((i + seed) * 245l), 360f);
             float fin = ((time + timeOffset) % d) / d;
             float fslope = (0.5f - Math.abs(fin - 0.5f)) * 2f;
             vec31.trns(a + spikeWidth / 2f, radius).add(x, y);

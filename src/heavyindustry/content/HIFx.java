@@ -923,6 +923,43 @@ public class HIFx {
                     Drawn.tri(e.x, e.y, 5.85f * (e.fout() * 3f + 1) / 4 * (e.fout(Interp.pow3In) + 0.5f) / 1.5f, (sizeDiv + randL) * Mathf.curve(e.fin(), 0, 0.05f) * e.fout(Interp.pow3), i * 90 + 45);
                 }
             }),
+            energyUnitBlast = new Effect(150F, 1600f, e -> {
+                float rad = e.rotation;
+                rand.setSeed(e.id);
+
+                Draw.color(Color.white, e.color, e.fin() / 5 + 0.6f);
+                float circleRad = e.fin(Interp.circleOut) * rad;
+                Lines.stroke(12 * e.fout());
+                Lines.circle(e.x, e.y, circleRad);
+
+                e.scaled(120f, i -> {
+                    Fill.circle(i.x, i.y, rad * i.fout() / 2);
+                    Lines.stroke(18 * i.fout());
+                    Lines.circle(i.x, i.y, i.fin(Interp.circleOut) * rad * 1.2f);
+
+                    Angles.randLenVectors(i.id, (int)(rad / 4), rad / 6, rad * (1 + i.fout(Interp.circleOut)) / 2f, (x, y) -> {
+                        float angle = Mathf.angle(x, y);
+                        float width = i.foutpowdown() * rand.random(rad / 8, rad / 10);
+                        float length = rand.random(rad / 2, rad) * i.fout(Interp.circleOut);
+
+                        Draw.color(i.color);
+                        Drawn.tri(i.x + x, i.y + y, width, rad / 8 * i.fout(Interp.circleOut), angle - 180);
+                        Drawn.tri(i.x + x, i.y + y, width, length, angle);
+
+                        Draw.color(Color.black);
+
+                        width *= i.fout();
+
+                        Drawn.tri(i.x + x, i.y + y, width / 2, rad / 8 * i.fout(Interp.circleOut) * 0.9f * i.fout(), angle - 180);
+                        Drawn.tri(i.x + x, i.y + y, width / 2, length / 1.5f * i.fout(), angle);
+                    });
+
+                    Draw.color(Color.black);
+                    Fill.circle(i.x, i.y, rad * i.fout() * 0.375f);
+                });
+
+                Drawf.light(e.x, e.y, rad * e.fout() * 4f * Mathf.curve(e.fin(), 0f, 0.05f), e.color, 0.7f);
+            }).layer(Layer.effect + 0.001f),
             triSpark1 = new Effect(26, e -> {
                 rand.setSeed(e.id);
                 Draw.color(Pal.techBlue, Color.white, e.fin());

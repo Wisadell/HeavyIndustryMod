@@ -12,9 +12,10 @@ import static arc.Core.*;
 
 public class HITeams {
     public static void load() {
+        //TODO It doesn't seem necessary to add a new team anymore.
     }
 
-    private static Team newTeam(int id, String name, Color color) {
+    public static Team newTeam(int id, String name, Color color) {
         Team team = Team.get(id);
         team.name = name;
         team.color.set(color);
