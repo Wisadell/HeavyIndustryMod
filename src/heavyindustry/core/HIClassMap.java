@@ -73,8 +73,6 @@ public class HIClassMap {
         classes.put("GrooveFloor", GrooveFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
         classes.put("SizedVent", TileVent.class);
-        classes.put("StaticSpawner", StaticSpawner.class);
-        classes.put("StaticSpawnerBuild", StaticSpawner.StaticSpawnerBuild.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);
         classes.put("AssignOverdriveBuild", AssignOverdrive.AssignOverdriveBuild.class);
         classes.put("InsulationWall", InsulationWall.class);

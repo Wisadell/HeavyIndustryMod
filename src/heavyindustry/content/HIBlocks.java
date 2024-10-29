@@ -76,9 +76,6 @@ public class HIBlocks {
             mycelium,myceliumSpore,myceliumShrubs,myceliumPine,
             softRareEarth,patternRareEarth,softRareEarthWall,
             oreUranium,oreChromium,
-            //environment-neoplasm
-            bone,boneWall,decayedBoneWall,neoplasm,neoplasmWall,poreHole,
-            neoplasmBoulder,neoplasmAmalgam,nerveProtrusion,
             //wall
             copperWallHuge,copperWallGigantic,titaniumWallHuge,titaniumWallGigantic,armoredWall,armoredWallLarge,armoredWallHuge,armoredWallGigantic,
             uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,shapedWall,
@@ -123,8 +120,6 @@ public class HIBlocks {
             titanReconstructor,experimentalUnitFactory,
             //unit-erekir
             largeUnitRepairTower,seniorAssemblerModule,
-            //unit-neoplasm
-            neoplasmSpawner,
             //logic
             matrixProcessor,hugeLogicDisplay,buffrerdMemoryCell,buffrerdMemoryBank,heatSink,heatFan,heatSinkLarge,
             //turret
@@ -344,38 +339,6 @@ public class HIBlocks {
             oreThreshold = 0.9f;
             oreScale = 20;
         }};
-        //environment-neoplasm
-        bone = new Floor("bone", 4){{
-            wall = boneWall;
-        }};
-        boneWall = new StaticWall("bone-wall"){{
-            variants = 2;
-        }};
-        decayedBoneWall = new StaticWall("decayed-bone-wall"){{
-            variants = 2;
-        }};
-        neoplasm = new Floor("neoplasm", 4);
-        neoplasmWall = new StaticWall("neoplasm-wall"){{
-            variants = 2;
-        }};
-        poreHole = new SteamVent("pore-hole"){{
-            variants = 3;
-            parent = blendGroup = neoplasm;
-            attributes.set(Attribute.steam, 1f);
-            effectSpacing = 100f;
-            effectColor = Color.valueOf("a69780");
-        }};
-        neoplasmBoulder = new TallTreeBlock("neoplasm-boulder"){{
-            variants = 3;
-            clipSize = 192f;
-            shadowOffset = -0.9f;
-        }};
-        neoplasmAmalgam = new TallTreeBlock("neoplasm-amalgam"){{
-            variants = 4;
-            clipSize = 192f;
-            shadowOffset = -1.1f;
-        }};
-        nerveProtrusion = new TallTreeBlock("nerve-protrusion");
         //wall
         copperWallHuge = new Wall("copper-wall-huge"){{
             requirements(Category.defense, with(Items.copper, 54));
@@ -2248,21 +2211,6 @@ public class HIBlocks {
             regionSuffix = "-dark";
             researchCostMultiplier = 0.75f;
             consumePower(5.5f);
-        }};
-        //unit-neoplasm
-        neoplasmSpawner = new StaticSpawner("neoplasm-spawner"){{
-            requirements(Category.units, BuildVisibility.sandboxOnly, with());
-            health = 1000;
-            size = 8;
-            spawnAmount = 3;
-            effect = new ParticleEffect(){{
-                particles = 8;
-                length = 32f;
-                sizeFrom = 8f;
-                sizeTo = 0f;
-                colorFrom = Pal.neoplasm1;
-                colorTo = Pal.neoplasmMid;
-            }};
         }};
         //logic
         matrixProcessor = new LogicBlock("matrix-processor"){{
