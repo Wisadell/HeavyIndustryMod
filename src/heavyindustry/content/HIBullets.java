@@ -2,6 +2,7 @@ package heavyindustry.content;
 
 import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
+import heavyindustry.entities.effect.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.math.*;
@@ -29,7 +30,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  */
 public class HIBullets {
     public static BulletType
-            hitter,ncBlackHole,nuBlackHole,
+            hitter,ncBlackHole,nuBlackHole,executor,
             ultFireball,basicSkyFrag,annMissile,
             hyperBlast,hyperBlastLinker,
             arc9000frag,arc9000,arc9000hyper,
@@ -309,6 +310,43 @@ public class HIBullets {
                 if(Mathf.chanceDelta(fireEffectChance2)){
                     trailEffect2.at(b.x, b.y);
                 }
+            }
+        };
+        executor = new TrailFadeBulletType(28f, 1800f){{
+            lifetime = 40f;
+            trailLength = 90;
+            trailWidth = 3.6F;
+            tracers = 2;
+            tracerFadeOffset = 20;
+            keepVelocity = true;
+            tracerSpacing = 10f;
+            tracerUpdateSpacing *= 1.25f;
+            removeAfterPierce = false;
+            hitColor = backColor = lightColor = lightningColor = HIPal.ancient;
+            trailColor = HIPal.ancientLightMid;
+            frontColor = HIPal.ancientLight;
+            width = 18f;
+            height = 60f;
+            homingPower = 0.01f;
+            homingRange = 300f;
+            homingDelay = 5f;
+            hitSound = Sounds.plasmaboom;
+            despawnShake = hitShake = 18f;
+            statusDuration = 1200f;
+            pierce = pierceArmor = pierceBuilding = true;
+            lightning = 3;
+            lightningLength = 6;
+            lightningLengthRand = 18;
+            lightningDamage = 400;
+            smokeEffect = EffectWrapper.wrap(HIFx.hitSparkHuge, hitColor);
+            shootEffect = HIFx.instShoot(backColor, frontColor);
+            despawnEffect = HIFx.lightningHitLarge;
+            hitEffect = new MultiEffect(HIFx.hitSpark(backColor, 75f, 24, 90f, 2f, 12f), HIFx.square45_6_45, HIFx.lineCircleOut(backColor, 18f, 20, 2), HIFx.sharpBlast(backColor, frontColor, 120f, 40f));
+        }
+            @Override
+            public void createFrags(Bullet b, float x, float y){
+                super.createFrags(b, x, y);
+                HIBullets.nuBlackHole.create(b, x, y, 0);
             }
         };
         basicSkyFrag = new BasicBulletType(3.8f, 50){{

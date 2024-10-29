@@ -2,8 +2,6 @@ package heavyindustry.content;
 
 import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
-import heavyindustry.entities.effect.*;
-import heavyindustry.entities.part.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.world.blocks.environment.*;
@@ -133,12 +131,11 @@ public class HIBlocks {
             //turret
             dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,coilBlaster,dragonBreath,cloudbreaker,minigun,blaze,
             spike,fissure,
-            hurricane,silent,judgement,
-            mystery,executor,dawn,
+            hurricane,judgement,
             //turret-erekir
             rupture,
             //sandbox
-            reinforcedItemSource,reinforcedLiquidSource,reinforcedPowerSource,reinforcedPayloadSource,allSource,
+            reinforcedItemSource,reinforcedLiquidSource,reinforcedPowerSource,reinforcedPayloadSource,
             omniNode,
             teamChanger,barrierProjector,invincibleWall,invincibleWallLarge,invincibleWallHuge,invincibleRefractionWallHuge;
 
@@ -3262,160 +3259,11 @@ public class HIBlocks {
                 hitEffect = HIFx.hitSpark;
                 smokeEffect = Fx.shootBigSmoke2;
             }};
-            drawer = new DrawTurret(){{
-                parts.add(new RegionPart(){{
-                    drawRegion = false;
-                    mirror = true;
-                    moveY = -2.75f;
-                    progress = PartProgress.recoil;
-                    children.add(new RegionPart("-shooter"){{
-                        heatLayerOffset = 0.001f;
-                        heatColor = HIPal.thurmixRed.cpy().a(0.85f);
-                        progress = PartProgress.warmup;
-                        mirror = outline = true;
-                        moveX = 2f;
-                        moveY = 2f;
-                        moveRot = 11.25f;
-                    }});
-                }}, new RegionPart("-up"){{
-                    layerOffset = 0.3f;
-                    turretHeatLayer += layerOffset + 0.1f;
-                    heatColor = HIPal.thurmixRed.cpy().a(0.85f);
-                    outline = false;
-                }});
-            }};
             warmupMaintainTime = 120f;
             rotateSpeed = 3f;
             coolant = new ConsumeCoolant(0.15f);
             consumePowerCond(35f, TurretBuild::isActive);
             canOverdrive = false;
-        }};
-        silent = new PowerTurret("silent"){{
-            requirements(Category.turret, with(Items.lead, 200, Items.graphite, 100, Items.plastanium, 80, Items.surgeAlloy, 50, HIItems.nanocore, 100));
-            health = 3200;
-            velocityRnd = 0.2f;
-            shootType = new BasicBulletType(6.5f, 110f){{
-                scaleLife = true;
-                shootEffect = Fx.shootBig;
-                shrinkX = 0.15f;
-                shrinkY = 0.63f;
-                shrinkInterp = Interp.slope;
-                lifetime = 80f;
-                hitShake = despawnShake = 2f;
-                hitSound = Sounds.none;
-                homingRange = 22f;
-                homingPower = 0.13f;
-                backColor = lightColor = lightningColor = trailColor = hitColor = Pal.techBlue;
-                fragBullets = 1;
-                fragBullet = new ContinuousBulletType(){{
-                    speed = 0f;
-                    lifetime = 120f;
-                    collides = false;
-                    hittable = false;
-                    absorbable = false;
-                    damage = 75f;
-                    buildingDamageMultiplier = 0f;
-                    despawnEffect = hitEffect = Fx.none;
-                    lightningColor = backColor;
-                }
-                    public final float radIncrease = 0.28f, radius = 16f;
-                    public final StatusEffect status = StatusEffects.none;
-                    public final Effect effect = HIFx.triSpark(26f, backColor, Color.white);
-
-                    @Override
-                    public void draw(Bullet b) {
-                        float rad = (float) b.data;
-                        for (int i = 0; i < 2; i++) {
-                            float chance = Mathf.lerp(0.5f, 0.2f, b.time/b.lifetime);
-                            if (Mathf.chance(chance) && state.isPlaying() && b.timer(1, 1)){
-                                float a0 = Mathf.random(360) + b.rotation(), a1 = Mathf.random(360) + b.rotation();
-                                float r0 = Mathf.random(-rad/5, rad/2) + rad, r1 = Mathf.random(-rad/5, rad/2) + rad;
-
-                                Vec2 pos0 = new Vec2(b.x + r0 * Mathf.sinDeg(a0), b.y + r0 * Mathf.cosDeg(a0));
-                                Vec2 pos1 = new Vec2(b.x + r1 * Mathf.sinDeg(a1), b.y + r1 * Mathf.cosDeg(a1));
-
-                                PosLightning.createEffect(pos0, pos1, lightningColor, 1, 2.5f);
-                                effect.at(pos0);
-                                effect.at(pos1);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void init(Bullet b) {
-                        super.init(b);
-                        b.data = radius;
-                    }
-
-                    @Override
-                    public void update(Bullet b) {
-                        super.update(b);
-                        float rad = (float) b.data;
-                        rad += radIncrease;
-                        b.data = rad;
-                        if (b.timer(2, damageInterval)){
-                            Damage.damage(b.team, b.x, b.y, rad * 1.2f, damage * b.damageMultiplier());
-                            Units.nearby(null, b.x, b.y, rad, unit -> {
-                                if (status != StatusEffects.none && unit.team != b.team){
-                                    unit.apply(status, 30f);
-                                }
-                            });
-                        }
-                    }
-                };
-                trailChance = 0.8f;
-                trailEffect = HIFx.triSpark(26f, backColor, Color.white);
-                rangeChange = 45;
-                despawnEffect = Fx.none;
-                hitEffect = new MultiEffect(HIFx.smoothColorCircle(backColor, 100f, 125f, 0.3f), HIFx.circleOut(150f, 100f, 4), HIFx.circleOut(78f, 75f, 2), HIFx.subEffect(130f, 85f, 12, 30f, Interp.pow2Out, ((i, x, y, rot, fin) -> {
-                    float fout = Interp.pow2Out.apply(1 - fin);
-                    float finpow = Interp.pow3Out.apply(fin);
-                    Tmp.v1.trns(rot, 25 * finpow);
-                    Draw.color(backColor);
-                    for(int s : Mathf.signs) {
-                        Drawf.tri(x, y, 14 * fout, 30 * Mathf.curve(finpow, 0, 0.3f) * HIFx.fout(fin, 0.15f), rot + s * 90);
-                    }
-                })));
-            }};
-            reload = 150f;
-            shootY = 10f;
-            rotateSpeed = 2f;
-            shootCone = 15f;
-            consumeAmmoOnce = true;
-            shootSound = HISounds.blaster;
-            drawer = new DrawTurret(){{parts.addAll(new RegionPart("-blade"){{
-                mirror = true;
-                moveX = 1f;
-                moveY = -1.5f;
-                progress = PartProgress.warmup;
-                heatColor = Pal.techBlue;
-                heatLightOpacity = 0.2f;
-            }}, new RegionPart("-barrel"){{
-                moveY = -3f;
-                progress = PartProgress.recoil;
-                heatColor = Pal.techBlue;
-                heatLightOpacity = 0.2f;
-            }}, new RegionPart("-bottom"){{
-                mirror = true;
-                under = true;
-                moveY = -0.8f;
-                moveX = 0.8f;
-                progress = PartProgress.recoil;
-                heatColor = Pal.techBlue;
-                heatLightOpacity = 0.2f;
-            }}, new RegionPart("-upper"){{
-                mirror = true;
-                under = true;
-            }});
-            }};
-            minWarmup = 0.8f;
-            shootWarmupSpeed = 0.08f;
-            scaledHealth = 300;
-            range = 350f;
-            size = 4;
-            shootEffect = HIFx.square(Pal.techBlue, 55f, 12, 60, 6);
-            consumePowerCond(22f, TurretBuild::isActive);
-            coolant = consumeCoolant(0.2f);
         }};
         judgement = new ContinuousTurret("judgement"){{
             requirements(Category.turret, with(Items.silicon, 1200, Items.metaglass, 400, Items.plastanium, 800, Items.surgeAlloy, 650, Items.phaseFabric, 550, HIItems.heavyAlloy, 400));
@@ -3630,216 +3478,6 @@ public class HIBlocks {
             consumePower(16);
             consumeLiquid(HILiquids.nanofluid, 12f / 60f);
         }};
-        mystery = new PowerTurret("mystery"){{
-            requirements(Category.turret, with( Items.silicon, 4000, Items.metaglass, 1500, Items.plastanium, 3000, Items.surgeAlloy, 2000, Items.phaseFabric, 2500, HIItems.chromium, 2200));
-            size = 8;
-            health = 220000;
-            armor = 80f;
-            range = 900f;
-            canOverdrive = false;
-            shootSound = Sounds.none;
-            shootCone = 5f;
-            drawer = new DrawTurret(){
-                public TextureRegion arrowRegion;
-
-                @Override
-                public void draw(Building build) {
-                    super.draw(build);
-                    if (!(build instanceof PowerTurretBuild tb)) return;
-                    float z = Draw.z();
-
-                    Tmp.v1.trns(tb.rotation, tb.y);
-                    float f = 1 - -tb.reloadCounter / reload;
-                    float rad = 12f;
-
-                    float f1 = Mathf.curve(f,  0.4f, 1f);
-                    Draw.z(Layer.bullet);
-                    Draw.color(heatColor);
-                    for(int i : Mathf.signs){
-                        for(int j : Mathf.signs){
-                            Drawn.tri(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, f1 * rad / 3f + Mathf.num(j > 0) * 2f * (f1 + 1) / 2, (rad * 3f + Mathf.num(j > 0) * 20f) * f1, j * Time.time + 90 * i);
-                        }
-                    }
-
-                    Tmp.v6.set(tb.targetPos.x, tb.targetPos.y).sub(tb);
-                    Tmp.v2.set(tb.targetPos.x, tb.targetPos.y).sub(tb).nor().scl(Math.min(Tmp.v6.len(), range)).add(tb);
-
-                    for (int l = 0; l < 4; l++) {
-                        float angle = 45 + 90 * l;
-                        for (int i = 0; i < 4; i++) {
-                            Tmp.v3.trns(angle, (i - 4) * tilesize + tilesize).add(Tmp.v2);
-                            float fS = (100 - (Time.time + 25 * i) % 100) / 100 * f1 / 4;
-                            Draw.rect(arrowRegion, Tmp.v3.x, Tmp.v3.y, arrowRegion.width * fS, arrowRegion.height * fS, angle + 90);
-                        }
-                    }
-
-                    Lines.stroke((1.5f + Mathf.absin( Time.time + 4, 8f, 1.5f)) * f1, heatColor);
-                    Lines.square(Tmp.v2.x, Tmp.v2.y, 4 + Mathf.absin(8f, 4f), 45);
-
-                    Lines.stroke(rad / 2.5f * tb.heat, heatColor);
-                    Lines.circle(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, rad * 2 * (1 - tb.heat));
-
-                    Draw.color(heatColor);
-                    Fill.circle(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, f * rad);
-                    Lines.stroke(f * 1.5f);
-                    Drawn.circlePercentFlip(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, f * rad + 5, Time.time, 20f);
-                    Draw.color(Color.white);
-                    Fill.circle(tb.x + Tmp.v1.x, tb.y + Tmp.v1.y, f * rad * 0.7f);
-
-                    Draw.z(z);
-                    Draw.reset();
-                }
-
-                @Override
-                public void load(Block block) {
-                    super.load(block);
-                    arrowRegion = atlas.find(name("jump-gate-arrow"));
-                }
-            };
-            reload = 800f;
-            rotateSpeed = 100f;
-            shootType = HIBullets.collapse;
-            buildType = () -> new PowerTurretBuild(){
-                @Override
-                protected void shoot(BulletType type){
-                    float bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY), bulletY = y + Angles.trnsy(rotation - 90, shootX, shootY);
-
-                    shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
-
-                    Tmp.v6.set(targetPos.x, targetPos.y).sub(this);
-                    Tmp.v1.set(targetPos.x, targetPos.y).sub(this).nor().scl(Math.min(Tmp.v6.len(), range)).add(this);
-
-                    Bullet b = shootType.create(this, team, Tmp.v1.x, Tmp.v1.y, 0);
-                    b.vel.setZero();
-                    b.set(Tmp.v1);
-
-                    if(headless) return;
-                    Vec2 vec2 = new Vec2().trns(rotation, y).add(this);
-                    PosLightning.createEffect(vec2, b, HIPal.thurmixRed, 3, 2.5f);
-                    for(int i = 0; i < 5; i++){
-                        Time.run(i * 6f, () -> HIFx.chainLightningFade.at(vec2.x, vec2.y, Mathf.random(8, 14), HIPal.thurmixRed, b));
-                    }
-
-                    shootType.shootEffect.at(bulletX, bulletY, rotation);
-                    shootType.smokeEffect.at(bulletX, bulletY, rotation);
-                }
-            };
-            consumePowerCond(220f, TurretBuild::isActive);
-        }};
-        executor = new PowerTurret("executor"){{
-            requirements(Category.turret, with(Items.plastanium, 10000, Items.surgeAlloy, 8000, Items.phaseFabric, 5000, HIItems.nanocore, 2000, HIItems.uranium, 6000, HIItems.chromium, 3000));
-            size = 12;
-            health = 470000;
-            armor = 90f;
-            range = 1100f;
-            rotateSpeed = 1.1f;
-            reload = 90f;
-            inaccuracy = 1.5f;
-            velocityRnd = 0.075f;
-            shootSound = HISounds.flak;
-            shoot = new ShootBarrel(){{
-                shots = 2;
-                barrels = new float[]{-20f, 0f, 0f, 20f, 0f, 0f};
-            }};
-            shootType = new TrailFadeBulletType(28f, 1800f){{
-                lifetime = 40f;
-                trailLength = 90;
-                trailWidth = 3.6F;
-                tracers = 2;
-                tracerFadeOffset = 20;
-                keepVelocity = true;
-                tracerSpacing = 10f;
-                tracerUpdateSpacing *= 1.25f;
-                removeAfterPierce = false;
-                hitColor = backColor = lightColor = lightningColor = HIPal.ancient;
-                trailColor = HIPal.ancientLightMid;
-                frontColor = HIPal.ancientLight;
-                width = 18f;
-                height = 60f;
-                homingPower = 0.01f;
-                homingRange = 300f;
-                homingDelay = 5f;
-                hitSound = Sounds.plasmaboom;
-                despawnShake = hitShake = 18f;
-                statusDuration = 1200f;
-                pierce = pierceArmor = pierceBuilding = true;
-                lightning = 3;
-                lightningLength = 6;
-                lightningLengthRand = 18;
-                lightningDamage = 400;
-                smokeEffect = EffectWrapper.wrap(HIFx.hitSparkHuge, hitColor);
-                shootEffect = HIFx.instShoot(backColor, frontColor);
-                despawnEffect = HIFx.lightningHitLarge;
-                hitEffect = new MultiEffect(HIFx.hitSpark(backColor, 75f, 24, 90f, 2f, 12f), HIFx.square45_6_45, HIFx.lineCircleOut(backColor, 18f, 20, 2), HIFx.sharpBlast(backColor, frontColor, 120f, 40f));
-            }
-                @Override
-                public void createFrags(Bullet b, float x, float y){
-                    super.createFrags(b, x, y);
-                    HIBullets.nuBlackHole.create(b, x, y, 0);
-                }
-            };
-            drawer = new DrawTurret(){{parts.add(new RegionPart("-barrel"){{
-                outline = true;
-                moveY = -5f;
-                progress = PartProgress.recoil;
-            }});
-            }};
-            consumePowerCond(680f, TurretBuild::isActive);
-            consumeLiquid(HILiquids.nanofluid, 0.9f);
-        }};
-        dawn = new PowerTurret("dawn"){{
-            requirements(Category.turret, with(Items.lead, 15000, Items.surgeAlloy, 6000, Items.phaseFabric, 3000, HIItems.nanocore, 3000, HIItems.heavyAlloy, 8000));
-            size = 16;
-            health = 860000;
-            armor = 110f;
-            range = 1200f;
-            heatColor = Pal.techBlue;
-            shake = 80f;
-            shootSound = Sounds.laserblast;
-            shootCone = 5f;
-            inaccuracy = 0;
-            reload = 600f;
-            shootType = HIBullets.arc9000hyper;
-            shootEffect = new Effect(120f, 2000f, e -> {
-                float scl = 1f, chargeCircleFrontRad = 12f;
-                if(e.data instanceof Float f) scl *= f;
-                Draw.color(heatColor, Color.white, e.fout() * 0.25f);
-
-                float rand = Mathf.randomSeed(e.id, 60f);
-                float extend = Mathf.curve(e.fin(Interp.pow10Out), 0.075f, 1f) * scl;
-                float rot = e.fout(Interp.pow10In);
-
-                for(int i : Mathf.signs){
-                    Drawn.tri(e.x, e.y, chargeCircleFrontRad * 1.2f * e.foutpowdown() * scl,200 + 500 * extend, e.rotation + (90 + rand) * rot + 90 * i - 45);
-                }
-
-                for(int i : Mathf.signs){
-                    Drawn.tri(e.x, e.y, chargeCircleFrontRad * 1.2f * e.foutpowdown() * scl,200 + 500 * extend, e.rotation + (90 + rand) * rot + 90 * i + 45);
-                }
-            });
-            smokeEffect = new Effect(50, e -> {
-                Draw.color(heatColor);
-                Lines.stroke(e.fout() * 5f);
-                Lines.circle(e.x, e.y, e.fin() * 300);
-                Lines.stroke(e.fout() * 3f);
-                Lines.circle(e.x, e.y, e.fin() * 180);
-                Lines.stroke(e.fout() * 3.2f);
-                Angles.randLenVectors(e.id, 30, 18 + 80 * e.fin(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 5));
-                Draw.color(Color.white);
-                Drawf.light(e.x, e.y, e.fout() * 120, heatColor, 0.7f);
-            });
-            drawer = new DrawTurret(){{parts.addAll(new ArcCharge(){{
-                progress = PartProgress.smoothReload.inv().curve(Interp.pow5Out);
-                color = Pal.techBlue;
-                chargeY = t -> -35f;
-                shootY = t -> 90 * curve.apply(1 - t.smoothReload);
-            }});
-            }};
-            rotateSpeed = 1.2f;
-            canOverdrive = false;
-            consumePowerCond(760f, TurretBuild::isActive);
-            consumeLiquid(Liquids.cryofluid, 1.2f);
-        }};
         //turrets-erekir
         rupture = new ItemTurret("rupture"){{
             requirements(Category.turret, with(Items.graphite, 360, Items.silicon, 250, Items.beryllium, 380, Items.tungsten, 180, Items.oxide, 45));
@@ -3961,10 +3599,6 @@ public class HIBlocks {
             health = 1000;
             placeableLiquid = true;
             floating = true;
-        }};
-        allSource = new ResourceSource("all-source"){{
-            requirements(Category.distribution, BuildVisibility.sandboxOnly, with());
-            health = 1000;
         }};
         omniNode = new NodeBridge("omni-node"){{
             requirements(Category.distribution, BuildVisibility.sandboxOnly, with());

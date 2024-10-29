@@ -15,7 +15,6 @@ import heavyindustry.world.blocks.heat.*;
 import heavyindustry.world.blocks.liquid.*;
 import heavyindustry.world.blocks.logic.*;
 import heavyindustry.world.blocks.payload.*;
-import heavyindustry.world.blocks.sandbox.*;
 import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.blocks.power.*;
 import heavyindustry.world.blocks.production.*;
@@ -203,8 +202,6 @@ public class HIClassMap {
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
         classes.put("CoreStorageBlock", CoreStorageBlock.class);
         classes.put("CoreStorageBuild", CoreStorageBlock.CoreStorageBuild.class);
-        classes.put("ResourceSource", ResourceSource.class);
-        classes.put("ResourceSourceBuild", ResourceSource.ResourceSourceBuild.class);
         //consume
         classes.put("ConsumeItemDynamicF", ConsumeItemDynamicF.class);
         classes.put("ConsumeLiquidDynamicF", ConsumeLiquidDynamicF.class);

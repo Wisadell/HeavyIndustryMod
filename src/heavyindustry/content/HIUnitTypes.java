@@ -2458,6 +2458,7 @@ public class HIUnitTypes {
             crashDamageMultiplier = Mathf.clamp(hitSize / 10f, 1, 10);
             buildBeamOffset = 0;
             aiController = SniperAI::new;
+            hidden = true;
         }
             public Effect slopeEffect = HIFx.boolSelector;
 
