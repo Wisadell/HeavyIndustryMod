@@ -19,9 +19,9 @@ import static mindustry.Vars.*;
 public class RegenWall extends Wall {
     private static final IntSet taken = new IntSet();
     private static final IntFloatMap mendMap = new IntFloatMap();
-    private static long lastUpdateFrame = -1;
+    private static long lastUpdateFrame = -1l;
 
-    //per frame
+    /** per frame. */
     public float healPercent = 12f / 60f;
     /** Chance of wall to heal itself on collision. -1 to disable. */
     public float chanceHeal = -1f;

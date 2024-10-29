@@ -17,7 +17,7 @@ import mindustry.world.blocks.storage.*;
 import static mindustry.Vars.*;
 
 public class AdaptPayloadSource extends PayloadSource {
-    protected static final Team[] teams = new Team[]{Team.derelict, Team.sharded, Team.crux, Team.green, Team.malis, Team.blue};
+    public static final Team[] teams = new Team[]{Team.derelict, Team.sharded, Team.crux, Team.green, Team.malis, Team.blue};
 
     public AdaptPayloadSource(String name) {
         super(name);
