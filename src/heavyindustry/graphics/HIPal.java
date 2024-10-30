@@ -8,6 +8,7 @@ import mindustry.graphics.*;
 public class HIPal {
     /** Static read-only palettes that are used throughout the mod. */
     public static final Color
+            miku = Color.valueOf("39c5bb"),
             nanocoreGreen = HIItems.nanocore.color,
             nanocoreErekirOrange = HIItems.nanocoreErekir.color,
             uraniumGrey = HIItems.uranium.color,
