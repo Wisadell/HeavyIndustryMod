@@ -19,8 +19,26 @@ import static mindustry.content.StatusEffects.*;
  * @author Wisadell
  */
 public class HIStatusEffects {
-    public static StatusEffect regenerating,breached,flamePoint,ultFireBurn;
+    public static StatusEffect
+            overheat,regenerating,breached,flamePoint,ultFireBurn,
+            territoryFieldIncrease,territoryFieldSuppress;
     public static void load(){
+        overheat = new StatusEffect("overheat"){{
+            color = Color.valueOf("ffdcd8");
+            disarm = true;
+            dragMultiplier = 1f;
+            speedMultiplier = 0.5f;
+            damage = 5f;
+            effectChance = 0.35f;
+            effect = new ParticleEffect(){{
+                lifetime = 30;
+                length = 16;
+                sizeFrom = 3;
+                sizeTo = 0;
+                colorFrom = Color.valueOf("ff5845");
+                colorTo = color;
+            }};
+        }};
         regenerating = new StatusEffect("regenerating"){{
             color = Color.valueOf("97ffa8");
             damage = -4;
@@ -81,6 +99,23 @@ public class HIStatusEffects {
             damage = 1.5f;
             speedMultiplier = 1.2f;
             effect = HIFx.ultFireBurn;
+        }};
+        territoryFieldIncrease = new StatusEffect("territory-field-increase"){{
+            color = Color.valueOf("ea8878");
+            buildSpeedMultiplier = 2;
+            speedMultiplier = 1.3f;
+            reloadMultiplier = 2;
+            damage = -0.2f;
+            effectChance = 0.07f;
+            effect = Fx.overclocked;
+        }};
+        territoryFieldSuppress = new StatusEffect("territory-field-suppress"){{
+            color = Color.valueOf("8b9bb4");
+            speedMultiplier = 0.4f;
+            reloadMultiplier = 0.5f;
+            damage = 15/60f;
+            effectChance = 0.07f;
+            effect = Fx.overclocked;
         }};
     }
 }

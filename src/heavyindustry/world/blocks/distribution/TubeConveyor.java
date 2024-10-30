@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.distribution;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
@@ -11,6 +10,7 @@ import mindustry.type.*;
 import mindustry.world.blocks.distribution.*;
 
 import static heavyindustry.util.HIUtils.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -44,7 +44,7 @@ public class TubeConveyor extends BeltConveyor {
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{Core.atlas.find(name + "-editor")};
+        return new TextureRegion[]{atlas.find(name + "-editor")};
     }
 
     @Override
@@ -117,14 +117,14 @@ public class TubeConveyor extends BeltConveyor {
                     int dir = rotation - i;
                     float rot = i == 0 ? rotation * 90 : (dir) * 90;
 
-                    Draw.rect(sliced(conveyorAtlas[0][frame], i != 0 ? SliceMode.bottom : SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot);
+                    Draw.rect(sliced(conveyorAtlas[frame][0], i != 0 ? SliceMode.bottom : SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot);
                     Draw.rect(sliced(topRegion[0][frame], i != 0 ? SliceMode.bottom : SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot);
                 }
             }
 
             Draw.z(Layer.block - 0.25f);
 
-            Draw.rect(conveyorAtlas[blendbits][frame], x, y, tilesize * blendsclx, tilesize * blendscly, rotation * 90);
+            Draw.rect(conveyorAtlas[frame][blendbits], x, y, tilesize * blendsclx, tilesize * blendscly, rotation * 90);
 
             Draw.z(Layer.block - 0.2f);
             float layer = Layer.block - 0.2f, wwidth = world.unitWidth(), wheight = world.unitHeight(), scaling = 0.01f;

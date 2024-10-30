@@ -35,6 +35,8 @@ public class HeavyIndustryMod extends Mod {
 
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
 
+    public static Mods.LoadedMod modInfo;
+
     public HeavyIndustryMod(){
         Log.info("Loaded HeavyIndustry Mod constructor.");
 
@@ -81,8 +83,12 @@ public class HeavyIndustryMod extends Mod {
 
     @Override
     public void loadContent(){
+        modInfo = mods.getMod(HeavyIndustryMod.class);
+
         HIRegister.load();
+
         if(onlyPlugIn) return;
+
         HITeams.load();
         HIItems.load();
         HIStatusEffects.load();

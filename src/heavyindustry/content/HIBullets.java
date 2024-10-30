@@ -39,13 +39,13 @@ public class HIBullets {
 
     @SuppressWarnings("unchecked")
     public static void load(){
-        hitter = new EffectBulletType(15f){{
+        hitter = new EffectBulletType(15f, 500f, 600f){{
             speed = 0;
+
+            hittable = false;
 
             scaledSplashDamage = true;
             collidesTiles = collidesGround = collides = collidesAir = true;
-            damage = 500;
-            splashDamage = 600f;
             lightningDamage = 200f;
             lightColor = lightningColor = trailColor = hitColor = HIPal.ancient;
             lightning = 5;
@@ -103,6 +103,8 @@ public class HIBullets {
         ncBlackHole = new EffectBulletType(120f, 10000f, 3800f){{
             despawnHit = true;
             splashDamageRadius = 240;
+
+            hittable = false;
 
             lightColor = HIPal.ancient;
             lightningDamage = 2000f;
@@ -202,6 +204,8 @@ public class HIBullets {
         nuBlackHole = new EffectBulletType(20f, 10000f, 0f){{
             despawnHit = true;
             splashDamageRadius = 36;
+
+            hittable = false;
 
             lightColor = hitColor = HIPal.ancient;
             lightningDamage = 2000f;

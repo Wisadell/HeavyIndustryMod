@@ -35,6 +35,7 @@ import mindustry.entities.pattern.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.net.*;
 import mindustry.type.*;
 import mindustry.ui.Styles;
 import mindustry.world.*;
@@ -67,7 +68,7 @@ public class HIBlocks {
     public static Block
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
-            stoneVent,basaltVent,shaleVent,basaltWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
+            stoneVent,basaltVent,shaleVent,basaltWall,pyratiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
             labFloor,labFloorDark,
             brine,nanofluid,
             stoneWater,shaleWater,basaltWater,darkWater,deepDarkWater,mudDarkWater,
@@ -87,7 +88,7 @@ public class HIBlocks {
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,minerPoint,minerCenter,
             //distribution
-            invertedJunction,itemLiquidJunction,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
+            invertedJunction,itemLiquidJunction,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumTubeDistributor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             phaseItemNode,rapidDirectionalUnloader,
             //distribution-erekir
             ductJunction,armoredDuctBridge,rapidDuctUnloader,
@@ -130,8 +131,10 @@ public class HIBlocks {
             rupture,
             //sandbox
             reinforcedItemSource,reinforcedLiquidSource,reinforcedPowerSource,reinforcedPayloadSource,
-            omniNode,
-            teamChanger,barrierProjector,invincibleWall,invincibleWallLarge,invincibleWallHuge,invincibleRefractionWallHuge;
+            omniNode,ultraAssignOverdrive,
+            teamChanger,barrierProjector,invincibleWall,invincibleWallLarge,invincibleWallHuge,invincibleRefractionWallHuge,
+            mustDieTurret,oneShotTurret,pointTurret,
+            nextWave;
 
     public static void load(){
         //environment
@@ -160,6 +163,11 @@ public class HIBlocks {
             variants = 3;
             attributes.set(Attribute.sand, 0.7f);
             ((Floor) Blocks.basalt).wall = this;
+        }};
+        pyratiteWall = new StaticWall("pyratite-wall"){{
+            itemDrop = Items.pyratite;
+            variants = 3;
+            attributes.set(Attribute.sand, 0.7f);
         }};
         snowySand = new Floor("snowy-sand", 3){{
             itemDrop = Items.sand;
@@ -678,10 +686,12 @@ public class HIBlocks {
             @Override
             public float getMineSpeedHardnessMul(Item item) {
                 if (item == null) return 0f;
-                if (item.hardness == 0) return 2f;
-                if (item.hardness <= 3) return 5f / 3;
-                if (item.hardness <= 6) return 4f / 3;
-                return 1f;
+                return switch (item.hardness) {
+                    case 0 -> 2f;
+                    case 1, 2, 3 -> 5f / 3;
+                    case 4, 5, 6 -> 4f / 3;
+                    default -> 1f;
+                };
             }
         };
         beamDrill = new LaserBeamDrill("beam-drill"){{
@@ -823,6 +833,24 @@ public class HIBlocks {
             speed = 0.18f;
             displayedSpeed = 18;
             noSideBlend = true;
+        }};
+        chromiumTubeConveyor = new TubeConveyor("chromium-tube-conveyor"){{
+            requirements(Category.distribution, with(Items.metaglass, 2, Items.thorium, 1, Items.plastanium, 1, HIItems.chromium, 2));
+            health = 670;
+            armor = 5f;
+            speed = 0.18f;
+            displayedSpeed = 18;
+            noSideBlend = true;
+            placeableLiquid = true;
+            displayFlow = true;
+        }};
+        chromiumTubeDistributor = new TubeDistributor("chromium-tube-distributor"){{
+            requirements(Category.distribution, with(Items.copper, 1, Items.metaglass, 1, HIItems.chromium, 1));
+            health = 450;
+            armor = 4f;
+            speed = 0.18f;
+            placeableLiquid = true;
+            displayFlow = true;
         }};
         chromiumStackConveyor = new BeltStackConveyor("chromium-stack-conveyor"){{
             requirements(Category.distribution, with(Items.graphite, 1, Items.silicon, 1, Items.plastanium, 1, HIItems.chromium, 1));
@@ -1429,7 +1457,7 @@ public class HIBlocks {
             craftTime = 90f;
             craftEffect = Fx.smeltsmoke;
             outputItem = new ItemStack(Items.surgeAlloy, 3);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawDefault(), new DrawPowerLight(Color.valueOf("f3e979")), new DrawFlame(Color.valueOf("ffef99")));
+            drawer = new DrawMulti(new DrawDefault(), new DrawPowerLight(Color.valueOf("f3e979")), new DrawFlame(Color.valueOf("ffef99")));
             consumePower(6);
             consumeItems(with(Items.copper, 5, Items.lead, 6, Items.titanium, 5, Items.silicon, 4));
         }};
@@ -2017,7 +2045,7 @@ public class HIBlocks {
             consumeItem(Items.phaseFabric, 1).boost();
         }};
         assignOverdrive = new AssignOverdrive("assign-overdrive"){{
-            requirements(Category.effect, BuildVisibility.sandboxOnly, with(Items.silicon, 150,Items.thorium, 120, Items.plastanium, 100, Items.surgeAlloy, 60, HIItems.chromium, 80));
+            requirements(Category.effect, with(Items.silicon, 150,Items.thorium, 120, Items.plastanium, 100, Items.surgeAlloy, 60, HIItems.chromium, 80));
             size = 3;
             range = 240f;
             phaseRangeBoost = 0f;
@@ -3549,6 +3577,7 @@ public class HIBlocks {
         }};
         omniNode = new NodeBridge("omni-node"){{
             requirements(Category.distribution, BuildVisibility.sandboxOnly, with());
+            health = 1000;
             range = 35;
             hasPower = false;
             hasLiquids = true;
@@ -3558,6 +3587,21 @@ public class HIBlocks {
             outputsLiquid = true;
             transportTime = 1f;
             squareSprite = false;
+        }};
+        ultraAssignOverdrive = new AssignOverdrive("ultra-assign-overdrive"){{
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with());
+            size = 2;
+            health = 1000;
+            hasItems = false;
+            hasPower = false;
+            range = 600f;
+            phaseRangeBoost = 0f;
+            speedBoost = 35f;
+            speedBoostPhase = 0f;
+            maxLink = 100;
+            hasBoost = false;
+            strokeOffset = -0.05f;
+            strokeClamp = 0.06f;
         }};
         teamChanger = new CoreBlock("team-changer"){{
             requirements(Category.effect, BuildVisibility.sandboxOnly, with());
@@ -3720,6 +3764,324 @@ public class HIBlocks {
                 @Override
                 public float handleDamage(float amount) {
                     return 0f;
+                }
+            };
+        }};
+        mustDieTurret = new PlatformTurret("must-die-turret"){{
+            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
+            health = 1000;
+            range = 500f;
+            inaccuracy = 25f;
+            rotateSpeed = 20f;
+            targetInterval = 0f;
+            shootCone = 80f;
+            shootSound = Sounds.shootBig;
+            shootType = new BasicBulletType(6f, 114514f){{
+                pierce = true;
+                pierceCap = 6;
+                pierceBuilding = false;
+                hitSize = 8;
+                healPercent = 1000;
+                homingPower = 0.3f;
+                homingRange = 240;
+                splashDamage = damage;
+                splashDamageRadius = 30;
+                shootEffect = Fx.none;
+                hitEffect = new Effect(8f, e -> {
+                    Draw.color(Color.black, Color.purple, e.fin());
+                    Lines.stroke(0.5f + e.fout());
+                    Lines.circle(e.x, e.y, e.fin() * 30f);
+                });
+                despawnEffect = new Effect(8f, e -> {
+                    Draw.color(Color.black, Color.purple, e.fin());
+                    Lines.stroke(0.5f + e.fout());
+                    Lines.circle(e.x, e.y, e.fin() * 5f);
+                });
+                fragBullet = new BasicBulletType(3.5f, 114514f){{
+                    pierce = true;
+                    pierceCap = 6;
+                    pierceBuilding = false;
+                    healPercent = 500f;
+                    homingPower = 0.3f;
+                    homingRange = 50f;
+                    splashDamage = 3f;
+                    splashDamageRadius = 10f;
+                    hitEffect = new Effect(8f, e -> {
+                        Draw.color(Color.black, Color.purple, e.fin());
+                        Lines.stroke(0.5f + e.fout());
+                        Lines.circle(e.x, e.y, e.fin() * 10);
+                    });
+                    despawnEffect = new Effect(8f, e -> {
+                        Draw.color(Color.black, Color.purple, e.fin());
+                        Lines.stroke(0.5f + e.fout());
+                        Lines.circle(e.x, e.y, e.fin() * 5);
+                    });
+                    lifetime = 35f;
+                    shootEffect = Fx.none;
+                }
+                    @Override
+                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                        if (entity instanceof Healthc h && !h.dead()) {
+                            Call.unitDestroy(h.id());
+                        }
+                    }
+
+                    @Override
+                    public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
+                        super.hitTile(b, build, x, y, initialHealth, direct);
+                        if (build != null && build.team != b.team) {
+                            build.killed();
+                        }
+                    }
+
+                    @Override
+                    public void draw(Bullet b) {
+                        Draw.color(Color.purple);
+                        Drawf.tri(b.x, b.y, 4, 8, b.rotation());
+                        Drawf.tri(b.x, b.y, 4, 12, b.rotation() - 180);
+                        Draw.reset();
+                    }
+
+                    @Override
+                    public void update(Bullet b) {
+                        if (homingPower > 0.0001f && b.time > 25f) {
+                            Teamc target = Units.closestTarget(b.team, b.x, b.y, homingRange, e -> (e.isGrounded() && collidesGround) || (e.isFlying() && collidesAir), t -> collidesGround);
+
+                            if (target != null) {
+                                b.vel.setAngle(Mathf.slerpDelta(b.rotation(), b.angleTo(target), homingPower));
+                            }
+                        }
+                    }
+                };
+                fragBullets = 6;
+                lifetime = 110;
+            }
+                @Override
+                public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
+                    super.hitTile(b, build, x, y, initialHealth, direct);
+                    if (build != null && build.team != b.team) {
+                        build.killed();
+                    }
+                }
+
+                @Override
+                public void draw(Bullet b) {
+                    Draw.color(Color.purple);
+                    Drawf.tri(b.x, b.y, 8, 16, b.rotation());
+                    Drawf.tri(b.x, b.y, 8, 30 * Math.min(1, b.time / speed * 0.8f + 0.2f), b.rotation() - 180);
+                    Draw.reset();
+                }
+
+                @Override
+                public void update(Bullet b) {
+                    if (homingPower > 0.0001f && b.time > 25f) {
+                        Teamc target = Units.closestTarget(b.team, b.x, b.y, homingRange, e -> (e.isGrounded() && collidesGround) || (e.isFlying() && collidesAir), t -> collidesGround);
+
+                        if (target != null) {
+                            b.vel.setAngle(Mathf.slerpDelta(b.rotation(), b.angleTo(target), homingPower));
+                        }
+                    }
+
+                    if (b.timer.get(1, 1)) {
+                        Draw.color(Color.black, Color.purple, Math.max(0, b.fout() * 2 - 1));
+                        Drawf.tri(b.x, b.y, 8 * b.fout(), 16, b.rotation());
+                        Drawf.tri(b.x, b.y, 8 * b.fout(), 30 * Math.min(1, b.time / 8 * 0.8f + 0.2f), b.rotation() - 180);
+                    }
+                }
+            };
+            buildType = () -> new PlatformTurretBuild(){
+                @Override
+                public void damage(float damage) {}
+
+                @Override
+                public float handleDamage(float amount) {
+                    return 0f;
+                }
+            };
+        }};
+        oneShotTurret = new PlatformTurret("one-shot-turret"){{
+            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
+            size = 2;
+            health = 1000;
+            range = 600f;
+            reload = 30f;
+            inaccuracy = 0f;
+            rotateSpeed = 22f;
+            targetInterval = 0f;
+            shootCone = 2f;
+            shootSound = Sounds.shootBig;
+            shootType = new BasicBulletType(24f, 1145141f){{
+                splashDamage = damage;
+                hitSize = 6f;
+                width = 9f;
+                height = 45f;
+                lifetime = 26f;
+                inaccuracy = 0f;
+                despawnEffect = Fx.hitBulletSmall;
+                keepVelocity = false;
+            }
+                @Override
+                public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                    if (entity instanceof Healthc h && !h.dead()) {
+                        Call.unitDestroy(h.id());
+                    }
+                }
+
+                @Override
+                public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
+                    super.hitTile(b, build, x, y, initialHealth, direct);
+                    if (build != null && build.team != b.team) {
+                        build.killed();
+                    }
+                }
+            };
+            coolant = consumeCoolant(0.6f);
+            coolantMultiplier = 10f;
+            buildType = () -> new PlatformTurretBuild(){
+                @Override
+                public void damage(float damage) {}
+
+                @Override
+                public float handleDamage(float amount) {
+                    return 0f;
+                }
+            };
+        }};
+        pointTurret = new PlatformTurret("point-turret"){{
+            requirements(Category.turret, BuildVisibility.sandboxOnly, with());
+            size = 2;
+            health = 1000;
+            range = 600f;
+            reload = 30f;
+            inaccuracy = 0f;
+            rotateSpeed = 22f;
+            targetInterval = 0f;
+            shootCone = 2f;
+            shootSound = Sounds.shootBig;
+            shootType = new PointBulletType(){{
+                damage = 114514f;
+                speed = 0.0001f;
+                inaccuracy = 0f;
+                keepVelocity = false;
+                trailSpacing = 20f;
+                hitShake = 0.3f;
+                despawnEffect = hitEffect = new Effect(8f, e -> {
+                    Draw.color(Pal.spore);
+                    Lines.stroke(e.fout() * 1.5f);
+
+                    Angles.randLenVectors(e.id, 8, e.finpow() * 22f, (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fout() * 4f + 1f));
+                });
+                trailEffect = new Effect(12f, e -> {
+                    float fx = Angles.trnsx(e.rotation, 24), fy = Angles.trnsy(e.rotation, 24);
+                    Lines.stroke(3f * e.fout(), Pal.spore);
+                    Lines.line(e.x, e.y, e.x + fx, e.y + fy);
+
+                    Drawf.light(e.x, e.y, 60f * e.fout(), Pal.spore, 0.5f);
+                });
+            }
+                @Override
+                public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                    if (entity instanceof Healthc h && !h.dead()) {
+                        Call.unitDestroy(h.id());
+                    }
+                }
+
+                @Override
+                public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
+                    super.hitTile(b, build, x, y, initialHealth, direct);
+                    if (build != null && build.team != b.team) {
+                        build.killed();
+                    }
+                }
+            };
+            shootEffect = new Effect(21f, e -> {
+                Draw.color(Pal.spore);
+                for (int i : Mathf.signs) {
+                    Drawf.tri(e.x, e.y, 4 * e.fout(), 29, e.rotation + 90 * i);
+                }
+            });
+            coolant = consumeCoolant(0.6f);
+            coolantMultiplier = 10f;
+            buildType = () -> new PlatformTurretBuild(){
+                @Override
+                public void damage(float damage) {}
+
+                @Override
+                public float handleDamage(float amount) {
+                    return 0f;
+                }
+
+                @Override
+                protected void shoot(BulletType type) {
+                    if (isControlled() || logicShooting) {
+                        super.shoot(type);
+                    } else if (target != null && type instanceof PointBulletType p) {
+                        if (target instanceof Buildingc b) {
+                            b.killed();
+                        } else if (target instanceof Unitc u) {
+                            Call.unitDestroy(u.id());
+                        }
+                        totalShots += 1;
+                        float bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY), bulletY = y + Angles.trnsy(rotation - 90, shootX, shootY);
+                        shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
+
+                        ammoUseEffect.at(x - Angles.trnsx(rotation, ammoEjectBack), y - Angles.trnsy(rotation, ammoEjectBack), rotation * Mathf.sign(0));
+
+                        float angle = Mathf.angle(target.getX() - bulletX, target.getY() - bulletY);
+                        Geometry.iterateLine(0, bulletX, bulletY, target.getX(), target.getY(), p.trailSpacing, (x, y) -> p.trailEffect.at(x, y, angle));
+
+                        if (shootEffect != null) {
+                            shootEffect.at(bulletX, bulletY, angle, Pal.spore);
+                        }
+                        if (shake > 0){
+                            Effect.shake(shake, shake, this);
+                        }
+                        useAmmo();
+                        curRecoil = 1;
+                        heat = 1;
+                    } else {
+                        super.shoot(type);
+                    }
+                }
+            };
+        }};
+        nextWave = new Block("next-wave"){{
+            requirements(Category.effect, BuildVisibility.sandboxOnly, with());
+            size = 2;
+            health = 1000;
+            update = true;
+            solid = false;
+            targetable = false;
+            hasItems = false;
+            configurable = true;
+            buildType = () -> new Building(){
+                @Override
+                public void buildConfiguration(Table table) {
+                    table.button(Icon.upOpen, Styles.cleari, () -> configure(0)).size(50).tooltip(bundle.get("hi-next-wave-1"));
+                    table.button(Icon.warningSmall, Styles.cleari, () -> configure(1)).size(50).tooltip(bundle.get("hi-next-wave-10"));
+                }
+
+                @Override
+                public void configured(Unit builder, Object value) {
+                    if (value instanceof Integer v) switch (v) {
+                        case 0 -> {
+                            if (net.client()) {
+                                Call.adminRequest(player, Packets.AdminAction.wave, null);
+                            } else {
+                                state.wavetime = 0;
+                            }
+                        }
+                        case 1 -> {
+                            for (int i = 10; i > 0; i--) {
+                                if (net.client()) {
+                                    Call.adminRequest(player, Packets.AdminAction.wave, null);
+                                } else {
+                                    logic.runWave();
+                                }
+                            }
+                        }
+                        default -> {}
+                    }
                 }
             };
         }};

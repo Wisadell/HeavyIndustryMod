@@ -99,10 +99,12 @@ public abstract class AdaptDrill extends Block {
     //TODO Is this a good idea to begin with?
     public float getMineSpeedHardnessMul(Item item){
         if (item == null) return 0f;
-        if (item.hardness == 0) return 2f;
-        if (item.hardness <= 2) return 1.5f;
-        if (item.hardness <= 4) return 1f;
-        return 0.8f;
+        return switch (item.hardness) {
+            case 0 -> 2f;
+            case 1, 2 -> 1.5f;
+            case 3, 4 -> 1f;
+            default -> 0.8f;
+        };
     }
 
     @Override

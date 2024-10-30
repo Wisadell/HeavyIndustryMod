@@ -164,32 +164,32 @@ public class MinigunTurret extends ItemTurret {
 
         @Override
         public void drawTurret(Turret block, TurretBuild build){
-            if(!(block instanceof MinigunTurret mb && build instanceof MinigunTurretBuild m)) return;
+            if(!(block instanceof MinigunTurret bl && build instanceof MinigunTurretBuild bu)) return;
 
             Vec2 v = Tmp.v1;
 
             Draw.z(Layer.turret- 0.01f);
-            Draw.rect(outline, build.x + m.recoilOffset.x, build.y + m.recoilOffset.y, build.drawrot());
+            Draw.rect(outline, build.x + bu.recoilOffset.x, build.y + bu.recoilOffset.y, build.drawrot());
             for(int i = 0; i < 4; i++){
                 Draw.z(Layer.turret - 0.01f);
-                v.trns(m.rotation - 90f, mb.barWidth * Mathf.cosDeg(m.spin - 90 * i), mb.barHeight * Mathf.sinDeg(m.spin - 90 * i)).add(m.recoilOffset);
-                Draw.rect(barrelOutline, m.x + v.x, m.y + v.y, m.drawrot());
-                Draw.z(Layer.turret - 0.005f - Mathf.sinDeg(m.spin - 90 * i) / 1000f);
-                Draw.rect(barrel, m.x + v.x, m.y + v.y, m.drawrot());
-                if(m.heats[i] > 0.001f){
-                    Drawf.additive(heat, mb.heatColor.write(Tmp.c1).a(m.heats[i]), m.x + v.x, m.y + v.y, m.drawrot(), Draw.z());
+                v.trns(bu.rotation - 90f, bl.barWidth * Mathf.cosDeg(bu.spin - 90 * i), bl.barHeight * Mathf.sinDeg(bu.spin - 90 * i)).add(bu.recoilOffset);
+                Draw.rect(barrelOutline, bu.x + v.x, bu.y + v.y, bu.drawrot());
+                Draw.z(Layer.turret - 0.005f - Mathf.sinDeg(bu.spin - 90 * i) / 1000f);
+                Draw.rect(barrel, bu.x + v.x, bu.y + v.y, bu.drawrot());
+                if(bu.heats[i] > 0.001f){
+                    Drawf.additive(heat, bl.heatColor.write(Tmp.c1).a(bu.heats[i]), bu.x + v.x, bu.y + v.y, bu.drawrot(), Draw.z());
                 }
             }
 
             Draw.z(Layer.turret);
             super.drawTurret(block, build);
 
-            if(m.speedf() > 0.0001f){
-                Draw.color(m.barColor());
-                Lines.stroke(mb.barStroke);
+            if(bu.speedf() > 0.0001f){
+                Draw.color(bu.barColor());
+                Lines.stroke(bl.barStroke);
                 for(int i = 0; i < 2; i++){
-                    v.trns(m.drawrot(), mb.barX * Mathf.signs[i], mb.barY).add(m.recoilOffset);
-                    Lines.lineAngle(m.x + v.x, m.y + v.y, m.rotation, mb.barLength * Mathf.clamp(m.speedf()), false);
+                    v.trns(bu.drawrot(), bl.barX * Mathf.signs[i], bl.barY).add(bu.recoilOffset);
+                    Lines.lineAngle(bu.x + v.x, bu.y + v.y, bu.rotation, bl.barLength * Mathf.clamp(bu.speedf()), false);
                 }
             }
         }

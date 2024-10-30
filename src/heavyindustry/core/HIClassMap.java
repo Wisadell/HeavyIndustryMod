@@ -32,7 +32,10 @@ public class HIClassMap {
         classes.put("SurroundAI", SurroundAI.class);
         classes.put("MinerPointAI", MinerPointAI.class);
         //ability
+        classes.put("BatteryAbility", BatteryAbility.class);
         classes.put("JavelinAbility", JavelinAbility.class);
+        classes.put("TerritoryFieldAbility", TerritoryFieldAbility.class);
+        classes.put("DeathAbility", DeathAbility.class);
         //bullets
         classes.put("AccelBulletType", AccelBulletType.class);
         classes.put("AdaptedLightningBulletType", AdaptedLightningBulletType.class);
@@ -219,7 +222,9 @@ public class HIClassMap {
         classes.put("DrawScanLine", DrawScanLine.class);
         classes.put("DrawAtlasFrames", DrawAtlasFrames.class);
         classes.put("DrawSpecConstruct", DrawSpecConstruct.class);
-        classes.put("NodeBridge", NodeBridge.DrawNodeBridge.class);
+        classes.put("DrawInvertedJunction", InvertedJunction.DrawInvertedJunction.class);
+        classes.put("DrawTubeDistributor", TubeDistributor.DrawTubeDistributor.class);
+        classes.put("DrawNodeBridge", NodeBridge.DrawNodeBridge.class);
         classes.put("DrawLiquidMassDriver", LiquidMassDriver.DrawLiquidMassDriver.class);
         classes.put("DrawMinigun", MinigunTurret.DrawMinigun.class);
     }

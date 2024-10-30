@@ -100,6 +100,7 @@ public class HITechTree {
                 node(chromiumStackRouter, () -> {});
                 node(chromiumStackBridge, () -> {});
             }));
+            node(chromiumTubeConveyor, () -> node(chromiumTubeDistributor, () -> {}));
             node(chromiumItemBridge, () -> {});
             node(chromiumRouter, () -> {});
             node(chromiumJunction, () -> node(chromiumInvertedJunction, () -> {}));

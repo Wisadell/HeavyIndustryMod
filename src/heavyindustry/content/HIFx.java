@@ -112,6 +112,32 @@ public class HIFx {
         return (0.5f - Math.abs(fin - 0.5f)) * 2f;
     }
 
+    public static Effect electricExp(float lifetime, float sw, float r){
+        return new Effect(lifetime, e -> {
+            if(e.time < sw) {
+                float fin = e.time / sw, fout = 1 - fin;
+                Lines.stroke(r/12 * fout, Pal.heal);
+                Lines.circle(e.x, e.y, r * fout);
+            } else {
+                float fin = (e.time - sw) / (e.lifetime - sw), fout = 1 - fin;
+                float fbig = Math.min(fin * 10, 1);
+                Lines.stroke(r / 2 * fout, Pal.heal);
+                Lines.circle(e.x, e.y, r * fbig);
+                for(int i = 0; i < 2; i++){
+                    float angle = i * 180 + 60;
+                    Drawf.tri(e.x + Angles.trnsx(angle, r * fbig), e.y + Angles.trnsy(angle, r * fbig), 40 * fout, r / 1.5f, angle);
+                }
+                Draw.z(Layer.effect + 0.001f);
+                Lines.stroke(r / 18 * fout, Pal.heal);
+                Angles.randLenVectors(e.id + 1, fin * fin + 0.001f, 20, r * 2, (x, y, in, out) -> {
+                    Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1f + out * r / 4);
+                    Drawf.light(e.x + x, e.y + y, out * r, Draw.getColor(), 0.8f);
+                });
+                Effect.shake(3, 3, e.x, e.y);
+            }
+        });
+    }
+
     public static Effect circleOut(float lifetime, float radius, float thick){
         return new Effect(lifetime, radius * 2f, e -> {
             Draw.color(e.color, Color.white, e.fout() * 0.7f);
@@ -608,6 +634,12 @@ public class HIFx {
     }
 
     public static final Effect
+            shieldDefense = new Effect(20, e -> {
+                Draw.color(e.color);
+                Lines.stroke(e.fslope() * 2.5f);
+                Lines.poly(e.x, e.y, 6, 3 * e.fout() + 9);
+                Angles.randLenVectors(e.id, 2, 32 * e.fin(), 0, 360,(x, y) -> Lines.poly(e.x + x, e.y + y, 6, 2 * e.fout() + 2));
+            }),
             smolSquare = new Effect(25f, e -> {
                 Draw.color(e.color);
                 Fill.square(e.x, e.y, e.fout() * 1.3f + 0.01f, 45f);

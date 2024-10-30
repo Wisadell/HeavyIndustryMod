@@ -12,6 +12,7 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.distribution.*;
+import mindustry.world.draw.DrawBlock;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
@@ -23,6 +24,8 @@ import static mindustry.Vars.*;
  */
 public class InvertedJunction extends Junction {
     public String placeSprite;
+
+    public DrawBlock drawer = new DrawInvertedJunction();
 
     public final int size = 1;
 
@@ -82,8 +85,7 @@ public class InvertedJunction extends Junction {
 
         @Override
         public void draw() {
-            Draw.rect(atlas.find(placeSprite), x, y);
-            Draw.rect(atlas.find(modName + "-junction-" + loc), x, y);
+            drawer.draw(this);
         }
 
         @Override
@@ -137,6 +139,15 @@ public class InvertedJunction extends Junction {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             loc = read.i();
+        }
+    }
+
+    public static class DrawInvertedJunction extends DrawBlock {
+        @Override
+        public void draw(Building build) {
+            if (!(build instanceof InvertedJunctionBuild bu && build.block instanceof InvertedJunction bl)) return;
+            Draw.rect(atlas.find(bl.placeSprite), build.x, build.y);
+            Draw.rect(atlas.find(modName + "-junction-" + bu.loc), build.x, build.y);
         }
     }
 }

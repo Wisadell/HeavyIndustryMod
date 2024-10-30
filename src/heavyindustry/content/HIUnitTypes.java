@@ -753,6 +753,10 @@ public class HIUnitTypes {
             groundLayer = 74f;
             itemCapacity = 200;
             ammoType = new ItemAmmoType(HIItems.uranium);
+            abilities.add(new TerritoryFieldAbility(20 * 8f, 90f, 210f){{
+                open = true;
+            }}, new DeathAbility());
+            immunities = ObjectSet.with(HIStatusEffects.territoryFieldSuppress);
             weapons.add(new Weapon(name("suzerain-weapon")){{
                 y = -1f;
                 x = 28f;
@@ -1184,7 +1188,10 @@ public class HIUnitTypes {
             health = 63000f;
             itemCapacity = 350;
             ammoType = new ItemAmmoType(HIItems.uranium);
-            abilities.add(new ShieldRegenFieldAbility(100f, 1500f, 60f * 4, 200f));
+            abilities.add(new ShieldRegenFieldAbility(100f, 1500f, 60f * 4, 200f), new TerritoryFieldAbility(220, -1, 150){{
+                active = false;
+            }});
+            immunities = ObjectSet.with(HIStatusEffects.territoryFieldSuppress);
             weapons.addAll(new Weapon(name("mosasaur-weapon-rail")){{
                 shake = 6f;
                 shootY = 23f;
@@ -1269,8 +1276,8 @@ public class HIUnitTypes {
                 particleSize = 3f;
                 y = -16f;
                 particles = 10;
-                color = particleColor = /*effectColor = */Pal.heal;
-            }});
+                color = particleColor = effectColor = Pal.heal;
+            }}, new BatteryAbility(80000f, 120f, 120f, 0f, -15f));
             weapons.addAll(new Weapon("emp-cannon-mount"){{
                 rotate = true;
                 x = 18f;

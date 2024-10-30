@@ -1,9 +1,7 @@
 package heavyindustry.world.blocks.distribution;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.util.*;
-import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
@@ -14,11 +12,11 @@ import mindustry.world.blocks.distribution.*;
 import mindustry.world.draw.*;
 
 import static heavyindustry.util.HIUtils.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class TubeDistributor extends Router {
-    public DrawBlock drawer = new DrawDefault();
-    public TextureRegion rotorRegion, lockedRegion1, lockedRegion2;
+    public DrawBlock drawer = new DrawTubeDistributor();
 
     public TubeDistributor(String name) {
         super(name);
@@ -29,18 +27,11 @@ public class TubeDistributor extends Router {
     public void load() {
         super.load();
         drawer.load(this);
-        rotorRegion = Core.atlas.find(name + "-rotator");
-        lockedRegion1 = Core.atlas.find(name + "-locked-side1");
-        lockedRegion2 = Core.atlas.find(name + "-locked-side2");
     }
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-        super.drawPlanRegion(plan, list);
-        Draw.rect(Core.atlas.find(name + "-bottom"), plan.drawx(), plan.drawy());
-        Draw.rect(rotorRegion, plan.drawx(), plan.drawy());
-        Draw.rect(region, plan.drawx(), plan.drawy());
-        Draw.rect(plan.rotation > 1 ? lockedRegion2 : lockedRegion1, plan.drawx(), plan.drawy(), plan.rotation * 90);
+        drawer.drawPlan(this, plan, list);
     }
 
     @Override
@@ -87,7 +78,7 @@ public class TubeDistributor extends Router {
                                             (ta == 0 || ta == 1) ? 1 : -1;
                 }
 
-                if (items.total() > 0 && !Vars.state.isPaused()) {
+                if (items.total() > 0 && !state.isPaused()) {
                     lastRot = rot;
                     rot += speed * angle * delta();
                 }
@@ -183,12 +174,6 @@ public class TubeDistributor extends Router {
         @Override
         public void draw() {
             drawer.draw(this);
-            Draw.z(Layer.block - 0.2f);
-            drawItem();
-            Draw.z(Layer.block - 0.15f);
-            Drawf.spinSprite(rotorRegion, x, y, rot % 360);
-            Draw.rect(region, x, y);
-            Draw.rect(rotation > 1 ? lockedRegion2 : lockedRegion1, x, y, rotdeg());
         }
 
         public Building getTileTarget(Item item, Tile from, boolean set){
@@ -202,6 +187,32 @@ public class TubeDistributor extends Router {
                 }
             }
             return null;
+        }
+    }
+
+    public static class DrawTubeDistributor extends DrawBlock {
+        public TextureRegion bottomRegion,topRegion, rotatorRegion, lockedRegion1, lockedRegion2;
+
+        @Override
+        public void draw(Building build) {
+            if (!(build instanceof TubeDistributorBuild bu)) return;
+            Draw.z(Layer.blockUnder);
+            Draw.rect(bottomRegion, bu.x, bu.y);
+            Draw.z(Layer.block - 0.2f);
+            bu.drawItem();
+            Draw.z(Layer.block - 0.15f);
+            Drawf.spinSprite(rotatorRegion, bu.x, bu.y, bu.rot % 360);
+            Draw.rect(topRegion, bu.x, bu.y);
+            Draw.rect(bu.rotation > 1 ? lockedRegion2 : lockedRegion1, bu.x, bu.y, bu.rotdeg());
+        }
+
+        @Override
+        public void load(Block block) {
+            bottomRegion = atlas.find(block.name + "-bottom");
+            topRegion = atlas.find(block.name + "-top");
+            rotatorRegion = atlas.find(block.name + "-rotator");
+            lockedRegion1 = atlas.find(block.name + "-locked-side1");
+            lockedRegion2 = atlas.find(block.name + "-locked-side2");
         }
     }
 }

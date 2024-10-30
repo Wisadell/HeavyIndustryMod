@@ -119,6 +119,7 @@ public class LiquidMassDriver extends Block {
         public Building currentShooter(){
             return waitingShooters.isEmpty() ? null : waitingShooters.first();
         }
+
         public float liquidTotal(){
             return liquids.get(liquids.current());
         }
@@ -352,7 +353,7 @@ public class LiquidMassDriver extends Block {
         }
     }
 
-    public enum DriverState{
+    public enum DriverState {
         idle,
         accepting,
         shooting;
@@ -360,36 +361,42 @@ public class LiquidMassDriver extends Block {
         public static final DriverState[] all = values();
     }
 
-    /** @author guiY */
     public static class DrawLiquidMassDriver extends DrawBlock {
+        public TextureRegion baseRegion, regionRegion, bottomRegion, liquidRegion, topRegion;
+
         @Override
         public void draw(Building build) {
-            LiquidMassDriver block = (LiquidMassDriver) build.block;
-            LiquidMassDriverBuild b = (LiquidMassDriverBuild) build;
-            drawDriver(block, b);
-        }
-        public void drawDriver(LiquidMassDriver block, LiquidMassDriverBuild build){
-            Draw.rect(atlas.find(block.name + "-base"), build.x, build.y);
+            if (!(build instanceof LiquidMassDriverBuild bu && build.block instanceof LiquidMassDriver bl)) return;
+            Draw.rect(baseRegion, bu.x, bu.y);
             Draw.z(Layer.turret);
-            Drawf.shadow(atlas.find(block.name + "-region"),
-                    build.x + Angles.trnsx(build.rotation + 180, build.reloadCounter * block.knockback) - (block.size / 2f),
-                    build.y + Angles.trnsy(build.rotation + 180, build.reloadCounter * block.knockback) - (block.size / 2f), build.rotation - 90);
-            Draw.rect(atlas.find(block.name + "-bottom"),
-                    build.x + Angles.trnsx(build.rotation + 180, build.reloadCounter * block.knockback),
-                    build.y + Angles.trnsy(build.rotation + 180, build.reloadCounter * block.knockback), build.rotation - 90);
-            Draw.rect(atlas.find(block.name + "-region"),
-                    build.x + Angles.trnsx(build.rotation + 180, build.reloadCounter * block.knockback),
-                    build.y + Angles.trnsy(build.rotation + 180, build.reloadCounter * block.knockback), build.rotation - 90);
-            Draw.color(build.liquids.current().color);
-            Draw.alpha(Math.min(build.liquidTotal() / block.liquidCapacity, 1));
-            Draw.rect(atlas.find(block.name + "-liquid"),
-                    build.x + Angles.trnsx(build.rotation + 180, build.reloadCounter * block.knockback),
-                    build.y + Angles.trnsy(build.rotation + 180, build.reloadCounter * block.knockback), build.rotation - 90);
+            Drawf.shadow(regionRegion,
+                    bu.x + Angles.trnsx(bu.rotation + 180, bu.reloadCounter * bl.knockback) - (bl.size / 2f),
+                    bu.y + Angles.trnsy(bu.rotation + 180, bu.reloadCounter * bl.knockback) - (bl.size / 2f), bu.rotation - 90);
+            Draw.rect(bottomRegion,
+                    bu.x + Angles.trnsx(bu.rotation + 180, bu.reloadCounter * bl.knockback),
+                    bu.y + Angles.trnsy(bu.rotation + 180, bu.reloadCounter * bl.knockback), bu.rotation - 90);
+            Draw.rect(regionRegion,
+                    bu.x + Angles.trnsx(bu.rotation + 180, bu.reloadCounter * bl.knockback),
+                    bu.y + Angles.trnsy(bu.rotation + 180, bu.reloadCounter * bl.knockback), bu.rotation - 90);
+            Draw.color(bu.liquids.current().color);
+            Draw.alpha(Math.min(bu.liquidTotal() / bl.liquidCapacity, 1));
+            Draw.rect(liquidRegion,
+                    bu.x + Angles.trnsx(bu.rotation + 180, bu.reloadCounter * bl.knockback),
+                    bu.y + Angles.trnsy(bu.rotation + 180, bu.reloadCounter * bl.knockback), bu.rotation - 90);
             Draw.color();
             Draw.alpha(1);
-            Draw.rect(atlas.find(block.name + "-top"),
-                    build.x + Angles.trnsx(build.rotation + 180, build.reloadCounter * block.knockback),
-                    build.y + Angles.trnsy(build.rotation + 180, build.reloadCounter * block.knockback), build.rotation - 90);
+            Draw.rect(topRegion,
+                    bu.x + Angles.trnsx(bu.rotation + 180, bu.reloadCounter * bl.knockback),
+                    bu.y + Angles.trnsy(bu.rotation + 180, bu.reloadCounter * bl.knockback), bu.rotation - 90);
+        }
+
+        @Override
+        public void load(Block block) {
+            baseRegion = atlas.find(block.name + "-base");
+            regionRegion = atlas.find(block.name + "-region");
+            bottomRegion = atlas.find(block.name + "-bottom");
+            liquidRegion = atlas.find(block.name + "-liquid");
+            topRegion = atlas.find(block.name + "-top");
         }
     }
 }
