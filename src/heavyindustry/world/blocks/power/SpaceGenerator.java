@@ -33,8 +33,8 @@ public class SpaceGenerator extends PowerGenerator {
     public float efficiencyScale = 1f;
     public boolean display = true;
 
-    public Effect outEffect = Fx.none;
-    public float outTimer = 30;
+    public Effect outputEffect = Fx.none;
+    public float outputTimer = 30;
     public Effect tileEffect = Fx.none;
     public float tileTimer = 30;
 
@@ -109,9 +109,9 @@ public class SpaceGenerator extends PowerGenerator {
             }
 
             if(productionEfficiency > 0.05f){
-                if(outEffect != Fx.none){
-                    if(timer.get(2, outTimer)){
-                        outEffect.at(this);
+                if(outputEffect != Fx.none){
+                    if(timer.get(2, outputTimer)){
+                        outputEffect.at(this);
                     }
                 }
                 if(tileEffect != Fx.none && tiles.size > 0){

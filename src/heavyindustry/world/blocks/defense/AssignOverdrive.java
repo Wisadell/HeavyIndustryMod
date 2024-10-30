@@ -8,7 +8,6 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import mindustry.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
@@ -36,9 +35,9 @@ public class AssignOverdrive extends OverdriveProjector{
         hasPower = true;
         config(Integer.class, (Cons2<AssignOverdriveBuild, Integer>)AssignOverdriveBuild::linkPos);
         config(Point2.class, (Cons2<AssignOverdriveBuild, Point2>)AssignOverdriveBuild::linkPos);
-        config(Point2[].class, (AssignOverdriveBuild entity, Point2[] point2s) -> {
+        config(Point2[].class, (AssignOverdriveBuild e, Point2[] point2s) -> {
             for(Point2 p : point2s){
-                entity.linkPos(Point2.pack(p.x + entity.tileX(), p.y + entity.tileY()));
+                e.linkPos(Point2.pack(p.x + e.tileX(), p.y + e.tileY()));
             }
         });
     }
@@ -126,8 +125,6 @@ public class AssignOverdrive extends OverdriveProjector{
             }
 
             if(charge >= reload){
-                float realRange = range + phaseHeat * phaseRangeBoost;
-
                 charge = 0f;
                 linkBuilds().each(other -> other.applyBoost(realBoost(), reload + 1f));
             }
@@ -144,8 +141,6 @@ public class AssignOverdrive extends OverdriveProjector{
 
         @Override
         public void drawConfigure(){
-            float realRange = range + phaseHeat * phaseRangeBoost;
-
             float offset = size * tilesize / 2f + 1f;
 
             Lines.stroke(3f, Pal.gray);
@@ -241,7 +236,7 @@ public class AssignOverdrive extends OverdriveProjector{
 
         @Override
         public Building link(){
-            return Vars.world.build(targets.first());
+            return world.build(targets.first());
         }
 
         @Override
@@ -262,17 +257,9 @@ public class AssignOverdrive extends OverdriveProjector{
 
         @Override
         public void linkPos(int value){
-            Building other = Vars.world.build(value);
+            Building other = world.build(value);
 
             if(other != null && !targets.removeValue(value) && targets.size < maxLink - 1 && within(other, range()))targets.add(value);
-        }
-
-        public void updatePos(){
-            for(int pos : targets.items){
-                if(!linkValid(Vars.world.build(pos))){
-                    targets.removeValue(pos);
-                }
-            }
         }
 
         @Override

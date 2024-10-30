@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.distribution;
 
-import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
@@ -11,6 +10,7 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
@@ -29,8 +29,8 @@ public class BeltConveyor extends Conveyor {
     @Override
     public void load() {
         super.load();
-        conveyorAtlas = Core.atlas.find(name + "-base").split(32, 32);
-        edgeAtlas = Core.atlas.find(name + "-edge").split(32, 32);
+        conveyorAtlas = atlas.find(name + "-base").split(32, 32);
+        edgeAtlas = atlas.find(name + "-edge").split(32, 32);
     }
 
     @Override

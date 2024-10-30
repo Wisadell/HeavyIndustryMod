@@ -294,6 +294,7 @@ public class TubeItemBridge extends ItemBridge {
             Draw.reset();
         }
 
+        @Override
         public void drawSelect(){
             if(linkValid(tile, Vars.world.tile(link))){
                 drawInput(Vars.world.tile(link));
@@ -335,6 +336,7 @@ public class TubeItemBridge extends ItemBridge {
             }
         }
 
+        @Override
         public void drawConfigure(){
             Drawf.select(this.x, this.y, (float) (this.tile.block().size * 8) / 2.0F + 2.0F, Pal.accent);
             Drawf.dashCircle(x, y, (range) * 8f, Pal.accent);
@@ -363,11 +365,13 @@ public class TubeItemBridge extends ItemBridge {
             );
         }
 
+        @Override
         public void write(Writes write) {
             super.write(write);
             buffer.write(write);
         }
 
+        @Override
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             buffer.read(read);
