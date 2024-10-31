@@ -103,6 +103,7 @@ public class HIOverride {
         ((GenericCrafter) Blocks.electrolyzer).outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60f, Liquids.hydrogen, 8f / 60f);
         ((HeatCrafter) Blocks.cyanogenSynthesizer).outputLiquid = new LiquidStack(Liquids.cyanogen, 4f / 60f);
         //Blocks-Defense
+        Blocks.shockMine.underBullets = true;
         //Blocks-Storage
         Blocks.coreShard.buildVisibility = BuildVisibility.shown;
         Blocks.coreShard.health *= 2;

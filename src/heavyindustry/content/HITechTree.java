@@ -85,6 +85,7 @@ public class HITechTree {
         addToNode(impactDrill, () -> node(minerPoint, Seq.with(new Research(electrolyzer)), () -> node(minerCenter, Seq.with(new Research(atmosphericConcentrator)), () -> {})));
         addToNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
         //distribution
+        addToNode(sorter, () -> node(multiSorter, () -> {}));
         addToNode(junction, () -> {
             node(invertedJunction, () -> {});
             node(itemLiquidJunction, () -> {});
@@ -106,10 +107,18 @@ public class HITechTree {
             node(chromiumJunction, () -> node(chromiumInvertedJunction, () -> {}));
         }));
         //distribution-erekir
-        addToNode(duct, () -> node(ductJunction, () -> {}));
+        addToNode(duct, () -> {
+            node(ductJunction, () -> {});
+            node(ductMultiSorter, () -> {});
+        });
         addToNode(armoredDuct, () -> node(armoredDuctBridge, () -> {}));
         addToNode(ductUnloader, () -> node(rapidDuctUnloader, () -> {}));
         //liquid
+        addToNode(liquidRouter, () -> {
+            node(liquidOverflowValve, () -> {});
+            node(liquidUnderflowValve, () -> {});
+        });
+        addToNode(liquidContainer, () -> node(liquidUnloader, () -> {}));
         addToNode(impulsePump, () -> node(turboPump, () -> {}));
         addToNode(phaseConduit, () -> node(phaseLiquidNode, () -> {}));
         addToNode(platedConduit, () -> node(chromiumArmorConduit, () -> {
@@ -117,13 +126,16 @@ public class HITechTree {
             node(chromiumArmorLiquidContainer, () -> node(chromiumArmorLiquidTank, () -> {}));
         }));
         //liquid-erekir
+        addToNode(reinforcedLiquidContainer, () -> node(reinforcedLiquidUnloader, () -> {}));
         addToNode(reinforcedLiquidRouter, () -> {
+            node(reinforcedLiquidOverflowValve, () -> node(reinforcedLiquidUnderflowValve, () -> {}));
             node(liquidSorter, () -> {});
             node(liquidValve, () -> {});
         });
         removeNode(reinforcedPump);
         addToNode(reinforcedConduit, () -> node(smallReinforcedPump, Seq.with(new OnSector(basin)), () -> node(reinforcedPump, () -> node(largeReinforcedPump, () -> {}))));
         //power
+        addToNode(powerNode, () -> node(smartPowerNode, () -> node(powerAnalyzer, () -> {})));
         addToNode(powerNodeLarge, () -> node(powerNodeHuge, () -> node(powerNodePhase, () -> {})));
         addToNode(thoriumReactor, () -> node(uraniumReactor, () -> {}));
         addToNode(impactReactor, () -> node(hypermagneticReactor, () -> {}));
@@ -133,6 +145,7 @@ public class HITechTree {
         });
         //power-erekir
         addToNode(beamNode, () -> {
+            node(smartBeamNode, () -> node(reinforcedPowerAnalyzer, () -> {}));
             node(beamDiode, () -> {});
             node(beamInsulator, () -> {});
         });
@@ -195,9 +208,15 @@ public class HITechTree {
         //storage-erekir
         addToNode(reinforcedVault, () -> node(reinforcedCoreStorage, () -> {}));
         //payload
-        addToNode(payloadConveyor, () -> node(payloadJunction, () -> {}));
+        addToNode(payloadConveyor, () -> {
+            node(payloadJunction, () -> {});
+            node(payloadRail, () -> {});
+        });
         //payload-erekir
-        addToNode(reinforcedPayloadConveyor, () -> node(reinforcedPayloadJunction, () -> {}));
+        addToNode(reinforcedPayloadConveyor, () -> {
+            node(reinforcedPayloadJunction, () -> {});
+            node(reinforcedPayloadRail, () -> {});
+        });
         //unit
         addToNode(tetrativeReconstructor, () -> node(titanReconstructor, () -> node(experimentalUnitFactory, () -> {})));
         //unit-erekir

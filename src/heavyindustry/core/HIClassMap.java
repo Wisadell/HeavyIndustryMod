@@ -126,6 +126,8 @@ public class HIClassMap {
         classes.put("MultiJunctionBuild", MultiJunction.MultiJunctionBuild.class);
         classes.put("MultiRouter", MultiRouter.class);
         classes.put("MultiRouterBuild", MultiRouter.MultiRouterBuild.class);
+        classes.put("MultiSorter", MultiSorter.class);
+        classes.put("MultiSorterBuild", MultiSorter.MultiSorterBuild.class);
         classes.put("TubeItemBridge", TubeItemBridge.class);
         classes.put("TubeItemBridgeBuild", TubeItemBridge.TubeItemBridgeBuild.class);
         classes.put("NodeBridge", NodeBridge.class);
@@ -144,6 +146,8 @@ public class HIClassMap {
         classes.put("SortLiquidRouterBuild", SortLiquidRouter.SortLiquidRouterBuild.class);
         classes.put("BeltConduit", BeltConduit.class);
         classes.put("BeltConduitBuild", BeltConduit.BeltConduitBuild.class);
+        classes.put("LiquidOverflowValve", LiquidOverflowValve.class);
+        classes.put("LiquidOverfloatValveBuild", LiquidOverflowValve.LiquidOverfloatValveBuild.class);
         classes.put("LiquidUnloader", LiquidUnloader.class);
         classes.put("LiquidUnloaderBuild", LiquidUnloader.LiquidUnloaderBuild.class);
         classes.put("LiquidDirectionalUnloader", LiquidDirectionalUnloader.class);
@@ -158,12 +162,20 @@ public class HIClassMap {
         classes.put("ProcessorFanBuild", ProcessorFan.ProcessorFanBuild.class);
         classes.put("PayloadJunction", PayloadJunction.class);
         classes.put("PayloadJunctionBuild", PayloadJunction.PayloadJunctionBuild.class);
+        classes.put("PayloadRail", PayloadRail.class);
+        classes.put("PayloadRailBuild", PayloadRail.PayloadRailBuild.class);
         classes.put("DerivativeUnitFactory", DerivativeUnitFactory.class);
         classes.put("DerivativeUnitFactoryBuild", DerivativeUnitFactory.DerivativeUnitFactoryBuild.class);
         classes.put("AdaptPayloadSource", AdaptPayloadSource.class);
         classes.put("AdaptPayloadSourceBuild", AdaptPayloadSource.AdaptPayloadSourceBuild.class);
+        classes.put("PowerAnalyzer", PowerAnalyzer.class);
+        classes.put("PowerAnalyzerBuild", PowerAnalyzer.PowerAnalyzerBuild.class);
         classes.put("BeamDiode", BeamDiode.class);
         classes.put("BeamDiodeBuild", BeamDiode.BeamDiodeBuild.class);
+        classes.put("SmartBeamNode", SmartBeamNode.class);
+        classes.put("SmartBeamNodeBuild", SmartBeamNode.SmartBeamNodeBuild.class);
+        classes.put("SmartPowerNode", SmartPowerNode.class);
+        classes.put("SmartPowerNodeBuild", SmartPowerNode.SmartPowerNodeBuild.class);
         classes.put("SpaceGenerator", SpaceGenerator.class);
         classes.put("SpaceGeneratorBuild", SpaceGenerator.SpaceGeneratorBuild.class);
         classes.put("HyperGenerator", HyperGenerator.class);

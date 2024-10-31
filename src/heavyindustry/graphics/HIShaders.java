@@ -20,6 +20,7 @@ import static mindustry.Vars.*;
 public class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
+    public static AlphaShader alphaShader;
     public static HISurfaceShader dalani,brine,nanofluid;
     public static PlanetTextureShader planetTextureShader;
 
@@ -27,6 +28,8 @@ public class HIShaders {
     public static void init(){
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
+
+        alphaShader = new AlphaShader();
 
         dalani = new HISurfaceShader("dalani");
         brine = new HISurfaceShader("brine");
@@ -79,6 +82,19 @@ public class HIShaders {
             Vec3 position = planet.position;
             Shader shader = this;
             shader.setUniformf(name, position.x, position.y, position.z, planet.radius);
+        }
+    }
+
+    public static class AlphaShader extends HILoadShader{
+        public float alpha = 1f;
+
+        public AlphaShader(){
+            super("postalpha", "screenspace");
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_alpha", alpha);
         }
     }
 

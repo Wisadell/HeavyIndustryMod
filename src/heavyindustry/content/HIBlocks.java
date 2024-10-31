@@ -88,25 +88,25 @@ public class HIBlocks {
             //drill-erekir
             largeCliffCrusher,heavyPlasmaBore,minerPoint,minerCenter,
             //distribution
-            invertedJunction,itemLiquidJunction,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumTubeDistributor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
+            invertedJunction,itemLiquidJunction,multiSorter,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumTubeDistributor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             phaseItemNode,rapidDirectionalUnloader,
             //distribution-erekir
-            ductJunction,armoredDuctBridge,rapidDuctUnloader,
+            ductJunction,ductMultiSorter,armoredDuctBridge,rapidDuctUnloader,
             //liquid
-            turboPump,phaseLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
+            liquidOverflowValve,liquidUnderflowValve,liquidUnloader,liquidMassDriver,turboPump,phaseLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
             //liquid-erekir
-            liquidSorter,liquidValve,smallReinforcedPump,largeReinforcedPump,
+            reinforcedLiquidOverflowValve,reinforcedLiquidUnderflowValve,reinforcedLiquidUnloader,liquidSorter,liquidValve,smallReinforcedPump,largeReinforcedPump,
             //power
-            powerNodePhase,powerNodeHuge,uraniumReactor,hypermagneticReactor,hugeBattery,armoredCoatedBattery,
+            smartPowerNode,powerNodePhase,powerNodeHuge,powerAnalyzer,uraniumReactor,hypermagneticReactor,hugeBattery,armoredCoatedBattery,
             //power-erekir
-            beamDiode,beamInsulator,liquidConsumeGenerator,
+            smartBeamNode,beamDiode,beamInsulator,reinforcedPowerAnalyzer,liquidConsumeGenerator,
             //production
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,sporeFarm,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
             nanocoreConstructor,nanocorePrinter,nanocoreActivator,largePhaseWeaver,phaseFusionInstrument,clarifier,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
             //defense
-            lighthouse,mendDome,assignOverdrive,largeShieldGenerator,detonator,
+            lighthouse,mendDome,sectorStructureMender,assignOverdrive,largeShieldGenerator,paralysisMine,detonator,
             //defense-erekir
             largeRadar,
             //storage
@@ -114,11 +114,11 @@ public class HIBlocks {
             //storage-erekir
             reinforcedCoreStorage,
             //payload
-            payloadJunction,
+            payloadJunction,payloadRail,
             //payload-erekir
-            reinforcedPayloadJunction,
+            reinforcedPayloadJunction,reinforcedPayloadRail,
             //unit
-            titanReconstructor,experimentalUnitFactory,
+            unitMaintenanceDepot,titanReconstructor,experimentalUnitFactory,
             //unit-erekir
             largeUnitRepairTower,seniorAssemblerModule,
             //logic
@@ -803,6 +803,9 @@ public class HIBlocks {
         itemLiquidJunction = new MultiJunction("item-liquid-junction"){{
             requirements(Category.distribution, with(Items.copper, 4, Items.graphite, 6, Items.metaglass, 10));
         }};
+        multiSorter = new MultiSorter("multi-sorter"){{
+            requirements(Category.distribution, with(Items.lead, 5, Items.copper, 5, Items.silicon, 5));
+        }};
         plastaniumRouter = new StackRouter("plastanium-router"){{
             requirements(Category.distribution, with(Items.plastanium, 5, Items.silicon, 5, Items.graphite, 5));
             health = 90;
@@ -944,6 +947,10 @@ public class HIBlocks {
             health = 75;
             speed = 4f;
         }};
+        ductMultiSorter = new MultiSorter("duct-multi-sorter"){{
+            requirements(Category.distribution, with(Items.beryllium, 5, Items.silicon, 5));
+            health = 90;
+        }};
         armoredDuctBridge = new DuctBridge("armored-duct-bridge"){{
             requirements(Category.distribution, with(Items.beryllium, 20, Items.tungsten, 10));
             health = 140;
@@ -962,6 +969,21 @@ public class HIBlocks {
             regionRotated1 = 1;
         }};
         //liquid
+        liquidOverflowValve = new LiquidOverflowValve("liquid-overflow-valve"){{
+            requirements(Category.liquid, with(Items.graphite, 6, Items.metaglass, 10));
+            solid = false;
+            underBullets = true;
+        }};
+        liquidUnderflowValve = new LiquidOverflowValve("liquid-underflow-valve"){{
+            requirements(Category.liquid, with(Items.graphite, 6, Items.metaglass, 10));
+            solid = false;
+            underBullets = true;
+            invert = true;
+        }};
+        liquidUnloader = new LiquidUnloader("liquid-unloader"){{
+            requirements(Category.liquid, with(Items.titanium, 15, Items.metaglass, 10));
+            health = 70;
+        }};
         chromiumArmorConduit = new BeltConduit("chromium-armor-conduit"){{
             requirements(Category.liquid, with(Items.metaglass, 2, HIItems.chromium, 1));
             health = 420;
@@ -1032,6 +1054,16 @@ public class HIBlocks {
             underBullets = true;
             buildCostMultiplier = 0.8f;
         }};
+        liquidMassDriver = new LiquidMassDriver("liquid-mass-driver"){{
+            requirements(Category.liquid, with(Items.metaglass, 85, Items.silicon, 80, Items.titanium, 80, Items.thorium, 55));
+            size = 3;
+            liquidCapacity = 700f;
+            range = 440f;
+            reload = 150f;
+            knockback = 3;
+            hasPower = true;
+            consumePower(1.8f);
+        }};
         turboPump = new Pump("turbo-pump"){{
             requirements(Category.liquid, with(Items.titanium, 40,Items.thorium, 50, Items.metaglass, 80, Items.silicon, 60, HIItems.chromium, 30));
             size = 2;
@@ -1057,6 +1089,31 @@ public class HIBlocks {
             consumePower(0.5f);
         }};
         //liquid-erekir
+        reinforcedLiquidOverflowValve = new LiquidOverflowValve("reinforced-liquid-overflow-valve"){{
+            requirements(Category.liquid, with(Items.graphite, 6, Items.beryllium, 10));
+            buildCostMultiplier = 3f;
+            health = 260;
+            researchCostMultiplier = 1;
+            solid = false;
+            underBullets = true;
+        }};
+        reinforcedLiquidUnderflowValve = new LiquidOverflowValve("reinforced-liquid-underflow-valve"){{
+            requirements(Category.liquid, with(Items.graphite, 6, Items.beryllium, 10));
+            buildCostMultiplier = 3f;
+            health = 260;
+            researchCostMultiplier = 1;
+            invert = true;
+            solid = false;
+            underBullets = true;
+        }};
+        reinforcedLiquidUnloader = new LiquidDirectionalUnloader("reinforced-liquid-unloader"){{
+            requirements(Category.liquid, with(Items.tungsten, 10, Items.beryllium, 15));
+            buildCostMultiplier = 3f;
+            health = 570;
+            researchCostMultiplier = 1;
+            solid = false;
+            underBullets = true;
+        }};
         liquidSorter = new SortLiquidRouter("liquid-sorter"){{
             requirements(Category.liquid, with(Items.silicon, 8, Items.beryllium, 4));
             liquidCapacity = 40f;
@@ -1093,6 +1150,11 @@ public class HIBlocks {
             squareSprite = false;
         }};
         //power
+        smartPowerNode = new SmartPowerNode("smart-power-node"){{ //Copy stats from normal power node
+            requirements(Category.power, with(Items.copper, 2, Items.lead, 5, Items.silicon, 1));
+            maxNodes = 10;
+            laserRange = 6;
+        }};
         powerNodeHuge = new PowerNode("power-node-huge"){{
             requirements(Category.power, with(Items.lead, 45, Items.titanium, 35, Items.thorium, 15, Items.silicon, 25));
             size = 3;
@@ -1121,6 +1183,13 @@ public class HIBlocks {
                     }
                 }
             };
+        }};
+        powerAnalyzer = new PowerAnalyzer("power-analyzer"){{
+            requirements(Category.power, with(Items.lead, 60, Items.silicon, 20, Items.metaglass, 10));
+            size = 2;
+            displayThickness = 9f / 4f;
+            displaySpacing = 18f / 4f;
+            displayLength = 24f / 4f;
         }};
         uraniumReactor = new NuclearReactor("uranium-reactor"){{
             requirements(Category.power, with(Items.lead, 400, Items.metaglass, 120, Items.graphite, 350, Items.silicon, 300, HIItems.uranium, 100));
@@ -1281,6 +1350,15 @@ public class HIBlocks {
             consumePowerBuffered(425000f);
         }};
         //power-erekir
+        smartBeamNode = new SmartBeamNode("smart-beam-node"){{ //Copy stats from normal beam node
+            requirements(Category.power, with(Items.beryllium, 10, Items.silicon, 2));
+            consumesPower = outputsPower = true;
+            health = 90;
+            range = 10;
+            fogRadius = 1;
+
+            consumePowerBuffered(1000f);
+        }};
         beamDiode = new BeamDiode("beam-diode"){{
             requirements(Category.power, with(Items.beryllium, 10, Items.silicon, 10, Items.oxide, 5));
             health = 90;
@@ -1290,6 +1368,16 @@ public class HIBlocks {
         beamInsulator = new InsulationWall("beam-insulator"){{
             requirements(Category.power, with(Items.silicon, 10, Items.oxide, 5));
             health = 90;
+        }};
+        reinforcedPowerAnalyzer = new PowerAnalyzer("reinforced-power-analyzer"){{
+            requirements(Category.power, with(Items.beryllium, 25, Items.silicon, 15));
+            size = 2;
+            displayThickness = 9f / 4f;
+            displaySpacing = 18f / 4f;
+            displayLength = 24f / 4f;
+            horizontal = true;
+            hideDetails = false;
+            squareSprite = false;
         }};
         liquidConsumeGenerator = new ConsumeGenerator("liquid-generator"){{
             requirements(Category.power, with(Items.beryllium, 180, Items.graphite, 120, Items.silicon, 115, Items.tungsten, 80, Items.oxide, 120));
@@ -2044,6 +2132,43 @@ public class HIBlocks {
             consumePower(2.5f);
             consumeItem(Items.phaseFabric, 1).boost();
         }};
+        sectorStructureMender = new RegenProjector("sector-structure-mender"){{
+            requirements(Category.effect, with(Items.lead, 600, Items.titanium, 400, Items.silicon, 350, Items.plastanium, 250, Items.surgeAlloy, 220, HIItems.nanocore, 150));
+            size = 4;
+            health = 1800;
+            range = 1500;
+            healPercent = 0.025f;
+            canOverdrive = false;
+            optionalUseTime = 3600;
+            optionalMultiplier = 6;
+            effectChance = 0.5f;
+            effect = new ParticleEffect(){{
+                particles = 1;
+                baseLength = lifetime = 30f;
+                length = -30f;
+                spin = 6f;
+                interp = Interp.pow3Out;
+                sizeInterp = Interp.pow3In;
+                region = name("triangle");
+                sizeFrom = 1.5f;
+                sizeTo = 0f;
+                colorFrom = colorTo = HIPal.regenerating;
+            }};
+            drawer = new DrawMulti(new DrawDefault(), new DrawPulseShape(){{
+                layer = 110;
+                stroke = 3f;
+                timeScl = 120f;
+                color = HIPal.regenerating;
+            }}, new DrawShape(){{
+                layer = 110;
+                radius = 5f;
+                useWarmupRadius = true;
+                timeScl = 1.22f;
+                color = HIPal.regenerating;
+            }});
+            consumePower(20f);
+            consumeItem(HIItems.nanocore, 10).boost();
+        }};
         assignOverdrive = new AssignOverdrive("assign-overdrive"){{
             requirements(Category.effect, with(Items.silicon, 150,Items.thorium, 120, Items.plastanium, 100, Items.surgeAlloy, 60, HIItems.chromium, 80));
             size = 3;
@@ -2079,6 +2204,18 @@ public class HIBlocks {
                 return teamRegion.found() ? new TextureRegion[]{region, teamRegions[Team.sharded.id]} : new TextureRegion[]{region};
             }
         };
+        paralysisMine = new ShockMine("paralysis-mine"){{
+            requirements(Category.effect, with(Items.titanium, 15, Items.silicon, 10, Items.surgeAlloy, 5));
+            size = 1;
+            hasShadow = false;
+            underBullets = true;
+            health = 120;
+            damage = 36f;
+            shots = 8;
+            length = 12;
+            tendrils = 6;
+            lightningColor = Pal.surge;
+        }};
         detonator = new Detonator("detonator"){{
             requirements(Category.effect, HIBuildVisibility.campaignOrSandboxOnly, with(Items.lead, 30, Items.graphite, 20, Items.thorium, 10, Items.blastCompound, 10));
             health = 160;
@@ -2152,6 +2289,9 @@ public class HIBlocks {
         payloadJunction = new PayloadJunction("payload-junction"){{
             requirements(Category.units, with(Items.graphite, 15, Items.copper, 20));
         }};
+        payloadRail = new PayloadRail("payload-rail"){{
+            requirements(Category.units, with(Items.graphite, 45, Items.titanium, 35, Items.silicon, 20));
+        }};
         //payload-erekir
         reinforcedPayloadJunction = new PayloadJunction("reinforced-payload-junction"){{
             requirements(Category.units, with(Items.tungsten, 15, Items.beryllium, 10));
@@ -2160,7 +2300,26 @@ public class HIBlocks {
             researchCostMultiplier = 4f;
             underBullets = true;
         }};
+        reinforcedPayloadRail = new PayloadRail("reinforced-payload-rail"){{
+            requirements(Category.units, with(Items.tungsten, 55, Items.silicon, 25, Items.oxide, 10));
+        }};
         //unit
+        unitMaintenanceDepot = new RepairTower("unit-maintenance-depot"){{
+            requirements(Category.units, with(Items.thorium, 360, Items.plastanium, 220, Items.surgeAlloy, 160, Items.phaseFabric, 100, HIItems.nanocore, 120));
+            size = 4;
+            health = 1200;
+            liquidCapacity = 120f;
+            range = 224f;
+            healAmount = 12;
+            circleSpeed = 75f;
+            circleStroke = 8f;
+            squareRad = 6f;
+            squareSpinScl = 1.2f;
+            glowMag = 0.4f;
+            glowScl = 12f;
+            consumePower(18f);
+            consumeLiquid(HILiquids.nanofluid, 0.6f);
+        }};
         titanReconstructor = new Reconstructor("titan-reconstructor"){{
             requirements(Category.units, with(Items.lead, 4000, Items.silicon, 3000, Items.plastanium, 1500, Items.surgeAlloy, 1200, Items.phaseFabric, 300, HIItems.chromium, 800));
             size = 11;
@@ -2963,7 +3122,7 @@ public class HIBlocks {
             rotateSpeed = 3.5f;
             recoil = 4f;
             beamEffect = HIFx.blazeBeam;
-            shootType = new MagmaBulletType(322, 24f){{
+            shootType = new MagmaBulletType(522f, 24f){{
                 shake = 2f;
             }};
             coolant = consumeCoolant(0.2f);

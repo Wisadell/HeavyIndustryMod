@@ -262,7 +262,7 @@ public class HIUnitTypes {
                     frontColor = HIPal.lightGrey;
                     width = 8f;
                     height = 32f;
-                    trailChance = 0f;
+                    trailChance = 0.1f;
                     trailInterval = 1f;
                     trailEffect = new ParticleEffect(){{
                         particles = 3;
@@ -1238,13 +1238,13 @@ public class HIUnitTypes {
                     spread = 4f;
                     barrels = 3;
                 }};
-                bullet = new MissileBulletType(6f, 60f){{
+                bullet = new MissileBulletType(10f, 60f){{
                     sprite = "missile";
                     trailColor = backColor = Pal.bulletYellowBack;
                     frontColor = Pal.bulletYellow;
                     width = 8f;
                     height = 32f;
-                    trailChance = 0f;
+                    trailChance = 0.8f;
                     trailInterval = 1f;
                     trailRotation = true;
                     splashDamage = 86f;
@@ -1252,7 +1252,7 @@ public class HIUnitTypes {
                     buildingDamageMultiplier = 1.33f;
                     status = StatusEffects.blasted;
                     shootEffect = Fx.shootSmallFlame;
-                    lifetime = 41.6f;
+                    lifetime = 56.8f;
                     hitShake = 2;
                     hitSound = Sounds.explosion;
                     hitEffect = Fx.blastExplosion;
@@ -1629,7 +1629,7 @@ public class HIUnitTypes {
                         lightOpacity = 0.7f;
                         trailWidth = 2.2f;
                         trailLength = 7;
-                        trailChance = -1f;
+                        trailChance = 0.1f;
                         collidesAir = false;
                         despawnEffect = Fx.none;
                         splashDamage = 46f;
@@ -1681,7 +1681,7 @@ public class HIUnitTypes {
                     lightOpacity = 0.7f;
                     trailWidth = 2.8f;
                     trailLength = 20;
-                    trailChance = -1f;
+                    trailChance = 0.1f;
                     despawnSound = Sounds.dullExplosion;
                     despawnEffect = Fx.none;
                     hitEffect = new ExplosionEffect(){{

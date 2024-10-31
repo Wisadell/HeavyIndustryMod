@@ -4,6 +4,7 @@ import heavyindustry.content.*;
 import heavyindustry.game.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
+import heavyindustry.ui.*;
 import heavyindustry.ui.dialogs.*;
 import arc.*;
 import arc.flabel.*;
@@ -107,6 +108,9 @@ public class HeavyIndustryMod extends Mod {
     @Override
     public void init(){
         super.init();
+        if(!headless){
+            HIDialog.init();
+        }
 
         settings.defaults("hi-homepage-dialog", false);
         settings.defaults("hi-tesla-range", true);

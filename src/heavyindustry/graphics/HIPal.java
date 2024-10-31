@@ -19,6 +19,7 @@ public class HIPal {
             lightYellow = Color.valueOf("ffe176"),
             canaryYellow = Color.valueOf("feebb3"),
             orangeBack = Color.valueOf("ff7f24"),
+            regenerating = HIStatusEffects.regenerating.color,
             ancient = Items.surgeAlloy.color.cpy().lerp(Pal.accent, 0.115f),
             ancientHeat = Color.red.cpy().mul(1.075f),
             ancientLight = ancient.cpy().lerp(Color.white, 0.7f),
