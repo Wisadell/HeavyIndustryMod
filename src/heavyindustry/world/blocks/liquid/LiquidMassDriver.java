@@ -48,7 +48,7 @@ public class LiquidMassDriver extends Block {
         solid = true;
         configurable = true;
         hasLiquids = true;
-        liquidCapacity = 120f;
+        liquidCapacity = 200f;
         hasPower = true;
         sync = true;
         envEnabled |= Env.space;
@@ -59,6 +59,12 @@ public class LiquidMassDriver extends Block {
         //point2 is relative
         config(Point2.class, (LiquidMassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));
         config(Integer.class, (LiquidMassDriverBuild tile, Integer point) -> tile.link = point);
+    }
+
+    @Override
+    public void load() {
+        super.load();
+        drawer.load(this);
     }
 
     @Override

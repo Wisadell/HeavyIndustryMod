@@ -118,7 +118,7 @@ public class TubeConveyor extends BeltConveyor {
                     float rot = i == 0 ? rotation * 90 : (dir) * 90;
 
                     Draw.rect(sliced(conveyorAtlas[frame][0], i != 0 ? SliceMode.bottom : SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot);
-                    Draw.rect(sliced(topRegion[0][frame], i != 0 ? SliceMode.bottom : SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot);
+                    Draw.rect(sliced(topRegion[0][1], i != 0 ? SliceMode.bottom : SliceMode.top), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, rot);
                 }
             }
 
@@ -180,7 +180,7 @@ public class TubeConveyor extends BeltConveyor {
             for(int i = 0; i < 4; i++){
                 Building otherBlock = nearby(i);
                 if (otherBlock == null) continue;
-                if ((otherBlock.block instanceof Conveyor ? (rotation == i || (otherBlock.rotation + 2) % 4 == i) : ((rotation == i && otherBlock.block.acceptsItems) || (rotation != i && otherBlock.block.outputsItems())))) {
+                if ((otherBlock.block instanceof Conveyor ? (rotation == i || (otherBlock.rotation + 2) % 4 == i) : !noSideBlend && ((rotation == i && otherBlock.block.acceptsItems) || (rotation != i && otherBlock.block.outputsItems())))) {
                     tiling |= (1 << i);
                 }
             }
