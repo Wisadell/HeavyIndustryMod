@@ -93,9 +93,9 @@ public class HIBlocks {
             //distribution-erekir
             ductJunction,ductMultiSorter,armoredDuctBridge,rapidDuctUnloader,
             //liquid
-            liquidOverflowValve,liquidUnderflowValve,liquidUnloader,liquidMassDriver,turboPump,phaseLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
+            liquidSorter,liquidValve,liquidOverflowValve,liquidUnderflowValve,liquidUnloader,liquidMassDriver,turboPump,phaseLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
             //liquid-erekir
-            reinforcedLiquidOverflowValve,reinforcedLiquidUnderflowValve,reinforcedLiquidUnloader,liquidSorter,liquidValve,smallReinforcedPump,largeReinforcedPump,
+            reinforcedLiquidOverflowValve,reinforcedLiquidUnderflowValve,reinforcedLiquidUnloader,reinforcedLiquidSorter,reinforcedLiquidValve,smallReinforcedPump,largeReinforcedPump,
             //power
             smartPowerNode,powerNodePhase,powerNodeHuge,powerAnalyzer,uraniumReactor,hypermagneticReactor,hugeBattery,armoredCoatedBattery,
             //power-erekir
@@ -898,6 +898,7 @@ public class HIBlocks {
             capacity = itemCapacity = 12;
             ((BeltConveyor) chromiumEfficientConveyor).junctionReplacement = this;
             ((BeltConveyor) chromiumArmorConveyor).junctionReplacement = this;
+            ((TubeConveyor) chromiumTubeConveyor).junctionReplacement = this;
         }};
         chromiumInvertedJunction = new MultiInvertedJunction("chromium-inverted-junction"){{
             requirements(Category.distribution, with(Items.copper, 2, HIItems.chromium, 2));
@@ -922,6 +923,7 @@ public class HIBlocks {
             buildCostMultiplier = 0.8f;
             ((BeltConveyor) chromiumEfficientConveyor).bridgeReplacement = this;
             ((BeltConveyor) chromiumArmorConveyor).bridgeReplacement = this;
+            ((TubeConveyor) chromiumTubeConveyor).bridgeReplacement = this;
         }};
         phaseItemNode = new NodeBridge("phase-item-node"){{
             requirements(Category.distribution, with( Items.lead, 30, HIItems.chromium , 10, Items.silicon, 15, Items.phaseFabric, 10));
@@ -969,6 +971,22 @@ public class HIBlocks {
             regionRotated1 = 1;
         }};
         //liquid
+        liquidSorter = new SortLiquidRouter("liquid-sorter"){{
+            requirements(Category.liquid, with(Items.graphite, 4, Items.metaglass, 2));
+            liquidCapacity = 20f;
+            liquidPadding = 3f / 4f;
+            underBullets = true;
+            rotate = false;
+            solid = false;
+        }};
+        liquidValve = new SortLiquidRouter("liquid-valve"){{
+            requirements(Category.liquid, with(Items.graphite, 4, Items.metaglass, 2));
+            liquidCapacity = 20f;
+            liquidPadding = 3f / 4f;
+            underBullets = true;
+            configurable = false;
+            solid = false;
+        }};
         liquidOverflowValve = new LiquidOverflowValve("liquid-overflow-valve"){{
             requirements(Category.liquid, with(Items.graphite, 6, Items.metaglass, 10));
             solid = false;
@@ -1114,7 +1132,7 @@ public class HIBlocks {
             solid = false;
             underBullets = true;
         }};
-        liquidSorter = new SortLiquidRouter("liquid-sorter"){{
+        reinforcedLiquidSorter = new SortLiquidRouter("reinforced-liquid-sorter"){{
             requirements(Category.liquid, with(Items.silicon, 8, Items.beryllium, 4));
             liquidCapacity = 40f;
             liquidPadding = 3f / 4f;
@@ -1124,7 +1142,7 @@ public class HIBlocks {
             solid = false;
             squareSprite = false;
         }};
-        liquidValve = new SortLiquidRouter("liquid-valve"){{
+        reinforcedLiquidValve = new SortLiquidRouter("reinforced-liquid-valve"){{
             requirements(Category.liquid, with(Items.graphite, 6, Items.beryllium, 6));
             liquidCapacity = 40f;
             liquidPadding = 3f / 4f;
@@ -1166,10 +1184,10 @@ public class HIBlocks {
             requirements(Category.power, ItemStack.with(Items.plastanium, 5, HIItems.heavyAlloy, 15, Items.phaseFabric, 10));
             size = 1;
             health = 2200;
-            armor = 30;
+            armor = 30f;
             absorbLasers = true;
             maxNodes = 20;
-            laserRange = 30;
+            laserRange = 30f;
             timers ++;
             update = true;
             buildType = () -> new PowerNodeBuild(){
@@ -1356,7 +1374,6 @@ public class HIBlocks {
             health = 90;
             range = 10;
             fogRadius = 1;
-
             consumePowerBuffered(1000f);
         }};
         beamDiode = new BeamDiode("beam-diode"){{
@@ -1376,7 +1393,6 @@ public class HIBlocks {
             displaySpacing = 18f / 4f;
             displayLength = 24f / 4f;
             horizontal = true;
-            hideDetails = false;
             squareSprite = false;
         }};
         liquidConsumeGenerator = new ConsumeGenerator("liquid-generator"){{

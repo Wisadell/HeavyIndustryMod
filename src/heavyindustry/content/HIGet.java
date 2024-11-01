@@ -90,6 +90,7 @@ public class HIGet {
         float cos = (float) Math.cos(a);
         return x + length * cos;
     }
+
     public static float posy(float y, float length, float angle){
         float a = (float) ((Math.PI * angle)/180);
         float sin = (float) Math.sin(a);

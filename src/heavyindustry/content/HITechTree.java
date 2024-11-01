@@ -115,8 +115,9 @@ public class HITechTree {
         addToNode(ductUnloader, () -> node(rapidDuctUnloader, () -> {}));
         //liquid
         addToNode(liquidRouter, () -> {
-            node(liquidOverflowValve, () -> {});
-            node(liquidUnderflowValve, () -> {});
+            node(liquidOverflowValve, () -> node(liquidUnderflowValve, () -> {}));
+            node(liquidSorter, () -> {});
+            node(liquidValve, () -> {});
         });
         addToNode(liquidContainer, () -> node(liquidUnloader, () -> {}));
         addToNode(impulsePump, () -> node(turboPump, () -> {}));
@@ -129,8 +130,8 @@ public class HITechTree {
         addToNode(reinforcedLiquidContainer, () -> node(reinforcedLiquidUnloader, () -> {}));
         addToNode(reinforcedLiquidRouter, () -> {
             node(reinforcedLiquidOverflowValve, () -> node(reinforcedLiquidUnderflowValve, () -> {}));
-            node(liquidSorter, () -> {});
-            node(liquidValve, () -> {});
+            node(reinforcedLiquidSorter, () -> {});
+            node(reinforcedLiquidValve, () -> {});
         });
         removeNode(reinforcedPump);
         addToNode(reinforcedConduit, () -> node(smallReinforcedPump, Seq.with(new OnSector(basin)), () -> node(reinforcedPump, () -> node(largeReinforcedPump, () -> {}))));

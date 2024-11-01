@@ -135,15 +135,9 @@ public class PowerGraphInfoDialog extends BaseDialog {
 
         clearData();
 
-        graph.producers.each(p -> {
-            producers.get(p.block.id, Seq::new).add(p);
-        });
-        graph.consumers.each(p -> {
-            consumers.get(p.block.id, Seq::new).add(p);
-        });
-        graph.batteries.each(p -> {
-            batteries.get(p.block.id, Seq::new).add(p);
-        });
+        graph.producers.each(p -> producers.get(p.block.id, Seq::new).add(p));
+        graph.consumers.each(p -> consumers.get(p.block.id, Seq::new).add(p));
+        graph.batteries.each(p -> batteries.get(p.block.id, Seq::new).add(p));
 
         refresh();
     }
@@ -154,9 +148,9 @@ public class PowerGraphInfoDialog extends BaseDialog {
         batteries.clear();
     }
 
-    public enum PowerInfoType{
+    public enum PowerInfoType {
         producer,
         consumer,
-        battery;
+        battery
     }
 }
