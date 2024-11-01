@@ -129,29 +129,26 @@ public class NodeBridge extends ItemBridge {
 
         @Override
         public void draw(Building build) {
-            if(!(build instanceof NodeBridgeBuild)) return;
-            drawR((NodeBridgeBuild) build);
-        }
+            if(!(build instanceof NodeBridgeBuild bu)) return;
 
-        public void drawR(NodeBridgeBuild build){
             Draw.z(Layer.power);
-            Building other = world.build(build.link);
+            Building other = world.build(bu.link);
             if(other == null) return;
             float op = settings.getInt("bridgeopacity") / 100f;
             if(Mathf.zero(op)) return;
 
             Draw.color(Color.white);
-            if(build.block.hasPower) Draw.alpha(Math.max(build.power.status, 0.25f) * op);
+            if(bu.block.hasPower) Draw.alpha(Math.max(bu.power.status, 0.25f) * op);
             else Draw.alpha(op);
 
-            Draw.rect(endRegion, build.x, build.y);
+            Draw.rect(endRegion, bu.x, bu.y);
             Draw.rect(endRegion, other.x, other.y);
 
             Lines.stroke(8);
 
-            Tmp.v1.set(build.x, build.y).sub(other.x, other.y).setLength(tilesize / 2f).scl(-1);
+            Tmp.v1.set(bu.x, bu.y).sub(other.x, other.y).setLength(tilesize / 2f).scl(-1);
 
-            Lines.line(bridgeRegion, build.x, build.y, other.x, other.y, false);
+            Lines.line(bridgeRegion, bu.x, bu.y, other.x, other.y, false);
             Draw.reset();
         }
 

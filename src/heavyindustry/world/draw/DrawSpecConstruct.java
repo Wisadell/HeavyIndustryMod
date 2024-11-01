@@ -20,7 +20,20 @@ public class DrawSpecConstruct extends DrawBlock {
     /** The color of the constructed lines. */
     public Color constructColor2 = Pal.accent;
 
+    public int size = 32;
+
     public TextureRegion[] stageRegions;
+
+    public DrawSpecConstruct() {}
+
+    public DrawSpecConstruct(Color color) {
+        constructColor1 = constructColor2 = color;
+    }
+
+    public DrawSpecConstruct(Color color1, Color color2) {
+        constructColor1 = color1;
+        constructColor2 = color2;
+    }
 
     @Override
     public void draw(Building build) {
@@ -37,6 +50,7 @@ public class DrawSpecConstruct extends DrawBlock {
     @Override
     public void load(Block block) {
         super.load(block);
-        stageRegions = split(block.name + "-construct", 32, 0);
+        if (size < 1) size = 32;
+        stageRegions = split(block.name + "-construct", size, 0);
     }
 }

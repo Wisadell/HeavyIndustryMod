@@ -118,7 +118,7 @@ public class TileVent extends SteamVent {
         return offsets[index];
     }
 
-    private static Point2[] createOffsets(int size){
+    protected static Point2[] createOffsets(int size){
         if(size == 1) return new Point2[]{new Point2(0, 0)};
         int offset = (size - 1) / 2;
 

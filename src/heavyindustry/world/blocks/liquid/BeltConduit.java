@@ -10,7 +10,6 @@ import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.liquid.*;
 
-import static arc.Core.*;
 import static mindustry.Vars.*;
 import static heavyindustry.util.HIUtils.*;
 
@@ -27,8 +26,6 @@ public class BeltConduit extends Conduit {
     @Override
     public void load() {
         super.load();
-        uiIcon = atlas.find(name + "-icon");
-
         topParts = split(name + "-top", 32, 0);
         botParts = split(name + "-bot", 32, 0);
     }
@@ -50,7 +47,7 @@ public class BeltConduit extends Conduit {
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{uiIcon};
+        return new TextureRegion[]{region};
     }
 
     @Override

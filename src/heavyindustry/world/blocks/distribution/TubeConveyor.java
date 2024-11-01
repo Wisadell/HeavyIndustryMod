@@ -168,6 +168,7 @@ public class TubeConveyor extends BeltConveyor {
 
         @Override
         public void unitOn(Unit unit){
+            //There is a cover, can't slide on this thing.
         }
 
         @Override

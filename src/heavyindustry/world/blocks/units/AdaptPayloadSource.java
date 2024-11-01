@@ -107,9 +107,9 @@ public class AdaptPayloadSource extends PayloadSource {
         @Override
         public void configured(Unit builder, Object value) {
             super.configured(builder, value);
-            if(!(value instanceof Integer)) return;
+            if(!(value instanceof Integer v)) return;
             if (builder != null && builder.isPlayer()) {
-                Team team = Team.get((int)value);
+                Team team = Team.get(v);
                 builder.team = team;
                 builder.getPlayer().team(team);
 

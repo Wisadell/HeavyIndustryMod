@@ -65,7 +65,7 @@ public class PayloadRail extends PayloadBlock{
         if(
             tile == null || other == null
             || tile.build == null || other.build == null
-            || !positionsValid(tile.build.tileX(), tile.build.tileY(), other.build.tileX(), other.build.tileY())
+            || positionsValid(tile.build.tileX(), tile.build.tileY(), other.build.tileX(), other.build.tileY())
             || !(other.build instanceof PayloadRailBuild b)
         ) return false;
 
@@ -75,7 +75,7 @@ public class PayloadRail extends PayloadBlock{
     }
 
     public boolean positionsValid(int x1, int y1, int x2, int y2){
-        return Mathf.dst(x1, y1, x2, y2) <= range / tilesize;
+        return !(Mathf.dst(x1, y1, x2, y2) <= range / tilesize);
     }
 
     @Override
@@ -370,7 +370,7 @@ public class PayloadRail extends PayloadBlock{
         public boolean checkLink(){
             if(link == -1) return true;
             Building other = world.build(link);
-            if(!(other instanceof PayloadRailBuild build) || build.link == pos() || !positionsValid(tileX(), tileY(), other.tileX(), other.tileY())){
+            if(!(other instanceof PayloadRailBuild build) || build.link == pos() || positionsValid(tileX(), tileY(), other.tileX(), other.tileY())){
                 return true;
             }
             if(build.incoming == -1){
@@ -381,7 +381,7 @@ public class PayloadRail extends PayloadBlock{
 
         public void checkIncoming(){
             Building other = world.build(incoming);
-            if(!(other instanceof PayloadRailBuild build) || build.link != pos() || !positionsValid(tileX(), tileY(), other.tileX(), other.tileY())){
+            if(!(other instanceof PayloadRailBuild build) || build.link != pos() || positionsValid(tileX(), tileY(), other.tileX(), other.tileY())){
                 incoming = -1;
             }
         }

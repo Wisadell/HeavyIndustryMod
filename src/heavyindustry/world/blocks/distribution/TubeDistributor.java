@@ -207,6 +207,11 @@ public class TubeDistributor extends Router {
         }
 
         @Override
+        public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {
+            Draw.rect(block.region, plan.drawx(), plan.drawy(), plan.rotation * 90f);
+        }
+
+        @Override
         public void load(Block block) {
             bottomRegion = atlas.find(block.name + "-bottom");
             topRegion = atlas.find(block.name + "-top");

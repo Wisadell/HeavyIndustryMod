@@ -3,6 +3,8 @@ package heavyindustry.world.draw;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.util.Eachable;
+import mindustry.entities.units.BuildPlan;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
@@ -19,6 +21,11 @@ public class DrawAtlasFrames extends DrawFrames {
     @Override
     public void draw(Building build) {
         Draw.rect(sine ? splitRegion[(int) Mathf.absin(build.totalProgress(), interval, splitRegion.length - 0.001f)] : splitRegion[(int)((build.totalProgress() / interval) % splitRegion.length)], build.x, build.y);
+    }
+
+    @Override
+    public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {
+        Draw.rect(icon, plan.drawx(), plan.drawy());
     }
 
     @Override
