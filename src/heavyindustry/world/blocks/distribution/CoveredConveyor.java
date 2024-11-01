@@ -44,7 +44,7 @@ public class CoveredConveyor extends BeltConveyor {
 
         if(bits == null) return;
 
-        TextureRegion conveyor = conveyorAtlas[bits[0]][0], cover = coverRegions[bits[0]];
+        TextureRegion conveyor = conveyorAtlas[0][bits[0]], cover = coverRegions[bits[0]];
         for(TextureRegion i : new TextureRegion[]{conveyor, cover}){
             Draw.rect(i, plan.drawx(), plan.drawy(), i.width * bits[1] * i.scl(), i.height * bits[2] * i.scl(), plan.rotation * 90);
         }

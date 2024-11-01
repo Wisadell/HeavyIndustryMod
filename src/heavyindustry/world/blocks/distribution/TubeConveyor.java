@@ -55,7 +55,7 @@ public class TubeConveyor extends BeltConveyor {
 
         if(bits == null) return;
 
-        TextureRegion conveyor = conveyorAtlas[bits[0]][0];
+        TextureRegion conveyor = conveyorAtlas[0][bits[0]];
         Draw.rect(conveyor, plan.drawx(), plan.drawy(), conveyor.width * bits[1] * conveyor.scl(), conveyor.height * bits[2] * conveyor.scl(), plan.rotation * 90);
 
         BuildPlan[] directionals = new BuildPlan[4];
