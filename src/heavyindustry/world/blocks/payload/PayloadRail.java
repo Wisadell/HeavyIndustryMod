@@ -27,7 +27,7 @@ public class PayloadRail extends PayloadBlock{
     public float railSpeed = -1f;
     public float followSpeed = 0.1f;
     public float bufferDst = 1f;
-    public float range = 10f * tilesize;
+    public float range = 220f;
     public float arrivedRadius = 4f;
     public float clawWarmupRate = 0.08f;
     public float warmupSpeed = 0.05f;
@@ -65,17 +65,9 @@ public class PayloadRail extends PayloadBlock{
     }
 
     public boolean linkValid(Tile tile, Tile other){
-        if(
-                tile == null || other == null
-                        || tile.build == null || other.build == null
-                        || tile.build.pos() == other.build.pos()
-                        || positionsValid(tile.build.tileX(), tile.build.tileY(), other.build.tileX(), other.build.tileY())
-                        || !(other.build instanceof PayloadRailBuild b)
-        ) return false;
+        if(tile == null || other == null || tile.build == null || other.build == null || tile.build.pos() == other.build.pos() || positionsValid(tile.build.tileX(), tile.build.tileY(), other.build.tileX(), other.build.tileY()) || !(other.build instanceof PayloadRailBuild b)) return false;
 
-        return tile.block() == other.block()
-                && (b.incoming == -1 || b.incoming == tile.build.pos())
-                && b.link != tile.build.pos();
+        return tile.block() == other.block() && (b.incoming == -1 || b.incoming == tile.build.pos()) && b.link != tile.build.pos();
     }
 
     public boolean positionsValid(int x1, int y1, int x2, int y2){
@@ -275,11 +267,7 @@ public class PayloadRail extends PayloadBlock{
             highlighted.each(i -> {
                 Tile other = world.tile(i);
                 boolean linked = other.build.pos() == link;
-                Drawf.select(
-                        other.build.x, other.build.y,
-                        tile.block().size * tilesize / 2f + 2f + (linked ? 0f : Mathf.absin(Time.time, 4f, 1f)),
-                        linked ? Pal.place : Pal.breakInvalid
-                );
+                Drawf.select(other.build.x, other.build.y, tile.block().size * tilesize / 2f + 2f + (linked ? 0f : Mathf.absin(Time.time, 4f, 1f)), linked ? Pal.place : Pal.breakInvalid);
             });
         }
 
@@ -349,10 +337,7 @@ public class PayloadRail extends PayloadBlock{
 
             if(rotate){
                 PayloadRailBuild other = (PayloadRailBuild)world.build(link);
-                float rotTarget =
-                        other != null ? angleTo(other) :
-                                block.rotate ? rotdeg() :
-                                        90f;
+                float rotTarget = other != null ? angleTo(other) : block.rotate ? rotdeg() : 90f;
                 payRotation = Angles.moveToward(payRotation, rotTarget, payloadRotateSpeed * delta());
             }
             payVector.approach(Vec2.ZERO, payloadSpeed * delta());
@@ -397,11 +382,7 @@ public class PayloadRail extends PayloadBlock{
         public boolean checkLink(){
             if(link == -1) return true;
             Building other = world.build(link);
-            if(
-                    !(other instanceof PayloadRailBuild build)
-                            || build.link == pos()
-                            || positionsValid(tileX(), tileY(), other.tileX(), other.tileY())
-            ){
+            if(!(other instanceof PayloadRailBuild build) || build.link == pos() || positionsValid(tileX(), tileY(), other.tileX(), other.tileY())){
                 return true;
             }
             if(build.incoming == -1){
@@ -492,11 +473,7 @@ public class PayloadRail extends PayloadBlock{
 
             dir = payload.angleTo(target);
 
-            payload.set(
-                    Mathf.lerpDelta(payload.x(), x, followSpeed),
-                    Mathf.lerpDelta(payload.y(), y, followSpeed),
-                    Angles.moveToward(payload.rotation(), dir, payloadRotateSpeed * Time.delta)
-            );
+            payload.set(Mathf.lerpDelta(payload.x(), x, followSpeed), Mathf.lerpDelta(payload.y(), y, followSpeed), Angles.moveToward(payload.rotation(), dir, payloadRotateSpeed * Time.delta));
         }
 
         public void draw(){
