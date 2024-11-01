@@ -1,11 +1,14 @@
 package heavyindustry.world.blocks.payload;
 
+import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.graphics.gl.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import mindustry.core.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -17,13 +20,14 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class PayloadRail extends PayloadBlock{
+    protected static final IntSet highlighted = new IntSet();
     protected static float zeroPrecision = 0.5f;
 
     public float maxPayloadSize = 3f;
     public float railSpeed = -1f;
     public float followSpeed = 0.1f;
     public float bufferDst = 1f;
-    public float range = 200f;
+    public float range = 10f * tilesize;
     public float arrivedRadius = 4f;
     public float clawWarmupRate = 0.08f;
     public float warmupSpeed = 0.05f;
@@ -42,7 +46,6 @@ public class PayloadRail extends PayloadBlock{
         solid = true;
         canOverdrive = false;
 
-        //Point2 is relative
         config(Point2.class, (PayloadRailBuild build, Point2 point) -> {
             build.link = Point2.pack(point.x + build.tileX(), point.y + build.tileY());
         });
@@ -63,15 +66,16 @@ public class PayloadRail extends PayloadBlock{
 
     public boolean linkValid(Tile tile, Tile other){
         if(
-            tile == null || other == null
-            || tile.build == null || other.build == null
-            || positionsValid(tile.build.tileX(), tile.build.tileY(), other.build.tileX(), other.build.tileY())
-            || !(other.build instanceof PayloadRailBuild b)
+                tile == null || other == null
+                        || tile.build == null || other.build == null
+                        || tile.build.pos() == other.build.pos()
+                        || positionsValid(tile.build.tileX(), tile.build.tileY(), other.build.tileX(), other.build.tileY())
+                        || !(other.build instanceof PayloadRailBuild b)
         ) return false;
 
         return tile.block() == other.block()
-            && (b.incoming == -1 || b.incoming == tile.build.pos())
-            && b.link != tile.build.pos();
+                && (b.incoming == -1 || b.incoming == tile.build.pos())
+                && b.link != tile.build.pos();
     }
 
     public boolean positionsValid(int x1, int y1, int x2, int y2){
@@ -166,9 +170,10 @@ public class PayloadRail extends PayloadBlock{
 
             drawPayload();
 
-            if(link == -1) return;
+            if(checkLink()) return;
             Building other = world.build(link);
-            if(!(other instanceof PayloadRailBuild)) return;
+            float opacity = Renderer.bridgeOpacity;
+            if(!(other instanceof PayloadRailBuild) || Mathf.zero(opacity)) return;
 
             items.each(p -> {
                 Draw.z(Layer.power - 1);
@@ -184,11 +189,11 @@ public class PayloadRail extends PayloadBlock{
             float dy = (other.y - y) / count;
             for(int i = 0; i < count; i++){
                 float j = (i + 0.5f);
-                Drawn.spinSprite(railRegions, x + dx * j, y + dy * j, texW * width, railRegions[0].height / 4f, ang);
+                Drawn.spinSprite(railRegions, x + dx * j, y + dy * j, texW * width, railRegions[0].height / 4f, ang, opacity);
             }
 
             Draw.z(Layer.effect);
-            Draw.color(Pal.accent);
+            Draw.color(Pal.accent, opacity);
             Draw.scl(warmup * 1.1f);
             for(int i = 0; i < 4; i++){
                 Tmp.v1.set(x, y).lerp(other.x, other.y, 0.5f + (i - 1.5f) * 0.2f);
@@ -198,7 +203,7 @@ public class PayloadRail extends PayloadBlock{
             Draw.scl();
 
             Draw.z(Layer.power + 0.2f);
-            Drawn.spinSprite(clawRegions, x, y, ang, clawOutAlpha);
+            Drawn.spinSprite(clawRegions, x, y, ang, clawOutAlpha * opacity);
         }
 
         @Override
@@ -213,7 +218,7 @@ public class PayloadRail extends PayloadBlock{
 
         @Override
         public void drawSelect(){
-            if(linkValid(tile, world.tile(link))){
+            if(!checkLink()){
                 drawInput(world.tile(link));
             }
 
@@ -222,7 +227,7 @@ public class PayloadRail extends PayloadBlock{
             }
         }
 
-        protected void drawInput(Tile other){
+        private void drawInput(Tile other){
             boolean linked = other.pos() == link;
 
             Tmp.v2.trns(tile.angleTo(other), 2f);
@@ -257,10 +262,25 @@ public class PayloadRail extends PayloadBlock{
         public void drawConfigure(){
             Drawf.select(x, y, tile.block().size * tilesize / 2f + 2f, Pal.accent);
 
-            Tile other = world.tile(link);
-            if(linkValid(tile,other)){
-                Drawf.select(other.build.x, other.build.y, tile.block().size * tilesize / 2f + 2f, Pal.place);
+            highlighted.clear();
+            for(int tx = (int)-range - 1; tx <= range + 1; tx++){
+                for(int ty = (int)-range - 1; ty <= range + 1; ty++){
+                    Tile other = world.tile(tileX() + tx, tileY() + ty);
+                    if(linkValid(tile, other) && !highlighted.contains(other.pos())){
+                        highlighted.add(other.pos());
+                    }
+                }
             }
+
+            highlighted.each(i -> {
+                Tile other = world.tile(i);
+                boolean linked = other.build.pos() == link;
+                Drawf.select(
+                        other.build.x, other.build.y,
+                        tile.block().size * tilesize / 2f + 2f + (linked ? 0f : Mathf.absin(Time.time, 4f, 1f)),
+                        linked ? Pal.place : Pal.breakInvalid
+                );
+            });
         }
 
         @Override
@@ -329,7 +349,10 @@ public class PayloadRail extends PayloadBlock{
 
             if(rotate){
                 PayloadRailBuild other = (PayloadRailBuild)world.build(link);
-                float rotTarget = other != null ? angleTo(other) : block.rotate ? rotdeg() : 90f;
+                float rotTarget =
+                        other != null ? angleTo(other) :
+                                block.rotate ? rotdeg() :
+                                        90f;
                 payRotation = Angles.moveToward(payRotation, rotTarget, payloadRotateSpeed * delta());
             }
             payVector.approach(Vec2.ZERO, payloadSpeed * delta());
@@ -352,15 +375,19 @@ public class PayloadRail extends PayloadBlock{
 
                 clawVec.set(payload).sub(this);
                 clawInAlpha = 1f;
-            }else super.handlePayload(source, payload);
+            }else{
+                super.handlePayload(source, payload);
+            }
         }
 
         @Override
         public boolean onConfigureBuildTapped(Building other){
             if(linkValid(tile, other.tile)){
-                if(link == other.pos()) configure(-1);
-                else configure(other.pos());
-
+                if(link == other.pos()){
+                    configure(-1);
+                }else{
+                    configure(other.pos());
+                }
                 return false;
             }
             return true;
@@ -370,7 +397,11 @@ public class PayloadRail extends PayloadBlock{
         public boolean checkLink(){
             if(link == -1) return true;
             Building other = world.build(link);
-            if(!(other instanceof PayloadRailBuild build) || build.link == pos() || positionsValid(tileX(), tileY(), other.tileX(), other.tileY())){
+            if(
+                    !(other instanceof PayloadRailBuild build)
+                            || build.link == pos()
+                            || positionsValid(tileX(), tileY(), other.tileX(), other.tileY())
+            ){
                 return true;
             }
             if(build.incoming == -1){
@@ -462,16 +493,29 @@ public class PayloadRail extends PayloadBlock{
             dir = payload.angleTo(target);
 
             payload.set(
-                Mathf.lerpDelta(payload.x(), x, followSpeed),
-                Mathf.lerpDelta(payload.y(), y, followSpeed),
-                Angles.moveToward(payload.rotation(), dir, payloadRotateSpeed * Time.delta)
+                    Mathf.lerpDelta(payload.x(), x, followSpeed),
+                    Mathf.lerpDelta(payload.y(), y, followSpeed),
+                    Angles.moveToward(payload.rotation(), dir, payloadRotateSpeed * Time.delta)
             );
         }
 
         public void draw(){
-            payload.draw();
+            float opacity = Renderer.bridgeOpacity;
+            if(opacity < 0.999f){
+                FrameBuffer buffer = renderer.effectBuffer;
+                Draw.draw(Draw.z(), () -> {
+                    buffer.begin(Color.clear);
+                    payload.draw();
+                    buffer.end();
+
+                    HIShaders.alphaShader.alpha = opacity;
+                    buffer.blit(HIShaders.alphaShader);
+                });
+            }else{
+                payload.draw();
+            }
             Draw.z(Layer.power + 0.2f);
-            Drawn.spinSprite(clawRegions, payload.x(), payload.y(), dir);
+            Drawn.spinSprite(clawRegions, payload.x(), payload.y(), dir, opacity);
         }
 
         public boolean railArrived(Position target){
