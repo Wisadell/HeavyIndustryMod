@@ -40,14 +40,14 @@ public class CoveredConveyor extends BeltConveyor {
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-        super.drawPlanRegion(plan, list);
-
         int[] bits = getTiling(plan, list);
 
         if(bits == null) return;
 
-        TextureRegion region = coverRegions[bits[0]];
-        Draw.rect(region, plan.drawx(), plan.drawy(), region.width * bits[1] * Draw.scl, region.height * bits[2] * Draw.scl, plan.rotation * 90);
+        TextureRegion conveyor = conveyorAtlas[bits[0]][0], cover = coverRegions[bits[0]];
+        for(TextureRegion i : new TextureRegion[]{conveyor, cover}){
+            Draw.rect(i, plan.drawx(), plan.drawy(), i.width * bits[1] * i.scl(), i.height * bits[2] * i.scl(), plan.rotation * 90);
+        }
     }
 
     @Override

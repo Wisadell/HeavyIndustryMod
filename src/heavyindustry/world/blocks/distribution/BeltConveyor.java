@@ -35,7 +35,14 @@ public class BeltConveyor extends Conveyor {
 
     @Override
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
-        Draw.rect(region, plan.drawx(), plan.drawy(), (plan.rotation * 90));
+        int[] bits = getTiling(plan, list);
+
+        if(bits == null) return;
+
+        TextureRegion conveyor = conveyorAtlas[bits[0]][0], edge = edgeAtlas[bits[0]][0];
+        for(TextureRegion i : new TextureRegion[]{conveyor, edge}){
+            Draw.rect(i, plan.drawx(), plan.drawy(), i.width * bits[1] * i.scl(), i.height * bits[2] * i.scl(), plan.rotation * 90);
+        }
     }
 
     @Override

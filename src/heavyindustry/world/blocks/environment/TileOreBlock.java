@@ -55,7 +55,7 @@ public class TileOreBlock extends OreBlock {
         }
     }
 
-    protected boolean eq(int rx, int ry){
+    private boolean eq(int rx, int ry){
         return rx < world.width() - 1 && ry < world.height() - 1
                 && world.tile(rx + 1, ry).overlay() == this
                 && world.tile(rx, ry + 1).overlay() == this

@@ -30,6 +30,7 @@ public class TubeConveyor extends BeltConveyor {
 
     public TextureRegion[][] topRegion;
     public TextureRegion[] capRegion;
+    public TextureRegion editorRegion;
 
     public TubeConveyor(String name) {
         super(name);
@@ -40,25 +41,32 @@ public class TubeConveyor extends BeltConveyor {
         super.load();
         topRegion = splitLayers(name + "-sheet", 32, 2);
         capRegion = new TextureRegion[]{topRegion[1][0], topRegion[1][1]};
+        editorRegion = atlas.find(name + "-editor");
     }
 
     @Override
     public TextureRegion[] icons() {
-        return new TextureRegion[]{atlas.find(name + "-editor")};
+        return new TextureRegion[]{editorRegion};
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan req, Eachable<BuildPlan> list){
-        super.drawPlanRegion(req, list);
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        int[] bits = getTiling(plan, list);
+
+        if(bits == null) return;
+
+        TextureRegion conveyor = conveyorAtlas[bits[0]][0];
+        Draw.rect(conveyor, plan.drawx(), plan.drawy(), conveyor.width * bits[1] * conveyor.scl(), conveyor.height * bits[2] * conveyor.scl(), plan.rotation * 90);
+
         BuildPlan[] directionals = new BuildPlan[4];
         list.each(other -> {
-            if(other.breaking || other == req) return;
+            if(other.breaking || other == plan) return;
 
             int i = 0;
             for(Point2 point : Geometry.d4){
-                int x = req.x + point.x, y = req.y + point.y;
+                int x = plan.x + point.x, y = plan.y + point.y;
                 if(x >= other.x -(other.block.size - 1) / 2 && x <= other.x + (other.block.size / 2) && y >= other.y -(other.block.size - 1) / 2 && y <= other.y + (other.block.size / 2)){
-                    if ((other.block instanceof Conveyor ? (req.rotation == i || (other.rotation + 2) % 4 == i) : ((req.rotation == i && other.block.acceptsItems) || (req.rotation != i && other.block.outputsItems())))) {
+                    if ((other.block instanceof Conveyor ? (plan.rotation == i || (other.rotation + 2) % 4 == i) : ((plan.rotation == i && other.block.acceptsItems) || (plan.rotation != i && other.block.outputsItems())))) {
                         directionals[i] = other;
                     }
                 }
@@ -72,25 +80,18 @@ public class TubeConveyor extends BeltConveyor {
                 mask += (1 << i);
             }
         }
-        mask |= (1 << req.rotation);
-        Draw.rect(topRegion[0][mask], req.drawx(), req.drawy(), 0);
+        mask |= (1 << plan.rotation);
+        Draw.rect(topRegion[0][mask], plan.drawx(), plan.drawy(), 0);
         for(int i : tiles[mask]){
-            if(directionals[i] == null || (directionals[i].block instanceof Conveyor ? (directionals[i].rotation + 2) % 4 == req.rotation : ((req.rotation == i && !directionals[i].block.acceptsItems) || (req.rotation != i && !directionals[i].block.outputsItems())))){
+            if(directionals[i] == null || (directionals[i].block instanceof Conveyor ? (directionals[i].rotation + 2) % 4 == plan.rotation : ((plan.rotation == i && !directionals[i].block.acceptsItems) || (plan.rotation != i && !directionals[i].block.outputsItems())))){
                 int id = i == 0 || i == 3 ? 1 : 0;
-                Draw.rect(capRegion[id], req.drawx(), req.drawy(), i == 0 || i == 2 ? 0 : -90);
+                Draw.rect(capRegion[id], plan.drawx(), plan.drawy(), i == 0 || i == 2 ? 0 : -90);
             }
         }
     }
 
     public class TubeConveyorBuild extends BeltConveyorBuild {
         public int tiling = 0;
-        public int calls = 0;
-
-        @Override
-        public void updateProximity() {
-            super.updateProximity();
-            calls++;
-        }
 
         public Building buildAt(int i){
             return nearby(i);
@@ -172,9 +173,6 @@ public class TubeConveyor extends BeltConveyor {
         @Override
         public void onProximityUpdate(){
             super.onProximityUpdate();
-            noSleep();
-            next = front();
-            nextc = next instanceof TubeConveyorBuild d ? d : null;
 
             tiling = 0;
             for(int i = 0; i < 4; i++){
