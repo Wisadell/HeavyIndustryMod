@@ -5,7 +5,7 @@ import mindustry.*;
 import static arc.Core.*;
 import static arc.math.Mathf.*;
 
-public class Math3D {
+public final class Math3D {
     public static final float horiToVerti = 1f/48f;
 
     public static float xOffset(float x, float height){

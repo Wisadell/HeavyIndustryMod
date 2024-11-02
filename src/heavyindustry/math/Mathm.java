@@ -2,7 +2,7 @@ package heavyindustry.math;
 
 import static arc.math.Mathf.*;
 
-public class Mathm {
+public final class Mathm {
     private static final int aSinBits = 14; //16KB. Adjust for accuracy.
     private static final int aSinMask = ~(-1 << aSinBits);
     private static final int aSinCount = aSinMask + 1;

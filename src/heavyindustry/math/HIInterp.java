@@ -3,7 +3,7 @@ package heavyindustry.math;
 import arc.math.*;
 import arc.math.Interp.*;
 
-public class HIInterp {
+public final class HIInterp {
     public static final Interp
             upThenFastDown = x -> 1.0115f * (1.833f * (0.9991f * x - 1.1f) + 0.2f / (0.9991f * x - 1.1f) + 2.2f),
             artillery = x -> 1 - 2 * (x - 0.5f) * (x - 0.5f),
