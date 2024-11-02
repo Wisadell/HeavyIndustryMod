@@ -22,6 +22,7 @@ public class HIShaders {
     public static DepthAtmosphereShader depthAtmosphere;
     public static AlphaShader alphaShader;
     public static HISurfaceShader dalani,brine,nanofluid;
+    public static Tiler tiler;
     public static PlanetTextureShader planetTextureShader;
 
     /** Loads the shaders. */
@@ -34,6 +35,8 @@ public class HIShaders {
         dalani = new HISurfaceShader("dalani");
         brine = new HISurfaceShader("brine");
         nanofluid = new HISurfaceShader("nanofluid");
+
+        tiler = new Tiler();
 
         planetTextureShader = new PlanetTextureShader();
     }
@@ -85,7 +88,28 @@ public class HIShaders {
         }
     }
 
-    public static class AlphaShader extends HILoadShader{
+    public static class Tiler extends HILoadShader {
+        public Texture texture = atlas.white().texture;
+        public float scl = 4f;
+
+        public Tiler(){
+            super("tiler", "screenspace");
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_offset", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
+            setUniformf("u_texsize", camera.width, camera.height);
+            setUniformf("u_tiletexsize", texture.width / scl, texture.height / scl);
+
+            texture.bind(1);
+            renderer.effectBuffer.getTexture().bind(0);
+
+            setUniformi("u_tiletex", 1);
+        }
+    }
+
+    public static class AlphaShader extends HILoadShader {
         public float alpha = 1f;
 
         public AlphaShader(){

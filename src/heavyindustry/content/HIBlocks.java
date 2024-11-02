@@ -69,7 +69,7 @@ public class HIBlocks {
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
             stoneVent,basaltVent,shaleVent,basaltWall,pyratiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
-            labFloor,labFloorDark,
+            metalClear,metalLight,metalGround,metalVent,metaWall,metalFloorGroove,metalFloorPlain,labFloor,labFloorDark,
             brine,nanofluid,
             stoneWater,shaleWater,basaltWater,darkWater,deepDarkWater,mudDarkWater,
             mud,overgrownGrass,overgrownShrubs,overgrownPine,
@@ -174,7 +174,7 @@ public class HIBlocks {
             attributes.set(Attribute.water, 0.2f);
             attributes.set(Attribute.oil, 0.5f);
             playerUnmineable = true;
-        }}; 
+        }};
         snowySandWall = new StaticWall("snowy-sand-wall"){{
             variants = 2;
             attributes.set(Attribute.sand, 2f);
@@ -200,6 +200,36 @@ public class HIBlocks {
         asphaltSide = new GrooveFloor("asphalt-side"){{
             blendGroup = asphalt;
         }};
+        metalClear = new ArmorFloor("metal-clear", 0);
+        metalLight = new ArmorFloor("metal-light", 3, metalClear.asFloor()){{
+            useDynamicLight = true;
+            lightRadius = 7f;
+            emitLight = true;
+        }};
+        metalGround = new Floor("metal-ground", 6);
+        metalVent = new SteamVent("metal-vent"){{
+            variants = 2;
+            parent = blendGroup = metalGround;
+            attributes.set(Attribute.steam, 1.5f);
+            effectColor = Pal.darkerMetal;
+            effect = new Effect(140f, e -> {
+                Draw.color(e.color, Pal.techBlue, e.fin() * 0.86f);
+
+                Draw.alpha(e.fslope() * 0.78f);
+
+                float length = 3f + e.finpow() * 10f;
+                Fx.rand.setSeed(e.id);
+                for(int i = 0; i < Fx.rand.random(3, 5); i++){
+                    Fx.v.trns(Fx.rand.random(360f), Fx.rand.random(length));
+                    Fill.circle(e.x + Fx.v.x, e.y + Fx.v.y, Fx.rand.random(1.2f, 3.5f) + e.fslope() * 1.1f);
+                }
+            }).layer(Layer.darkness - 1f);
+        }};
+        metaWall = new StaticWall("metal-wall"){{
+            variants = 6;
+        }};
+        metalFloorGroove = new GrooveFloor("metal-floor-groove");
+        metalFloorPlain = new TiledFloor("metal-floor-plating");
         labFloor = new TiledFloor("lab-floor", 8, 1);
         labFloorDark = new TiledFloor("lab-floor-dark", 8, 1);
         softRareEarth = new Floor("soft-rare-earth", 3){{
@@ -477,7 +507,8 @@ public class HIBlocks {
             health = 3220;
             armor = 16f;
             insulated = absorbLasers = true;
-            crushDamageMultiplier = 0.025f;
+            crushDamageMultiplier = 0.5f;
+            maxShareStep = 3;
         }};
         //wall-erekir
         berylliumWallHuge = new Wall("beryllium-wall-huge"){{

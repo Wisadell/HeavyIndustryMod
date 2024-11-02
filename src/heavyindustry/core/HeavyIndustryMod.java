@@ -12,6 +12,7 @@ import arc.scene.ui.*;
 import arc.util.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
+import mindustry.mod.Mods.*;
 import mindustry.ui.dialogs.*;
 
 import java.util.*;
@@ -36,7 +37,7 @@ public class HeavyIndustryMod extends Mod {
 
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
 
-    public static Mods.LoadedMod modInfo;
+    public static LoadedMod modInfo;
 
     public HeavyIndustryMod(){
         Log.info("Loaded HeavyIndustry Mod constructor.");
@@ -80,12 +81,13 @@ public class HeavyIndustryMod extends Mod {
         Events.on(DisposeEvent.class, e -> {
             HIShaders.dispose();
         });
+
+        app.post(() -> modInfo = mods.getMod(HeavyIndustryMod.class));
     }
 
     @Override
     public void loadContent(){
-        modInfo = mods.getMod(HeavyIndustryMod.class);
-
+        if (modInfo == null) Log.warn("modInfo is null.");
         HIRegister.load();
 
         if(onlyPlugIn) return;
@@ -163,5 +165,9 @@ public class HeavyIndustryMod extends Mod {
             Objects.requireNonNull(research);
             Time.runTask(1f, research::hide);
         });
+    }
+
+    public static LoadedMod mod(){
+        return modInfo;
     }
 }

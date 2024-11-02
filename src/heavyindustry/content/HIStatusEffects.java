@@ -64,7 +64,26 @@ public class HIStatusEffects {
             reloadMultiplier = 0.9f;
             transitionDamage = 220f;
             permanent = true;
-        }};
+        }
+            public boolean pierceArmor = false;
+
+            @Override
+            public void applied(Unit unit, float time, boolean extend) {
+                if (unit.armor > 0f) {
+                    pierceArmor = true;
+                    unit.armor /= 2f;
+                }
+                super.applied(unit, time, extend);
+            }
+
+            @Override
+            public void onRemoved(Unit unit) {
+                if (pierceArmor) {
+                    pierceArmor = false;
+                    unit.armor *= 2f;
+                }
+            }
+        };
         flamePoint = new StatusEffect("flame-point"){{
             damage = 0.2f;
             color = Pal.lightFlame;
