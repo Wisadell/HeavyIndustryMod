@@ -50,9 +50,21 @@ public class HICacheLayer {
     }
 
     public static class Textures {
-        public static Texture armor;
+        public static Texture smooth,particle,darker,armor;
 
         public static void load() {
+            smooth = loadTexture("smooth-noise", t -> {
+                t.setFilter(Texture.TextureFilter.linear);
+                t.setWrap(Texture.TextureWrap.repeat);
+            });
+            particle = loadTexture("particle-noise", t -> {
+                t.setFilter(Texture.TextureFilter.linear);
+                t.setWrap(Texture.TextureWrap.repeat);
+            });
+            darker = loadTexture("darker-noise", t -> {
+                t.setFilter(Texture.TextureFilter.linear);
+                t.setWrap(Texture.TextureWrap.repeat);
+            });
             armor = loadTexture("armor", t -> {
                 t.setFilter(Texture.TextureFilter.nearest);
                 t.setWrap(Texture.TextureWrap.repeat);

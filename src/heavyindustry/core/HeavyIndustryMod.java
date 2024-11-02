@@ -87,7 +87,6 @@ public class HeavyIndustryMod extends Mod {
 
     @Override
     public void loadContent(){
-        if (modInfo == null) Log.warn("modInfo is null.");
         HIRegister.load();
 
         if(onlyPlugIn) return;
