@@ -38,7 +38,7 @@ import static mindustry.type.ItemStack.*;
  * @author Wisadell
  */
 @SuppressWarnings("unchecked")
-public class HIOverride {
+public final class HIOverride {
     public static void load(){
         //Blocks-Environment
         Blocks.sandWater.itemDrop = Blocks.darksandWater.itemDrop = Blocks.darksandTaintedWater.itemDrop = Items.sand;

@@ -21,7 +21,7 @@ import static arc.Core.*;
 import static mindustry.content.Planets.*;
 
 /** Defines the {@linkplain Planet planets} and other celestial objects this mod offers. */
-public class HIPlanets {
+public final class HIPlanets {
     public static Planet kepler;
     public static void load(){
         kepler = new BetterPlanet("kepler", sun, 1f, 3){{

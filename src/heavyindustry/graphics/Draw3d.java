@@ -9,7 +9,7 @@ import arc.math.geom.Vec3;
 /**
  * Draws 2d region with applying {@link Mat3D}
  */
-public class Draw3d {
+public final class Draw3d {
     public static final Mat3D tmpMat1 = new Mat3D();
     public static final Mat3D tmpMat2 = new Mat3D();
     public static final Mat3D tmpMat3 = new Mat3D();

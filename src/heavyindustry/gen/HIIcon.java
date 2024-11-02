@@ -6,7 +6,7 @@ import heavyindustry.core.*;
 
 import static mindustry.gen.Icon.*;
 
-public class HIIcon {
+public final class HIIcon {
     public static TextureRegionDrawable
             keplerIcon,aboutIcon,artistIcon,configureIcon,contributeIcon,databaseIcon,debuggingIcon,defaultShowIcon,gasesIcon,
             holdIcon,matrixIcon,nuclearIcon,programIcon,publicInfoIcon,reactionIcon,showInfosIcon,showRangeIcon,soundsIcon,

@@ -25,7 +25,7 @@ import static mindustry.Vars.*;
  * Defines the {@linkplain Effect visual effects} this mod offers.
  * @author Wisadell
  */
-public class HIFx {
+public final class HIFx {
     public static final float EFFECT_MASK = Layer.effect + 0.0001f;
     public static final float EFFECT_BOTTOM = Layer.bullet - 0.11f;
 

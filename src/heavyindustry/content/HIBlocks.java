@@ -64,7 +64,7 @@ import static mindustry.type.ItemStack.*;
  * Defines the {@linkplain Block blocks} this mod offers.
  * @author Wisadell
  */
-public class HIBlocks {
+public final class HIBlocks {
     public static Block
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,

@@ -3,7 +3,7 @@ package heavyindustry.ui;
 import arc.util.*;
 import mindustry.core.*;
 
-public class HIUI {
+public final class HIUI {
     /** Based on {@link UI#formatAmount(long)} but for floats. */
     public static String formatAmount(float number){
         if(number == Float.MAX_VALUE) return "infinite";

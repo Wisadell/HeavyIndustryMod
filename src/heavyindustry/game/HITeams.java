@@ -10,7 +10,7 @@ import mindustry.ui.*;
 
 import static arc.Core.*;
 
-public class HITeams {
+public final class HITeams {
     public static void load() {
         //TODO It doesn't seem necessary to add a new team anymore.
     }

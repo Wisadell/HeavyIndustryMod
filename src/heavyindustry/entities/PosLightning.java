@@ -35,7 +35,7 @@ import mindustry.gen.*;
  *
  * @author Yuria
  */
-public class PosLightning {
+public final class PosLightning {
     public static final BulletType hitter = new EffectBulletType(5f){{
         absorbable = true;
         collides = collidesAir = collidesGround = collidesTiles = true;

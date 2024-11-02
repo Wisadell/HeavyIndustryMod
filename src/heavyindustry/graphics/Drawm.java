@@ -25,7 +25,7 @@ import static arc.graphics.g2d.Lines.*;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <<a href="https://www.gnu.org/licenses/">...</a>>.
  */
-public class Drawm {
+public final class Drawm {
     private static final Vec2 vec1 = new Vec2(), vec2 = new Vec2(), vec3 = new Vec2(), vec4 = new Vec2();
 
     /** Draws an ellipse.

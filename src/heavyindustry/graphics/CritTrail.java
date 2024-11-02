@@ -12,7 +12,7 @@ import mindustry.graphics.*;
  * @author MEEPofFaith
  * @author Wisadell
  */
-public class CritTrail extends Trail{
+public class CritTrail extends Trail {
     private final FloatSeq points;
     private float lastX = -1, lastY = -1, counter = 0f;
 

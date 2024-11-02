@@ -24,7 +24,7 @@ import static mindustry.Vars.*;
  * Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings.
  * @author Wisadell
  */
-public class HeavyIndustryMod extends Mod {
+public final class HeavyIndustryMod extends Mod {
     /** Commonly used static read-only String. Do not attempt to modify it unless you know what you are doing. */
     public static final String modName = "heavy-industry";
 

@@ -17,7 +17,7 @@ import static mindustry.content.TechTree.*;
  * Sets up content {@link TechNode tech tree nodes}. Loaded after every other content is instantiated.
  * @author Wisadell
  */
-public class HITechTree {
+public final class HITechTree {
     public static TechNode context = null;
     public static void load(){
         //items,liquids

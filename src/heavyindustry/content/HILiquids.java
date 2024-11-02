@@ -12,7 +12,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * Defines the {@linkplain Liquid liquid} this mod offers.
  * @author Wisadell
  */
-public class HILiquids {
+public final class HILiquids {
     public static Liquid
             brine,methane,nanofluid,nitratedOil;
     public static void load(){

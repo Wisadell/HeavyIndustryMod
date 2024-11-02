@@ -5,7 +5,7 @@ import arc.graphics.*;
 import mindustry.content.*;
 import mindustry.graphics.*;
 
-public class HIPal {
+public final class HIPal {
     /** Static read-only palettes that are used throughout the mod. */
     public static final Color
             miku = Color.valueOf("39c5bb"),

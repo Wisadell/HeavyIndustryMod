@@ -5,7 +5,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import mindustry.graphics.*;
 
-public class Outliner {
+public final class Outliner {
     /**
      * Outlines a given textureRegion. Run in createIcons.
      * */

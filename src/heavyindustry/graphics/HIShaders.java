@@ -17,7 +17,7 @@ import static mindustry.Vars.*;
  * Defines the {@linkplain Shader shader}s this mod offers.
  * @author Wisadell
  */
-public class HIShaders {
+public final class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
     public static AlphaShader alphaShader;

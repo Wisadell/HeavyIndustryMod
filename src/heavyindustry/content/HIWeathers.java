@@ -18,7 +18,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * Defines the {@linkplain Weather weather} this mod offers.
  * @author Wisadell
  */
-public class HIWeathers {
+public final class HIWeathers {
     public static Weather hailStone,wind,blizzard;
     public static void load(){
         hailStone = new HailStormWeather("hail-storm"){{

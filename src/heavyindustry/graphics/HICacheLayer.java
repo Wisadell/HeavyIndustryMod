@@ -14,7 +14,7 @@ import static mindustry.Vars.*;
  * Defines the {@linkplain CacheLayer cache layer}s this mod offers.
  * @author Wisadell
  */
-public class HICacheLayer {
+public final class HICacheLayer {
     public static ShaderLayer dalani,brine,nanofluid,armor;
 
     /** Loads the cache layers. */
@@ -49,7 +49,7 @@ public class HICacheLayer {
         CacheLayer.add(dalani,brine,nanofluid,armor);
     }
 
-    public static class Textures {
+    public static final class Textures {
         public static Texture smooth,particle,darker,armor;
 
         public static void load() {

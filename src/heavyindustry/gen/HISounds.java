@@ -4,7 +4,7 @@ import arc.audio.*;
 
 import static mindustry.Vars.*;
 
-public class HISounds {
+public final class HISounds {
     public static Sound
             ct1 = new Sound(),
             dbz1 = new Sound(),

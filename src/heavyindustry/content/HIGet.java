@@ -24,7 +24,7 @@ import java.util.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
-public class HIGet {
+public final class HIGet {
     public static Color
             c1 = new Color(),
             c2 = new Color(),

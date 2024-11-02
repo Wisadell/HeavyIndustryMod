@@ -28,7 +28,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * @author Wisadell
  * @author Yuria
  */
-public class HIBullets {
+public final class HIBullets {
     public static BulletType
             hitter,ncBlackHole,nuBlackHole,executor,
             ultFireball,basicSkyFrag,annMissile,

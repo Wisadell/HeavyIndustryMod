@@ -39,7 +39,7 @@ import static mindustry.gen.EntityMapping.*;
  * Defines the {@linkplain UnitType units} this mod offers.
  * @author Wisadell
  */
-public class HIUnitTypes {
+public final class HIUnitTypes {
     //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
     static {
         //vanilla-tank

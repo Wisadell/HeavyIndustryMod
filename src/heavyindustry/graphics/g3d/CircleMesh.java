@@ -11,7 +11,7 @@ import mindustry.graphics.g3d.*;
 import mindustry.type.*;
 import heavyindustry.graphics.*;
 
-public class CircleMesh extends PlanetMesh{
+public class CircleMesh extends PlanetMesh {
     public final Mesh mesh;
     public TextureRegion region;
     public Texture texture;

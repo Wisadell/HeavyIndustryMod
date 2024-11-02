@@ -25,7 +25,7 @@ import heavyindustry.world.draw.*;
 import static mindustry.mod.ClassMap.*;
 
 /** Generated class. Maps simple class names to concrete classes. For use in JSON attached mods. */
-public class HIClassMap {
+public final class HIClassMap {
     public static void load(){
         //ai
         classes.put("SniperAI", SniperAI.class);
@@ -85,7 +85,9 @@ public class HIClassMap {
         classes.put("RegenWall", RegenWall.class);
         classes.put("RegenWallBuild", RegenWall.RegenWallBuild.class);
         classes.put("ShapedWall", ShapedWall.class);
-        classes.put("ShapeWallBuild", ShapedWall.ShapeWallBuild.class);
+        classes.put("ShapedWallBuild", ShapedWall.ShapedWallBuild.class);
+        classes.put("ShapedWallF", ShapedWallF.class);
+        classes.put("ShapeWallBuildF", ShapedWallF.ShapedWallBuildF.class);
         classes.put("AparajitoWall", AparajitoWall.class);
         classes.put("AparajitoWallBuild", AparajitoWall.AparajitoWallBuild.class);
         classes.put("Thorns", Thorns.class);

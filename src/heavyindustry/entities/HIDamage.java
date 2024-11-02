@@ -19,7 +19,7 @@ import mindustry.world.*;
 
 import static mindustry.Vars.*;
 
-public class HIDamage {
+public final class HIDamage {
     private static final UnitDamageEvent bulletDamageEvent = new UnitDamageEvent();
     private static final Rect rect = new Rect();
     private static final Rect hitrect = new Rect();
