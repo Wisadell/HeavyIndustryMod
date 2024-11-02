@@ -49,10 +49,10 @@ public class PayloadRail extends PayloadBlock{
         config(Point2.class, (PayloadRailBuild build, Point2 point) -> {
             build.link = Point2.pack(point.x + build.tileX(), point.y + build.tileY());
         });
-        config(Integer.class, (PayloadRailBuild build, Integer pos) -> {
+        config(Integer.class, (PayloadRailBuild build, Integer i) -> {
             build.items.each(RailPayload::removed);
             build.items.clear();
-            build.link = pos;
+            build.link = i;
         });
     }
 

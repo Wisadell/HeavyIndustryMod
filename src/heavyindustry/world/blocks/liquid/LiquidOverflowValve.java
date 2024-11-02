@@ -60,9 +60,9 @@ public class LiquidOverflowValve extends LiquidBlock {
             if(from == -1) return null;
 
             Building to = nearby((from + 2) % 4);
-            boolean
-                fromInst = source.block.instantTransfer,
-                canForward = to != null && to.team == team && !(fromInst && to.block.instantTransfer) && to.acceptLiquid(this, liquid) && to.liquids.get(liquid) < to.block.liquidCapacity;
+
+            boolean fromInst = source.block.instantTransfer;
+            boolean canForward = to != null && to.team == team && !(fromInst && to.block.instantTransfer) && to.acceptLiquid(this, liquid) && to.liquids.get(liquid) < to.block.liquidCapacity;
 
             if(!canForward || invert){
                 Building a = nearby(Mathf.mod(from - 1, 4));

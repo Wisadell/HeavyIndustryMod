@@ -45,7 +45,10 @@ public class ShapedWall extends Wall {
             new Point2(-1, 1)
     };
 
-    public float linkAlphaLerpDst = 24f, linkAlphaScl = 0.45f, minShareDamage = 70;
+    public float maxShareStep = 1;
+
+    private final Seq<Building> toDamage = new Seq<>();
+    private final Queue<Building> queue = new Queue<>();
 
     public ShapedWall(String name){
         super(name);
@@ -62,6 +65,31 @@ public class ShapedWall extends Wall {
         public Seq<ShapeWallBuild> connectedWalls = new Seq<>();
         public int orthogonalIndex = 0;
         public boolean[] diagonalIndex = new boolean[4];
+
+        public boolean linkValid(Building build){
+            return checkWall(build) && Mathf.dstm(tileX(), tileY(), build.tileX(), build.tileY()) <= maxShareStep;
+        }
+
+        public boolean checkWall(Building build){
+            return build != null && build.block == this.block;
+        }
+
+        public void findLinkWalls(){
+            toDamage.clear();
+            queue.clear();
+
+            queue.addLast(this);
+            while (queue.size > 0) {
+                Building wall = queue.removeFirst();
+                toDamage.add(wall);
+                for (Building next : wall.proximity) {
+                    if (linkValid(next) && !toDamage.contains(next)) {
+                        toDamage.add(next);
+                        queue.addLast(next);
+                    }
+                }
+            }
+        }
 
         public void updateDrawRegion(){
             orthogonalIndex = 0;
@@ -109,6 +137,7 @@ public class ShapedWall extends Wall {
             updateDrawRegion();
         }
 
+        @Override
         public void drawTeam() {
             Draw.color(this.team.color);
             Fill.square(x, y, 1.015f, 45);
@@ -123,21 +152,31 @@ public class ShapedWall extends Wall {
 
         @Override
         public float handleDamage(float amount){
-            if(amount > minShareDamage && hitTime <= 0){
-                float maxHandOut = amount / 9;
-                float haveHandOut = 0;
+            findLinkWalls();
+            float shareDamage = amount / toDamage.size;
+            for (Building b: toDamage){
+                damageShared(b, shareDamage);
+            }
+            HIFx.shareDamage.at(x, y, block.size * tilesize / 2f, team.color, Mathf.clamp(shareDamage/(block.health * 0.1f)));
+            return shareDamage;
+        }
 
-                for(ShapeWallBuild b : connectedWalls){
-                    float damageP = Math.max(maxHandOut, Mathf.curve(b.healthf(), 0.25f, 0.75f) * maxHandOut);
-                    haveHandOut += damageP;
-                    b.damage(team, damageP);
-                    if(damageP > 0.5f) HIFx.shareDamage.at(b.x, b.y, b.block.size * tilesize / 2f, team.color, damageP / Math.max(maxHandOut, minShareDamage));
-                }
-
-                HIFx.shareDamage.at(x, y, block.size * tilesize / 2f, team.color, 1f);
-                hitTime = Math.max(1.5f, hitTime);
-                return amount - haveHandOut;
-            }else return super.handleDamage(amount);
+        public void damageShared(Building building, float damage) {
+            if (building.dead()) return;
+            float dm = state.rules.blockHealth(team);
+            if (Mathf.zero(dm)) {
+                damage = building.health + 1;
+            } else {
+                damage /= dm;
+            }
+            if (!net.client()) {
+                building.health -= damage;
+            }
+            healthChanged();
+            if (building.health <= 0) {
+                Call.buildDestroyed(building);
+            }
+            HIFx.shareDamage.at(building.x, building.y, building.block.size * tilesize / 2f, team.color, Mathf.clamp(damage/(block.health * 0.1f)));
         }
 
         @Override
@@ -153,14 +192,10 @@ public class ShapedWall extends Wall {
         @Override
         public void drawSelect(){
             super.drawSelect();
-            Draw.color(team.color);
-            for(Building b : connectedWalls){
-                Draw.alpha((1 - b.dst(this) / linkAlphaLerpDst) * linkAlphaScl);
-                Fill.square(b.x, b.y, b.block.size * tilesize / 2f);
+            findLinkWalls();
+            for (Building wall: toDamage){
+                Fill.square(wall.x, wall.y, 2);
             }
-
-            Draw.alpha(linkAlphaScl);
-            Fill.square(x, y, size * tilesize / 2f);
         }
 
         public void updateProximity() {

@@ -68,24 +68,24 @@ public class MultiCrafter extends Block {
         configurable = true;
         saveConfig = true;
 
-        config(Integer.class, (MultiCrafterBuild tile, Integer i) -> {
+        config(Integer.class, (MultiCrafterBuild build, Integer i) -> {
             if (!configurable) return;
 
-            if (tile.currentRecipeIndex == i) return;
-            tile.currentRecipeIndex = i < 0 || i >= recipeSeq.size ? -1 : i;
-            tile.progress = 0;
+            if (build.currentRecipeIndex == i) return;
+            build.currentRecipeIndex = i < 0 || i >= recipeSeq.size ? -1 : i;
+            build.progress = 0;
         });
 
-        config(Recipe.class, (MultiCrafterBuild tile, Recipe val) -> {
+        config(Recipe.class, (MultiCrafterBuild build, Recipe val) -> {
             if (!configurable) return;
 
             int next = recipeSeq.indexOf(val);
-            if (tile.currentRecipeIndex == next) return;
-            tile.currentRecipeIndex = next;
-            tile.progress = 0;
+            if (build.currentRecipeIndex == next) return;
+            build.currentRecipeIndex = next;
+            build.progress = 0;
         });
 
-        configClear((MultiCrafterBuild tile) -> tile.currentRecipeIndex = -1);
+        configClear((MultiCrafterBuild build) -> build.currentRecipeIndex = -1);
     }
 
     @Override

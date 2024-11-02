@@ -35,7 +35,7 @@ public class MultiInvertedJunction extends MultiJunction {
 
         sync = true;
         configurable = true;
-        config(Integer.class, (MultiInvertedJunctionBuild build, Integer loc) -> build.loc = loc);
+        config(Integer.class, (MultiInvertedJunctionBuild build, Integer i) -> build.loc = i);
     }
 
     @Override

@@ -44,11 +44,11 @@ public class TubeItemBridge extends ItemBridge {
         hasPower = false;
         canOverdrive = true;
         swapDiagonalPlacement = true;
-        configClear((TubeItemBridgeBuild b) -> b.link = -1);
+        configClear((TubeItemBridgeBuild build) -> build.link = -1);
     }
 
-    public TubeItemBridgeBuild cast(Building b){
-        return (TubeItemBridgeBuild) b;
+    public TubeItemBridgeBuild cast(Building build){
+        return (TubeItemBridgeBuild) build;
     }
 
     @Override

@@ -31,10 +31,10 @@ public class InsulationWall extends Wall{
         super(name);
         consumesTap = true;
 
-        config(Boolean.class, (InsulationWallBuild base, Boolean open) -> {
-            doorSound.at(base);
-            base.effect();
-            base.open = open;
+        config(Boolean.class, (InsulationWallBuild build, Boolean open) -> {
+            doorSound.at(build);
+            build.effect();
+            build.open = open;
             world.tileChanges++;
         });
     }

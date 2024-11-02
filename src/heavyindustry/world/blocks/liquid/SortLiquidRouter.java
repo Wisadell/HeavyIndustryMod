@@ -24,8 +24,8 @@ public class SortLiquidRouter extends LiquidRouter {
         rotate = true;
         rotateDraw = false;
 
-        config(Liquid.class, (SortLiquidRouterBuild tile, Liquid l) -> tile.sortLiquid = l);
-        configClear((SortLiquidRouterBuild tile) -> tile.sortLiquid = null);
+        config(Liquid.class, (SortLiquidRouterBuild build, Liquid l) -> build.sortLiquid = l);
+        configClear((SortLiquidRouterBuild build) -> build.sortLiquid = null);
     }
 
     @Override

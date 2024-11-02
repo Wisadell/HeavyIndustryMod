@@ -33,8 +33,8 @@ public class AssignOverdrive extends OverdriveProjector{
         solid = true;
         hasItems = true;
         hasPower = true;
-        config(Integer.class, (Cons2<AssignOverdriveBuild, Integer>)AssignOverdriveBuild::linkPos);
-        config(Point2.class, (Cons2<AssignOverdriveBuild, Point2>)AssignOverdriveBuild::linkPos);
+        config(Integer.class, (Cons2<AssignOverdriveBuild, Integer>) AssignOverdriveBuild::linkPos);
+        config(Point2.class, (Cons2<AssignOverdriveBuild, Point2>) AssignOverdriveBuild::linkPos);
         config(Point2[].class, (AssignOverdriveBuild e, Point2[] point2s) -> {
             for(Point2 p : point2s){
                 e.linkPos(Point2.pack(p.x + e.tileX(), p.y + e.tileY()));

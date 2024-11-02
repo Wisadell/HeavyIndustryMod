@@ -37,8 +37,8 @@ public class LiquidUnloader extends Block {
         envEnabled = Env.any;
         clearOnDoubleTap = true;
 
-        config(Liquid.class, (LiquidUnloaderBuild tile, Liquid l) -> tile.sortLiquid = l);
-        configClear((LiquidUnloaderBuild tile) -> tile.sortLiquid = null);
+        config(Liquid.class, (LiquidUnloaderBuild build, Liquid liquid) -> build.sortLiquid = liquid);
+        configClear((LiquidUnloaderBuild build) -> build.sortLiquid = null);
     }
 
     @Override

@@ -35,15 +35,15 @@ public class MultiSorter extends Block{
         rotate = true;
         rotateDraw = false;
 
-        config(int[].class, (MultiSorterBuild tile, int[] items) -> {
-            tile.leftSort = content.item(items[0]);
-            tile.frontSort = content.item(items[1]);
-            tile.rightSort = content.item(items[2]);
-            tile.outDir = 0;
+        config(int[].class, (MultiSorterBuild build, int[] items) -> {
+            build.leftSort = content.item(items[0]);
+            build.frontSort = content.item(items[1]);
+            build.rightSort = content.item(items[2]);
+            build.outDir = 0;
         });
-        configClear((MultiSorterBuild tile) -> {
-            tile.leftSort = tile.frontSort = tile.rightSort = null;
-            tile.outDir = 0;
+        configClear((MultiSorterBuild build) -> {
+            build.leftSort = build.frontSort = build.rightSort = null;
+            build.outDir = 0;
         });
     }
 

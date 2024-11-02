@@ -35,8 +35,8 @@ public class LiquidDirectionalUnloader extends Block {
         clearOnDoubleTap = true;
         rotate = true;
 
-        config(Liquid.class, (LiquidDirectionalUnloaderBuild tile, Liquid l) -> tile.sortLiquid = l);
-        configClear((LiquidDirectionalUnloaderBuild tile) -> tile.sortLiquid = null);
+        config(Liquid.class, (LiquidDirectionalUnloaderBuild build, Liquid liquid) -> build.sortLiquid = liquid);
+        configClear((LiquidDirectionalUnloaderBuild build) -> build.sortLiquid = null);
     }
 
     @Override

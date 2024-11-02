@@ -61,7 +61,7 @@ public class MinerPoint extends Block {
         buildCostMultiplier = 0;
         flags = EnumSet.of(BlockFlag.factory);
 
-        config(Integer.class , (MinerPointBuild tile, Integer i) -> tile.sort = i);
+        config(Integer.class , (MinerPointBuild build, Integer i) -> build.sort = i);
     }
 
     @Override

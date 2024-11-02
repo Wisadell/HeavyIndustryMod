@@ -18,12 +18,10 @@ public class TiledFloor extends Floor {
 
     public TiledFloor(String name) {
         super(name);
-        variants = 1;
     }
 
     public TiledFloor(String name, int sSize, int sVar) {
         super(name);
-        variants = 1;
         splitTileSize = sSize;
         splitVariants = sVar;
     }

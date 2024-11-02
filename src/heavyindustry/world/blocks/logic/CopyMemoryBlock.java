@@ -9,9 +9,9 @@ public class CopyMemoryBlock extends MemoryBlock {
     public CopyMemoryBlock(String name) {
         super(name);
 
-        config(Object[].class, (CopyMemoryBuild e, Object[] ds) -> {
+        config(Object[].class, (CopyMemoryBuild build, Object[] ds) -> {
             for(int i = 0; i < ds.length; i++){
-                if(ds[i] instanceof Double d) e.memory[i] = d;
+                if(ds[i] instanceof Double d) build.memory[i] = d;
             }
         });
     }
