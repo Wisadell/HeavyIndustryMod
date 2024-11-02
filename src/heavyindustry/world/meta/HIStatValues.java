@@ -18,7 +18,7 @@ import mindustry.world.meta.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
-public class HIStatValues {
+public final class HIStatValues {
     public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map){
         return ammo(map, 0, false);
     }

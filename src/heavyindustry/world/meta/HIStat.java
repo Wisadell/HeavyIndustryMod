@@ -2,7 +2,7 @@ package heavyindustry.world.meta;
 
 import mindustry.world.meta.*;
 
-public class HIStat {
+public final class HIStat {
     public static final Stat
             minSpeed = new Stat("hi-min-speed"),
             maxSpeed = new Stat("hi-max-speed"),

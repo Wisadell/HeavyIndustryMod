@@ -9,6 +9,7 @@ import mindustry.gen.*;
 import mindustry.world.blocks.defense.*;
 
 import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.SpriteUtil.*;
 import static mindustry.Vars.*;
 
 /**
@@ -19,36 +20,10 @@ import static mindustry.Vars.*;
 public class ShapedWall extends Wall {
     public TextureRegion[][] orthogonalRegion;
 
-    protected static final Point2[] orthogonalPos = {
-            new Point2(0, 1),
-            new Point2(1, 0),
-            new Point2(0, -1),
-            new Point2(-1, 0)
-    };
-
-    protected static final Point2[][] diagonalPos = {
-            new Point2[]{new Point2(1, 0), new Point2(1, 1), new Point2(0, 1)},
-            new Point2[]{new Point2(1, 0), new Point2(1, -1), new Point2(0, -1)},
-            new Point2[]{new Point2(-1, 0), new Point2(-1, -1), new Point2(0, -1)},
-            new Point2[]{new Point2(-1, 0), new Point2(-1, 1), new Point2(0, 1)}
-    };
-
-    protected static final Point2[] proximityPos = {
-            new Point2(0, 1),
-            new Point2(1, 0),
-            new Point2(0, -1),
-            new Point2(-1, 0),
-
-            new Point2(1, 1),
-            new Point2(1, -1),
-            new Point2(-1, -1),
-            new Point2(-1, 1)
-    };
-
     public float maxShareStep = 1;
 
-    private final Seq<Building> toDamage = new Seq<>();
-    private final Queue<Building> queue = new Queue<>();
+    protected final Seq<Building> toDamage = new Seq<>();
+    protected final Queue<Building> queue = new Queue<>();
 
     public ShapedWall(String name){
         super(name);
@@ -61,8 +36,8 @@ public class ShapedWall extends Wall {
         orthogonalRegion = splitLayers(name + "-full", 32, 2);
     }
 
-    public class ShapeWallBuild extends WallBuild {
-        public Seq<ShapeWallBuild> connectedWalls = new Seq<>();
+    public class ShapedWallBuild extends WallBuild {
+        public Seq<ShapedWallBuild> connectedWalls = new Seq<>();
         public int orthogonalIndex = 0;
         public boolean[] diagonalIndex = new boolean[4];
 
@@ -97,7 +72,7 @@ public class ShapedWall extends Wall {
             for(int i = 0; i < orthogonalPos.length; i++){
                 Point2 pos = orthogonalPos[i];
                 Building build = world.build(tileX() + pos.x, tileY() + pos.y);
-                if (build instanceof ShapeWallBuild && build.team == team){
+                if (build instanceof ShapedWallBuild && build.team == team){
                     orthogonalIndex += 1 << i;
                 }
             }
@@ -108,7 +83,7 @@ public class ShapedWall extends Wall {
 
                 for (Point2 pos : posArray) {
                     Building build = world.build(tileX() + pos.x, tileY() + pos.y);
-                    if (!(build instanceof ShapeWallBuild && build.team == team)) {
+                    if (!(build instanceof ShapedWallBuild && build.team == team)) {
                         diagonal = false;
                         break;
                     }
@@ -125,12 +100,12 @@ public class ShapedWall extends Wall {
             for (Point2 point : proximityPos) {
                 Building other = world.build(tile.x + point.x, tile.y + point.y);
                 if (other == null || other.team != team) continue;
-                if (other instanceof ShapeWallBuild) {
+                if (other instanceof ShapedWallBuild) {
                     tmpTiles.add(other);
                 }
             }
             for (Building tile : tmpTiles) {
-                ShapeWallBuild shapeWall = (ShapeWallBuild)tile;
+                ShapedWallBuild shapeWall = (ShapedWallBuild)tile;
                 connectedWalls.add(shapeWall);
             }
 
@@ -202,14 +177,14 @@ public class ShapedWall extends Wall {
             super.updateProximity();
 
             updateProximityWall();
-            for (ShapeWallBuild other : connectedWalls) {
+            for (ShapedWallBuild other : connectedWalls) {
                 other.updateProximityWall();
             }
         }
 
         @Override
         public void onRemoved(){
-            for (ShapeWallBuild other : connectedWalls) {
+            for (ShapedWallBuild other : connectedWalls) {
                 other.updateProximityWall();
             }
             super.onRemoved();
