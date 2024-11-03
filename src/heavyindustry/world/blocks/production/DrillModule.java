@@ -101,7 +101,7 @@ public abstract class DrillModule extends Block {
         return teamRegion.found() ? new TextureRegion[]{baseRegion, teamRegions[Team.sharded.id]} : new TextureRegion[]{region};
     }
 
-    public class DrillModuleBuild extends Building {
+    public abstract class DrillModuleBuild extends Building {
         public @Nullable AdaptDrillBuild drillBuild;
         public float smoothWarmup, targetWarmup;
 

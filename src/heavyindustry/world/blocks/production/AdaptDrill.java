@@ -266,7 +266,7 @@ public abstract class AdaptDrill extends Block {
         return tile.drop();
     }
 
-    public class AdaptDrillBuild extends Building {
+    public abstract class AdaptDrillBuild extends Building {
         public float progress;
 
         //only for visual
