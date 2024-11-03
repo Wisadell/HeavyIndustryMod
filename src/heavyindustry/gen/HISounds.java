@@ -6,6 +6,7 @@ import static mindustry.Vars.*;
 
 public final class HISounds {
     public static Sound
+
             ct1 = new Sound(),
             dbz1 = new Sound(),
             dd1 = new Sound(),
@@ -20,6 +21,8 @@ public final class HISounds {
             hugeShoot = new Sound(),
             hugeBlast = new Sound(),
             largeBeam = new Sound(),
+            metalWalk = new Sound(),
+            alert2 = new Sound(),
             hammer = new Sound(),
             coolingFan = new Sound(),
             hailRain = new Sound(),
@@ -41,6 +44,8 @@ public final class HISounds {
         hugeShoot = tree.loadSound("hugeShoot");
         hugeBlast = tree.loadSound("hugeBlast");
         largeBeam = tree.loadSound("largeBeam");
+        metalWalk = tree.loadSound("metalWalk");
+        alert2 = tree.loadSound("alert2");
         hammer = tree.loadSound("hammer");
         coolingFan = tree.loadSound("coolingFan");
         hailRain = tree.loadSound("hailRain");

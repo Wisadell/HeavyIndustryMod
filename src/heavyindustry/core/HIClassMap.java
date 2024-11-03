@@ -94,6 +94,8 @@ public final class HIClassMap {
         classes.put("ThornsBuild", Thorns.ThornsBuild.class);
         classes.put("Detonator", Detonator.class);
         classes.put("DetonatorBuild", Detonator.DetonatorBuild.class);
+        classes.put("BombLauncher", BombLauncher.class);
+        classes.put("BombLauncherBuild", BombLauncher.BombLauncherBuild.class);
         classes.put("MultiBulletTurret", MultiBulletTurret.class);
         classes.put("MultiBulletTurretBuild", MultiBulletTurret.MultiBulletTurretBuild.class);
         classes.put("ShootMatchTurret", ShootMatchTurret.class);

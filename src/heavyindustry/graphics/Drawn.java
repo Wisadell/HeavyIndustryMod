@@ -7,18 +7,23 @@ import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.scene.ui.layout.Scl;
 import arc.util.*;
+import arc.util.pooling.Pools;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import heavyindustry.content.*;
 import heavyindustry.math.*;
+import mindustry.ui.Fonts;
 
 import static mindustry.Vars.*;
 
 public final class Drawn {
-    private static final Vec2 vec21 = new Vec2(), vec31 = new Vec2(), vec32 = new Vec2(), vec33 = new Vec2(), vec34 = new Vec2(), rv = new Vec2();
+    private static final Vec2 vec21 = new Vec2(), vec22 = new Vec2(), vec31 = new Vec2(), vec32 = new Vec2(), vec33 = new Vec2(), vec34 = new Vec2(), rv = new Vec2();
     private static final Rand rand = new Rand();
     public static final float sinScl = 1f;
+
+    public static final int[] oneArr = {1};
 
     public static void drawSnow(float x, float y, float rad, float rot, Color color){
         Draw.color(color);
@@ -203,6 +208,86 @@ public final class Drawn {
         Lines.lineAngleCenter(t.x + Mathf.sin(time, 20f, size / 2f), t.y, 90, size);
 
         Draw.reset();
+    }
+
+    public static void posSquareLink(Color color, float stroke, float size, boolean drawBottom, float x, float y, float x2, float y2){
+        posSquareLink(color, stroke, size, drawBottom, vec21.set(x, y), vec22.set(x2, y2));
+    }
+
+    public static void posSquareLink(Color color, float stroke, float size, boolean drawBottom, Position from, Position to){
+        posSquareLinkArr(color, stroke, size, drawBottom, false, from, to);
+    }
+
+    public static void posSquareLinkArr(Color color, float stroke, float size, boolean drawBottom, boolean linkLine, Position... pos){
+        if(pos.length < 2 || (!linkLine && pos[0] == null))return;
+
+        for (int c : drawBottom ? Mathf.signs : oneArr) {
+            for (int i = 1; i < pos.length; i++) {
+                if (pos[i] == null)continue;
+                Position p1 = pos[i - 1], p2 = pos[i];
+                Lines.stroke(stroke + 1 - c, c == 1 ? color : Pal.gray);
+                if(linkLine) {
+                    if(p1 == null)continue;
+                    Lines.line(p2.getX(), p2.getY(), p1.getX(), p1.getY());
+                }else{
+                    Lines.line(p2.getX(), p2.getY(), pos[0].getX(), pos[0].getY());
+                }
+                Draw.reset();
+            }
+
+            for (Position p : pos) {
+                if (p == null) continue;
+                Draw.color(c == 1 ? color : Pal.gray);
+                Fill.square(p.getX(), p.getY(), size + 1 -c / 1.5f, 45);
+                Draw.reset();
+            }
+        }
+    }
+
+    public static void drawConnected(float x, float y, float size, Color color){
+        Draw.reset();
+        float sin = Mathf.absin(Time.time * sinScl, 8f, 1.25f);
+
+        for(int i = 0; i < 4; i++){
+            float length = size / 2f + 3 + sin;
+            Tmp.v1.trns(i * 90, -length);
+            Draw.color(Pal.gray);
+            Draw.rect("heavy-industry-linked-arrow-back", x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
+            Draw.color(color);
+            Draw.rect("heavy-industry-linked-arrow", x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
+        }
+        Draw.reset();
+    }
+
+    public static void overlayText(String text, float x, float y, float offset, Color color, boolean underline){
+        overlayText(Fonts.outline, text, x, y, offset, 1, 0.25f, color, underline, false);
+    }
+
+    public static void overlayText(Font font, String text, float x, float y, float offset, float offsetScl, float size, Color color, boolean underline, boolean align){
+        GlyphLayout layout = Pools.obtain(GlyphLayout.class, GlyphLayout::new);
+        boolean ints = font.usesIntegerPositions();
+        font.setUseIntegerPositions(false);
+        font.getData().setScale(size / Scl.scl(1.0f));
+        layout.setText(font, text);
+        font.setColor(color);
+
+        float dy = offset + 3.0F;
+        font.draw(text, x, y + layout.height / (align ? 2 : 1) + (dy + 1.0F) * offsetScl, 1);
+        --dy;
+
+        if(underline){
+            Lines.stroke(2.0F, Color.darkGray);
+            Lines.line(x - layout.width / 2.0F - 2.0F, dy + y, x + layout.width / 2.0F + 1.5F, dy + y);
+            Lines.stroke(1.0F, color);
+            Lines.line(x - layout.width / 2.0F - 2.0F, dy + y, x + layout.width / 2.0F + 1.5F, dy + y);
+            Draw.color();
+        }
+
+        font.setUseIntegerPositions(ints);
+        font.setColor(Color.white);
+        font.getData().setScale(1.0F);
+        Draw.reset();
+        Pools.free(layout);
     }
 
     public static void spinningCircle(int seed, float time, float x, float y, float radius, int spikes, float spikeDuration, float durationRnd, float spikeWidth, float spikeHeight, float pointOffset){

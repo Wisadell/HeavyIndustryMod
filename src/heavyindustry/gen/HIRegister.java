@@ -9,6 +9,10 @@ public final class HIRegister {
 
     private static final ObjectMap<String, Prov<? extends Entityc>> map = new ObjectMap<>();
 
+    private HIRegister(){
+        throw new AssertionError("You are attempting to instantiated a class that should not be instantiated: HIRegister.");
+    }
+
     /** Register unit's name. */
     public static <T extends Entityc> void put(String name, Class<T> type, Prov<? extends T> prov){
         map.put(name, prov);
@@ -20,7 +24,7 @@ public final class HIRegister {
         return ids.get(type, -1);
     }
 
-    /** Incase you used up all 256 class ids; use the same code for ~250 units you idiot. */
+    /** Incase you used up all 256 class ids. use the same code for ~250 units you idiot. */
     public static void load(){
         put("LegsPayloadUnit", LegsPayloadUnit.class, LegsPayloadUnit::new);
         put("NoCoreDepositBuildingTetherLegsUnit", NoCoreDepositBuildingTetherLegsUnit.class, NoCoreDepositBuildingTetherLegsUnit::new);

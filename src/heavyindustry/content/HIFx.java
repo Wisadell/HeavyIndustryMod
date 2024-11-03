@@ -18,6 +18,7 @@ import mindustry.graphics.*;
 
 import java.util.*;
 
+import static heavyindustry.graphics.Drawn.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
@@ -35,8 +36,6 @@ public final class HIFx {
     public static final Vec2 v7 = new Vec2(), v8 = new Vec2(), v9 = new Vec2();
 
     public static final IntMap<Effect> same = new IntMap<>();
-
-    private static final int[] oneArr = {1};
 
     public interface EffectParam {
         void draw(long id, float x, float y, float rot, float fin);
@@ -1304,6 +1303,46 @@ public final class HIFx {
                 Angles.randLenVectors(e.id, 3, e.fin() * e.rotation + 6f, (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fout() * 4 + 2f));
 
                 Fill.circle(e.x, e.y, 2.5f * e.fout());
+            }),
+            attackWarningPos = new Effect(120f, 2000f, e -> {
+                if(!(e.data instanceof Position))return;
+
+                e.lifetime = e.rotation;
+                Position pos = e.data();
+
+                Draw.color(e.color);
+                TextureRegion arrowRegion = atlas.find("heavy-industry-jump-gate-arrow");
+                float scl =	Mathf.curve(e.fout(), 0f, 0.1f);
+                Lines.stroke(2 * scl);
+                Lines.line(pos.getX(), pos.getY(), e.x, e.y);
+                Fill.circle(pos.getX(), pos.getY(), Lines.getStroke());
+                Fill.circle(e.x, e.y, Lines.getStroke());
+                Tmp.v1.set(e.x, e.y).sub(pos).scl(e.fin(Interp.pow2In)).add(pos);
+                Draw.rect(arrowRegion,  Tmp.v1.x,  Tmp.v1.y, arrowRegion.width * scl * Draw.scl, arrowRegion.height * scl * Draw.scl, pos.angleTo(e.x, e.y) - 90f);
+            }),
+            attackWarningRange = new Effect(120f, 2000f, e -> {
+                Draw.color(e.color);
+                Lines.stroke(2 * e.fout());
+                Lines.circle(e.x, e.y, e.rotation);
+
+                for(float i = 0.75f; i < 1.5f; i += 0.25f){
+                    Lines.spikes(e.x, e.y, e.rotation / i, e.rotation / 10f, 4, e.time);
+                    Lines.spikes(e.x, e.y, e.rotation / i / 1.5f, e.rotation / 12f, 4, -e.time * 1.25f);
+                }
+
+                TextureRegion arrowRegion = atlas.find("heavy-industry-jump-gate-arrow");
+                float scl =	Mathf.curve(e.fout(), 0f, 0.1f);
+
+                for (int l = 0; l < 4; l++) {
+                    float angle = 90 * l;
+                    float regSize = e.rotation / 150f;
+                    for (int i = 0; i < 4; i++) {
+                        Tmp.v1.trns(angle, (i - 4) * tilesize * e.rotation / tilesize / 4);
+                        float f = (100 - (Time.time - 25 * i) % 100) / 100;
+
+                        Draw.rect(arrowRegion, e.x + Tmp.v1.x, e.y + Tmp.v1.y, arrowRegion.width * regSize * f * scl, arrowRegion.height * regSize * f * scl, angle - 90);
+                    }
+                }
             }),
             trailToGray = new Effect(50f, e -> {
                 Draw.color(e.color, Color.gray, e.fin());

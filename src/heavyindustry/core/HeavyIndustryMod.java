@@ -33,7 +33,7 @@ public final class HeavyIndustryMod extends Mod {
         return modName + "-" + add;
     }
 
-    public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode");
+    public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode"), developerMode = settings.getBool("hi-developer-mode");
 
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
 
@@ -153,6 +153,7 @@ public final class HeavyIndustryMod extends Mod {
                         table.row();
                     }
                 });
+                t.checkPref("hi-developer-mode", false);
             });
         }
 

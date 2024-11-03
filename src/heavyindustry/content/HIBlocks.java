@@ -55,6 +55,8 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
+import static arc.graphics.g2d.Draw.color;
+import static arc.math.Angles.randLenVectors;
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
@@ -69,7 +71,7 @@ public final class HIBlocks {
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
             stoneVent,basaltVent,shaleVent,basaltWall,pyratiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
-            metalClear,metalLight,metalGround,metalVent,metaWall,metalFloorGroove,metalFloorPlain,labFloor,labFloorDark,
+            metalClear,metalLight,metalGround,metalVent,metalScarp,metaWall,metalTower,metalFloorGroove,metalFloorPlain,labFloor,labFloorDark,
             brine,nanofluid,
             stoneWater,shaleWater,basaltWater,darkWater,deepDarkWater,mudDarkWater,
             mud,overgrownGrass,overgrownShrubs,overgrownPine,
@@ -106,7 +108,7 @@ public final class HIBlocks {
             //production-erekir
             ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
             //defense
-            lighthouse,mendDome,sectorStructureMender,assignOverdrive,largeShieldGenerator,paralysisMine,detonator,
+            lighthouse,mendDome,sectorStructureMender,assignOverdrive,largeShieldGenerator,paralysisMine,detonator,bombLauncher,
             //defense-erekir
             largeRadar,
             //storage
@@ -225,8 +227,24 @@ public final class HIBlocks {
                 }
             }).layer(Layer.darkness - 1f);
         }};
+        metalScarp = new Prop("metal-scrap"){{
+            variants = 3;
+            breakEffect = new Effect(23, e -> {
+                float scl = Math.max(e.rotation, 1);
+                Fx.rand.setSeed(e.id);
+                randLenVectors(e.id, 6, 19f * e.finpow() * scl, (x, y) -> {
+                    color(Tmp.c1.set(e.color).mul(1 + Fx.rand.range(0.125f)));
+                    Fill.square(e.x + x, e.y + y, e.fout() * 3.5f * scl + 0.3f);
+                });
+            }).layer(Layer.debris);
+            breakSound = HISounds.metalWalk;
+        }};
         metaWall = new StaticWall("metal-wall"){{
             variants = 6;
+        }};
+        metalTower = new StaticWall("metal-tower"){{
+            variants = 3;
+            layer = Layer.blockOver + 1;
         }};
         metalFloorGroove = new GrooveFloor("metal-floor-groove");
         metalFloorPlain = new TiledFloor("metal-floor-plating");
@@ -2268,6 +2286,34 @@ public final class HIBlocks {
             health = 160;
             size = 3;
             squareSprite = false;
+        }};
+        bombLauncher = new BombLauncher("bomb-launcher"){{
+            requirements(Category.defense, with(Items.titanium, 600, Items.graphite, 700, Items.silicon, 400, Items.thorium, 500, Items.surgeAlloy, 75));
+            health = 1200;
+            size = 3;
+            itemCapacity = 30;
+            storage = 1;
+            bullet = new EffectBulletType(15f, 100f, 800f){{
+                trailChance = 0.25f;
+                trailEffect = HIFx.trailToGray;
+                trailParam = 1.5f;
+                smokeEffect = HIFx.hugeSmoke;
+                shootEffect = HIFx.boolSelector;
+                scaledSplashDamage = true;
+                collidesTiles = collidesGround = collides = true;
+                lightningDamage = 400f;
+                lightColor = lightningColor = trailColor = hitColor = HIPal.thurmixRed;
+                lightning = 3;
+                lightningLength = 8;
+                lightningLengthRand = 16;
+                splashDamageRadius = 120f;
+                hitShake = despawnShake = 20f;
+                hitSound = despawnSound = Sounds.explosionbig;
+                hitEffect = despawnEffect = new MultiEffect(HIFx.crossBlast(hitColor, splashDamageRadius * 1.25f), HIFx.blast(hitColor, splashDamageRadius * 1.5f));
+            }};
+            reloadTime = 300f;
+            consumePowerCond(6f, BombLauncherBuild::isCharging);
+            consumeItem(Items.blastCompound, 10);
         }};
         //defense-erekir
         largeRadar = new Radar("large-radar"){{

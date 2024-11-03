@@ -173,7 +173,7 @@ public class LightningEffect extends Effect {
         return lifetime;
     }
 
-    public static class LightningEffectState extends EffectState{
+    public static class LightningEffectState extends EffectState {
         public float ex, ey;
 
         @Override

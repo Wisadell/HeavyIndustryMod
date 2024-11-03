@@ -43,8 +43,9 @@ public final class HIShaders {
 
     public static void dispose(){
         if(!headless){
-            nanofluid.dispose();
             dalani.dispose();
+            brine.dispose();
+            nanofluid.dispose();
         }
     }
 
