@@ -55,8 +55,6 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
-import static arc.graphics.g2d.Draw.color;
-import static arc.math.Angles.randLenVectors;
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
@@ -232,8 +230,8 @@ public final class HIBlocks {
             breakEffect = new Effect(23, e -> {
                 float scl = Math.max(e.rotation, 1);
                 Fx.rand.setSeed(e.id);
-                randLenVectors(e.id, 6, 19f * e.finpow() * scl, (x, y) -> {
-                    color(Tmp.c1.set(e.color).mul(1 + Fx.rand.range(0.125f)));
+                Angles.randLenVectors(e.id, 6, 19f * e.finpow() * scl, (x, y) -> {
+                    Draw.color(Tmp.c1.set(e.color).mul(1 + Fx.rand.range(0.125f)));
                     Fill.square(e.x + x, e.y + y, e.fout() * 3.5f * scl + 0.3f);
                 });
             }).layer(Layer.debris);
