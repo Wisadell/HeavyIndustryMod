@@ -53,16 +53,16 @@ public class MultiCrafter extends Block {
         flags = EnumSet.of(BlockFlag.factory);
         drawArrow = false;
 
-        consume(new ConsumeItemDynamicF((MultiCrafterBuild e) -> e.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(e.currentRecipeIndex, recipeSeq.size - 1)).inputItems : null));
-        consume(new ConsumeLiquidDynamicF((MultiCrafterBuild e) -> e.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(e.currentRecipeIndex, recipeSeq.size - 1)).inputLiquids : null));
+        consume(new ConsumeItemDynamicF((MultiCrafterBuild build) -> build.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(build.currentRecipeIndex, recipeSeq.size - 1)).inputItems : null));
+        consume(new ConsumeLiquidDynamicF((MultiCrafterBuild build) -> build.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(build.currentRecipeIndex, recipeSeq.size - 1)).inputLiquids : null));
         consume(new ConsumePowerDynamic(p -> {
-            MultiCrafterBuild e = (MultiCrafterBuild) p;
-            return e.getInputPower();
+            MultiCrafterBuild build = (MultiCrafterBuild) p;
+            return build.getInputPower();
         }));
 
         consume(new ConsumeShowStat(
-                (MultiCrafterBuild e) -> e.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(e.currentRecipeIndex, recipeSeq.size - 1)).inputItems : null,
-                (MultiCrafterBuild e) -> e.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(e.currentRecipeIndex, recipeSeq.size - 1)).inputLiquids : null
+                (MultiCrafterBuild build) -> build.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(build.currentRecipeIndex, recipeSeq.size - 1)).inputItems : null,
+                (MultiCrafterBuild build) -> build.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(build.currentRecipeIndex, recipeSeq.size - 1)).inputLiquids : null
         ));
 
         configurable = true;

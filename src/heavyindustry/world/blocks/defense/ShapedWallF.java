@@ -2,13 +2,12 @@ package heavyindustry.world.blocks.defense;
 
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
-import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
-import static heavyindustry.util.SpriteUtil.*;
+import static heavyindustry.util.SpriteUtils.*;
 
 public class ShapedWallF extends ShapedWall {
     public TextureRegion[] atlasRegion;
@@ -26,7 +25,7 @@ public class ShapedWallF extends ShapedWall {
     @Override
     public void load(){
         super.load();
-        atlasRegion = split(name + "-atlas", 32, 32, 0, atlasIndex_4_12);
+        atlasRegion = split(name + "-atlas", 32, 32, 0, atlasIndex412);
         topLargeRegion = new TextureRegion[2];
         topSmallRegion = new TextureRegion[2];
         topHorizontalRegion = new TextureRegion[2];
@@ -40,7 +39,6 @@ public class ShapedWallF extends ShapedWall {
     }
 
     public class ShapedWallBuildF extends ShapedWallBuild {
-        public Seq<ShapedWallBuildF> connectedWalls = new Seq<>();
         public int drawIndex = 0;
         public int topIdx = 0;
 
@@ -71,7 +69,7 @@ public class ShapedWallF extends ShapedWall {
                 }
             }
 
-            drawIndex = atlasIndex_4_12_map.get(drawIndex);
+            drawIndex = atlasIndex412map.get(drawIndex);
             updateTopIndex();
         }
 

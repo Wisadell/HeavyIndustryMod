@@ -9,7 +9,7 @@ import mindustry.gen.*;
 import mindustry.world.blocks.defense.*;
 
 import static heavyindustry.util.HIUtils.*;
-import static heavyindustry.util.SpriteUtil.*;
+import static heavyindustry.util.SpriteUtils.*;
 import static mindustry.Vars.*;
 
 /**
