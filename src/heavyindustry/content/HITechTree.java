@@ -192,10 +192,7 @@ public final class HITechTree {
         addToNode(surgeCrucible, () -> node(largeSurgeCrucible, ItemStack.with(Items.graphite, 4400, Items.silicon, 4000, Items.tungsten, 4800, Items.oxide, 960, Items.surgeAlloy, 1600), () -> {}));
         addToNode(carbideCrucible, () -> node(largeCarbideCrucible, ItemStack.with(Items.thorium, 6000, Items.tungsten, 8000, Items.oxide, 1000, Items.carbide, 1200), () -> {}));
         //defense
-        addToNode(coreShard, () -> {
-            node(detonator, () -> {});
-            node(bombLauncher, () -> {});
-        });
+        addToNode(coreShard, () -> node(detonator, () -> node(bombLauncher, () -> {})));
         addToNode(illuminator, () -> node(lighthouse, () -> {}));
         addToNode(mendProjector, () -> node(mendDome, () -> {}));
         addToNode(overdriveDome, () -> node(assignOverdrive, () -> {}));

@@ -2286,7 +2286,7 @@ public final class HIBlocks {
             squareSprite = false;
         }};
         bombLauncher = new BombLauncher("bomb-launcher"){{
-            requirements(Category.defense, with(Items.titanium, 600, Items.graphite, 700, Items.silicon, 400, Items.thorium, 500, Items.surgeAlloy, 75));
+            requirements(Category.effect, with(Items.plastanium, 400, Items.graphite, 450, Items.silicon, 350, Items.thorium, 500, Items.surgeAlloy, 75));
             health = 1200;
             size = 3;
             itemCapacity = 30;
@@ -2297,6 +2297,7 @@ public final class HIBlocks {
                 trailParam = 1.5f;
                 smokeEffect = HIFx.hugeSmoke;
                 shootEffect = HIFx.boolSelector;
+                hittable = false;
                 scaledSplashDamage = true;
                 collidesTiles = collidesGround = collides = true;
                 lightningDamage = 400f;
@@ -4056,6 +4057,7 @@ public final class HIBlocks {
                     homingRange = 50f;
                     splashDamage = 3f;
                     splashDamageRadius = 10f;
+                    hittable = false;
                     hitEffect = new Effect(8f, e -> {
                         Draw.color(Color.black, Color.purple, e.fin());
                         Lines.stroke(0.5f + e.fout());
@@ -4166,6 +4168,7 @@ public final class HIBlocks {
                 width = 9f;
                 height = 45f;
                 lifetime = 26f;
+                hittable = false;
                 inaccuracy = 0f;
                 despawnEffect = Fx.hitBulletSmall;
                 keepVelocity = false;
@@ -4211,6 +4214,7 @@ public final class HIBlocks {
             shootType = new PointBulletType(){{
                 damage = 114514f;
                 speed = 0.0001f;
+                hittable = false;
                 inaccuracy = 0f;
                 keepVelocity = false;
                 trailSpacing = 20f;
