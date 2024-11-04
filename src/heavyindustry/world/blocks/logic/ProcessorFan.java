@@ -7,7 +7,7 @@ import heavyindustry.gen.*;
 
 import static arc.Core.*;
 
-public class ProcessorFan extends ProcessorCooler{
+public class ProcessorFan extends ProcessorCooler {
     public TextureRegion spinnerRegion;
     public float spinSpeed = 28f;
 

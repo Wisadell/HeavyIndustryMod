@@ -76,8 +76,8 @@ public class ProcessorCooler extends Block {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("boost", (ProcessorCoolerBuild e) -> new Bar(() -> bundle.format("bar.boost", e.realBoost() * 100), () -> Pal.accent, () -> e.realBoost() / maxBoost));
-        addBar("links", (ProcessorCoolerBuild e) -> new Bar(() -> bundle.format("bar.hi-coolprocs", e.usedLinks, maxProcessors), () -> Pal.ammo, () -> e.heat));
+        addBar("boost", (ProcessorCoolerBuild build) -> new Bar(() -> bundle.format("bar.boost", build.realBoost() * 100), () -> Pal.accent, () -> build.realBoost() / maxBoost));
+        addBar("links", (ProcessorCoolerBuild build) -> new Bar(() -> bundle.format("bar.hi-coolprocs", build.usedLinks, maxProcessors), () -> Pal.ammo, () -> build.heat));
     }
 
     public class ProcessorCoolerBuild extends Building {

@@ -431,7 +431,7 @@ public abstract class CommandableBlock extends Block {
         }
     }
 
-    public static final Seq<CommandableBlockBuild> commandableBuilds = new Seq<>();
+    protected static final Seq<CommandableBlockBuild> commandableBuilds = new Seq<>();
 
     static {
         Events.on(EventType.ResetEvent.class, e -> commandableBuilds.clear());

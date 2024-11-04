@@ -3,8 +3,6 @@ package heavyindustry.world.blocks.distribution;
 import arc.graphics.g2d.*;
 import arc.math.geom.Geometry;
 import arc.util.*;
-import mindustry.*;
-import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.Item;
@@ -18,7 +16,6 @@ import static mindustry.Vars.*;
  * @author Wisadell
  */
 public class CoveredConveyor extends BeltConveyor {
-    public TextureRegion[] coverRegions = new TextureRegion[5];
     public TextureRegion inputRegion, outputRegion;
 
     public CoveredConveyor(String name){
@@ -33,26 +30,8 @@ public class CoveredConveyor extends BeltConveyor {
     @Override
     public void load(){
         super.load();
-        coverRegions = split(name + "-cover", 32, 0);
         inputRegion = atlas.find(name + "-cover-in");
         outputRegion = atlas.find(name + "-cover-out");
-    }
-
-    @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
-        int[] bits = getTiling(plan, list);
-
-        if(bits == null) return;
-
-        TextureRegion conveyor = conveyorAtlas[0][bits[0]], cover = coverRegions[bits[0]];
-        for(TextureRegion i : new TextureRegion[]{conveyor, cover}){
-            Draw.rect(i, plan.drawx(), plan.drawy(), i.width * bits[1] * i.scl(), i.height * bits[2] * i.scl(), plan.rotation * 90);
-        }
-    }
-
-    @Override
-    public TextureRegion[] icons(){
-        return new TextureRegion[]{regions[0][0], coverRegions[0]};
     }
 
     public class CoveredConveyorBuild extends BeltConveyorBuild {
@@ -95,7 +74,7 @@ public class CoveredConveyor extends BeltConveyor {
             }
 
             Draw.z(Layer.block - 0.08f);
-            Draw.rect(coverRegions[blendbits], x, y, Vars.tilesize * blendsclx, Vars.tilesize * blendscly, rotation * 90);
+            Draw.rect(edgeAtlas[(tile.x + tile.y) % 2][blendbits], x, y, tilesize * blendsclx, tilesize * blendscly, rotation * 90);
 
             if(frontCap) Draw.rect(outputRegion, x, y, rotdeg());
             if(!backCap) Draw.rect(inputRegion, x, y, rotdeg());
