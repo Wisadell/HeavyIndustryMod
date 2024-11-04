@@ -68,7 +68,7 @@ public final class HIBlocks {
     public static Block
             //environment
             darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
-            stoneVent,basaltVent,shaleVent,basaltWall,pyratiteWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
+            stoneVent,basaltVent,shaleVent,basaltWall,basaltGraphiticWall,basaltPyratiticWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
             metalClear,metalLight,metalGround,metalVent,metalScarp,metaWall,metalTower,metalFloorGroove,metalFloorPlain,labFloor,labFloorDark,
             brine,nanofluid,
             stoneWater,shaleWater,basaltWater,darkWater,deepDarkWater,mudDarkWater,
@@ -164,7 +164,12 @@ public final class HIBlocks {
             attributes.set(Attribute.sand, 0.7f);
             ((Floor) Blocks.basalt).wall = this;
         }};
-        pyratiteWall = new StaticWall("pyratite-wall"){{
+        basaltGraphiticWall = new StaticWall("basalt-graphitic-wall"){{
+            itemDrop = Items.graphite;
+            variants = 3;
+            attributes.set(Attribute.sand, 0.7f);
+        }};
+        basaltPyratiticWall = new StaticWall("basalt-pyratitic-wall"){{
             itemDrop = Items.pyratite;
             variants = 3;
             attributes.set(Attribute.sand, 0.7f);

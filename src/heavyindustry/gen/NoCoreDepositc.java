@@ -5,7 +5,7 @@ import mindustry.world.blocks.storage.CoreBlock.*;
 
 public interface NoCoreDepositc extends Unitc {
     @Override
-    default CoreBuild closestCore(){
-         return null;
+    default CoreBuild closestCore() {
+        return null;
     }
 }
