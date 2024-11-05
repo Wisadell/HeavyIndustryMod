@@ -756,22 +756,17 @@ public final class HIBlocks {
         }};
         implosionDrill = new ImplosionDrill("implosion-drill"){{
             requirements(Category.production, with(Items.silicon, 180, Items.plastanium, 120, Items.surgeAlloy, 100, HIItems.chromium, 60, HIItems.heavyAlloy, 80));
-            size = 5;
-            health = 2260;
+            size = 4;
+            health = 1450;
             mineSpeed = 10f;
             mineCount = 35;
             mineTier = 13;
-            maxOreTileReq = 18;
+            maxOreTileReq = 14;
             itemCapacity = 120;
             maxBoost = 2f;
             powerConsBase = 480f;
-            drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.dynamicSpikes.wrap(Color.white, 30f), Fx.mineImpactWave.wrap(Color.white, 45f));
+            drillEffect = new MultiEffect(Fx.mineImpact, Fx.drillSteam, Fx.mineImpactWave.wrap(Color.white, 40f));
             shake = 3f;
-            arrowOffset = 2f;
-            arrowSpacing = 5f;
-            arrows = 2;
-            glowColor.a = 0.6f;
-            fogRadius = 5;
             drawMineItem = true;
         }};
         speedModule = new SpeedModule("speed-module"){{
@@ -2306,7 +2301,7 @@ public final class HIBlocks {
                 scaledSplashDamage = true;
                 collidesTiles = collidesGround = collides = true;
                 lightningDamage = 400f;
-                lightColor = lightningColor = trailColor = hitColor = HIPal.thurmixRed;
+                lightColor = lightningColor = trailColor = hitColor = Pal.bulletYellow;
                 lightning = 3;
                 lightningLength = 8;
                 lightningLengthRand = 16;

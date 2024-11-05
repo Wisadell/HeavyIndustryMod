@@ -5,8 +5,6 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 
-import java.util.*;
-
 import static arc.Core.*;
 
 public final class SpriteUtils {
@@ -60,7 +58,17 @@ public final class SpriteUtils {
                 indices[i] = i;
             }
 
-            Arrays.sort(indices, Comparator.comparingInt(a -> atlasIndex412raw[a]));
+            for (int i = 1; i < indices.length; i++) {
+                int key = indices[i];
+                int keyValue = atlasIndex412raw[key];
+                int j = i - 1;
+
+                while (j >= 0 && atlasIndex412raw[indices[j]] > keyValue) {
+                    indices[j + 1] = indices[j];
+                    j = j - 1;
+                }
+                indices[j + 1] = key;
+            }
 
             for (int i = 0; i < indices.length; i++) {
                 atlasIndex412[indices[i]] = i;

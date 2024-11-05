@@ -63,8 +63,7 @@ public final class HeavyIndustryMod extends Mod {
                     t.add(bundle.get("hi-class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
                     t.add(bundle.get("hi-note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                     t.add(bundle.get("hi-prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    t.add(bundle.get("hi-contributor")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    t.add(bundle.get("hi-close-homepage-dialog")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                    t.add(bundle.get("hi-other")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
                 }).grow().center().maxWidth(600f);
             }};
             dialog.show();
@@ -110,7 +109,7 @@ public final class HeavyIndustryMod extends Mod {
     public void init(){
         super.init();
         if(!headless){
-            HIDialog.init();
+            TableUtils.init();
         }
 
         settings.defaults("hi-homepage-dialog", false);

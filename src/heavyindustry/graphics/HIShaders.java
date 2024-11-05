@@ -1,14 +1,14 @@
 package heavyindustry.graphics;
 
-import heavyindustry.graphics.gl.*;
 import arc.files.*;
 import arc.graphics.*;
+import arc.graphics.g3d.*;
 import arc.graphics.gl.*;
 import arc.math.geom.*;
 import arc.util.*;
 import mindustry.*;
-import mindustry.graphics.*;
 import mindustry.type.*;
+import heavyindustry.type.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
@@ -58,6 +58,58 @@ public final class HIShaders {
         return tree.get("shaders/" + name);
     }
 
+    /**
+     * An atmosphere shader that incorporates the planet shape in a form of depth texture. Better quality, but at the little
+     * cost of performance.
+     */
+    public static class DepthAtmosphereShader extends HILoadShader {
+        private static final Mat3D mat = new Mat3D();
+
+        public Camera3D camera;
+        public BetterPlanet planet;
+
+        public DepthAtmosphereShader(){
+            super("depth-atmosphere","depth-atmosphere");
+        }
+
+        @Override
+        public void apply(){
+            setUniformMatrix4("u_proj", camera.combined.val);
+            setUniformMatrix4("u_trans", planet.getTransform(mat).val);
+
+            setUniformf("u_camPos", camera.position);
+            setUniformf("u_relCamPos", Tmp.v31.set(camera.position).sub(planet.position));
+            setUniformf("u_camRange", camera.near, camera.far - camera.near);
+            setUniformf("u_center", planet.position);
+            setUniformf("u_light", planet.getLightNormal());
+            setUniformf("u_color", planet.atmosphereColor.r, planet.atmosphereColor.g, planet.atmosphereColor.b);
+
+            setUniformf("u_innerRadius", planet.radius + planet.atmosphereRadIn);
+            setUniformf("u_outerRadius", planet.radius + planet.atmosphereRadOut);
+
+            planet.depthBuffer.getTexture().bind(0);
+            setUniformi("u_topology", 0);
+            setUniformf("u_viewport", graphics.getWidth(), graphics.getHeight());
+        }
+    }
+
+    /**
+     * Specialized mesh shader to capture fragment depths.
+     */
+    public static class DepthShader extends HILoadShader {
+        public Camera3D camera;
+
+        public DepthShader(){
+            super("depth", "depth");
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_camPos", camera.position);
+            setUniformf("u_camRange", camera.near, camera.far - camera.near);
+        }
+    }
+
     public static class PlanetTextureShader extends HILoadShader {
         public Vec3 lightDir = new Vec3(1, 1, 1).nor();
         public Color ambientColor = Color.white.cpy();
@@ -94,7 +146,7 @@ public final class HIShaders {
         public float scl = 4f;
 
         public Tiler(){
-            super("tiler", "screenspace");
+            super("screenspace", "tiler");
         }
 
         @Override
@@ -114,7 +166,7 @@ public final class HIShaders {
         public float alpha = 1f;
 
         public AlphaShader(){
-            super("postalpha", "screenspace");
+            super("screenspace", "postalpha");
         }
 
         @Override
@@ -123,17 +175,11 @@ public final class HIShaders {
         }
     }
 
-    public static class HILoadShader extends Shader {
-        public HILoadShader(String fragment, String vertex){
-            super(file(vertex + ".vert"), file(fragment + ".frag"));
-        }
-    }
-
-    public static class HISurfaceShader extends Shader {
+    public static class HISurfaceShader extends HILoadShader {
         Texture noiseTex;
 
-        public HISurfaceShader(String frag) {
-            super(Shaders.getShaderFi("screenspace.vert"), tree.get("shaders/" + frag + ".frag"));
+        public HISurfaceShader(String fragment) {
+            super("screenspace", fragment);
             loadNoise();
         }
 
@@ -164,6 +210,12 @@ public final class HIShaders {
 
                 setUniformi("u_noise", 1);
             }
+        }
+    }
+
+    public static class HILoadShader extends Shader {
+        public HILoadShader(String vertex, String fragment){
+            super(file(vertex + ".vert"), file(fragment + ".frag"));
         }
     }
 }

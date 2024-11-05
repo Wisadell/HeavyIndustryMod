@@ -2,16 +2,17 @@ package heavyindustry.content;
 
 import arc.struct.*;
 import mindustry.content.*;
+import mindustry.content.TechTree.*;
 import mindustry.ctype.*;
 import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
 import static heavyindustry.content.HIBlocks.*;
 import static heavyindustry.content.HIUnitTypes.*;
+import static heavyindustry.content.HISectorPresets.*;
 import static mindustry.content.Blocks.*;
 import static mindustry.content.UnitTypes.*;
 import static mindustry.content.SectorPresets.*;
-import static mindustry.content.TechTree.*;
 
 /**
  * Sets up content {@link TechNode tech tree nodes}. Loaded after every other content is instantiated.
@@ -21,57 +22,57 @@ public final class HITechTree {
     public static TechNode context = null;
     public static void load(){
         //items,liquids
-        addToNode(Liquids.water, () -> nodeProduce(HILiquids.brine, () -> {}));
-        addToNode(Liquids.oil, () -> nodeProduce(HILiquids.nitratedOil, () -> {}));
-        addToNode(Liquids.ozone, () -> nodeProduce(HILiquids.methane, () -> {}));
-        addToNode(Items.sand, () -> {
+        vanillaNode(Liquids.water, () -> nodeProduce(HILiquids.brine, () -> {}));
+        vanillaNode(Liquids.oil, () -> nodeProduce(HILiquids.nitratedOil, () -> {}));
+        vanillaNode(Liquids.ozone, () -> nodeProduce(HILiquids.methane, () -> {}));
+        vanillaNode(Items.sand, () -> {
             nodeProduce(HIItems.rareEarth, () -> {});
             nodeProduce(HIItems.salt, () -> {});
         });
-        addToNode(Items.silicon, () -> nodeProduce(HIItems.nanocore, () -> nodeProduce(HILiquids.nanofluid, () -> {})));
-        addToNode(Items.thorium, () -> nodeProduce(HIItems.uranium, () -> nodeProduce(HIItems.chromium, () -> {})));
-        addToNode(Items.surgeAlloy, () -> nodeProduce(HIItems.heavyAlloy, () -> {}));
+        vanillaNode(Items.silicon, () -> nodeProduce(HIItems.nanocore, () -> nodeProduce(HILiquids.nanofluid, () -> {})));
+        vanillaNode(Items.thorium, () -> nodeProduce(HIItems.uranium, () -> nodeProduce(HIItems.chromium, () -> {})));
+        vanillaNode(Items.surgeAlloy, () -> nodeProduce(HIItems.heavyAlloy, () -> {}));
         //items,liquids-erekir
-        addToNode(Items.tungsten, () -> {
+        vanillaNode(Items.tungsten, () -> {
             nodeProduce(HIItems.uranium, () -> {});
             nodeProduce(HIItems.chromium, () -> {});
         });
-        addToNode(Items.oxide, () -> nodeProduce(HIItems.nanocoreErekir, () -> {}));
+        vanillaNode(Items.oxide, () -> nodeProduce(HIItems.nanocoreErekir, () -> {}));
         //wall
-        addToNode(copperWall, () -> node(armoredWall, () -> node(armoredWallLarge, () -> node(armoredWallHuge, () -> node(armoredWallGigantic, () -> {})))));
-        addToNode(copperWallLarge, () -> node(copperWallHuge, () -> node(copperWallGigantic, () -> {})));
-        addToNode(titaniumWallLarge, () -> node(titaniumWallHuge, () -> node(titaniumWallGigantic, () -> {})));
-        addToNode(thoriumWall, () -> node(uraniumWall, () -> {
+        vanillaNode(copperWall, () -> node(armoredWall, () -> node(armoredWallLarge, () -> node(armoredWallHuge, () -> node(armoredWallGigantic, () -> {})))));
+        vanillaNode(copperWallLarge, () -> node(copperWallHuge, () -> node(copperWallGigantic, () -> {})));
+        vanillaNode(titaniumWallLarge, () -> node(titaniumWallHuge, () -> node(titaniumWallGigantic, () -> {})));
+        vanillaNode(thoriumWall, () -> node(uraniumWall, () -> {
             node(uraniumWallLarge, () -> {});
             node(chromiumWall, () -> {
                 node(chromiumWallLarge, () -> {});
                 node(chromiumDoor, () -> node(chromiumDoorLarge, () -> {}));
             });
         }));
-        addToNode(surgeWall, () -> node(heavyAlloyWall, () -> {
+        vanillaNode(surgeWall, () -> node(heavyAlloyWall, () -> {
             node(heavyAlloyWallLarge, () -> {});
             node(nanoCompositeWall, () -> node(nanoCompositeWallLarge, () -> {}));
         }));
         //wall-erekir
-        addToNode(berylliumWallLarge, () -> node(berylliumWallHuge, () -> node(berylliumWallGigantic, () -> {})));
-        addToNode(tungstenWallLarge, () -> {
+        vanillaNode(berylliumWallLarge, () -> node(berylliumWallHuge, () -> node(berylliumWallGigantic, () -> {})));
+        vanillaNode(tungstenWallLarge, () -> {
             node(tungstenWallHuge, () -> node(tungstenWallGigantic, () -> {}));
             node(aparajito, () -> node(aparajitoLarge, () -> {}));
         });
-        addToNode(blastDoor, () -> node(blastDoorLarge, () -> node(blastDoorHuge, () -> {})));
-        addToNode(reinforcedSurgeWallLarge, () -> node(reinforcedSurgeWallHuge, () -> node(reinforcedSurgeWallGigantic, () -> {})));
-        addToNode(carbideWallLarge, () -> node(carbideWallHuge, () -> node(carbideWallGigantic, () -> {})));
-        addToNode(shieldedWall, () -> node(shieldedWallLarge, () -> node(shieldedWallHuge, () -> {})));
+        vanillaNode(blastDoor, () -> node(blastDoorLarge, () -> node(blastDoorHuge, () -> {})));
+        vanillaNode(reinforcedSurgeWallLarge, () -> node(reinforcedSurgeWallHuge, () -> node(reinforcedSurgeWallGigantic, () -> {})));
+        vanillaNode(carbideWallLarge, () -> node(carbideWallHuge, () -> node(carbideWallGigantic, () -> {})));
+        vanillaNode(shieldedWall, () -> node(shieldedWallLarge, () -> node(shieldedWallHuge, () -> {})));
         //drill
-        addToNode(pneumaticDrill, () -> {
+        vanillaNode(pneumaticDrill, () -> {
             node(titaniumDrill, () -> {});
             node(sporeFarm, () -> {});
         });
-        addToNode(waterExtractor, () -> {
+        vanillaNode(waterExtractor, () -> {
             node(largeWaterExtractor, () -> {});
             node(slagExtractor, () -> {});
         });
-        addToNode(blastDrill, () -> node(cuttingDrill, Seq.with(new SectorComplete(impact0078)), () -> {
+        vanillaNode(blastDrill, () -> node(cuttingDrill, Seq.with(new SectorComplete(impact0078)), () -> {
             node(beamDrill, () -> {
                 node(speedModule, () -> {});
                 node(refineModule, () -> {});
@@ -79,24 +80,24 @@ public final class HITechTree {
             });
             node(implosionDrill, () -> {});
         }));
-        addToNode(oilExtractor, () -> node(oilRig, () -> {}));
+        vanillaNode(oilExtractor, () -> node(oilRig, () -> {}));
         //drill-erekir
-        addToNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
-        addToNode(impactDrill, () -> node(minerPoint, Seq.with(new Research(electrolyzer)), () -> node(minerCenter, Seq.with(new Research(atmosphericConcentrator)), () -> {})));
-        addToNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
+        vanillaNode(cliffCrusher, () -> node(largeCliffCrusher, ItemStack.with(Items.graphite, 1600, Items.silicon, 600, Items.beryllium, 1200, Items.tungsten, 500), Seq.with(new OnSector(lake)), () -> {}));
+        vanillaNode(impactDrill, () -> node(minerPoint, Seq.with(new Research(electrolyzer)), () -> node(minerCenter, Seq.with(new Research(atmosphericConcentrator)), () -> {})));
+        vanillaNode(largePlasmaBore, () -> node(heavyPlasmaBore, ItemStack.with(Items.silicon, 6000, Items.oxide, 3000, Items.beryllium, 7000, Items.tungsten, 5000, Items.carbide, 2000), () -> {}));
         //distribution
-        addToNode(sorter, () -> node(multiSorter, () -> {}));
-        addToNode(junction, () -> {
+        vanillaNode(sorter, () -> node(multiSorter, () -> {}));
+        vanillaNode(junction, () -> {
             node(invertedJunction, () -> {});
             node(itemLiquidJunction, () -> {});
         });
-        addToNode(plastaniumConveyor, () -> {
+        vanillaNode(plastaniumConveyor, () -> {
             node(plastaniumRouter, () -> {});
             node(plastaniumBridge, () -> {});
             node(stackHelper, () -> {});
         });
-        addToNode(phaseConveyor, () -> node(phaseItemNode, () -> {}));
-        addToNode(titaniumConveyor, () -> node(chromiumEfficientConveyor, () -> {
+        vanillaNode(phaseConveyor, () -> node(phaseItemNode, () -> {}));
+        vanillaNode(titaniumConveyor, () -> node(chromiumEfficientConveyor, () -> {
             node(chromiumArmorConveyor, () -> node(chromiumStackConveyor, () -> {
                 node(chromiumStackRouter, () -> {});
                 node(chromiumStackBridge, () -> {});
@@ -107,168 +108,174 @@ public final class HITechTree {
             node(chromiumJunction, () -> node(chromiumInvertedJunction, () -> {}));
         }));
         //distribution-erekir
-        addToNode(duct, () -> {
+        vanillaNode(duct, () -> {
             node(ductJunction, () -> {});
             node(ductMultiSorter, () -> {});
         });
-        addToNode(armoredDuct, () -> node(armoredDuctBridge, () -> {}));
-        addToNode(ductUnloader, () -> node(rapidDuctUnloader, () -> {}));
+        vanillaNode(armoredDuct, () -> node(armoredDuctBridge, () -> {}));
+        vanillaNode(ductUnloader, () -> node(rapidDuctUnloader, () -> {}));
         //liquid
-        addToNode(liquidRouter, () -> {
+        vanillaNode(liquidRouter, () -> {
             node(liquidOverflowValve, () -> node(liquidUnderflowValve, () -> {}));
             node(liquidSorter, () -> {});
             node(liquidValve, () -> {});
         });
-        addToNode(liquidContainer, () -> node(liquidUnloader, () -> {}));
-        addToNode(impulsePump, () -> node(turboPump, () -> {}));
-        addToNode(phaseConduit, () -> node(phaseLiquidNode, () -> {}));
-        addToNode(platedConduit, () -> node(chromiumArmorConduit, () -> {
+        vanillaNode(liquidContainer, () -> node(liquidUnloader, () -> {}));
+        vanillaNode(impulsePump, () -> node(turboPump, () -> {}));
+        vanillaNode(phaseConduit, () -> node(phaseLiquidNode, () -> {}));
+        vanillaNode(platedConduit, () -> node(chromiumArmorConduit, () -> {
             node(chromiumLiquidBridge, () -> {});
             node(chromiumArmorLiquidContainer, () -> node(chromiumArmorLiquidTank, () -> {}));
         }));
         //liquid-erekir
-        addToNode(reinforcedLiquidContainer, () -> node(reinforcedLiquidUnloader, () -> {}));
-        addToNode(reinforcedLiquidRouter, () -> {
+        vanillaNode(reinforcedLiquidContainer, () -> node(reinforcedLiquidUnloader, () -> {}));
+        vanillaNode(reinforcedLiquidRouter, () -> {
             node(reinforcedLiquidOverflowValve, () -> node(reinforcedLiquidUnderflowValve, () -> {}));
             node(reinforcedLiquidSorter, () -> {});
             node(reinforcedLiquidValve, () -> {});
         });
         removeNode(reinforcedPump);
-        addToNode(reinforcedConduit, () -> node(smallReinforcedPump, Seq.with(new OnSector(basin)), () -> node(reinforcedPump, () -> node(largeReinforcedPump, () -> {}))));
+        vanillaNode(reinforcedConduit, () -> node(smallReinforcedPump, Seq.with(new OnSector(basin)), () -> node(reinforcedPump, () -> node(largeReinforcedPump, () -> {}))));
         //power
-        addToNode(powerNode, () -> node(smartPowerNode, () -> node(powerAnalyzer, () -> {})));
-        addToNode(powerNodeLarge, () -> node(powerNodeHuge, () -> node(powerNodePhase, () -> {})));
-        addToNode(thoriumReactor, () -> node(uraniumReactor, () -> {}));
-        addToNode(impactReactor, () -> node(hypermagneticReactor, () -> {}));
-        addToNode(batteryLarge, () -> {
+        vanillaNode(powerNode, () -> node(smartPowerNode, () -> node(powerAnalyzer, () -> {})));
+        vanillaNode(powerNodeLarge, () -> node(powerNodeHuge, () -> node(powerNodePhase, () -> {})));
+        vanillaNode(thoriumReactor, () -> node(uraniumReactor, () -> {}));
+        vanillaNode(impactReactor, () -> node(hypermagneticReactor, () -> {}));
+        vanillaNode(batteryLarge, () -> {
             node(hugeBattery, () -> {});
             node(armoredCoatedBattery, () -> {});
         });
         //power-erekir
-        addToNode(beamNode, () -> {
+        vanillaNode(beamNode, () -> {
             node(smartBeamNode, () -> node(reinforcedPowerAnalyzer, () -> {}));
             node(beamDiode, () -> {});
             node(beamInsulator, () -> {});
         });
-        addToNode(turbineCondenser, () -> node(liquidConsumeGenerator, ItemStack.with(Items.beryllium, 2200, Items.graphite, 2400, Items.silicon, 2300, Items.tungsten, 1600, Items.oxide, 60), () -> {}));
+        vanillaNode(turbineCondenser, () -> node(liquidConsumeGenerator, ItemStack.with(Items.beryllium, 2200, Items.graphite, 2400, Items.silicon, 2300, Items.tungsten, 1600, Items.oxide, 60), () -> {}));
         //production
-        addToNode(kiln, () -> node(largeKiln, () -> {}));
-        addToNode(pulverizer, () -> node(largePulverizer, () -> {
+        vanillaNode(kiln, () -> node(largeKiln, () -> {}));
+        vanillaNode(pulverizer, () -> node(largePulverizer, () -> {
             node(uraniumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
             node(chromiumSynthesizer, Seq.with(new OnSector(desolateRift)), () -> {});
         }));
-        addToNode(melter, () -> {
+        vanillaNode(melter, () -> {
             node(largeMelter, () -> {});
             node(clarifier, () -> {});
         });
-        addToNode(surgeSmelter, () -> node(heavyAlloySmelter, () -> {}));
-        addToNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(desolateRift)), () -> {}));
-        addToNode(cryofluidMixer, () -> {
+        vanillaNode(surgeSmelter, () -> node(heavyAlloySmelter, () -> {}));
+        vanillaNode(disassembler, () -> node(metalAnalyzer, Seq.with(new OnSector(desolateRift)), () -> {}));
+        vanillaNode(cryofluidMixer, () -> {
             node(largeCryofluidMixer, Seq.with(new SectorComplete(impact0078)), () -> {});
             node(nanocoreActivator, () -> {});
         });
-        addToNode(pyratiteMixer, () -> node(largePyratiteMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
-        addToNode(blastMixer, () -> node(largeBlastMixer, () -> {}));
-        addToNode(cultivator, () -> node(largeCultivator, Seq.with(new SectorComplete(taintedWoods)), () -> {}));
-        addToNode(plastaniumCompressor, () -> node(largePlastaniumCompressor, Seq.with(new SectorComplete(facility32m)), () -> {}));
-        addToNode(surgeSmelter, ()-> node(largeSurgeSmelter, () -> {}));
-        addToNode(siliconCrucible, () -> node(blastSiliconSmelter, () -> {}));
-        addToNode(siliconSmelter, () -> node(nanocoreConstructor, Seq.with(new SectorComplete(impact0078)), () -> node(nanocorePrinter, () -> {})));
-        addToNode(sporePress, () -> node(nitrificationReactor, () -> node(nitratedOilSedimentationTank, () -> {})));
-        addToNode(phaseWeaver, () -> node(largePhaseWeaver, () -> node(phaseFusionInstrument, () -> {})));
+        vanillaNode(pyratiteMixer, () -> node(largePyratiteMixer, Seq.with(new SectorComplete(facility32m)), () -> {}));
+        vanillaNode(blastMixer, () -> node(largeBlastMixer, () -> {}));
+        vanillaNode(cultivator, () -> node(largeCultivator, Seq.with(new SectorComplete(taintedWoods)), () -> {}));
+        vanillaNode(plastaniumCompressor, () -> node(largePlastaniumCompressor, Seq.with(new SectorComplete(facility32m)), () -> {}));
+        vanillaNode(surgeSmelter, ()-> node(largeSurgeSmelter, () -> {}));
+        vanillaNode(siliconCrucible, () -> node(blastSiliconSmelter, () -> {}));
+        vanillaNode(siliconSmelter, () -> node(nanocoreConstructor, Seq.with(new SectorComplete(impact0078)), () -> node(nanocorePrinter, () -> {})));
+        vanillaNode(sporePress, () -> node(nitrificationReactor, () -> node(nitratedOilSedimentationTank, () -> {})));
+        vanillaNode(phaseWeaver, () -> node(largePhaseWeaver, () -> node(phaseFusionInstrument, () -> {})));
         //production-erekir
-        addToNode(siliconArcFurnace, () -> {
+        vanillaNode(siliconArcFurnace, () -> {
             node(chemicalSiliconSmelter, ItemStack.with(Items.graphite, 2800, Items.silicon, 1000, Items.tungsten, 2400, Items.oxide, 50), () -> {});
             node(ventHeater, () -> {});
             node(nanocoreConstructorErekir, Seq.with(new OnSector(crossroads)), () -> node(nanocorePrinterErekir, Seq.with(new OnSector(origin)), () -> {}));
         });
-        addToNode(electricHeater, () -> {
+        vanillaNode(electricHeater, () -> {
             node(largeElectricHeater, ItemStack.with(Items.tungsten, 3000, Items.oxide, 2400, Items.carbide, 800), () -> {});
             node(liquidFuelHeater, () -> {});
             node(heatReactor, () -> {});
             node(uraniumFuser, Seq.with(new OnSector(origin)), () ->  node(chromiumFuser, () -> {}));
         });
-        addToNode(oxidationChamber, () -> node(largeOxidationChamber, ItemStack.with(Items.tungsten, 3600, Items.graphite, 4400, Items.silicon, 4400, Items.beryllium, 6400, Items.oxide, 600, Items.carbide, 1400), () -> {}));
-        addToNode(surgeCrucible, () -> node(largeSurgeCrucible, ItemStack.with(Items.graphite, 4400, Items.silicon, 4000, Items.tungsten, 4800, Items.oxide, 960, Items.surgeAlloy, 1600), () -> {}));
-        addToNode(carbideCrucible, () -> node(largeCarbideCrucible, ItemStack.with(Items.thorium, 6000, Items.tungsten, 8000, Items.oxide, 1000, Items.carbide, 1200), () -> {}));
+        vanillaNode(oxidationChamber, () -> node(largeOxidationChamber, ItemStack.with(Items.tungsten, 3600, Items.graphite, 4400, Items.silicon, 4400, Items.beryllium, 6400, Items.oxide, 600, Items.carbide, 1400), () -> {}));
+        vanillaNode(surgeCrucible, () -> node(largeSurgeCrucible, ItemStack.with(Items.graphite, 4400, Items.silicon, 4000, Items.tungsten, 4800, Items.oxide, 960, Items.surgeAlloy, 1600), () -> {}));
+        vanillaNode(carbideCrucible, () -> node(largeCarbideCrucible, ItemStack.with(Items.thorium, 6000, Items.tungsten, 8000, Items.oxide, 1000, Items.carbide, 1200), () -> {}));
         //defense
-        addToNode(coreShard, () -> node(detonator, () -> node(bombLauncher, () -> {})));
-        addToNode(illuminator, () -> node(lighthouse, () -> {}));
-        addToNode(mendProjector, () -> node(mendDome, () -> {}));
-        addToNode(overdriveDome, () -> node(assignOverdrive, () -> {}));
-        addToNode(forceProjector, () -> node(largeShieldGenerator, () -> {}));
+        vanillaNode(coreShard, () -> node(detonator, () -> node(bombLauncher, () -> {})));
+        vanillaNode(illuminator, () -> node(lighthouse, () -> {}));
+        vanillaNode(mendProjector, () -> node(mendDome, () -> {}));
+        vanillaNode(overdriveDome, () -> node(assignOverdrive, () -> {}));
+        vanillaNode(forceProjector, () -> node(largeShieldGenerator, () -> {}));
         //defense-erekir
-        addToNode(radar, () -> node(largeRadar, ItemStack.with(Items.graphite, 3600, Items.silicon, 3200, Items.beryllium, 600, Items.tungsten, 200, Items.oxide, 10), () -> {}));
+        vanillaNode(radar, () -> node(largeRadar, ItemStack.with(Items.graphite, 3600, Items.silicon, 3200, Items.beryllium, 600, Items.tungsten, 200, Items.oxide, 10), () -> {}));
         //storage
-        addToNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> node(machineryUnloader, ItemStack.with(Items.copper, 300, Items.lead, 200), () -> {})));
-        addToNode(vault, () -> {
+        vanillaNode(router, () -> node(bin, ItemStack.with(Items.copper, 550, Items.lead, 350), () -> node(machineryUnloader, ItemStack.with(Items.copper, 300, Items.lead, 200), () -> {})));
+        vanillaNode(vault, () -> {
             node(cargo, () -> {});
             node(coreStorage, () -> {});
         });
-        addToNode(unloader, () -> node(rapidUnloader, () -> node(rapidDirectionalUnloader, () -> {})));
+        vanillaNode(unloader, () -> node(rapidUnloader, () -> node(rapidDirectionalUnloader, () -> {})));
         //storage-erekir
-        addToNode(reinforcedVault, () -> node(reinforcedCoreStorage, () -> {}));
+        vanillaNode(reinforcedVault, () -> node(reinforcedCoreStorage, () -> {}));
         //payload
-        addToNode(payloadConveyor, () -> {
+        vanillaNode(payloadConveyor, () -> {
             node(payloadJunction, () -> {});
             node(payloadRail, () -> {});
         });
         //payload-erekir
-        addToNode(reinforcedPayloadConveyor, () -> {
+        vanillaNode(reinforcedPayloadConveyor, () -> {
             node(reinforcedPayloadJunction, () -> {});
             node(reinforcedPayloadRail, () -> {});
         });
         //unit
-        addToNode(tetrativeReconstructor, () -> node(titanReconstructor, () -> node(experimentalUnitFactory, () -> {})));
+        vanillaNode(tetrativeReconstructor, () -> node(titanReconstructor, () -> node(experimentalUnitFactory, () -> {})));
         //unit-erekir
-        addToNode(unitRepairTower, () -> node(largeUnitRepairTower, ItemStack.with(Items.graphite, 2400, Items.silicon, 3000, Items.tungsten, 2600, Items.oxide, 1200, Items.carbide, 600), Seq.with(new OnSector(siege)), () -> {}));
-        addToNode(basicAssemblerModule, () -> node(seniorAssemblerModule, () -> {}));
+        vanillaNode(unitRepairTower, () -> node(largeUnitRepairTower, ItemStack.with(Items.graphite, 2400, Items.silicon, 3000, Items.tungsten, 2600, Items.oxide, 1200, Items.carbide, 600), Seq.with(new OnSector(siege)), () -> {}));
+        vanillaNode(basicAssemblerModule, () -> node(seniorAssemblerModule, () -> {}));
         //logic
-        addToNode(memoryCell, () -> node(buffrerdMemoryCell, () -> node(buffrerdMemoryBank, () -> {})));
-        addToNode(hyperProcessor, () -> node(matrixProcessor, () -> {}));
-        addToNode(largeLogicDisplay, () -> node(hugeLogicDisplay, () -> {}));
-        addToNode(switchBlock, () -> node(heatSink, () -> {
+        vanillaNode(memoryCell, () -> node(buffrerdMemoryCell, () -> node(buffrerdMemoryBank, () -> {})));
+        vanillaNode(hyperProcessor, () -> node(matrixProcessor, () -> {}));
+        vanillaNode(largeLogicDisplay, () -> node(hugeLogicDisplay, () -> {}));
+        vanillaNode(switchBlock, () -> node(heatSink, () -> {
             node(heatFan, () -> {});
             node(heatSinkLarge, () -> {});
         }));
         //turret
-        addToNode(segment, () -> node(dissipation, () -> {}));
-        addToNode(duo, () -> {
+        vanillaNode(segment, () -> node(dissipation, () -> {}));
+        vanillaNode(duo, () -> {
             node(rocketLauncher, Seq.with(new SectorComplete(ruinousShores)), () -> node(multipleRocketLauncher, Seq.with(new SectorComplete(windsweptIslands)), () -> {
                 node(largeRocketLauncher, Seq.with(new SectorComplete(facility32m)), () -> {});
                 node(rocketSilo, Seq.with(new SectorComplete(tarFields)), () -> {});
             }));
             node(cloudbreaker, () -> {});
         });
-        addToNode(scorch, () -> node(dragonBreath, () -> {}));
-        addToNode(arc, () -> node(coilBlaster, () -> node(hurricane, () -> {})));
-        addToNode(salvo, () -> {
+        vanillaNode(scorch, () -> node(dragonBreath, () -> {}));
+        vanillaNode(arc, () -> node(coilBlaster, () -> node(hurricane, () -> {})));
+        vanillaNode(salvo, () -> {
             node(spike, () -> node(fissure, () -> {}));
             node(minigun, () -> {});
         });
-        addToNode(meltdown, () -> {
+        vanillaNode(meltdown, () -> {
             node(blaze, () -> {});
             node(judgement, () -> {});
         });
         //turret-erekir
-        addToNode(breach, () -> node(rupture, () -> {}));
+        vanillaNode(breach, () -> node(rupture, () -> {}));
         //tier6
-        addToNode(dagger, () -> node(vanguard, () -> node(striker, () -> node(counterattack, () -> node(crush, () -> node(destruction, () -> node(purgatory, () -> {})))))));
-        addToNode(reign, () -> node(suzerain, () -> {}));
-        addToNode(corvus, () -> node(supernova, () -> {}));
-        addToNode(toxopid, () -> node(cancer, () -> {}));
-        addToNode(eclipse, () -> node(sunlit, () -> {}));
-        addToNode(oct, () -> node(windstorm, () -> {}));
-        addToNode(omura, () -> node(mosasaur, () -> {}));
-        addToNode(navanax, () -> node(killerWhale, () -> {}));
+        vanillaNode(dagger, () -> node(vanguard, () -> node(striker, () -> node(counterattack, () -> node(crush, () -> node(destruction, () -> node(purgatory, () -> {})))))));
+        vanillaNode(reign, () -> node(suzerain, () -> {}));
+        vanillaNode(corvus, () -> node(supernova, () -> {}));
+        vanillaNode(toxopid, () -> node(cancer, () -> {}));
+        vanillaNode(eclipse, () -> node(sunlit, () -> {}));
+        vanillaNode(oct, () -> node(windstorm, () -> {}));
+        vanillaNode(omura, () -> node(mosasaur, () -> {}));
+        vanillaNode(navanax, () -> node(killerWhale, () -> {}));
         //tier6-erekir
-        addToNode(conquer, () -> node(dominate, () -> {}));
-        addToNode(collaris, () -> node(oracle, () -> {}));
-        addToNode(disrupt, () -> node(havoc, () -> {}));
+        vanillaNode(conquer, () -> node(dominate, () -> {}));
+        vanillaNode(collaris, () -> node(oracle, () -> {}));
+        vanillaNode(disrupt, () -> node(havoc, () -> {}));
         //sector presets
+        vanillaNode(impact0078, () -> node(frozenPlateau, Seq.with(new SectorComplete(impact0078)), () -> {}));
+        vanillaNode(coastline, () -> {
+            node(volcanicArchipelago, Seq.with(new SectorComplete(coastline)), () -> {});
+            node(ironBridgeCoast, Seq.with(new SectorComplete(coastline)), () -> {});
+        });
+        vanillaNode(desolateRift, () -> node(moltenRiftValley, Seq.with(new SectorComplete(desolateRift)), () -> {}));
     }
 
-    public static void addToNode(UnlockableContent content, Runnable children){
+    public static void vanillaNode(UnlockableContent content, Runnable children){
         context = TechTree.all.find(t -> t.content == content);
         children.run();
     }
@@ -290,9 +297,7 @@ public final class HITechTree {
 
     public static void node(UnlockableContent content, ItemStack[] requirements, Seq<Objective> objectives, Runnable children){
         TechNode node = new TechNode(context, content, requirements);
-        if(objectives != null){
-            node.objectives.addAll(objectives);
-        }
+        if(objectives != null) node.objectives.addAll(objectives);
 
         TechNode prev = context;
         context = node;

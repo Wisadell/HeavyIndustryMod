@@ -7,16 +7,17 @@ import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.math.*;
 import arc.math.geom.*;
-import arc.scene.ui.layout.Scl;
+import arc.scene.ui.layout.*;
 import arc.util.*;
-import arc.util.pooling.Pools;
+import arc.util.pooling.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.ui.*;
 import heavyindustry.content.*;
 import heavyindustry.math.*;
-import mindustry.ui.Fonts;
 
 import static mindustry.Vars.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 
 public final class Drawn {
     private static final Vec2 vec21 = new Vec2(), vec22 = new Vec2(), vec31 = new Vec2(), vec32 = new Vec2(), vec33 = new Vec2(), vec34 = new Vec2(), rv = new Vec2();
@@ -244,6 +245,27 @@ public final class Drawn {
         }
     }
 
+    public static void drawText(String text, float x, float y) {
+        drawText(text, x, y, 1f);
+    }
+
+    public static void drawText(String text, float x, float y, float size) {
+        Font font = Fonts.outline;
+        GlyphLayout layout = Pools.obtain(GlyphLayout.class, GlyphLayout::new);
+        boolean ints = font.usesIntegerPositions();
+        font.setUseIntegerPositions(false);
+        font.getData().setScale(size / 6f / Scl.scl(1f));
+
+        layout.setText(font, text);
+        font.draw(text, x, y, Align.center);
+
+        font.setUseIntegerPositions(ints);
+        font.setColor(Color.white);
+        font.getData().setScale(1f);
+        Draw.reset();
+        Pools.free(layout);
+    }
+
     public static void drawConnected(float x, float y, float size, Color color){
         Draw.reset();
         float sin = Mathf.absin(Time.time * sinScl, 8f, 1.25f);
@@ -252,9 +274,9 @@ public final class Drawn {
             float length = size / 2f + 3 + sin;
             Tmp.v1.trns(i * 90, -length);
             Draw.color(Pal.gray);
-            Draw.rect("heavy-industry-linked-arrow-back", x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
+            Draw.rect(modName + "-linked-arrow-back", x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
             Draw.color(color);
-            Draw.rect("heavy-industry-linked-arrow", x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
+            Draw.rect(modName + "-linked-arrow", x + Tmp.v1.x, y + Tmp.v1.y, i * 90);
         }
         Draw.reset();
     }

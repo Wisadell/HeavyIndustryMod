@@ -18,6 +18,7 @@ import mindustry.graphics.*;
 
 import java.util.*;
 
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static heavyindustry.graphics.Drawn.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
@@ -1311,7 +1312,7 @@ public final class HIFx {
                 Position pos = e.data();
 
                 Draw.color(e.color);
-                TextureRegion arrowRegion = atlas.find("heavy-industry-jump-gate-arrow");
+                TextureRegion arrowRegion = atlas.find(modName + "-jump-gate-arrow");
                 float scl =	Mathf.curve(e.fout(), 0f, 0.1f);
                 Lines.stroke(2 * scl);
                 Lines.line(pos.getX(), pos.getY(), e.x, e.y);
@@ -1330,7 +1331,7 @@ public final class HIFx {
                     Lines.spikes(e.x, e.y, e.rotation / i / 1.5f, e.rotation / 12f, 4, -e.time * 1.25f);
                 }
 
-                TextureRegion arrowRegion = atlas.find("heavy-industry-jump-gate-arrow");
+                TextureRegion arrowRegion = atlas.find(modName + "-jump-gate-arrow");
                 float scl =	Mathf.curve(e.fout(), 0f, 0.1f);
 
                 for (int l = 0; l < 4; l++) {

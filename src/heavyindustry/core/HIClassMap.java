@@ -190,6 +190,8 @@ public final class HIClassMap {
         classes.put("GeneratorCrafterBuild", GeneratorCrafter.GeneratorCrafterBuild.class);
         classes.put("AttributeGenerator", AttributeGenerator.class);
         classes.put("AttributeGeneratorBuild", AttributeGenerator.AttributeGeneratorBuild.class);
+        classes.put("AccelerationCrafter", AccelerationCrafter.class);
+        classes.put("AcceleratingCrafterBuild", AccelerationCrafter.AcceleratingCrafterBuild.class);
         classes.put("MultiCrafter", MultiCrafter.class);
         classes.put("MultiCrafterBuild", MultiCrafter.MultiCrafterBuild.class);
         classes.put("Recipe", MultiCrafter.Recipe.class);
