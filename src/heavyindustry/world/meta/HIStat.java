@@ -11,5 +11,6 @@ public final class HIStat {
             powerConsModifier = new Stat("hi-power-cons-modifier", StatCat.function),
             minerBoosModifier = new Stat("hi-miner-boost-modifier", StatCat.function),
             itemConvertList = new Stat("hi-item-convert-list", StatCat.function),
-            maxBoostPercent = new Stat("hi-max-boost-percent", StatCat.function);
+            maxBoostPercent = new Stat("hi-max-boost-percent", StatCat.function),
+            damageReduction = new Stat("hi-damage-reduction", StatCat.general);
 }

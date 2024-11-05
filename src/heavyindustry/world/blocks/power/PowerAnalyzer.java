@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.power;
 
-import arc.*;
 import arc.Graphics.*;
 import arc.Graphics.Cursor.*;
 import arc.graphics.*;
@@ -14,7 +13,9 @@ import mindustry.world.blocks.power.*;
 import mindustry.world.meta.*;
 import heavyindustry.ui.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 
 public class PowerAnalyzer extends PowerBlock {
     public float displayLength = 8f;
@@ -43,8 +44,8 @@ public class PowerAnalyzer extends PowerBlock {
     public void load(){
         super.load();
 
-        topRegion = Core.atlas.find(name + "-top");
-        arrowRegion = Core.atlas.find(name + "-arrow", "heavy-industry-power-analyzer-arrow");
+        topRegion = atlas.find(name + "-top");
+        arrowRegion = atlas.find(name + "-arrow", modName + "-power-analyzer-arrow");
     }
 
     @Override
@@ -171,7 +172,7 @@ public class PowerAnalyzer extends PowerBlock {
 
         @Override
         public void tapped(){
-            HIDialog.powerInfoDialog.show(power.graph);
+            TableUtils.powerInfoDialog.show(power.graph);
         }
     }
 }

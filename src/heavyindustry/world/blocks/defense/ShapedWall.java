@@ -1,12 +1,15 @@
 package heavyindustry.world.blocks.defense;
 
 import heavyindustry.content.*;
+import heavyindustry.graphics.*;
+import heavyindustry.world.meta.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.world.blocks.defense.*;
+import mindustry.world.meta.*;
 
 import static heavyindustry.util.HIUtils.*;
 import static heavyindustry.util.SpriteUtils.*;
@@ -20,6 +23,7 @@ import static mindustry.Vars.*;
 public class ShapedWall extends Wall {
     public TextureRegion[][] orthogonalRegion;
 
+    public float damageReduction = 0.1f;
     public float maxShareStep = 1;
 
     protected final Seq<Building> toDamage = new Seq<>();
@@ -34,6 +38,12 @@ public class ShapedWall extends Wall {
     public void load(){
         super.load();
         orthogonalRegion = splitLayers(name + "-full", 32, 2);
+    }
+
+    @Override
+    public void setStats() {
+        super.setStats();
+        stats.add(HIStat.damageReduction, damageReduction * 100, StatUnit.percent);
     }
 
     public class ShapedWallBuild extends WallBuild {
@@ -56,7 +66,7 @@ public class ShapedWall extends Wall {
             queue.addLast(this);
             while (queue.size > 0) {
                 Building wall = queue.removeFirst();
-                toDamage.add(wall);
+                toDamage.addUnique(wall);
                 for (Building next : wall.proximity) {
                     if (linkValid(next) && !toDamage.contains(next)) {
                         toDamage.add(next);
@@ -114,7 +124,7 @@ public class ShapedWall extends Wall {
 
         @Override
         public void drawTeam() {
-            Draw.color(this.team.color);
+            Draw.color(team.color);
             Fill.square(x, y, 1.015f, 45);
             Draw.color();
         }
@@ -128,11 +138,10 @@ public class ShapedWall extends Wall {
         @Override
         public float handleDamage(float amount){
             findLinkWalls();
-            float shareDamage = amount / toDamage.size;
+            float shareDamage = (amount / toDamage.size) * (1 - damageReduction);
             for (Building b: toDamage){
                 damageShared(b, shareDamage);
             }
-            HIFx.shareDamage.at(x, y, block.size * tilesize / 2f, team.color, Mathf.clamp(shareDamage/(block.health * 0.1f)));
             return shareDamage;
         }
 
@@ -168,8 +177,11 @@ public class ShapedWall extends Wall {
         public void drawSelect(){
             super.drawSelect();
             findLinkWalls();
+            int i = 0;
             for (Building wall: toDamage){
                 Fill.square(wall.x, wall.y, 2);
+                Drawn.drawText(i + "", wall.x, wall.y);
+                i++;
             }
         }
 
