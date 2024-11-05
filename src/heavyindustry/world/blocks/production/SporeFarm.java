@@ -8,34 +8,16 @@ import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
+import heavyindustry.util.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
-import static heavyindustry.util.HIUtils.*;
 
 /**
  * e.
  * @author Wisadell
  */
 public class SporeFarm extends Block {
-    protected static final byte[] tileMap = {
-            39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
-            38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
-            39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
-            38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
-            3, 4, 3, 4, 15, 40, 15, 20, 3, 4, 3, 4, 15, 40, 15, 20,
-            5, 28, 5, 28, 29, 10, 29, 23, 5, 28, 5, 28, 31, 11, 31, 32,
-            3, 4, 3, 4, 15, 40, 15, 20, 3, 4, 3, 4, 15, 40, 15, 20,
-            2, 30, 2, 30, 9, 47, 9, 22, 2, 30, 2, 30, 14, 44, 14, 6,
-            39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
-            38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
-            39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
-            38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
-            3, 0, 3, 0, 15, 42, 15, 12, 3, 0, 3, 0, 15, 42, 15, 12,
-            5, 8, 5, 8, 29, 35, 29, 33, 5, 8, 5, 8, 31, 34, 31, 7,
-            3, 0, 3, 0, 15, 42, 15, 12, 3, 0, 3, 0, 15, 42, 15, 12,
-            2, 1, 2, 1, 9, 45, 9, 19, 2, 1, 2, 1, 14, 18, 14, 13
-    };
     protected static final int frames = 5;
 
     protected int gTimer;
@@ -64,10 +46,10 @@ public class SporeFarm extends Block {
     @Override
     public void load(){
         super.load();
-        sporeRegions = split(name + "-spore", 32, 0);
-        groundRegions = split(name + "-ground", 32, 0);
+        sporeRegions = HIUtils.split(name + "-spore", 32, 0);
+        groundRegions = HIUtils.split(name + "-ground", 32, 0);
 
-        fenceRegions = split(name + "-fence", 32, 12, 4);
+        fenceRegions = HIUtils.split(name + "-fence", 32, 12, 4);
         cageFloor = atlas.find(name + "-floor");
     }
 
@@ -157,7 +139,7 @@ public class SporeFarm extends Block {
             }
 
             //Mainly to prevent terrible situations.
-            Draw.rect(fenceRegions[tileMap[Math.max(tileIndex, 0)]], x, y, 8f, 8f);
+            Draw.rect(fenceRegions[SpriteUtils.tileMap[Math.max(tileIndex, 0)]], x, y, 8f, 8f);
             drawTeamTop();
         }
 
