@@ -3,7 +3,7 @@ package heavyindustry.graphics.g3d;
 import arc.graphics.*;
 import arc.math.geom.*;
 
-public final class MeshUtils {
+final class MeshUtils {
     static final Vec3
             v1 = new Vec3(),
             v2 = new Vec3(),

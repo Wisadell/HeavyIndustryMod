@@ -3,11 +3,29 @@ package heavyindustry.util;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.struct.*;
-import arc.util.*;
 
 import static arc.Core.*;
 
 public final class SpriteUtils {
+    public static final byte[] tileMap = {
+            39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
+            38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
+            39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
+            38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
+            3, 4, 3, 4, 15, 40, 15, 20, 3, 4, 3, 4, 15, 40, 15, 20,
+            5, 28, 5, 28, 29, 10, 29, 23, 5, 28, 5, 28, 31, 11, 31, 32,
+            3, 4, 3, 4, 15, 40, 15, 20, 3, 4, 3, 4, 15, 40, 15, 20,
+            2, 30, 2, 30, 9, 47, 9, 22, 2, 30, 2, 30, 14, 44, 14, 6,
+            39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
+            38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
+            39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
+            38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
+            3, 0, 3, 0, 15, 42, 15, 12, 3, 0, 3, 0, 15, 42, 15, 12,
+            5, 8, 5, 8, 29, 35, 29, 33, 5, 8, 5, 8, 31, 34, 31, 7,
+            3, 0, 3, 0, 15, 42, 15, 12, 3, 0, 3, 0, 15, 42, 15, 12,
+            2, 1, 2, 1, 9, 45, 9, 19, 2, 1, 2, 1, 14, 18, 14, 13
+    };
+
     public static final int[] atlasIndex44 = {
             0, 2, 10, 8,
             4, 6, 14, 12,
@@ -52,33 +70,29 @@ public final class SpriteUtils {
     };
 
     static {
-        try {
-            Integer[] indices = new Integer[atlasIndex412raw.length];
-            for (int i = 0; i < atlasIndex412raw.length; i++) {
-                indices[i] = i;
-            }
+        Integer[] indices = new Integer[atlasIndex412raw.length];
+        for (int i = 0; i < atlasIndex412raw.length; i++) {
+            indices[i] = i;
+        }
 
-            for (int i = 1; i < indices.length; i++) {
-                int key = indices[i];
-                int keyValue = atlasIndex412raw[key];
-                int j = i - 1;
+        for (int i = 1; i < indices.length; i++) {
+            int key = indices[i];
+            int keyValue = atlasIndex412raw[key];
+            int j = i - 1;
 
-                while (j >= 0 && atlasIndex412raw[indices[j]] > keyValue) {
-                    indices[j + 1] = indices[j];
-                    j = j - 1;
-                }
-                indices[j + 1] = key;
+            while (j >= 0 && atlasIndex412raw[indices[j]] > keyValue) {
+                indices[j + 1] = indices[j];
+                j = j - 1;
             }
+            indices[j + 1] = key;
+        }
 
-            for (int i = 0; i < indices.length; i++) {
-                atlasIndex412[indices[i]] = i;
-            }
+        for (int i = 0; i < indices.length; i++) {
+            atlasIndex412[indices[i]] = i;
+        }
 
-            for (int i = 0; i < atlasIndex412raw.length; i++) {
-                atlasIndex412map.put(atlasIndex412raw[i], atlasIndex412[i]);
-            }
-        } catch (Throwable e) {
-            Log.err(e);
+        for (int i = 0; i < atlasIndex412raw.length; i++) {
+            atlasIndex412map.put(atlasIndex412raw[i], atlasIndex412[i]);
         }
     }
 

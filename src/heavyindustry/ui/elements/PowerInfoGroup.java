@@ -12,7 +12,7 @@ import heavyindustry.ui.dialogs.PowerGraphInfoDialog.*;
 import static arc.Core.*;
 import static heavyindustry.ui.TableUtils.*;
 
-public class PowerInfoGroup extends Table{
+public class PowerInfoGroup extends Table {
     public PowerInfoGroup(Seq<Building> buildings, PowerInfoType type, boolean isOpen, InfoToggled toggled){
         top();
 
