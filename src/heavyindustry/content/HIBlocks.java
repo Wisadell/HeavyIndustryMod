@@ -71,6 +71,7 @@ public final class HIBlocks {
             stoneVent,basaltVent,shaleVent,basaltWall,basaltGraphiticWall,basaltPyratiticWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
             metalClear,metalLight,metalGround,metalVent,metalScarp,metaWall,metalTower,metalFloorGroove,metalFloorPlain,labFloor,labFloorDark,
             brine,nanofluid,
+            metalFloorWater,metalFloorWater2,metalFloorWater3,metalFloorWater4,metalFloorWater5,metalFloorDamagedWater,
             stoneWater,shaleWater,basaltWater,darkWater,deepDarkWater,mudDarkWater,
             mud,overgrownGrass,overgrownShrubs,overgrownPine,
             corruptedMoss,corruptedSporeMoss,corruptedSporeRocks,corruptedSporePine,corruptedSporeFern,corruptedSporePlant,corruptedSporeTree,
@@ -289,6 +290,54 @@ public final class HIBlocks {
             emitLight = true;
             lightRadius = 30f;
             lightColor = Color.green.cpy().a(0.19f);
+        }};
+        metalFloorWater = new Floor("metal-floor-water", 0){{
+            speedMultiplier = 0.6f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+            supportsOverlay = true;
+        }};
+        metalFloorWater2 = new Floor("metal-floor-water-2", 0){{
+            speedMultiplier = 0.6f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+            supportsOverlay = true;
+        }};
+        metalFloorWater3 = new Floor("metal-floor-water-3", 0){{
+            speedMultiplier = 0.6f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+            supportsOverlay = true;
+        }};
+        metalFloorWater4 = new Floor("metal-floor-water-4", 0){{
+            speedMultiplier = 0.6f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+            supportsOverlay = true;
+        }};
+        metalFloorWater5 = new Floor("metal-floor-water-5", 0){{
+            speedMultiplier = 0.6f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+            supportsOverlay = true;
+        }};
+        metalFloorDamagedWater = new Floor("metal-floor-damaged-water", 3){{
+            speedMultiplier = 0.6f;
+            liquidDrop = Liquids.water;
+            isLiquid = true;
+            cacheLayer = CacheLayer.water;
+            albedo = 0.9f;
+            supportsOverlay = true;
         }};
         stoneWater = new Floor("stone-water", 3){{
             speedMultiplier = 0.6f;
@@ -525,7 +574,7 @@ public final class HIBlocks {
         }};
         shapedWall = new ShapedWall("shaped-wall"){{
             requirements(Category.defense, BuildVisibility.sandboxOnly, with(HIItems.heavyAlloy, 8, Items.phaseFabric, 6));
-            health = 3220;
+            health = 3080;
             armor = 16f;
             insulated = absorbLasers = true;
             crushDamageMultiplier = 0.5f;
@@ -2286,12 +2335,12 @@ public final class HIBlocks {
             squareSprite = false;
         }};
         bombLauncher = new BombLauncher("bomb-launcher"){{
-            requirements(Category.effect, with(Items.plastanium, 400, Items.graphite, 450, Items.silicon, 350, Items.thorium, 500, Items.surgeAlloy, 75));
+            requirements(Category.effect, with(Items.plastanium, 200, Items.graphite, 250, Items.silicon, 350, Items.thorium, 400, Items.surgeAlloy, 75));
             health = 1200;
             size = 3;
             itemCapacity = 30;
             storage = 1;
-            bullet = new EffectBulletType(15f, 100f, 800f){{
+            bullet = new EffectBulletType(15f, 100f, 1800f){{
                 trailChance = 0.25f;
                 trailEffect = HIFx.trailToGray;
                 trailParam = 1.5f;
@@ -2300,7 +2349,7 @@ public final class HIBlocks {
                 hittable = false;
                 scaledSplashDamage = true;
                 collidesTiles = collidesGround = collides = true;
-                lightningDamage = 400f;
+                lightningDamage = 100f;
                 lightColor = lightningColor = trailColor = hitColor = Pal.bulletYellow;
                 lightning = 3;
                 lightningLength = 8;
@@ -3616,7 +3665,7 @@ public final class HIBlocks {
                     }
 
                     if(darkenPartWarmup > 0.005f){
-                        tmpColor.lerp(Color.black, 0.86f);
+                        tmpColor.lerp(Color.white, 0.86f);
                         Draw.color(tmpColor);
                         Drawn.basicLaser(b.x, b.y, b.aimX, b.aimY, stroke * 0.55f * darkenPartWarmup);
                         Draw.z(HIFx.EFFECT_BOTTOM);

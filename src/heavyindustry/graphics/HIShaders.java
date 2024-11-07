@@ -52,7 +52,7 @@ public final class HIShaders {
     /**
      * Resolves shader files from this mod via {@link Vars#tree}.
      * @param name The shader file name, e.g. {@code my-shader.frag}.
-     * @return     The shader file, located inside {@code shaders/}.
+     * @return The shader file, located inside {@code shaders/}.
      */
     public static Fi file(String name) {
         return tree.get("shaders/" + name);

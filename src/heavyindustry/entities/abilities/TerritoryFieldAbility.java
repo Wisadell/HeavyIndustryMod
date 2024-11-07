@@ -24,6 +24,8 @@ public class TerritoryFieldAbility extends Ability {
 
     protected float timer;
 
+    public TerritoryFieldAbility(){}
+
     public TerritoryFieldAbility(float range, float healAm, float damageAm){
         this.range = range;
         this.healAm = healAm;

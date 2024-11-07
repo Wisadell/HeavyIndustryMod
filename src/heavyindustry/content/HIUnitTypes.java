@@ -755,7 +755,7 @@ public final class HIUnitTypes {
             ammoType = new ItemAmmoType(HIItems.uranium);
             abilities.add(new TerritoryFieldAbility(20 * 8f, 90f, 210f){{
                 open = true;
-            }}, new DeathAbility());
+            }});
             immunities = ObjectSet.with(HIStatusEffects.territoryFieldSuppress);
             weapons.add(new Weapon(name("suzerain-weapon")){{
                 y = -1f;
@@ -2465,6 +2465,7 @@ public final class HIUnitTypes {
             crashDamageMultiplier = Mathf.clamp(hitSize / 10f, 1, 10);
             buildBeamOffset = 0;
             aiController = SniperAI::new;
+            abilities.add(new DeathAbility());
             hidden = true;
         }
             public Effect slopeEffect = HIFx.boolSelector;

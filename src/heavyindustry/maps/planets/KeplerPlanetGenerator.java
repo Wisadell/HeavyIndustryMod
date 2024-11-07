@@ -1,11 +1,11 @@
 package heavyindustry.maps.planets;
 
-import heavyindustry.maps.*;
 import arc.graphics.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
+import heavyindustry.maps.*;
 
 public class KeplerPlanetGenerator extends PlanetGenerator {
     public Seq<HeightPass> heights = new Seq<>();
@@ -22,9 +22,7 @@ public class KeplerPlanetGenerator extends PlanetGenerator {
     }
 
     @Override
-    public void generateSector(Sector sector) {
-
-    }
+    public void generateSector(Sector sector) {}
 
     @Override
     public float getHeight(Vec3 position) {

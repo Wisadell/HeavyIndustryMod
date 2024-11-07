@@ -6,9 +6,7 @@ import arc.graphics.g2d.*;
 import mindustry.graphics.*;
 
 public final class Outliner {
-    /**
-     * Outlines a given textureRegion. Run in createIcons.
-     * */
+    /** Outlines a given textureRegion. Run in createIcons. */
     public static void outlineRegion(MultiPacker packer, TextureRegion tex, Color outlineColor, String name, int outlineRadius){
         if(tex == null) return;
         PixmapRegion region = Core.atlas.getPixmap(tex);
@@ -23,9 +21,7 @@ public final class Outliner {
         outlineRegion(packer, tex, outlineColor, name, 4);
     }
 
-    /**
-     * Outlines a list of regions. Run in createIcons.
-     * */
+    /** Outlines a list of regions. Run in createIcons. */
     public static void outlineRegions(MultiPacker packer, TextureRegion[] textures, Color outlineColor, String name, int radius){
         for(int i = 0; i < textures.length; i++){
             outlineRegion(packer, textures[i], outlineColor, name + "-" + i, radius);

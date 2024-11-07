@@ -32,18 +32,18 @@ public final class HIItems {
             hardness = 6;
         }};
         uranium = new Item("uranium", Color.valueOf("a5b2c2")){{
-            cost = 4;
+            cost = 3;
             hardness = 7;
             healthScaling = 1.4f;
             radioactivity = 2f;
         }};
         chromium = new Item("chromium", Color.valueOf("8f94b3")){{
-            cost = 12;
+            cost = 6;
             hardness = 8;
             healthScaling = 1.8f;
         }};
         heavyAlloy = new Item("heavy-alloy", Color.valueOf("686b7b")){{
-            cost = 9;
+            cost = 4;
             hardness = 10;
             healthScaling = 2.2f;
             radioactivity = 0.1f;

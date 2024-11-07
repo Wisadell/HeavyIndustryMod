@@ -2,6 +2,7 @@ package heavyindustry.content;
 
 import heavyindustry.entities.bullet.*;
 import heavyindustry.graphics.*;
+import heavyindustry.maps.planets.*;
 import heavyindustry.world.meta.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -15,7 +16,6 @@ import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.distribution.*;
@@ -24,12 +24,9 @@ import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.*;
-import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
-import java.lang.reflect.Field;
-import java.util.*;
-
+import static heavyindustry.util.HIReflect.*;
 import static arc.Core.*;
 import static mindustry.type.ItemStack.*;
 
@@ -37,7 +34,6 @@ import static mindustry.type.ItemStack.*;
  * Covering the original content.
  * @author Wisadell
  */
-@SuppressWarnings("unchecked")
 public final class HIOverride {
     public static void load(){
         //Blocks-Environment
@@ -388,6 +384,7 @@ public final class HIOverride {
         Items.erekirItems.addAll(HIItems.nanocoreErekir, HIItems.uranium, HIItems.chromium);
         //planet
         Planets.serpulo.allowSectorInvasion = settings.getBool("hi-enable-serpulo-sector-invasion");
+        Planets.serpulo.generator = new HISerpuloPlanetGenerator();
     }
 
     public static void loadReflect(){
@@ -397,34 +394,5 @@ public final class HIOverride {
         } catch (Exception e) {
             Log.err(e);
         }
-    }
-
-    //TODO It's all Anuke's fault!
-    public static void removeAllConsume(Block block) throws Exception {
-        Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
-        field.setAccessible(true);
-
-        Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
-
-        consumeBuilder.removeAll(Objects::nonNull);
-        block.consPower = null;
-    }
-
-    public static void removeConsumeItems(Block block) throws Exception {
-        Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
-        field.setAccessible(true);
-
-        Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
-
-        consumeBuilder.removeAll(b -> b instanceof ConsumeItems);
-    }
-
-    public static void removeConsumeLiquids(Block block) throws Exception {
-        Field field = block.getClass().getClassLoader().loadClass("mindustry.world.Block").getDeclaredField("consumeBuilder");
-        field.setAccessible(true);
-
-        Seq<Consume> consumeBuilder = (Seq<Consume>) field.get(block);
-
-        consumeBuilder.removeAll(b -> b instanceof ConsumeLiquidBase);
     }
 }

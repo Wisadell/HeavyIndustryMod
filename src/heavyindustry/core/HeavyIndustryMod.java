@@ -57,7 +57,7 @@ public final class HeavyIndustryMod extends Mod {
                     }
                 }).size(210f, 64f);
                 cont.pane(t -> {
-                    t.image(atlas.find(name("cover"))).left().size(600f, 338f).pad(3f).row();
+                    t.image(atlas.find(modName + "-cover")).left().size(600f, 338f).pad(3f).row();
                     t.add(bundle.get("hi-version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
                     t.add(label).left().row();
                     t.add(bundle.get("hi-class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();

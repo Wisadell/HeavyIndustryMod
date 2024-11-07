@@ -2,7 +2,6 @@ package heavyindustry.graphics;
 
 import arc.func.*;
 import arc.graphics.*;
-import arc.util.*;
 import mindustry.graphics.*;
 import mindustry.graphics.CacheLayer.*;
 import heavyindustry.core.*;

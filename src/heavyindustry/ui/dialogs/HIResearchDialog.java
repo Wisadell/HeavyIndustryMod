@@ -25,7 +25,7 @@ import mindustry.graphics.*;
 import mindustry.input.*;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.ui.dialogs.BaseDialog;
+import mindustry.ui.dialogs.*;
 import mindustry.ui.layout.*;
 import mindustry.ui.layout.TreeLayout.*;
 
