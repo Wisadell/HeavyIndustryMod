@@ -6,6 +6,7 @@ import arc.math.*;
 import arc.util.*;
 import mindustry.graphics.*;
 import heavyindustry.content.*;
+import mindustry.type.Item;
 
 import static arc.Core.*;
 
@@ -53,6 +54,17 @@ public class LaserBeamDrill extends AdaptDrill {
         laser = atlas.find("minelaser");
         laserEnd = atlas.find("minelaser-end");
 
+    }
+
+    @Override
+    public float getMineSpeedHardnessMul(Item item){
+        if (item == null) return 0f;
+        return switch (item.hardness) {
+            case 0 -> 2f;
+            case 1, 2 -> 1.6f;
+            case 3, 4 -> 1.2f;
+            default -> 1f;
+        };
     }
 
     public class LaserBeamDrillBuild extends AdaptDrillBuild{

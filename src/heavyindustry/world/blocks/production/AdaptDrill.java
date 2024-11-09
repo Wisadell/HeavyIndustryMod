@@ -103,7 +103,8 @@ public abstract class AdaptDrill extends Block {
             case 0 -> 2f;
             case 1, 2 -> 1.5f;
             case 3, 4 -> 1f;
-            default -> 0.8f;
+            case 5, 6 -> 0.8f;
+            default -> 0.6f;
         };
     }
 

@@ -22,7 +22,7 @@ public class BombLauncher extends CommandableAttackerBlock {
     public TextureRegion bombRegion;
 
     public Sound shootSound = HISounds.launch;
-    public Color baseColor = Pal.redderDust;
+    public Color baseColor = Pal.bulletYellow;
 
     public float bombVelPerTile = 2f;
 
@@ -42,7 +42,7 @@ public class BombLauncher extends CommandableAttackerBlock {
     @Override
     public void init(){
         super.init();
-        if(bullet.shootEffect == HIFx.boolSelector)bullet.shootEffect = HIFx.square(baseColor, 50f, 6, size * tilesize * 2f, size);
+        if(bullet.shootEffect == HIFx.boolSelector) bullet.shootEffect = HIFx.square(baseColor, 50f, 6, size * tilesize * 2f, size);
     }
 
     @Override

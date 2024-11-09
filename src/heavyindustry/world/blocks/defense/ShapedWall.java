@@ -2,6 +2,7 @@ package heavyindustry.world.blocks.defense;
 
 import heavyindustry.content.*;
 import heavyindustry.graphics.*;
+import heavyindustry.util.*;
 import heavyindustry.world.meta.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -11,7 +12,6 @@ import mindustry.gen.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.util.HIUtils.*;
 import static heavyindustry.util.SpriteUtils.*;
 import static mindustry.Vars.*;
 
@@ -37,7 +37,7 @@ public class ShapedWall extends Wall {
     @Override
     public void load(){
         super.load();
-        orthogonalRegion = splitLayers(name + "-full", 32, 2);
+        orthogonalRegion = HIUtils.splitLayers(name + "-full", 32, 2);
     }
 
     @Override
