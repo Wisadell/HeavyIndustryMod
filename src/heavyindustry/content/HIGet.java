@@ -1,6 +1,5 @@
 package heavyindustry.content;
 
-import arc.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -24,6 +23,7 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public final class HIGet {
@@ -273,9 +273,9 @@ public final class HIGet {
         for(int i = 1; i < 10; i++){
             int finalI = i;
             cons.put(i, it -> {
-                PixmapRegion base = Core.atlas.getPixmap(item.uiIcon);
+                PixmapRegion base = atlas.getPixmap(item.uiIcon);
                 var mix = base.crop();
-                var number = Core.atlas.find(name("number-" + finalI));
+                var number = atlas.find(name("number-" + finalI));
                 if(number.found()) {
                     PixmapRegion region = TextureAtlas.blankAtlas().getPixmap(number);
 
@@ -297,9 +297,9 @@ public final class HIGet {
         for(int i = 1; i < 10; i++){
             int finalI = i;
             cons.put(i, ld -> {
-                PixmapRegion base = Core.atlas.getPixmap(liquid.uiIcon);
+                PixmapRegion base = atlas.getPixmap(liquid.uiIcon);
                 var mix = base.crop();
-                var number = Core.atlas.find(name("number-" + finalI));
+                var number = atlas.find(name("number-" + finalI));
                 if(number.found()) {
                     PixmapRegion region = TextureAtlas.blankAtlas().getPixmap(number);
 
@@ -320,7 +320,7 @@ public final class HIGet {
         coll.setDuration(0.1f);
         t.row();
         t.table(st -> {
-            st.add(Core.bundle.get("eu-clickToShow")).center();
+            st.add(bundle.get("hi-click-to-show")).center();
             st.row();
             st.button(Icon.downOpen, Styles.emptyi, () -> coll.toggle(true)).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).pad(5).size(8).center();
         }).left();
