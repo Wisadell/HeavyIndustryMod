@@ -105,7 +105,7 @@ public final class HIBlocks {
             largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,sporeFarm,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
             nanocoreConstructor,nanocorePrinter,nanocoreActivator,largePhaseWeaver,phaseFusionInstrument,clarifier,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
             //production-erekir
-            ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
+            ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,heatDriver,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
             //defense
             lighthouse,mendDome,sectorStructureMender,assignOverdrive,largeShieldGenerator,paralysisMine,detonator,bombLauncher,
             //defense-erekir
@@ -163,7 +163,7 @@ public final class HIBlocks {
         basaltWall = new StaticWall("basalt-wall"){{
             variants = 3;
             attributes.set(Attribute.sand, 0.7f);
-            ((Floor) Blocks.basalt).wall = this;
+            Blocks.basalt.asFloor().wall = Blocks.hotrock.asFloor().wall = Blocks.magmarock.asFloor().wall = this;
         }};
         basaltGraphiticWall = new StaticWall("basalt-graphitic-wall"){{
             itemDrop = Items.graphite;
@@ -513,28 +513,28 @@ public final class HIBlocks {
         chromiumWall = new Wall("chromium-wall"){{
             requirements(Category.defense, with(HIItems.chromium, 6));
             size = 1;
-            health = 1980;
+            health = 1770;
             armor = 36f;
             absorbLasers = true;
         }};
         chromiumWallLarge = new Wall("chromium-wall-large"){{
             requirements(Category.defense, with(HIItems.chromium, 24));
             size = 2;
-            health = 7920;
+            health = 7080;
             armor = 36f;
             absorbLasers = true;
         }};
         chromiumDoor = new AutoDoor("chromium-door"){{
             requirements(Category.defense, with(HIItems.chromium, 6, Items.silicon, 4));
             size = 1;
-            health = 1980;
+            health = 1770;
             armor = 36f;
             absorbLasers = true;
         }};
         chromiumDoorLarge = new AutoDoor("chromium-door-large"){{
             requirements(Category.defense, with(HIItems.chromium, 24, Items.silicon, 16));
             size = 2;
-            health = 7920;
+            health = 7080;
             armor = 36f;
             absorbLasers = true;
         }};
@@ -1997,6 +1997,14 @@ public final class HIBlocks {
             liquidCapacity = 60;
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(), new DrawDefault(), new DrawHeatOutput());
             consume(new ConsumeLiquidFlammable(7.5f / 60f));
+        }};
+        heatDriver = new HeatDriver("heat-driver"){{
+            requirements(Category.crafting, with(Items.tungsten, 150, Items.silicon, 120, Items.oxide, 130, Items.carbide, 60));
+            size = 3;
+            drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"), new DrawHeatDriver());
+            range = 360;
+            regionRotated1 = 1;
+            consumePower(4);
         }};
         largeElectricHeater = new HeatProducer("large-electric-heater"){{
             requirements(Category.crafting, with(Items.tungsten, 150, Items.oxide, 120, Items.carbide, 50));

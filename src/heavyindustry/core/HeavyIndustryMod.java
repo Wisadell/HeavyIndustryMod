@@ -46,27 +46,11 @@ public final class HeavyIndustryMod extends Mod {
 
         Events.on(ClientLoadEvent.class, e -> {
             HIIcon.load();
-            if(onlyPlugIn || settings.getBool("hi-homepage-dialog")) return;
-            FLabel label = new FLabel(bundle.get("hi-author") + author);
-            BaseDialog dialog = new BaseDialog(bundle.get("hi-name")){{
-                buttons.button("@close", this::hide).size(210f, 64f);
-                buttons.button((bundle.get("hi-link-github")), () -> {
-                    if (!app.openURI(linkGitHub)) {
-                        ui.showErrorMessage("@linkfail");
-                        app.setClipboardText(linkGitHub);
-                    }
-                }).size(210f, 64f);
-                cont.pane(t -> {
-                    t.image(atlas.find(modName + "-cover")).left().size(600f, 338f).pad(3f).row();
-                    t.add(bundle.get("hi-version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
-                    t.add(label).left().row();
-                    t.add(bundle.get("hi-class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
-                    t.add(bundle.get("hi-note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    t.add(bundle.get("hi-prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                    t.add(bundle.get("hi-other")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
-                }).grow().center().maxWidth(600f);
-            }};
-            dialog.show();
+
+            if(onlyPlugIn) return;
+
+            showDialog();
+            showNoMultipleMods();
         });
 
         Events.on(FileTreeInitEvent.class, e -> {
@@ -112,15 +96,15 @@ public final class HeavyIndustryMod extends Mod {
             TableUtils.init();
         }
 
-        settings.defaults("hi-homepage-dialog", false);
+        settings.defaults("hi-closed-dialog", false);
+        settings.defaults("hi-closed-multiple-mods", false);
         settings.defaults("hi-tesla-range", true);
         settings.defaults("hi-plug-in-mode", false);
 
-        mods.locateMod(modName).meta.hidden = onlyPlugIn;
+        mod().meta.hidden = onlyPlugIn;
         if(onlyPlugIn){
-            Mods.LoadedMod mod = mods.locateMod(modName);
-            mod.meta.displayName = mod.meta.displayName + "-Plug-In";
-            mod.meta.version = mods.locateMod(modName).meta.version + "-plug-in";
+            mod().meta.displayName = mod().meta.displayName + "PlugIn";
+            mod().meta.version = mod().meta.version + "-plug-in";
         }
 
         if(ui != null && ui.settings != null){
@@ -133,7 +117,8 @@ public final class HeavyIndustryMod extends Mod {
             dialog.buttons.button("@confirm", exit).center().size(150, 50);
 
             ui.settings.addCategory(bundle.format("hi-settings"), HIIcon.reactionIcon, t -> {
-                t.checkPref("hi-homepage-dialog", false);
+                t.checkPref("hi-closed-dialog", false);
+                t.checkPref("hi-closed-multiple-mods", false);
                 t.checkPref("hi-tesla-range", true);
                 t.checkPref("hi-enable-serpulo-sector-invasion", true);
                 t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting("hi-plug-in-mode", false, null) {
@@ -168,5 +153,54 @@ public final class HeavyIndustryMod extends Mod {
 
     public static LoadedMod mod(){
         return modInfo;
+    }
+
+    private static void showDialog(){
+        if (settings.getBool("hi-closed-dialog")) return;
+
+        FLabel label = new FLabel(bundle.get("hi-author") + author);
+        BaseDialog dialog = new BaseDialog(bundle.get("hi-name")){{
+            buttons.button("@close", this::hide).size(210f, 64f);
+            buttons.button((bundle.get("hi-link-github")), () -> {
+                if (!app.openURI(linkGitHub)) {
+                    ui.showErrorMessage("@linkfail");
+                    app.setClipboardText(linkGitHub);
+                }
+            }).size(210f, 64f);
+            cont.pane(t -> {
+                t.image(atlas.find(modName + "-cover")).left().size(600f, 338f).pad(3f).row();
+                t.add(bundle.get("hi-version")).left().growX().wrap().pad(4f).labelAlign(Align.left).row();
+                t.add(label).left().row();
+                t.add(bundle.get("hi-class")).left().growX().wrap().pad(4).labelAlign(Align.left).row();
+                t.add(bundle.get("hi-note")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                t.add(bundle.get("hi-prompt")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+                t.add(bundle.get("hi-other")).left().growX().wrap().width(550f).maxWidth(600f).pad(4f).labelAlign(Align.left).row();
+            }).grow().center().maxWidth(600f);
+        }};
+        dialog.show();
+    }
+
+    private static void showNoMultipleMods(){
+        if (settings.getBool("hi-closed-multiple-mods")) return;
+
+        boolean announces = true;
+
+        for(LoadedMod mod : mods.orderedMods()) if(!modName.equals(mod.meta.name) && !mod.meta.hidden){
+            announces = false;
+            break;
+        }
+
+        if(announces) return;
+        BaseDialog dialog = new BaseDialog("oh-no"){
+            float time = 300f;
+            boolean canClose;
+        {
+            update(() -> canClose = (time -= Time.delta) <= 0f);
+            cont.add(bundle.get("hi-multiple-mods"));
+            buttons.button("", this::hide).update(b -> {
+                b.setDisabled(!canClose);b.setText(canClose ? "@close" : String.format("%s(%ss)", "@close", Strings.fixed(time / 60.0f, 1)));
+            }).size(210f, 64f);
+        }};
+        dialog.show();
     }
 }

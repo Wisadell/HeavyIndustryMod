@@ -5,6 +5,7 @@ import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
+import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.*;
@@ -15,6 +16,7 @@ import mindustry.entities.pattern.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.type.*;
+import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.turrets.*;
 import org.jetbrains.annotations.*;
@@ -308,5 +310,22 @@ public final class HIGet {
             });
         }
         return cons;
+    }
+
+    public static void collapseTextToTable(Table t, String text){
+        Table ic = new Table();
+        ic.add(text).wrap().fillX().width(500f).padTop(2).padBottom(6).left();
+        ic.row();
+        Collapser coll = new Collapser(ic, true);
+        coll.setDuration(0.1f);
+        t.row();
+        t.table(st -> {
+            st.add(Core.bundle.get("eu-clickToShow")).center();
+            st.row();
+            st.button(Icon.downOpen, Styles.emptyi, () -> coll.toggle(true)).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).pad(5).size(8).center();
+        }).left();
+        t.row();
+        t.add(coll);
+        t.row();
     }
 }

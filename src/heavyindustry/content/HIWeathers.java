@@ -19,8 +19,40 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * @author Wisadell
  */
 public final class HIWeathers {
-    public static Weather hailStone,wind,blizzard;
+    public static Weather wind,blizzard,hailStone;
     public static void load(){
+        wind = new EffectWeather("wind"){{
+            weatherFx = HIFx.windTail;
+            particleRegion = "particle";
+            sizeMax = 5f;
+            sizeMin = 1f;
+            density = 1600;
+            baseSpeed = 5.4f;
+            minAlpha = 0.05f;
+            maxAlpha = 0.18f;
+            force = 0.1f;
+            sound = Sounds.wind2;
+            soundVol = 0.8f;
+            maxSpawn = 2;
+            duration = 8f * Time.toMinutes;
+        }};
+        blizzard = new ParticleWeather("blizzard"){{
+            particleRegion = "particle";
+            sizeMax = 14f;
+            sizeMin = 3f;
+            density = 600f;
+            baseSpeed = 15f;
+            yspeed = -2.5f;
+            xspeed = 8f;
+            minAlpha = 0.75f;
+            maxAlpha = 0.9f;
+            attrs.set(Attribute.light, -0.35f);
+            sound = Sounds.windhowl;
+            soundVol = 0.25f;
+            soundVolOscMag = 1.5f;
+            soundVolOscScl = 1100f;
+            soundVolMin = 0.15f;
+        }};
         hailStone = new HailStormWeather("hail-storm"){{
             attrs.set(Attribute.light, -0.5f);
             drawParticles = inBounceCam = drawNoise = false;
@@ -62,37 +94,6 @@ public final class HIWeathers {
                         splashDamageRadius = 0;
                     }}, 1f
             );
-        }};
-        wind = new EffectWeather("wind"){{
-            weatherFx = HIFx.windTail;
-            particleRegion = "particle";
-            sizeMax = 5f;
-            sizeMin = 1f;
-            density = 1600;
-            baseSpeed = 5.4f;
-            minAlpha = 0.05f;
-            maxAlpha = 0.18f;
-            force = 0.1f;
-            sound = Sounds.wind2;
-            soundVol = 0.8f;
-            maxSpawn = 2;
-            duration = 8f * Time.toMinutes;
-        }};
-        blizzard = new ParticleWeather("blizzard"){{
-            particleRegion = "particle";
-            sizeMax = 14f;
-            sizeMin = 3f;
-            density = 600f;
-            baseSpeed = 15f;
-            yspeed = -2.5f;
-            xspeed = 8f;
-            minAlpha = 0.75f;
-            maxAlpha = 0.9f;
-            sound = Sounds.windhowl;
-            soundVol = 0.25f;
-            soundVolOscMag = 1.5f;
-            soundVolOscScl = 1100f;
-            soundVolMin = 0.15f;
         }};
     }
 }

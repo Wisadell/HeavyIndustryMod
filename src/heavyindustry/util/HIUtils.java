@@ -19,8 +19,8 @@ public final class HIUtils {
     }
 
     @Contract(pure = true)
-    public static int reverse(int rotation) {
-        return switch(rotation) {
+    public static int reverse(int rotation){
+        return switch(rotation){
             case 0 -> 2; case 2 -> 0; case 1 -> 3; case 3 -> 1;
             default -> throw new IllegalStateException("Unexpected value: " + rotation);
         };

@@ -14,7 +14,10 @@ import arc.struct.*;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.type.*;
+import mindustry.world.*;
 
 import java.util.*;
 
@@ -634,6 +637,37 @@ public final class HIFx {
     }
 
     public static final Effect
+            hitOut = new Effect(60, e -> {
+                if(e.data instanceof Unit u) {
+                    UnitType type = u.type;
+                    if(type != null) {
+                        TextureRegion rg = type.fullIcon;
+                        float w = rg.width * rg.scl() * Draw.xscl;
+                        float h = rg.height * rg.scl() * Draw.yscl;
+                        float dx = HIGet.dx(e.x, Math.max(w, h) * 0.3f * e.finpow(), e.rotation), dy = HIGet.dy(e.y, Math.max(w, h) * 0.3f * e.finpow(), e.rotation);
+                        float z = Draw.z();
+                        Draw.z(Layer.effect + 10);
+                        Draw.alpha(e.foutpow());
+                        Draw.rect(rg, dx, dy, w * 1.2f * e.finpow(), h * 1.2f * e.finpow(), u.rotation - 90);
+                        Draw.z(z);
+                    }
+                }
+
+                if(e.data instanceof Building b) {
+                    Block type = b.block;
+                    if(type != null) {
+                        TextureRegion rg = type.fullIcon;
+                        float w = rg.width * rg.scl() * Draw.xscl;
+                        float h = rg.height * rg.scl() * Draw.yscl;
+                        float dx = HIGet.dx(e.x, h * 0.2f * e.finpow(), e.rotation), dy = HIGet.dy(e.y, h * 0.2f * e.finpow(), e.rotation);
+                        float z = Draw.z();
+                        Draw.z(Layer.effect + 10);
+                        Draw.alpha(e.foutpow());
+                        Draw.rect(rg, dx, dy, w * 1.2f * e.finpow(), h * 1.2f * e.finpow());
+                        Draw.z(z);
+                    }
+                }
+            }),
             shieldDefense = new Effect(20, e -> {
                 Draw.color(e.color);
                 Lines.stroke(e.fslope() * 2.5f);
@@ -643,6 +677,17 @@ public final class HIFx {
             smolSquare = new Effect(25f, e -> {
                 Draw.color(e.color);
                 Fill.square(e.x, e.y, e.fout() * 1.3f + 0.01f, 45f);
+            }),
+            missileShoot = new Effect(130f, 300f, e -> {
+                Draw.color(e.color);
+                Draw.alpha(0.67f * e.fout(0.9f));
+                rand.setSeed(e.id);
+                for(int i = 0; i < 35; i++){
+                    v9.trns(e.rotation + 180f + rand.range(21f), rand.random(e.finpow() * 90f)).add(rand.range(3f), rand.range(3f));
+                    e.scaled(e.lifetime * rand.random(0.2f, 1f), b -> {
+                        Fill.circle(e.x + v9.x, e.y + v9.y, b.fout() * 9f + 0.3f);
+                    });
+                }
             }),
             shuttle = new Effect(70f, 800f, e -> {
                 if(!(e.data instanceof Float))return;

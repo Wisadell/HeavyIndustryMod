@@ -54,14 +54,13 @@ public class HISerpuloPlanetGenerator extends SerpuloPlanetGenerator {
         boolean hasDesert = floors.length > 0 && !hasSnow && !hasRain && floors[0] == Blocks.sand;
         boolean hasSpores = floors.length > 0 && (floors[0].name.contains("spore") || floors[0].name.contains("moss") || floors[0].name.contains("tainted"));
 
-        if (!hasSnow && !hasDesert && !hasSpores) {
+        if (!hasDesert && !hasSpores) {
             rules.weather.add(new WeatherEntry(HIWeathers.wind));
         }
 
         if(hasSnow){
             rules.weather.add(new WeatherEntry(Weathers.snow));
             rules.weather.add(new WeatherEntry(HIWeathers.blizzard));
-            rules.weather.add(new WeatherEntry(HIWeathers.hailStone));
         }
 
         if(hasRain){

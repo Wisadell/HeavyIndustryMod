@@ -13,7 +13,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.blocks.*;
 
-public class CtrlMissileBulletType extends BulletType {
+public class CtrlMissileBulletType extends BasicBulletType {
     public String sprite;
     public float width, height;
     public boolean autoHoming = false, low = false;

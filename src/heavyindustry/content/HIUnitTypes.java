@@ -7,10 +7,12 @@ import heavyindustry.entities.abilities.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.part.*;
+import heavyindustry.type.weapons.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.ai.*;
@@ -22,6 +24,7 @@ import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
+import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -69,6 +72,7 @@ public final class HIUnitTypes {
         nameMap.put(name("pioneer"), LegsPayloadUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
+        nameMap.put(name("artillery-fire-pioneer"), idMap[3]);
         //elite
         nameMap.put(name("tiger"), idMap[4]);
         nameMap.put(name("thunder"), idMap[43]);
@@ -86,7 +90,7 @@ public final class HIUnitTypes {
             //miner-erekir
             miner,largeMiner,
             //other
-            armoredCarrierVehicle,pioneer,vulture,burner,
+            armoredCarrierVehicle,pioneer,vulture,burner,artilleryFirePioneer,
             //elite
             tiger,thunder,
             //boss
@@ -1348,7 +1352,118 @@ public final class HIUnitTypes {
                         Drawf.light(e.x, e.y, rad * 1.6f, Pal.heal, e.fout());
                     });
                 }};
-            }});
+            }}, new BoostWeapon(){{
+                controllable = false;
+                autoTarget = true;
+                x = 0;
+                y = -15.5f;
+                mirror = false;
+                rotate = false;
+                baseRotation = 45;
+                shootCone = 360;
+                shootY = 0;
+                shoot = new ShootBarrel(){{
+                    barrels = new float[]{
+                            0f, 8f, 0f,
+                            -8f, 0f, 45f,
+                            0f, -8f, 90f,
+                            8f, 0f, 135f
+                    };
+                    shots = 4;
+                    shotDelay = 12;
+                }};
+                reload = 72;
+                inaccuracy = 0;
+                shootSound = Sounds.missileSmall;
+                bullet = new CtrlMissileBulletType("missile-large", 6, 10){{
+                    status = StatusEffects.electrified;
+                    damage = 108;
+                    buildingDamageMultiplier = 1f;
+                    pierceArmor = true;
+                    autoHoming = true;
+                    homingPower = 7.5f;
+                    homingDelay = 18;
+                    trailColor = Pal.heal;
+                    trailLength = 15;
+                    trailWidth = 2.4f;
+                    speed = 4;
+                    lifetime = 80;
+                    hitEffect = despawnEffect = new Effect(30, e -> {
+                        e.scaled(12, b -> {
+                            Lines.stroke(2 * e.foutpow(), Color.lightGray);
+                            Lines.circle(e.x, e.y, 32 * e.finpow());
+                        });
+                        Draw.color(Pal.heal);
+                        Angles.randLenVectors(e.id, 5, 32 * e.finpow(), e.rotation, 360, (x, y) -> Fill.poly(e.x + x, e.y + y, (int) Math.max(3, e.fout() * 12), 12 * e.fout(), Mathf.randomSeed(e.id, 360) + 360 * e.fout()));
+                    });
+                    shootEffect = new Effect(24, e -> {
+                        Draw.color(Pal.heal);
+                        Angles.randLenVectors(e.id, 3, 16 * e.finpow(), e.rotation, 45, (x, y) -> Fill.poly(e.x + x, e.y + y, (int) Math.max(3, e.fout() * 8), 6.5f * e.fout(), Mathf.randomSeed(e.id, 360) + 180 * e.fout()));
+                    });
+                }
+                    @Override
+                    public void update(Bullet b) {
+                        super.update(b);
+                        float startTime = homingDelay + 12;
+                        if(b.time < startTime){
+                            float in = b.time/startTime;
+                            float out = 1 - in;
+                            out = Interp.fastSlow.apply(out);
+                            b.initVel(b.rotation(), speed * out + 1f);
+                        } else {
+                            float in = Math.min(1, (b.time - startTime)/30);
+                            b.initVel(b.rotation(), speed * 2f * in + 1f);
+                        }
+                    }
+
+                    @Override
+                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                        super.hitEntity(b, entity, health);
+                        if(entity instanceof Unit unit){
+                            if(unit.shield > 0){
+                                HIFx.hitOut.at(unit.x, unit.y, b.rotation(), unit);
+                                if(unit.health > damage) unit.health -= damage;
+                                else unit.kill();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
+                        super.hitTile(b, build, x, y, initialHealth, direct);
+                        if(build == null || build.dead) return;
+                        if(build.timeScale() > 1){
+                            HIFx.hitOut.at(build.x, build.y, b.rotation(), build);
+                            if(build.health > damage) build.health -= damage;
+                            else build.kill();
+                        }
+                        build.applySlowdown(0.6f, 30);
+                    }
+
+                    @Override
+                    public void draw(Bullet b) {
+                        drawTrail(b);
+                        drawParts(b);
+                        float z = Draw.z();
+                        Draw.z(Layer.effect);
+                        Draw.color(b.team.color);
+                        Draw.rect(frontRegion, b.x, b.y, width * 1.5f, height * 1.5f, b.rotation() - 90);
+                        Draw.z(Layer.effect + 1);
+                        Draw.color(Pal.heal);
+                        Draw.rect(frontRegion, b.x, b.y, width * 0.9f, height * 0.9f, b.rotation() - 90);
+
+                        Draw.z(z);
+                        Draw.reset();
+                    }
+                };
+            }
+                @Override
+                public void addStats(UnitType u, Table t) {
+                    String text = bundle.get("unit.heavy-industry-killer-whale.weapon-1.description");
+                    HIGet.collapseTextToTable(t, text);
+                    super.addStats(u, t);
+                }
+            });
         }};
         //vanilla-tier6-erekir
         dominate = new TankUnitType("dominate"){{
@@ -2093,6 +2208,90 @@ public final class HIUnitTypes {
                 @Override
                 public float range(){
                     return range;
+                }
+            });
+        }};
+        artilleryFirePioneer = new UnitType("artillery-fire-pioneer"){{
+            hitSize = 28f;
+            speed = 1.1f;
+            accel = 0.05f;
+            drag = 0.05f;
+            rotateSpeed = 0.1f;
+            health = 6300f;
+            armor = 39f;
+            flying = true;
+            lowAltitude = true;
+            targetGround = true;
+            targetAir = false;
+            ammoType = new PowerAmmoType(22000f);
+            targetFlags = new BlockFlag[]{BlockFlag.storage, BlockFlag.repair, BlockFlag.turret, null};
+            weapons.add(new Weapon(){{
+                mirror = false;
+                rotate = true;
+                rotateSpeed = 100f;
+                reload = 150f;
+                shootSound = Sounds.none;
+                bullet = new BulletType(0f, 0f){{
+                    lifetime = 10f;
+                    collides = collidesAir = collidesGround = collidesTiles = false;
+                    despawnEffect = hitEffect = Fx.none;
+                    fragBullets = 4;
+                    fragBullet = new PointBulletType(){{
+                        trailSpacing = 7f;
+                        trailEffect = hitEffect = despawnEffect = Fx.none;
+                        lifetime = 8f;
+                        speed = 15f;
+                        hitSound = Sounds.none;
+                        fragBullets = 1;
+                        fragLifeMin = 0.3f;
+                        fragBullet = new ArtilleryBulletType(0.1f, 350f, "shell"){{
+                            hitEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
+                            despawnEffect = Fx.none;
+                            knockback = 2f;
+                            lifetime = 140f;
+                            height = width = 0f;
+                            splashDamageRadius = 65f;
+                            splashDamage = 350f;
+                            scaledSplashDamage = true;
+                            backColor = hitColor = trailColor = Color.valueOf("ea8878").lerp(Pal.redLight, 0.5f);
+                            frontColor = Color.white;
+                            ammoMultiplier = 1f;
+                            hitSound = Sounds.titanExplosion;
+                            status = StatusEffects.blasted;
+                            trailLength = 32;
+                            trailWidth = 3.35f;
+                            trailSinScl = 2.5f;
+                            trailSinMag = 0.5f;
+                            trailEffect = Fx.none;
+                            despawnShake = 7f;
+                            shootEffect = Fx.shootTitan;
+                            smokeEffect = Fx.shootSmokeTitan;
+                            trailInterp = v -> Math.max(Mathf.slope(v), 0.8f);
+                            shrinkX = 0.2f;
+                            shrinkY = 0.1f;
+                            buildingDamageMultiplier = 0.7f;
+                        }};
+                    }};
+                }};
+            }
+                final float rangeWeapon = 720f;
+
+                @Override
+                protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation){
+                    shootSound.at(shootX, shootY, Mathf.random(soundPitchMin, soundPitchMax));
+
+                    Tmp.v6.set(mount.aimX, mount.aimY).sub(unit);
+                    Tmp.v1.set(mount.aimX, mount.aimY).sub(unit).nor().scl(Math.min(Tmp.v6.len(), rangeWeapon)).add(unit);
+
+                    Bullet b = bullet.create(unit, unit.team, Tmp.v1.x, Tmp.v1.y, 0);
+                    b.vel.setZero();
+                    b.set(Tmp.v1);
+                    unit.apply(shootStatus, shootStatusDuration);
+                }
+
+                @Override
+                public float range() {
+                    return rangeWeapon;
                 }
             });
         }};

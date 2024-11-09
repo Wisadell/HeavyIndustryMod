@@ -30,6 +30,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  */
 public final class HIBullets {
     public static BulletType
+            ancientArtilleryProjectile,
             hitter,ncBlackHole,nuBlackHole,executor,
             ultFireball,basicSkyFrag,annMissile,
             hyperBlast,hyperBlastLinker,
@@ -39,6 +40,83 @@ public final class HIBullets {
 
     @SuppressWarnings("unchecked")
     public static void load(){
+        ancientArtilleryProjectile = new ShieldBreakerType(7f, 6000, "missile-large", 7000){{
+            backColor = trailColor = lightColor = lightningColor = hitColor = HIPal.ancientLightMid;
+            frontColor = HIPal.ancientLight;
+            trailEffect = HIFx.hugeTrail;
+            trailParam = 6f;
+            trailChance = 0.2f;
+            trailInterval = 3;
+
+            lifetime = 200f;
+            scaleLife = true;
+
+            trailWidth = 5f;
+            trailLength = 55;
+            trailInterp = Interp.slope;
+
+            lightning = 6;
+            lightningLength = lightningLengthRand = 22;
+            splashDamage = damage;
+            lightningDamage = damage / 15;
+            splashDamageRadius = 120;
+            scaledSplashDamage = true;
+            despawnHit = true;
+            collides = false;
+
+            shrinkY = shrinkX = 0.33f;
+            width = 17f;
+            height = 55f;
+
+            despawnShake = hitShake = 12f;
+
+            hitEffect = new MultiEffect(HIFx.square(hitColor, 200, 20 ,splashDamageRadius + 80, 10), HIFx.lightningHitLarge, HIFx.hitSpark(hitColor, 130, 85, splashDamageRadius * 1.5f, 2.2f, 10f), HIFx.subEffect(140, splashDamageRadius + 12, 33, 34f, Interp.pow2Out, ((i, x, y, rot, fin) -> {
+                float fout = Interp.pow2Out.apply(1 - fin);
+                for(int s : Mathf.signs) {
+                    Drawf.tri(x, y, 12 * fout, 45 * Mathf.curve(fin, 0, 0.1f) * HIFx.fout(fin, 0.25f), rot + s * 90);
+                }
+            })));
+            despawnEffect = HIFx.circleOut(145f, splashDamageRadius + 15f, 3f);
+
+            shootEffect = EffectWrapper.wrap(HIFx.missileShoot, hitColor);//NHFx.blast(hitColor, 45f);
+            smokeEffect = HIFx.instShoot(hitColor, frontColor);
+
+            despawnSound = hitSound = Sounds.largeExplosion;
+
+            fragBullets = 22;
+            fragBullet = new BasicBulletType(2f, 300, name("circle-bolt")){{
+                width = height = 10f;
+                shrinkY = shrinkX = 0.7f;
+                backColor = trailColor = lightColor = lightningColor = hitColor = HIPal.ancientLightMid;
+                frontColor = HIPal.ancientLight;
+                trailEffect = Fx.missileTrail;
+                trailParam = 3.5f;
+                splashDamage = 80;
+                splashDamageRadius = 40;
+
+                lifetime = 18f;
+
+                lightning = 2;
+                lightningLength = lightningLengthRand = 4;
+                lightningDamage = 30;
+
+                hitSoundVolume /= 2.2f;
+                despawnShake = hitShake = 4f;
+                despawnSound = hitSound = Sounds.dullExplosion;
+
+                trailWidth = 5f;
+                trailLength = 35;
+                trailInterp = Interp.slope;
+
+                despawnEffect = HIFx.blast(hitColor, 40f);
+                hitEffect = HIFx.hitSparkHuge;
+            }};
+
+            fragLifeMax = 5f;
+            fragLifeMin = 1.5f;
+            fragVelocityMax = 2f;
+            fragVelocityMin = 0.35f;
+        }};
         hitter = new EffectBulletType(15f, 500f, 600f){{
             speed = 0;
 

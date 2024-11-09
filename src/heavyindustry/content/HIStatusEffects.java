@@ -121,18 +121,18 @@ public final class HIStatusEffects {
         }};
         territoryFieldIncrease = new StatusEffect("territory-field-increase"){{
             color = Color.valueOf("ea8878");
-            buildSpeedMultiplier = 2;
-            speedMultiplier = 1.3f;
-            reloadMultiplier = 2;
+            buildSpeedMultiplier = 1.5f;
+            speedMultiplier = 1.1f;
+            reloadMultiplier = 1.2f;
             damage = -0.2f;
             effectChance = 0.07f;
             effect = Fx.overclocked;
         }};
         territoryFieldSuppress = new StatusEffect("territory-field-suppress"){{
             color = Color.valueOf("8b9bb4");
-            speedMultiplier = 0.4f;
-            reloadMultiplier = 0.5f;
-            damage = 15/60f;
+            speedMultiplier = 0.85f;
+            reloadMultiplier = 0.8f;
+            damage = 15 / 60f;
             effectChance = 0.07f;
             effect = Fx.overclocked;
         }};

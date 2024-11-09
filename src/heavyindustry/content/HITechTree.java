@@ -183,6 +183,7 @@ public final class HITechTree {
             node(ventHeater, () -> {});
             node(nanocoreConstructorErekir, Seq.with(new OnSector(crossroads)), () -> node(nanocorePrinterErekir, Seq.with(new OnSector(origin)), () -> {}));
         });
+        vanillaNode(heatRedirector, () -> node(heatDriver, () -> {}));
         vanillaNode(electricHeater, () -> {
             node(largeElectricHeater, ItemStack.with(Items.tungsten, 3000, Items.oxide, 2400, Items.carbide, 800), () -> {});
             node(liquidFuelHeater, () -> {});

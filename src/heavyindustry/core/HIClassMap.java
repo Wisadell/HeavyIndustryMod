@@ -6,6 +6,7 @@ import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.entities.part.*;
 import heavyindustry.type.*;
+import heavyindustry.type.weapons.*;
 import heavyindustry.type.weather.*;
 import heavyindustry.world.blocks.defense.*;
 import heavyindustry.world.blocks.defense.turrets.*;
@@ -52,6 +53,7 @@ public final class HIClassMap {
         classes.put("HailStoneBulletType", HailStoneBulletType.class);
         classes.put("LightningLinkerBulletType", LightningLinkerBulletType.class);
         classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
+        classes.put("ShieldBreakerType", ShieldBreakerType.class);
         classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
         classes.put("MagmaBulletType", MagmaBulletType.class);
         classes.put("LiquidBulletData", LiquidMassDriver.LiquidBulletData.class);
@@ -63,6 +65,7 @@ public final class HIClassMap {
         classes.put("HIDrawPart", HIPartProgress.class);
         classes.put("ConstructPart", ConstructPart.class);
         //types
+        classes.put("BoostWeapon", BoostWeapon.class);
         classes.put("BetterPlanet", BetterPlanet.class);
         classes.put("EffectWeather", EffectWeather.class);
         classes.put("HailStormWeather", HailStormWeather.class);
@@ -148,6 +151,8 @@ public final class HIClassMap {
         classes.put("FuelHeaterBuild", FuelHeater.FuelHeaterBuild.class);
         classes.put("ThermalHeater", ThermalHeater.class);
         classes.put("ThermalHeaterBuild", ThermalHeater.ThermalHeaterBuild.class);
+        classes.put("HeatDriver", HeatDriver.class);
+        classes.put("HeatDriverBuild", HeatDriver.HeatDriverBuild.class);
         classes.put("SortLiquidRouter", SortLiquidRouter.class);
         classes.put("SortLiquidRouterBuild", SortLiquidRouter.SortLiquidRouterBuild.class);
         classes.put("BeltConduit", BeltConduit.class);
@@ -241,6 +246,7 @@ public final class HIClassMap {
         classes.put("DrawInvertedJunction", InvertedJunction.DrawInvertedJunction.class);
         classes.put("DrawTubeDistributor", TubeDistributor.DrawTubeDistributor.class);
         classes.put("DrawNodeBridge", NodeBridge.DrawNodeBridge.class);
+        classes.put("DrawHeatDriver", HeatDriver.DrawHeatDriver.class);
         classes.put("DrawLiquidMassDriver", LiquidMassDriver.DrawLiquidMassDriver.class);
         classes.put("DrawMinigun", MinigunTurret.DrawMinigun.class);
     }
