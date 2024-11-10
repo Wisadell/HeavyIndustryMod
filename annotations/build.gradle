@@ -1,0 +1,44 @@
+plugins{
+    id "java"
+    id "maven-publish"
+}
+
+group = 'com.github.Anuken'
+
+tasks.withType(JavaCompile).configureEach{
+    options.incremental = true
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-Xlint:-options'
+
+    sourceCompatibility = 17
+    targetCompatibility = 8
+
+    doFirst{
+        sourceCompatibility = 8
+    }
+}
+
+repositories{
+    mavenCentral()
+}
+
+publishing{
+    publications{
+        mavenJava(MavenPublication){ publication ->
+            from components.java
+        }
+    }
+}
+
+dependencies{
+    implementation 'com.squareup:javapoet:1.13.0'
+    implementation files("F:\\anuken\\Mindustry-BE-Desktop-25417.jar")
+
+    annotationProcessor files("F:\\anuken\\jabel.jar")
+}
+
+jar {
+    manifest {
+        attributes 'Automatic-Module-Name': 'com.example.annotationprocessor'
+    }
+}
