@@ -14,35 +14,30 @@ import static com.sun.tools.javac.code.Source.Feature.*;
 public class JabelCompilerPlugin implements Plugin {
     static{
         try{
+            Field field = Lookup.class.getDeclaredField("IMPL_LOOKUP");
+            field.setAccessible(true);
             // Get the trusted private lookup.
-            Lookup lookup = getField(Lookup.class, "IMPL_LOOKUP");
+            Lookup lookup = (Lookup)field.get(null);
             // Get the minimum level setter, to force certain features to qualify as a Java 8 feature.
             MethodHandle set = lookup.findSetter(Feature.class, "minLevel", Source.class);
 
             // Downgrade most Java 8-compatible features.
             for(Feature feature : new Feature[]{
-                EFFECTIVELY_FINAL_VARIABLES_IN_TRY_WITH_RESOURCES,
-                PRIVATE_SAFE_VARARGS,
-                DIAMOND_WITH_ANONYMOUS_CLASS_CREATION,
-                LOCAL_VARIABLE_TYPE_INFERENCE,
-                VAR_SYNTAX_IMPLICIT_LAMBDAS,
-                SWITCH_MULTIPLE_CASE_LABELS,
-                SWITCH_RULE,
-                SWITCH_EXPRESSION,
-                TEXT_BLOCKS,
-                PATTERN_MATCHING_IN_INSTANCEOF,
-                REIFIABLE_TYPES_INSTANCEOF
+                    EFFECTIVELY_FINAL_VARIABLES_IN_TRY_WITH_RESOURCES,
+                    PRIVATE_SAFE_VARARGS,
+                    DIAMOND_WITH_ANONYMOUS_CLASS_CREATION,
+                    LOCAL_VARIABLE_TYPE_INFERENCE,
+                    VAR_SYNTAX_IMPLICIT_LAMBDAS,
+                    SWITCH_MULTIPLE_CASE_LABELS,
+                    SWITCH_RULE,
+                    SWITCH_EXPRESSION,
+                    TEXT_BLOCKS,
+                    PATTERN_MATCHING_IN_INSTANCEOF,
+                    REIFIABLE_TYPES_INSTANCEOF
             }) set.invokeExact(feature, Source.JDK8);
         }catch(Throwable t){
             throw new RuntimeException(t);
         }
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> T getField(Class<?> type, String name) throws Throwable {
-        Field field = type.getDeclaredField(name);
-        field.setAccessible(true);
-        return (T)field.get(null);
     }
 
     @Override
