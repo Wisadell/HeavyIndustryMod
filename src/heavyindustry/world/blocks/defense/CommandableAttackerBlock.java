@@ -55,15 +55,15 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("progress", (CommandableAttackerBlockBuild entity) -> new Bar(
+        addBar("progress", (CommandableAttackerBlockBuild tile) -> new Bar(
                 () -> bundle.get("bar.progress"),
                 () -> Pal.power,
-                () -> (entity.reload % reloadTime) / reloadTime
+                () -> (tile.reload % reloadTime) / reloadTime
         ));
-        addBar("storage", (CommandableAttackerBlockBuild entity) -> new Bar(
-                () -> bundle.format("bar.capacity", UI.formatAmount(entity.ammo())),
+        addBar("storage", (CommandableAttackerBlockBuild tile) -> new Bar(
+                () -> bundle.format("bar.capacity", UI.formatAmount(tile.ammo())),
                 () -> Pal.ammo,
-                () -> (float)entity.ammo() / storage
+                () -> (float)tile.ammo() / storage
         ));
     }
 

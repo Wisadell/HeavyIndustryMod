@@ -119,10 +119,10 @@ public class MinerPoint extends Block {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("units", (MinerPointBuild e) -> new Bar(
-                () -> bundle.format("bar.unitcap", Fonts.getUnicodeStr(MinerUnit.name), e.units.size, dronesCreated),
+        addBar("units", (MinerPointBuild tile) -> new Bar(
+                () -> bundle.format("bar.unitcap", Fonts.getUnicodeStr(MinerUnit.name), tile.units.size, dronesCreated),
                 () -> Pal.power,
-                () -> (float) e.units.size / dronesCreated));
+                () -> (float) tile.units.size / dronesCreated));
     }
 
     @Override

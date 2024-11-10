@@ -167,7 +167,7 @@ public class HeatDriver extends Block {
 
         @Override
         public float heat(){
-            return (owners.size > 0 && link == -1)? heat : 0;
+            return (owners.size > 0 && link == -1) ? heat : 0;
         }
 
         @Override

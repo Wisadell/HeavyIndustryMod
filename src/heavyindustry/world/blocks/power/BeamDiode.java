@@ -77,8 +77,8 @@ public class BeamDiode extends Block{
     public void setBars(){
         super.setBars();
 
-        addBar("back", (BeamDiodeBuild entity) -> new Bar("bar.input", Pal.powerBar, () -> bar(entity.links[1])));
-        addBar("front", (BeamDiodeBuild entity) -> new Bar("bar.output", Pal.powerBar, () -> bar(entity.links[0])));
+        addBar("back", (BeamDiodeBuild tile) -> new Bar("bar.input", Pal.powerBar, () -> bar(tile.links[1])));
+        addBar("front", (BeamDiodeBuild tile) -> new Bar("bar.output", Pal.powerBar, () -> bar(tile.links[0])));
     }
 
     @Override

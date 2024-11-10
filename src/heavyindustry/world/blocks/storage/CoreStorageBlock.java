@@ -47,10 +47,10 @@ public class CoreStorageBlock extends StorageBlock {
     public void setBars(){
         super.setBars();
         removeBar("items");
-        addBar("items", (CoreStorageBuild e) -> new Bar(
-                () -> bundle.format("bar.items", e.items.total()),
+        addBar("items", (CoreStorageBuild tile) -> new Bar(
+                () -> bundle.format("bar.items", tile.items.total()),
                 () -> Pal.items,
-                () -> (float)(e.items.total() / ((tmpCoreBuild = e.core()) == null ? Integer.MAX_VALUE : tmpCoreBuild.storageCapacity))));
+                () -> (float)(tile.items.total() / ((tmpCoreBuild = tile.core()) == null ? Integer.MAX_VALUE : tmpCoreBuild.storageCapacity))));
     }
 
     @Override

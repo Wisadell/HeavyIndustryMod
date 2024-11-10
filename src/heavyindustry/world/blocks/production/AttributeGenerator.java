@@ -31,10 +31,10 @@ public class AttributeGenerator extends AttributeCrafter {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("power", (AttributeGeneratorBuild build) -> new Bar(
-                () -> bundle.format("bar.poweroutput", Strings.fixed(build.getPowerProduction() * 60f * build.timeScale(), 1)),
+        addBar("power", (AttributeGeneratorBuild tile) -> new Bar(
+                () -> bundle.format("bar.poweroutput", Strings.fixed(tile.getPowerProduction() * 60f * tile.timeScale(), 1)),
                 () -> Pal.powerBar,
-                () -> Mathf.num(build.efficiency > 0f)
+                () -> Mathf.num(tile.efficiency > 0f)
         ));
     }
 

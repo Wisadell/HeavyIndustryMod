@@ -8,10 +8,7 @@ import mindustry.ui.*;
 import mindustry.world.blocks.heat.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.consumers.*;
-import mindustry.world.draw.DrawBlock;
-import mindustry.world.draw.DrawDefault;
-import mindustry.world.draw.DrawHeatOutput;
-import mindustry.world.draw.DrawMulti;
+import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 public class FuelHeater extends GenericCrafter {
@@ -38,7 +35,7 @@ public class FuelHeater extends GenericCrafter {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("heat", (FuelHeaterBuild e) -> new Bar("bar.heat", Pal.lightOrange, () -> Math.min(e.heat / heatOutput, 1f)));
+        addBar("heat", (FuelHeaterBuild tile) -> new Bar("bar.heat", Pal.lightOrange, () -> Math.min(tile.heat / heatOutput, 1f)));
     }
 
     @Override
@@ -85,8 +82,8 @@ public class FuelHeater extends GenericCrafter {
         }
 
         @Override
-        public void read(Reads read) {
-            super.read(read);
+        public void read(Reads read, byte revision) {
+            super.read(read, revision);
             heat = read.f();
         }
     }

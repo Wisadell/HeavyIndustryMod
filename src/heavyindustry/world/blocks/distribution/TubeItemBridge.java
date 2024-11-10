@@ -71,10 +71,10 @@ public class TubeItemBridge extends ItemBridge {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("connections", entity -> new Bar(() ->
-                Core.bundle.format("bar.powerlines", cast(entity).realConnections(), maxConnections - 1),
+        addBar("connections", tile -> new Bar(() ->
+                Core.bundle.format("bar.powerlines", cast(tile).realConnections(), maxConnections - 1),
                 () -> Pal.items,
-                () -> (float) cast(entity).realConnections() / (float)(maxConnections - 1)
+                () -> (float) cast(tile).realConnections() / (float)(maxConnections - 1)
         ));
     }
 

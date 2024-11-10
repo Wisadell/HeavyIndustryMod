@@ -70,10 +70,10 @@ public class SpaceGenerator extends PowerGenerator {
     public void setBars() {
         super.setBars();
         if (hasPower && outputsPower) {
-            addBar("power", (SpaceGeneratorBuild entity) -> new Bar(() ->
-                    bundle.format("bar.poweroutput", Strings.fixed(entity.getPowerProduction() * 60.0F * entity.timeScale(), 1)),
+            addBar("power", (SpaceGeneratorBuild tile) -> new Bar(() ->
+                    bundle.format("bar.poweroutput", Strings.fixed(tile.getPowerProduction() * 60.0F * tile.timeScale(), 1)),
                     () -> Pal.powerBar,
-                    () -> entity.productionEfficiency));
+                    () -> tile.productionEfficiency));
         }
     }
 

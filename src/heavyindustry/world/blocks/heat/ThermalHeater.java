@@ -30,7 +30,7 @@ public class ThermalHeater extends ThermalGenerator {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("heat", (ThermalHeaterBuild e) -> new Bar("bar.heat", Pal.lightOrange, () -> Math.min(e.heat / heatOutput, 1f)));
+        addBar("heat", (ThermalHeaterBuild tile) -> new Bar("bar.heat", Pal.lightOrange, () -> Math.min(tile.heat / heatOutput, 1f)));
     }
 
     public class ThermalHeaterBuild extends ThermalGeneratorBuild implements HeatBlock {
@@ -59,8 +59,8 @@ public class ThermalHeater extends ThermalGenerator {
         }
 
         @Override
-        public void read(Reads read) {
-            super.read(read);
+        public void read(Reads read, byte revision) {
+            super.read(read, revision);
             heat = read.f();
         }
     }

@@ -51,7 +51,7 @@ public class AssignOverdrive extends OverdriveProjector{
     @Override
     public void setBars(){
         super.setBars();
-        addBar("boost", (AssignOverdriveBuild entity) -> new Bar(() -> bundle.format("bar.boost", (int)(entity.realBoost() * 100)), () -> Pal.accent, () -> entity.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
+        addBar("boost", (AssignOverdriveBuild tile) -> new Bar(() -> bundle.format("bar.boost", (int)(tile.realBoost() * 100)), () -> Pal.accent, () -> tile.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
     }
 
     public class AssignOverdriveBuild extends OverdriveBuild implements LinkGroupc {

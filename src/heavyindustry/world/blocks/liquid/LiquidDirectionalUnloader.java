@@ -51,21 +51,21 @@ public class LiquidDirectionalUnloader extends Block {
     public void setBars(){
         super.setBars();
         removeBar("liquid");
-        addBar("back", (LiquidDirectionalUnloaderBuild entity) -> new Bar(
+        addBar("back", (LiquidDirectionalUnloaderBuild tile) -> new Bar(
                 () -> bundle.get("bar.input"),
-                () -> entity.sortLiquid == null ? Color.black : entity.sortLiquid.color,
+                () -> tile.sortLiquid == null ? Color.black : tile.sortLiquid.color,
                 () -> {
-                    if(entity.sortLiquid != null && entity.back() != null && entity.back().block != null && entity.back().block.hasLiquids && entity.back().block.liquidCapacity > 0) {
-                        return (entity.back().liquids.get(entity.sortLiquid)/entity.back().block.liquidCapacity);
+                    if(tile.sortLiquid != null && tile.back() != null && tile.back().block != null && tile.back().block.hasLiquids && tile.back().block.liquidCapacity > 0) {
+                        return (tile.back().liquids.get(tile.sortLiquid)/tile.back().block.liquidCapacity);
                     } else return 0;
                 }
         ));
-        addBar("front", (LiquidDirectionalUnloaderBuild entity) -> new Bar(
+        addBar("front", (LiquidDirectionalUnloaderBuild tile) -> new Bar(
                 () -> bundle.get("bar.output"),
-                () -> entity.sortLiquid == null ? Color.black : entity.sortLiquid.color,
+                () -> tile.sortLiquid == null ? Color.black : tile.sortLiquid.color,
                 () -> {
-                    if(entity.sortLiquid != null && entity.front() != null && entity.front().block != null && entity.front().block.hasLiquids && entity.front().block.liquidCapacity > 0) {
-                        return (entity.front().liquids.get(entity.sortLiquid)/entity.front().block.liquidCapacity);
+                    if(tile.sortLiquid != null && tile.front() != null && tile.front().block != null && tile.front().block.hasLiquids && tile.front().block.liquidCapacity > 0) {
+                        return (tile.front().liquids.get(tile.sortLiquid)/tile.front().block.liquidCapacity);
                     } else return 0;
                 }
         ));

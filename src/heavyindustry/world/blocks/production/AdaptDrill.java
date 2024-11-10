@@ -131,7 +131,7 @@ public abstract class AdaptDrill extends Block {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("drillSpeed", (AdaptDrillBuild e) -> new Bar(() -> bundle.format("bar.drillspeed", Strings.fixed(e.getMineSpeed(), 2)), () -> Pal.ammo, () -> e.warmup));
+        addBar("drillSpeed", (AdaptDrillBuild tile) -> new Bar(() -> bundle.format("bar.drillspeed", Strings.fixed(tile.getMineSpeed(), 2)), () -> Pal.ammo, () -> tile.warmup));
     }
 
     public float mineInterval(){
