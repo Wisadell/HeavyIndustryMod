@@ -9,8 +9,6 @@ import mindustry.graphics.*;
 
 /**
  * Taken from Project Unity and modified a bit.
- * @author MEEPofFaith
- * @author Wisadell
  */
 public class CritTrail extends Trail {
     private final FloatSeq points;

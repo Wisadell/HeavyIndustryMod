@@ -81,9 +81,7 @@ public final class HIUtils {
 
     /**
      * {@link Tile#relativeTo(int, int)} does not account for building rotation.
-     * @author Goobrr
-     * @author esoterum
-     * */
+     */
     public static int relativeDirection(Building from, Building to){
         if(from == null || to == null) return -1;
         if(from.x == to.x && from.y > to.y) return (7 - from.rotation) % 4;

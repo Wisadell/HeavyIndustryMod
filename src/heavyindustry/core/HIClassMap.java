@@ -125,6 +125,8 @@ public final class HIClassMap {
         classes.put("TubeConveyorBuild", TubeConveyor.TubeConveyorBuild.class);
         classes.put("TubeDistributor", TubeDistributor.class);
         classes.put("TubeDistributorBuild", TubeDistributor.TubeDistributorBuild.class);
+        classes.put("CoveredRouter", CoveredRouter.class);
+        classes.put("CoveredRouterBuild", CoveredRouter.CoveredRouterBuild.class);
         classes.put("DuctJunction", DuctJunction.class);
         classes.put("DuctJunctionBuild", DuctJunction.DuctJunctionBuild.class);
         classes.put("InvertedJunction", InvertedJunction.class);

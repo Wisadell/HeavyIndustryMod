@@ -38,7 +38,7 @@ public final class HIItems {
             radioactivity = 2f;
         }};
         chromium = new Item("chromium", Color.valueOf("8f94b3")){{
-            cost = 6;
+            cost = 5;
             hardness = 8;
             healthScaling = 1.8f;
         }};

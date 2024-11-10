@@ -26,7 +26,6 @@ import static heavyindustry.core.HeavyIndustryMod.*;
 /**
  * Some preset bullets. Perhaps it will be used multiple times.
  * @author Wisadell
- * @author Yuria
  */
 public final class HIBullets {
     public static BulletType

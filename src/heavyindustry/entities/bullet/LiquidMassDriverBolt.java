@@ -7,7 +7,6 @@ import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
-/** @author guiY */
 public class LiquidMassDriverBolt extends BulletType {
     public LiquidMassDriverBolt(){
         super(1f, 75);

@@ -92,7 +92,7 @@ public final class HIBlocks {
             invertedJunction,itemLiquidJunction,multiSorter,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumTubeDistributor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumInvertedJunction,chromiumRouter,chromiumItemBridge,
             phaseItemNode,rapidDirectionalUnloader,
             //distribution-erekir
-            ductJunction,ductMultiSorter,armoredDuctBridge,rapidDuctUnloader,
+            ductJunction,ductDistributor,ductMultiSorter,armoredDuctBridge,rapidDuctUnloader,
             //liquid
             liquidSorter,liquidValve,liquidOverflowValve,liquidUnderflowValve,liquidUnloader,liquidMassDriver,turboPump,phaseLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
             //liquid-erekir
@@ -682,18 +682,20 @@ public final class HIBlocks {
             consumePower(6f / 60f);
         }};
         aparajito = new AparajitoWall("aparajito"){{
-            requirements(Category.defense, with(HIItems.chromium, 6, HIItems.nanocoreErekir, 2));
+            requirements(Category.defense, with(HIItems.uranium, 3, HIItems.chromium, 4, HIItems.nanocoreErekir, 2));
             size = 1;
             health = 2055;
-            armor = 44;
+            armor = 44f;
             healColor = HIPal.chromiumGrey;
+            buildCostMultiplier = 4f;
         }};
         aparajitoLarge = new AparajitoWall("aparajito-large"){{
-            requirements(Category.defense, with(HIItems.chromium, 24, HIItems.nanocoreErekir, 8));
+            requirements(Category.defense, with(HIItems.uranium, 12, HIItems.chromium, 16, HIItems.nanocoreErekir, 8));
             size = 2;
             health = 8220;
-            armor = 44;
+            armor = 44f;
             healColor = HIPal.chromiumGrey;
+            buildCostMultiplier = 4f;
         }};
         //drill
         titaniumDrill = new Drill("titanium-drill"){{
@@ -1044,6 +1046,13 @@ public final class HIBlocks {
             requirements(Category.distribution, with(Items.beryllium, 5));
             health = 75;
             speed = 4f;
+        }};
+        ductDistributor = new CoveredRouter("duct-distributor"){{
+            requirements(Category.distribution, with(Items.beryllium, 20));
+            size = 2;
+            speed = 2f;
+            solid = false;
+            squareSprite = false;
         }};
         ductMultiSorter = new MultiSorter("duct-multi-sorter"){{
             requirements(Category.distribution, with(Items.beryllium, 5, Items.silicon, 5));
@@ -1999,12 +2008,12 @@ public final class HIBlocks {
             consume(new ConsumeLiquidFlammable(7.5f / 60f));
         }};
         heatDriver = new HeatDriver("heat-driver"){{
-            requirements(Category.crafting, with(Items.tungsten, 150, Items.silicon, 120, Items.oxide, 130, Items.carbide, 60));
+            requirements(Category.crafting, with(Items.graphite, 110, Items.silicon, 120, Items.tungsten, 150, Items.oxide, 130, Items.carbide, 60));
             size = 3;
             drawer = new DrawMulti(new DrawDefault(), new DrawHeatOutput(), new DrawHeatInput("-heat"), new DrawHeatDriver());
             range = 360;
             regionRotated1 = 1;
-            consumePower(4);
+            consumePower(4f);
         }};
         largeElectricHeater = new HeatProducer("large-electric-heater"){{
             requirements(Category.crafting, with(Items.tungsten, 150, Items.oxide, 120, Items.carbide, 50));
@@ -2487,15 +2496,15 @@ public final class HIBlocks {
             );
             consumePower(35f);
             consumeLiquid(Liquids.cryofluid, 4f);
-            consumeItems(ItemStack.with(Items.silicon, 1500, HIItems.nanocore, 100, HIItems.uranium, 200, HIItems.chromium, 300));
+            consumeItems(ItemStack.with(Items.silicon, 1500, HIItems.nanocore, 300, HIItems.uranium, 400, HIItems.chromium, 500));
         }};
         experimentalUnitFactory = new DerivativeUnitFactory("experimental-unit-factory"){{
             requirements(Category.units, with(Items.silicon, 2500, Items.plastanium, 1500, Items.surgeAlloy, 1000, HIItems.nanocore, 800, Items.phaseFabric, 400, HIItems.heavyAlloy, 600));
             size = 5;
             liquidCapacity = 60f;
             floating = true;
-            config(Integer.class, (UnitFactoryBuild tile, Integer i) -> {
-                tile.currentPlan = i < 0 || i >= plans.size ? -1 : i;
+            config(Integer.class, (UnitFactoryBuild tile, Integer index) -> {
+                tile.currentPlan = index < 0 || index >= plans.size ? -1 : index;
                 tile.progress = 0f;
                 tile.payload = null;
             });
