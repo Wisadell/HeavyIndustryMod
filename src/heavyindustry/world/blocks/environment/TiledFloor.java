@@ -8,7 +8,6 @@ import mindustry.world.blocks.environment.*;
 
 import static arc.Core.*;
 
-/** @author LaoHuaJi */
 public class TiledFloor extends Floor {
     public TextureRegion full;
     public TextureRegion[][] largeSpilt;

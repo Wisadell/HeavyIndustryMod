@@ -27,7 +27,6 @@ import static mindustry.Vars.*;
 
 /**
  * In fact, it continues the characteristics of Anuke's planet, but there may still be some bugs.
- * @author guiY
  */
 public class MinerPoint extends Block {
     public Seq<Item> blockedItem = new Seq<>();
@@ -61,7 +60,7 @@ public class MinerPoint extends Block {
         buildCostMultiplier = 0;
         flags = EnumSet.of(BlockFlag.factory);
 
-        config(Integer.class , (MinerPointBuild build, Integer i) -> build.sort = i);
+        config(Integer.class , (MinerPointBuild tile, Integer sort) -> tile.sort = sort);
     }
 
     @Override

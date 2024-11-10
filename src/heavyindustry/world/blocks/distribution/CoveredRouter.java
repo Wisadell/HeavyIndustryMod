@@ -16,7 +16,6 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class CoveredRouter extends Router {
-    public float speed = 8f;
     public TextureRegion topRegion;
 
     public CoveredRouter(String name) {
@@ -91,7 +90,6 @@ public class CoveredRouter extends Router {
                 Tmp.v1.set(Geometry.d4x(recDir) * tilesize / 2f, Geometry.d4y(recDir) * tilesize / 2f)
                         .lerp(Geometry.d4x(r) * tilesize / 2f, Geometry.d4y(r) * tilesize / 2f,
                                 Mathf.clamp((progress + 1f) / 2f));
-
 
                 Draw.rect(current.fullIcon, x + Tmp.v1.x, y + Tmp.v1.y, itemSize, itemSize);
             }

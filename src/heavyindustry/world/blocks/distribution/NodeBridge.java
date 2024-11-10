@@ -17,7 +17,6 @@ import static mindustry.Vars.*;
 
 /**
  * The difference from CardanItemBridge is that its connection has also been changed to the laser of the power node.
- * @author guiY
  */
 public class NodeBridge extends ItemBridge {
     public DrawBlock drawer = new DrawMulti(new DrawDefault(), new DrawNodeBridge());

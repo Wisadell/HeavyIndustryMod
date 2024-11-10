@@ -9,10 +9,8 @@ import mindustry.world.blocks.distribution.StackConveyor.*;
 import static mindustry.Vars.*;
 
 /**
- * Early draft of ExtraUtilitiesMod. Multiple items can be transported together to the other end.
+ * Multiple items can be transported together to the other end.
  * And it can also increase the packaging point of the stack conveyor belt at the output end to the highest speed.
- * @author guiY
- * @author Wisadell
  */
 public class StackBridge extends BufferedItemBridge {
     protected Item lastItem;

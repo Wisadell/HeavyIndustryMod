@@ -40,9 +40,9 @@ public abstract class CommandableBlock extends Block {
         update = sync = configurable = solid = true;
 
         config(Vec2.class, CommandableBlockBuild::commandAll);
-        config(Point2.class, (CommandableBlockBuild b, Point2 p) -> {
-            b.setTarget(p);
-            commandPos = p.pack();
+        config(Point2.class, (CommandableBlockBuild tile, Point2 point) -> {
+            tile.setTarget(point);
+            commandPos = point.pack();
         });
     }
 

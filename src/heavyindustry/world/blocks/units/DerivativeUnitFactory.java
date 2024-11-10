@@ -21,7 +21,6 @@ import mindustry.world.meta.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
-/** @author guiY */
 public class DerivativeUnitFactory extends UnitFactory {
     public int areaSize = 14;
     public Effect aboveEffect = new Effect(24, e -> {

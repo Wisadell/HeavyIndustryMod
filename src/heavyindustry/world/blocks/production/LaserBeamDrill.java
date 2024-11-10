@@ -10,10 +10,6 @@ import mindustry.type.Item;
 
 import static arc.Core.*;
 
-/**
- * @author Yuria
- * @author LaoHuaJi
- */
 public class LaserBeamDrill extends AdaptDrill {
     public TextureRegion laser;
     public TextureRegion laserEnd;

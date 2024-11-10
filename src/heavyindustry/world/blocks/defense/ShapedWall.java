@@ -17,8 +17,6 @@ import static mindustry.Vars.*;
 
 /**
  * Shaped Wall
- * @author Yuria
- * @author Wisadell
  */
 public class ShapedWall extends Wall {
     public TextureRegion[][] orthogonalRegion;

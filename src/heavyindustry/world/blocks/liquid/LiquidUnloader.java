@@ -16,7 +16,6 @@ import mindustry.world.meta.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
-/** @author guiY */
 public class LiquidUnloader extends Block {
     public TextureRegion centerRegion;
     public float speed = 3f;
@@ -37,8 +36,8 @@ public class LiquidUnloader extends Block {
         envEnabled = Env.any;
         clearOnDoubleTap = true;
 
-        config(Liquid.class, (LiquidUnloaderBuild build, Liquid liquid) -> build.sortLiquid = liquid);
-        configClear((LiquidUnloaderBuild build) -> build.sortLiquid = null);
+        config(Liquid.class, (LiquidUnloaderBuild tile, Liquid liquid) -> tile.sortLiquid = liquid);
+        configClear((LiquidUnloaderBuild tile) -> tile.sortLiquid = null);
     }
 
     @Override

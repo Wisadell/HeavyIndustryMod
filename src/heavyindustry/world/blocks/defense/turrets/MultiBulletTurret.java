@@ -28,7 +28,6 @@ import static mindustry.Vars.*;
 
 /**
  * Multi Bullet Turret
- * @author guiY
  */
 public class MultiBulletTurret extends Turret {
     public ObjectMap<Item, BulletType[]> ammoTypes = new ObjectMap<>();

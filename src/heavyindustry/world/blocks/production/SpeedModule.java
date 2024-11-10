@@ -9,7 +9,6 @@ import static arc.Core.*;
 
 /**
  * Module for improving drill bit speed.
- * @author LaoHuaJi
  */
 public class SpeedModule extends DrillModule {
     public TextureRegion[] arrow = new TextureRegion[3];

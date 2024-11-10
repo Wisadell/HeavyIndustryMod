@@ -22,7 +22,6 @@ import static heavyindustry.util.HIUtils.*;
 
 /**
  * Basic drill bit expansion module.
- * @author LaoHuaJi
  */
 public abstract class DrillModule extends Block {
     public TextureRegion baseRegion;

@@ -46,13 +46,13 @@ public class PayloadRail extends PayloadBlock{
         solid = true;
         canOverdrive = false;
 
-        config(Point2.class, (PayloadRailBuild build, Point2 point) -> {
-            build.link = Point2.pack(point.x + build.tileX(), point.y + build.tileY());
+        config(Point2.class, (PayloadRailBuild tile, Point2 point) -> {
+            tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY());
         });
-        config(Integer.class, (PayloadRailBuild build, Integer i) -> {
-            build.items.each(RailPayload::removed);
-            build.items.clear();
-            build.link = i;
+        config(Integer.class, (PayloadRailBuild tile, Integer i) -> {
+            tile.items.each(RailPayload::removed);
+            tile.items.clear();
+            tile.link = i;
         });
     }
 

@@ -2,16 +2,13 @@ package heavyindustry.world.blocks.logic;
 
 import mindustry.world.blocks.logic.*;
 
-/**
- * @author guiY
- */
 public class CopyMemoryBlock extends MemoryBlock {
     public CopyMemoryBlock(String name) {
         super(name);
 
-        config(Object[].class, (CopyMemoryBuild build, Object[] ds) -> {
+        config(Object[].class, (CopyMemoryBuild tile, Object[] ds) -> {
             for(int i = 0; i < ds.length; i++){
-                if(ds[i] instanceof Double d) build.memory[i] = d;
+                if(ds[i] instanceof Double d) tile.memory[i] = d;
             }
         });
     }

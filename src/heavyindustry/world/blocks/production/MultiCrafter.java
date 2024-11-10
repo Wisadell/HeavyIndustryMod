@@ -28,8 +28,6 @@ import static heavyindustry.gen.HIIcon.*;
 
 /**
  * A factory with multiple synthetic formulas.
- * @author LaoHuaJi
- * @author Wisadell
  */
 public class MultiCrafter extends Block {
     public float warmupSpeed = 0.02f;
@@ -68,24 +66,24 @@ public class MultiCrafter extends Block {
         configurable = true;
         saveConfig = true;
 
-        config(Integer.class, (MultiCrafterBuild build, Integer i) -> {
+        config(Integer.class, (MultiCrafterBuild tile, Integer index) -> {
             if (!configurable) return;
 
-            if (build.currentRecipeIndex == i) return;
-            build.currentRecipeIndex = i < 0 || i >= recipeSeq.size ? -1 : i;
-            build.progress = 0;
+            if (tile.currentRecipeIndex == index) return;
+            tile.currentRecipeIndex = index < 0 || index >= recipeSeq.size ? -1 : index;
+            tile.progress = 0;
         });
 
-        config(Recipe.class, (MultiCrafterBuild build, Recipe val) -> {
+        config(Recipe.class, (MultiCrafterBuild tile, Recipe val) -> {
             if (!configurable) return;
 
             int next = recipeSeq.indexOf(val);
-            if (build.currentRecipeIndex == next) return;
-            build.currentRecipeIndex = next;
-            build.progress = 0;
+            if (tile.currentRecipeIndex == next) return;
+            tile.currentRecipeIndex = next;
+            tile.progress = 0;
         });
 
-        configClear((MultiCrafterBuild build) -> build.currentRecipeIndex = -1);
+        configClear((MultiCrafterBuild tile) -> tile.currentRecipeIndex = -1);
     }
 
     @Override

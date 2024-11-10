@@ -23,7 +23,6 @@ import static arc.Core.*;
 import static arc.util.pooling.Pool.*;
 import static mindustry.Vars.*;
 
-/** @author guiY */
 public class LiquidMassDriver extends Block {
     public float range;
     public float rotateSpeed = 5f;
@@ -57,8 +56,8 @@ public class LiquidMassDriver extends Block {
         group = BlockGroup.liquids;
 
         //point2 is relative
-        config(Point2.class, (LiquidMassDriverBuild build, Point2 point) -> build.link = Point2.pack(point.x + build.tileX(), point.y + build.tileY()));
-        config(Integer.class, (LiquidMassDriverBuild build, Integer point) -> build.link = point);
+        config(Point2.class, (LiquidMassDriverBuild tile, Point2 point) -> tile.link = Point2.pack(point.x + tile.tileX(), point.y + tile.tileY()));
+        config(Integer.class, (LiquidMassDriverBuild tile, Integer point) -> tile.link = point);
     }
 
     @Override

@@ -25,8 +25,6 @@ import static mindustry.Vars.*;
 
 /**
  * After being destroyed, it will produce complex explosive effects and other split bullets.
- * @author Yuria
- * @author Wisadell
  */
 public class HyperGenerator extends ImpactReactor {
     public float destroyedExplodeLimit = 0.5f;

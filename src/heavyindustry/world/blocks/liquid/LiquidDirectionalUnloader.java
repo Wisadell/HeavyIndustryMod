@@ -14,7 +14,6 @@ import mindustry.world.meta.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
-/** @author guiY */
 public class LiquidDirectionalUnloader extends Block {
     public TextureRegion arrowRegion, centerRegion, topRegion;
 
@@ -35,8 +34,8 @@ public class LiquidDirectionalUnloader extends Block {
         clearOnDoubleTap = true;
         rotate = true;
 
-        config(Liquid.class, (LiquidDirectionalUnloaderBuild build, Liquid liquid) -> build.sortLiquid = liquid);
-        configClear((LiquidDirectionalUnloaderBuild build) -> build.sortLiquid = null);
+        config(Liquid.class, (LiquidDirectionalUnloaderBuild tile, Liquid liquid) -> tile.sortLiquid = liquid);
+        configClear((LiquidDirectionalUnloaderBuild tile) -> tile.sortLiquid = null);
     }
 
     @Override

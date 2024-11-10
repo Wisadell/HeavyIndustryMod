@@ -8,7 +8,6 @@ import heavyindustry.math.*;
 
 /**
  * Make the drill output directly enter the core module.
- * @author LaoHuaJi
  */
 public class RefineModule extends DrillModule {
     public Color flameColor = Color.valueOf("f58349"), midColor = Color.valueOf("f2d585");

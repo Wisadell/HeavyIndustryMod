@@ -19,7 +19,6 @@ import static mindustry.Vars.*;
 
 /**
  * Inverted Junction
- * @author guiY
  */
 public class MultiInvertedJunction extends MultiJunction {
     public String placeSprite;
@@ -35,7 +34,7 @@ public class MultiInvertedJunction extends MultiJunction {
 
         sync = true;
         configurable = true;
-        config(Integer.class, (MultiInvertedJunctionBuild build, Integer i) -> build.loc = i);
+        config(Integer.class, (MultiInvertedJunctionBuild tile, Integer i) -> tile.loc = i);
     }
 
     @Override

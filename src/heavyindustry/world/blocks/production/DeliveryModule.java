@@ -9,7 +9,6 @@ import heavyindustry.graphics.*;
 
 /**
  * A module that directly converts drill bit products into another item.
- * @author LaoHuaJi
  */
 public class DeliveryModule extends DrillModule {
     public DeliveryModule(String name) {

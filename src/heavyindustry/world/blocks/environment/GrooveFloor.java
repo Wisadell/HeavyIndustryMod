@@ -6,10 +6,6 @@ import mindustry.world.blocks.environment.*;
 
 import static mindustry.Vars.*;
 
-/**
- * @author Wisadell
- * @author LaoHuaJi
- */
 public class GrooveFloor extends AtlasFloor {
     public GrooveFloor(String name) {
         super(name);

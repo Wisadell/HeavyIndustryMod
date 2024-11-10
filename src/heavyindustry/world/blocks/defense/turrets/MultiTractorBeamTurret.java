@@ -18,10 +18,6 @@ import mindustry.world.meta.*;
 
 import static arc.Core.*;
 
-/**
- * Multi Tractor Beam Turret
- * @author Yuria
- */
 public class MultiTractorBeamTurret extends TractorBeamTurret {
     static final float OFFSET = 12f;
 

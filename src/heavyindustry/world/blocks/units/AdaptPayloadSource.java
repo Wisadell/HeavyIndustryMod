@@ -27,36 +27,36 @@ public class AdaptPayloadSource extends PayloadSource {
         underBullets = true;
         destructible = false;
 
-        config(Block.class, (AdaptPayloadSourceBuild build, Block block) -> {
-            if(canProduce(block) && build.configBlock != block){
-                build.configBlock = block;
-                build.unit = null;
-                build.payload = null;
-                build.scl = 0f;
+        config(Block.class, (AdaptPayloadSourceBuild tile, Block block) -> {
+            if(canProduce(block) && tile.configBlock != block){
+                tile.configBlock = block;
+                tile.unit = null;
+                tile.payload = null;
+                tile.scl = 0f;
             }
         });
 
-        config(UnitType.class, (AdaptPayloadSourceBuild build, UnitType unit) -> {
-            if(canProduce(unit) && build.unit != unit){
-                build.unit = unit;
-                build.configBlock = null;
-                build.payload = null;
-                build.scl = 0f;
+        config(UnitType.class, (AdaptPayloadSourceBuild tile, UnitType unit) -> {
+            if(canProduce(unit) && tile.unit != unit){
+                tile.unit = unit;
+                tile.configBlock = null;
+                tile.payload = null;
+                tile.scl = 0f;
             }
         });
 
-        config(Integer.class, (AdaptPayloadSourceBuild build, Integer i) -> {
-            build.unit = null;
-            build.configBlock = null;
-            build.payload = null;
-            build.scl = 0;
+        config(Integer.class, (AdaptPayloadSourceBuild tile, Integer index) -> {
+            tile.unit = null;
+            tile.configBlock = null;
+            tile.payload = null;
+            tile.scl = 0;
         });
 
-        configClear((AdaptPayloadSourceBuild build) -> {
-            build.configBlock = null;
-            build.unit = null;
-            build.payload = null;
-            build.scl = 0f;
+        configClear((AdaptPayloadSourceBuild tile) -> {
+            tile.configBlock = null;
+            tile.unit = null;
+            tile.payload = null;
+            tile.scl = 0f;
         });
     }
 

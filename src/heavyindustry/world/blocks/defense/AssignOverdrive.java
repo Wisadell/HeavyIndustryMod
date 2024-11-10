@@ -20,7 +20,6 @@ import static mindustry.Vars.*;
 
 /**
  * Assign Overdrive
- * @author Yuria
  */
 public class AssignOverdrive extends OverdriveProjector{
     public int maxLink = 4;
@@ -35,9 +34,9 @@ public class AssignOverdrive extends OverdriveProjector{
         hasPower = true;
         config(Integer.class, (Cons2<AssignOverdriveBuild, Integer>) AssignOverdriveBuild::linkPos);
         config(Point2.class, (Cons2<AssignOverdriveBuild, Point2>) AssignOverdriveBuild::linkPos);
-        config(Point2[].class, (AssignOverdriveBuild e, Point2[] point2s) -> {
-            for(Point2 p : point2s){
-                e.linkPos(Point2.pack(p.x + e.tileX(), p.y + e.tileY()));
+        config(Point2[].class, (AssignOverdriveBuild tile, Point2[] points) -> {
+            for(Point2 p : points){
+                tile.linkPos(Point2.pack(p.x + tile.tileX(), p.y + tile.tileY()));
             }
         });
     }

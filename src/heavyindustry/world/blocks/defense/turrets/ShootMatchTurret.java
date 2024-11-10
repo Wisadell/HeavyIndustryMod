@@ -11,7 +11,6 @@ import mindustry.world.blocks.defense.turrets.*;
 
 /**
  * Shoot Match Turret
- * @author Yuria
  */
 public class ShootMatchTurret extends ItemTurret {
     public float lifeRnd = 0;

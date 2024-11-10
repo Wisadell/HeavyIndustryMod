@@ -28,8 +28,6 @@ import static mindustry.Vars.*;
 
 /**
  * A drill bit that can enhance and expand its functionality through an external module.
- * @author LaoHuaJi
- * @author Wisadell
  */
 public abstract class AdaptDrill extends Block {
     /** output speed in items/sec. */

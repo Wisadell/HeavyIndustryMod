@@ -15,7 +15,6 @@ import static mindustry.Vars.*;
 
 /**
  * Stack Helper
- * @author guiY
  */
 public class StackHelper extends Block {
     public StackHelper(String name) {
