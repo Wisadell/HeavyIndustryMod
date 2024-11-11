@@ -31,7 +31,6 @@ publishing{
 }
 
 dependencies{
-    implementation 'com.squareup:javapoet:1.13.0'
     implementation files("F:\\anuken\\Mindustry-BE-Desktop-25417.jar")
 
     annotationProcessor files("F:\\anuken\\jabel.jar")

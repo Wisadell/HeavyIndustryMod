@@ -6,7 +6,6 @@ import arc.struct.*;
 import arc.util.*;
 import arc.util.pooling.*;
 import arc.util.pooling.Pool.*;
-import com.squareup.javapoet.*;
 import com.sun.tools.javac.code.*;
 import com.sun.tools.javac.code.Symbol.*;
 import com.sun.tools.javac.tree.*;
@@ -16,6 +15,7 @@ import heavyindustry.annotations.Annotations.*;
 import heavyindustry.annotations.*;
 import heavyindustry.annotations.util.*;
 import heavyindustry.annotations.util.TypeIOResolver.*;
+import heavyindustry.javapoet.*;
 import mindustry.gen.*;
 
 import javax.annotation.processing.*;

@@ -4,7 +4,6 @@ import arc.func.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.Log;
-import com.squareup.javapoet.*;
 import com.sun.source.tree.*;
 import com.sun.tools.javac.api.*;
 import com.sun.tools.javac.code.*;
@@ -14,6 +13,7 @@ import com.sun.tools.javac.processing.*;
 import com.sun.tools.javac.tree.*;
 
 import heavyindustry.annotations.util.AnnotationProxyMaker;
+import heavyindustry.javapoet.*;
 import mindustry.*;
 
 import javax.annotation.processing.*;

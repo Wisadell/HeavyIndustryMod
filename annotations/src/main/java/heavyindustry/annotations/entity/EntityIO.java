@@ -5,12 +5,12 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.serialization.*;
-import com.squareup.javapoet.*;
 import com.sun.tools.javac.code.Symbol.*;
 
 import heavyindustry.annotations.Annotations.*;
 import heavyindustry.annotations.*;
 import heavyindustry.annotations.util.TypeIOResolver.*;
+import heavyindustry.javapoet.*;
 import mindustry.*;
 import mindustry.ctype.*;
 
