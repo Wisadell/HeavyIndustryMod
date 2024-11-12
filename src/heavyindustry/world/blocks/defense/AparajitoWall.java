@@ -17,6 +17,7 @@ public class AparajitoWall extends Wall {
 
     public AparajitoWall(String name) {
         super(name);
+        update = true;
     }
 
     public class AparajitoWallBuild extends WallBuild{

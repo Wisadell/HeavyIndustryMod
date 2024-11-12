@@ -22,7 +22,7 @@ public class BombLauncher extends CommandableAttackerBlock {
     public TextureRegion bombRegion;
 
     public Sound shootSound = HISounds.launch;
-    public Color baseColor = Pal.bulletYellow;
+    public Color baseColor = Pal.command;
 
     public float bombVelPerTile = 2f;
 
