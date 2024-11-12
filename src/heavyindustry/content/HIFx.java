@@ -1,11 +1,12 @@
 package heavyindustry.content;
 
 import heavyindustry.entities.*;
+import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.graphics.*;
 import heavyindustry.math.*;
 import heavyindustry.struct.*;
-import heavyindustry.entities.bullet.*;
+import heavyindustry.util.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -103,7 +104,7 @@ public final class HIFx {
     public static Effect fireworksShoot(float r){
         return new Effect(30, e -> {
             Draw.z(Layer.effect - 0.1f);
-            Draw.color(HIGet.c7.set(HIPal.rainBowRed).shiftHue(Time.time * 2.0f));
+            Draw.color(HIUtils.c7.set(HIPal.rainBowRed).shiftHue(Time.time * 2.0f));
             Angles.randLenVectors(e.id, 1, e.fin() * 20f, e.rotation + r, 0, (x, y) -> Fill.circle(e.x + x, e.y + y, 2 * e.fout()));
             Angles.randLenVectors(e.id, 1, e.fin() * 20f, e.rotation - r, 0, (x, y) -> Fill.circle(e.x + x, e.y + y, 2 * e.fout()));
             Draw.blend();
@@ -644,7 +645,7 @@ public final class HIFx {
                         TextureRegion rg = type.fullIcon;
                         float w = rg.width * rg.scl() * Draw.xscl;
                         float h = rg.height * rg.scl() * Draw.yscl;
-                        float dx = HIGet.dx(e.x, Math.max(w, h) * 0.3f * e.finpow(), e.rotation), dy = HIGet.dy(e.y, Math.max(w, h) * 0.3f * e.finpow(), e.rotation);
+                        float dx = HIUtils.dx(e.x, Math.max(w, h) * 0.3f * e.finpow(), e.rotation), dy = HIUtils.dy(e.y, Math.max(w, h) * 0.3f * e.finpow(), e.rotation);
                         float z = Draw.z();
                         Draw.z(Layer.effect + 10);
                         Draw.alpha(e.foutpow());
@@ -659,7 +660,7 @@ public final class HIFx {
                         TextureRegion rg = type.fullIcon;
                         float w = rg.width * rg.scl() * Draw.xscl;
                         float h = rg.height * rg.scl() * Draw.yscl;
-                        float dx = HIGet.dx(e.x, h * 0.2f * e.finpow(), e.rotation), dy = HIGet.dy(e.y, h * 0.2f * e.finpow(), e.rotation);
+                        float dx = HIUtils.dx(e.x, h * 0.2f * e.finpow(), e.rotation), dy = HIUtils.dy(e.y, h * 0.2f * e.finpow(), e.rotation);
                         float z = Draw.z();
                         Draw.z(Layer.effect + 10);
                         Draw.alpha(e.foutpow());

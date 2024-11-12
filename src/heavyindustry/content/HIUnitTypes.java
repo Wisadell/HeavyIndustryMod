@@ -8,6 +8,7 @@ import heavyindustry.entities.effect.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.part.*;
 import heavyindustry.type.weapons.*;
+import heavyindustry.ui.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -865,7 +866,30 @@ public final class HIUnitTypes {
                     healPercent = 1.3f;
                     collidesTeam = true;
                     colors = new Color[]{Pal.heal.cpy().a(.2f), Pal.heal.cpy().a(.5f), Pal.heal.cpy().mul(1.2f), Color.white};
-                }};
+                }
+                    @Override
+                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                        if(entity instanceof Healthc h){
+                            float damage = b.damage;
+                            float gain = 1f;
+                            float shield = 0f;
+                            if (entity instanceof Shieldc s){
+                                gain += ((s.shield() / s.maxHealth()) * 2f);
+                                shield = Math.max(s.shield(), 0f);
+                            }
+                            health += shield;
+                            h.damage(damage * gain);
+                        }
+
+                        if(entity instanceof Unit unit){
+                            Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f);
+                            unit.impulse(Tmp.v3);
+                            unit.apply(status, statusDuration);
+                        }
+
+                        handlePierce(b, health, entity.x(), entity.y());
+                    }
+                };
             }}, new RepairBeamWeapon("repair-beam-weapon-center-large"){{
                 x = 10.5f;
                 y = -4.5f;
@@ -1374,7 +1398,7 @@ public final class HIUnitTypes {
                 }};
                 reload = 72;
                 inaccuracy = 0;
-                shootSound = Sounds.missileSmall;
+                shootSound = Sounds.blaster;
                 bullet = new CtrlMissileBulletType("missile-large", 6, 10){{
                     status = StatusEffects.electrified;
                     damage = 108;
@@ -1459,8 +1483,8 @@ public final class HIUnitTypes {
             }
                 @Override
                 public void addStats(UnitType u, Table t) {
-                    String text = bundle.get("unit.heavy-industry-killer-whale.weapon-1.description");
-                    HIGet.collapseTextToTable(t, text);
+                    String text = bundle.get("unit." + modName + "-killer-whale.weapon-1.description");
+                    TableUtils.collapseTextToTable(t, text);
                     super.addStats(u, t);
                 }
             });

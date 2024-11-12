@@ -2,6 +2,7 @@ package heavyindustry.graphics;
 
 import arc.func.*;
 import arc.graphics.*;
+import arc.graphics.Texture.*;
 import mindustry.graphics.*;
 import mindustry.graphics.CacheLayer.*;
 import heavyindustry.core.*;
@@ -53,20 +54,20 @@ public final class HICacheLayer {
 
         public static void load() {
             smooth = loadTexture("smooth-noise", t -> {
-                t.setFilter(Texture.TextureFilter.linear);
-                t.setWrap(Texture.TextureWrap.repeat);
+                t.setFilter(TextureFilter.linear);
+                t.setWrap(TextureWrap.repeat);
             });
             particle = loadTexture("particle-noise", t -> {
-                t.setFilter(Texture.TextureFilter.linear);
-                t.setWrap(Texture.TextureWrap.repeat);
+                t.setFilter(TextureFilter.linear);
+                t.setWrap(TextureWrap.repeat);
             });
             darker = loadTexture("darker-noise", t -> {
-                t.setFilter(Texture.TextureFilter.linear);
-                t.setWrap(Texture.TextureWrap.repeat);
+                t.setFilter(TextureFilter.linear);
+                t.setWrap(TextureWrap.repeat);
             });
             armor = loadTexture("armor", t -> {
-                t.setFilter(Texture.TextureFilter.nearest);
-                t.setWrap(Texture.TextureWrap.repeat);
+                t.setFilter(TextureFilter.nearest);
+                t.setWrap(TextureWrap.repeat);
             });
         }
 

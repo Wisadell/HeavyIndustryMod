@@ -4,6 +4,7 @@ import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
+import heavyindustry.util.*;
 import heavyindustry.world.blocks.environment.*;
 import heavyindustry.world.blocks.defense.*;
 import heavyindustry.world.blocks.defense.turrets.*;
@@ -502,6 +503,7 @@ public final class HIBlocks {
             health = 1680;
             armor = 24f;
             absorbLasers = true;
+            crushDamageMultiplier = 0.8f;
         }};
         uraniumWallLarge = new Wall("uranium-wall-large"){{
             requirements(Category.defense, with(HIItems.uranium, 24));
@@ -509,6 +511,7 @@ public final class HIBlocks {
             health = 6720;
             armor = 24f;
             absorbLasers = true;
+            crushDamageMultiplier = 0.8f;
         }};
         chromiumWall = new Wall("chromium-wall"){{
             requirements(Category.defense, with(HIItems.chromium, 6));
@@ -516,6 +519,7 @@ public final class HIBlocks {
             health = 1770;
             armor = 36f;
             absorbLasers = true;
+            crushDamageMultiplier = 0.7f;
         }};
         chromiumWallLarge = new Wall("chromium-wall-large"){{
             requirements(Category.defense, with(HIItems.chromium, 24));
@@ -523,6 +527,7 @@ public final class HIBlocks {
             health = 7080;
             armor = 36f;
             absorbLasers = true;
+            crushDamageMultiplier = 0.7f;
         }};
         chromiumDoor = new AutoDoor("chromium-door"){{
             requirements(Category.defense, with(HIItems.chromium, 6, Items.silicon, 4));
@@ -530,6 +535,7 @@ public final class HIBlocks {
             health = 1770;
             armor = 36f;
             absorbLasers = true;
+            crushDamageMultiplier = 0.7f;
         }};
         chromiumDoorLarge = new AutoDoor("chromium-door-large"){{
             requirements(Category.defense, with(HIItems.chromium, 24, Items.silicon, 16));
@@ -537,6 +543,7 @@ public final class HIBlocks {
             health = 7080;
             armor = 36f;
             absorbLasers = true;
+            crushDamageMultiplier = 0.7f;
         }};
         heavyAlloyWall = new Wall("heavy-alloy-wall"){{
             requirements(Category.defense, with(HIItems.heavyAlloy, 6, Items.metaglass, 3, Items.plastanium, 4));
@@ -544,6 +551,7 @@ public final class HIBlocks {
             health = 3220;
             armor = 48f;
             absorbLasers = insulated = true;
+            crushDamageMultiplier = 0.5f;
         }};
         heavyAlloyWallLarge = new Wall("heavy-alloy-wall-large"){{
             requirements(Category.defense, with(HIItems.heavyAlloy, 24, Items.metaglass, 12, Items.plastanium, 16));
@@ -551,6 +559,7 @@ public final class HIBlocks {
             health = 12880;
             armor = 48f;
             absorbLasers = insulated = true;
+            crushDamageMultiplier = 0.5f;
         }};
         nanoCompositeWall = new RegenWall("nano-composite-wall"){{
             requirements(Category.defense, with(HIItems.nanocore, 2, HIItems.heavyAlloy, 6, Items.metaglass, 1, Items.plastanium, 4));
@@ -558,6 +567,7 @@ public final class HIBlocks {
             health = 2680;
             armor = 42f;
             absorbLasers = insulated = true;
+            crushDamageMultiplier = 0.5f;
             healPercent = 3f / 60f;
             chanceHeal = 0.15f;
             regenPercent = 0.5f;
@@ -568,6 +578,7 @@ public final class HIBlocks {
             health = 10720;
             armor = 42f;
             absorbLasers = insulated = true;
+            crushDamageMultiplier = 0.5f;
             healPercent = 3f / 60f;
             chanceHeal = 0.15f;
             regenPercent = 0.5f;
@@ -2367,7 +2378,7 @@ public final class HIBlocks {
                 scaledSplashDamage = true;
                 collidesTiles = collidesGround = collides = true;
                 lightningDamage = 100f;
-                lightColor = lightningColor = trailColor = hitColor = Pal.bulletYellow;
+                lightColor = lightningColor = trailColor = hitColor = Pal.command;
                 lightning = 3;
                 lightningLength = 8;
                 lightningLengthRand = 16;
@@ -3075,8 +3086,8 @@ public final class HIBlocks {
                     Lines.circle(e.x, e.y, baseRd * pin);
                     for(int i = 0; i < 12; i++){
                         float a = Fx.rand.random(360);
-                        float lx = HIGet.dx(e.x, baseRd * pin, a);
-                        float ly = HIGet.dy(e.y, baseRd * pin, a);
+                        float lx = HIUtils.dx(e.x, baseRd * pin, a);
+                        float ly = HIUtils.dy(e.y, baseRd * pin, a);
                         Drawf.tri(lx, ly, baseRd / 6f * e.foutpow(), (baseRd / 2f + Fx.rand.random(-randRd, randRd)) * e.foutpow(), a + 180);
                     }
                 });

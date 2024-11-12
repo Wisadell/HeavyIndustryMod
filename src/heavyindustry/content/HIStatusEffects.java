@@ -4,6 +4,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import heavyindustry.util.HIUtils;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.effect.*;
@@ -93,7 +94,7 @@ public final class HIStatusEffects {
                 Lines.stroke(2 * e.foutpow(), Items.blastCompound.color);
                 for(int i = 0; i < 3; i++){
                     float a = 360 / 3f * i + e.time * 6;
-                    float x = HIGet.dx(e.x, Math.max(6, unit.hitSize / 2f), a), y = HIGet.dy(e.y, Math.max(6, unit.hitSize / 2f), a);
+                    float x = HIUtils.dx(e.x, Math.max(6, unit.hitSize / 2f), a), y = HIUtils.dy(e.y, Math.max(6, unit.hitSize / 2f), a);
                     Lines.lineAngle(x, y, a - 120, Math.max(3, unit.hitSize / 4f) * e.foutpow());
                     Lines.lineAngle(x, y, a + 120, Math.max(3, unit.hitSize / 4f) * e.foutpow());
                 }

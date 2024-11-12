@@ -1,10 +1,10 @@
 package heavyindustry.gen;
 
-import arc.*;
 import arc.scene.style.*;
-import heavyindustry.core.*;
 
+import static arc.Core.*;
 import static mindustry.gen.Icon.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 
 public final class HIIcon {
     public static TextureRegionDrawable
@@ -68,6 +68,6 @@ public final class HIIcon {
     }
 
     private static <T extends Drawable> T getModDrawable(String name){
-        return Core.atlas.getDrawable(HeavyIndustryMod.modName + "-" + name);
+        return atlas.getDrawable(modName + "-" + name);
     }
 }

@@ -255,9 +255,9 @@ public final class HIOverride {
         ((Reconstructor) Blocks.tetrativeReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.crush, HIUnitTypes.destruction});
         //Blocks-Units-Erekir
         ((Constructor) Blocks.constructor).filter = Seq.with();
-        ((UnitAssembler) Blocks.tankAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.dominate, 60f * 60f * 4f, PayloadStack.list(UnitTypes.precept, 4, Blocks.shieldedWall, 20)));
-        ((UnitAssembler) Blocks.shipAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.havoc, 60f * 60f * 4f, PayloadStack.list(UnitTypes.obviate, 4, Blocks.shieldedWall, 20)));
-        ((UnitAssembler) Blocks.mechAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.oracle, 60f * 60f * 4f, PayloadStack.list(UnitTypes.anthicus, 4, Blocks.shieldedWall, 20)));
+        ((UnitAssembler) Blocks.tankAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.dominate, 60f * 60f * 4f, PayloadStack.list(UnitTypes.precept, 4, HIBlocks.aparajitoLarge, 20)));
+        ((UnitAssembler) Blocks.shipAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.havoc, 60f * 60f * 4f, PayloadStack.list(UnitTypes.obviate, 4, HIBlocks.aparajitoLarge, 20)));
+        ((UnitAssembler) Blocks.mechAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.oracle, 60f * 60f * 4f, PayloadStack.list(UnitTypes.anthicus, 4, HIBlocks.aparajitoLarge, 20)));
         //UnitTypes
         UnitTypes.alpha.coreUnitDock = true;
         UnitTypes.beta.coreUnitDock = true;
@@ -384,13 +384,15 @@ public final class HIOverride {
         Items.erekirItems.addAll(HIItems.nanocoreErekir, HIItems.uranium, HIItems.chromium);
         //planet
         Planets.serpulo.allowSectorInvasion = settings.getBool("hi-enable-serpulo-sector-invasion");
-        Planets.serpulo.generator = new HISerpuloPlanetGenerator();
     }
 
     public static void loadReflect(){
         try {
             removeConsumeItems(Blocks.disassembler);
             ((Separator)Blocks.disassembler).results = ItemStack.with(Items.copper, 1, Items.lead, 1, Items.graphite, 1, Items.titanium, 1, Items.thorium, 1);
+
+            removeConsumeLiquids(Blocks.cyanogenSynthesizer);
+            Blocks.cyanogenSynthesizer.consumeLiquid(Liquids.arkycite, 15f / 60f);
         } catch (Exception e) {
             Log.err(e);
         }

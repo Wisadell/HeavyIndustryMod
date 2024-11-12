@@ -7,7 +7,7 @@ import mindustry.world.consumers.*;
 
 import java.lang.reflect.*;
 
-@SuppressWarnings({"unused","unchecked"})
+@SuppressWarnings("unchecked")
 public final class HIReflect {
     public static void removeAllConsumes(Block block) throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
         getBlockConsumeBuilder(block).clear();

@@ -25,7 +25,7 @@ import static mindustry.Vars.*;
  * @author Wisadell
  */
 public final class HeavyIndustryMod extends Mod {
-    /** Commonly used static read-only String. Do not attempt to modify it unless you know what you are doing. */
+    /** Commonly used static read-only String. do not change unless you know what you're doing. */
     public static final String modName = "heavy-industry";
 
     /** Omitting longer mod names is generally used to load mod sprites. */

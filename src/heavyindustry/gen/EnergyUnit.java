@@ -24,15 +24,11 @@ public class EnergyUnit extends UnitEntity {
         Lines.stroke(e.fout() * 2.5f);
         Lines.circle(e.x, e.y, e.fin() * e.rotation * 1.5f);
         Lines.stroke(e.fout() * 3.2f);
-        Angles.randLenVectors(e.id, (int)e.rotation * 2, e.rotation / 1.5f + e.rotation * e.fin() * 2.75f, (x, y) -> {
-            Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 5);
-        });
+        Angles.randLenVectors(e.id, (int)e.rotation * 2, e.rotation / 1.5f + e.rotation * e.fin() * 2.75f, (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 5));
 
         Fx.rand.setSeed(e.id + 100);
 
-        Angles.randLenVectors(e.id + 100, (int)e.rotation, e.rotation / 2f + e.rotation * e.fin() * 3f, (x, y) -> {
-            Fill.circle(e.x + x, e.y + y, Fx.rand.random(e.rotation, e.rotation * 2f) * e.foutpow());
-        });
+        Angles.randLenVectors(e.id + 100, (int)e.rotation, e.rotation / 2f + e.rotation * e.fin() * 3f, (x, y) -> Fill.circle(e.x + x, e.y + y, Fx.rand.random(e.rotation, e.rotation * 2f) * e.foutpow()));
 
         Draw.color(Color.black);
         Fill.circle(e.x, e.y, e.fout() * e.rotation * 0.7f);

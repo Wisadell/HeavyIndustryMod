@@ -1,6 +1,7 @@
 package heavyindustry.entities.bullet;
 
 import heavyindustry.content.*;
+import heavyindustry.util.*;
 import arc.audio.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -87,8 +88,8 @@ public class ElectricStormBulletType extends BulletType {
             if(b.time >= b.lifetime - HIFx.chainLightningFade.lifetime) return;
             for(int i = 0; i < 3; i++) {
                 float a = Mathf.random(360);
-                float x = HIGet.dx(b.x, baseRange, a);
-                float y = HIGet.dy(b.y, baseRange, a);
+                float x = HIUtils.dx(b.x, baseRange, a);
+                float y = HIUtils.dy(b.y, baseRange, a);
                 HIFx.chainLightningFade.at(x, y, 8, color, b);
             }
         }

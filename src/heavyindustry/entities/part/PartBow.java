@@ -1,6 +1,6 @@
 package heavyindustry.entities.part;
 
-import heavyindustry.content.*;
+import heavyindustry.util.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -36,7 +36,7 @@ public class PartBow extends DrawPart {
             Tmp.v2.set(turretTk * i, bowHeight).rotate(rot);
             Tmp.v3.set(turretTk * i, bowHeight + bowTk).rotate(rot);
             float x1 = params.x + Tmp.v2.x, x2 = params.x + Tmp.v3.x, y1 = params.y + Tmp.v2.y, y2 = params.y + Tmp.v3.y;
-            float dx = HIGet.dx(x1, bowWidth, rot + 270 + (70 * warmup - visRad * rp * warmup) * i), dy = HIGet.dy(y1, bowWidth, rot + 270 + (70 * warmup - visRad * rp * warmup) * i);
+            float dx = HIUtils.dx(x1, bowWidth, rot + 270 + (70 * warmup - visRad * rp * warmup) * i), dy = HIUtils.dy(y1, bowWidth, rot + 270 + (70 * warmup - visRad * rp * warmup) * i);
             Tmp.v1.set(bowTk / 2f * warmup * i, 0).rotate(rot);
             float dx1 = dx + Tmp.v1.x, dy1 = dy + Tmp.v1.y;
             Fill.tri(x1, y1, x2, y2, dx, dy);

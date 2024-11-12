@@ -54,10 +54,6 @@ public class LegsPayloadUnit extends LegsUnit implements Payloadc {
         }
 
         for(Payload pay : payloads){
-            //apparently BasedUser doesn't want this and several plugins use it.
-            //if(pay instanceof BuildPayload build){
-            //    build.build.team = team;
-            //}
             pay.set(x, y, rotation);
             pay.update(self(), null);
         }
