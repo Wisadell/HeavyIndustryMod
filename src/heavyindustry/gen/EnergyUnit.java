@@ -65,7 +65,10 @@ public class EnergyUnit extends UnitEntity {
 
     protected Trail[] trails = {};
 
-    @Override public int classId(){return HIRegister.getID(EnergyUnit.class);}
+    @Override
+    public int classId(){
+        return HIRegister.getId(EnergyUnit.class);
+    }
 
     @Override
     public void destroy(){

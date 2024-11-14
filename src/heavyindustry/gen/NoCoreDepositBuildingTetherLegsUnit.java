@@ -7,6 +7,11 @@ public class NoCoreDepositBuildingTetherLegsUnit extends LegsUnit implements Bui
     public @Nullable Building building;
 
     @Override
+    public int classId() {
+        return HIRegister.getId(NoCoreDepositBuildingTetherLegsUnit.class);
+    }
+
+    @Override
     public void update() {
         super.update();
         if(building == null || !building.isValid() || building.team != team){

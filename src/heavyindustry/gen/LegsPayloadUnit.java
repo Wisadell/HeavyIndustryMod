@@ -28,7 +28,7 @@ public class LegsPayloadUnit extends LegsUnit implements Payloadc {
 
     @Override
     public int classId() {
-        return HIRegister.getID(LegsPayloadUnit.class);
+        return HIRegister.getId(LegsPayloadUnit.class);
     }
 
     @Override
