@@ -21,7 +21,11 @@ public final class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
     public static AlphaShader alphaShader;
-    public static HISurfaceShader dalani,brine,nanofluid;
+    public static HISurfaceShader dalani,brine,nanofluid,boundWater;
+    public static MaskShader alphaMask;
+    public static WaveShader wave;
+    public static MirrorFieldShader mirrorField;
+    public static HILoadShader baseShader;
     public static Tiler tiler;
     public static PlanetTextureShader planetTextureShader;
 
@@ -35,6 +39,12 @@ public final class HIShaders {
         dalani = new HISurfaceShader("dalani");
         brine = new HISurfaceShader("brine");
         nanofluid = new HISurfaceShader("nanofluid");
+        boundWater = new HISurfaceShader("boundwater");
+
+        alphaMask = new MaskShader();
+        mirrorField = new MirrorFieldShader();
+        wave = new WaveShader();
+        baseShader = new HILoadShader("screenspace", "distbase");
 
         tiler = new Tiler();
 
@@ -172,6 +182,84 @@ public final class HIShaders {
         @Override
         public void apply(){
             setUniformf("u_alpha", alpha);
+        }
+    }
+
+    public static class WaveShader extends HILoadShader {
+        public Color waveMix = Color.white;
+        public float mixAlpha = 0.4f;
+        public float mixOmiga = 0.75f;
+        public float maxThreshold = 0.9f;
+        public float minThreshold = 0.6f;
+        public float waveScl = 0.2f;
+
+        public WaveShader(){
+            super("screenspace", "wave");
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_campos", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
+            setUniformf("u_resolution", camera.width, camera.height);
+            setUniformf("u_time", Time.time);
+
+            setUniformf("mix_color", waveMix);
+            setUniformf("mix_alpha", mixAlpha);
+            setUniformf("mix_omiga", mixOmiga);
+            setUniformf("wave_scl", waveScl);
+            setUniformf("max_threshold", maxThreshold);
+            setUniformf("min_threshold", minThreshold);
+        }
+    }
+
+    public static class MirrorFieldShader extends HILoadShader {
+        public Color waveMix = Color.white;
+        public Vec2 offset = new Vec2(0, 0);
+        public float stroke = 2;
+        public float gridStroke = 0.8f;
+        public float mixAlpha = 0.4f;
+        public float alpha = 0.2f;
+        public float maxThreshold = 1;
+        public float minThreshold = 0.7f;
+        public float waveScl = 0.03f;
+        public float sideLen = 10;
+
+        public MirrorFieldShader() {
+            super("screenspace", "mirrorfield");
+        }
+
+        @Override
+        public void apply(){
+            setUniformf("u_campos", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
+            setUniformf("u_resolution", camera.width, camera.height);
+            setUniformf("u_time", Time.time);
+
+            setUniformf("offset", offset);
+            setUniformf("u_step", stroke);
+            setUniformf("mix_color", waveMix);
+            setUniformf("mix_alpha", mixAlpha);
+            setUniformf("u_stroke", gridStroke);
+            setUniformf("u_alpha", alpha);
+            setUniformf("wave_scl", waveScl);
+            setUniformf("max_threshold", maxThreshold);
+            setUniformf("min_threshold", minThreshold);
+            setUniformf("side_len", sideLen);
+        }
+    }
+
+    public static class MaskShader extends HILoadShader {
+        public Texture texture;
+
+        public MaskShader() {
+            super("screenspace", "alphamask");
+        }
+
+        @Override
+        public void apply() {
+            setUniformi("u_texture", 1);
+            setUniformi("u_mask", 0);
+
+            texture.bind(1);
         }
     }
 

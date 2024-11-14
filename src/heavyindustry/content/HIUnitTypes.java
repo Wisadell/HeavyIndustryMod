@@ -2210,14 +2210,14 @@ public final class HIUnitTypes {
                 }
                     @Override
                     public void update(Bullet b) {
-                        Seq<Healthc> seq = new Seq<>();
+                        Seq<Healthc> entity = new Seq<>();
                         float r = flameCone * (1 - b.foutpow());
-                        indexer.allBuildings(b.x, b.y, r, seq::addUnique);
+                        indexer.allBuildings(b.x, b.y, r, entity::addUnique);
                         Units.nearby(b.x - r, b.y - r, r * 2, r * 2, u -> {
-                            if(u.type != null && u.type.targetable && b.within(u, r)) seq.addUnique(u);
+                            if(u.type != null && u.type.targetable && b.within(u, r)) entity.addUnique(u);
                         });
-                        for(int i = 0; i < seq.size; i++){
-                            Healthc hc = seq.get(i);
+                        for(int i = 0; i < entity.size; i++){
+                            Healthc hc = entity.get(i);
                             if(hc != null && !hc.dead()) {
                                 if(!b.hasCollided(hc.id())) {
                                     if(hc.health() <= damage) hc.kill();

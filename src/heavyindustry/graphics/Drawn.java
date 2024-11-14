@@ -19,12 +19,25 @@ import heavyindustry.math.*;
 import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
 
+/** Contains some practical methods used in graphic drawing. */
 public final class Drawn {
-    private static final Vec2 vec21 = new Vec2(), vec22 = new Vec2(), vec31 = new Vec2(), vec32 = new Vec2(), vec33 = new Vec2(), vec34 = new Vec2(), rv = new Vec2();
-    private static final Rand rand = new Rand();
-    public static final float sinScl = 1f;
+    static final Vec2
+            v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2(), v4 = new Vec2(), v5 = new Vec2(),
+            v6 = new Vec2(), v7 = new Vec2(), v8 = new Vec2(), v9 = new Vec2(), v10 = new Vec2(),
+            rv = new Vec2();
+    static final Vec3
+            v31 = new Vec3(), v32 = new Vec3(), v33 = new Vec3(), v34 = new Vec3(), v35 = new Vec3(),
+            v36 = new Vec3(), v37 = new Vec3(), v38 = new Vec3(), v39 = new Vec3(), v310 = new Vec3();
+
+    static final Color
+            c1 = new Color(), c2 = new Color(), c3 = new Color(), c4 = new Color(), c5 = new Color(),
+            c6 = new Color(), c7 = new Color(), c8 = new Color(), c9 = new Color(), c10 = new Color();
+
+    static final Rand rand = new Rand();
 
     public static final int[] oneArr = {1};
+
+    public static final float sinScl = 1f;
 
     public static void drawSnow(float x, float y, float rad, float rot, Color color){
         Draw.color(color);
@@ -37,7 +50,6 @@ public final class Drawn {
     }
 
     public static void circlePercent(float x, float y, float rad, float percent, float angle) {
-//        Lines.swirl(x, y, rad, 360 * percent, angle);
         float p = Mathf.clamp(percent);
 
         int sides = Lines.circleVertices(rad);
@@ -65,8 +77,8 @@ public final class Drawn {
         float cos2 = Mathf.cosDeg(a + space);
         float sin2 = Mathf.sinDeg(a + space);
         float f = sides * p - i;
-        vec21.trns(a, 0, len * (f - 1));
-        Fill.quad(x + r1 * cos, y + r1 * sin, x + r1 * cos2 + vec21.x, y + r1 * sin2 + vec21.y, x + r2 * cos2 + vec21.x, y + r2 * sin2 + vec21.y, x + r2 * cos, y + r2 * sin);
+        v6.trns(a, 0, len * (f - 1));
+        Fill.quad(x + r1 * cos, y + r1 * sin, x + r1 * cos2 + v6.x, y + r1 * sin2 + v6.y, x + r2 * cos2 + v6.x, y + r2 * sin2 + v6.y, x + r2 * cos, y + r2 * sin);
     }
 
     public static void circlePercentFlip(float x, float y, float rad, float in, float scl){
@@ -104,8 +116,8 @@ public final class Drawn {
     }
 
     public static float cameraDstScl(float x, float y, float norDst){
-        vec21.set(Core.camera.position);
-        float dst = Mathf.dst(x, y, vec21.x, vec21.y);
+        v6.set(Core.camera.position);
+        float dst = Mathf.dst(x, y, v6.x, v6.y);
         return 1 - Mathf.clamp(dst / norDst);
     }
 
@@ -128,19 +140,19 @@ public final class Drawn {
         rand.setSeed(id);
         for(int i = 0; i < num; i++){
             float len = rad * rand.random(0.75f, 1.5f);
-            vec21.trns(rand.random(360f) + rand.range(2f) * (1.5f - Mathf.curve(len, rad * 0.75f, rad * 1.5f)) * Time.time, len);
-            float angle = vec21.angle();
-            vec21.add(x, y);
-            tri(vec21.x, vec21.y, (interp + 1) * outerSize + rand.random(0, outerSize / 8), outerSize * (Interp.exp5In.apply(interp) + 0.25f) / 2f, angle);
-            tri(vec21.x, vec21.y, (interp + 1) / 2 * innerSize + rand.random(0, innerSize / 8), innerSize * (Interp.exp5In.apply(interp) + 0.5f), angle - 180);
+            v6.trns(rand.random(360f) + rand.range(2f) * (1.5f - Mathf.curve(len, rad * 0.75f, rad * 1.5f)) * Time.time, len);
+            float angle = v6.angle();
+            v6.add(x, y);
+            tri(v6.x, v6.y, (interp + 1) * outerSize + rand.random(0, outerSize / 8), outerSize * (Interp.exp5In.apply(interp) + 0.25f) / 2f, angle);
+            tri(v6.x, v6.y, (interp + 1) / 2 * innerSize + rand.random(0, innerSize / 8), innerSize * (Interp.exp5In.apply(interp) + 0.5f), angle - 180);
         }
     }
 
     public static void randLenVectors(long seed, int amount, float length, float minLength, float angle, float range, Floatc2 cons){
         rand.setSeed(seed);
         for(int i = 0; i < amount; i++){
-            vec21.trns(angle + rand.range(range), minLength  + rand.random(length));
-            cons.get(vec21.x, vec21.y);
+            v6.trns(angle + rand.range(range), minLength  + rand.random(length));
+            cons.get(v6.x, v6.y);
         }
     }
 
@@ -165,8 +177,8 @@ public final class Drawn {
     }
 
     public static void randFadeLightningEffectScl(float x, float y, float range, float sclMin, float sclMax, float lightningPieceLength, Color color, boolean in){
-        vec21.rnd(range).scl(Mathf.random(sclMin, sclMax)).add(x, y);
-        (in ? HIFx.chainLightningFadeReversed : HIFx.chainLightningFade).at(x, y, lightningPieceLength, color, vec21.cpy());
+        v6.rnd(range).scl(Mathf.random(sclMin, sclMax)).add(x, y);
+        (in ? HIFx.chainLightningFadeReversed : HIFx.chainLightningFade).at(x, y, lightningPieceLength, color, v6.cpy());
     }
 
     public static void teleportUnitNet(Unit before, float x, float y, float angle, Player player){
@@ -212,7 +224,7 @@ public final class Drawn {
     }
 
     public static void posSquareLink(Color color, float stroke, float size, boolean drawBottom, float x, float y, float x2, float y2){
-        posSquareLink(color, stroke, size, drawBottom, vec21.set(x, y), vec22.set(x2, y2));
+        posSquareLink(color, stroke, size, drawBottom, v6.set(x, y), v6.set(x2, y2));
     }
 
     public static void posSquareLink(Color color, float stroke, float size, boolean drawBottom, Position from, Position to){
@@ -326,10 +338,10 @@ public final class Drawn {
             float a = angle + Mathf.randomSeed(Math.max(timeSeed, 1) + ((i + seed) * 245l), 360f);
             float fin = ((time + timeOffset) % d) / d;
             float fslope = (0.5f - Math.abs(fin - 0.5f)) * 2f;
-            vec31.trns(a + spikeWidth / 2f, radius).add(x, y);
-            vec32.trns(a - spikeWidth / 2f, radius).add(x, y);
-            vec33.trns(a + pointOffset, radius + spikeHeight * fslope).add(x, y);
-            Fill.tri(vec31.x, vec31.y, vec32.x, vec32.y, vec33.x, vec33.y);
+            v7.trns(a + spikeWidth / 2f, radius).add(x, y);
+            v8.trns(a - spikeWidth / 2f, radius).add(x, y);
+            v9.trns(a + pointOffset, radius + spikeHeight * fslope).add(x, y);
+            Fill.tri(v7.x, v7.y, v8.x, v8.y, v9.x, v9.y);
         }
     }
 

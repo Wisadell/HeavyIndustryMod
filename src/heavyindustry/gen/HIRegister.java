@@ -9,10 +9,6 @@ public final class HIRegister {
 
     private static final ObjectMap<String, Prov<? extends Entityc>> map = new ObjectMap<>();
 
-    private HIRegister(){
-        throw new AssertionError("You are attempting to instantiated a class that should not be instantiated: HIRegister.");
-    }
-
     /** Register unit's name. */
     public static <T extends Entityc> void put(String name, Class<T> type, Prov<? extends T> prov){
         map.put(name, prov);

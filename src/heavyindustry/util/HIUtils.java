@@ -5,11 +5,14 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.scene.style.*;
+import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.*;
 import mindustry.content.*;
+import mindustry.ctype.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.pattern.*;
@@ -125,6 +128,21 @@ public final class HIUtils {
             v1 = new Vec2(),
             v2 = new Vec2(),
             v3 = new Vec2();
+
+    public static Seq<UnlockableContent> donorItems = new Seq<>();
+    public static Seq<UnlockableContent> developerItems = new Seq<>();
+
+    private static final String DONOR = bundle.get("hi-donor-item");
+    private static final String DEVELOPER = bundle.get("hi-developer-item");
+
+    public static void loadItems(){
+        for(UnlockableContent c : donorItems){
+            c.description = (c.description == null ? DONOR : c.description + "\n" + DONOR);
+        }
+        for(UnlockableContent c : developerItems){
+            c.description = (c.description == null ? DEVELOPER : c.description + "\n" + DEVELOPER);
+        }
+    }
 
     public static class ExtendedPosition implements Position {
         public float x, y;
@@ -392,5 +410,14 @@ public final class HIUtils {
             });
         }
         return cons;
+    }
+
+    public static ImageButton selfStyleImageButton(Drawable imageUp, ImageButton.ImageButtonStyle is, Runnable listener){
+        ImageButton ib = new ImageButton(new ImageButton.ImageButtonStyle(null, null, null, imageUp, null, null));
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle(is);
+        style.imageUp = imageUp;
+        ib.setStyle(style);
+        if(listener != null) ib.changed(listener);
+        return ib;
     }
 }

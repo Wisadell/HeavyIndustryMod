@@ -6,6 +6,7 @@ import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import heavyindustry.ui.*;
 import heavyindustry.ui.dialogs.*;
+import heavyindustry.util.*;
 import arc.*;
 import arc.flabel.*;
 import arc.scene.ui.*;
@@ -87,12 +88,16 @@ public final class HeavyIndustryMod extends Mod {
         HIPlanets.load();
         HISectorPresets.load();
         HITechTree.load();
+
+        HIUtils.loadItems();
     }
 
     @Override
     public void init(){
         super.init();
         if(!headless){
+            Draws.ScreenSampler.setup();
+
             TableUtils.init();
         }
 

@@ -16,10 +16,11 @@ import heavyindustry.world.blocks.heat.*;
 import heavyindustry.world.blocks.liquid.*;
 import heavyindustry.world.blocks.logic.*;
 import heavyindustry.world.blocks.payload.*;
-import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.blocks.power.*;
 import heavyindustry.world.blocks.production.*;
+import heavyindustry.world.blocks.sandbox.*;
 import heavyindustry.world.blocks.storage.*;
+import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.consumers.*;
 import heavyindustry.world.draw.*;
 
@@ -45,6 +46,7 @@ public final class HIClassMap {
         classes.put("CtrlMissileBulletType", CtrlMissileBulletType.class);
         classes.put("DelayedPointBulletType", DelayedPointBulletType.class);
         classes.put("EffectBulletType", EffectBulletType.class);
+        classes.put("ElectricStormBulletType", ElectricStormBulletType.class);
         classes.put("FallingBulletType", FallingBulletType.class);
         classes.put("FireWorkBulletType", FireWorkBulletType.class);
         classes.put("ColorFireBulletType", FireWorkBulletType.ColorFireBulletType.class);
@@ -52,6 +54,7 @@ public final class HIClassMap {
         classes.put("FlameBulletType", FlameBulletType.class);
         classes.put("HailStoneBulletType", HailStoneBulletType.class);
         classes.put("LightningLinkerBulletType", LightningLinkerBulletType.class);
+        classes.put("MagmaBulletType", MagmaBulletType.class);
         classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
         classes.put("ShieldBreakerType", ShieldBreakerType.class);
         classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
@@ -179,6 +182,8 @@ public final class HIClassMap {
         classes.put("PayloadRailBuild", PayloadRail.PayloadRailBuild.class);
         classes.put("DerivativeUnitFactory", DerivativeUnitFactory.class);
         classes.put("DerivativeUnitFactoryBuild", DerivativeUnitFactory.DerivativeUnitFactoryBuild.class);
+        classes.put("UnitBoost", UnitBoost.class);
+        classes.put("UnitBoostBuild", UnitBoost.UnitBoostBuild.class);
         classes.put("AdaptPayloadSource", AdaptPayloadSource.class);
         classes.put("AdaptPayloadSourceBuild", AdaptPayloadSource.AdaptPayloadSourceBuild.class);
         classes.put("PowerAnalyzer", PowerAnalyzer.class);
@@ -226,6 +231,8 @@ public final class HIClassMap {
         classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
         classes.put("CoreStorageBlock", CoreStorageBlock.class);
         classes.put("CoreStorageBuild", CoreStorageBlock.CoreStorageBuild.class);
+        classes.put("RandomSource", RandomSource.class);
+        classes.put("RandomSourceBuild", RandomSource.RandomSourceBuild.class);
         //consume
         classes.put("ConsumeItemDynamicF", ConsumeItemDynamicF.class);
         classes.put("ConsumeLiquidDynamicF", ConsumeLiquidDynamicF.class);

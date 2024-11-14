@@ -15,6 +15,7 @@ import heavyindustry.world.blocks.production.*;
 import heavyindustry.world.blocks.liquid.*;
 import heavyindustry.world.blocks.heat.*;
 import heavyindustry.world.blocks.storage.*;
+import heavyindustry.world.blocks.sandbox.*;
 import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.blocks.logic.*;
 import heavyindustry.world.draw.*;
@@ -132,7 +133,7 @@ public final class HIBlocks {
             //turret-erekir
             rupture,
             //sandbox
-            reinforcedItemSource,reinforcedLiquidSource,reinforcedPowerSource,reinforcedPayloadSource,
+            reinforcedItemSource,reinforcedLiquidSource,reinforcedPowerSource,reinforcedPayloadSource,randomSource,
             omniNode,ultraAssignOverdrive,
             teamChanger,barrierProjector,invincibleWall,invincibleWallLarge,invincibleWallHuge,invincibleRefractionWallHuge,
             mustDieTurret,oneShotTurret,pointTurret,
@@ -207,7 +208,7 @@ public final class HIBlocks {
         asphaltSide = new GrooveFloor("asphalt-side"){{
             blendGroup = asphalt;
         }};
-        metalClear = new ArmorFloor("metal-clear", 0);
+        metalClear = new ArmorFloor("metal-clear");
         metalLight = new ArmorFloor("metal-light", 3, metalClear.asFloor()){{
             useDynamicLight = true;
             lightRadius = 7f;
@@ -3902,6 +3903,10 @@ public final class HIBlocks {
             health = 1000;
             placeableLiquid = true;
             floating = true;
+        }};
+        randomSource = new RandomSource("random-source"){{
+            requirements(Category.distribution, BuildVisibility.sandboxOnly, with());
+            health = 1000;
         }};
         omniNode = new NodeBridge("omni-node"){{
             requirements(Category.distribution, BuildVisibility.sandboxOnly, with());

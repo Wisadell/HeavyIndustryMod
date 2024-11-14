@@ -28,6 +28,14 @@ public final class HIPal {
             thurmixRedLight = Color.valueOf("#ffced0"),
             thurmixRedDark = thurmixRed.cpy().lerp(Color.black, 0.9f),
             rainBowRed = Color.valueOf("ff8787"),
-            cold = Color.valueOf("6bc7ff");
+            cold = Color.valueOf("6bc7ff"),
+            transColor = new Color(0, 0, 0, 0),
+            fexCrystal = Color.valueOf("ff9584"),
+            matrixNet = Color.valueOf("d3fdff"),
+            matrixNetDark = Color.valueOf("9ecbcd"),
+            ion = Color.valueOf("d1d19f"),
+            dew = Color.valueOf("ff6214"),
+            frost = Color.valueOf("aff7ff"),
+            winter = Color.valueOf("6ca5ff");
 
 }
