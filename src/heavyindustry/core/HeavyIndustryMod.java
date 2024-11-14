@@ -96,6 +96,7 @@ public final class HeavyIndustryMod extends Mod {
     public void init(){
         super.init();
         if(!headless){
+            Draws.init();
             Draws.ScreenSampler.setup();
 
             TableUtils.init();

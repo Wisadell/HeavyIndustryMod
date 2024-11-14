@@ -28,16 +28,19 @@ public final class Draws {
 
     private static int idCount = 0;
 
-    public static int nextTaskID(){
+    public static int nextTaskId(){
         return idCount++;
     }
 
     public static final float mirrorField = 135f;
     public static final FrameBuffer effectBuffer = new FrameBuffer();
 
-    public static final int sharedUnderBlockBloomID = nextTaskID();
-    public static final int sharedUponFlyUnitBloomID = nextTaskID();
-    public static final int sharedUnderFlyUnitBloomID = nextTaskID();
+    public static final int sharedUnderBlockBloomId = nextTaskId();
+    public static final int sharedUponFlyUnitBloomId = nextTaskId();
+    public static final int sharedUnderFlyUnitBloomId = nextTaskId();
+
+    public static void init(){
+    }
 
     static {
         Events.run(EventType.Trigger.draw, () -> {
@@ -55,7 +58,7 @@ public final class Draws {
                 HIShaders.mirrorField.minThreshold = 0.7f;
                 HIShaders.mirrorField.stroke = 2;
                 HIShaders.mirrorField.sideLen = 10;
-                HIShaders.mirrorField.offset.set(Time.time/10, Time.time/10);
+                HIShaders.mirrorField.offset.set(Time.time / 10, Time.time / 10);
 
                 effectBuffer.blit(HIShaders.mirrorField);
             });
@@ -72,7 +75,7 @@ public final class Draws {
      */
     public static <T, D> void drawTask(int taskId, T target, D defTarget, DrawAcceptor<D> drawFirst, DrawAcceptor<D> drawLast, DrawAcceptor<T> draw){
         while (taskId >= drawTasks.length){
-            drawTasks = Arrays.copyOf(drawTasks, drawTasks.length*2);
+            drawTasks = Arrays.copyOf(drawTasks, drawTasks.length * 2);
         }
 
         DrawTask task = drawTasks[taskId];
@@ -103,22 +106,22 @@ public final class Draws {
 
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
-     * @param taskID The identification ID of the task, used to distinguish the task cache.
+     * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param target Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
      * @param shader <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, The shader used for drawing in this set of tasks.
      * @param draw The drawing task added to the task cache, which is the operation of this drawing
      */
-    public static <T, S extends Shader> void drawTask(int taskID, T target, S shader, DrawAcceptor<T> draw){
-        while (taskID >= taskBuffer.length){
-            taskBuffer = Arrays.copyOf(taskBuffer, taskBuffer.length*2);
+    public static <T, S extends Shader> void drawTask(int taskId, T target, S shader, DrawAcceptor<T> draw){
+        while (taskId >= taskBuffer.length){
+            taskBuffer = Arrays.copyOf(taskBuffer, taskBuffer.length * 2);
         }
 
-        FrameBuffer buffer = taskBuffer[taskID];
+        FrameBuffer buffer = taskBuffer[taskId];
         if (buffer == null){
-            buffer = taskBuffer[taskID] = new FrameBuffer();
+            buffer = taskBuffer[taskId] = new FrameBuffer();
         }
         FrameBuffer b = buffer;
-        drawTask(taskID, target, shader, e -> {
+        drawTask(taskId, target, shader, e -> {
             b.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
             b.begin(Color.clear);
         }, e -> {
@@ -129,60 +132,60 @@ public final class Draws {
 
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
-     * @param taskID The identification ID of the task, used to distinguish the task cache.
+     * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param target Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
      * @param shader <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, The shader used for drawing in this set of tasks.
      * @param applyShader <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, Operations performed on the colorimeter before drawing.
      * @param draw The drawing task added to the task cache, which is the operation of this drawing
      */
-    public static <T, S extends Shader> void drawTask(int taskID, T target, S shader, DrawAcceptor<S> applyShader, DrawAcceptor<T> draw){
-        drawTask(taskID, target, FrameBuffer::new, shader, applyShader, draw);
+    public static <T, S extends Shader> void drawTask(int taskId, T target, S shader, DrawAcceptor<S> applyShader, DrawAcceptor<T> draw){
+        drawTask(taskId, target, FrameBuffer::new, shader, applyShader, draw);
     }
 
-    public static <T, S extends Shader> void drawTask(int taskID, T target, Prov<FrameBuffer> bufferProv, S shader, DrawAcceptor<S> applyShader, DrawAcceptor<T> draw){
-        while (taskID >= taskBuffer.length){
-            taskBuffer = Arrays.copyOf(taskBuffer, taskBuffer.length*2);
+    public static <T, S extends Shader> void drawTask(int taskId, T target, Prov<FrameBuffer> bufferProv, S shader, DrawAcceptor<S> applyShader, DrawAcceptor<T> draw){
+        while (taskId >= taskBuffer.length){
+            taskBuffer = Arrays.copyOf(taskBuffer, taskBuffer.length * 2);
         }
 
-        if (taskBuffer[taskID] == null){
-            taskBuffer[taskID] = bufferProv.get();
+        if (taskBuffer[taskId] == null){
+            taskBuffer[taskId] = bufferProv.get();
         }
-        drawTask(taskID, target, shader, e -> {
-            taskBuffer[taskID].resize(Core.graphics.getWidth(), Core.graphics.getHeight());
-            taskBuffer[taskID].begin(Color.clear);
+        drawTask(taskId, target, shader, e -> {
+            taskBuffer[taskId].resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            taskBuffer[taskId].begin(Color.clear);
         }, e -> {
-            taskBuffer[taskID].end();
+            taskBuffer[taskId].end();
             applyShader.draw(e);
-            taskBuffer[taskID].blit(e);
+            taskBuffer[taskId].blit(e);
         }, draw);
     }
 
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
      * <p><strong>If the calling frequency of this method is very high and the lambda expression describing the drawing behavior needs to access local variables, then in order to optimize heap occupancy, please use{@link Draws#drawTask(int, Object, Shader, DrawAcceptor)}</strong>
-     * @param taskID The identification ID of the task, used to distinguish the task cache.
+     * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param shader <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, The shader used for drawing in this set of tasks.
      * @param draw The drawing task added to the task cache, which is the operation of this drawing.
      */
     @SuppressWarnings("unchecked")
-    public static void drawTask(int taskID, Shader shader, DrawDef draw){
-        drawTask(taskID, null, shader, draw);
+    public static void drawTask(int taskId, Shader shader, DrawDef draw){
+        drawTask(taskId, null, shader, draw);
     }
 
     /**
      * Publish the task of caching and draw it on the z-axis during the initial release.
-     * @param taskID The identification ID of the task, used to distinguish the task cache.
+     * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param target Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
      * @param draw The drawing task added to the task cache, which is the operation of this drawing.
      */
-    public static <T> void drawTask(int taskID, T target, DrawAcceptor<T> draw){
-        while (taskID >= drawTasks.length){
-            drawTasks = Arrays.copyOf(drawTasks, drawTasks.length*2);
+    public static <T> void drawTask(int taskId, T target, DrawAcceptor<T> draw){
+        while (taskId >= drawTasks.length){
+            drawTasks = Arrays.copyOf(drawTasks, drawTasks.length * 2);
         }
 
-        DrawTask task = drawTasks[taskID];
+        DrawTask task = drawTasks[taskId];
         if (task == null){
-            task = drawTasks[taskID] = new DrawTask();
+            task = drawTasks[taskId] = new DrawTask();
         }
 
         if (!task.init){
@@ -195,18 +198,18 @@ public final class Draws {
     /**
      * Publish the task of caching and draw it on the z-axis during the initial release.
      * <p><strong>If the calling frequency of this method is very high and the lambda expression describing the drawing behavior needs to access local variables, then in order to optimize heap occupancy, please use{@link Draws#drawTask(int, Object, DrawAcceptor)}</strong>
-     * @param taskID The identification ID of the task, used to distinguish the task cache.
+     * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param draw The drawing task added to the task cache, which is the operation of this drawing.
      */
     @SuppressWarnings("unchecked")
-    public static void drawTask(int taskID, DrawDef draw){
-        while (taskID >= drawTasks.length){
-            drawTasks = Arrays.copyOf(drawTasks, drawTasks.length*2);
+    public static void drawTask(int taskId, DrawDef draw){
+        while (taskId >= drawTasks.length){
+            drawTasks = Arrays.copyOf(drawTasks, drawTasks.length * 2);
         }
 
-        DrawTask task = drawTasks[taskID];
+        DrawTask task = drawTasks[taskId];
         if (task == null){
-            task = drawTasks[taskID] = new DrawTask();
+            task = drawTasks[taskId] = new DrawTask();
         }
 
         if (!task.init){
@@ -216,12 +219,12 @@ public final class Draws {
         task.addTask(null, draw);
     }
 
-    public static <T, B extends FrameBuffer> void drawToBuffer(int taskID, B buffer, T target, DrawAcceptor<T> draw){
-        drawToBuffer(taskID, buffer, target, b -> {}, draw);
+    public static <T, B extends FrameBuffer> void drawToBuffer(int taskId, B buffer, T target, DrawAcceptor<T> draw){
+        drawToBuffer(taskId, buffer, target, b -> {}, draw);
     }
 
-    public static <T, B extends FrameBuffer> void drawToBuffer(int taskID, B buffer, T target, DrawAcceptor<B> endBuffer, DrawAcceptor<T> draw){
-        drawTask(taskID, target, buffer, b -> {
+    public static <T, B extends FrameBuffer> void drawToBuffer(int taskId, B buffer, T target, DrawAcceptor<B> endBuffer, DrawAcceptor<T> draw){
+        drawTask(taskId, target, buffer, b -> {
             b.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
             b.begin(Color.clear);
         }, b -> {
@@ -232,20 +235,20 @@ public final class Draws {
 
     /**
      * Publish a flood drawing task based on{@link Draws#drawTask(int, Object, DrawAcceptor, DrawAcceptor, DrawAcceptor)}implementation.
-     * @param taskID The identification ID of the task, used to distinguish the task cache.
+     * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param obj The data object passed to the drawing task.
      * @param draw Draw task.
      */
-    public static <T> void drawBloom(int taskID, T obj, DrawAcceptor<T> draw){
-        while (taskID >= blooms.length){
-            blooms = Arrays.copyOf(blooms, blooms.length*2);
+    public static <T> void drawBloom(int taskId, T obj, DrawAcceptor<T> draw){
+        while (taskId >= blooms.length){
+            blooms = Arrays.copyOf(blooms, blooms.length * 2);
         }
 
-        Bloom bloom = blooms[taskID];
+        Bloom bloom = blooms[taskId];
         if (bloom == null){
-            bloom = blooms[taskID] = new Bloom(true);
+            bloom = blooms[taskId] = new Bloom(true);
         }
-        drawTask(taskID, obj, bloom, e -> {
+        drawTask(taskId, obj, bloom, e -> {
             e.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
             e.setBloomIntensity(settings.getInt("bloomintensity", 6) / 4f + 1f);
             e.blurPasses = settings.getInt("bloomblur", 1);
@@ -255,22 +258,22 @@ public final class Draws {
 
     /**@see Draws#drawBloom(int, Object, DrawAcceptor) */
     @SuppressWarnings("unchecked")
-    public static void drawBloom(int taskID, DrawDef draw){
-        drawBloom(taskID, (DrawAcceptor<Bloom>) draw);
+    public static void drawBloom(int taskId, DrawDef draw){
+        drawBloom(taskId, (DrawAcceptor<Bloom>) draw);
     }
 
     /**@see Draws#drawBloom(int, Object, DrawAcceptor) */
-    public static void drawBloom(int taskID, DrawAcceptor<Bloom> draw){
-        while (taskID >= blooms.length){
-            blooms = Arrays.copyOf(blooms, blooms.length*2);
+    public static void drawBloom(int taskId, DrawAcceptor<Bloom> draw){
+        while (taskId >= blooms.length){
+            blooms = Arrays.copyOf(blooms, blooms.length * 2);
         }
 
-        Bloom bloom = blooms[taskID];
+        Bloom bloom = blooms[taskId];
         if (bloom == null){
-            bloom = blooms[taskID] = new Bloom(true);
+            bloom = blooms[taskId] = new Bloom(true);
         }
 
-        drawTask(taskID, bloom, e -> {
+        drawTask(taskId, bloom, e -> {
             e.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
             e.setBloomIntensity(settings.getInt("bloomintensity", 6) / 4f + 1f);
             e.blurPasses = settings.getInt("bloomblur", 1);
@@ -285,14 +288,13 @@ public final class Draws {
 
     /**Publish a flood drawing task in the shared flood drawing group, with the drawn layer located below the square({@link Layer#block}-1, 29)
      * <p>Regarding the task of flood drawing, please refer to{@link Draws#drawBloom(int, Object, DrawAcceptor)}
-     *
      * @param target The data object passed to the drawing task.
      * @param draw Draw task.
      */
     public static <T> void drawBloomUnderBlock(T target, DrawAcceptor<T> draw){
         float z = Draw.z();
         Draw.z(Layer.block + 1);
-        drawBloom(sharedUnderBlockBloomID, target, draw);
+        drawBloom(sharedUnderBlockBloomId, target, draw);
         Draw.z(z);
     }
 
@@ -304,14 +306,13 @@ public final class Draws {
 
     /**Publish a flood drawing task in the shared flood drawing group, with the drawn layer located below the square({@link Layer#flyingUnit}+1, 116)
      * <p>Regarding the task of flood drawing, please refer to{@link Draws#drawBloom(int, Object, DrawAcceptor)}
-     *
      * @param target The data object passed to the drawing task.
      * @param draw Draw task.
      */
     public static <T> void drawBloomUponFlyUnit(T target, DrawAcceptor<T> draw){
         float z = Draw.z();
         Draw.z(Layer.flyingUnit + 1);
-        drawBloom(sharedUponFlyUnitBloomID, target, draw);
+        drawBloom(sharedUponFlyUnitBloomId, target, draw);
         Draw.z(z);
     }
 
@@ -324,26 +325,25 @@ public final class Draws {
     /**
      * Publish a flood drawing task in the shared flood drawing group, with the drawn layer located below the low altitude unit(86, {@link Layer#flyingUnitLow}-1)
      * <p>Regarding the task of flood drawing, please refer to{@link Draws#drawBloom(int, Object, DrawAcceptor)}
-     *
      * @param target The data object passed to the drawing task.
      * @param draw Draw task.
      */
     public static <T> void drawBloomUnderFlyUnit(T target, DrawAcceptor<T> draw){
         float z = Draw.z();
         Draw.z(Layer.plans + 1);
-        drawBloom(sharedUnderFlyUnitBloomID, target, draw);
+        drawBloom(sharedUnderFlyUnitBloomId, target, draw);
         Draw.z(z);
     }
 
     /**
      * Publish a distorted drawing task based on{@link Draws#drawTask(int, Object, DrawAcceptor, DrawAcceptor, DrawAcceptor)}implementation.
-     * @param taskID The identification ID of the task, used to distinguish the task cache.
+     * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param target The data object passed to the drawing task.
      * @param distortion Twist drawing tool.
      * @param draw Draw task.
      */
-    public static <T> void drawDistortion(int taskID, T target, Distortion distortion, DrawAcceptor<T> draw){
-        drawTask(taskID, target, distortion, e -> {
+    public static <T> void drawDistortion(int taskId, T target, Distortion distortion, DrawAcceptor<T> draw){
+        drawTask(taskId, target, distortion, e -> {
             e.resize();
             e.capture();
         }, Distortion::render, draw);
@@ -351,20 +351,20 @@ public final class Draws {
 
     /**
      * Publish a Gaussian fuzzy mask layer drawing task based on{@link Draws#drawTask(int, Object, DrawAcceptor, DrawAcceptor, DrawAcceptor)}implementation.
-     * @param taskID The identification ID of the task, used to distinguish the task cache.
+     * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param target The data object passed to the drawing task.
      * @param blur Blurring drawing objects.
      * @param draw Draw task.
      */
-    public static <T> void drawBlur(int taskID, T target, Blur blur, DrawAcceptor<T> draw){
-        drawTask(taskID, target, blur, e -> {
+    public static <T> void drawBlur(int taskId, T target, Blur blur, DrawAcceptor<T> draw){
+        drawTask(taskId, target, blur, e -> {
             e.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
             e.capture();
         }, Blur::render, draw);
     }
 
-    public static <T> void drawMirrorField(int taskID, T target, DrawAcceptor<MirrorFieldShader> pre, DrawAcceptor<T> draw){
-        Draws.drawTask(taskID, target, HIShaders.mirrorField, pre, draw);
+    public static <T> void drawMirrorField(int taskId, T target, DrawAcceptor<MirrorFieldShader> pre, DrawAcceptor<T> draw){
+        Draws.drawTask(taskId, target, HIShaders.mirrorField, pre, draw);
     }
 
     public static <T> void drawMask(int taskID, MaskShader shader, GLFrameBuffer<? extends Texture> baseBuffer, T target, DrawAcceptor<T> draw){
@@ -389,7 +389,7 @@ public final class Draws {
 
     public static boolean clipDrawable(float x, float y, float clipSize){
         Core.camera.bounds(rect);
-        return rect.overlaps(x - clipSize/2, y - clipSize/2, clipSize, clipSize);
+        return rect.overlaps(x - clipSize / 2, y - clipSize / 2, clipSize, clipSize);
     }
 
     public static void drawLink(float origX, float origY, float othX, float othY, TextureRegion linkRegion, TextureRegion capRegion, float lerp){
@@ -409,17 +409,13 @@ public final class Draws {
         v3.set(0, 0);
 
         if(capRegion != null){
-            v3.set(v1).setLength(capRegion.width/4f);
-            Draw.rect(capRegion, ox + v3.x/2, oy + v3.y/2, v2.angle());
-            Draw.rect(capRegion, ox + v2.x - v3.x/2, oy + v2.y - v3.y/2, v2.angle() + 180);
+            v3.set(v1).setLength(capRegion.width / 4f);
+            Draw.rect(capRegion, ox + v3.x / 2, oy + v3.y / 2, v2.angle());
+            Draw.rect(capRegion, ox + v2.x - v3.x / 2, oy + v2.y - v3.y / 2, v2.angle() + 180);
         }
 
         Lines.stroke(8);
-        Lines.line(linkRegion,
-                ox + v3.x, oy + v3.y,
-                ox + v2.x - v3.x,
-                oy + v2.y - v3.y,
-                false);
+        Lines.line(linkRegion, ox + v3.x, oy + v3.y, ox + v2.x - v3.x, oy + v2.y - v3.y, false);
     }
 
     public static void drawLightEdge(float x, float y, float vertLength, float vertWidth, float horLength, float horWidth){
@@ -444,14 +440,12 @@ public final class Draws {
         drawDiamond(x, y, horLength, horWidth, 0 + rotation, color, gradientTo);
     }
 
-    public static void drawLightEdge(float x, float y, Color color, float vertLength, float vertWidth, float rotationV, Color gradientV,
-                                     float horLength, float horWidth, float rotationH, Color gradientH){
+    public static void drawLightEdge(float x, float y, Color color, float vertLength, float vertWidth, float rotationV, Color gradientV, float horLength, float horWidth, float rotationH, Color gradientH){
         drawDiamond(x, y, vertLength, vertWidth, 90 + rotationV, color, gradientV);
         drawDiamond(x, y, horLength, horWidth, rotationH, color, gradientH);
     }
 
-    public static void drawLightEdge(float x, float y, float vertLength, float vertWidth, float rotationV, float gradientV,
-                                     float horLength, float horWidth, float rotationH, float gradientH){
+    public static void drawLightEdge(float x, float y, float vertLength, float vertWidth, float rotationV, float gradientV, float horLength, float horWidth, float rotationH, float gradientH){
         Color color = Draw.getColor(), gradientColorV = color.cpy().a(gradientV), gradientColorH = color.cpy().a(gradientH);
         drawDiamond(x, y, vertLength, vertWidth, 90 + rotationV, color, gradientColorV);
         drawDiamond(x, y, horLength, horWidth, rotationH, color, gradientColorH);
@@ -480,25 +474,16 @@ public final class Draws {
         float originColor = color.toFloatBits();
         float gradientColor = gradient.toFloatBits();
 
-        Fill.quad(x, y, originColor, x, y, originColor,
-                x + v1.x, y + v1.y, gradientColor,
-                x + v2.x, y + v2.y, gradientColor);
-        Fill.quad(x, y, originColor, x, y, originColor,
-                x + v1.x, y + v1.y, gradientColor,
-                x - v2.x, y - v2.y, gradientColor);
-        Fill.quad(x, y, originColor, x, y, originColor,
-                x - v1.x, y - v1.y, gradientColor,
-                x + v2.x, y + v2.y, gradientColor);
-        Fill.quad(x, y, originColor, x, y, originColor,
-                x - v1.x, y - v1.y, gradientColor,
-                x - v2.x, y - v2.y, gradientColor);
+        Fill.quad(x, y, originColor, x, y, originColor, x + v1.x, y + v1.y, gradientColor, x + v2.x, y + v2.y, gradientColor);
+        Fill.quad(x, y, originColor, x, y, originColor, x + v1.x, y + v1.y, gradientColor, x - v2.x, y - v2.y, gradientColor);
+        Fill.quad(x, y, originColor, x, y, originColor, x - v1.x, y - v1.y, gradientColor, x + v2.x, y + v2.y, gradientColor);
+        Fill.quad(x, y, originColor, x, y, originColor, x - v1.x, y - v1.y, gradientColor, x - v2.x, y - v2.y, gradientColor);
     }
 
-    public static void drawCrystal(float x, float y, float length, float width, float height, float centOffX, float centOffY, float edgeStoke,
-                                   float edgeLayer, float botLayer, float crystalRotation, float rotation, Color color, Color edgeColor){
-        v31.set(length/2, 0, 0);
-        v32.set(0, width/2, 0).rotate(Vec3.X, crystalRotation);
-        v33.set(centOffX, centOffY, height/2).rotate(Vec3.X, crystalRotation);
+    public static void drawCrystal(float x, float y, float length, float width, float height, float centOffX, float centOffY, float edgeStoke, float edgeLayer, float botLayer, float crystalRotation, float rotation, Color color, Color edgeColor){
+        v31.set(length / 2, 0, 0);
+        v32.set(0, width / 2, 0).rotate(Vec3.X, crystalRotation);
+        v33.set(centOffX, centOffY, height / 2).rotate(Vec3.X, crystalRotation);
 
         float w1, w2;
         float widthReal = Math.max(w1 = Math.abs(v32.y), w2 = Math.abs(v33.y));
@@ -512,12 +497,7 @@ public final class Draws {
         Draw.color(color);
 
         float mx = Angles.trnsx(rotation + 90, widthReal), my = Angles.trnsy(rotation + 90, widthReal);
-        Fill.quad(
-                x + v31.x, y + v31.y,
-                x + mx, y + my,
-                x - v31.x, y - v31.y,
-                x - mx, y - my
-        );
+        Fill.quad(x + v31.x, y + v31.y, x + mx, y + my, x - v31.x, y - v31.y, x - mx, y - my);
 
         if(edgeStoke > 0.01f && edgeColor.a > 0.01){
             Lines.stroke(edgeStoke, edgeColor);
@@ -530,23 +510,14 @@ public final class Draws {
 
     private static void crystalEdge(float x, float y, boolean w, boolean r, float edgeLayer, float botLayer, Vec3 v){
         Draw.z(r || w? edgeLayer: botLayer - 0.01f);
-        Lines.line(
-                x + v.x, y + v.y,
-                x + v31.x, y + v31.y
-        );
-        Lines.line(
-                x + v.x, y + v.y,
-                x - v31.x, y - v31.y
-        );
+
+        Lines.line(x + v.x, y + v.y, x + v31.x, y + v31.y);
+        Lines.line(x + v.x, y + v.y, x - v31.x, y - v31.y);
+
         Draw.z(!r || w? edgeLayer: botLayer - 0.01f);
-        Lines.line(
-                x - v.x, y - v.y,
-                x + v31.x, y + v31.y
-        );
-        Lines.line(
-                x - v.x, y - v.y,
-                x - v31.x, y - v31.y
-        );
+
+        Lines.line(x - v.x, y - v.y, x + v31.x, y + v31.y);
+        Lines.line(x - v.x, y - v.y, x - v31.x, y - v31.y);
     }
 
     public static void drawCornerTri(float x, float y, float rad, float cornerLen, float rotate, boolean line){
@@ -554,7 +525,7 @@ public final class Draws {
     }
 
     public static void drawCornerPoly(float x, float y, float rad, float cornerLen, float sides, float rotate, boolean line){
-        float step = 360/sides;
+        float step = 360 / sides;
 
         if(line) Lines.beginLine();
         for(int i = 0; i < sides; i++){
@@ -565,18 +536,13 @@ public final class Draws {
                 Lines.linePoint(x + v1.x - v2.x, y + v1.y - v2.y);
                 Lines.linePoint(x + v1.x + v2.x, y + v1.y + v2.y);
             }
-            else{
-                Fill.tri(x, y,
-                        x + v1.x - v2.x, y + v1.y - v2.y,
-                        x + v1.x + v2.x, y + v1.y + v2.y
-                );
-            }
+            else Fill.tri(x, y, x + v1.x - v2.x, y + v1.y - v2.y, x + v1.x + v2.x, y + v1.y + v2.y);
         }
         if(line) Lines.endLine(true);
     }
 
     public static void drawHaloPart(float x, float y, float width, float len, float rotate){
-        drawHaloPart(x, y, width*0.2f, len*0.7f, width, len*0.3f, rotate);
+        drawHaloPart(x, y, width * 0.2f, len * 0.7f, width, len * 0.3f, rotate);
     }
 
     public static void drawHaloPart(float x, float y, float interWidth, float interLen, float width, float len, float rotate){
@@ -601,18 +567,14 @@ public final class Draws {
     }
 
     public static void gradientTri(float x, float y, float length, float width, float rotation, Color color, Color gradient){
-        v1.set(length/2, 0).rotate(rotation);
-        v2.set(0, width/2).rotate(rotation);
+        v1.set(length / 2, 0).rotate(rotation);
+        v2.set(0, width / 2).rotate(rotation);
 
         float originColor = color.toFloatBits();
         float gradientColor = gradient.toFloatBits();
 
-        Fill.quad(x, y, originColor, x, y, originColor,
-                x + v1.x, y + v1.y, gradientColor,
-                x + v2.x, y + v2.y, gradientColor);
-        Fill.quad(x, y, originColor, x, y, originColor,
-                x + v1.x, y + v1.y, gradientColor,
-                x - v2.x, y - v2.y, gradientColor);
+        Fill.quad(x, y, originColor, x, y, originColor, x + v1.x, y + v1.y, gradientColor, x + v2.x, y + v2.y, gradientColor);
+        Fill.quad(x, y, originColor, x, y, originColor, x + v1.x, y + v1.y, gradientColor, x - v2.x, y - v2.y, gradientColor);
     }
 
     public static void gradientCircle(float x, float y, float radius, Color gradientColor){
@@ -647,8 +609,7 @@ public final class Draws {
         gradientPoly(x, y, 4, 1.41421f*(radius/2), Draw.getColor(), gradientCenterX, gradientCenterY, offset, gradientColor, rotation);
     }
 
-    public static void gradientPoly(float x, float y, int edges, float radius, Color color, float gradientCenterX, float gradientCenterY,
-                                    float offset, Color gradientColor, float rotation){
+    public static void gradientPoly(float x, float y, int edges, float radius, Color color, float gradientCenterX, float gradientCenterY, float offset, Color gradientColor, float rotation){
         gradientFan(x, y, edges, radius, color, gradientCenterX, gradientCenterY, offset, gradientColor, 360, rotation);
     }
 
@@ -668,13 +629,11 @@ public final class Draws {
         gradientFan(x, y, Lines.circleVertices(radius), radius, Draw.getColor(), x, y, offset, gradientColor, fanAngle, rotation);
     }
 
-    public static void gradientFan(float x, float y, float radius, Color color, float gradientCenterX, float gradientCenterY, float offset,
-                                   Color gradientColor, float fanAngle, float rotation){
+    public static void gradientFan(float x, float y, float radius, Color color, float gradientCenterX, float gradientCenterY, float offset, Color gradientColor, float fanAngle, float rotation){
         gradientFan(x, y, Lines.circleVertices(radius), radius, color, gradientCenterX, gradientCenterY, offset, gradientColor, fanAngle, rotation);
     }
 
-    public static void gradientFan(float x, float y, int edges, float radius, Color color, float gradientCenterX, float gradientCenterY,
-                                   float offset, Color gradientColor, float fanAngle, float rotation){
+    public static void gradientFan(float x, float y, int edges, float radius, Color color, float gradientCenterX, float gradientCenterY, float offset, Color gradientColor, float fanAngle, float rotation){
         fanAngle = Mathf.clamp(fanAngle, 0, 360);
 
         v1.set(gradientCenterX - x, gradientCenterY - y).rotate(rotation);
@@ -694,12 +653,7 @@ public final class Draws {
             if(lastX != -1){
                 v3.set(v2).setLength(offset).scl(offset < 0? -1: 1);
                 v4.set(lastGX, lastGY).setLength(offset).scl(offset < 0? -1: 1);
-                Fill.quad(
-                        lastX, lastY, color.toFloatBits(),
-                        x + v1.x, y + v1.y, color.toFloatBits(),
-                        gradientCenterX + v2.x + v3.x, gradientCenterY + v2.y + v3.y, gradientColor.toFloatBits(),
-                        gradientCenterX + lastGX + v4.x, gradientCenterY + lastGY + v4.y, gradientColor.toFloatBits()
-                );
+                Fill.quad(lastX, lastY, color.toFloatBits(), x + v1.x, y + v1.y, color.toFloatBits(), gradientCenterX + v2.x + v3.x, gradientCenterY + v2.y + v3.y, gradientColor.toFloatBits(), gradientCenterX + lastGX + v4.x, gradientCenterY + lastGY + v4.y, gradientColor.toFloatBits());
             }
 
             lastX = x + v1.x;
@@ -750,20 +704,17 @@ public final class Draws {
         }
     }
 
-    public static void drawLaser(float originX, float originY, float otherX, float otherY, TextureRegion linkRegion,
-                                 TextureRegion capRegion, float stoke){
+    public static void drawLaser(float originX, float originY, float otherX, float otherY, TextureRegion linkRegion, TextureRegion capRegion, float stoke){
         float rot = Mathf.angle(otherX - originX, otherY - originY);
 
-        if(capRegion != null){
-            Draw.rect(capRegion, otherX, otherY, rot);
-        }
+        if(capRegion != null) Draw.rect(capRegion, otherX, otherY, rot);
 
         Lines.stroke(stoke);
         Lines.line(linkRegion, originX, originY, otherX, otherY, capRegion != null);
     }
 
     public static void gradientLine(float originX, float originY, float targetX, float targetY, Color origin, Color target, int gradientDir){
-        float halfWidth = Lines.getStroke()/2;
+        float halfWidth = Lines.getStroke() / 2;
         v1.set(halfWidth, 0).rotate(Mathf.angle(targetX - originX, targetY - originY) + 90);
 
         float c1, c2, c3, c4;
@@ -795,17 +746,12 @@ public final class Draws {
             default -> throw new IllegalArgumentException("gradient rotate must be 0 to 3, currently: " + gradientDir);
         }
 
-        Fill.quad(
-                originX + v1.x, originY + v1.y, c1,
-                originX - v1.x, originY - v1.y, c2,
-                targetX - v1.x, targetY - v1.y, c3,
-                targetX + v1.x, targetY + v1.y, c4
-        );
+        Fill.quad(originX + v1.x, originY + v1.y, c1, originX - v1.x, originY - v1.y, c2, targetX - v1.x, targetY - v1.y, c3, targetX + v1.x, targetY + v1.y, c4);
     }
 
     public static void oval(float x, float y, float horLen, float vertLen, float rotation, float offset, Color gradientColor){
         int sides = Lines.circleVertices(Math.max(horLen, vertLen));
-        float step = 360f/sides;
+        float step = 360f / sides;
 
         float c1 = Draw.getColor().toFloatBits();
         float c2 = gradientColor.toFloatBits();
@@ -821,59 +767,45 @@ public final class Draws {
             v3.set(v1).setLength(v1.len() + offset);
             v4.set(v2).setLength(v2.len() + offset);
 
-            Fill.quad(
-                    x + v1.x, y + v1.y, c1,
-                    x + v2.x, y + v2.y, c1,
-                    x + v4.x, y + v4.y, c2,
-                    x + v3.x, y + v3.y, c2
-            );
+            Fill.quad(x + v1.x, y + v1.y, c1, x + v2.x, y + v2.y, c1, x + v4.x, y + v4.y, c2, x + v3.x, y + v3.y, c2);
         }
     }
 
-    public static void drawRectAsCylindrical(float x, float y, float rowWidth, float rowHeight,
-                                             float cycRadius, float cycRotation, float rotation){
+    public static void drawRectAsCylindrical(float x, float y, float rowWidth, float rowHeight, float cycRadius, float cycRotation, float rotation){
         drawRectAsCylindrical(x, y, rowWidth, rowHeight, cycRadius, cycRotation, rotation, Draw.getColor());
     }
 
-    public static void drawRectAsCylindrical(float x, float y, float rowWidth, float rowHeight,
-                                             float cycRadius, float cycRotation, float rotation, Color color){
+    public static void drawRectAsCylindrical(float x, float y, float rowWidth, float rowHeight, float cycRadius, float cycRotation, float rotation, Color color){
         drawRectAsCylindrical(x, y, rowWidth, rowHeight, cycRadius, cycRotation, rotation, color, color, Draw.z(), Draw.z() - 0.01f);
     }
 
-    public static void drawRectAsCylindrical(float x, float y, float rowWidth, float rowHeight, float cycRadius, float cycRotation,
-                                             float rotation, Color color, Color dark, float lightLayer, float darkLayer){
-        if(rowWidth >= 2*Mathf.pi*cycRadius){
+    public static void drawRectAsCylindrical(float x, float y, float rowWidth, float rowHeight, float cycRadius, float cycRotation, float rotation, Color color, Color dark, float lightLayer, float darkLayer){
+        if(rowWidth >= 2 * Mathf.pi * cycRadius){
             v1.set(cycRadius, rowHeight).rotate(rotation);
             Draw.color(color);
             float z = Draw.z();
             Draw.z(lightLayer);
-            Fill.quad(
-                    x + v1.x, y - v1.y,
-                    x + v1.x, y + v1.y,
-                    x - v1.x, y + v1.y,
-                    x - v1.x, y - v1.y
-            );
+            Fill.quad(x + v1.x, y - v1.y, x + v1.x, y + v1.y, x - v1.x, y + v1.y, x - v1.x, y - v1.y);
             Draw.z(z);
             return;
         }
 
         cycRotation = Mathf.mod(cycRotation, 360);
 
-        float phaseDiff = 180*rowWidth/(Mathf.pi*cycRadius);
+        float phaseDiff = 180 * rowWidth/(Mathf.pi*cycRadius);
         float rot = cycRotation + phaseDiff;
 
-        v31.set(cycRadius, rowHeight/2, 0).rotate(Vec3.Y, cycRotation);
+        v31.set(cycRadius, rowHeight / 2, 0).rotate(Vec3.Y, cycRotation);
         v33.set(v31);
-        v32.set(cycRadius, rowHeight/2, 0).rotate(Vec3.Y, rot);
+        v32.set(cycRadius, rowHeight / 2, 0).rotate(Vec3.Y, rot);
         v34.set(v32);
 
         if(cycRotation < 180){
-            if(rot > 180) v33.set(-cycRadius, rowHeight/2, 0);
-            if(rot > 360) v34.set(cycRadius, rowHeight/2, 0);
-        }
-        else{
-            if(rot > 360) v33.set(cycRadius, rowHeight/2, 0);
-            if(rot > 540) v34.set(-cycRadius, rowHeight/2, 0);
+            if(rot > 180) v33.set(-cycRadius, rowHeight / 2, 0);
+            if(rot > 360) v34.set(cycRadius, rowHeight / 2, 0);
+        }else{
+            if(rot > 360) v33.set(cycRadius, rowHeight / 2, 0);
+            if(rot > 540) v34.set(-cycRadius, rowHeight / 2, 0);
         }
 
         float z = Draw.z();
@@ -884,22 +816,17 @@ public final class Draws {
         drawArcPart(v34.z > 0, color, dark, lightLayer, darkLayer, x, y, v32, v34, rotation);
 
         // C to D
-        drawArcPart(
-                (v33.z > 0 && v34.z > 0) || (Mathf.zero(v33.z) && Mathf.zero(v34.z) && v31.z < 0 && v32.z < 0)
-                        || (Mathf.zero(v33.z) && v34.z > 0) || (Mathf.zero(v34.z) && v33.z > 0),
-                color, dark, lightLayer, darkLayer, x, y, v33, v34, rotation);
+        drawArcPart((v33.z > 0 && v34.z > 0) || (Mathf.zero(v33.z) && Mathf.zero(v34.z) && v31.z < 0 && v32.z < 0) || (Mathf.zero(v33.z) && v34.z > 0) || (Mathf.zero(v34.z) && v33.z > 0), color, dark, lightLayer, darkLayer, x, y, v33, v34, rotation);
 
         Draw.z(z);
         Draw.reset();
     }
 
-    private static void drawArcPart(boolean light, Color colorLight, Color darkColor, float layer, float darkLayer,
-                                    float x, float y, Vec3 vec1, Vec3 vec2, float rotation){
+    private static void drawArcPart(boolean light, Color colorLight, Color darkColor, float layer, float darkLayer, float x, float y, Vec3 vec1, Vec3 vec2, float rotation){
         if(light){
             Draw.color(colorLight);
             Draw.z(layer);
-        }
-        else{
+        }else{
             Draw.color(darkColor);
             Draw.z(darkLayer);
         }
@@ -909,31 +836,16 @@ public final class Draws {
         v3.set(vec1.x, -vec1.y).rotate(rotation);
         v4.set(vec2.x, -vec2.y).rotate(rotation);
 
-        Fill.quad(
-                x + v3.x, y + v3.y,
-                x + v1.x, y + v1.y,
-                x + v2.x, y + v2.y,
-                x + v4.x, y + v4.y
-        );
+        Fill.quad(x + v3.x, y + v3.y, x + v1.x, y + v1.y, x + v2.x, y + v2.y, x + v4.x, y + v4.y);
     }
 
     public static void gapTri(float x, float y, float width, float length, float insideLength, float rotation) {
-        v1.set(0, width/2).rotate(rotation);
+        v1.set(0, width / 2).rotate(rotation);
         v2.set(length, 0).rotate(rotation);
         v3.set(insideLength, 0).rotate(rotation);
 
-        Fill.quad(
-                x + v1.x, y + v1.y,
-                x + v2.x, y + v2.y,
-                x + v3.x, y + v3.y,
-                x + v1.x, y + v1.y
-        );
-        Fill.quad(
-                x - v1.x, y - v1.y,
-                x + v2.x, y + v2.y,
-                x + v3.x, y + v3.y,
-                x - v1.x, y - v1.y
-        );
+        Fill.quad(x + v1.x, y + v1.y, x + v2.x, y + v2.y, x + v3.x, y + v3.y, x + v1.x, y + v1.y);
+        Fill.quad(x - v1.x, y - v1.y, x + v2.x, y + v2.y, x + v3.x, y + v3.y, x - v1.x, y - v1.y);
     }
 
     @SuppressWarnings("unchecked")
@@ -1080,12 +992,7 @@ public final class Draws {
                 float cf3 = c1.set((v5.x + 1) / 2, (v5.y + 1) / 2, inside ? 0 : 1, inside ? 0 : 1).toFloatBits();
                 float cf4 = c1.set((v6.x + 1) / 2, (v6.y + 1) / 2, inside ? 0 : 1, inside ? 0 : 1).toFloatBits();
 
-                Fill.quad(
-                        x + v1.x, y + v1.y, cf1,
-                        x + v2.x, y + v2.y, cf2,
-                        x + v4.x, y + v4.y, cf4,
-                        x + v3.x, y + v3.y, cf3
-                );
+                Fill.quad(x + v1.x, y + v1.y, cf1, x + v2.x, y + v2.y, cf2, x + v4.x, y + v4.y, cf4, x + v3.x, y + v3.y, cf3);
             }
         }
     }
@@ -1167,30 +1074,15 @@ public final class Draws {
             int c = 0;
             int half = convLen / 2;
             for (float v : convolutions) {
-                varyings.append("varying vec2 v_texCoords")
-                        .append(c)
-                        .append(";")
-                        .append(System.lineSeparator());
+                varyings.append("varying vec2 v_texCoords").append(c).append(";").append(System.lineSeparator());
 
-                assignVar.append("v_texCoords")
-                        .append(c)
-                        .append(" = ")
-                        .append("a_texCoord0");
-                if (c - half != 0) {
-                    assignVar.append(c - half > 0 ? "+" : "-")
-                            .append(Math.abs((float) c - half))
-                            .append("*len");
-                }
-                assignVar.append(";")
-                        .append(System.lineSeparator()).append("  ");
+                assignVar.append("v_texCoords").append(c).append(" = ").append("a_texCoord0");
+                if (c - half != 0) assignVar.append(c - half > 0 ? "+" : "-").append(Math.abs((float) c - half)).append("*len");
+
+                assignVar.append(";").append(System.lineSeparator()).append("  ");
 
                 if (c > 0) convolution.append("        + ");
-                convolution.append(v)
-                        .append("*texture2D(u_texture1, v_texCoords")
-                        .append(c)
-                        .append(")")
-                        .append(".rgb")
-                        .append(System.lineSeparator());
+                convolution.append(v).append("*texture2D(u_texture1, v_texCoords").append(c).append(")").append(".rgb").append(System.lineSeparator());
 
                 c++;
             }
@@ -1325,7 +1217,8 @@ public final class Draws {
             else samplerBuffer.begin(Color.clear);
         }
 
-        /**Get the current screen texture. The texture object is a reference or mapping of the current screen texture, which will change synchronously with the rendering process. Do not use this object to temporarily store screen data.
+        /**
+         * Get the current screen texture. The texture object is a reference or mapping of the current screen texture, which will change synchronously with the rendering process. Do not use this object to temporarily store screen data.
          * @return Reference object for screen sampling texture.
          */
         public static Texture getSampler(){
@@ -1335,7 +1228,6 @@ public final class Draws {
 
         /**
          * Transfer the current screen texture to a{@linkplain FrameBuffer frame buffer}, This will become a copy that can be used to temporarily store screen content.
-         *
          * @param target Target buffer for transferring screen textures.
          * @param clear Is the frame buffer cleared before transferring.
          */

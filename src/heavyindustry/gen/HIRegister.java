@@ -21,7 +21,7 @@ public final class HIRegister {
     public static void load(){
         put("LegsPayloadUnit", LegsPayloadUnit.class, LegsPayloadUnit::new);
         put("NoCoreDepositBuildingTetherLegsUnit", NoCoreDepositBuildingTetherLegsUnit.class, NoCoreDepositBuildingTetherLegsUnit::new);
-        put("UltFire", UltFire.class, UltFire::new);
         put("EnergyUnit", EnergyUnit.class, EnergyUnit::new);
+        put("UltFire", UltFire.class, UltFire::new);
     }
 }
