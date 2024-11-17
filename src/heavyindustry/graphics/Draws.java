@@ -8,7 +8,7 @@ import arc.graphics.gl.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
-import mindustry.game.*;
+import mindustry.game.EventType.*;
 import mindustry.graphics.*;
 import heavyindustry.func.*;
 import heavyindustry.graphics.HIShaders.*;
@@ -39,13 +39,10 @@ public final class Draws {
     public static final int sharedUponFlyUnitBloomId = nextTaskId();
     public static final int sharedUnderFlyUnitBloomId = nextTaskId();
 
-    public static void init(){
-    }
-
     static {
-        Events.run(EventType.Trigger.draw, () -> {
+        Events.run(Trigger.draw, () -> {
             Draw.draw(mirrorField - 0.01f, () -> {
-                effectBuffer.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+                effectBuffer.resize(graphics.getWidth(), graphics.getHeight());
                 effectBuffer.begin(Color.clear);
             });
             Draw.draw(mirrorField + 0.51f, () -> {
@@ -122,7 +119,7 @@ public final class Draws {
         }
         FrameBuffer b = buffer;
         drawTask(taskId, target, shader, e -> {
-            b.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            b.resize(graphics.getWidth(), graphics.getHeight());
             b.begin(Color.clear);
         }, e -> {
             b.end();
@@ -151,7 +148,7 @@ public final class Draws {
             taskBuffer[taskId] = bufferProv.get();
         }
         drawTask(taskId, target, shader, e -> {
-            taskBuffer[taskId].resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            taskBuffer[taskId].resize(graphics.getWidth(), graphics.getHeight());
             taskBuffer[taskId].begin(Color.clear);
         }, e -> {
             taskBuffer[taskId].end();
@@ -225,7 +222,7 @@ public final class Draws {
 
     public static <T, B extends FrameBuffer> void drawToBuffer(int taskId, B buffer, T target, DrawAcceptor<B> endBuffer, DrawAcceptor<T> draw){
         drawTask(taskId, target, buffer, b -> {
-            b.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            b.resize(graphics.getWidth(), graphics.getHeight());
             b.begin(Color.clear);
         }, b -> {
             b.end();
@@ -249,7 +246,7 @@ public final class Draws {
             bloom = blooms[taskId] = new Bloom(true);
         }
         drawTask(taskId, obj, bloom, e -> {
-            e.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            e.resize(graphics.getWidth(), graphics.getHeight());
             e.setBloomIntensity(settings.getInt("bloomintensity", 6) / 4f + 1f);
             e.blurPasses = settings.getInt("bloomblur", 1);
             e.capture();
@@ -274,7 +271,7 @@ public final class Draws {
         }
 
         drawTask(taskId, bloom, e -> {
-            e.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            e.resize(graphics.getWidth(), graphics.getHeight());
             e.setBloomIntensity(settings.getInt("bloomintensity", 6) / 4f + 1f);
             e.blurPasses = settings.getInt("bloomblur", 1);
             e.capture();
@@ -358,7 +355,7 @@ public final class Draws {
      */
     public static <T> void drawBlur(int taskId, T target, Blur blur, DrawAcceptor<T> draw){
         drawTask(taskId, target, blur, e -> {
-            e.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            e.resize(graphics.getWidth(), graphics.getHeight());
             e.capture();
         }, Blur::render, draw);
     }
@@ -388,7 +385,7 @@ public final class Draws {
     }
 
     public static boolean clipDrawable(float x, float y, float clipSize){
-        Core.camera.bounds(rect);
+        camera.bounds(rect);
         return rect.overlaps(x - clipSize / 2, y - clipSize / 2, clipSize, clipSize);
     }
 
@@ -921,7 +918,7 @@ public final class Draws {
         }
 
         public void resize() {
-            buffer.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            buffer.resize(graphics.getWidth(), graphics.getHeight());
         }
 
         public void capture() {
@@ -1181,7 +1178,7 @@ public final class Draws {
         }
 
         public void directDraw(Runnable draw) {
-            resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            resize(graphics.getWidth(), graphics.getHeight());
             capture();
             draw.run();
             render();
@@ -1190,13 +1187,21 @@ public final class Draws {
 
     public static class ScreenSampler {
         private static FrameBuffer samplerBuffer = new FrameBuffer(), pingpong = new FrameBuffer();
+        private static boolean setup = false;
 
         public static void setup() {
-            Events.run(EventType.Trigger.preDraw, () -> flush(false));
-            Events.run(EventType.Trigger.postDraw, () -> end(false));
+            if (setup) return;
 
-            Events.run(EventType.Trigger.uiDrawBegin, () -> flush(true));
-            Events.run(EventType.Trigger.uiDrawEnd, () -> end(true));
+            Events.run(Trigger.preDraw, () -> flush(false));
+            Events.run(Trigger.postDraw, () -> end(false));
+
+            Events.run(Trigger.uiDrawBegin, () -> flush(true));
+            Events.run(Trigger.uiDrawEnd, () -> end(true));
+            setup = true;
+        }
+
+        public static boolean isSetup() {
+            return setup;
         }
 
         private static void end(boolean blit){
@@ -1212,7 +1217,7 @@ public final class Draws {
                 pingpong = buffer; //swap
             }
 
-            samplerBuffer.resize(Core.graphics.getWidth(), Core.graphics.getHeight());
+            samplerBuffer.resize(graphics.getWidth(), graphics.getHeight());
             if (legacy) samplerBuffer.begin();
             else samplerBuffer.begin(Color.clear);
         }
@@ -1232,9 +1237,7 @@ public final class Draws {
          * @param clear Is the frame buffer cleared before transferring.
          */
         public static void getToBuffer(FrameBuffer target, boolean clear){
-            if (clear){
-                target.begin(Color.clear);
-            }
+            if (clear) target.begin(Color.clear);
             else target.begin();
 
             samplerBuffer.blit(HIShaders.baseShader);

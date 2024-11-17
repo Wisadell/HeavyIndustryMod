@@ -2,7 +2,6 @@ package heavyindustry.content;
 
 import heavyindustry.entities.bullet.*;
 import heavyindustry.graphics.*;
-import heavyindustry.maps.planets.*;
 import heavyindustry.world.meta.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -16,6 +15,7 @@ import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.world.Block;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.distribution.*;
@@ -28,6 +28,7 @@ import mindustry.world.meta.*;
 
 import static heavyindustry.util.HIReflect.*;
 import static arc.Core.*;
+import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
 /**
@@ -384,6 +385,71 @@ public final class HIOverride {
         Items.erekirItems.addAll(HIItems.nanocoreErekir, HIItems.uranium, HIItems.chromium);
         //planet
         Planets.serpulo.allowSectorInvasion = settings.getBool("hi-enable-serpulo-sector-invasion");
+    }
+
+    /** special changes on April Fool's Day */
+    public static void loadAprilFoolsDay(){
+        Seq<Block> sc = content.blocks().copy();
+        sc.removeAll(b -> b.localizedName == null || b.description == null);
+        for(int i = 0; i < sc.size; i++){
+            Block b = sc.get(i);
+            if(b != null){
+                String l = b.localizedName;
+                String n = b.description;
+                int d = Mathf.random(sc.size - 1);
+                while (d == i){
+                    d = Mathf.random(sc.size - 1);
+                }
+                Block b1 = sc.get(d);
+                if(b1 != null){
+                    b.localizedName = b1.localizedName;
+                    b.description = b1.description;
+                    b1.localizedName = l;
+                    b1.description = n;
+                }
+            }
+        }
+
+        Seq<Item> ic = content.items().copy();
+        ic.removeAll(it -> it.localizedName == null || it.description == null);
+        for(int i = 0; i < ic.size; i++) {
+            Item b = ic.get(i);
+            if (b != null) {
+                String l = b.localizedName;
+                String n = b.description;
+                int d = Mathf.random(ic.size - 1);
+                while (d == i) {
+                    d = Mathf.random(ic.size - 1);
+                }
+                Item b1 = ic.get(d);
+                if (b1 != null) {
+                    b.localizedName = b1.localizedName;
+                    b.description = b1.description;
+                    b1.localizedName = l;
+                    b1.description = n;
+                }
+            }
+        }
+        Seq<UnitType> uc = content.units().copy();
+        uc.removeAll(u -> u.localizedName == null || u.description == null);
+        for(int i = 0; i < uc.size; i++) {
+            UnitType b = uc.get(i);
+            if (b != null) {
+                String l = b.localizedName;
+                String n = b.description;
+                int d = Mathf.random(uc.size - 1);
+                while (d == i) {
+                    d = Mathf.random(uc.size - 1);
+                }
+                UnitType b1 = uc.get(d);
+                if (b1 != null) {
+                    b.localizedName = b1.localizedName;
+                    b.description = b1.description;
+                    b1.localizedName = l;
+                    b1.description = n;
+                }
+            }
+        }
     }
 
     public static void loadReflect(){

@@ -170,7 +170,7 @@ public class UltFire extends Fire {
 
     @Override
     public int classId(){
-        return HIRegister.getId(UltFire.class);
+        return EntityRegister.getId(UltFire.class);
     }
 
     @Override

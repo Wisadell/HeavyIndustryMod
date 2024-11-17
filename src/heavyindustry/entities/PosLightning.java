@@ -1,20 +1,21 @@
 package heavyindustry.entities;
 
-import heavyindustry.content.*;
-import heavyindustry.struct.*;
-import heavyindustry.entities.bullet.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
-import mindustry.*;
 import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.game.*;
 import mindustry.gen.*;
+import heavyindustry.content.*;
+import heavyindustry.struct.*;
+import heavyindustry.entities.bullet.*;
+
+import static mindustry.Vars.*;
 
 /**
  * Provide methods that can generate Position to Position Lightning.<p>
@@ -53,7 +54,7 @@ public final class PosLightning {
     /** Lighting Effect X-Rand. */
     public static final float RANGE_RAND = 5f;
     /** Lighting Effect Length Between Nodes. */
-    public static final float ROT_DST = Vars.tilesize * 0.6f;
+    public static final float ROT_DST = tilesize * 0.6f;
     /** Used for range spawn, make the lightning more random and has smoother spacing. */
     public static float trueHitChance = 1;
 
@@ -152,12 +153,12 @@ public final class PosLightning {
     }
 
     public static void createEffect(Position from, float length, float angle, Color color, int lightningNum, float width){
-        if(Vars.headless)return;
+        if(headless)return;
         createEffect(from, tmp2.trns(angle, length).add(from), color, lightningNum, width);
     }
 
     public static void createEffect(Position from, Position to, Color color, int lightningNum, float width){
-        if(Vars.headless)return;
+        if(headless)return;
 
         if(lightningNum < 1){
             Fx.chainLightning.at(from.getX(), from.getY(), 0, color, new Vec2().set(to));
@@ -186,7 +187,7 @@ public final class PosLightning {
                 World.toTile(from.getY()),
                 World.toTile(target.getX()),
                 World.toTile(target.getY()),
-                (x, y) -> (furthest = Vars.world.build(x, y)) != null && furthest.team() != fromTeam && furthest.block().insulated
+                (x, y) -> (furthest = world.build(x, y)) != null && furthest.team() != fromTeam && furthest.block().insulated
         ) && furthest != null ? furthest : target;
     }
 

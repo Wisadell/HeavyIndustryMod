@@ -67,7 +67,7 @@ public class EnergyUnit extends UnitEntity {
 
     @Override
     public int classId(){
-        return HIRegister.getId(EnergyUnit.class);
+        return EntityRegister.getId(EnergyUnit.class);
     }
 
     @Override

@@ -15,6 +15,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.core.*;
+import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -81,6 +82,23 @@ public final class TableUtils {
         t.row();
         t.add(coll);
         t.row();
+    }
+
+    public static void addToTable(UnlockableContent c, Table t){
+        t.row();
+        t.table(log -> {
+            log.table(Styles.grayPanel, img -> {
+                img.button(bt -> bt.image(c.uiIcon).size(64).pad(5), Styles.cleari, () -> ui.content.show(c)).left().tooltip("click to show");
+            }).pad(10).margin(10).left();
+            log.image(Tex.whiteui, Pal.accent).growY().width(3).pad(4).margin(5).left();
+            log.table(info -> {
+                Label n = info.add(c.localizedName).wrap().fillX().left().maxWidth(graphics.getWidth() / 2f).get();
+                info.row();
+                info.image(Tex.whiteui, Pal.accent).left().width(n.getWidth() * 1.3f).height(3f).row();
+                info.add(c.description).wrap().fillX().left().width(graphics.getWidth() / 2f).padTop(10).row();
+                info.image(Tex.whiteui, Pal.accent).left().width(graphics.getWidth() / 2f).height(3f).row();
+            }).left().pad(6);
+        });
     }
 
     private static boolean pointValid(){

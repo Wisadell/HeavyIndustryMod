@@ -56,6 +56,7 @@ public final class HIShaders {
             dalani.dispose();
             brine.dispose();
             nanofluid.dispose();
+            boundWater.dispose();
         }
     }
 

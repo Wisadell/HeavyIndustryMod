@@ -862,7 +862,6 @@ public final class HIBlocks {
         }};
         heavyPlasmaBore = new BeamDrill("heavy-plasma-bore"){{
             requirements(Category.production, with(Items.silicon, 300, Items.oxide, 150, Items.beryllium, 350, Items.tungsten, 250, Items.carbide, 100));
-            squareSprite = false;
             itemCapacity = 30;
             liquidCapacity = 20f;
             health = 3220;
@@ -4399,21 +4398,15 @@ public final class HIBlocks {
 
                 @Override
                 public void configured(Unit builder, Object value) {
-                    if (value instanceof Integer v) switch (v) {
+                    if (value instanceof Integer index) switch (index) {
                         case 0 -> {
-                            if (net.client()) {
-                                Call.adminRequest(player, Packets.AdminAction.wave, null);
-                            } else {
-                                state.wavetime = 0;
-                            }
+                            if (net.client()) Call.adminRequest(player, Packets.AdminAction.wave, null);
+                            else state.wavetime = 0;
                         }
                         case 1 -> {
                             for (int i = 10; i > 0; i--) {
-                                if (net.client()) {
-                                    Call.adminRequest(player, Packets.AdminAction.wave, null);
-                                } else {
-                                    logic.runWave();
-                                }
+                                if (net.client()) Call.adminRequest(player, Packets.AdminAction.wave, null);
+                                else logic.runWave();
                             }
                         }
                         default -> {}

@@ -7,7 +7,24 @@ import arc.struct.*;
 import static arc.Core.*;
 
 public final class SpriteUtils {
-    public static final byte[] tileMap = {
+    public static final int[] atlasIndex44 = {
+            0, 2, 10, 8,
+            4, 6, 14, 12,
+            5, 7, 15, 13,
+            1, 3, 11, 9
+    };
+
+    public static final int[] atlasIndex412raw = {
+            0, 2, 10, 8, 143, 46, 78, 31, 38, 111, 110, 76,
+            4, 6, 14, 12, 39, 127, 239, 77, 55, 95, 175, 207,
+            5, 7, 15, 13, 23, 191, 223, 141, 63, 255, 240, 205,
+            1, 3, 11, 9, 79, 27, 139, 47, 19, 155, 159, 137
+    };
+
+    public static final int[] atlasIndex412 = new int[atlasIndex412raw.length];
+    public static final IntIntMap atlasIndex412map = new IntIntMap();
+
+    public static final byte[] atlasIndex412tile = {
             39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
             38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
             39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
@@ -25,23 +42,6 @@ public final class SpriteUtils {
             3, 0, 3, 0, 15, 42, 15, 12, 3, 0, 3, 0, 15, 42, 15, 12,
             2, 1, 2, 1, 9, 45, 9, 19, 2, 1, 2, 1, 14, 18, 14, 13
     };
-
-    public static final int[] atlasIndex44 = {
-            0, 2, 10, 8,
-            4, 6, 14, 12,
-            5, 7, 15, 13,
-            1, 3, 11, 9
-    };
-
-    public static final int[] atlasIndex412raw = {
-            0, 2, 10, 8, 143, 46, 78, 31, 38, 111, 110, 76,
-            4, 6, 14, 12, 39, 127, 239, 77, 55, 95, 175, 207,
-            5, 7, 15, 13, 23, 191, 223, 141, 63, 255, 240, 205,
-            1, 3, 11, 9, 79, 27, 139, 47, 19, 155, 159, 137
-    };
-
-    public static final int[] atlasIndex412 = new int[atlasIndex412raw.length];
-    public static final IntIntMap atlasIndex412map = new IntIntMap();
 
     public static final Point2[] orthogonalPos = {
             new Point2(0, 1),

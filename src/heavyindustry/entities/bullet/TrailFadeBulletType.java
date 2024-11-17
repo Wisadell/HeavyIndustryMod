@@ -4,11 +4,12 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
-import mindustry.*;
 import mindustry.gen.*;
 import heavyindustry.content.*;
 import heavyindustry.entities.*;
 import heavyindustry.struct.*;
+
+import static mindustry.Vars.*;
 
 public class TrailFadeBulletType extends AccelBulletType {
     public int tracers = 2, tracerFadeOffset = 10, tracerStrokeOffset = 15;
@@ -35,8 +36,7 @@ public class TrailFadeBulletType extends AccelBulletType {
 
     @Override
     public void despawned(Bullet b){
-        if(!Vars.headless && (b.data instanceof Vec2Seq[])){
-            Vec2Seq[] pointsArr = (Vec2Seq[])b.data();
+        if(!headless && (b.data instanceof Vec2Seq[] pointsArr)){
             for(Vec2Seq points : pointsArr){
                 points.add(b.x, b.y);
                 if(despawnBlinkTrail || (b.absorbed && hitBlinkTrail)){
@@ -66,7 +66,7 @@ public class TrailFadeBulletType extends AccelBulletType {
     public void hit(Bullet b){
         super.hit(b);
 
-        if(Vars.headless || !(b.data instanceof Vec2Seq[])) return;
+        if(headless || !(b.data instanceof Vec2Seq[])) return;
         Vec2Seq[] pointsArr = (Vec2Seq[])b.data();
         for(Vec2Seq points : pointsArr){
             points.add(b.x, b.y);
@@ -86,7 +86,7 @@ public class TrailFadeBulletType extends AccelBulletType {
     @Override
     public void init(Bullet b){
         super.init(b);
-        if(Vars.headless || (!(trailLength > 0))) return;
+        if(headless || (!(trailLength > 0))) return;
         Vec2Seq[] points = new Vec2Seq[tracers];
         for(int i = 0; i < tracers; i++){
             Vec2Seq p = new Vec2Seq();
@@ -99,7 +99,7 @@ public class TrailFadeBulletType extends AccelBulletType {
     @Override
     public void update(Bullet b){
         super.update(b);
-        if(!Vars.headless && b.timer(2, tracerUpdateSpacing)){
+        if(!headless && b.timer(2, tracerUpdateSpacing)){
             if(!(b.data instanceof Vec2Seq[]))return;
             Vec2Seq[] points = (Vec2Seq[])b.data();
             for(Vec2Seq seq : points){

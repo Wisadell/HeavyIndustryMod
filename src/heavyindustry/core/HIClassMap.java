@@ -94,6 +94,8 @@ public final class HIClassMap {
         classes.put("ShapedWallBuild", ShapedWall.ShapedWallBuild.class);
         classes.put("ShapedWallF", ShapedWallF.class);
         classes.put("ShapeWallBuildF", ShapedWallF.ShapedWallBuildF.class);
+        classes.put("LaserWall", LaserWall.class);
+        classes.put("LaserWallBuild", LaserWall.LaserWallBuild.class);
         classes.put("AparajitoWall", AparajitoWall.class);
         classes.put("AparajitoWallBuild", AparajitoWall.AparajitoWallBuild.class);
         classes.put("Thorns", Thorns.class);

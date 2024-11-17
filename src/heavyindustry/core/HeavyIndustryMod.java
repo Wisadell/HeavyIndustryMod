@@ -9,13 +9,23 @@ import heavyindustry.ui.dialogs.*;
 import heavyindustry.util.*;
 import arc.*;
 import arc.flabel.*;
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.scene.*;
+import arc.scene.event.*;
 import arc.scene.ui.*;
+import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
+import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 
+import java.time.*;
+import java.time.format.*;
 import java.util.*;
 
 import static arc.Core.*;
@@ -37,6 +47,7 @@ public final class HeavyIndustryMod extends Mod {
     public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode"), developerMode = settings.getBool("hi-developer-mode");
 
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
+    public static String massageRand = "oh no";
 
     public static LoadedMod modInfo;
 
@@ -51,8 +62,10 @@ public final class HeavyIndustryMod extends Mod {
             if(onlyPlugIn) return;
 
             showDialog();
-            showNoMultipleMods();
+            showMultipleMods();
         });
+
+        app.post(() -> modInfo = mods.getMod(HeavyIndustryMod.class));
 
         Events.on(FileTreeInitEvent.class, e -> {
             HISounds.load();
@@ -65,13 +78,12 @@ public final class HeavyIndustryMod extends Mod {
         Events.on(DisposeEvent.class, e -> {
             HIShaders.dispose();
         });
-
-        app.post(() -> modInfo = mods.getMod(HeavyIndustryMod.class));
     }
 
     @Override
     public void loadContent(){
-        HIRegister.load();
+        EntityRegister.load();
+        WorldRegister.load();
 
         if(onlyPlugIn) return;
 
@@ -94,9 +106,7 @@ public final class HeavyIndustryMod extends Mod {
 
     @Override
     public void init(){
-        super.init();
         if(!headless){
-            Draws.init();
             Draws.ScreenSampler.setup();
 
             TableUtils.init();
@@ -111,6 +121,11 @@ public final class HeavyIndustryMod extends Mod {
         if(onlyPlugIn){
             mod().meta.displayName = mod().meta.displayName + "PlugIn";
             mod().meta.version = mod().meta.version + "-plug-in";
+        }else{
+            if(mods.getMod("extra-utilities") == null && isAprilFoolsDay()){
+                HIOverride.loadAprilFoolsDay();
+                if(ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
+            }
         }
 
         if(ui != null && ui.settings != null){
@@ -155,10 +170,19 @@ public final class HeavyIndustryMod extends Mod {
             Objects.requireNonNull(research);
             Time.runTask(1f, research::hide);
         });
+
+        setString();
     }
 
     public static LoadedMod mod(){
         return modInfo;
+    }
+
+    public static boolean isAprilFoolsDay(){
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter sdf = DateTimeFormatter.ofPattern("MMdd");
+        String fd = sdf.format(date);
+        return fd.equals("0401");
     }
 
     private static void showDialog(){
@@ -186,7 +210,35 @@ public final class HeavyIndustryMod extends Mod {
         dialog.show();
     }
 
-    private static void showNoMultipleMods(){
+    private static void showAprilFoolsDayDialog(){
+        BaseDialog dialog = new BaseDialog(bundle.get("hi-name")){
+            private int con = 0;
+            private float bx, by;
+        {
+            cont.add(bundle.get("hi-ap-main"));
+            buttons.button("", this::hide).update(b ->{
+                b.setText(con > 0 ? con == 5 ? bundle.get("hi-ap-happy") : bundle.get("hi-ap-click") : bundle.get("hi-ap-ok"));
+                if(con > 0){
+                    b.x = bx;
+                    b.y = by;
+                }
+            }).size(140, 50).center();
+        }
+            @Override
+            public void hide() {
+                if(con >= 5) {
+                    super.hide();
+                    return;
+                }
+                con++;
+                bx = Mathf.random(width * 0.8f);
+                by = Mathf.random(height * 0.8f);
+            }
+        };
+        dialog.show();
+    }
+
+    private static void showMultipleMods(){
         if (settings.getBool("hi-closed-multiple-mods")) return;
 
         boolean announces = true;
@@ -208,5 +260,65 @@ public final class HeavyIndustryMod extends Mod {
             }).size(210f, 64f);
         }};
         dialog.show();
+    }
+
+    private static void setString(){
+        String massage = bundle.get("hi-random-massage");
+        String[] massageSplit = massage.split("/");
+
+        int length = massageSplit.length;
+
+        massageRand = massageSplit[Mathf.random(length - 1)];
+
+        mod().meta.displayName = bundle.get("hi-name");
+
+        if(ui == null || mods.getMod("extra-utilities") != null) return;
+
+        HIMenuFragment subTitle = new HIMenuFragment(massageRand);
+        subTitle.build(ui.menuGroup);
+    }
+
+    public static class HIMenuFragment {
+        protected static final Mat setMat = new Mat(), reMat = new Mat();
+        protected static final Vec2 vec2 = new Vec2();
+
+        protected String title = "oh no";
+
+        public HIMenuFragment(){}
+
+        public HIMenuFragment(String title){
+            this.title = title;
+        }
+
+        public void build(Group parent) {
+            parent.fill((x, y, w, h) -> {
+                TextureRegion logo = atlas.find("logo");
+                float width = graphics.getWidth(), height = graphics.getHeight() - scene.marginTop;
+                float logoscl = Scl.scl(1) * logo.scale;
+                float logow = Math.min(logo.width * logoscl, graphics.getWidth() - Scl.scl(20));
+                float logoh = logow * (float)logo.height / logo.width;
+
+                float fx = (int)(width / 2f);
+                float fy = (int)(height - 6 - logoh) + logoh / 2 - (graphics.isPortrait() ? Scl.scl(30f) : 0f);
+                if(settings.getBool("macnotch") ){
+                    fy -= Scl.scl(macNotchHeight);
+                }
+
+                float ex = fx + logow/3 - Scl.scl(1f), ey = fy - logoh / 3f - Scl.scl(2f);
+                float ang = 12 + Mathf.sin(Time.time, 8, 2f);
+
+                float dst = Mathf.dst(ex, ey, 0, 0);
+                vec2.set(0, 0);
+                float dx = HIUtils.dx(0, dst, vec2.angleTo(ex, ey) + ang);
+                float dy = HIUtils.dy(0, dst, vec2.angleTo(ex, ey) + ang);
+
+                reMat.set(Draw.trans());
+
+                Draw.trans(setMat.setToTranslation(ex - dx, ey - dy).rotate(ang));
+                Fonts.outline.draw(title, ex, ey, Color.yellow, Math.min(30f / title.length(), 1.5f) + Mathf.sin(Time.time, 8, 0.2f), false, Align.center);
+
+                Draw.trans(reMat);
+            }).touchable = Touchable.disabled;
+        }
     }
 }

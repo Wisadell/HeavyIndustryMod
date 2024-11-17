@@ -19,7 +19,6 @@ import heavyindustry.math.*;
 import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
 
-/** Contains some practical methods used in graphic drawing. */
 public final class Drawn {
     static final Vec2
             v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2(), v4 = new Vec2(), v5 = new Vec2(),
@@ -49,7 +48,7 @@ public final class Drawn {
         Draw.reset();
     }
 
-    public static void circlePercent(float x, float y, float rad, float percent, float angle) {
+    public static void circlePercent(float x, float y, float rad, float percent, float angle){
         float p = Mathf.clamp(percent);
 
         int sides = Lines.circleVertices(rad);
@@ -111,10 +110,6 @@ public final class Drawn {
         Drawf.circles(x2, y2, r2, color);
     }
 
-    public static float rotator_90(float in, float margin){
-        return 90 * HIInterp.pow10.apply(Mathf.curve(in, margin, 1 - margin));
-    }
-
     public static float cameraDstScl(float x, float y, float norDst){
         v6.set(Core.camera.position);
         float dst = Mathf.dst(x, y, v6.x, v6.y);
@@ -156,9 +151,36 @@ public final class Drawn {
         }
     }
 
+    public static float rotator_90(float in, float margin){
+        return 90 * HIInterp.pow10.apply(Mathf.curve(in, margin, 1 - margin));
+    }
+
+    public static float rotator_90(){
+        return 90 * Interp.pow5.apply(Mathf.curve(cycle_100(), 0.15f, 0.85f));
+    }
+
+    public static float rotator_120(float in , float margin){
+        return 120 * HIInterp.pow10.apply(Mathf.curve(in, margin, 1 - margin));
+    }
+
+    public static float rotator_180(){
+        return 180 * Interp.pow5.apply(Mathf.curve(cycle_100(), 0.15f, 0.85f));
+    }
+
+    public static float rotator_360(){
+        return 360 * Interp.pow5.apply(Mathf.curve(cycle(0, 270), 0.15f, 0.85f));
+    }
+
+    /** @return A interpolation in [0, 1)*/
+    public static float cycle(float phaseOffset, float T){
+        return (Time.time + phaseOffset) % T / T;
+    }
+
     public static float cycle(float in, float phaseOffset, float T){
         return (in + phaseOffset) % T / T;
     }
+
+    public static float cycle_100(){return Time.time % 100 / 100;}
 
     public static void basicLaser(float x, float y, float x2, float y2, float stroke, float circleScl){
         Lines.stroke(stroke);

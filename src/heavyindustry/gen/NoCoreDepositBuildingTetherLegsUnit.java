@@ -8,7 +8,7 @@ public class NoCoreDepositBuildingTetherLegsUnit extends LegsUnit implements Bui
 
     @Override
     public int classId() {
-        return HIRegister.getId(NoCoreDepositBuildingTetherLegsUnit.class);
+        return EntityRegister.getId(NoCoreDepositBuildingTetherLegsUnit.class);
     }
 
     @Override

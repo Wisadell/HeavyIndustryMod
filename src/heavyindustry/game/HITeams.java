@@ -30,7 +30,7 @@ public final class HITeams {
 
         Seq<Font> fonts = Seq.with(Fonts.def, Fonts.outline);
 
-        var ch = 65000 + id;
+        int ch = 65000 + id;
         Reflect.<ObjectIntMap<String>>get(Fonts.class, "unicodeIcons").put(name, ch);
         var stringIcons = Reflect.<ObjectMap<String, String>>get(Fonts.class, "stringIcons");
         stringIcons.put(name, ((char)ch) + "");
