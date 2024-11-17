@@ -68,9 +68,10 @@ public final class HIUnitTypes {
         //miner-erekir
         nameMap.put(name("miner"), idMap[36]);
         nameMap.put(name("large-miner"), idMap[36]);
+        nameMap.put(name("legs-miner"), BuildingTetherPayloadLegsUnit::new);
         //other
         nameMap.put(name("armored-carrier-vehicle"), idMap[43]);
-        nameMap.put(name("pioneer"), LegsPayloadUnit::new);
+        nameMap.put(name("pioneer"), PayloadLegsUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
         nameMap.put(name("artillery-fire-pioneer"), idMap[3]);
@@ -89,7 +90,7 @@ public final class HIUnitTypes {
             //vanilla-tier6-erekir
             dominate,oracle,havoc,
             //miner-erekir
-            miner,largeMiner,
+            miner,largeMiner,legsMiner,
             //other
             armoredCarrierVehicle,pioneer,vulture,burner,artilleryFirePioneer,
             //elite
@@ -165,28 +166,7 @@ public final class HIUnitTypes {
                 ejectEffect = Fx.casing2;
                 shootSound = Sounds.artillery;
                 alternate = false;
-                bullet = new MissileBulletType(11f, 108f){{
-                    hitSize = 40;
-                    splashDamageRadius = 46;
-                    splashDamage = 96;
-                    damage = 108;
-                    status = StatusEffects.blasted;
-                    statusDuration = 60;
-                    sprite = "missile";
-                    backColor = HIPal.orangeBack;
-                    frontColor = HIPal.lightGrey;
-                    lifetime = 30f;
-                    speed = 11f;
-                    homingPower = 0.03f;
-                    homingRange = 80f;
-                    knockback = 8;
-                    width = 8f;
-                    height = 32f;
-                    ammoMultiplier = 3f;
-                    despawnEffect = Fx.none;
-                    shootEffect = Fx.shootPyraFlame;
-                    hitEffect = new MultiEffect(HIFx.hitOut, HIFx.crossBlast(Pal.ammo));
-                }};
+                bullet = Bullets.placeholder;
             }});
         }};
         counterattack = new UnitType("counterattack"){{
@@ -230,27 +210,7 @@ public final class HIUnitTypes {
                 shootStatus = StatusEffects.slow;
                 shootStatusDuration = reload + 1f;
                 velocityRnd = 0.1f;
-                bullet = new MissileBulletType(12f, 36f){{
-                    sprite = "missile";
-                    backColor = Color.valueOf("ff7055");
-                    frontColor = HIPal.lightGrey;
-                    width = 8f;
-                    height = 32f;
-                    trailChance = 0.1f;
-                    trailInterval = 1f;
-                    trailEffect = HIFx.trailToGray;
-                    trailRotation = true;
-                    splashDamage = 86f;
-                    splashDamageRadius = 45f;
-                    buildingDamageMultiplier = 1.33f;
-                    status = StatusEffects.blasted;
-                    shootEffect = Fx.shootSmallFlame;
-                    lifetime = 41.6f;
-                    hitShake = 2;
-                    hitSound = Sounds.explosion;
-                    hitEffect = new MultiEffect(HIFx.hitOut, HIFx.hitSpark(backColor, 30f, 15, 35f, 1.7f, 8));
-                    despawnEffect = Fx.flakExplosionBig;
-                }};
+                bullet = Bullets.placeholder;
             }});
         }};
         crush = new UnitType("crush"){{
@@ -291,56 +251,7 @@ public final class HIUnitTypes {
                 shootSound = Sounds.laser;
                 shake = 3f;
                 alternate = false;
-                bullet = new PointBulletType(){{
-                    trailEffect = HIFx.hugeTrail;
-                    trailSpacing = 9f;
-                    damage = 360f;
-                    splashDamage = 340f;
-                    splashDamageRadius = 16f;
-                    buildingDamageMultiplier = 1.1f;
-                    speed = 20f;
-                    lifetime = 15f;
-                    hitSound = Sounds.lasercharge2;
-                    smokeEffect = Fx.bigShockwave;
-                    shootEffect = HIFx.shootCircleSmall(HIPal.canaryYellow);
-                    hitEffect = HIFx.hitSparkLarge;
-                    despawnEffect = Fx.bigShockwave;
-                    fragLifeMin = 1f;
-                    fragVelocityMax = 0f;
-                    fragBullets = 1;
-                    fragBullet = new BasicBulletType(){{
-                        lifetime = 15;
-                        height = width = 0f;
-                        collides = false;
-                        hittable = false;
-                        absorbable = false;
-                        //status = TODO;
-                        statusDuration = 180;
-                        buildingDamageMultiplier = 1.2f;
-                        splashDamageRadius = 66.4f;
-                        splashDamage = 395f;
-                        hitShake = 1f;
-                        hitSound = Sounds.plasmaboom;
-                        hitEffect = new MultiEffect(HIFx.hitSparkLarge);
-                        despawnEffect = Fx.none;
-                        fragBullets = 4;
-                        fragBullet = new PointBulletType(){{
-                            trailSpacing = 9;
-                            trailEffect = HIFx.trailToGray;
-                            lifetime = 8;
-                            speed = 15;
-                            //status = TODO;
-                            statusDuration = 60f;
-                            buildingDamageMultiplier = 1.2f;
-                            splashDamageRadius = 10f;
-                            splashDamage = 80f;
-                            hitShake = 1f;
-                            hitSound = Sounds.laser;
-                            hitEffect = HIFx.instBomb(HIPal.canaryYellow);
-                            despawnEffect = Fx.none;
-                        }};
-                    }};
-                }};
+                bullet = Bullets.placeholder;
             }});
         }};
         destruction = new UnitType("destruction"){{
@@ -376,49 +287,7 @@ public final class HIUnitTypes {
                 inaccuracy = 0f;
                 shootSound = Sounds.mediumCannon;
                 shake = 8;
-                bullet = new BasicBulletType(31f, 650f){{
-                    splashDamage = 415f;
-                    splashDamageRadius = 55f;
-                    buildingDamageMultiplier = 1.2f;
-                    lifetime = 15f;
-                    //status = TODO;
-                    statusDuration = 400f;
-                    lightning = 2;
-                    lightningDamage = 40f;
-                    lightningLength = 15;
-                    lightningColor = backColor = trailColor = HIPal.canaryYellow;
-                    shrinkY = 0f;
-                    frontColor = Color.white;
-                    trailLength = 15;
-                    trailWidth = 2.2f;
-                    pierce = true;
-                    pierceCap = 4;
-                    knockback = 8f;
-                    hitEffect = new MultiEffect(HIFx.blast(HIPal.canaryYellow, 15f));
-                    shootEffect = new MultiEffect(HIFx.smoothColorRect(HIPal.canaryYellow, 12f, 10f));
-                    smokeEffect = Fx.smokeCloud;
-                    width = 16f;
-                    height = 28f;
-                    hitSound = Sounds.plasmaboom;
-                    fragLifeMin = 0.1f;
-                    fragBullets = 3;
-                    fragRandomSpread = 60;
-                    fragBullet = new PointBulletType(){{
-                        trailEffect = Fx.none;
-                        despawnEffect = Fx.none;
-                        status = StatusEffects.blasted;
-                        hitEffect = new MultiEffect(HIFx.edessp(15f));
-                        hitSound = Sounds.laser;
-                        collides = false;
-                        damage = 550f;
-                        splashDamageRadius = 40f;
-                        splashDamage = 175f;
-                        buildingDamageMultiplier = 1.1f;
-                        lifetime = 10;
-                        speed = 8f;
-                    }};
-                    despawnEffect = Fx.bigShockwave;
-                }};
+                bullet = Bullets.placeholder;
                 parts.add(new RegionPart("-barrel"){{
                     mirror = true;
                     under = true;
@@ -466,88 +335,7 @@ public final class HIUnitTypes {
                 inaccuracy = 0.5f;
                 shootSound = Sounds.largeCannon;
                 shake = 8f;
-                bullet = new BasicBulletType(24f, 810f){{
-                    splashDamage = 475f;
-                    splashDamageRadius = 80f;
-                    buildingDamageMultiplier = 1.1f;
-                    sprite = name("missile");
-                    width = 10;
-                    height = 26;
-                    hitSize = 18f;
-                    lifetime = 17f;
-                    drag = -0.01f;
-                    absorbable = false;
-                    hittable = false;
-                    pierce = true;
-                    pierceArmor = true;
-                    pierceBuilding = true;
-                    pierceCap = 3;
-                    hitShake = 5;
-                    lightning = 2;
-                    lightningDamage = 110f;
-                    lightningLength = 15;
-                    lightningColor = backColor = trailColor = HIPal.canaryYellow;
-                    frontColor = Color.white;
-                    trailLength = 8;
-                    trailWidth = 4;
-                    trailRotation = true;
-                    trailChance = 1;
-                    trailInterval = 33;
-                    trailEffect = new ParticleEffect(){{
-                        particles = 3;
-                        sizeFrom = 3f;
-                        sizeTo = baseLength = 0f;
-                        interp = Interp.circleOut;
-                        sizeInterp =  Interp.pow3In;
-                        length = 10f;
-                        lifetime = 8f;
-                        colorFrom = colorTo = HIPal.canaryYellow;
-                    }};
-                    shrinkY = 0f;
-                    hitEffect = new MultiEffect(new ParticleEffect(){{
-                        particles = 9;
-                        sizeFrom = 10f;
-                        sizeTo = 0f;
-                        length = 90f;
-                        baseLength = 8f;
-                        lifetime = 35f;
-                        colorFrom = colorTo = HIPal.canaryYellow;
-                    }}, new WaveEffect(){{
-                        lifetime = 10;
-                        sizeFrom = 2f;
-                        sizeTo = 60f;
-                        strokeFrom = 10f;
-                        strokeTo = 0f;
-                        colorFrom = colorTo = HIPal.canaryYellow;
-                    }});
-                    hitSound = Sounds.plasmaboom;
-                    shootEffect = new MultiEffect(new ParticleEffect(){{
-                        particles = 6;
-                        line = true;
-                        strokeFrom = 6f;
-                        strokeTo = lenTo = baseLength = 0f;
-                        lenFrom = 25f;
-                        length = 50f;
-                        lifetime = 11f;
-                        colorFrom = colorTo = HIPal.canaryYellow;
-                        cone = 15f;
-                    }}, new WaveEffect(){{
-                        lifetime = 10;
-                        sizeFrom = strokeTo = 0f;
-                        sizeTo = 35f;
-                        strokeFrom = 4f;
-                        colorFrom = colorTo = HIPal.canaryYellow;
-                    }});
-                    smokeEffect = Fx.smokeCloud;
-                    despawnEffect = new ParticleEffect(){{
-                        particles = 1;
-                        sizeFrom = 10f;
-                        sizeTo = length = baseLength = 0f;
-                        lifetime = 65f;
-                        colorFrom = HIPal.canaryYellow;
-                        colorTo = Color.white;
-                    }};
-                }};
+                bullet = Bullets.placeholder;
             }});
         }};
         //vanilla-tier6
@@ -1832,6 +1620,42 @@ public final class HIUnitTypes {
             targetPriority = -2;
             setEnginesMirror(new UnitEngine(40 / 4f, -40 / 4f, 3f, 315f));
         }};
+        legsMiner = new ErekirUnitType("legs-miner"){{
+            isEnemy = false;
+            allowedInPayloads = false;
+            logicControllable = false;
+            playerControllable = false;
+            hidden = true;
+            hideDetails = false;
+            hitSize = 14f;
+            speed = 1f;
+            rotateSpeed = 2.5f;
+            health = 1300;
+            armor = 5f;
+            omniMovement = false;
+            rotateMoveFirst = true;
+            itemOffsetY = 5f;
+            itemCapacity = 50;
+            mineTier = 5;
+            mineSpeed = 6f;
+            mineWalls = true;
+            allowLegStep = true;
+            legCount = 6;
+            legGroupSize = 3;
+            legLength = 12f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -3f;
+            legBaseOffset = 5f;
+            legMaxLength = 1.1f;
+            legMinLength = 0.2f;
+            legForwardScl = 1f;
+            legMoveSpace = 2.5f;
+            hovering = true;
+            abilities.add(new RegenAbility(){{
+                percentAmount = 1f / (90f * 60f) * 100f;
+            }});
+        }};
         //other
         armoredCarrierVehicle = new UnitType("armored-carrier-vehicle"){{
             healFlash = false;
@@ -2337,7 +2161,7 @@ public final class HIUnitTypes {
             envDisabled = Env.none;
             hitSize = 70f;
             accel = 0.25f;
-            treadRects = new Rect[]{new Rect(-115f, 118f, 52f, 48f), new Rect(-118f, -160f, 79f, 144f)};
+            treadRects = new Rect[]{new Rect(-2f, 2f, 1f, 1f), new Rect(-2f, -3f, 1.5f, 3f)};
             hoverable = hovering = true;
             ammoType = new PowerAmmoType(3000);
             crushDamage = 20;

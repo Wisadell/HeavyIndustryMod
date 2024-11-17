@@ -100,4 +100,8 @@ public final class Mathm {
         b %= 360;
         return b - a > 180? b - a - 360: b - a < -180? b - a + 360: b - a;
     }
+
+    public static boolean confine(double d, double min, double max){
+        return d < min || d > max;
+    }
 }

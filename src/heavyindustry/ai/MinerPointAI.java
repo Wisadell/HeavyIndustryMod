@@ -11,13 +11,10 @@ public class MinerPointAI extends AIController {
 
     @Override
     public void updateMovement() {
-
         if(unit.stack.amount > 0 && checkDrop(ore)){
             mining = false;
         }
-        if(unit instanceof BuildingTetherc tether){
-            if(tether.building() == null) return;
-
+        if(unit instanceof BuildingTetherc tether && tether.building() != null){
             if(unit.mineTile != null && !unit.mineTile.within(unit, unit.type.mineRange)){
                 unit.mineTile(null);
             }
@@ -62,7 +59,7 @@ public class MinerPointAI extends AIController {
         }
     }
 
-    private boolean checkDrop(Tile t){
+    protected boolean checkDrop(Tile t){
         if(t == null) return true;
         return t.solid() ? t.wallDrop() != unit.stack.item : t.drop() != unit.stack.item;
     }
