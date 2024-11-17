@@ -2,13 +2,13 @@ package heavyindustry.world.blocks.production;
 
 import arc.math.*;
 import arc.util.*;
-import heavyindustry.content.*;
 import arc.audio.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import heavyindustry.content.*;
 
 import static arc.Core.*;
 

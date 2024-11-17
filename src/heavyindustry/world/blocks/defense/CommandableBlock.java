@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.defense;
 
-import arc.*;
 import arc.func.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -20,6 +19,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.draw.*;
+import heavyindustry.gen.*;
 
 import static mindustry.Vars.*;
 
@@ -193,14 +193,14 @@ public abstract class CommandableBlock extends Block {
 
         @Override
         public void add(){
-            if(!added) commandableBuilds.add(this);
+            if(!added) WorldRegister.commandableBuilds.add(this);
 
             super.add();
         }
 
         @Override
         public void remove(){
-            if(added) commandableBuilds.remove(this);
+            if(added) WorldRegister.commandableBuilds.remove(this);
 
             super.remove();
         }
@@ -217,7 +217,9 @@ public abstract class CommandableBlock extends Block {
         public transient Team team;
 
         @Override
-        public float clipSize(){return 500f;}
+        public float clipSize(){
+            return 500f;
+        }
 
         @Override
         public void draw(){}
@@ -429,11 +431,5 @@ public abstract class CommandableBlock extends Block {
         public void team(Team team){
             this.team = team;
         }
-    }
-
-    protected static final Seq<CommandableBlockBuild> commandableBuilds = new Seq<>();
-
-    static {
-        Events.on(EventType.ResetEvent.class, e -> commandableBuilds.clear());
     }
 }

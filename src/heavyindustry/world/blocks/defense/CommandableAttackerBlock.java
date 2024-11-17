@@ -30,7 +30,6 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
     public ShootPattern shoot = new ShootPattern();
 
     protected BulletType bullet = Bullets.placeholder;
-    protected UnitTypes spawnUnit;
 
     public CommandableAttackerBlock(String name){
         super(name);
@@ -152,7 +151,7 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
             Drawf.dashCircle(x, y, range, team.color);
 
             Seq<CommandableBlockBuild> builds = new Seq<>();
-            for(CommandableBlockBuild build : commandableBuilds){
+            for(CommandableBlockBuild build : WorldRegister.commandableBuilds){
                 if(build != this && build != null && build.team == team && sameGroup(build.block()) && build.canCommand(targetVec)){
                     builds.add(build);
                     Drawn.posSquareLink(Pal.gray, 3, 4, false, build.x, build.y, targetVec.x, targetVec.y);
@@ -175,7 +174,7 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
         public void commandAll(Vec2 pos){
             participantsTmp.clear();
 
-            for(CommandableBlockBuild build : commandableBuilds){
+            for(CommandableBlockBuild build : WorldRegister.commandableBuilds){
                 if(build.team == team && sameGroup(build.block()) && build.canCommand(pos)){
                     build.command(pos);
                     participantsTmp.add(build);
@@ -199,12 +198,8 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
             control.input.selectedBlock();
 
             table.table(Tex.paneSolid, t -> {
-                t.button(Icon.modeAttack, Styles.cleari, () -> {
-                    configure(targetVec);
-                }).size(LEN).disabled(b -> targetVec.epsilonEquals(x, y, 0.1f));
-                t.button(bundle.get("hi-select-target"), Icon.move, Styles.cleart, LEN, () -> {
-                    TableUtils.selectPos(t, this::configure);
-                }).size(LEN * 4, LEN).row();
+                t.button(Icon.modeAttack, Styles.cleari, () -> configure(targetVec)).size(LEN).disabled(b -> targetVec.epsilonEquals(x, y, 0.1f));
+                t.button(bundle.get("hi-select-target"), Icon.move, Styles.cleart, LEN, () -> TableUtils.selectPos(t, this::configure)).size(LEN * 4, LEN).row();
             }).fill();
         }
     }

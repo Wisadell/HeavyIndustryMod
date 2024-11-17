@@ -35,7 +35,7 @@ public class ArmorFloor extends Floor {
     }
 
     public ArmorFloor(String name){
-        this(name, 0, null);
+        this(name, 0);
     }
 
     public ArmorFloor(String name, int variants){

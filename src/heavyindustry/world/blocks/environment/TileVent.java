@@ -31,7 +31,6 @@ public class TileVent extends SteamVent {
 
     public TileVent(String name){
         super(name);
-        size = 1;
         border = 0;
     }
 

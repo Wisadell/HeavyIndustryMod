@@ -53,8 +53,8 @@ public class MultiCrafter extends Block {
 
         consume(new ConsumeItemDynamicF((MultiCrafterBuild build) -> build.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(build.currentRecipeIndex, recipeSeq.size - 1)).inputItems : null));
         consume(new ConsumeLiquidDynamicF((MultiCrafterBuild build) -> build.currentRecipeIndex != -1 ? recipeSeq.get(Math.min(build.currentRecipeIndex, recipeSeq.size - 1)).inputLiquids : null));
-        consume(new ConsumePowerDynamic(p -> {
-            MultiCrafterBuild build = (MultiCrafterBuild) p;
+        consume(new ConsumePowerDynamic(building -> {
+            MultiCrafterBuild build = (MultiCrafterBuild) building;
             return build.getInputPower();
         }));
 
@@ -293,7 +293,6 @@ public class MultiCrafter extends Block {
                 selection.clearChildren();
                 if (recipeSeq.size > 0) {
                     for (Recipe r : recipeSeq) {
-
                         ImageButton button = new ImageButton();
 
                         button.table(info -> info.table(t -> {
@@ -344,15 +343,13 @@ public class MultiCrafter extends Block {
 
                         button.changed(() -> {
                             currentRecipeIndex = recipeSeq.indexOf(r);
-                            this.items.clear();
-                            this.liquids.clear();
-                            this.update();
+                            items.clear();
+                            liquids.clear();
+                            update();
                             configure(currentRecipeIndex);
                             control.input.config.hideConfig();
                         });
-                        button.update(() ->
-                                button.setChecked(currentRecipeIndex == recipeSeq.indexOf(r))
-                        );
+                        button.update(() -> button.setChecked(currentRecipeIndex == recipeSeq.indexOf(r)));
 
                         cont.add(button);
                         cont.row();
@@ -366,9 +363,9 @@ public class MultiCrafter extends Block {
             main.add(selection).left().row();
             ScrollPane pane = new ScrollPane(cont, Styles.smallPane);
             pane.setScrollingDisabled(true, false);
-            if (this.block != null) {
-                pane.setScrollYForce(this.block.selectScroll);
-                pane.update(() -> this.block.selectScroll = pane.getScrollY());
+            if (block != null) {
+                pane.setScrollYForce(block.selectScroll);
+                pane.update(() -> block.selectScroll = pane.getScrollY());
             }
             pane.setOverscroll(false, false);
             main.add(pane).maxHeight(500f);
@@ -415,7 +412,7 @@ public class MultiCrafter extends Block {
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            return (currentRecipeIndex != -1 && current().inputItems != null && this.items.get(item) < this.getMaximumAccepted(item) && Structs.contains(current().inputItems, stack -> stack.item == item));
+            return (currentRecipeIndex != -1 && current().inputItems != null && items.get(item) < getMaximumAccepted(item) && Structs.contains(current().inputItems, stack -> stack.item == item));
         }
 
         @Override
@@ -425,7 +422,7 @@ public class MultiCrafter extends Block {
 
         @Override
         public boolean acceptLiquid(Building source, Liquid liquid) {
-            return (currentRecipeIndex != -1 && current().inputLiquids != null && this.liquids.get(liquid) < this.block.liquidCapacity) && Structs.contains(current().inputLiquids, stack -> stack.liquid == liquid);
+            return (currentRecipeIndex != -1 && current().inputLiquids != null && liquids.get(liquid) < block.liquidCapacity) && Structs.contains(current().inputLiquids, stack -> stack.liquid == liquid);
         }
 
         @Override
@@ -538,7 +535,7 @@ public class MultiCrafter extends Block {
             recipeDetail = bundle.get("recipe." + name + ".details");
         }
 
-        public String name = "";
+        public String name = "oh-no";
 
         public @Nullable ItemStack[] inputItems;
         public @Nullable ItemStack[] outputItems;
@@ -556,8 +553,8 @@ public class MultiCrafter extends Block {
         public Effect updateEffect = Fx.none;
         public float updateEffectChance = 0.04f;
 
-        public @Nullable String recipeName = "";
-        public @Nullable String recipeDescription = "";
-        public @Nullable String recipeDetail = "";
+        public String recipeName = "oh-no";
+        public String recipeDescription = "oh-no";
+        public String recipeDetail = "oh-no";
     }
 }

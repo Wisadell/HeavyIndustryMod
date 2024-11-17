@@ -351,7 +351,7 @@ public class HeatDriver extends Block {
         @Override
         public void load(Block block) {
             turretPart = atlas.find(block.name + "-turret");
-            turretLine =atlas.find(block.name + "-turret-outline");
+            turretLine = atlas.find(block.name + "-turret-outline");
             lPart = atlas.find(block.name + "-l");
             lLine = atlas.find(block.name + "-l-outline");
             rPart = atlas.find(block.name + "-r");

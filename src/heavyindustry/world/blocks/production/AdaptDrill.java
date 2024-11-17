@@ -20,6 +20,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
 import heavyindustry.content.*;
+import heavyindustry.world.blocks.production.DrillModule.*;
 import heavyindustry.world.consumers.*;
 import heavyindustry.world.meta.*;
 
@@ -282,7 +283,7 @@ public abstract class AdaptDrill extends Block {
         //(base * multiplier) + extra
         public float powerConsMul = 1f;
         public float powerConsExtra = 0f;
-        public Seq<DrillModule.DrillModuleBuild> modules = new Seq<>();
+        public Seq<DrillModuleBuild> modules = new Seq<>();
 
         public float maxBoost(){
             return maxBoost;
@@ -342,7 +343,7 @@ public abstract class AdaptDrill extends Block {
             }
 
             Drawf.selected(this, Pal.accent);
-            for (DrillModule.DrillModuleBuild module: modules){
+            for (DrillModuleBuild module: modules){
                 Drawf.selected(module, Pal.accent);
             }
         }
@@ -400,7 +401,7 @@ public abstract class AdaptDrill extends Block {
         @Override
         public void remove() {
             super.remove();
-            for (DrillModule.DrillModuleBuild module: modules){
+            for (DrillModuleBuild module: modules){
                 module.drillBuild = null;
             }
         }
@@ -408,7 +409,7 @@ public abstract class AdaptDrill extends Block {
         public void updateDrillModule(){
             resetModule();
             for (Building building: proximity){
-                if (building instanceof DrillModule.DrillModuleBuild module) {
+                if (building instanceof DrillModuleBuild module) {
                     if (module.canApply(this)){
                         module.drillBuild = this;
                         modules.add(module);
