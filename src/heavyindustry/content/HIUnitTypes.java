@@ -115,14 +115,7 @@ public final class HIUnitTypes {
             faceTarget = false;
             abilities.add(new StatusFieldAbility(StatusEffects.overclock, 250f, 300f, 30f){{
                 applyEffect = Fx.none;
-                activeEffect = new WaveEffect(){{
-                    lifetime = 10f;
-                    sizeFrom = 8f;
-                    sizeTo = 40f;
-                    strokeFrom = 2f;
-                    strokeTo = 0f;
-                    colorFrom = colorTo = Color.white;
-                }};
+                activeEffect = HIFx.circle;
             }});
             weapons.add(new Weapon(name("vanguard-weapon")){{
                 reload = 7.6f;
@@ -192,31 +185,7 @@ public final class HIUnitTypes {
                     ammoMultiplier = 3f;
                     despawnEffect = Fx.none;
                     shootEffect = Fx.shootPyraFlame;
-                    hitEffect = new MultiEffect(new ParticleEffect(){{
-                        particles = 8;
-                        sizeFrom = 6f;
-                        sizeTo = 0f;
-                        length = 25f;
-                        baseLength = 23f;
-                        lifetime = 35f;
-                        colorFrom = colorTo = HIPal.darkGrey;
-                    }}, new ParticleEffect(){{
-                        particles = 12;
-                        line = true;
-                        length = 43f;
-                        baseLength = 3f;
-                        lifetime = 22f;
-                        colorFrom = Color.white;
-                        colorTo = HIPal.lightYellow;
-                    }}, new WaveEffect(){{
-                        lifetime = 10f;
-                        sizeFrom = 1f;
-                        sizeTo = 48f;
-                        strokeFrom = 2f;
-                        strokeTo = 0f;
-                        colorFrom = HIPal.lightYellow;
-                        colorTo = Color.white;
-                    }});
+                    hitEffect = new MultiEffect(HIFx.hitOut, HIFx.crossBlast(Pal.ammo));
                 }};
             }});
         }};
@@ -269,17 +238,7 @@ public final class HIUnitTypes {
                     height = 32f;
                     trailChance = 0.1f;
                     trailInterval = 1f;
-                    trailEffect = new ParticleEffect(){{
-                        particles = 3;
-                        length = 30f;
-                        baseLength = sizeTo = 0f;
-                        sizeInterp = Interp.pow5In;
-                        lifetime = 10f;
-                        colorFrom = HIPal.lightGrey;
-                        colorTo = HIPal.lightGrey.cpy().a(0.5f);
-                        sizeFrom = 2.6f;
-                        cone = 8f;
-                    }};
+                    trailEffect = HIFx.trailToGray;
                     trailRotation = true;
                     splashDamage = 86f;
                     splashDamageRadius = 45f;
@@ -289,45 +248,7 @@ public final class HIUnitTypes {
                     lifetime = 41.6f;
                     hitShake = 2;
                     hitSound = Sounds.explosion;
-                    hitEffect = new MultiEffect(new ParticleEffect(){{
-                        particles = 8;
-                        sizeFrom = 10f;
-                        sizeTo = 0f;
-                        length = lifetime = 35f;
-                        baseLength = 33f;
-                        colorFrom = colorTo = HIPal.darkGrey;
-                    }}, new ParticleEffect(){{
-                        particles = 12;
-                        line = true;
-                        strokeFrom = 2f;
-                        strokeTo = 0f;
-                        lenFrom = 16f;
-                        lenTo = 8f;
-                        length = 66f;
-                        baseLength = 3f;
-                        lifetime = 12f;
-                        colorFrom = Color.white;
-                        colorTo = HIPal.lightYellow;
-                    }}, new ParticleEffect(){{
-                        particles = 1;
-                        sizeFrom = baseLength = 0f;
-                        sizeTo = 45f;
-                        length = 0f;
-                        sizeInterp = Interp.pow5Out;
-                        lifetime = 12f;
-                        layer = 50f;
-                        colorFrom = Color.white.cpy().a(0.5f);
-                        colorTo = HIPal.darkGrey;
-                    }}, new WaveEffect(){{
-                        lifetime = 10;
-                        sizeFrom = strokeTo = 0f;
-                        sizeTo = 48f;
-                        interp = Interp.circleOut;
-                        strokeFrom = 15f;
-                        layer = 50f;
-                        colorFrom = Color.white;
-                        colorTo = HIPal.darkGrey.cpy().a(0.5f);
-                    }});
+                    hitEffect = new MultiEffect(HIFx.hitOut, HIFx.hitSpark(backColor, 30f, 15, 35f, 1.7f, 8));
                     despawnEffect = Fx.flakExplosionBig;
                 }};
             }});
@@ -355,14 +276,7 @@ public final class HIUnitTypes {
             targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret};
             abilities.add(new StatusFieldAbility(StatusEffects.overclock, 1200f, 1200f, 45f){{
                 applyEffect = Fx.none;
-                activeEffect = new WaveEffect(){{
-                    lifetime = 10;
-                    sizeFrom = 8f;
-                    sizeTo = 40f;
-                    strokeFrom = 2f;
-                    strokeTo = 0f;
-                    colorFrom = colorTo = HIPal.canaryYellow;
-                }};
+                activeEffect = HIFx.circle;
             }});
             weapons.add(new Weapon(name("crush-weapon")){{
                 reload = 90f;
@@ -378,16 +292,7 @@ public final class HIUnitTypes {
                 shake = 3f;
                 alternate = false;
                 bullet = new PointBulletType(){{
-                    trailEffect = new ParticleEffect(){{
-                        particles = 1;
-                        length = strokeTo = cone = 0f;
-                        baseLength = 1f;
-                        lifetime = lenFrom = lenTo = 10;
-                        line = true;
-                        randLength = false;
-                        strokeFrom = 4f;
-                        colorFrom = colorTo = HIPal.canaryYellow;
-                    }};
+                    trailEffect = HIFx.hugeTrail;
                     trailSpacing = 9f;
                     damage = 360f;
                     splashDamage = 340f;
@@ -397,20 +302,8 @@ public final class HIUnitTypes {
                     lifetime = 15f;
                     hitSound = Sounds.lasercharge2;
                     smokeEffect = Fx.bigShockwave;
-                    shootEffect = new ParticleEffect(){{
-                        particles = 1;
-                        sizeFrom = 5f;
-                        sizeTo = length = baseLength = 0f;
-                        lifetime = 11f;
-                        colorFrom = colorTo = HIPal.canaryYellow;
-                    }};
-                    hitEffect = new ParticleEffect(){{
-                        particles = 1;
-                        sizeFrom = 10f;
-                        sizeTo = length = baseLength = 0f;
-                        lifetime = 15f;
-                        colorFrom = colorTo = HIPal.canaryYellow;
-                    }};
+                    shootEffect = HIFx.shootCircleSmall(HIPal.canaryYellow);
+                    hitEffect = HIFx.hitSparkLarge;
                     despawnEffect = Fx.bigShockwave;
                     fragLifeMin = 1f;
                     fragVelocityMax = 0f;
@@ -428,46 +321,12 @@ public final class HIUnitTypes {
                         splashDamage = 395f;
                         hitShake = 1f;
                         hitSound = Sounds.plasmaboom;
-                        hitEffect = new MultiEffect(new ParticleEffect(){{
-                            particles = 4;
-                            sizeFrom = 15f;
-                            sizeTo = 0f;
-                            length = 20f;
-                            baseLength = 48f;
-                            lifetime = 25f;
-                            colorFrom = HIPal.canaryYellow.cpy().a(0.5f);
-                            colorTo = HIPal.canaryYellow.cpy().a(0f);
-                        }}, new ParticleEffect(){{
-                            particles = 22;
-                            line = true;
-                            strokeFrom = 3f;
-                            strokeTo = lenTo = baseLength = 0f;
-                            lenFrom = lifetime = 20f;
-                            length = 63f;
-                            colorFrom = colorTo = HIPal.canaryYellow;
-                        }}, new WaveEffect(){{
-                            lifetime = 25f;
-                            sizeFrom = strokeTo = 0f;
-                            sizeTo = 66f;
-                            strokeFrom = 3f;
-                            colorFrom = colorTo = HIPal.canaryYellow;
-                        }});
+                        hitEffect = new MultiEffect(HIFx.hitSparkLarge);
                         despawnEffect = Fx.none;
                         fragBullets = 4;
                         fragBullet = new PointBulletType(){{
                             trailSpacing = 9;
-                            trailEffect = new ParticleEffect(){{
-                                particles = 1;
-                                length = 0f;
-                                baseLength = 1f;
-                                lifetime = 6f;
-                                line = true;
-                                randLength = false;
-                                lenFrom = lenTo = 10f;
-                                strokeFrom = 2f;
-                                strokeTo = cone = 0f;
-                                colorFrom = colorTo = HIPal.canaryYellow;
-                            }};
+                            trailEffect = HIFx.trailToGray;
                             lifetime = 8;
                             speed = 15;
                             //status = TODO;
@@ -477,13 +336,7 @@ public final class HIUnitTypes {
                             splashDamage = 80f;
                             hitShake = 1f;
                             hitSound = Sounds.laser;
-                            hitEffect = new ParticleEffect(){{
-                                particles = 1;
-                                sizeFrom = 5f;
-                                sizeTo = length = baseLength = 0f;
-                                lifetime = 11f;
-                                colorFrom = colorTo = HIPal.canaryYellow;
-                            }};
+                            hitEffect = HIFx.instBomb(HIPal.canaryYellow);
                             despawnEffect = Fx.none;
                         }};
                     }};
@@ -541,39 +394,8 @@ public final class HIUnitTypes {
                     pierce = true;
                     pierceCap = 4;
                     knockback = 8f;
-                    hitEffect = new MultiEffect(new ParticleEffect(){{
-                        particles = 9;
-                        sizeFrom = 10f;
-                        sizeTo = baseLength = 0f;
-                        length = 65f;
-                        lifetime = 15f;
-                        colorFrom = HIPal.canaryYellow;
-                        colorTo = Color.white;
-                        cone = 40f;
-                    }}, new WaveEffect(){{
-                        lifetime = 10f;
-                        sizeFrom = 2f;
-                        sizeTo = 60f;
-                        strokeFrom = 10f;
-                        strokeTo = 0f;
-                        colorFrom = HIPal.canaryYellow;
-                    }});
-                    shootEffect = new MultiEffect(new ParticleEffect(){{
-                        particles = 6;
-                        sizeFrom = 8f;
-                        sizeTo = baseLength = 0f;
-                        length = 55f;
-                        lifetime = 33f;
-                        colorFrom = HIPal.canaryYellow;
-                        colorTo = Color.white;
-                        cone = 35f;
-                    }}, new WaveEffect(){{
-                        lifetime = 10f;
-                        sizeFrom = strokeTo = 0f;
-                        sizeTo = 30f;
-                        strokeFrom = 3f;
-                        colorFrom = HIPal.canaryYellow;
-                    }});
+                    hitEffect = new MultiEffect(HIFx.blast(HIPal.canaryYellow, 15f));
+                    shootEffect = new MultiEffect(HIFx.smoothColorRect(HIPal.canaryYellow, 12f, 10f));
                     smokeEffect = Fx.smokeCloud;
                     width = 16f;
                     height = 28f;
@@ -585,21 +407,7 @@ public final class HIUnitTypes {
                         trailEffect = Fx.none;
                         despawnEffect = Fx.none;
                         status = StatusEffects.blasted;
-                        hitEffect = new MultiEffect(new ParticleEffect(){{
-                            particles = 9;
-                            sizeFrom = 8f;
-                            sizeTo = baseLength = 0f;
-                            length = 55f;
-                            lifetime = 15f;
-                            colorFrom = colorTo = HIPal.canaryYellow;
-                        }}, new WaveEffect(){{
-                            lifetime = 15f;
-                            sizeFrom = 2f;
-                            sizeTo = 40f;
-                            strokeFrom = 6f;
-                            strokeTo = 0f;
-                            colorFrom = colorTo = HIPal.canaryYellow;
-                        }});
+                        hitEffect = new MultiEffect(HIFx.edessp(15f));
                         hitSound = Sounds.laser;
                         collides = false;
                         damage = 550f;
