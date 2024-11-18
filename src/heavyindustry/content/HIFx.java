@@ -225,11 +225,11 @@ public final class HIFx {
     }
 
     public static Effect laserEffect(float num){
-        return new Effect(26.0F, e -> {
+        return new Effect(26f, e -> {
             Draw.color(Color.white);
-            float length = !(e.data instanceof Float) ? 70.0F : (Float)e.data;
-            Angles.randLenVectors(e.id, (int)(length / num), length, e.rotation, 0.0F, (x, y) -> {
-                Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fout() * 9.0F);
+            float length = !(e.data instanceof Float f) ? 70f : f;
+            Angles.randLenVectors(e.id, (int)(length / num), length, e.rotation, 0f, (x, y) -> {
+                Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fout() * 9f);
                 Drawf.light(e.x + x, e.y + y, e.fout(0.25f) * 12f, Color.white, 0.7f);
             });
         });
@@ -691,8 +691,7 @@ public final class HIFx {
                 }
             }),
             shuttle = new Effect(70f, 800f, e -> {
-                if(!(e.data instanceof Float))return;
-                float len = e.data();
+                if(!(e.data instanceof Float len))return;
 
                 Draw.color(e.color, Color.white, e.fout() * 0.3f);
                 Lines.stroke(e.fout() * 2.2F);
@@ -708,8 +707,7 @@ public final class HIFx {
                 }
             }),
             shuttleDark = new Effect(70f, 800f, e -> {
-                if(!(e.data instanceof Float))return;
-                float len = e.data();
+                if(!(e.data instanceof Float len))return;
 
                 Draw.color(e.color, Color.white, e.fout() * 0.3f);
                 Lines.stroke(e.fout() * 2.2F);
@@ -737,9 +735,8 @@ public final class HIFx {
                 }
             }).layer(Layer.effect - 1f),
             shuttleLerp = new Effect(180f, 800f, e -> {
-                if(!(e.data instanceof Float))return;
+                if(!(e.data instanceof Float len))return;
                 float f = Mathf.curve(e.fin(Interp.pow5In), 0f, 0.07f) * Mathf.curve(e.fout(), 0f, 0.4f);
-                float len = e.data();
 
                 Draw.color(e.color);
                 v7.trns(e.rotation - 90, (len + Mathf.randomSeed(e.id, 0, len)) * e.fin(Interp.circleOut));
@@ -820,37 +817,36 @@ public final class HIFx {
                 Fill.circle(e.x, e.y, 2.5f * e.fout());
             }),
             lightningFade = (new Effect(PosLightning.lifetime, 1200f, e -> {
-                if(!(e.data instanceof Vec2Seq)) return;
-                Vec2Seq points = e.data();
+                if(!(e.data instanceof Vec2Seq v)) return;
 
-                e.lifetime = points.size() < 2 ? 0 : 1000;
+                e.lifetime = v.size() < 2 ? 0 : 1000;
                 int strokeOffset = (int)e.rotation;
 
 
-                if(points.size() > strokeOffset + 1 && strokeOffset > 0 && points.size() > 2){
-                    points.removeRange(0, points.size() - strokeOffset - 1);
+                if(v.size() > strokeOffset + 1 && strokeOffset > 0 && v.size() > 2){
+                    v.removeRange(0, v.size() - strokeOffset - 1);
                 }
 
-                if(!state.isPaused() && points.any()){
-                    points.remove(0);
+                if(!state.isPaused() && v.any()){
+                    v.remove(0);
                 }
 
-                if(points.size() < 2)return;
+                if(v.size() < 2)return;
 
-                Vec2 data = points.peekTmp();
+                Vec2 data = v.peekTmp();
                 float stroke = data.x;
                 float fadeOffset = data.y;
 
                 Draw.color(e.color);
-                for(int i = 1; i < points.size() - 1; i++){
-                    Lines.stroke(Mathf.clamp((i + fadeOffset / 2f) / points.size() * (strokeOffset - (points.size() - i)) / strokeOffset) * stroke);
-                    Vec2 from = points.setVec2(i - 1, Tmp.v1);
-                    Vec2 to = points.setVec2(i, Tmp.v2);
+                for(int i = 1; i < v.size() - 1; i++){
+                    Lines.stroke(Mathf.clamp((i + fadeOffset / 2f) / v.size() * (strokeOffset - (v.size() - i)) / strokeOffset) * stroke);
+                    Vec2 from = v.setVec2(i - 1, Tmp.v1);
+                    Vec2 to = v.setVec2(i, Tmp.v2);
                     Lines.line(from.x, from.y, to.x, to.y, false);
                     Fill.circle(from.x, from.y, Lines.getStroke() / 2);
                 }
 
-                Vec2 last = points.tmpVec2(points.size() - 2);
+                Vec2 last = v.tmpVec2(v.size() - 2);
                 Fill.circle(last.x, last.y, Lines.getStroke() / 2);
             })).layer(Layer.effect - 0.001f),
             techBlueCircleSplash = new Effect(26f, e -> {
@@ -1115,18 +1111,17 @@ public final class HIFx {
             }),
             /** {@link PosLightning} */
             posLightning = (new Effect(PosLightning.lifetime, 1200.0f, e -> {
-                if(!(e.data instanceof Vec2Seq)) return;
-                Vec2Seq lines = e.data();
+                if(!(e.data instanceof Vec2Seq v)) return;
 
                 Draw.color(e.color, Color.white, e.fout() * 0.6f);
 
                 Lines.stroke(e.rotation * e.fout());
 
-                Fill.circle(lines.firstTmp().x, lines.firstTmp().y, Lines.getStroke() / 2f);
+                Fill.circle(v.firstTmp().x, v.firstTmp().y, Lines.getStroke() / 2f);
 
-                for(int i = 0; i < lines.size() - 1; i++){
-                    Vec2 cur = lines.setVec2(i, Tmp.v1);
-                    Vec2 next = lines.setVec2(i + 1, Tmp.v2);
+                for(int i = 0; i < v.size() - 1; i++){
+                    Vec2 cur = v.setVec2(i, Tmp.v1);
+                    Vec2 next = v.setVec2(i + 1, Tmp.v2);
 
                     Lines.line(cur.x, cur.y, next.x, next.y, false);
                     Fill.circle(next.x, next.y, Lines.getStroke() / 2f);
@@ -1134,8 +1129,7 @@ public final class HIFx {
             })).layer(Layer.effect - 0.001f),
             /** {@link Effect.EffectContainer#data}<{@link Position}> as Target */
             chainLightningFade = new Effect(220f, 500f, e -> {
-                if(!(e.data instanceof Position)) return;
-                Position p = e.data();
+                if(!(e.data instanceof Position p)) return;
                 float tx = p.getX(), ty = p.getY(), dst = Mathf.dst(e.x, e.y, tx, ty);
                 Tmp.v1.set(p).sub(e.x, e.y).nor();
 
@@ -1188,8 +1182,8 @@ public final class HIFx {
             }).followParent(false),
             /** {@link Effect.EffectContainer} as Target */
             chainLightningFadeReversed = new Effect(220f, 500f, e -> {
-                if(!(e.data instanceof Position))return;
-                Position p = e.data();
+                if(!(e.data instanceof Position p))return;
+
                 float tx = e.x, ty = e.y, dst = Mathf.dst(p.getX(), p.getY(), tx, ty);
                 Tmp.v1.set(e.x, e.y).sub(p).nor();
 
@@ -1337,9 +1331,9 @@ public final class HIFx {
                 });
             }),
             shareDamage = new Effect(45f, e-> {
-                if(!(e.data instanceof Number))return;
+                if(!(e.data instanceof Number n))return;
                 Draw.color(e.color);
-                Draw.alpha(((Number)e.data()).floatValue() * e.fout());
+                Draw.alpha((n).floatValue() * e.fout());
                 Fill.square(e.x, e.y, e.rotation);
             }),
             lightningSpark = new Effect(Fx.chainLightning.lifetime, e -> {
@@ -1352,20 +1346,19 @@ public final class HIFx {
                 Fill.circle(e.x, e.y, 2.5f * e.fout());
             }),
             attackWarningPos = new Effect(120f, 2000f, e -> {
-                if(!(e.data instanceof Position))return;
+                if(!(e.data instanceof Position p))return;
 
                 e.lifetime = e.rotation;
-                Position pos = e.data();
 
                 Draw.color(e.color);
                 TextureRegion arrowRegion = atlas.find(modName + "-jump-gate-arrow");
                 float scl =	Mathf.curve(e.fout(), 0f, 0.1f);
                 Lines.stroke(2 * scl);
-                Lines.line(pos.getX(), pos.getY(), e.x, e.y);
-                Fill.circle(pos.getX(), pos.getY(), Lines.getStroke());
+                Lines.line(p.getX(), p.getY(), e.x, e.y);
+                Fill.circle(p.getX(), p.getY(), Lines.getStroke());
                 Fill.circle(e.x, e.y, Lines.getStroke());
-                Tmp.v1.set(e.x, e.y).sub(pos).scl(e.fin(Interp.pow2In)).add(pos);
-                Draw.rect(arrowRegion,  Tmp.v1.x,  Tmp.v1.y, arrowRegion.width * scl * Draw.scl, arrowRegion.height * scl * Draw.scl, pos.angleTo(e.x, e.y) - 90f);
+                Tmp.v1.set(e.x, e.y).sub(p).scl(e.fin(Interp.pow2In)).add(p);
+                Draw.rect(arrowRegion,  Tmp.v1.x,  Tmp.v1.y, arrowRegion.width * scl * Draw.scl, arrowRegion.height * scl * Draw.scl, p.angleTo(e.x, e.y) - 90f);
             }),
             attackWarningRange = new Effect(120f, 2000f, e -> {
                 Draw.color(e.color);

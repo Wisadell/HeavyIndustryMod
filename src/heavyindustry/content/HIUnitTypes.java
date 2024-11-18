@@ -1078,8 +1078,8 @@ public final class HIUnitTypes {
                 };
             }
                 @Override
-                public void addStats(UnitType u, Table t) {
-                    String text = bundle.get("unit." + modName + "-killer-whale.weapon-1.description");
+                public void addStats(UnitType u, Table t){
+                    String text = bundle.get("unit.heavy-industry-killer-whale-weapon-1.description");
                     TableUtils.collapseTextToTable(t, text);
                     super.addStats(u, t);
                 }
@@ -1834,29 +1834,19 @@ public final class HIUnitTypes {
                 shake = 1f;
                 shootSound = Sounds.flame;
                 inaccuracy = 3f;
-                bullet = new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8f, 8, 72, 22f){{
+                bullet = new FlameBulletType(Pal.techBlue, Pal.techBlue.cpy().lerp(Color.gray, 0.3f), Color.gray, range + 8f, 8, 72, 22f){{
                     damage = 225f;
                     collidesAir = true;
+                    status = HIStatusEffects.ultFireBurn;
                     statusDuration = 60f * 6;
                     ammoMultiplier = 4f;
                 }
                     @Override
-                    public void update(Bullet b) {
-                        Seq<Healthc> entity = new Seq<>();
-                        float r = flameCone * (1 - b.foutpow());
-                        indexer.allBuildings(b.x, b.y, r, entity::addUnique);
-                        Units.nearby(b.x - r, b.y - r, r * 2, r * 2, u -> {
-                            if(u.type != null && u.type.targetable && b.within(u, r)) entity.addUnique(u);
-                        });
-                        for(int i = 0; i < entity.size; i++){
-                            Healthc hc = entity.get(i);
-                            if(hc != null && !hc.dead()) {
-                                if(!b.hasCollided(hc.id())) {
-                                    if(hc.health() <= damage) hc.kill();
-                                    else hc.health(hc.health() - damage);
-                                    b.collided.add(hc.id());
-                                }
-                            }
+                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                        super.hitEntity(b, entity, health);
+                        if (entity instanceof Healthc h && !h.dead()){
+                            if(h.health() <= damage) h.kill();
+                            else h.health(h.health() - damage);
                         }
                     }
                 };
@@ -2118,8 +2108,26 @@ public final class HIUnitTypes {
                         Draw.color(fromColor, b.fin());
                         Fill.circle(b.x, b.y, (width / 1.75f) * b.fout());
                     }));
-                }};
-            }});
+                }
+                    public final float percent = 0.008f;
+
+                    @Override
+                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                        super.hitEntity(b, entity, health);
+                        if (entity instanceof Healthc h && !h.dead()){
+                            if(h.health() <= damage) h.kill();
+                            else h.health(h.health() - (float) Math.ceil(h.maxHealth() * percent));
+                        }
+                    }
+                };
+            }
+                @Override
+                public void addStats(UnitType u, Table t){
+                    String text = bundle.get("unit.heavy-industry-tiger-weapon-4.description");
+                    TableUtils.collapseTextToTable(t, text);
+                    super.addStats(u, t);
+                }
+            });
             for(float[] i : new float[][]{{22f, 18f}, {25f, 2f}}){
                 weapons.add(new PointDefenseWeapon(name("tiger-cannon-small")){{
                     x = i[0];
@@ -2260,7 +2268,14 @@ public final class HIUnitTypes {
                     rotateSpeed = 1.2f;
                     progress = PartProgress.warmup.blend(PartProgress.reload, 0.3f);
                 }});
-            }});
+            }
+                @Override
+                public void addStats(UnitType u, Table t){
+                    String text = bundle.get("unit.heavy-industry-thunder-weapon-0.description");
+                    TableUtils.collapseTextToTable(t, text);
+                    super.addStats(u, t);
+                }
+            });
             int i = 0;
             for(float f : new float[]{11f, -13f}){
                 int fi = i ++;
@@ -2291,8 +2306,26 @@ public final class HIUnitTypes {
                         shootEffect = HIFx.shootCircleSmall(backColor);
                         despawnEffect = HIFx.square45_4_45;
                         hitEffect = HIFx.hitSpark;
-                    }};
-                }});
+                    }
+                        public final float percent = 0.008f;
+
+                        @Override
+                        public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                            super.hitEntity(b, entity, health);
+                            if (entity instanceof Healthc h && !h.dead()){
+                                if(h.health() <= damage) h.kill();
+                                else h.health(h.health() - (float) Math.ceil(h.maxHealth() * percent));
+                            }
+                        }
+                    };
+                }
+                    @Override
+                    public void addStats(UnitType u, Table t){
+                        String text = bundle.get("unit.heavy-industry-thunder-weapon-1.description");
+                        TableUtils.collapseTextToTable(t, text);
+                        super.addStats(u, t);
+                    }
+                });
             }
             drownTimeMultiplier = 26f;
         }};
@@ -2305,12 +2338,12 @@ public final class HIUnitTypes {
             trailScl = 3f;
             Seq<StatusEffect> statusEffects = Seq.with(StatusEffects.none, StatusEffects.boss, StatusEffects.invincible);
             immunities = ObjectSet.with(content.statusEffects().select(s -> s != null && !statusEffects.contains(s)));
-            armor = 77f;
+            armor = 8f;
             hitSize = 45;
             speed = 1.5f;
             accel = 0.07F;
             drag = 0.075F;
-            health = 2250000f;
+            health = 825000f;
             itemCapacity = 0;
             rotateSpeed = 6;
             engineSize = 8f;

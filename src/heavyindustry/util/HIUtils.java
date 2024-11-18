@@ -7,7 +7,6 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
-import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.*;
@@ -19,7 +18,6 @@ import mindustry.entities.pattern.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.type.*;
-import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.turrets.*;
 import org.jetbrains.annotations.*;
@@ -231,8 +229,8 @@ public final class HIUtils {
         int size = content.blocks().size;
         for(int i = 0; i < size; i++){
             Block b = content.block(i);
-            if(b instanceof Turret){
-                turretSeq.addUnique((Turret) b);
+            if(b instanceof Turret t){
+                turretSeq.addUnique(t);
             }
         }
         return turretSeq;
@@ -242,9 +240,9 @@ public final class HIUtils {
     public static Seq<BulletType> bulletTypes(){//use item
         Seq<BulletType> bullets = new Seq<>();
         for(Turret t : turrets()){
-            if(t instanceof ItemTurret){
-                for(Item i : ((ItemTurret) t).ammoTypes.keys()){
-                    BulletType b = ((ItemTurret) t).ammoTypes.get(i);
+            if(t instanceof ItemTurret it){
+                for(Item i : it.ammoTypes.keys()){
+                    BulletType b = it.ammoTypes.get(i);
                     if(t.shoot.shots == 1 || b instanceof PointBulletType || b instanceof ArtilleryBulletType){
                         bullets.add(b);
                     } else {
@@ -252,8 +250,8 @@ public final class HIUtils {
                             fragBullet = b;
                             fragBullets = t.shoot.shots;
                             fragAngle = 0;
-                            if (t.shoot instanceof ShootSpread) {
-                                fragSpread = ((ShootSpread) (t.shoot)).spread;
+                            if (t.shoot instanceof ShootSpread s) {
+                                fragSpread = s.spread;
                             }
                             fragRandomSpread = t.inaccuracy;
                             fragVelocityMin = 1 - t.velocityRnd;
@@ -301,7 +299,7 @@ public final class HIUtils {
         }
         bullet.add();
 
-        if(bt.keepVelocity && owner instanceof Velc) bullet.vel.add(((Velc)owner).vel());
+        if(bt.keepVelocity && owner instanceof Velc v) bullet.vel.add(v.vel());
 
         return bullet;
     }

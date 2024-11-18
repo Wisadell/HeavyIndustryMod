@@ -6,7 +6,6 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.pooling.*;
-import mindustry.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.game.*;
@@ -23,11 +22,10 @@ public class DelayedPointBulletType extends BulletType {
     public float errorCorrectionRadius = 16f, width = 8f, trailSpacing = 10f, delayEffectLifeTime = 30f;
 
     public static Effect laser = new Effect(60f, 2000f, b -> {
-        if(!(b.data instanceof Position))return;
-        Position target = b.data();
+        if(!(b.data instanceof Position p))return;
 
-        float tX = target.getX();
-        float tY = target.getY();
+        float tX = p.getX();
+        float tY = p.getY();
         float cwidth = b.rotation;
         float compound = 1f;
 
@@ -101,11 +99,10 @@ public class DelayedPointBulletType extends BulletType {
 
     @Override
     public void draw(Bullet b){
-        if(!(b.data instanceof Position))return;
-        Position target = (Position)b.data();
+        if(!(b.data instanceof Position p))return;
 
-        float tX = target.getX();
-        float tY = target.getY();
+        float tX = p.getX();
+        float tY = p.getY();
         float cwidth = width / 1.4f * b.fout();
         float compound = 1f;
 
@@ -129,11 +126,10 @@ public class DelayedPointBulletType extends BulletType {
 
     @Override
     public void despawned(Bullet b){
-        if(!(b.data instanceof Position) || !b.isAdded())return;
-        Position target = (Position)b.data();
+        if(!(b.data instanceof Position p) || !b.isAdded())return;
 
-        float tX = target.getX();
-        float tY = target.getY();
+        float tX = p.getX();
+        float tY = p.getY();
 
         float rot = b.rotation();
 
@@ -141,14 +137,14 @@ public class DelayedPointBulletType extends BulletType {
             trailEffect.at(x1, y1, rot, trailColor);
         });
 
-        laser.at(b.x, b.y, width, hitColor, target);
+        laser.at(b.x, b.y, width, hitColor, p);
         b.set(tX, tY);
 
-        if(target instanceof Hitboxc){
-            hitEntity(b, (Hitboxc)target, 0);
+        if(p instanceof Hitboxc h){
+            hitEntity(b, h, 0);
             if(!despawnHit)hit(b, tX, tY);
         }else if(collidesTiles){
-            Building build = Vars.world.buildWorld(tX, tY);
+            Building build = world.buildWorld(tX, tY);
             if(build != null && build.team != b.team){
                 build.collision(b);
                 if(!despawnHit)hit(b, build.x, build.y);
@@ -194,8 +190,7 @@ public class DelayedPointBulletType extends BulletType {
     }
 
     @Override
-    public void handlePierce(Bullet b, float initialHealth, float x, float y){
-    }
+    public void handlePierce(Bullet b, float initialHealth, float x, float y){}
 
     public static class AdaptedBullet extends Bullet {
         static{
