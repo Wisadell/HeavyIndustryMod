@@ -195,7 +195,7 @@ public class TubeItemBridge extends ItemBridge {
                     boolean b3 = other.team() == tile.team() || tile.block() != this;
                     if(other.block() == this){
                         other.block();
-                        boolean b4 = !checkDouble || !(other.build instanceof ItemBridgeBuild && ((ItemBridgeBuild) other.build).link == tile.pos());
+                        boolean b4 = !checkDouble || !(other.build instanceof ItemBridgeBuild b && b.link == tile.pos());
                         return b2 && b3 && b4;
                     }else{
                         return (other.block() == tile.block() && tile.block() == this || !(tile.block() instanceof ItemBridge) && other.block() == this)

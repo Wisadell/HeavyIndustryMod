@@ -20,6 +20,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
 import heavyindustry.content.*;
+import heavyindustry.math.*;
 import heavyindustry.world.blocks.production.DrillModule.*;
 import heavyindustry.world.consumers.*;
 import heavyindustry.world.meta.*;
@@ -38,7 +39,7 @@ public abstract class AdaptDrill extends Block {
     /** Whether to draw the item this drill is mining. */
     public boolean drawMineItem = false;
 
-    /** yeah i want to make whitelist. */
+    /** yeah, I want to make whitelist. */
     public int mineTier;
     /** Special exemption item that this drill can't mine. */
     public Seq<Item> blockedItem = new Seq<>();
@@ -108,14 +109,14 @@ public abstract class AdaptDrill extends Block {
     }
 
     @Override
-    public void init() {
+    public void init(){
         super.init();
         if(drillEffectRnd < 0) drillEffectRnd = size;
-        if(maxOreTileReq < 0 || maxOreTileReq > (size * size)) maxOreTileReq = size * size;
+        if (Mathm.confine(maxOreTileReq, 0, size * size)) maxOreTileReq = size * size;
     }
 
     @Override
-    public void load() {
+    public void load(){
         super.load();
         baseRegion = atlas.find(name + "-bottom");
         topRegion = atlas.find(name + "-top");
@@ -149,7 +150,7 @@ public abstract class AdaptDrill extends Block {
                 int i = 0;
                 for (Block block : content.blocks()){
                     if (block.itemDrop == null || (blockedItem.contains(block.itemDrop) || block.itemDrop.hardness > mineTier)) continue;
-                    if ((block instanceof Prop) || (block instanceof TallBlock) || (block instanceof Floor) && ((Floor) block).wallOre) continue;
+                    if ((block instanceof Prop) || (block instanceof TallBlock) || (block instanceof Floor floor) && floor.wallOre) continue;
 
                     c.table(Styles.grayPanel, b -> {
                         b.image(block.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);

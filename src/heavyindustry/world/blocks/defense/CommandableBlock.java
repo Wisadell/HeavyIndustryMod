@@ -249,12 +249,12 @@ public abstract class CommandableBlock extends Block {
 
         @Override
         public boolean isLocal(){
-            return this instanceof Unitc && ((Unitc)this).controller() == player;
+            return this instanceof Unitc u && u.controller() == player;
         }
 
         @Override
         public boolean isRemote(){
-            return this instanceof Unitc && ((Unitc)this).isPlayer() && !isLocal();
+            return this instanceof Unitc u && u.isPlayer() && !isLocal();
         }
 
         @Override
