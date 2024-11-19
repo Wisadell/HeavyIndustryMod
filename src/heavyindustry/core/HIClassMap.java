@@ -252,8 +252,15 @@ public final class HIClassMap {
         classes.put("DrawPrinter", DrawPrinter.class);
         classes.put("DrawRotator", DrawRotator.class);
         classes.put("DrawScanLine", DrawScanLine.class);
+        classes.put("DrawFrame", DrawFrame.class);
         classes.put("DrawAtlasFrames", DrawAtlasFrames.class);
+        classes.put("DrawExpandPlasma", DrawExpandPlasma.class);
         classes.put("DrawSpecConstruct", DrawSpecConstruct.class);
+        classes.put("DrawAntiSpliceBlock", DrawAntiSpliceBlock.class);
+        classes.put("DrawDirSpliceBlock", DrawDirSpliceBlock.class);
+        classes.put("DrawPayloadFactory", DrawPayloadFactory.class);
+        classes.put("DrawEdgeLinkBits", DrawEdgeLinkBits.class);
+        classes.put("DrawRegionDynamic", DrawRegionDynamic.class);
         classes.put("DrawInvertedJunction", InvertedJunction.DrawInvertedJunction.class);
         classes.put("DrawTubeDistributor", TubeDistributor.DrawTubeDistributor.class);
         classes.put("DrawNodeBridge", NodeBridge.DrawNodeBridge.class);

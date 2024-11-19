@@ -3,24 +3,24 @@ package heavyindustry.math;
 import arc.func.*;
 import arc.math.*;
 import arc.math.geom.*;
-
-import static arc.math.Mathf.*;
+import arc.struct.*;
+import arc.util.*;
 
 public final class Mathm {
     private static final int aSinBits = 14; //16KB. Adjust for accuracy.
     private static final int aSinMask = ~(-1 << aSinBits);
     private static final int aSinCount = aSinMask + 1;
     private static final float[] aSinTable = new float[aSinCount];
-    private static final float radFull = PI * 2;
+    private static final float radFull = Mathf.PI * 2;
     private static final float sinToIndex = aSinCount / 2f;
 
     static {
         for (int i = 0; i < aSinCount; i++) aSinTable[i] = (float)(Math.asin((i + 0.5f) / aSinCount * 2 - 1) + radFull);
 
-        aSinTable[0] = radFull - halfPi;
-        aSinTable[aSinTable.length - 1] = radFull + halfPi;
-        aSinTable[index(1.5f)] = halfPi + radFull;
-        aSinTable[index(0.5f)] = pi + halfPi + radFull;
+        aSinTable[0] = radFull - Mathf.halfPi;
+        aSinTable[aSinTable.length - 1] = radFull + Mathf.halfPi;
+        aSinTable[index(1.5f)] = Mathf.halfPi + radFull;
+        aSinTable[index(0.5f)] = Mathf.pi + Mathf.halfPi + radFull;
     }
 
     public static int index(float sin){
@@ -36,7 +36,7 @@ public final class Mathm {
     }
 
     public static float asinDeg(float sin){
-        return aSinTable[index(sin)] * radiansToDegrees;
+        return aSinTable[index(sin)] * Mathf.radiansToDegrees;
     }
 
     private static final Vec2 tmp = new Vec2();
@@ -103,5 +103,163 @@ public final class Mathm {
 
     public static boolean confine(double d, double min, double max){
         return d < min || d > max;
+    }
+
+    /** An asymptotic function that approximates from a specified starting point to a target point. */
+    public static double lerp(double origin, double dest, double rate, double x){
+        double a = 1 - rate;
+        double b = rate*dest;
+
+        double powered = Math.pow(a, x - 1);
+
+        return origin*powered + (b*powered - b/a)/(1 - 1/a);
+    }
+
+    /** The function corresponding to an S-shaped curve. */
+    public static double sCurve(double left, double right, double dx, double dy, double rate, double x){
+        double diff = right - left;
+        double xValue = dx*rate;
+
+        return diff/Math.pow(2, xValue - rate*x) + dy + left;
+    }
+
+    /**
+     * Increase and decrease the curve,reaching the highest point at the most suitable value,and decreasing on both sides.
+     * The parameters can control the left and right attenuation rates separately.
+     */
+    public static double lerpIncrease(double lerpLeft, double lerpRight, double max, double optimal, double x){
+        if(x < 0) return 0;
+        return x >= 0 && x < optimal? -max*Math.pow(1-x/optimal, lerpLeft) + max: -max*Math.pow(1-optimal/x, lerpRight) + max;
+    }
+
+    /**
+     * Gravity system interface, processing unit for gravity operations.
+     * @since 1.3
+     */
+    public interface GravitySystem{
+        /** The gravitational field excited by the system. */
+        default GravityField field(){
+            return null;
+        }
+
+        /**
+         * The total mass of the system, measured in kilotons (kt), is allowed to be negative.
+         * Two systems with the same mass symbol attract each other, otherwise they repel each other.
+         */
+        float mass();
+
+        /** Position vector of system center of gravity. */
+        Vec2 position();
+
+        /** Gravity update calls this method, passing the calculated acceleration as a parameter. */
+        void gravityUpdate(Vec2 acceleration);
+    }
+
+    /**
+     * A container for simulating the gravitational field, which records some behaviors of the gravitational field.
+     * @since 1.3
+     */
+    public static class GravityField{
+        public static final float GRAV_CONST = 0.667259f;
+        private static final Vec2 tmp = new Vec2();
+
+        public final GravitySystem system;
+
+        private final ObjectSet<GravityField> otherFields = new ObjectSet<>();
+        private final ObjectMap<GravityField, Vec2> bufferAccelerations = new ObjectMap<>();
+
+        public GravityField(GravitySystem system){
+            this.system = system;
+        }
+
+        /**
+         * Set another associated field, which will reset the current field state and then create a new association relationship with the given field output criteria.
+         * @param itr This iterator needs to iterate over all the objects that need to be processed to bind to a gravitational field.
+         * @param filter Element filter.
+         * @param getter Method for creating an associated gravitational field for a certain target.
+         */
+        public <T> void setAssociatedFields(Iterable<T> itr, Boolf<T> filter, Func<T, GravityField> getter){
+            for(GravityField field: otherFields){
+                remove(field);
+            }
+            for(T t: itr){
+                if(filter.get(t)) add(getter.get(t));
+            }
+        }
+
+        /**
+         * Set associations with all other fields, which will reset the current field state and create new associations with the given field output criteria.
+         * @param itr This iterator needs to iterate over all other gravitational fields that need to be processed.
+         * @param filter Element filter.
+         */
+        public <T extends GravityField> void setAssociatedFields(Iterable<T> itr, Boolf<T> filter){
+            for(GravityField field: otherFields){
+                remove(field);
+            }
+            for(T t: itr){
+                if(filter.get(t)) add(t);
+            }
+        }
+
+        /** Add a gravitational field to the associated field. */
+        public void add(GravityField field){
+            if(field == null) return;
+            otherFields.add(field);
+            field.otherFields.add(this);
+        }
+
+        /** Cancel association with the target field. */
+        public void remove(GravityField field){
+            if(field == null) return;
+            otherFields.remove(field);
+            field.otherFields.remove(this);
+        }
+
+        /** Unlink oneself from all other gravitational fields associated with it. */
+        public void remove(){
+            for(GravityField field: otherFields){
+                remove(field);
+            }
+        }
+
+        /**
+         * Update the gravity system and pass the results through the gravity system method gravityUpdate.
+         * Do not call this method multiple times within one game refresh.
+         */
+        public void update(){
+            Vec2 speedDelta;
+            float distance;
+            float force;
+            float delta;
+
+            tmp.setZero();
+            for(GravityField field: otherFields){
+                if((speedDelta = bufferAccelerations.get(field)) == null || speedDelta.isZero()){
+                    if(speedDelta == null) speedDelta = new Vec2();
+                    GravitySystem sys = field.system;
+
+                    distance = speedDelta.set(sys.position()).sub(system.position()).len();
+                    force = GRAV_CONST*sys.mass()*system.mass()/(distance*distance);
+                    delta = 60 / Time.delta;
+                    bufferAccelerations.put(field, speedDelta.setLength(force/system.mass()/delta));
+                    field.bufferAccelerations.get(this, Vec2::new).set(speedDelta).setLength(force/sys.mass()/delta).scl(-1);
+                }
+                tmp.add(speedDelta);
+            }
+
+            system.gravityUpdate(tmp);
+            clearBuffer(false);
+        }
+
+        public void clearBuffer(boolean all){
+            if(all){
+                for(GravityField field: otherFields){
+                    field.clearBuffer(false);
+                }
+            }
+            for(Vec2 vec2: bufferAccelerations.values()){
+                vec2.setZero();
+            }
+        }
     }
 }

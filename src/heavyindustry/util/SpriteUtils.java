@@ -1,6 +1,8 @@
 package heavyindustry.util;
 
+import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 
@@ -133,5 +135,29 @@ public final class SpriteUtils {
         }
 
         return tiles;
+    }
+
+    /**
+     * Rotate one {@link Pixmap} by a multiple of 90 degrees. This method does not change the original pixmap and returns a copy.
+     * @param target The target pixmap to be rotated.
+     * @param rotate Rotation angle coefficient, the actual rotation angle is 90 * rotate.
+     * @return A rotated pixmap copy.
+     */
+    public static Pixmap rotatePixmap90(Pixmap target, int rotate){
+        Pixmap res = new Pixmap(target.width, target.height);
+
+        for(int x = 0; x < target.width; x++){
+            for(int y = 0; y < target.height; y++){
+                int c = target.get(x, y);
+                switch(Mathf.mod(-rotate, 4)){
+                    case 0 -> res.set(x, y, c);
+                    case 1 -> res.set(target.width - y - 1, x, c);
+                    case 2 -> res.set(target.width - x - 1, target.height - y - 1, c);
+                    case 3 -> res.set(y, target.height - x - 1, c);
+                }
+            }
+        }
+
+        return res;
     }
 }

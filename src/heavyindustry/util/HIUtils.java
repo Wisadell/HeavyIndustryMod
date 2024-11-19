@@ -33,10 +33,6 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * @author Wisadell
  */
 public final class HIUtils {
-    public static String stringsFixed(float value){
-        return Strings.autoFixed(value, 2);
-    }
-
     @Contract(pure = true)
     public static int reverse(int rotation){
         return switch(rotation){
@@ -132,6 +128,8 @@ public final class HIUtils {
 
     private static final String DONOR = bundle.get("hi-donor-item");
     private static final String DEVELOPER = bundle.get("hi-developer-item");
+
+    public static final TextureRegion[] EMP_REGIONS = new TextureRegion[0];
 
     public static void loadItems(){
         for(UnlockableContent c : donorItems){

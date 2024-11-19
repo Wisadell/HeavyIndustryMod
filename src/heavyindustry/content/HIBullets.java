@@ -27,6 +27,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * Some preset bullets. Perhaps it will be used multiple times.
  * @author Wisadell
  */
+@SuppressWarnings("unchecked")
 public final class HIBullets {
     public static BulletType
             ancientArtilleryProjectile,
@@ -37,7 +38,6 @@ public final class HIBullets {
             //It is not recommended to use it directly.
             collapseFrag,collapse;
 
-    @SuppressWarnings("unchecked")
     public static void load(){
         ancientArtilleryProjectile = new ShieldBreakerType(7f, 6000, "missile-large", 7000){{
             backColor = trailColor = lightColor = lightningColor = hitColor = HIPal.ancientLightMid;
