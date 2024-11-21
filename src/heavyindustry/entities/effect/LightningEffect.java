@@ -11,8 +11,8 @@ import mindustry.entities.*;
 import mindustry.gen.*;
 
 public class LightningEffect extends Effect {
-    private static final Rand rand = new Rand();
-    private static final Vec2 v = new Vec2();
+    protected static final Rand rand = new Rand();
+    protected static final Vec2 v = new Vec2();
 
     public Color colorFrom = null, colorTo = null;
     public float stroke = 4f;
@@ -21,7 +21,7 @@ public class LightningEffect extends Effect {
     public boolean extend;
     public boolean shrink;
 
-    private boolean initialized;
+    protected boolean initialized;
 
     public LightningEffect(float life, float clipsize, float stroke){
         this();

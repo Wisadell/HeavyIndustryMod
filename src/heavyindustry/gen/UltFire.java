@@ -141,7 +141,7 @@ public class UltFire extends Fire {
                     Puddlec p = Puddles.get(tile);
                     puddleFlammability = p != null ? p.getFlammability() / 3f : 0f;
                     if (damage) {
-                        entity.damage(10);
+                        entity.damage(15);
                     }
 
                     Damage.damageUnits(null, tile.worldx(), tile.worldy(), 8f, 10, (unit) -> !unit.isFlying() && !unit.isImmune(HIStatusEffects.ultFireBurn), (unit) -> {

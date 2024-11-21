@@ -879,12 +879,12 @@ public final class Draws {
         }
     }
 
-    public interface DrawAcceptor<T>{
+    public interface DrawAcceptor<T> {
         void draw(T accept);
     }
 
     @SuppressWarnings("rawtypes")
-    public interface DrawDef extends DrawAcceptor{
+    public interface DrawDef extends DrawAcceptor {
         @Override
         default void draw(Object accept){
             draw();

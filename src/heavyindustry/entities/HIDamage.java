@@ -162,7 +162,7 @@ public final class HIDamage {
     }
 
     /**
-     * Damages entities in a line.
+     * HIDamage entities in a line.
      * Only enemies of the specified team are damaged.
      */
     public static boolean collideLine(float damage, Team team, Effect effect, StatusEffect status, float statusDuration, float x, float y, float angle, float length, boolean ground, boolean air, boolean buildings){

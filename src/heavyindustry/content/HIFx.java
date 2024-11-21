@@ -89,11 +89,11 @@ public final class HIFx {
 
     public static Effect edessp(float lifetime){
         return new Effect(lifetime, e -> {
-            if(!(e.data instanceof Object[] objects) || objects.length < 4) return;
-            if(!(objects[0] instanceof TextureRegion region)) return;
-            if(!(objects[1] instanceof Float range)) return;
-            if(!(objects[2] instanceof Float rot)) return;
-            if(!(objects[3] instanceof Float rRot)) return;
+            if(!(e.data instanceof Object[] objects) || objects.length < 4 ||
+                    !(objects[0] instanceof TextureRegion region) ||
+                    !(objects[1] instanceof Float range) ||
+                    !(objects[2] instanceof Float rot) ||
+                    !(objects[3] instanceof Float rRot)) return;
 
             float ex = e.x + Angles.trnsx(e.rotation + rRot * e.fin(), range * e.fout()),
                     ey = e.y + Angles.trnsy(e.rotation + rRot * e.fin(), range * e.fout());

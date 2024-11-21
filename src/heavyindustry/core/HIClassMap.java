@@ -27,8 +27,8 @@ import heavyindustry.world.draw.*;
 import static mindustry.mod.ClassMap.*;
 
 /** Generated class. Maps simple class names to concrete classes. For use in JSON attached mods. */
-public final class HIClassMap {
-    public static void load(){
+final class HIClassMap {
+    static void load(){
         //ai
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
@@ -59,14 +59,15 @@ public final class HIClassMap {
         classes.put("ShieldBreakerType", ShieldBreakerType.class);
         classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
         classes.put("MagmaBulletType", MagmaBulletType.class);
-        classes.put("LiquidBulletData", LiquidMassDriver.LiquidBulletData.class);
         classes.put("LiquidMassDriverBolt", LiquidMassDriverBolt.class);
+        classes.put("Shooter", LaserWall.Shooter.class);
         //effects
         classes.put("LightningEffect", LightningEffect.class);
         classes.put("EffectWrapper", EffectWrapper.class);
         //parts
         classes.put("HIDrawPart", HIPartProgress.class);
         classes.put("ConstructPart", ConstructPart.class);
+        classes.put("CustomPart", CustomPart.class);
         //types
         classes.put("BoostWeapon", BoostWeapon.class);
         classes.put("BetterPlanet", BetterPlanet.class);
@@ -104,6 +105,10 @@ public final class HIClassMap {
         classes.put("DetonatorBuild", Detonator.DetonatorBuild.class);
         classes.put("BombLauncher", BombLauncher.class);
         classes.put("BombLauncherBuild", BombLauncher.BombLauncherBuild.class);
+        classes.put("AirRaider", AirRaider.class);
+        classes.put("AirRaiderBuild", AirRaider.AirRaiderBuild.class);
+        classes.put("SpeedupTurret", SpeedupTurret.class);
+        classes.put("SpeedupTurretBuild", SpeedupTurret.SpeedupTurretBuild.class);
         classes.put("MultiBulletTurret", MultiBulletTurret.class);
         classes.put("MultiBulletTurretBuild", MultiBulletTurret.MultiBulletTurretBuild.class);
         classes.put("ShootMatchTurret", ShootMatchTurret.class);
@@ -172,6 +177,7 @@ public final class HIClassMap {
         classes.put("LiquidDirectionalUnloaderBuild", LiquidDirectionalUnloader.LiquidDirectionalUnloaderBuild.class);
         classes.put("LiquidMassDriver", LiquidMassDriver.class);
         classes.put("LiquidMassDriverBuild", LiquidMassDriver.LiquidMassDriverBuild.class);
+        classes.put("LiquidBulletData", LiquidMassDriver.LiquidBulletData.class);
         classes.put("CopyMemoryBlock", CopyMemoryBlock.class);
         classes.put("CopyMemoryBuild", CopyMemoryBlock.CopyMemoryBuild.class);
         classes.put("ProcessorCooler", ProcessorCooler.class);

@@ -10,8 +10,7 @@ public class EffectWrapper extends Effect {
     public float rot = -1;
     public boolean rotModifier = false;
 
-    public EffectWrapper(){
-    }
+    public EffectWrapper(){}
 
     public EffectWrapper(Effect effect, Color color){
         this.effect = effect;
@@ -49,8 +48,7 @@ public class EffectWrapper extends Effect {
     }
 
     @Override
-    public void render(EffectContainer e){
-    }
+    public void render(EffectContainer e){}
 
     @Override
     public void create(float x, float y, float rotation, Color color, Object data){

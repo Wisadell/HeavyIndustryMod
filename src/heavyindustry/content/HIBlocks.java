@@ -74,8 +74,8 @@ public final class HIBlocks {
             metalClear,metalLight,metalGround,metalVent,metalScarp,metaWall,metalTower,metalFloorGroove,metalFloorPlain,labFloor,labFloorDark,
             brine,nanofluid,
             metalFloorWater,metalFloorWater2,metalFloorWater3,metalFloorWater4,metalFloorWater5,metalFloorDamagedWater,
-            stoneWater,shaleWater,basaltWater,darkWater,deepDarkWater,mudDarkWater,
-            mud,overgrownGrass,overgrownShrubs,overgrownPine,
+            stoneWater,shaleWater,basaltWater,mudWater,
+            overgrownGrass,overgrownShrubs,overgrownPine,
             corruptedMoss,corruptedSporeMoss,corruptedSporeRocks,corruptedSporePine,corruptedSporeFern,corruptedSporePlant,corruptedSporeTree,
             mycelium,myceliumSpore,myceliumShrubs,myceliumPine,
             softRareEarth,patternRareEarth,softRareEarthWall,
@@ -365,33 +365,13 @@ public final class HIBlocks {
             albedo = 0.9f;
             supportsOverlay = true;
         }};
-        darkWater = new Floor("darkwater", 0){{
-            speedMultiplier = 0.6f;
-            liquidDrop = Liquids.water;
-            isLiquid = true;
-            cacheLayer = CacheLayer.water;
-            albedo = 0.9f;
-            supportsOverlay = true;
-        }};
-        deepDarkWater = new Floor("deep-darkwater", 0){{
-            drownTime = 200f;
-            speedMultiplier = 0.6f;
-            liquidDrop = Liquids.water;
-            isLiquid = true;
-            cacheLayer = CacheLayer.water;
-            albedo = 0.9f;
-            supportsOverlay = true;
-        }};
-        mudDarkWater = new Floor("mud-darkwater", 0){{
+        mudWater = new Floor("mud-water", 0){{
             speedMultiplier = 0.5f;
             liquidDrop = Liquids.water;
             isLiquid = true;
             cacheLayer = CacheLayer.water;
             albedo = 0.9f;
             supportsOverlay = true;
-        }};
-        mud = new Floor("mud", 3){{
-            speedMultiplier = 0.8f;
         }};
         overgrownGrass = new Floor("overgrown-grass", 3){{
             speedMultiplier = 0.9f;
@@ -2490,7 +2470,7 @@ public final class HIBlocks {
             consumeLiquid(HILiquids.nanofluid, 0.6f);
         }};
         titanReconstructor = new Reconstructor("titan-reconstructor"){{
-            requirements(Category.units, with(Items.lead, 4000, Items.silicon, 3000, Items.plastanium, 1500, Items.surgeAlloy, 1200, Items.phaseFabric, 300, HIItems.chromium, 800));
+            requirements(Category.units, with(Items.lead, 4000, Items.silicon, 3000, Items.plastanium, 1500, Items.surgeAlloy, 1200, Items.phaseFabric, 300, HIItems.uranium, 600, HIItems.chromium, 800));
             size = 11;
             liquidCapacity = 360f;
             scaledHealth = 100f;
@@ -2510,7 +2490,7 @@ public final class HIBlocks {
             consumeItems(ItemStack.with(Items.silicon, 1500, HIItems.nanocore, 300, HIItems.uranium, 400, HIItems.chromium, 500));
         }};
         experimentalUnitFactory = new DerivativeUnitFactory("experimental-unit-factory"){{
-            requirements(Category.units, with(Items.silicon, 2500, Items.plastanium, 1500, Items.surgeAlloy, 1000, HIItems.nanocore, 800, Items.phaseFabric, 400, HIItems.heavyAlloy, 600));
+            requirements(Category.units, with(Items.silicon, 2500, Items.plastanium, 1000, Items.surgeAlloy, 1200, HIItems.nanocore, 800, Items.phaseFabric, 1500, HIItems.heavyAlloy, 1100));
             size = 5;
             liquidCapacity = 60f;
             floating = true;
@@ -2525,19 +2505,20 @@ public final class HIBlocks {
                 tile.payload = null;
             });
             consumePower(40f);
+            consumeLiquid(HILiquids.nanofluid, 0.3f);
         }
             @Override
-            public void init() {
+            public void init(){
                 for(int i = 0; i < content.units().size; i++){
                     UnitType u = content.unit(i);
                     if(u != null && u.getFirstRequirements() != null){
                         ItemStack[] is = u.getFirstRequirements();
                         ItemStack[] os = new ItemStack[is.length];
-                        for (int a = 0; a < is.length; a++) {
+                        for (int a = 0; a < is.length; a++){
                             os[a] = new ItemStack(is[a].item, is[a].amount >= 40 ? (int) (is[a].amount * (1.0)) : is[a].amount);
                         }
                         float time = 0;
-                        if(u.getFirstRequirements().length > 0) {
+                        if(u.getFirstRequirements().length > 0){
                             for (ItemStack itemStack : os) {
                                 time += itemStack.amount * itemStack.item.cost;
                             }
@@ -3107,7 +3088,6 @@ public final class HIBlocks {
                             } else {
                                 unit.apply(status, statusDuration);
                             }
-
                         }
                     });
                     indexer.allBuildings(b.x, b.y, flameLength, other -> {

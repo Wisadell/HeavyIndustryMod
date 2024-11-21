@@ -112,9 +112,9 @@ public final class PosLightning {
 
         if(createSubLightning){
             if(owner instanceof Bullet b){
-                for(int i = 0; i < b.type.lightning; i++) Lightning.create(b, color, b.type.lightningDamage < 0.0F ? b.damage : b.type.lightningDamage, sureTarget.getX(), sureTarget.getY(), b.rotation() + Mathf.range(b.type.lightningCone / 2.0F) + b.type.lightningAngle, b.type.lightningLength + Mathf.random(b.type.lightningLengthRand));
+                for(int i = 0; i < b.type.lightning; i++) Lightning.create(b, color, b.type.lightningDamage < 0f ? b.damage : b.type.lightningDamage, sureTarget.getX(), sureTarget.getY(), b.rotation() + Mathf.range(b.type.lightningCone / 2f) + b.type.lightningAngle, b.type.lightningLength + Mathf.random(b.type.lightningLengthRand));
             }
-            else for(int i = 0; i < 3; i++)Lightning.create(team, color, damage <= 0 ? 1f : damage, sureTarget.getX(), sureTarget.getY(), Mathf.random(360f), subLightningLength);
+            else for(int i = 0; i < 3; i++)Lightning.create(team, color, damage <= 0f ? 1f : damage, sureTarget.getX(), sureTarget.getY(), Mathf.random(360f), subLightningLength);
         }
 
         float realDamage = damage;

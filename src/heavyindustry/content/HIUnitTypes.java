@@ -75,6 +75,7 @@ public final class HIUnitTypes {
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
         nameMap.put(name("artillery-fire-pioneer"), idMap[3]);
+        nameMap.put(name("disciple"), idMap[4]);
         //elite
         nameMap.put(name("tiger"), idMap[4]);
         nameMap.put(name("thunder"), idMap[43]);
@@ -92,7 +93,7 @@ public final class HIUnitTypes {
             //miner-erekir
             miner,largeMiner,legsMiner,
             //other
-            armoredCarrierVehicle,pioneer,vulture,burner,artilleryFirePioneer,
+            armoredCarrierVehicle,pioneer,vulture,burner,disciple,artilleryFirePioneer,
             //elite
             tiger,thunder,
             //boss
@@ -340,7 +341,7 @@ public final class HIUnitTypes {
         }};
         //vanilla-tier6
         suzerain = new UnitType("suzerain"){{
-            speed = 0.3f;
+            speed = 0.4f;
             hitSize = 40f;
             rotateSpeed = 1.65f;
             health = 63000f;
@@ -498,7 +499,7 @@ public final class HIUnitTypes {
             }});
         }};
         cancer = new UnitType("cancer"){{
-            speed = 0.4f;
+            speed = 0.5f;
             hitSize = 33f;
             health = 54000f;
             armor = 38f;
@@ -608,7 +609,7 @@ public final class HIUnitTypes {
             }});
         }};
         sunlit = new UnitType("sunlit"){{
-            speed = 0.51f;
+            speed = 0.55f;
             accel = 0.04f;
             drag = 0.04f;
             rotateSpeed = 1f;
@@ -805,7 +806,7 @@ public final class HIUnitTypes {
             trailScl = 3.5f;
             armor = 46f;
             drag = 0.2f;
-            speed = 0.6f;
+            speed = 0.65f;
             accel = 0.2f;
             hitSize = 60f;
             rotateSpeed = 0.9f;
@@ -1002,22 +1003,22 @@ public final class HIUnitTypes {
                     pierceArmor = true;
                     autoHoming = true;
                     homingPower = 7.5f;
-                    homingDelay = 18;
-                    trailColor = Pal.heal;
+                    homingDelay = 18f;
+                    backColor = frontColor = lightColor = healColor = hitColor = trailColor = Pal.heal;
                     trailLength = 15;
                     trailWidth = 2.4f;
-                    speed = 4;
-                    lifetime = 80;
+                    speed = 4f;
+                    lifetime = 80f;
                     hitEffect = despawnEffect = new Effect(30, e -> {
                         e.scaled(12, b -> {
                             Lines.stroke(2 * e.foutpow(), Color.lightGray);
                             Lines.circle(e.x, e.y, 32 * e.finpow());
                         });
-                        Draw.color(Pal.heal);
+                        Draw.color(e.color);
                         Angles.randLenVectors(e.id, 5, 32 * e.finpow(), e.rotation, 360, (x, y) -> Fill.poly(e.x + x, e.y + y, (int) Math.max(3, e.fout() * 12), 12 * e.fout(), Mathf.randomSeed(e.id, 360) + 360 * e.fout()));
                     });
                     shootEffect = new Effect(24, e -> {
-                        Draw.color(Pal.heal);
+                        Draw.color(e.color);
                         Angles.randLenVectors(e.id, 3, 16 * e.finpow(), e.rotation, 45, (x, y) -> Fill.poly(e.x + x, e.y + y, (int) Math.max(3, e.fout() * 8), 6.5f * e.fout(), Mathf.randomSeed(e.id, 360) + 180 * e.fout()));
                     });
                 }
@@ -1026,12 +1027,12 @@ public final class HIUnitTypes {
                         super.update(b);
                         float startTime = homingDelay + 12;
                         if(b.time < startTime){
-                            float in = b.time/startTime;
+                            float in = b.time / startTime;
                             float out = 1 - in;
                             out = Interp.fastSlow.apply(out);
                             b.initVel(b.rotation(), speed * out + 1f);
-                        } else {
-                            float in = Math.min(1, (b.time - startTime)/30);
+                        }else{
+                            float in = Math.min(1, (b.time - startTime) / 30);
                             b.initVel(b.rotation(), speed * 2f * in + 1f);
                         }
                     }
@@ -1066,10 +1067,10 @@ public final class HIUnitTypes {
                         drawParts(b);
                         float z = Draw.z();
                         Draw.z(Layer.effect);
-                        Draw.color(b.team.color);
+                        Draw.color(trailColor);
                         Draw.rect(frontRegion, b.x, b.y, width * 1.5f, height * 1.5f, b.rotation() - 90);
                         Draw.z(Layer.effect + 1);
-                        Draw.color(Pal.heal);
+                        Draw.color(trailColor);
                         Draw.rect(frontRegion, b.x, b.y, width * 0.9f, height * 0.9f, b.rotation() - 90);
 
                         Draw.z(z);
@@ -1842,18 +1843,147 @@ public final class HIUnitTypes {
                     ammoMultiplier = 4f;
                 }
                     @Override
-                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
-                        super.hitEntity(b, entity, health);
-                        if (entity instanceof Healthc h && !h.dead()){
-                            if(h.health() <= damage) h.kill();
-                            else h.health(h.health() - damage);
-                        }
+                    public void hit(Bullet b) {
+                        if(absorbable && b.absorbed) return;
+                        Units.nearbyEnemies(b.team, b.x, b.y, flameLength, unit -> {
+                            if(Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)){
+                                Fx.hitFlameSmall.at(unit);
+                                if (unit.health() <= damage * damageBoost) unit.kill();
+                                else unit.health(unit.health() - damage * damageBoost);
+                                unit.apply(status, statusDuration);
+                            }
+                        });
+                        indexer.allBuildings(b.x, b.y, flameLength, other -> {
+                            if(other.team != b.team && Angles.within(b.rotation(), b.angleTo(other), flameCone)){
+                                Fx.hitFlameSmall.at(other);
+                                if (other.health() <= damage * buildingDamageMultiplier * damageBoost) other.kill();
+                                else other.health(other.health() - damage * buildingDamageMultiplier * damageBoost);
+                            }
+                        });
                     }
                 };
             }
                 @Override
                 public float range(){
                     return range;
+                }
+
+                @Override
+                public void addStats(UnitType u, Table t){
+                    String text = bundle.get("unit.heavy-industry-burner-weapon-0.description");
+                    TableUtils.collapseTextToTable(t, text);
+                    super.addStats(u, t);
+                }
+            });
+        }};
+        disciple = new UnitType("disciple"){{
+            speed = 0.36f;
+            hitSize = 24f;
+            rotateSpeed = 2.1f;
+            health = 11000;
+            armor = 17f;
+            mechFrontSway = 1f;
+            ammoType = new PowerAmmoType(3000f);
+            mechStepParticles = true;
+            stepShake = 0.15f;
+            singleTarget = true;
+            drownTimeMultiplier = 4f;
+            weapons.add(new Weapon(name("disciple-weapon")){{
+                top = false;
+                y = 1f;
+                x = 16f;
+                shootY = 8f;
+                reload = 70f;
+                recoil = 2f;
+                shake = 1f;
+                shootSound = Sounds.missileLarge;
+                inaccuracy = 3f;
+                shoot = new ShootSpread(3, 18f);
+                shootCone = 35f;
+                bullet = new CtrlMissileBulletType("missile-large", 6, 10){{
+                    damage = 165f;
+                    buildingDamageMultiplier = 0.7f;
+                    pierceArmor = true;
+                    autoHoming = true;
+                    homingPower = 7.5f;
+                    homingRange = 100f;
+                    homingDelay = 18f;
+                    backColor = frontColor = lightColor = healColor = hitColor = trailColor = Pal.suppress;
+                    trailLength = 15;
+                    trailWidth = 2.4f;
+                    speed = 5.3f;
+                    lifetime = 100f;
+                    hitEffect = despawnEffect = new Effect(30, e -> {
+                        e.scaled(12, b -> {
+                            Lines.stroke(2 * e.foutpow(), Color.lightGray);
+                            Lines.circle(e.x, e.y, 32 * e.finpow());
+                        });
+                        Draw.color(e.color);
+                        Angles.randLenVectors(e.id, 5, 32 * e.finpow(), e.rotation, 360, (x, y) -> Fill.poly(e.x + x, e.y + y, (int) Math.max(3, e.fout() * 12), 12 * e.fout(), Mathf.randomSeed(e.id, 360) + 360 * e.fout()));
+                    });
+                    shootEffect = new Effect(24, e -> {
+                        Draw.color(e.color);
+                        Angles.randLenVectors(e.id, 3, 16 * e.finpow(), e.rotation, 45, (x, y) -> Fill.poly(e.x + x, e.y + y, (int) Math.max(3, e.fout() * 8), 6.5f * e.fout(), Mathf.randomSeed(e.id, 360) + 180 * e.fout()));
+                    });
+                    parts.add(new ShapePart(){{
+                        layer = Layer.effect;
+                        circle = true;
+                        y = -0.25f;
+                        radius = 1.5f;
+                        color = trailColor;
+                        colorTo = Color.white;
+                        progress = PartProgress.life.curve(Interp.pow5In);
+                    }});
+                }
+                    @Override
+                    public void update(Bullet b) {
+                        super.update(b);
+                        float startTime = homingDelay + 12;
+                        if(b.time < startTime){
+                            float in = b.time / startTime;
+                            float out = 1 - in;
+                            out = Interp.fastSlow.apply(out);
+                            b.initVel(b.rotation(), speed * out + 1f);
+                        }else{
+                            float in = Math.min(1, (b.time - startTime) / 30);
+                            b.initVel(b.rotation(), speed * 2f * in + 1f);
+                        }
+                    }
+
+                    @Override
+                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                        if(entity instanceof Unit unit && unit.type != null){
+                            if(unit.shield > 0){
+                                HIFx.hitOut.at(unit.x, unit.y, b.rotation(), unit);
+                                if(unit.health > damage) unit.health -= damage;
+                                else unit.kill();
+                            }
+                            unit.damagePierce(b.damage * (1 + unit.type.armor / 10f));
+                        }else super.hitEntity(b, entity, health);
+                    }
+
+                    @Override
+                    public void draw(Bullet b) {
+                        drawTrail(b);
+                        drawParts(b);
+                        float z = Draw.z();
+                        Draw.z(Layer.effect);
+                        Draw.color(trailColor);
+                        Draw.rect(frontRegion, b.x, b.y, width * 1.5f, height * 1.5f, b.rotation() - 90);
+                        Draw.z(Layer.effect + 1);
+                        Draw.color(trailColor);
+                        Draw.rect(frontRegion, b.x, b.y, width * 0.9f, height * 0.9f, b.rotation() - 90);
+
+                        Draw.z(z);
+                        Draw.reset();
+                    }
+                };
+            }
+                @Override
+                public void addStats(UnitType u, Table t){
+                    String text = bundle.get("unit.heavy-industry-disciple-weapon-0.description");
+                    TableUtils.collapseTextToTable(t, text);
+                    super.addStats(u, t);
                 }
             });
         }};
@@ -2014,6 +2144,22 @@ public final class HIUnitTypes {
                     fragVelocityMin = 0.074f;
                 }
                     @Override
+                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
+                        if (entity instanceof Healthc h && !h.dead()){
+                            if(h.health() <= damage) h.kill();
+                            else h.health(h.health() - damage);
+                        }
+
+                        if(entity instanceof Unit unit){
+                            Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f);
+                            unit.impulse(Tmp.v3);
+                            unit.apply(status, statusDuration);
+                        }
+
+                        handlePierce(b, health, entity.x(), entity.y());
+                    }
+
+                    @Override
                     public void hit(Bullet b, float x, float y){
                         super.hit(b, x, y);
                         UltFire.createChance(b, splashDamageRadius, 0.4f);
@@ -2082,52 +2228,7 @@ public final class HIUnitTypes {
                     hitShake = 3f;
                     hitSound = Sounds.plasmaboom;
                 }};
-            }}, new Weapon(){{
-                mirror = false;
-                top = alternate = autoTarget = rotate = true;
-                predictTarget = controllable = false;
-                x = 0f;
-                y = 14f;
-                reload = 12f;
-                recoil = 3f;
-                inaccuracy = 0;
-                shoot = new ShootPattern();
-                rotateSpeed = 25f;
-                shootSound = HISounds.gauss;
-                bullet = new ShrapnelBulletType(){{
-                    lifetime = 45f;
-                    length = 200f;
-                    damage = 180.0F;
-                    status = StatusEffects.shocked;
-                    statusDuration = 60f;
-                    fromColor = toColor = Pal.techBlue;
-                    serrationSpaceOffset = 40f;
-                    width = 6f;
-                    shootEffect = HIFx.lightningHitSmall(fromColor);
-                    smokeEffect = new MultiEffect(HIFx.techBlueCircleSplash, new Effect(lifetime + 10f, b -> {
-                        Draw.color(fromColor, b.fin());
-                        Fill.circle(b.x, b.y, (width / 1.75f) * b.fout());
-                    }));
-                }
-                    public final float percent = 0.008f;
-
-                    @Override
-                    public void hitEntity(Bullet b, Hitboxc entity, float health) {
-                        super.hitEntity(b, entity, health);
-                        if (entity instanceof Healthc h && !h.dead()){
-                            if(h.health() <= damage) h.kill();
-                            else h.health(h.health() - (float) Math.ceil(h.maxHealth() * percent));
-                        }
-                    }
-                };
-            }
-                @Override
-                public void addStats(UnitType u, Table t){
-                    String text = bundle.get("unit.heavy-industry-tiger-weapon-4.description");
-                    TableUtils.collapseTextToTable(t, text);
-                    super.addStats(u, t);
-                }
-            });
+            }});
             for(float[] i : new float[][]{{22f, 18f}, {25f, 2f}}){
                 weapons.add(new PointDefenseWeapon(name("tiger-cannon-small")){{
                     x = i[0];
@@ -2306,16 +2407,24 @@ public final class HIUnitTypes {
                         shootEffect = HIFx.shootCircleSmall(backColor);
                         despawnEffect = HIFx.square45_4_45;
                         hitEffect = HIFx.hitSpark;
+                        hittable = false;
                     }
                         public final float percent = 0.008f;
 
                         @Override
                         public void hitEntity(Bullet b, Hitboxc entity, float health) {
-                            super.hitEntity(b, entity, health);
                             if (entity instanceof Healthc h && !h.dead()){
                                 if(h.health() <= damage) h.kill();
                                 else h.health(h.health() - (float) Math.ceil(h.maxHealth() * percent));
                             }
+
+                            if(entity instanceof Unit unit){
+                                Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f);
+                                unit.impulse(Tmp.v3);
+                                unit.apply(status, statusDuration);
+                            }
+
+                            handlePierce(b, health, entity.x(), entity.y());
                         }
                     };
                 }

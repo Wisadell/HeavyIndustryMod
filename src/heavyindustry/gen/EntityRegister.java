@@ -9,7 +9,7 @@ public final class EntityRegister {
 
     private static final ObjectMap<String, Prov<? extends Entityc>> map = new ObjectMap<>();
 
-    public static <T extends Entityc> void put(String name, Class<T> type, Prov<? extends T> prov){
+    public static <T extends Entityc> void reg(String name, Class<T> type, Prov<? extends T> prov){
         map.put(name, prov);
         ids.put(type, EntityMapping.register(name, prov));
     }
@@ -19,9 +19,9 @@ public final class EntityRegister {
     }
 
     public static void load(){
-        put("PayloadLegsUnit", PayloadLegsUnit.class, PayloadLegsUnit::new);
-        put("BuildingTetherPayloadLegsUnit", BuildingTetherPayloadLegsUnit.class, BuildingTetherPayloadLegsUnit::new);
-        put("EnergyUnit", EnergyUnit.class, EnergyUnit::new);
-        put("UltFire", UltFire.class, UltFire::new);
+        reg("PayloadLegsUnit", PayloadLegsUnit.class, PayloadLegsUnit::new);
+        reg("BuildingTetherPayloadLegsUnit", BuildingTetherPayloadLegsUnit.class, BuildingTetherPayloadLegsUnit::new);
+        reg("EnergyUnit", EnergyUnit.class, EnergyUnit::new);
+        reg("UltFire", UltFire.class, UltFire::new);
     }
 }

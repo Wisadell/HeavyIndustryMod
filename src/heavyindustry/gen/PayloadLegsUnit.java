@@ -22,9 +22,9 @@ import mindustry.world.blocks.power.*;
  * @author Wisadell
  */
 public class PayloadLegsUnit extends LegsUnit implements Payloadc {
-    Seq<Payload> payloads = new Seq<>();
+    protected Seq<Payload> payloads = new Seq<>();
 
-    transient @Nullable PowerGraph payloadPower;
+    protected transient @Nullable PowerGraph payloadPower;
 
     @Override
     public int classId() {

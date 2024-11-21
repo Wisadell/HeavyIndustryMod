@@ -216,7 +216,7 @@ public final class HeavyIndustryMod extends Mod {
             private float bx, by;
         {
             cont.add(bundle.get("hi-ap-main"));
-            buttons.button("", this::hide).update(b ->{
+            buttons.button("", this::hide).update(b -> {
                 b.setText(con > 0 ? con == 5 ? bundle.get("hi-ap-happy") : bundle.get("hi-ap-click") : bundle.get("hi-ap-ok"));
                 if(con > 0){
                     b.x = bx;

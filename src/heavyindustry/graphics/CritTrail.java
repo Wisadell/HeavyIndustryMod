@@ -11,8 +11,8 @@ import mindustry.graphics.*;
  * Taken from Project Unity and modified a bit.
  */
 public class CritTrail extends Trail {
-    private final FloatSeq points;
-    private float lastX = -1, lastY = -1, counter = 0f;
+    protected final FloatSeq points;
+    protected float lastX = -1, lastY = -1, counter = 0f;
 
     public CritTrail(int length){
         super(length);

@@ -43,10 +43,10 @@ public class BatteryAbility extends Ability {
     }
 
     public static Effect absorb;
-    private static Unit paramUnit;
+    protected static Unit paramUnit;
     public static float rangeS;
 
-    private static final Cons<Bullet> cons = b -> {
+    protected static final Cons<Bullet> cons = b -> {
         if(b.team != paramUnit.team && b.type.absorbable && Intersector.isInsideHexagon(paramUnit.x, paramUnit.y, rangeS * 2, b.getX(), b.getY()) && paramUnit.shield > 0){
             b.absorb();
             absorb.at(b.getX(), b.getY(), Pal.heal);
@@ -54,9 +54,9 @@ public class BatteryAbility extends Ability {
         }
     };
 
-    Building target = null;
-    float timerRetarget = 0;
-    float amount = 0;
+    protected Building target = null;
+    protected float timerRetarget = 0;
+    protected float amount = 0;
 
     protected void setupColor(float satisfaction){
         Draw.color(Color.white, Pal.powerLight, (1 - satisfaction) * 0.86f + Mathf.absin(3, 0.1f));
