@@ -13,11 +13,12 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 import heavyindustry.entities.other.Chains.*;
-import heavyindustry.entities.other.Comsunes.*;
+import heavyindustry.entities.other.Consumers.*;
 import heavyindustry.entities.other.Modules.*;
 import heavyindustry.entities.other.Producers.*;
 import heavyindustry.func.*;
 import heavyindustry.util.HIUtils.*;
+import heavyindustry.world.meta.*;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -546,7 +547,9 @@ public final class Components {
         }
 
         /** Set statistical data for blocks. */
-        void setChainsStats(Stats stats);
+        default void setChainsStats(Stats stats){
+            stats.add(HIStat.maxStructureSize, "@x@", maxWidth(), maxHeight());
+        };
     }
 
     /**

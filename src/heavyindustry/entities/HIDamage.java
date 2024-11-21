@@ -162,7 +162,7 @@ public final class HIDamage {
     }
 
     /**
-     * HIDamage entities in a line.
+     * Damage entities in a line.
      * Only enemies of the specified team are damaged.
      */
     public static boolean collideLine(float damage, Team team, Effect effect, StatusEffect status, float statusDuration, float x, float y, float angle, float length, boolean ground, boolean air, boolean buildings){
@@ -291,7 +291,7 @@ public final class HIDamage {
         collided.clear();
     }
 
-    /** Like Damage.findLaserLength, but uses an (x, y) coord instead of bullet position */
+    /** Like {@link Damage#findPierceLength}, but uses an (x, y) coord instead of bullet position */
     public static float findLaserLength(float x, float y, float angle, Team team, float length){
         Tmp.v1.trns(angle, length);
 

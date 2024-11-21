@@ -8,7 +8,7 @@ import arc.util.io.*;
 import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 import heavyindustry.entities.other.Components.*;
-import heavyindustry.entities.other.Comsunes.*;
+import heavyindustry.entities.other.Consumers.*;
 import heavyindustry.entities.other.Chains.*;
 import heavyindustry.entities.other.Producers.*;
 

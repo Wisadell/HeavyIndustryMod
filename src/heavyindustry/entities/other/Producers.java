@@ -18,7 +18,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.meta.*;
 import heavyindustry.entities.other.Components.*;
-import heavyindustry.entities.other.Comsunes.*;
+import heavyindustry.entities.other.Consumers.*;
 import heavyindustry.ui.display.*;
 
 @SuppressWarnings({"unchecked", "rawtypes"})

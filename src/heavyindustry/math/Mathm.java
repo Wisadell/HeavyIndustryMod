@@ -136,11 +136,9 @@ public final class Mathm {
      * Gravity system interface, processing unit for gravity operations.
      * @since 1.3
      */
-    public interface GravitySystem{
+    public interface GravitySystem {
         /** The gravitational field excited by the system. */
-        default GravityField field(){
-            return null;
-        }
+        GravityField field();
 
         /**
          * The total mass of the system, measured in kilotons (kt), is allowed to be negative.
@@ -159,7 +157,7 @@ public final class Mathm {
      * A container for simulating the gravitational field, which records some behaviors of the gravitational field.
      * @since 1.3
      */
-    public static class GravityField{
+    public static class GravityField {
         public static final float GRAV_CONST = 0.667259f;
         private static final Vec2 tmp = new Vec2();
 
