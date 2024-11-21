@@ -16,7 +16,6 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.util.HIUtils.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
@@ -39,13 +38,13 @@ public class MinigunTurret extends ItemTurret {
         super.setStats();
 
         stats.remove(Stat.reload);
-        stats.add(Stat.reload, stringsFixed(minFiringSpeed / 90f * 60f * shoot.shots) + " - " + stringsFixed(maxSpeed / 90f * 60f * shoot.shots) + StatUnit.perSecond.localized());
+        stats.add(Stat.reload, Strings.autoFixed(minFiringSpeed / 90f * 60f * shoot.shots, 2) + " - " + Strings.autoFixed(maxSpeed / 90f * 60f * shoot.shots, 2) + StatUnit.perSecond.localized());
     }
 
     @Override
     public void setBars(){
         super.setBars();
-        addBar("hi-minigun-speed", (MinigunTurretBuild tile) -> new Bar(() -> bundle.format("bar.hi-minigun-speed", stringsFixed(tile.speedf() * 100f)), tile::barColor, tile::speedf));
+        addBar("hi-minigun-speed", (MinigunTurretBuild tile) -> new Bar(() -> bundle.format("bar.hi-minigun-speed", Strings.autoFixed(tile.speedf() * 100f, 2)), tile::barColor, tile::speedf));
     }
 
     public class MinigunTurretBuild extends ItemTurretBuild{

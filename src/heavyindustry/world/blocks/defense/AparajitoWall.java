@@ -40,8 +40,8 @@ public class AparajitoWall extends Wall {
 
             timerHeal = Math.max(0, timerHeal - Time.delta);
             if(timerHeal <= 0 && this.health < this.maxHealth - 1e-5f){
-                if(!net.client()) {
-                    heal(maxHealth() * healRadio/60f * Time.delta);
+                if(!net.client()){
+                    heal(maxHealth() * healRadio / 60f * Time.delta);
                 }
                 if(timer.get(60)){
                     Fx.healBlockFull.at(x, y, 0, healColor, block);

@@ -20,7 +20,7 @@ import static mindustry.Vars.*;
 
 public class SpaceGenerator extends PowerGenerator {
     public int space = 3;
-    private int edgeSpace;
+    protected int edgeSpace;
     public Color validColor = Pal.accent;
     public Color invalidColor = Pal.remove;
 
@@ -91,7 +91,7 @@ public class SpaceGenerator extends PowerGenerator {
         public Seq<Tile> solids = new Seq<>();
         public int tileNum = 0;
         public transient Interval timer = new Interval(6);
-        private float totalProgress;
+        protected float totalProgress;
 
         @Override
         public void updateTile() {

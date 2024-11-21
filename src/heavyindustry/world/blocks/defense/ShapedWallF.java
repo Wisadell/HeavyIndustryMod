@@ -7,7 +7,7 @@ import mindustry.graphics.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
-import static heavyindustry.util.SpriteUtils.*;
+import static heavyindustry.util.HIUtils.SpriteUtils.*;
 
 public class ShapedWallF extends ShapedWall {
     public TextureRegion[] atlasRegion;

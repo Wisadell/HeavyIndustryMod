@@ -12,17 +12,16 @@ public class AdaptUnloader extends Unloader {
     }
 
     public class AdaptUnloaderBuild extends UnloaderBuild {
-        private float counter;
+        protected float counter;
 
         @Override
         public void updateTile() {
             counter += edelta();
-            final float limit = speed;
 
-            while (counter >= limit) {
+            while (counter >= speed) {
                 unloadTimer = speed;
                 super.updateTile();
-                counter -= limit;
+                counter -= speed;
             }
         }
     }

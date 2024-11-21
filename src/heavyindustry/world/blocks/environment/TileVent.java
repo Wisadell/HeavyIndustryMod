@@ -10,7 +10,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
 import static heavyindustry.util.HIUtils.split;
-import static heavyindustry.util.StructUtils.*;
+import static heavyindustry.util.HIUtils.StructUtils.*;
 import static mindustry.Vars.*;
 
 /**

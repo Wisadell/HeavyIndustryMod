@@ -1,5 +1,8 @@
 package heavyindustry.world.meta;
 
+import heavyindustry.ui.display.*;
+import heavyindustry.util.*;
+import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -12,6 +15,7 @@ import mindustry.ctype.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.type.*;
+import mindustry.ui.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.meta.*;
 
@@ -160,6 +164,61 @@ public final class HIStatValues {
                 c.image(((TextureRegionDrawable)Tex.whiteui).tint(color)).size(32).scaling(Scaling.fit).padRight(4).left().top();
                 c.add(s).padRight(10).left().top();
             }).left();
+            table.row();
+        };
+    }
+
+    public static <T extends UnlockableContent> StatValue ammoString(ObjectMap<T, BulletType> map){
+        return table -> {
+            for(T i : map.keys()){
+                table.row();
+                table.table(c -> {
+                    c.image(icon(i)).size(32).scaling(Scaling.fit).padRight(4).left().top();
+                    c.add(bundle.get("stat-" + i.name + ".ammo")).padRight(10).left().top();
+                    c.background(Tex.underline);
+                }).left();
+                table.row();
+            }
+        };
+    }
+
+    public static StatValue itemRangeBoosters(String unit, float timePeriod, StatusEffect[] status, float rangeBoost, ItemStack[] items, boolean replace, Boolf<Item> filter){
+        return table -> {
+            table.row();
+            table.table(c -> {
+                for(Item item : content.items()){
+                    if(!filter.get(item)) continue;
+
+                    c.table(Styles.grayPanel, b -> {
+                        for(ItemStack stack : items){
+                            if(timePeriod < 0){
+                                b.add(new ItemDisplay(stack.item, stack.amount, true)).pad(20f).left();
+                            }else{
+                                b.add(new ItemDisplay(stack.item, stack.amount, timePeriod, true)).pad(20f).left();
+                            }
+                            if(items.length > 1) b.row();
+                        }
+
+                        b.table(bt -> {
+                            bt.left().defaults().left();
+                            if(status.length > 0){
+                                for(StatusEffect s : status){
+                                    if(s == StatusEffects.none) continue;
+                                    bt.row();
+                                    bt.add(HIUtils.selfStyleImageButton(new TextureRegionDrawable(s.uiIcon), Styles.emptyi, () -> ui.content.show(s))).padTop(2f).padBottom(6f).size(42);
+                                    bt.add(s.localizedName).padLeft(5);
+                                }
+                                if(replace){
+                                    bt.row();
+                                    bt.add(bundle.get("hi-stat-value-replace"));
+                                }
+                            }
+                            bt.row();
+                            if(rangeBoost != 0) bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
+                        }).right().grow().pad(10f).padRight(15f);
+                    }).growX().pad(5).padBottom(-5).row();
+                }
+            }).growX().colspan(table.getColumns());
             table.row();
         };
     }

@@ -260,6 +260,10 @@ public class LaserWall extends Wall {
             hitShake = 0.25f;
         }
 
+        public Shooter(){
+            this(1);
+        }
+
         @Override
         public float estimateDPS(){
             return damage * 100f / 5f * 3f;

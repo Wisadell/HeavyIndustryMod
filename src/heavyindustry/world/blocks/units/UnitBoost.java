@@ -83,15 +83,7 @@ public class UnitBoost extends Block {
 
         if(findConsumer(c -> c instanceof ConsumeItems) instanceof ConsumeItems cons){
             stats.remove(Stat.booster);
-            stats.add(Stat.booster, HIStatValues.itemRangeBoosters(
-                    "{0}" + StatUnit.timesSpeed.localized(),
-                    stats.timePeriod,
-                    boostStatus,
-                    boostRange * 8,
-                    cons.items,
-                    boostReplace,
-                    this::consumesItem
-            ));
+            stats.add(Stat.booster, HIStatValues.itemRangeBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, boostStatus, boostRange * 8, cons.items, boostReplace, this::consumesItem));
         }
     }
 
@@ -126,11 +118,11 @@ public class UnitBoost extends Block {
         public float phaseHeat = 0;
         public float consumeTimer = 0;
 
-        private boolean can, show, change1_2 = false;
-        private float rotation, ps, lp1 = 0, lp2 = 1;
-        private final Seq<Float[]> pos = new Seq<>();
+        protected boolean can, show, change1_2 = false;
+        protected float rotation, ps, lp1 = 0, lp2 = 1;
+        protected final Seq<Float[]> pos = new Seq<>();
 
-        private final Pool<ExtendedPosition> posPool = Pools.get(ExtendedPosition.class, ExtendedPosition::new);
+        protected final Pool<ExtendedPosition> posPool = Pools.get(ExtendedPosition.class, ExtendedPosition::new);
 
         // for drawer
         public boolean canShow(){

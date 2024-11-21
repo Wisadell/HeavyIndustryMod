@@ -113,7 +113,7 @@ public class LiquidMassDriver extends Block {
         }
     }
 
-    public class LiquidMassDriverBuild extends Building{
+    public class LiquidMassDriverBuild extends Building {
         public int link = -1;
         public float rotation = 90;
         public float reloadCounter = 0f;

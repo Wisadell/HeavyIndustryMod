@@ -17,9 +17,9 @@ import static mindustry.Vars.*;
  * @author Wisadell
  */
 public class RegenWall extends Wall {
-    private static final IntSet taken = new IntSet();
-    private static final IntFloatMap mendMap = new IntFloatMap();
-    private static long lastUpdateFrame = -1l;
+    protected static final IntSet taken = new IntSet();
+    protected static final IntFloatMap mendMap = new IntFloatMap();
+    protected static long lastUpdateFrame = -1l;
 
     /** per frame. */
     public float healPercent = 12f / 60f;

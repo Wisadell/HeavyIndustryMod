@@ -19,6 +19,7 @@ import mindustry.world.blocks.units.*;
 import mindustry.world.meta.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class DerivativeUnitFactory extends UnitFactory {
@@ -80,8 +81,8 @@ public class DerivativeUnitFactory extends UnitFactory {
         public Vec2 v2 = new Vec2();
         public Vec2 offset = new Vec2(), end = new Vec2();
 
-        private final Object[] objects = new Object[4];
-        private final Effect espEffect = HIFx.edessp(24);
+        protected final Object[] objects = new Object[4];
+        protected final Effect espEffect = HIFx.edessp(24);
 
         public Vec2 getUnitSpawn(){
             float len = tilesize * (areaSize + size)/2f;
@@ -130,7 +131,7 @@ public class DerivativeUnitFactory extends UnitFactory {
                         objects[1] = dst;
                         objects[2] = 90f * rotation - 90f;
                         objects[3] = 180f;
-                        espEffect.lifetime = 24/(timeScale + 0.001f);
+                        espEffect.lifetime = 24 / (timeScale + 0.001f);
                         espEffect.at(x, y, a, objects);
                     }
                     if(commandPos != null && unit.isCommandable()){
@@ -172,10 +173,7 @@ public class DerivativeUnitFactory extends UnitFactory {
                         for(int i = 1; i <= 3; i++){
                             end.set(v).sub(x, y);
                             end.setLength(Math.max(2f, end.len()));
-                            end.add(offset.trns(
-                                    time/2 + 60 * i,
-                                    Mathf.sin(time * 2 + 30 * i, 50f, plan.unit.hitSize * 0.6f)
-                            ));
+                            end.add(offset.trns(time/2 + 60 * i, Mathf.sin(time * 2 + 30 * i, 50f, plan.unit.hitSize * 0.6f)));
                             end.add(x, y);
                             Lines.line(x, y, end.x, end.y);
                             aboveEffect.at(end.x, end.y, 2, Pal.accent);
@@ -193,14 +191,7 @@ public class DerivativeUnitFactory extends UnitFactory {
                             float ay = v.y + Angles.trnsy(rot, plan.unit.hitSize * 1.1f);
                             for(int a = 0; a < 3; a++){
                                 float sin = Math.max(0, Mathf.sin(time + a * 60f, 55f, 1f)) * speedScl;
-                                Draw.rect(
-                                        Core.atlas.find(name("aim-shoot")),
-                                        ax + Angles.trnsx(rot + 180, -4) * (tilesize / 2f + a * 2.8f),
-                                        ay + Angles.trnsy(rot + 180, -4) * (tilesize / 2f + a * 2.8f),
-                                        45f * sin,
-                                        45f * sin,
-                                        rot + 90
-                                );
+                                Draw.rect(atlas.find(name("aim-shoot")), ax + Angles.trnsx(rot + 180, -4) * (tilesize / 2f + a * 2.8f), ay + Angles.trnsy(rot + 180, -4) * (tilesize / 2f + a * 2.8f), 45f * sin, 45f * sin, rot + 90);
                             }
                         }
                     }

@@ -12,17 +12,16 @@ public class AdaptDirectionalUnloader extends DirectionalUnloader {
     }
 
     public class AdaptDirectionalUnloaderBuild extends DirectionalUnloaderBuild {
-        private float counter;
+        protected float counter;
 
         @Override
         public void updateTile() {
             counter += edelta();
-            final float limit = speed;
 
-            while (counter >= limit) {
+            while (counter >= speed) {
                 unloadTimer = speed;
                 super.updateTile();
-                counter -= limit;
+                counter -= speed;
             }
         }
     }

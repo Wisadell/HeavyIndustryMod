@@ -9,6 +9,7 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import heavyindustry.util.*;
+import heavyindustry.util.HIUtils.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
