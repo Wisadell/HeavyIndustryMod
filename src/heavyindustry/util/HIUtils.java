@@ -763,11 +763,8 @@ public final class HIUtils {
 
             @Override
             public T next(){
-                if(hasNext()){
-                    return array[offset + index++];
-                }else{
-                    return null;
-                }
+                if(hasNext()) return array[offset + index++];
+                else return null;
             }
 
             @Override
@@ -870,7 +867,7 @@ public final class HIUtils {
             if(size < 0 || size > maxBlockSize) throw new RuntimeException("Block size must be between 0 and " + maxBlockSize);
 
             int dir = Mathf.mod(direction, 8);
-            return dir % 2 == 0 ? edges[size][dir/2] : angle[size][dir/2];
+            return dir % 2 == 0 ? edges[size][dir / 2] : angle[size][dir / 2];
         }
 
         /**
