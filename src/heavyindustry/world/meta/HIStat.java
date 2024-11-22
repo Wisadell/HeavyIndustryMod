@@ -12,8 +12,5 @@ public final class HIStat {
             minerBoosModifier = new Stat("hi-miner-boost-modifier", StatCat.function),
             itemConvertList = new Stat("hi-item-convert-list", StatCat.function),
             maxBoostPercent = new Stat("hi-max-boost-percent", StatCat.function),
-            damageReduction = new Stat("hi-damage-reduction", StatCat.general),
-            inputs = new Stat("hi-inputs", StatCat.crafting),
-            optionalInputs  = new Stat("optionalInputs", HIStatCat.other),
-            maxStructureSize = new Stat("hi-max-structure-size", HIStatCat.structure);
+            damageReduction = new Stat("hi-damage-reduction", StatCat.general);
 }

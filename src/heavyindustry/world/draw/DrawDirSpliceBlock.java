@@ -10,44 +10,51 @@ import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
 import heavyindustry.util.*;
+import heavyindustry.util.HIUtils.*;
 
 import static arc.Core.*;
 
 @SuppressWarnings("unchecked")
-public class DrawDirSpliceBlock<E> extends DrawBlock {
+public class DrawDirSpliceBlock<E extends Building> extends DrawBlock {
     public TextureRegion[] regions = new TextureRegion[16];
     public Intf<E> spliceBits = e -> 0;
     public Boolf2<BuildPlan, BuildPlan> planSplicer = (plan, other) -> false;
 
+    public int size = 1;
     public float layerOffset = 0.0001f;
     public boolean layerRec = true;
 
+    public boolean split = false;
     public boolean simpleSpliceRegion = false;
-    public String suffix = "_splice";
+    public String suffix = "-splice";
 
     @Override
     public void load(Block block){
-        Pixmap[] splicers = new Pixmap[4];
-
-        if(simpleSpliceRegion){
-            PixmapRegion region = atlas.getPixmap(block.name + suffix);
-            Pixmap pixmap = region.crop();
-            for(int i = 0; i < 4; i++){
-                Pixmap m = i == 1 || i == 2? SpriteUtils.rotatePixmap90(pixmap.flipY(), i): SpriteUtils.rotatePixmap90(pixmap, i);
-                splicers[i] = m;
-            }
+        if (split){
+            regions = HIUtils.split(block.name + suffix, size * 32, 0);
         }else{
-            for(int i = 0; i < splicers.length; i++){
-                splicers[i] = atlas.getPixmap(block.name + suffix + "_" + i).crop();
+            Pixmap[] splicers = new Pixmap[4];
+
+            if(simpleSpliceRegion){
+                PixmapRegion region = atlas.getPixmap(block.name + suffix);
+                Pixmap pixmap = region.crop();
+                for(int i = 0; i < 4; i++){
+                    Pixmap m = i == 1 || i == 2 ? SpriteUtils.rotatePixmap90(pixmap.flipY(), i) : SpriteUtils.rotatePixmap90(pixmap, i);
+                    splicers[i] = m;
+                }
+            }else{
+                for(int i = 0; i < splicers.length; i++){
+                    splicers[i] = atlas.getPixmap(block.name + suffix + "-" + i).crop();
+                }
             }
-        }
 
-        for(int i = 0; i < regions.length; i++){
-            regions[i] = getSpliceRegion(splicers, i);
-        }
+            for(int i = 0; i < regions.length; i++){
+                regions[i] = getSpliceRegion(splicers, i);
+            }
 
-        for(Pixmap pixmap: splicers){
-            pixmap.dispose();
+            for(Pixmap pixmap : splicers){
+                pixmap.dispose();
+            }
         }
     }
 
@@ -74,10 +81,9 @@ public class DrawDirSpliceBlock<E> extends DrawBlock {
         float z = Draw.z();
         Draw.z(z + layerOffset);
         Draw.rect(regions[spliceBits.get((E) build)], build.x, build.y);
-        if (layerRec){
-            Draw.z(z);
-        }
+        if(layerRec) Draw.z(z);
         else Draw.z(z + 0.0001f);
+
     }
 
     @Override

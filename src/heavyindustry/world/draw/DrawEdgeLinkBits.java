@@ -14,14 +14,14 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 @SuppressWarnings("unchecked")
-public class DrawEdgeLinkBits<T> extends DrawBlock {
+public class DrawEdgeLinkBits<T extends Building> extends DrawBlock {
     public static final byte[] EMP = new byte[]{0, 0, 0, 0};
     public Func<T, byte[]> compLinked = e -> EMP;
 
     public float layer = -1;
 
     public TextureRegion linker;
-    public String suffix = "_linker";
+    public String suffix = "-linker";
 
     @Override
     public void load(Block block){
@@ -37,7 +37,7 @@ public class DrawEdgeLinkBits<T> extends DrawBlock {
         float z = Draw.z();
         if (layer > 0) Draw.z(layer);
         for(int dir = 0; dir < 4; dir++){
-            Point2[] arr = DirEdges.get(build.block.size, dir);
+            Point2[] arr = HIUtils.DirEdges.get(build.block.size, dir);
             byte[] linkBits = this.compLinked.get((T) build);
             for(int i = 0; i < arr.length; i++){
                 if((linkBits[dir] & 1 << i) == 0) continue;

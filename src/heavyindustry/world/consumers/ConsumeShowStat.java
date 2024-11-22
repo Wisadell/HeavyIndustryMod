@@ -13,7 +13,6 @@ public class ConsumeShowStat extends Consume {
     public final Func<Building, ItemStack[]> items;
     public final Func<Building, LiquidStack[]> liquids;
 
-
     @SuppressWarnings("unchecked")
     public <T extends Building> ConsumeShowStat(Func<T, ItemStack[]> items, Func<T, LiquidStack[]> liquids) {
         this.items = (Func<Building, ItemStack[]>) items;
@@ -22,28 +21,6 @@ public class ConsumeShowStat extends Consume {
 
     @Override
     public void build(Building build, Table table) {
-        /*
-        if (items != null && items.get(build) != null) {
-
-        }
-
-        if (liquids != null && liquids.get(build) != null) {
-            LiquidStack[][] currentLiquid = {liquids.get(build)};
-
-            table.table(cont -> {
-                table.update(() -> {
-                    if (currentLiquid[0] != liquids.get(build)) {
-                        rebuild(build, cont);
-                        currentLiquid[0] = liquids.get(build);
-                    }
-                });
-
-                rebuild(build, cont);
-            });
-        }
-
-         */
-
         ItemStack[][] currentItem = {items.get(build)};
         LiquidStack[][] currentLiquid = {liquids.get(build)};
 
