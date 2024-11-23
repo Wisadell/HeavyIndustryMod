@@ -25,6 +25,7 @@ public class DrawAntiSpliceBlock<E extends Building> extends DrawBlock {
 
     public float layerOffset = 0.0001f;
     public boolean layerRec = true;
+    public boolean split = false;
 
     public boolean interConner;
 
@@ -32,18 +33,22 @@ public class DrawAntiSpliceBlock<E extends Building> extends DrawBlock {
     public void load(Block block) {
         icon = atlas.find(block.name + "-icon");
 
-        Pixmap[] regions = new Pixmap[8];
-        Pixmap[] inner = new Pixmap[4];
+        if(split){
+            drawRegions = HIUtils.split(block.name + "-full", 32, 16, 16);
+        }else{
+            Pixmap[] regions = new Pixmap[8];
+            Pixmap[] inner = new Pixmap[4];
 
-        for (int i = 0; i < regions.length; i++) {
-            regions[i] = atlas.getPixmap(block.name + "-" + splices[i]).crop();
-        }
-        for (int i = 0; i < inner.length; i++) {
-            inner[i] = atlas.getPixmap(block.name + "-" + splices[i * 2 + 1] + "-inner").crop();
-        }
+            for (int i = 0; i < regions.length; i++) {
+                regions[i] = atlas.getPixmap(block.name + "-" + splices[i]).crop();
+            }
+            for (int i = 0; i < inner.length; i++) {
+                inner[i] = atlas.getPixmap(block.name + "-" + splices[i * 2 + 1] + "-inner").crop();
+            }
 
-        for (int i = 0; i < drawRegions.length; i++) {
-            drawRegions[i] = getRegionWithBit(regions, inner, i);
+            for (int i = 0; i < drawRegions.length; i++) {
+                drawRegions[i] = getRegionWithBit(regions, inner, i);
+            }
         }
     }
 
