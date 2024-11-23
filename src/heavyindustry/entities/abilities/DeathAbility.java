@@ -1,6 +1,5 @@
 package heavyindustry.entities.abilities;
 
-import arc.util.*;
 import mindustry.entities.abilities.*;
 import mindustry.gen.*;
 

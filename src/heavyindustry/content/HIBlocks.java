@@ -1879,14 +1879,14 @@ public final class HIBlocks {
             consumeItem(Items.titanium, 8);
         }};
         heavyAlloySmelter = new GenericCrafter("heavy-alloy-smelter"){{
-            requirements(Category.crafting, with(Items.lead, 80, Items.silicon, 60, HIItems.chromium, 30, Items.phaseFabric, 10));
+            requirements(Category.crafting, with(Items.lead, 150, Items.silicon, 80, HIItems.nanocore, 12, Items.thorium, 120, HIItems.chromium, 30, Items.phaseFabric, 20));
             size = 3;
             health = 850;
             craftTime = 80f;
             outputItem = new ItemStack(HIItems.heavyAlloy, 1);
             craftEffect = Fx.smeltsmoke;
             drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
-            consumePower(9f);
+            consumePower(11f);
             consumeItems(with(HIItems.uranium, 1, HIItems.chromium, 1));
         }};
         metalAnalyzer = new Separator("metal-analyzer"){{

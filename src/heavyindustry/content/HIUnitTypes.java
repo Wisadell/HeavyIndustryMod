@@ -74,13 +74,13 @@ public final class HIUnitTypes {
         nameMap.put(name("pioneer"), PayloadLegsUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
+        nameMap.put(name("shadow-blade"), idMap[4]);
         nameMap.put(name("artillery-fire-pioneer"), idMap[3]);
-        nameMap.put(name("disciple"), idMap[4]);
         //elite
         nameMap.put(name("tiger"), idMap[4]);
         nameMap.put(name("thunder"), idMap[43]);
         //boss
-        nameMap.put(name("qln-quillon-mahathasa"), EnergyUnit::new);
+        nameMap.put(name("vast"), EnergyUnit::new);
     }
 
     public static UnitType
@@ -93,11 +93,11 @@ public final class HIUnitTypes {
             //miner-erekir
             miner,largeMiner,legsMiner,
             //other
-            armoredCarrierVehicle,pioneer,vulture,burner,disciple,artilleryFirePioneer,
+            armoredCarrierVehicle,pioneer,vulture,burner,shadowBlade,artilleryFirePioneer,
             //elite
             tiger,thunder,
             //boss
-            qlnQuillonMahathasa;
+            vast;
 
     public static void load(){
         //vanilla-tank
@@ -1876,7 +1876,7 @@ public final class HIUnitTypes {
                 }
             });
         }};
-        disciple = new UnitType("disciple"){{
+        shadowBlade = new UnitType("shadow-blade"){{
             speed = 0.36f;
             hitSize = 24f;
             rotateSpeed = 2.1f;
@@ -1888,7 +1888,7 @@ public final class HIUnitTypes {
             stepShake = 0.15f;
             singleTarget = true;
             drownTimeMultiplier = 4f;
-            weapons.add(new Weapon(name("disciple-weapon")){{
+            weapons.add(new Weapon(name("shadow-blade-weapon")){{
                 top = false;
                 y = 1f;
                 x = 16f;
@@ -1981,7 +1981,7 @@ public final class HIUnitTypes {
             }
                 @Override
                 public void addStats(UnitType u, Table t){
-                    String text = bundle.get("unit.heavy-industry-disciple-weapon-0.description");
+                    String text = bundle.get("unit.heavy-industry-shadow-blade-weapon-0.description");
                     TableUtils.collapseTextToTable(t, text);
                     super.addStats(u, t);
                 }
@@ -2438,7 +2438,7 @@ public final class HIUnitTypes {
             }
             drownTimeMultiplier = 26f;
         }};
-        qlnQuillonMahathasa = new UnitType("qln-quillon-mahathasa"){{
+        vast = new UnitType("vast"){{
             clipSize = 260f;
             engineLayer = Layer.effect;
             engineOffset = 5f;
@@ -2466,6 +2466,9 @@ public final class HIUnitTypes {
             hidden = true;
         }
             public Effect slopeEffect = HIFx.boolSelector;
+
+            public final float outerEyeScl = 0.25f;
+            public final float innerEyeScl = 0.18f;
 
             public final float[][] rotator = {{75f, 0, 8.5f, 1.35f, 0.1f}, {55f, 0, 6.5f, -1.7f, 0.1f}, {25, 0, 13, 0.75f, 0.3f}, {100f, 33.5f, 11, 0.75f, 0.7f}, {60f, -20, 6f, -0.5f, 1.25f}};
 
@@ -2522,6 +2525,17 @@ public final class HIUnitTypes {
                     }
                 }
 
+                Draw.color(Tmp.c1.set(unit.team.color).lerp(Color.white, 0.65f));
+                Fill.circle(unit.x, unit.y, bodySize * sizeF * 0.75f * unit.healthf());
+                Draw.color(Color.black);
+                Fill.circle(unit.x, unit.y, bodySize * sizeF * 0.7f * unit.healthf());
+
+                Draw.color(unit.team.color);
+                Tmp.v1.set(unit.aimX, unit.aimY).sub(unit).nor().scl(bodySize * 0.15f);
+                Fill.circle(Tmp.v1.x + unit.x, Tmp.v1.y + unit.y, bodySize * sizeF * outerEyeScl);
+                Draw.color(unit.team.color, Color.white, Mathf.absin(4f, 0.3f) + 0.45f);
+                Tmp.v1.setLength(bodySize * sizeF * (outerEyeScl - innerEyeScl));
+                Fill.circle(Tmp.v1.x + unit.x, Tmp.v1.y + unit.y, bodySize * sizeF * innerEyeScl);
                 Draw.reset();
             }
 
