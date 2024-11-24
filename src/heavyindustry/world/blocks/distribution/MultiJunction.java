@@ -18,7 +18,7 @@ public class MultiJunction extends LiquidJunction {
     public float speed = 26;
     public int capacity = 6;
 
-    public MultiJunction(String name){
+    public MultiJunction(String name) {
         super(name);
         placeableLiquid = true;
         update = true;
@@ -31,11 +31,11 @@ public class MultiJunction extends LiquidJunction {
     }
 
     @Override
-    public boolean outputsItems(){
+    public boolean outputsItems() {
         return true;
     }
 
-    public class MultiJunctionBuild extends LiquidJunctionBuild{
+    public class MultiJunctionBuild extends LiquidJunctionBuild {
         public DirectionalItemBuffer buffer = new DirectionalItemBuffer(capacity);
 
         @Override

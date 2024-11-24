@@ -41,7 +41,7 @@ public class LiquidMassDriver extends Block {
 
     public DrawBlock drawer = new DrawLiquidMassDriver();
 
-    public LiquidMassDriver(String name){
+    public LiquidMassDriver(String name) {
         super(name);
         update = true;
         solid = true;
@@ -67,7 +67,7 @@ public class LiquidMassDriver extends Block {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);
@@ -75,22 +75,22 @@ public class LiquidMassDriver extends Block {
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
 
         Drawf.dashCircle(x * tilesize, y * tilesize, range, Pal.accent);
 
         //check if a mass driver is selected while placing this driver
-        if(!control.input.config.isShown()) return;
+        if (!control.input.config.isShown()) return;
         Building selected = control.input.config.getSelected();
-        if(selected == null || selected.block != this || !selected.within(x * tilesize, y * tilesize, range)) return;
+        if (selected == null || selected.block != this || !selected.within(x * tilesize, y * tilesize, range)) return;
 
         //if so, draw a dotted line towards it while it is in range
         float sin = Mathf.absin(Time.time, 6f, 1f);
         Tmp.v1.set(x * tilesize + offset, y * tilesize + offset).sub(selected.x, selected.y).limit((size / 2f + 1) * tilesize + sin + 0.5f);
         float x2 = x * tilesize - Tmp.v1.x, y2 = y * tilesize - Tmp.v1.y,
                 x1 = selected.x + Tmp.v1.x, y1 = selected.y + Tmp.v1.y;
-        int segs = (int)(selected.dst(x * tilesize, y * tilesize) / tilesize);
+        int segs = (int) (selected.dst(x * tilesize, y * tilesize) / tilesize);
 
         Lines.stroke(4f, Pal.gray);
         Lines.dashLine(x1, y1, x2, y2, segs);
@@ -105,7 +105,7 @@ public class LiquidMassDriver extends Block {
         public float amount = 0;
 
         @Override
-        public void reset(){
+        public void reset() {
             from = null;
             to = null;
             liquid = Liquids.water;
@@ -121,77 +121,74 @@ public class LiquidMassDriver extends Block {
         //TODO use queue? this array usually holds about 3 shooters max anyway
         public OrderedSet<Building> waitingShooters = new OrderedSet<>();
 
-        public Building currentShooter(){
+        public Building currentShooter() {
             return waitingShooters.isEmpty() ? null : waitingShooters.first();
         }
 
-        public float liquidTotal(){
+        public float liquidTotal() {
             return liquids.get(liquids.current());
         }
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             Building link = world.build(this.link);
             boolean hasLink = linkValid();
 
-            if(hasLink){
+            if (hasLink) {
                 this.link = link.pos();
             }
 
             //reload regardless of state
-            if(reloadCounter > 0f){
+            if (reloadCounter > 0f) {
                 reloadCounter = Mathf.clamp(reloadCounter - edelta() / reload);
             }
 
             Building current = currentShooter();
 
             //cleanup waiting shooters that are not valid
-            if(current != null && !shooterValid(current)){
+            if (current != null && !shooterValid(current)) {
                 waitingShooters.remove(current);
             }
 
             //switch states
-            if(state == DriverState.idle){
+            if (state == DriverState.idle) {
                 //start accepting when idle and there's space
-                if(!waitingShooters.isEmpty() && (liquidCapacity - liquidTotal() >= minDistribute)){
+                if (!waitingShooters.isEmpty() && (liquidCapacity - liquidTotal() >= minDistribute)) {
                     state = DriverState.accepting;
-                }else if(hasLink){ //switch to shooting if there's a valid link.
+                } else if (hasLink) { //switch to shooting if there's a valid link.
                     state = DriverState.shooting;
                 }
             }
 
             //dump when idle or accepting
-            if(state == DriverState.idle || state == DriverState.accepting){
+            if (state == DriverState.idle || state == DriverState.accepting) {
                 dumpLiquid(liquids.current());
             }
 
             //skip when there's no power
-            if(efficiency <= 0f){
+            if (efficiency <= 0f) {
                 return;
             }
 
-            if(state == DriverState.accepting){
+            if (state == DriverState.accepting) {
 
-                if(currentShooter() == null || (liquidCapacity - liquidTotal() < minDistribute)){
+                if (currentShooter() == null || (liquidCapacity - liquidTotal() < minDistribute)) {
                     state = DriverState.idle;
                     return;
                 }
 
                 //align to shooter rotation
                 rotation = Angles.moveToward(rotation, angleTo(currentShooter()), rotateSpeed * efficiency);
-            }else if(state == DriverState.shooting){
+            } else if (state == DriverState.shooting){
 
-                if(!hasLink || (!waitingShooters.isEmpty() && (liquidCapacity - liquidTotal() >= minDistribute))){
+                if (!hasLink || (!waitingShooters.isEmpty() && (liquidCapacity - liquidTotal() >= minDistribute))) {
                     state = DriverState.idle;
                     return;
                 }
 
                 float targetRotation = angleTo(link);
 
-                if(
-                        liquidTotal() >= minDistribute &&
-                                link.block.liquidCapacity - link.liquids.get(link.liquids.current()) >= minDistribute
-                ){
+                if (liquidTotal() >= minDistribute && link.block.liquidCapacity - link.liquids.get(link.liquids.current()) >= minDistribute) {
                     LiquidMassDriverBuild other = (LiquidMassDriverBuild)link;
                     other.waitingShooters.add(this);
 
@@ -201,9 +198,9 @@ public class LiquidMassDriver extends Block {
                         rotation = Angles.moveToward(rotation, targetRotation, rotateSpeed * efficiency);
 
                         //fire when it's the first in the queue and angles are ready.
-                        if(other.currentShooter() == this &&
+                        if (other.currentShooter() == this &&
                                 other.state == DriverState.accepting &&
-                                Angles.near(rotation, targetRotation, 2f) && Angles.near(other.rotation, targetRotation + 180f, 2f)){
+                                Angles.near(rotation, targetRotation, 2f) && Angles.near(other.rotation, targetRotation + 180f, 2f)) {
                             //actually fire
                             fire(other);
                             float timeToArrive = Math.min(bulletLifetime, dst(other) / bulletSpeed);
@@ -221,30 +218,30 @@ public class LiquidMassDriver extends Block {
         }
 
         @Override
-        public double sense(LAccess sensor){
+        public double sense(LAccess sensor) {
             if(sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter / reload);
             return super.sense(sensor);
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             drawer.draw(this);
         }
 
         @Override
-        public void drawConfigure(){
+        public void drawConfigure() {
             float sin = Mathf.absin(Time.time, 6f, 1f);
 
             Draw.color(Pal.accent);
             Lines.stroke(1f);
             Drawf.circles(x, y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.accent);
 
-            for(Building shooter : waitingShooters){
+            for (Building shooter : waitingShooters) {
                 Drawf.circles(shooter.x, shooter.y, (tile.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);
                 Drawf.arrow(shooter.x, shooter.y, x, y, size * tilesize + sin, 4f + sin, Pal.place);
             }
 
-            if(linkValid()){
+            if (linkValid()) {
                 Building target = world.build(link);
                 Drawf.circles(target.x, target.y, (target.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);
                 Drawf.arrow(x, y, target.x, target.y, size * tilesize + sin, 4f + sin);
@@ -254,17 +251,17 @@ public class LiquidMassDriver extends Block {
         }
 
         @Override
-        public boolean onConfigureBuildTapped(Building other){
-            if(this == other){
+        public boolean onConfigureBuildTapped(Building other) {
+            if (this == other) {
                 if(link == -1) deselect();
                 configure(-1);
                 return false;
             }
 
-            if(link == other.pos()){
+            if (link == other.pos()) {
                 configure(-1);
                 return false;
-            }else if(other.block == block && other.dst(tile) <= range && other.team == team){
+            } else if (other.block == block && other.dst(tile) <= range && other.team == team) {
                 configure(other.pos());
                 return false;
             }
@@ -283,7 +280,7 @@ public class LiquidMassDriver extends Block {
             super.dumpLiquid(liquid);
         }
 
-        protected void fire(LiquidMassDriverBuild target){
+        protected void fire(LiquidMassDriverBuild target) {
             //reset reload, use power.
             reloadCounter = 1f;
 
@@ -308,7 +305,7 @@ public class LiquidMassDriver extends Block {
             shootSound.at(tile, Mathf.random(0.9f, 1.1f));
         }
 
-        public void handlePayload(Bullet bullet, LiquidBulletData data){
+        public void handlePayload(Bullet bullet, LiquidBulletData data) {
 
             liquids.add(data.liquid, data.amount);
 
@@ -319,30 +316,30 @@ public class LiquidMassDriver extends Block {
             bullet.remove();
         }
 
-        protected boolean shooterValid(Building other){
-            if(other instanceof LiquidMassDriverBuild entity && other.isValid() && other.efficiency > 0){
+        protected boolean shooterValid(Building other) {
+            if (other instanceof LiquidMassDriverBuild entity && other.isValid() && other.efficiency > 0) {
                 return entity.block == block && entity.link == pos() && within(other, range);
             }
             return false;
         }
 
-        protected boolean linkValid(){
-            if(link == -1) return false;
+        protected boolean linkValid() {
+            if (link == -1) return false;
             Building linked = world.build(this.link);
-            if(linked instanceof LiquidMassDriverBuild other){
+            if (linked instanceof LiquidMassDriverBuild other) {
                 return other.block == block && other.team == team && within(other, range);
             }
             return false;
         }
 
         @Override
-        public Point2 config(){
-            if(tile == null) return null;
+        public Point2 config() {
+            if (tile == null) return null;
             return Point2.unpack(link).sub(tile.x, tile.y);
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.i(link);
             write.f(rotation);
@@ -350,7 +347,7 @@ public class LiquidMassDriver extends Block {
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             link = read.i();
             rotation = read.f();

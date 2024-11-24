@@ -12,7 +12,7 @@ import mindustry.gen.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.util.HIUtils.SpriteUtils.*;
+import static heavyindustry.util.SpriteUtils.*;
 import static mindustry.Vars.*;
 
 /**
@@ -27,15 +27,15 @@ public class ShapedWall extends Wall {
     protected final Seq<Building> toDamage = new Seq<>();
     protected final Queue<Building> queue = new Queue<>();
 
-    public ShapedWall(String name){
+    public ShapedWall(String name) {
         super(name);
         size = 1;
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
-        orthogonalRegion = HIUtils.splitLayers(name + "-full", 32, 2);
+        orthogonalRegion = Utils.splitLayers(name + "-full", 32, 2);
     }
 
     @Override
@@ -49,15 +49,15 @@ public class ShapedWall extends Wall {
         public int orthogonalIndex = 0;
         public boolean[] diagonalIndex = new boolean[4];
 
-        public boolean linkValid(Building build){
+        public boolean linkValid(Building build) {
             return checkWall(build) && Mathf.dstm(tileX(), tileY(), build.tileX(), build.tileY()) <= maxShareStep;
         }
 
-        public boolean checkWall(Building build){
+        public boolean checkWall(Building build) {
             return build != null && build.block == this.block;
         }
 
-        public void findLinkWalls(){
+        public void findLinkWalls() {
             toDamage.clear();
             queue.clear();
 
@@ -74,18 +74,18 @@ public class ShapedWall extends Wall {
             }
         }
 
-        public void updateDrawRegion(){
+        public void updateDrawRegion() {
             orthogonalIndex = 0;
 
-            for(int i = 0; i < orthogonalPos.length; i++){
+            for (int i = 0; i < orthogonalPos.length; i++) {
                 Point2 pos = orthogonalPos[i];
                 Building build = world.build(tileX() + pos.x, tileY() + pos.y);
-                if (build instanceof ShapedWallBuild && build.team == team){
+                if (build instanceof ShapedWallBuild && build.team == team) {
                     orthogonalIndex += 1 << i;
                 }
             }
 
-            for(int i = 0; i < diagonalPos.length; i++){
+            for (int i = 0; i < diagonalPos.length; i++) {
                 boolean diagonal = true;
                 Point2[] posArray = diagonalPos[i];
 
@@ -101,7 +101,7 @@ public class ShapedWall extends Wall {
             }
         }
 
-        public void updateProximityWall(){
+        public void updateProximityWall() {
             tmpTiles.clear();
             connectedWalls.clear();
 
@@ -128,16 +128,16 @@ public class ShapedWall extends Wall {
         }
 
         @Override
-        public boolean collision(Bullet other){
-            if(other.type.absorbable)other.absorb();
+        public boolean collision(Bullet other) {
+            if (other.type.absorbable) other.absorb();
             return super.collision(other);
         }
 
         @Override
-        public float handleDamage(float amount){
+        public float handleDamage(float amount) {
             findLinkWalls();
             float shareDamage = (amount / toDamage.size) * (1 - damageReduction);
-            for (Building b: toDamage){
+            for (Building b: toDamage) {
                 damageShared(b, shareDamage);
             }
             return shareDamage;
@@ -162,7 +162,7 @@ public class ShapedWall extends Wall {
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             Draw.rect(orthogonalRegion[0][orthogonalIndex], x, y);
             for (int i = 0; i < diagonalIndex.length; i++){
                 if (diagonalIndex[i]){
@@ -172,11 +172,11 @@ public class ShapedWall extends Wall {
         }
 
         @Override
-        public void drawSelect(){
+        public void drawSelect() {
             super.drawSelect();
             findLinkWalls();
             int i = 0;
-            for (Building wall: toDamage){
+            for (Building wall: toDamage) {
                 Fill.square(wall.x, wall.y, 2);
                 Drawn.drawText(i + "", wall.x, wall.y);
                 i++;

@@ -7,7 +7,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
 import static arc.Core.*;
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 
 public class AtlasTallBlock extends TallBlock {
     public TextureRegion[] splitRegion, splitShadowRegion;
@@ -20,7 +20,7 @@ public class AtlasTallBlock extends TallBlock {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         region = atlas.find(name);
 

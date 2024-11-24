@@ -1,7 +1,7 @@
 package heavyindustry.world.blocks.units;
 
 import heavyindustry.util.*;
-import heavyindustry.util.HIUtils.*;
+import heavyindustry.util.Utils.*;
 import heavyindustry.world.meta.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -58,37 +58,37 @@ public class UnitBoost extends Block {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         stats.timePeriod = consumeTime;
         super.setStats();
 
         stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
         stats.add(Stat.range, range, StatUnit.blocks);
         stats.add(new Stat("rangeboost", StatCat.crafting), (int)(maxRangeBoost * 100f), StatUnit.percent);
-        if(status.length >0) stats.add(Stat.abilities, t -> {
+        if (status.length >0) stats.add(Stat.abilities, t -> {
             t.row();
             t.add(bundle.get("hi-stat-value-show-status")).left();
             t.row();
             t.table(Styles.grayPanel, inner -> {
                 inner.left().defaults().left();
-                for(StatusEffect s : status) {
-                    if(s == StatusEffects.none) continue;
+                for (StatusEffect s : status) {
+                    if (s == StatusEffects.none) continue;
                     inner.row();
-                    inner.add(HIUtils.selfStyleImageButton(new TextureRegionDrawable(s.uiIcon), Styles.emptyi, () -> ui.content.show(s))).padTop(4f).padBottom(6f).size(42);
+                    inner.add(Utils.selfStyleImageButton(new TextureRegionDrawable(s.uiIcon), Styles.emptyi, () -> ui.content.show(s))).padTop(4f).padBottom(6f).size(42);
                     //inner.button(new TextureRegionDrawable(s.uiIcon), () -> ui.content.show(s)).padTop(4f).padBottom(6f).size(50);
                     inner.add(s.localizedName).padLeft(5);
                 }
             }).left().growX().margin(6).pad(5).padBottom(-5).row();
         });
 
-        if(findConsumer(c -> c instanceof ConsumeItems) instanceof ConsumeItems cons){
+        if (findConsumer(c -> c instanceof ConsumeItems) instanceof ConsumeItems cons) {
             stats.remove(Stat.booster);
             stats.add(Stat.booster, HIStatValues.itemRangeBoosters("{0}" + StatUnit.timesSpeed.localized(), stats.timePeriod, boostStatus, boostRange * 8, cons.items, boostReplace, this::consumesItem));
         }
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
 
         x *= tilesize;
@@ -100,14 +100,14 @@ public class UnitBoost extends Block {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
-        if(drawer == null) return;
+        if (drawer == null) return;
         drawer.load(this);
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return drawer == null ? super.icons() : drawer.finalIcons(this);
     }
 
@@ -125,7 +125,7 @@ public class UnitBoost extends Block {
         protected final Pool<ExtendedPosition> posPool = Pools.get(ExtendedPosition.class, ExtendedPosition::new);
 
         // for drawer
-        public boolean canShow(){
+        public boolean canShow() {
             return show;
         }
 
@@ -133,23 +133,23 @@ public class UnitBoost extends Block {
         public void updateTile() {
             heat = calculateHeat(sideHeat);
 
-            if(status.length < 1) return;
+            if (status.length < 1) return;
 
             phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);
             realRange = (range + phaseHeat * boostRange) * efficiency;
 
-            if(efficiency < 0.01f) return;
+            if (efficiency < 0.01f) return;
             can = false;
             Units.nearby(Tmp.r1.setCentered(x, y, realRange * tilesize), u -> {
-                if(u.team == team) {
+                if (u.team == team) {
                     boolean phase = phaseHeat > 0.5f;
-                    if(phase) {
+                    if (phase) {
                         for (StatusEffect s : boostStatus) {
                             if (s == StatusEffects.none) continue;
                             u.apply(s, 10);
                         }
                     }
-                    if(!boostReplace || !phase) {
+                    if (!boostReplace || !phase) {
                         for (StatusEffect s : status) {
                             if (s == StatusEffects.none) continue;
                             u.apply(s, 10);
@@ -159,7 +159,7 @@ public class UnitBoost extends Block {
                 }
             });
 
-            if(optionalEfficiency > 0 && can && (consumeTimer += Time.delta) > consumeTime){
+            if (optionalEfficiency > 0 && can && (consumeTimer += Time.delta) > consumeTime) {
                 consumeTimer -= consumeTime;
                 consume();
             }
@@ -169,12 +169,12 @@ public class UnitBoost extends Block {
         @Override
         public void draw() {
             super.draw();
-            if(drawer != null){
+            if (drawer != null) {
                 drawer.draw(this);
                 if(onlyDrawer) return;
             }
 
-            if(!state.isPaused()){
+            if (!state.isPaused()) {
                 if (show && efficiency > 0.01f) {
                     ps = Mathf.lerpDelta(ps, 1, 0.04f);
                     rotation += edelta();
@@ -184,7 +184,7 @@ public class UnitBoost extends Block {
                 }
             }
 
-            if(ps < 0.01f) return;
+            if (ps < 0.01f) return;
             float dz = Draw.z();
 
             Draw.z(Layer.effect);
@@ -208,7 +208,7 @@ public class UnitBoost extends Block {
                 pos.add(p);
             }
 
-            for(int i = 0; i < pos.size; i++){
+            for (int i = 0; i < pos.size; i++) {
                 float ox = pos.get(i)[0], oy = pos.get(i)[1];
                 float ex = pos.get((i + 2) % pos.size)[0], ey = pos.get((i + 2) % pos.size)[1];
 
@@ -223,37 +223,37 @@ public class UnitBoost extends Block {
         }
 
         @Override
-        public void drawSelect(){
+        public void drawSelect() {
             super.drawSelect();
 
-            if(!change1_2) lp1 = Mathf.lerpDelta(lp1, 1, 0.06f);
-            if(change1_2) lp2 = Mathf.lerpDelta(lp2, 0, 0.06f);
-            if(lp1 > 0.99f){
+            if (!change1_2) lp1 = Mathf.lerpDelta(lp1, 1, 0.06f);
+            if (change1_2) lp2 = Mathf.lerpDelta(lp2, 0, 0.06f);
+            if (lp1 > 0.99f) {
                 change1_2 = true;
                 lp1 = 0;
             }
-            if(lp2 < 0.01f){
+            if (lp2 < 0.01f) {
                 change1_2 = false;
                 lp2 = 1;
             }
 
             Lines.stroke(2.4f, team.color);
             pos.clear();
-            for(Point2 q : Geometry.d8edge){
-                float lx = x + realRange/2 * tilesize * q.x;
-                float ly = y + realRange/2 * tilesize * q.y;
+            for (Point2 q : Geometry.d8edge){
+                float lx = x + realRange / 2 * tilesize * q.x;
+                float ly = y + realRange / 2 * tilesize * q.y;
                 Float[] p = {lx, ly};
                 pos.add(p);
             }
 
-            for(int i = 0; i < pos.size; i++){
+            for (int i = 0; i < pos.size; i++) {
                 float ox = pos.get(i)[0], oy = pos.get(i)[1];
                 float ex = pos.get((i + 1) % pos.size)[0], ey = pos.get((i + 1) % pos.size)[1];
 
                 ExtendedPosition og = posPool.obtain().set(ox, oy);
                 float dst = og.dst(ex, ey);
                 float angle = og.angleTo(ex, ey);
-                if(!change1_2) {
+                if (!change1_2) {
                     Lines.lineAngle(ox, oy, angle, dst * lp1);
                 } else {
                     Lines.lineAngle(ex, ey, angle - 180, dst * lp2);
@@ -279,8 +279,8 @@ public class UnitBoost extends Block {
 
         @Override
         public void updateEfficiencyMultiplier() {
-            float scale = this.efficiencyScale();
-            this.efficiency *= scale;
+            float scale = efficiencyScale();
+            efficiency *= scale;
         }
 
         @Override

@@ -21,13 +21,13 @@ import static mindustry.Vars.*;
  * A wall with insulation properties that change with opening and closing.
  * @author Wisadell
  */
-public class InsulationWall extends Wall{
+public class InsulationWall extends Wall {
     public final int timerToggle = timers++;
     public Effect openFx = Fx.dooropen, closeFx = Fx.doorclose;
     public Sound doorSound = Sounds.door;
     public TextureRegion openRegion;
 
-    public InsulationWall(String name){
+    public InsulationWall(String name) {
         super(name);
         consumesTap = true;
 
@@ -40,32 +40,32 @@ public class InsulationWall extends Wall{
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
 
         openRegion = atlas.find(name + "-open");
     }
 
     @Override
-    public TextureRegion getPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public TextureRegion getPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         return plan.config == Boolean.TRUE ? openRegion : region;
     }
 
-    public class InsulationWallBuild extends WallBuild{
+    public class InsulationWallBuild extends WallBuild {
         public boolean open = false;
 
         @Override
-        public double sense(LAccess sensor){
-            if(sensor == LAccess.enabled) return open ? 1 : 0;
+        public double sense(LAccess sensor) {
+            if (sensor == LAccess.enabled) return open ? 1 : 0;
             return super.sense(sensor);
         }
 
         @Override
-        public void control(LAccess type, double p1, double p2, double p3, double p4){
-            if(type == LAccess.enabled){
+        public void control(LAccess type, double p1, double p2, double p3, double p4) {
+            if (type == LAccess.enabled) {
                 boolean shouldOpen = !Mathf.zero(p1);
 
-                if(net.client() || open == shouldOpen || timer(timerToggle, 60f)){
+                if (net.client() || open == shouldOpen || timer(timerToggle, 60f)) {
                     return;
                 }
 
@@ -73,45 +73,45 @@ public class InsulationWall extends Wall{
             }
         }
 
-        public void effect(){
+        public void effect() {
             (open ? closeFx : openFx).at(this, size);
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             Draw.rect(open ? openRegion : region, x, y);
         }
 
         @Override
-        public Cursor getCursor(){
+        public Cursor getCursor() {
             return interactable(player.team()) ? SystemCursor.hand : SystemCursor.arrow;
         }
 
         @Override
-        public boolean isInsulated(){
+        public boolean isInsulated() {
             return !open;
         }
 
         @Override
-        public void tapped(){
-            if(!timer(timerToggle, 60f)) return;
+        public void tapped() {
+            if (!timer(timerToggle, 60f)) return;
 
             configure(!open);
         }
 
         @Override
-        public Boolean config(){
+        public Boolean config() {
             return open;
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.bool(open);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             open = read.bool();
         }

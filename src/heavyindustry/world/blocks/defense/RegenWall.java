@@ -42,13 +42,13 @@ public class RegenWall extends Wall {
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         drawPotentialLinks(x, y);
         drawOverlay(x * tilesize + offset, y * tilesize + offset, rotation);
     }
 
     @Override
-    public boolean outputsItems(){
+    public boolean outputsItems() {
         return false;
     }
 
@@ -62,15 +62,15 @@ public class RegenWall extends Wall {
         public boolean anyTargets = false;
         public boolean didRegen = false;
 
-        public void updateTargets(){
+        public void updateTargets() {
             targets.clear();
             taken.clear();
             indexer.eachBlock(team, Tmp.r1.setCentered(x, y, tilesize), b -> true, targets::add);
         }
 
         @Override
-        public void updateTile(){
-            if(lastChange != world.tileChanges){
+        public void updateTile() {
+            if (lastChange != world.tileChanges){
                 lastChange = world.tileChanges;
                 updateTargets();
             }
@@ -82,17 +82,17 @@ public class RegenWall extends Wall {
             anyTargets = false;
 
             //no healing when suppressed
-            if(checkSuppression()){
+            if (checkSuppression()) {
                 return;
             }
 
             anyTargets = targets.contains(Building::damaged);
 
-            if(efficiency > 0){
+            if (efficiency > 0) {
                 float healAmount = optionalEfficiency * healPercent;
 
                 //use Math.max to prevent stacking
-                for(var build : targets){
+                for (Building build : targets) {
                     if(!build.damaged() || build.isHealSuppressed()) continue;
 
                     didRegen = true;
@@ -108,7 +108,7 @@ public class RegenWall extends Wall {
                 lastUpdateFrame = state.updateId;
 
                 for(var entry : mendMap.entries()){
-                    var build = world.build(entry.key);
+                    Building build = world.build(entry.key);
                     if(build != null){
                         build.heal(entry.value);
                         build.recentlyHealed();
@@ -119,41 +119,41 @@ public class RegenWall extends Wall {
 
             hit = Mathf.clamp(hit - Time.delta / 10f);
 
-            if(damaged() && heals){
+            if (damaged() && heals) {
                 heals = false;
                 heal(healAmount);
             }
         }
 
         @Override
-        public boolean collision(Bullet bullet){
+        public boolean collision(Bullet bullet) {
             boolean wasDead = health <= 0;
 
             float damage = bullet.damage() * bullet.type().buildingDamageMultiplier;
-            if(!bullet.type.pierceArmor){
+            if (!bullet.type.pierceArmor) {
                 damage = Damage.applyArmor(damage, block.armor);
             }
 
             damage(bullet.team, damage);
             Events.fire(bulletDamageEvent.set(self(), bullet));
 
-            if(health <= 0 && !wasDead){
+            if (health <= 0 && !wasDead) {
                 Events.fire(new BuildingBulletDestroyEvent(self(), bullet));
             }
 
             hit = 1f;
 
-            if(Mathf.chance(chanceHeal)){
+            if (Mathf.chance(chanceHeal)) {
                 healAmount = bullet.damage * regenPercent;
                 heals = true;
             }
 
-            if(chanceDeflect > 0f && bullet.vel.len() > 0.1f && bullet.type.reflectable && Mathf.chance(chanceDeflect / bullet.damage)){
+            if (chanceDeflect > 0f && bullet.vel.len() > 0.1f && bullet.type.reflectable && Mathf.chance(chanceDeflect / bullet.damage)) {
                 bullet.trns(-bullet.vel.x, -bullet.vel.y);
 
-                if(Math.abs(x - bullet.x) > Math.abs(y - bullet.y)){
+                if (Math.abs(x - bullet.x) > Math.abs(y - bullet.y)) {
                     bullet.vel.x *= -1f;
-                }else{
+                } else {
                     bullet.vel.y *= -1f;
                 }
 
@@ -167,17 +167,17 @@ public class RegenWall extends Wall {
         }
 
         @Override
-        public void drawSelect(){
+        public void drawSelect() {
             block.drawOverlay(x, y, rotation);
         }
 
         @Override
-        public float warmup(){
+        public float warmup() {
             return warmup;
         }
 
         @Override
-        public float totalProgress(){
+        public float totalProgress() {
             return totalTime;
         }
     }

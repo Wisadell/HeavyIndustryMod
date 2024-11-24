@@ -15,7 +15,7 @@ public class RandomSource extends Block {
     public float powerProduction = 1000000 / 60f;
     public float heat = 1000;
 
-    public RandomSource(String name){
+    public RandomSource(String name) {
         super(name);
         hasItems = true;
         update = true;
@@ -29,14 +29,13 @@ public class RandomSource extends Block {
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
         removeBar("items");
     }
 
-
     @Override
-    public boolean outputsItems(){
+    public boolean outputsItems() {
         return true;
     }
 
@@ -44,7 +43,7 @@ public class RandomSource extends Block {
         public float counter;
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             int r = Mathf.random(content.items().size);
             Item outputItem = content.item(r);
             int l = Mathf.random(content.liquids().size);
@@ -52,19 +51,19 @@ public class RandomSource extends Block {
 
             counter += edelta();
             float limit = 60f / itemsPerSecond;
-            while(counter >= limit && outputItem != null){
+            while (counter >= limit && outputItem != null) {
                 items.set(outputItem, 1);
                 dump(outputItem);
                 items.set(outputItem, 0);
                 counter -= limit;
             }
 
-            for(int i = 0; i < proximity.size; i++) {
+            for (int i = 0; i < proximity.size; i++) {
                 Building bd = proximity.get(i);
-                if(bd != null && bd.block != null){
+                if (bd != null && bd.block != null) {
                     boolean none = true;
-                    if(bd.block.consumers != null){
-                        for(Consume c : bd.block.consumers){
+                    if (bd.block.consumers != null) {
+                        for (Consume c : bd.block.consumers) {
                             if (c instanceof ConsumeLiquid cl) {
                                 none = false;
                                 if (bd.acceptLiquid(this, cl.liquid) && bd.liquids.get(cl.liquid) < bd.block.liquidCapacity * 2) {
@@ -96,8 +95,8 @@ public class RandomSource extends Block {
                             }
                         }
                     }
-                    if(none && outLiquid != null){
-                        if(bd.acceptLiquid(this, outLiquid)){
+                    if (none && outLiquid != null) {
+                        if (bd.acceptLiquid(this, outLiquid)) {
                             bd.handleLiquid(this, outLiquid, bd.block.liquidCapacity - bd.liquids.get(outLiquid));
                         }
                     }
@@ -106,7 +105,7 @@ public class RandomSource extends Block {
         }
 
         @Override
-        public float getPowerProduction(){
+        public float getPowerProduction() {
             return enabled ? powerProduction : 0f;
         }
 

@@ -5,7 +5,7 @@ import arc.math.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 
 public class AtlasFloor extends Floor {
     public TextureRegion[] splitRegion;
@@ -15,7 +15,7 @@ public class AtlasFloor extends Floor {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         splitRegion = split(name + "-full", 32, 0);
     }

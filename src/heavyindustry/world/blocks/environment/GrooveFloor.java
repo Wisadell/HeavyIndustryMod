@@ -17,7 +17,7 @@ public class GrooveFloor extends AtlasFloor {
     }
 
     @Override
-    protected boolean doEdge(Tile tile, Tile otherTile, Floor other){
+    protected boolean doEdge(Tile tile, Tile otherTile, Floor other) {
         return false;
     }
 
@@ -29,7 +29,7 @@ public class GrooveFloor extends AtlasFloor {
         drawOverlay(tile);
     }
 
-    private byte getTileIndex(Tile tile){
+    private byte getTileIndex(Tile tile) {
         byte index = 0;
         if (world.floor(tile.x, tile.y + 1) == this) index += 1;
         if (world.floor(tile.x + 1, tile.y) == this) index += 2;

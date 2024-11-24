@@ -90,12 +90,12 @@ public class HeatDriver extends Block {
         public long lastHeatUpdate = -1;
 
         @Override
-        public void draw(){
+        public void draw() {
             drawer.draw(this);
         }
 
         @Override
-        public void drawLight(){
+        public void drawLight() {
             super.drawLight();
             drawer.drawLight(this);
         }
@@ -109,12 +109,12 @@ public class HeatDriver extends Block {
             Building linked = world.build(link);
             boolean hasLink = linkValid();
 
-            if(hasLink) {
+            if (hasLink) {
                 HeatDriverBuild other = (HeatDriverBuild) linked;
                 if(other.checkOneOwner(this)) other.owners.add(this);
                 float toRotation = angleTo(other);
                 rotation = Mathf.slerpDelta(rotation, toRotation, 0.02f * power.status);
-                if(Angles.near(rotation, toRotation, 2)){
+                if (Angles.near(rotation, toRotation, 2)) {
                     updateTransfer();
                     other.updateTransfer();
                     progress = Mathf.slerpDelta(progress, 1, 0.02f * power.status);
@@ -125,19 +125,19 @@ public class HeatDriver extends Block {
                 progress = Mathf.slerpDelta(progress, 0, 0.04f);
             }
             float p = Math.min((heat / visualMaxHeat), 1);
-            if(owners.size > 0 && p > 0){
+            if (owners.size > 0 && p > 0){
                 resProgress = Mathf.slerpDelta(resProgress, 1, 0.02f * p);
             } else {
                 resProgress = Mathf.slerpDelta(resProgress, 0, 0.05f);
             }
         }
 
-        public void updateTransfer(){
-            if(owners.size > 0){
+        public void updateTransfer() {
+            if (owners.size > 0){
                 float totalHeat = 0f;
-                for(int i = 0; i < owners.size; i++){
+                for (int i = 0; i < owners.size; i++) {
                     HeatDriverBuild owner = (HeatDriverBuild)owners.get(i);
-                    if(Angles.near(owner.rotation, owner.angleTo(this), 2f)) {
+                    if (Angles.near(owner.rotation, owner.angleTo(this), 2f)) {
                         totalHeat += owner.heat;
                         totalHeat *= owner.power.status;
                     }
@@ -148,7 +148,7 @@ public class HeatDriver extends Block {
             }
         }
 
-        public void updateHeat(){
+        public void updateHeat() {
             if(lastHeatUpdate == state.updateId) return;
 
             lastHeatUpdate = state.updateId;
@@ -156,32 +156,32 @@ public class HeatDriver extends Block {
         }
 
         @Override
-        public float heatRequirement(){
+        public float heatRequirement() {
             return linkValid() ? visualMaxHeat : Float.MAX_VALUE;
         }
 
         @Override
-        public float warmup(){
+        public float warmup() {
             return heat;
         }
 
         @Override
-        public float heat(){
+        public float heat() {
             return (owners.size > 0 && link == -1) ? heat : 0;
         }
 
         @Override
-        public float heatFrac(){
+        public float heatFrac() {
             return (heat / visualMaxHeat) / (splitHeat ? 3f : 1);
         }
 
         @Override
-        public float[] sideHeat(){
+        public float[] sideHeat() {
             return sideHeat;
         }
 
         @Override
-        public void drawConfigure(){
+        public void drawConfigure() {
             float sin = Mathf.absin(Time.time, 6f, 1f);
 
             Draw.color(Pal.accent);
@@ -193,8 +193,7 @@ public class HeatDriver extends Block {
                 Drawf.arrow(owner.x, owner.y, x, y, size * tilesize + sin, 4f + sin, Pal.place);
             });
 
-
-            if(linkValid()){
+            if (linkValid()) {
                 Building target = world.build(link);
                 Drawf.circles(target.x, target.y, (target.block().size / 2f + 1) * tilesize + sin - 2f, Pal.place);
                 Drawf.arrow(x, y, target.x, target.y, size * tilesize + sin, 4f + sin);
@@ -204,17 +203,17 @@ public class HeatDriver extends Block {
         }
 
         @Override
-        public boolean onConfigureBuildTapped(Building other){
-            if(this == other){
+        public boolean onConfigureBuildTapped(Building other) {
+            if (this == other) {
                 if(link == -1) deselect();
                 configure(-1);
                 return false;
             }
 
-            if(link == other.pos()){
+            if (link == other.pos()) {
                 configure(-1);
                 return false;
-            }else if(other.block == block && other.dst(tile) <= range && other.team == team && checkOneOwner(other)){
+            } else if (other.block == block && other.dst(tile) <= range && other.team == team && checkOneOwner(other)) {
                 configure(other.pos());
                 return false;
             }
@@ -222,8 +221,8 @@ public class HeatDriver extends Block {
             return true;
         }
 
-        public void checkOwner(){
-            for(int i = 0; i < owners.size; i++){
+        public void checkOwner() {
+            for (int i = 0; i < owners.size; i++) {
                 int pos = owners.get(i).pos();
                 Building build = world.build(pos);
                 if (build instanceof HeatDriverBuild owner) {
@@ -234,21 +233,21 @@ public class HeatDriver extends Block {
             }
         }
 
-        protected boolean checkOneOwner(Building other){
-            if(owners.size == 0) return true;
+        protected boolean checkOneOwner(Building other) {
+            if (owners.size == 0) return true;
             return !owners.contains(other);
         }
 
         @Override
         public Point2 config() {
-            if(tile == null) return null;
+            if (tile == null) return null;
             return Point2.unpack(link).sub(tile.x, tile.y);
         }
 
-        public boolean linkValid(){
-            if(link == -1) return false;
+        public boolean linkValid() {
+            if (link == -1) return false;
             Building other = world.build(link);
-            if(other == null){
+            if (other == null) {
                 link = -1;
                 return false;
             }
@@ -311,37 +310,37 @@ public class HeatDriver extends Block {
             Draw.alpha(p);
             Draw.z(Layer.effect);
 
-            if(progress > 0.01f){
+            if (progress > 0.01f) {
                 Draw.rect(effect, bu.x + Angles.trnsx(rotation + 180f, -8f), bu.y + Angles.trnsy(rotation + 180f, -8f), 10f * progress, 10f * progress, rotation - 90f - Time.time * 2);
                 Draw.rect(effect, bu.x + Angles.trnsx(rotation + 180f, -8f), bu.y + Angles.trnsy(rotation + 180f, -8f), 6f * progress, 6f * progress, rotation - 90f + Time.time * 2);
 
-                for(int i = 0; i < 4; i++){
+                for (int i = 0; i < 4; i++) {
                     float angle = i* 360f / 4;
                     Drawf.tri(bu.x + Angles.trnsx(rotation + 180f, -8f) + Angles.trnsx(angle + Time.time, 5f), bu.y + Angles.trnsy(rotation + 180f, -8f) + Angles.trnsy(angle + Time.time, 5f), 6f, 2f * progress, angle + Time.time);
                 }
             }
 
-            if(resProgress > 0.01f){
+            if (resProgress > 0.01f) {
                 Draw.alpha(1);
                 Lines.stroke(1*resProgress);
                 Lines.circle(bu.x + Angles.trnsx(rotation + 180f, 10f), bu.y + Angles.trnsy(rotation + 180f, 10f), 5);
                 Lines.circle(bu.x + Angles.trnsx(rotation + 180f, 10f), bu.y + Angles.trnsy(rotation + 180f, 10f), 3);
 
-                for(int i = 0; i < 3; i++){
+                for (int i = 0; i < 3; i++) {
                     float angle = i* 360f / 3;
                     Drawf.tri(bu.x + Angles.trnsx(rotation + 180f, 10f) + Angles.trnsx(angle - Time.time, 5), bu.y + Angles.trnsy(rotation + 180f, 10f) + Angles.trnsy(angle - Time.time, 5f), 4f, -2f * resProgress, angle - Time.time);
                     Drawf.tri(bu.x + Angles.trnsx(rotation + 180f, 10f) + Angles.trnsx(angle + Time.time, 3), bu.y + Angles.trnsy(rotation + 180f, 10f) + Angles.trnsy(angle + Time.time, 3f), 3f, 1 * resProgress, angle + Time.time);
                 }
             }
 
-            if(bu.linkValid()){
+            if (bu.linkValid()) {
                 Building other = world.build(bu.link);
-                if(!Angles.near(rotation, bu.angleTo(other), 2f)) return;
+                if (!Angles.near(rotation, bu.angleTo(other), 2f)) return;
                 Draw.color();
                 float dist = bu.dst(other) / arrowSpacing - bl.size;
-                int arrows = (int)(dist / arrowSpacing);
+                int arrows = (int) (dist / arrowSpacing);
 
-                for(int a = 0; a < arrows; a++){
+                for (int a = 0; a < arrows; a++) {
                     Draw.alpha(Mathf.absin(a - Time.time / arrowTimeScl, arrowPeriod, 1f) * progress * Renderer.bridgeOpacity * p);
                     Draw.rect(arrow, bu.x + Angles.trnsx(rotation + 180f, -arrowSpacing) * (tilesize / 2f + a * arrowSpacing + arrowOffset), bu.y + Angles.trnsy(rotation + 180f, -arrowSpacing) * (tilesize / 2f + a * arrowSpacing + arrowOffset), 25f, 25f, rotation);
                 }

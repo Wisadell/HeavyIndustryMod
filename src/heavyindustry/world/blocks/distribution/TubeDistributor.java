@@ -11,7 +11,7 @@ import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.draw.*;
 
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
@@ -30,12 +30,12 @@ public class TubeDistributor extends Router {
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         drawer.drawPlan(this, plan, list);
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return new TextureRegion[]{region};
     }
 
@@ -47,12 +47,12 @@ public class TubeDistributor extends Router {
         public int lastRotation = rotation;
 
         @Override
-        public void updateTile(){
-            if(lastItem == null && items.any()){
+        public void updateTile() {
+            if(lastItem == null && items.any()) {
                 lastItem = items.first();
             }
 
-            if(lastItem != null){
+            if(lastItem != null) {
                 time += 1f / speed * delta();
 
                 Building target = getTileTarget(lastItem, lastInput, false);
@@ -62,14 +62,14 @@ public class TubeDistributor extends Router {
                     time = 0.7f;
                 }
 
-                if(target != null && (time >= 1f)){
+                if(target != null && (time >= 1f)) {
                     getTileTarget(lastItem, lastInput, true);
                     target.handleItem(this, lastItem);
                     items.remove(lastItem, 1);
                     lastItem = null;
                 }
 
-                if(lastInput != null && lastItem != null){
+                if(lastInput != null && lastItem != null) {
                     int sa = sourceAngle(), ta = targetAngle();
 
                     angle = (sa == 0) ? (ta == 2 ? 1 : (ta == 0 || ta == 3) ? -1 : 1) :
@@ -86,12 +86,12 @@ public class TubeDistributor extends Router {
         }
 
         @Override
-        public boolean acceptItem(Building source, Item item){
+        public boolean acceptItem(Building source, Item item) {
             return team == source.team && lastItem == null && items.total() == 0 && front() != source;
         }
 
         @Override
-        public void handleItem(Building source, Item item){
+        public void handleItem(Building source, Item item) {
             items.add(item, 1);
             lastItem = item;
             time = 0f;
@@ -99,17 +99,17 @@ public class TubeDistributor extends Router {
         }
 
         @Override
-        public int removeStack(Item item, int amount){
+        public int removeStack(Item item, int amount) {
             int result = super.removeStack(item, amount);
-            if(result != 0 && item == lastItem){
+            if (result != 0 && item == lastItem) {
                 lastItem = null;
             }
             return result;
         }
 
         public int sourceAngle() {
-            for(int sourceAngle = 0; sourceAngle < 4; sourceAngle++) {
-                if(nearby(sourceAngle) == lastInput.build) {
+            for (int sourceAngle = 0; sourceAngle < 4; sourceAngle++) {
+                if (nearby(sourceAngle) == lastInput.build) {
                     lastSourceAngle = sourceAngle;
                     return sourceAngle;
                 }
@@ -119,7 +119,7 @@ public class TubeDistributor extends Router {
 
         public int targetAngle() {
             Building target = getTileTarget(lastItem, lastInput, false);
-            if(target != null) {
+            if (target != null) {
                 for (int targetAngle = 0; targetAngle < 4; targetAngle++) {
                     if (nearby(targetAngle) == target) {
                         lastTargetAngle = targetAngle;
@@ -139,7 +139,7 @@ public class TubeDistributor extends Router {
 
                 if (alignment) {
                     if (isf) {
-                        if(sourceAngle() == targetAngle()){
+                        if (sourceAngle() == targetAngle()) {
                             oy = time >= 0.5f ? linearMove : -linearMove;
                             ox = time >= 0.5f ? (time * s2 - s) * (targetAngle() == 0 ? 1 : -1)
                                     : (time * s2 - s) * (targetAngle() == 0 ? -1 : 1);
@@ -176,13 +176,13 @@ public class TubeDistributor extends Router {
             drawer.draw(this);
         }
 
-        public Building getTileTarget(Item item, Tile from, boolean set){
+        public Building getTileTarget(Item item, Tile from, boolean set) {
             int counter = lastRotation;
-            for(int i = 0; i < proximity.size; i++){
+            for (int i = 0; i < proximity.size; i++) {
                 Building other = proximity.get((i + counter) % proximity.size);
-                if(set) lastRotation = ((byte)((lastRotation + 1) % proximity.size));
-                if(other.tile == from && from.block() == Blocks.overflowGate) continue;
-                if(other.acceptItem(this, item)){
+                if (set) lastRotation = ((byte)((lastRotation + 1) % proximity.size));
+                if (other.tile == from && from.block() == Blocks.overflowGate) continue;
+                if (other.acceptItem(this, item)) {
                     return other;
                 }
             }

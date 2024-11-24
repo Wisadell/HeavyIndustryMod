@@ -18,7 +18,7 @@ public class DeliveryModule extends DrillModule {
         coreSend = true;
     }
 
-    public class DeliveryModuleBuild extends DrillModuleBuild{
+    public class DeliveryModuleBuild extends DrillModuleBuild {
         @Override
         public void draw() {
             super.draw();
@@ -35,7 +35,6 @@ public class DeliveryModule extends DrillModule {
 
             Lines.square(x, y, 8, Time.time / 8f);
             Lines.square(x, y, 8, -Time.time / 8f);
-
         }
     }
 }

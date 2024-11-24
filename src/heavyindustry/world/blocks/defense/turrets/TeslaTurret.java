@@ -25,7 +25,7 @@ import heavyindustry.world.meta.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
-public class TeslaTurret extends Block{
+public class TeslaTurret extends Block {
     private final Seq<Healthc> targets = new Seq<>();
     public final int timerCheck = timers++;
     public int checkInterval = 20;
@@ -64,7 +64,7 @@ public class TeslaTurret extends Block{
     public TextureRegion[] ringRegions, heatRegions, outlineRegions;
     public TextureRegion baseRegion, bottomRegion, topRegion;
 
-    public TeslaTurret(String name){
+    public TeslaTurret(String name) {
         super(name);
 
         update = true;
@@ -76,55 +76,55 @@ public class TeslaTurret extends Block{
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);
         stats.add(Stat.reload, 60f / reload, StatUnit.perSecond);
         stats.add(Stat.ammo, HIStatValues.teslaZapping(damage, maxTargets, status));
 
-        if(coolant != null){
+        if (coolant != null) {
             stats.add(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, l -> l.coolant && consumesLiquid(l)));
         }
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
 
         ringRegions = new TextureRegion[rings.size];
         heatRegions = new TextureRegion[rings.size];
         outlineRegions = new TextureRegion[rings.size];
 
-        for(int i = 0; i < ringRegions.length; i++){
-            if(rings.get(i).hasSprite){
+        for (int i = 0; i < ringRegions.length; i++) {
+            if (rings.get(i).hasSprite) {
                 ringRegions[i] = atlas.find(name + "-ring-" + i);
                 outlineRegions[i] = atlas.find(name + "-outline-" + i);
             }
             heatRegions[i] = atlas.find(name + "-heat-" + i);
         }
 
-        if(hasSpinners) bottomRegion = atlas.find(name + "-bottom");
+        if (hasSpinners) bottomRegion = atlas.find(name + "-bottom");
         topRegion = atlas.find(name + "-top");
         baseRegion = atlas.find(name + "-base", "block-" + size);
     }
 
     @Override
-    public void createIcons(MultiPacker packer){
-        if(hasSpinners) Outliner.outlineRegion(packer, bottomRegion, outlineColor, name + "-bottom");
+    public void createIcons(MultiPacker packer) {
+        if (hasSpinners) Outliner.outlineRegion(packer, bottomRegion, outlineColor, name + "-bottom");
         Outliner.outlineRegions(packer, ringRegions, outlineColor, name + "-outline");
         super.createIcons(packer);
     }
 
     @Override
-    public void init(){
-        if(rings.size < 1) rings.add(new TeslaRing(1f));
-        if(maxTargets < 1) maxTargets = 1;
+    public void init() {
+        if (rings.size < 1) rings.add(new TeslaRing(1f));
+        if (maxTargets < 1) maxTargets = 1;
 
-        if(elevation < 0) elevation = size / 2f;
+        if (elevation < 0) elevation = size / 2f;
         clipSize = Math.max(clipSize, (range + 3f) * 2f);
 
-        if(coolant != null){
+        if (coolant != null) {
             coolant.update = false;
             coolant.booster = true;
             coolant.optional = true;
@@ -137,18 +137,18 @@ public class TeslaTurret extends Block{
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
 
         Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return new TextureRegion[]{baseRegion, region};
     }
 
-    public static class TeslaRing{ //Create different rings out of this
+    public static class TeslaRing { //Create different rings out of this
         public boolean drawUnder, hasSprite;
         public float rotationMul, radius, xOffset, yOffset;
 
@@ -163,19 +163,19 @@ public class TeslaTurret extends Block{
         protected boolean nearby;
 
         @Override
-        public void drawSelect(){
+        public void drawSelect() {
             Drawf.dashCircle(x, y, range, team.color);
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             Draw.rect(baseRegion, x, y);
 
             Draw.z(Layer.turret);
 
-            for(int i = 0; i < rings.size; i++){
+            for (int i = 0; i < rings.size; i++) {
                 TeslaRing ring = rings.get(i);
-                if(ring.hasSprite){
+                if (ring.hasSprite) {
                     Drawf.shadow(ringRegions[i], x - elevation, y - elevation, rotation * ring.rotationMul - 90f);
                 }
             }
@@ -186,25 +186,25 @@ public class TeslaTurret extends Block{
 
             Draw.rect(r, x, y);
 
-            for(int i = 0; i < rings.size; i++){
+            for (int i = 0; i < rings.size; i++) {
                 TeslaRing ring = rings.get(i);
-                if(ring.hasSprite){
+                if (ring.hasSprite) {
                     Draw.rect(outlineRegions[i], x, y, rotation * ring.rotationMul - 90f);
                 }
             }
 
-            for(int i = 0; i < rings.size; i++){
+            for (int i = 0; i < rings.size; i++) {
                 TeslaRing ring = rings.get(i);
-                if(ring.drawUnder){
-                    if(ring.hasSprite){
-                        if(ring.rotationMul != 0){
+                if (ring.drawUnder){
+                    if (ring.hasSprite){
+                        if (ring.rotationMul != 0){
                             Drawf.spinSprite(ringRegions[i], x, y, rotation * ring.rotationMul - 90f);
-                        }else{
+                        } else {
                             Draw.rect(ringRegions[i], x, y);
                         }
                     }
 
-                    if(heats[i] > 0.00001f){
+                    if (heats[i] > 0.00001f) {
                         Draw.color(heatColor, heats[i]);
                         Draw.blend(Blending.additive);
                         Draw.rect(heatRegions[i], x, y, rotation * ring.rotationMul - 90f);
@@ -216,18 +216,18 @@ public class TeslaTurret extends Block{
 
             Draw.rect(topRegion.found() ? topRegion : region, x, y);
 
-            for(int i = 0; i < rings.size; i++){
+            for (int i = 0; i < rings.size; i++) {
                 TeslaRing ring = rings.get(i);
-                if(!ring.drawUnder){
-                    if(ring.hasSprite){
-                        if(ring.rotationMul != 0){
+                if (!ring.drawUnder) {
+                    if (ring.hasSprite) {
+                        if (ring.rotationMul != 0) {
                             Drawf.spinSprite(ringRegions[i], x, y, rotation * ring.rotationMul - 90f);
-                        }else{
+                        } else {
                             Draw.rect(ringRegions[i], x, y);
                         }
                     }
 
-                    if(heats[i] > 0.00001f){
+                    if (heats[i] > 0.00001f) {
                         Draw.color(heatColor, heats[i]);
                         Draw.blend(Blending.additive);
                         Draw.rect(heatRegions[i], x, y, rotation * ring.rotationMul - 90f);
@@ -237,10 +237,10 @@ public class TeslaTurret extends Block{
                 }
             }
 
-            if(settings.getBool("hi-tesla-range") && curStroke > 0.001f){
+            if (settings.getBool("hi-tesla-range") && curStroke > 0.001f) {
                 Draw.z(Layer.bullet - 0.001f);
                 Lines.stroke((0.7f + Mathf.absin(blinkScl, 0.7f)) * curStroke, lightningColor);
-                for(int i = 0; i < sections; i++){
+                for (int i = 0; i < sections; i++) {
                     float rot = i * 360f / sections + Time.time * rotateSpeed;
                     Lines.arc(x, y, range, sectionRad, rot);
                 }
@@ -248,21 +248,21 @@ public class TeslaTurret extends Block{
         }
 
         @Override
-        public void drawLight(){
+        public void drawLight() {
             Drawf.light(x, y, range * 1.5f, lightningColor, curStroke * 0.8f);
             super.drawLight();
         }
 
         @Override
-        public void updateTile(){
-            for(int i = 0; i < heats.length; i++){
+        public void updateTile() {
+            for (int i = 0; i < heats.length; i++) {
                 heats[i] = Mathf.lerpDelta(heats[i], 0f, cooldown);
             }
 
-            if(!nearby || !canConsume()){
+            if (!nearby || !canConsume()) {
                 speedScl = Mathf.lerpDelta(speedScl, 0, spinDown);
             }
-            if(nearby && canConsume()){
+            if (nearby && canConsume()) {
                 Liquid liquid = liquids.current();
                 speedScl = Mathf.lerpDelta(speedScl, 1, spinUp * liquid.heatCapacity * coolantMultiplier * edelta());
             }
@@ -270,41 +270,41 @@ public class TeslaTurret extends Block{
             rotation -= speedScl * edelta();
             curStroke = Mathf.lerpDelta(curStroke, nearby ? 1 : 0, 0.09f);
 
-            if(canConsume()){
-                if(timer(timerCheck, checkInterval)){
+            if (canConsume()) {
+                if (timer(timerCheck, checkInterval)) {
                     nearby = HIDamage.checkForTargets(team, x, y, range);
                 }
-            }else{
+            } else {
                 nearby = false;
             }
 
-            if(nearby){
+            if (nearby) {
                 updateCooling();
 
-                if((reloadCounter += edelta()) >= reload){
+                if ((reloadCounter += edelta()) >= reload) {
                     targets.clear();
                     HIDamage.allNearbyEnemies(team, x, y, range, targets::add);
 
-                    if(targets.size > 0){
+                    if (targets.size > 0) {
                         targets.shuffle();
                         int max = Math.min(maxTargets, targets.size);
 
-                        for(int i = 0; i < max; i++){
+                        for (int i = 0; i < max; i++) {
                             Healthc other = targets.get(i);
 
                             //lightning gets absorbed by plastanium
-                            var absorber = Damage.findAbsorber(team, x, y, other.getX(), other.getY());
+                            Building absorber = Damage.findAbsorber(team, x, y, other.getX(), other.getY());
                             if(absorber != null){
                                 other = absorber;
                             }
 
                             //Deal damage
-                            if(other instanceof Building b){
+                            if (other instanceof Building b) {
                                 b.damage(team, damage);
-                            }else{
+                            } else {
                                 other.damage(damage);
                             }
-                            if(other instanceof Statusc s){
+                            if (other instanceof Statusc s) {
                                 s.apply(status, statusDuration);
                             }
 
@@ -331,30 +331,30 @@ public class TeslaTurret extends Block{
             }
         }
 
-        protected void updateCooling(){
-            if(reloadCounter < reload && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){
+        protected void updateCooling() {
+            if (reloadCounter < reload && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0) {
                 float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : 1f;
                 coolant.update(this);
                 reloadCounter += coolant.amount * edelta() * capacity * coolantMultiplier;
 
-                if(Mathf.chance(0.06 * coolant.amount)){
+                if (Mathf.chance(0.06 * coolant.amount)) {
                     coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));
                 }
             }
         }
 
         @Override
-        public float range(){
+        public float range() {
             return range;
         }
 
         @Override
-        public boolean shouldConsume(){
+        public boolean shouldConsume() {
             return super.shouldConsume() && nearby;
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
 
             write.f(reloadCounter);
@@ -362,7 +362,7 @@ public class TeslaTurret extends Block{
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
 
             if(revision >= 2){
@@ -372,7 +372,7 @@ public class TeslaTurret extends Block{
         }
 
         @Override
-        public byte version(){
+        public byte version() {
             return 2;
         }
     }

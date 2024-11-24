@@ -9,8 +9,8 @@ import mindustry.entities.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
-import static heavyindustry.util.HIUtils.split;
-import static heavyindustry.util.HIUtils.StructUtils.*;
+import static heavyindustry.util.Utils.*;
+import static heavyindustry.util.StructUtils.*;
 import static mindustry.Vars.*;
 
 /**
@@ -29,29 +29,29 @@ public class TileVent extends SteamVent {
     public Effect effect = Fx.ventSteam;
     public float effectSpacing = 15f;
 
-    public TileVent(String name){
+    public TileVent(String name) {
         super(name);
         border = 0;
     }
 
-    public TileVent(String name, int size, int border){
+    public TileVent(String name, int size, int border) {
         super(name);
         this.size = size;
         this.border = border;
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         splitRegion = split(name + "-full", size * 32, 0);
     }
 
     @Override
-    public void drawBase(Tile tile){
+    public void drawBase(Tile tile) {
         parent.drawBase(tile);
-        if(checkAdjacent(tile)){
+        if (checkAdjacent(tile)) {
             float x = tile.worldx(), y = tile.worldy();
-            if(size % 2 == 0){
+            if (size % 2 == 0){
                 x += tilesize / 2f;
                 y += tilesize / 2f;
             }
@@ -66,16 +66,16 @@ public class TileVent extends SteamVent {
     }
 
     @Override
-    public boolean updateRender(Tile tile){
+    public boolean updateRender(Tile tile) {
         return checkAdjacent(tile);
     }
 
     @Override
     public void renderUpdate(UpdateRenderState state){
-        var tile = state.tile;
-        if(clear(tile) && (state.data += Time.delta) >= effectSpacing){
+        Tile tile = state.tile;
+        if (clear(tile) && (state.data += Time.delta) >= effectSpacing) {
             float x = tile.worldx(), y = tile.worldy();
-            if(size % 2 == 0){
+            if (size % 2 == 0) {
                 x += tilesize / 2f;
                 y += tilesize / 2f;
             }
@@ -85,46 +85,46 @@ public class TileVent extends SteamVent {
         }
     }
 
-    public boolean checkAdjacent(Tile tile){
-        for(var point : getOffsets(size)){
-            var other = world.tile(tile.x + point.x, tile.y + point.y);
+    public boolean checkAdjacent(Tile tile) {
+        for(Point2 point : getOffsets(size)){
+            Tile other = world.tile(tile.x + point.x, tile.y + point.y);
             if(other == null || other.floor() != this) return false;
         }
 
         return true;
     }
 
-    public boolean clear(Tile tile){
-        for(var point : getOffsets(size - border * 2)){
-            var other = world.tile(tile.x + point.x, tile.y + point.y);
-            if(other != null && other.block() != Blocks.air) return false;
+    public boolean clear(Tile tile) {
+        for (Point2 point : getOffsets(size - border * 2)) {
+            Tile other = world.tile(tile.x + point.x, tile.y + point.y);
+            if (other != null && other.block() != Blocks.air) return false;
         }
 
         return true;
     }
 
-    public static Point2[] getOffsets(int size){
+    public static Point2[] getOffsets(int size) {
         if(size < 1) throw new IllegalArgumentException("Size may not < 1 (" + size + " < 1).");
 
         int index = size - 1;
-        if(index >= offsets.length){
+        if (index >= offsets.length) {
             int from = offsets.length;
             offsets = resize(offsets, index + 1, null);
 
-            for(int i = from; i < offsets.length; i++) offsets[i] = createOffsets(i + 1);
+            for (int i = from; i < offsets.length; i++) offsets[i] = createOffsets(i + 1);
         }
 
         return offsets[index];
     }
 
-    protected static Point2[] createOffsets(int size){
+    protected static Point2[] createOffsets(int size) {
         if(size == 1) return new Point2[]{new Point2(0, 0)};
         int offset = (size - 1) / 2;
 
-        var out = new Point2[size * size];
-        for(int y = 0; y < size; y++){
+        Point2[] out = new Point2[size * size];
+        for (int y = 0; y < size; y++) {
             int row = y * size;
-            for(int x = 0; x < size; x++) out[row + x] = new Point2(x - offset, y - offset);
+            for (int x = 0; x < size; x++) out[row + x] = new Point2(x - offset, y - offset);
         }
 
         return out;

@@ -27,7 +27,7 @@ public class AirRaider extends CommandableAttackerBlock {
 
     protected Vec2 tr = new Vec2();
 
-    public AirRaider(String name){
+    public AirRaider(String name) {
         super(name);
 
         reloadTime = 600f;
@@ -39,27 +39,27 @@ public class AirRaider extends CommandableAttackerBlock {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
     }
 
     public class AirRaiderBuild extends CommandableAttackerBlockBuild {
         @Override
-        public void shoot(Vec2 target){
+        public void shoot(Vec2 target) {
             super.shoot(target);
 
             shoot.shoot(totalShots, (xOffset, yOffset, angle, delay, mover) -> {
-                if(delay > 0f){
+                if (delay > 0f) {
                     Time.run(delay, () -> bullet(xOffset, yOffset, angle, mover));
-                }else{
+                } else {
                     bullet(xOffset, yOffset, angle, mover);
                 }
                 totalShots++;
             });
         }
 
-        protected void bullet(float xOffset, float yOffset, float angleOffset, Mover mover){
-            if(!isValid())return;
+        protected void bullet(float xOffset, float yOffset, float angleOffset, Mover mover) {
+            if (!isValid()) return;
 
             tr.setToRandomDirection().scl(shootSpread);
             Tmp.v5.setToRandomDirection().scl(spread).add(lastConfirmedTarget);

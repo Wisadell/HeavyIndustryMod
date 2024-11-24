@@ -28,12 +28,12 @@ public class SortLiquidRouter extends LiquidRouter {
     }
 
     @Override
-    public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list) {
         if(configurable) drawPlanConfigCenter(plan, plan.config, name + "-config", false);
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         Draw.rect(bottomRegion, plan.drawx(), plan.drawy());
         Draw.rect(region, plan.drawx(), plan.drawy());
         Draw.rect(topRegion, plan.drawx(), plan.drawy(), rotate ? plan.rotation * 90 : 0);
@@ -44,20 +44,20 @@ public class SortLiquidRouter extends LiquidRouter {
         return new TextureRegion[]{bottomRegion, region, topRegion};
     }
 
-    public class SortLiquidRouterBuild extends LiquidRouterBuild{
+    public class SortLiquidRouterBuild extends LiquidRouterBuild {
         public Liquid sortLiquid = null;
 
         @Override
         public void updateTile() {
             super.updateTile();
-            if(sortLiquid != null && liquids.current() != sortLiquid) liquids.clear();
+            if (sortLiquid != null && liquids.current() != sortLiquid) liquids.clear();
         }
 
         @Override
         public void draw() {
             super.draw();
             Draw.rect(topRegion, x, y, rotate ? rotdeg() : 0);
-            if(sortLiquid != null) {
+            if (sortLiquid != null) {
                 Draw.color(sortLiquid.color);
                 Draw.rect(Core.atlas.find(name + "-config"), x, y);
             }
@@ -65,12 +65,12 @@ public class SortLiquidRouter extends LiquidRouter {
         }
 
         @Override
-        public void buildConfiguration(Table table){
+        public void buildConfiguration(Table table) {
             ItemSelection.buildTable(SortLiquidRouter.this, table, content.liquids(), () -> sortLiquid, this::configure);
         }
 
         @Override
-        public Liquid config(){
+        public Liquid config() {
             return sortLiquid;
         }
 
@@ -80,18 +80,18 @@ public class SortLiquidRouter extends LiquidRouter {
         }
 
         @Override
-        public byte version(){
+        public byte version() {
             return 1;
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.s(sortLiquid == null ? -1 : sortLiquid.id);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             int id = revision == 1 ? read.s() : read.b();
             sortLiquid = id == -1 ? null : content.liquid(id);

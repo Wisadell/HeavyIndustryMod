@@ -5,7 +5,7 @@ import arc.util.*;
 import mindustry.entities.units.*;
 import mindustry.world.draw.*;
 
-public class DrawerDrill extends AdaptDrill {
+public class DrawerDrill extends DrillF {
     public DrawBlock drawer = new DrawDefault();
 
     public DrawerDrill(String name) {
@@ -28,11 +28,11 @@ public class DrawerDrill extends AdaptDrill {
         drawer.drawPlan(this, plan, list);
     }
 
-    public class DrawerDrillBuild extends AdaptDrillBuild {
+    public class DrawerDrillBuild extends DrillBuildF {
         @Override
         public void draw(){
             drawer.draw(this);
-            if(outputItem() != null && drawMineItem){
+            if (outputItem() != null && drawMineItem) {
                 Draw.color(dominantItem.color);
                 Draw.rect(oreRegion, x, y);
                 Draw.color();

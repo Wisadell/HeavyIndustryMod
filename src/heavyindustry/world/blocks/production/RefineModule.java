@@ -24,7 +24,7 @@ public class RefineModule extends DrillModule {
         powerExtra = 180f;
     }
 
-    public class RefineModuleBuild extends DrillModuleBuild{
+    public class RefineModuleBuild extends DrillModuleBuild {
         public Rand rand = new Rand();
 
         @Override
@@ -44,16 +44,12 @@ public class RefineModule extends DrillModule {
 
             rand.setSeed(id);
             float base = (Time.time / particleLife);
-            for(int i = 0; i < particles; i++){
+            for (int i = 0; i < particles; i++) {
                 float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
                 float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
                 float len = particleRad * particleInterp.apply(fout);
                 Draw.alpha(a * (1f - Mathf.curve(fin, 1f - fadeMargin)));
-                Fill.circle(
-                        x + Angles.trnsx(angle, len),
-                        y + Angles.trnsy(angle, len),
-                        particleSize * fin * smoothWarmup
-                );
+                Fill.circle(x + Angles.trnsx(angle, len), y + Angles.trnsy(angle, len), particleSize * fin * smoothWarmup);
             }
 
             Draw.blend();

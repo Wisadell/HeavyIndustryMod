@@ -58,7 +58,7 @@ public class HammerDrill extends ImplosionDrill {
             Draw.z(Layer.blockAdditive);
             Draw.rect(hammerRegion, x, y, hammerRegion.width * fract, hammerRegion.height * fract);
 
-            if(outputItem() != null && drawMineItem){
+            if (outputItem() != null && drawMineItem) {
                 Draw.color(dominantItem.color);
                 Draw.rect(oreRegion, x, y);
                 Draw.color();

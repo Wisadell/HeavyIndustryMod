@@ -20,7 +20,7 @@ public class LiquidUnloader extends Block {
     public TextureRegion centerRegion;
     public float speed = 3f;
 
-    public LiquidUnloader(String name){
+    public LiquidUnloader(String name) {
         super(name);
 
         update = true;
@@ -47,14 +47,14 @@ public class LiquidUnloader extends Block {
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
 
         removeBar("liquid");
     }
 
     @Override
-    public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list) {
         drawPlanConfigCenter(plan, plan.config, name + "-center", true);
     }
 
@@ -71,20 +71,20 @@ public class LiquidUnloader extends Block {
                 liquids.clear();
                 lastSort = sortLiquid;
             }
-            for(int i = 0; i < proximity.size; i++){
-                int pos = (int)(offset + i) % proximity.size;
+            for(int i = 0; i < proximity.size; i++) {
+                int pos = (int) (offset + i) % proximity.size;
                 Building other = proximity.get(pos);
 
-                if(other.interactable(team) && other.block.hasLiquids && !(other instanceof LiquidBuild && other.block.size == 1) && sortLiquid != null && other.liquids.get(sortLiquid) > 0){
+                if (other.interactable(team) && other.block.hasLiquids && !(other instanceof LiquidBuild && other.block.size == 1) && sortLiquid != null && other.liquids.get(sortLiquid) > 0) {
                     dumpingTo = other;
-                    if(liquids.get(sortLiquid) < block.liquidCapacity){
+                    if (liquids.get(sortLiquid) < block.liquidCapacity) {
                         float amount = Math.min(speed, other.liquids.get(sortLiquid));
                         liquids.add(sortLiquid, amount);
                         other.liquids.remove(sortLiquid, amount);
                     }
                 }
             }
-            if(proximity.size > 0){
+            if (proximity.size > 0) {
                 offset ++;
                 offset %= proximity.size;
             }
@@ -105,28 +105,28 @@ public class LiquidUnloader extends Block {
         }
 
         @Override
-        public void buildConfiguration(Table table){
+        public void buildConfiguration(Table table) {
             ItemSelection.buildTable(LiquidUnloader.this, table, content.liquids(), () -> sortLiquid, this::configure);
         }
 
         @Override
-        public Liquid config(){
+        public Liquid config() {
             return sortLiquid;
         }
 
         @Override
-        public byte version(){
+        public byte version() {
             return 1;
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.s(sortLiquid == null ? -1 : sortLiquid.id);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             int id = revision == 1 ? read.s() : read.b();
             sortLiquid = id == -1 ? null : content.liquid(id);

@@ -11,11 +11,13 @@ import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.liquid.*;
 
 import static mindustry.Vars.*;
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 
 public class BeltConduit extends Conduit {
     public static final float rotatePad = 6, hpad = rotatePad / 2f / 4f;
     public static final float[][] rotateOffsets = {{hpad, hpad}, {-hpad, hpad}, {-hpad, -hpad}, {hpad, -hpad}};
+
+    public boolean fireproof = false;
 
     public TextureRegion[] topParts, botParts;
 
@@ -31,7 +33,7 @@ public class BeltConduit extends Conduit {
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         int[] bits = getTiling(plan, list);
 
         if(bits == null) return;
@@ -75,7 +77,7 @@ public class BeltConduit extends Conduit {
             int wrapRot = (rotation + offset) % 4;
             TextureRegion liquidr = bits == 1 && padCorners ? rotateRegions[wrapRot][gas][frame] : renderer.fluidFrames[gas][frame];
 
-            if(bits == 1 && padCorners){
+            if (bits == 1 && padCorners) {
                 ox = rotateOffsets[wrapRot][0];
                 oy = rotateOffsets[wrapRot][1];
             }

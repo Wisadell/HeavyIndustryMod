@@ -26,20 +26,19 @@ public class TiledFloor extends Floor {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
 
         full = atlas.find(name + "-full");
         largeSpilt = new TextureRegion[splitTileSize * splitVariants][splitTileSize];
-        for (int i = 0; i < splitVariants; i++){
+        for (int i = 0; i < splitVariants; i++) {
             largeSpilt = full.split(32, 32);
         }
     }
 
-    private void drawTile(Tile tile){
+    private void drawTile(Tile tile) {
         int tx = tile.x / splitTileSize * splitTileSize;
         int ty = tile.y / splitTileSize * splitTileSize;
-
 
         int index = Mathf.randomSeed(Point2.pack(tx, ty), 0, splitVariants - 1);
         int ix = index * splitTileSize + tile.x - tx;

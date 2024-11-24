@@ -16,7 +16,7 @@ import static arc.Core.*;
  * Draw the animation of the original impact drill bit.
  * @author Wisadell
  */
-public class ImplosionDrill extends AdaptDrill {
+public class ImplosionDrill extends DrillF {
     public float shake = 2f;
 
     public TextureRegion topInvertRegion, glowRegion, arrowRegion, arrowBlurRegion;
@@ -46,7 +46,7 @@ public class ImplosionDrill extends AdaptDrill {
         arrowBlurRegion = atlas.find(name + "-arrow-blur");
     }
 
-    public class ImplosionDrillBuild extends AdaptDrillBuild {
+    public class ImplosionDrillBuild extends DrillBuildF {
         //used so the lights don't fade out immediately.
         public float smoothProgress = 0f;
         public float invertTime = 0f;
@@ -59,13 +59,13 @@ public class ImplosionDrill extends AdaptDrill {
 
         @Override
         protected void updateOutput() {
-            if (progress > mineInterval()){
+            if (progress > mineInterval()) {
                 int outCount = (int) (progress / mineInterval()) * mineCount;
-                for (int i = 0; i < outCount; i++){
-                    if (outputItem() != null){
-                        if (coreSend && core() != null && core().acceptItem(this, outputItem())){
+                for (int i = 0; i < outCount; i++) {
+                    if (outputItem() != null) {
+                        if (coreSend && core() != null && core().acceptItem(this, outputItem())) {
                             core().handleItem(this, outputItem());
-                        }else {
+                        } else {
                             offload(outputItem());
                         }
                     }
@@ -73,7 +73,7 @@ public class ImplosionDrill extends AdaptDrill {
                 invertTime = 1f;
                 progress %= mineInterval();
 
-                if(wasVisible){
+                if (wasVisible) {
                     Effect.shake(shake, shake, this);
                     drillSound.at(x, y, 1f + Mathf.range(drillSoundPitchRand), drillSoundVolume);
                     drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
@@ -84,19 +84,19 @@ public class ImplosionDrill extends AdaptDrill {
         @Override
         public void draw() {
             Draw.rect(baseRegion, x, y);
-            if (warmup > 0f){
+            if (warmup > 0f) {
                 drawMining();
             }
 
             Draw.z(Layer.block);
 
             Draw.rect(topRegion, x, y);
-            if(invertTime > 0 && topInvertRegion.found()){
+            if (invertTime > 0 && topInvertRegion.found()) {
                 Draw.alpha(Interp.pow3Out.apply(invertTime));
                 Draw.rect(topInvertRegion, x, y);
                 Draw.color();
             }
-            if(outputItem() != null && drawMineItem){
+            if (outputItem() != null && drawMineItem) {
                 Draw.color(dominantItem.color);
                 Draw.rect(oreRegion, x, y);
                 Draw.color();
@@ -106,8 +106,8 @@ public class ImplosionDrill extends AdaptDrill {
 
             float fract = smoothProgress;
             Draw.color(arrowColor);
-            for(int i = 0; i < 4; i++){
-                for(int j = 0; j < arrows; j++){
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < arrows; j++) {
                     float arrowFract = (arrows - 1 - j);
                     float a = Mathf.clamp(fract * arrows - arrowFract);
                     Tmp.v1.trns(i * 90 + 45, j * arrowSpacing + arrowOffset);
@@ -118,7 +118,7 @@ public class ImplosionDrill extends AdaptDrill {
 
                     Draw.color(arrowColor);
 
-                    if(arrowBlurRegion.found()){
+                    if (arrowBlurRegion.found()) {
                         Draw.z(Layer.blockAdditive);
                         Draw.blend(Blending.additive);
                         Draw.alpha(Mathf.pow(a, 10f));
@@ -129,7 +129,7 @@ public class ImplosionDrill extends AdaptDrill {
             }
             Draw.color();
 
-            if(glowRegion.found()){
+            if (glowRegion.found()) {
                 Drawf.additive(glowRegion, Tmp.c2.set(glowColor).a(Mathf.pow(fract, 3f) * glowColor.a), x, y);
             }
         }

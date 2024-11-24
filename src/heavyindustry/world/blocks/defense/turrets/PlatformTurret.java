@@ -25,17 +25,17 @@ public class PlatformTurret extends Turret {
 
     public class PlatformTurretBuild extends TurretBuild {
         @Override
-        public BulletType useAmmo(){
+        public BulletType useAmmo() {
             return shootType;
         }
 
         @Override
-        public boolean hasAmmo(){
+        public boolean hasAmmo() {
             return true;
         }
 
         @Override
-        public BulletType peekAmmo(){
+        public BulletType peekAmmo() {
             return shootType;
         }
     }

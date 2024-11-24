@@ -46,39 +46,39 @@ public class LaserWall extends Wall {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
 
         drawer.load(this);
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         drawer.drawPlan(this, plan, list);
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return drawer.finalIcons(this);
     }
 
     @Override
-    public void getRegionsToOutline(Seq<TextureRegion> out){
+    public void getRegionsToOutline(Seq<TextureRegion> out) {
         drawer.getRegionsToOutline(this, out);
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
 
         generateType.drawSize = Math.max(generateType.drawSize, range * 2);
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
         stats.add(Stat.damage, generateType.estimateDPS(), StatUnit.perSecond);
-        stats.add(Stat.range, (int)(range / tilesize), StatUnit.blocks);
+        stats.add(Stat.range, (int) (range / tilesize), StatUnit.blocks);
     }
 
     public class LaserWallBuild extends Building implements Linkablec {
@@ -89,27 +89,27 @@ public class LaserWall extends Wall {
         public float warmup;
 
         @Override
-        public void updateTile(){
-            if(!linkValid()){
+        public void updateTile() {
+            if (!linkValid()) {
                 target = null;
                 linkPos = -1;
             }
 
-            if(power.status > 0.5f && canActivate()) warmup = Mathf.lerpDelta(warmup, 1, warmupSpeed);
+            if (power.status > 0.5f && canActivate()) warmup = Mathf.lerpDelta(warmup, 1, warmupSpeed);
             else warmup = Mathf.lerpDelta(warmup, 0, warmupSpeed);
 
-            if(warmup > minActivate && canActivate()){
-                if(shooter == null)shooter = generateType.create(this, x, y, angleTo(target));
+            if (warmup > minActivate && canActivate()) {
+                if (shooter == null) shooter = generateType.create(this, x, y, angleTo(target));
                 shooter.data(target);
                 shooter.damage = generateType.damage * warmup;
                 shooter.time(0);
-            }else shooter = null;
+            } else shooter = null;
 
-            if(shooter != null)shooter.fdata = warmup;
+            if (shooter != null) shooter.fdata = warmup;
         }
 
         @Override
-        public boolean onConfigureBuildTapped(Building other){
+        public boolean onConfigureBuildTapped(Building other) {
             if (this == other || linkPos() == other.pos()) {
                 configure(-1);
                 return false;
@@ -122,12 +122,12 @@ public class LaserWall extends Wall {
         }
 
         @Override
-        public void drawConfigure(){
+        public void drawConfigure() {
             Color color = getLinkColor();
 
             Drawf.dashCircle(x, y, range(), color);
 
-            if(target != null){
+            if(target != null) {
                 float fin = Interp.smoother.apply(Drawn.cycle_100());
                 Drawf.square(Mathf.lerp(x, target.x, fin), Mathf.lerp(y, target.y, fin), size * tilesize / 6f, Drawn.rotator_90(Drawn.cycle_100(), 0) + 45, color);
 
@@ -139,55 +139,55 @@ public class LaserWall extends Wall {
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             drawer.draw(this);
         }
 
         @Override
-        public void drawLight(){
+        public void drawLight() {
             super.drawLight();
             drawer.drawLight(this);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             linkPos = read.i();
             warmup = read.f();
         }
 
         @Override
-        public void created(){
+        public void created() {
             linkPos(linkPos);
             WorldRegister.postAfterLoad(() -> linkPos(linkPos));
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             write.i(linkPos);
             write.f(warmup);
         }
 
         @Override
-        public boolean linkValid(Building b){
+        public boolean linkValid(Building b) {
             return b instanceof LaserWallBuild build && b.team == team && b.isValid() && build.link() != this;
         }
 
-        public boolean canActivate(){
+        public boolean canActivate() {
             return target != null;
         }
 
         @Override
-        public Building link(){
+        public Building link() {
             return target;
         }
 
         @Override
-        public int linkPos(){
+        public int linkPos() {
             return linkPos;
         }
 
         @Override
-        public void linkPos(int value){
+        public void linkPos(int value) {
             linkPos = value;
             if(linkValid(world.build(linkPos))){
                 target = (LaserWallBuild)world.build(linkPos);
@@ -198,28 +198,28 @@ public class LaserWall extends Wall {
         }
 
         @Override
-        public Color getLinkColor(){
+        public Color getLinkColor() {
             return team.color;
         }
 
         @Override
-        public float range(){
+        public float range() {
             return range;
         }
 
         @Override
-        public void afterDestroyed(){
+        public void afterDestroyed() {
             super.afterDestroyed();
 
-            if(canActivate() && warmup > minActivate)for(int i = 0; i < 8; i++){
+            if (canActivate() && warmup > minActivate) for (int i = 0; i < 8; i++) {
                 Time.run(i * 5, () -> {
-                    for(int j = 0; j < 3; j++) Lightning.create(Team.derelict, generateType.lightningColor, generateType.lightningDamage, x, y, Mathf.random(360), generateType.lightningLength + Mathf.random(generateType.lightningLengthRand));
+                    for (int j = 0; j < 3; j++) Lightning.create(Team.derelict, generateType.lightningColor, generateType.lightningDamage, x, y, Mathf.random(360), generateType.lightningLength + Mathf.random(generateType.lightningLengthRand));
                 });
             }
         }
 
         @Override
-        public float warmup(){
+        public float warmup() {
             return warmup;
         }
     }
@@ -229,7 +229,7 @@ public class LaserWall extends Wall {
         public float[] strokes = {1.25f, 1.05f, 0.65f, 0.3f};
         public float width = 6f, oscScl = 1.25f, oscMag = 0.85f;
 
-        public Shooter(float damage){
+        public Shooter(float damage) {
             super(0, damage);
 
             hitEffect = Fx.hitBeam;
@@ -260,44 +260,44 @@ public class LaserWall extends Wall {
             hitShake = 0.25f;
         }
 
-        public Shooter(){
+        public Shooter() {
             this(1);
         }
 
         @Override
-        public float estimateDPS(){
+        public float estimateDPS() {
             return damage * 100f / 5f * 3f;
         }
 
         @Override
-        public void update(Bullet b){
-            if(!(b.data instanceof Building build)) return;
+        public void update(Bullet b) {
+            if (!(b.data instanceof Building build)) return;
 
             //damage every 5 ticks
-            if(b.timer(1, 5f)){
+            if (b.timer(1, 5f)) {
                 Damage.collideLine(b, b.team, hitEffect, b.x, b.y, b.rotation(), b.dst(build), true, false);
             }
 
-            if(hitShake > 0){
+            if (hitShake > 0) {
                 Effect.shake(hitShake, hitShake, b);
             }
 
-            if(headless) return;
+            if (headless) return;
 
-            if(b.timer(1, 18f) || Mathf.chanceDelta(0.02)){
+            if (b.timer(1, 18f) || Mathf.chanceDelta(0.02)) {
                 PosLightning.createEffect(b, build, lightningColor, 2, Mathf.random(1.25f, 2.25f));
             }
 
-            if(Mathf.chanceDelta(0.075)){
+            if (Mathf.chanceDelta(0.075)) {
                 PosLightning.createEffect(b, build, lightningColor, 0, 0);
             }
         }
 
         @Override
         public void draw(Bullet b){
-            if(!(b.data instanceof LaserWallBuild build)) return;
+            if (!(b.data instanceof LaserWallBuild build)) return;
 
-            for(int s = 0; s < colors.length; s++){
+            for (int s = 0; s < colors.length; s++) {
                 Draw.color(Tmp.c1.set(colors[s]).mul(1f + Mathf.absin(Time.time, 1f, 0.1f)));
                 Draw.z(Layer.bullet);
                 Lines.stroke((width + Mathf.absin(Time.time, oscScl, oscMag)) * b.fdata * b.fout() * strokes[s]);
@@ -313,6 +313,6 @@ public class LaserWall extends Wall {
         }
 
         @Override
-        public void drawLight(Bullet b){}
+        public void drawLight(Bullet b) {}
     }
 }

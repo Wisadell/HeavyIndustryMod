@@ -19,7 +19,7 @@ public class TileStaticWall extends StaticWall {
         super(name);
     }
 
-    protected boolean findAtlas(TextureRegion... ts){
+    protected boolean findAtlas(TextureRegion... ts) {
         if(ts.length == 0) return false;
         for(var t : ts){
             if(!atlas.isFound(t)) return false;
@@ -28,20 +28,20 @@ public class TileStaticWall extends StaticWall {
     }
 
     @Override
-    public void drawBase(Tile tile){
+    public void drawBase(Tile tile) {
         int rx = tile.x / 2 * 2;
         int ry = tile.y / 2 * 2;
 
-        if(findAtlas(larges) && eq(rx, ry) && Mathf.randomSeed(Point2.pack(rx, ry)) < overChance){
+        if (findAtlas(larges) && eq(rx, ry) && Mathf.randomSeed(Point2.pack(rx, ry)) < overChance) {
             Draw.rect(splitLarges[Mathf.randomSeed(Point2.pack(rx, ry), 0, Math.max(0, larges.length - 1))][tile.x % 2][1 - tile.y % 2], tile.worldx(), tile.worldy());
-        }else if(variants > 0){
+        } else if (variants > 0) {
             Draw.rect(variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))], tile.worldx(), tile.worldy());
-        }else{
+        } else {
             Draw.rect(region, tile.worldx(), tile.worldy());
         }
 
         //draw ore on top
-        if(tile.overlay().wallOre){
+        if (tile.overlay().wallOre) {
             tile.overlay().drawBase(tile);
         }
     }
@@ -49,7 +49,7 @@ public class TileStaticWall extends StaticWall {
     @Override
     public void load(){
         super.load();
-        if(variantsLarge > 0) {
+        if (variantsLarge > 0) {
             larges = new TextureRegion[variantsLarge];
             splitLarges = new TextureRegion[variantsLarge][][];
             for (int i = 0; i < variantsLarge; i++) {
@@ -59,7 +59,7 @@ public class TileStaticWall extends StaticWall {
         }
     }
 
-    private boolean eq(int rx, int ry){
+    private boolean eq(int rx, int ry) {
         return rx < world.width() - 1 && ry < world.height() - 1
                 && world.tile(rx + 1, ry).block() == this
                 && world.tile(rx, ry + 1).block() == this

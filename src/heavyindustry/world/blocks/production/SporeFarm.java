@@ -9,7 +9,6 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import heavyindustry.util.*;
-import heavyindustry.util.HIUtils.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
@@ -37,7 +36,7 @@ public class SporeFarm extends Block {
     /** Output Item. */
     public Item dumpItem = Items.sporePod;
 
-    public SporeFarm(String name){
+    public SporeFarm(String name) {
         super(name);
 
         update = true;
@@ -45,12 +44,12 @@ public class SporeFarm extends Block {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
-        sporeRegions = HIUtils.split(name + "-spore", 32, 0);
-        groundRegions = HIUtils.split(name + "-ground", 32, 0);
+        sporeRegions = Utils.split(name + "-spore", 32, 0);
+        groundRegions = Utils.split(name + "-ground", 32, 0);
 
-        fenceRegions = HIUtils.split(name + "-fence", 32, 12, 4);
+        fenceRegions = Utils.split(name + "-fence", 32, 12, 4);
         cageFloor = atlas.find(name + "-floor");
     }
 
@@ -59,82 +58,82 @@ public class SporeFarm extends Block {
         return new TextureRegion[]{region};
     }
 
-    public class SporeFarmBuild extends Building{
+    public class SporeFarmBuild extends Building {
         public float growth, delay = -1f;
         public int tileIndex = -1;
         public boolean needsTileUpdate;
 
-        public boolean randomChk(){
+        public boolean randomChk() {
             Tile cTile = world.tile(tileX() + Mathf.range(3), tileY() + Mathf.range(3));
 
             return cTile != null && cTile.floor().liquidDrop == growthLiquid;
         }
 
-        public void updateTilings(){
+        public void updateTilings() {
             tileIndex = 0;
 
-            for(int i = 0; i < 8; i++){
+            for (int i = 0; i < 8; i++) {
                 Tile other = tile.nearby(Geometry.d8(i));
 
-                if(other == null || !(other.build instanceof SporeFarmBuild)) continue;
+                if (other == null || !(other.build instanceof SporeFarmBuild)) continue;
                 tileIndex += 1 << i;
             }
         }
 
-        public void updateNeighbours(){
-            for(int i = 0; i < 8; i++){
+        public void updateNeighbours() {
+            for (int i = 0; i < 8; i++) {
                 Tile other = tile.nearby(Geometry.d8(i));
 
-                if(other == null || !(other.build instanceof SporeFarmBuild b)) continue;
+                if (other == null || !(other.build instanceof SporeFarmBuild b)) continue;
                 b.needsTileUpdate = true;
             }
         }
 
         @Override
-        public void onProximityRemoved(){
+        public void onProximityRemoved() {
             super.onProximityRemoved();
 
             updateNeighbours();
         }
 
         @Override
-        public void updateTile(){
-            if(tileIndex == -1){
+        public void updateTile() {
+            if (tileIndex == -1) {
                 updateTilings();
                 updateNeighbours();
             }
-            if(needsTileUpdate){
+            if (needsTileUpdate) {
                 updateTilings();
                 needsTileUpdate = false;
             }
-            if(timer(gTimer, (60f + delay) * 5f)){
-                if(delay == -1){
+            if (timer(gTimer, (60f + delay) * 5f)) {
+                if (delay == -1) {
                     delay = (tileX() * 89f + tileY() * 13f) % 21f;
-                }else{
+                } else {
                     boolean chk = !hasGrowthLiquid || randomChk();
 
                     growth += chk ? growth > frames - 2 ? speed2 : speed3 : speed1;
 
-                    if(growth >= frames){
+                    if (growth >= frames) {
                         growth = frames - 1f;
-                        if(items.total() < 1) offload(dumpItem);
+                        if (items.total() < 1) offload(dumpItem);
                     }
-                    if(growth < 0f) growth = 0f;
+                    if (growth < 0f) growth = 0f;
                 }
             }
-            if(timer(timerDump, dumpTime)) dump(dumpItem);
+            if (timer(timerDump, dumpTime)) dump(dumpItem);
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             float rrot = (tileX() * 89f + tileY() * 13f) % 4f;
             float rrot2 = (tileX() * 69f + tileY() * 42f) % 4f;
 
-            if(growth < frames - 0.5f){
+            if (growth < frames - 0.5f) {
                 Draw.rect(cageFloor, x, y);
             }
 
-            if(growth != 0f){
+            if (growth != 0f) {
                 Draw.rect(groundRegions[Mathf.floor(growth)], x, y, rrot * 90f);
                 Draw.rect(sporeRegions[Mathf.floor(growth)], x, y, rrot2 * 90f);
             }
@@ -145,13 +144,13 @@ public class SporeFarm extends Block {
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.f(growth);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             growth = read.f();
         }

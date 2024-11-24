@@ -5,7 +5,7 @@ import arc.math.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 
 public class AtlasProp extends Prop {
     public TextureRegion[] splitRegion;

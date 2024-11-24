@@ -26,7 +26,7 @@ public class PayloadJunction extends Block {
     public TextureRegion topRegion, lightRegion;
     public TextureRegion[] dLightRegions;
 
-    public PayloadJunction(String name){
+    public PayloadJunction(String name) {
         super(name);
         group = BlockGroup.payloads;
         size = 3;
@@ -40,43 +40,43 @@ public class PayloadJunction extends Block {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         topRegion = atlas.find(name + "-top");
         lightRegion = atlas.find(name + "-light");
 
         TextureRegion hLightRegion = atlas.find(name + "-light-h");
-        if(hLightRegion.found()){
+        if (hLightRegion.found()) {
             dLightRegions = new TextureRegion[]{hLightRegion, atlas.find(name + "-light-v")};
         }
     }
 
     @Override
-    protected TextureRegion[] icons(){
+    protected TextureRegion[] icons() {
         return new TextureRegion[]{atlas.find(name + "-icon")};
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
 
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             Building other = world.build(x + Geometry.d4x[i] * size, y + Geometry.d4y[i] * size);
-            if(other != null && other.block.outputsPayload && other.block.size == size){
+            if (other != null && other.block.outputsPayload && other.block.size == size) {
                 Drawf.selected(other.tileX(), other.tileY(), other.block, other.team.color);
             }
         }
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         stats.add(Stat.payloadCapacity, StatValues.squared(payloadLimit, StatUnit.blocksSquared));
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
 
         clipSize = Math.max(clipSize, size * tilesize * 2.1f);
@@ -92,70 +92,70 @@ public class PayloadJunction extends Block {
         public int step = -1, stepAccepted = -1;
 
         @Override
-        public void updateTile(){
-            if(!enabled) return;
+        public void updateTile() {
+            if (!enabled) return;
 
-            for(Payload p : payloads){
-                if(p != null) p.update(null, this);
+            for (Payload p : payloads) {
+                if (p != null) p.update(null, this);
             }
 
             lastInterp = curInterp;
             curInterp = fract();
             //rollover skip
-            if(lastInterp > curInterp) lastInterp = 0f;
+            if (lastInterp > curInterp) lastInterp = 0f;
             progress = Time.time % moveTime;
 
             updatePayloads();
 
             int curStep = curStep();
-            if(curStep > step){
+            if (curStep > step){
                 boolean valid = step != -1;
                 step = curStep;
-                for(int i = 0; i < 2; i++){
+                for (int i = 0; i < 2; i++) {
                     Payload item = payloads[i];
                     boolean had = item != null;
 
-                    if(valid && stepAccepted != curStep && item != null){
+                    if (valid && stepAccepted != curStep && item != null){
                         Building next = surrounding[from[i]];
-                        if(next != null){
+                        if (next != null) {
                             //trigger update forward
                             next.updateTile();
 
-                            if(next.acceptPayload(this, item)){
+                            if (next.acceptPayload(this, item)) {
                                 //move forward.
                                 next.handlePayload(this, item);
                                 payloads[i] = null;
                                 moved();
                             }
-                        }else if(!blocked[from[i]]){
+                        } else if (!blocked[from[i]]){
                             //dump item forward
-                            if(item.dump()){
+                            if (item.dump()) {
                                 payloads[i] = null;
                                 moved();
                             }
                         }
                     }
 
-                    if(had){
+                    if (had) {
                         moveFailed();
                     }
                 }
             }
         }
 
-        public void updatePayloads(){
-            for(int i = 0; i < 2; i++){
-                if(payloads[i] != null){
-                    if(animation[i] > fract()){
+        public void updatePayloads() {
+            for (int i = 0; i < 2; i++) {
+                if (payloads[i] != null) {
+                    if (animation[i] > fract()) {
                         animation[i] = Mathf.lerp(animation[i], 0.8f, 0.15f);
                     }
 
                     animation[i] = Math.max(animation[i], fract());
                     float fract = animation[i];
 
-                    if(fract < 0.5f){
+                    if (fract < 0.5f) {
                         Tmp.v1.trns(from[i] * 90f + 180, (0.5f - fract) * tilesize * size);
-                    }else{
+                    } else {
                         Tmp.v1.trns(from[i] * 90f, (fract - 0.5f) * tilesize * size);
                     }
 
@@ -165,19 +165,17 @@ public class PayloadJunction extends Block {
             }
         }
 
-        public void moved(){
-        }
+        public void moved() {}
 
-        public void moveFailed(){
-        }
+        public void moveFailed() {}
 
         @Override
-        public void draw(){
+        public void draw() {
             super.draw();
 
             Draw.z(Layer.blockOver);
-            for(Payload p : payloads){
-                if(p != null) p.draw();
+            for (Payload p : payloads) {
+                if (p != null) p.draw();
             }
 
             Draw.z(Layer.blockOver + 0.2f);
@@ -185,14 +183,14 @@ public class PayloadJunction extends Block {
 
             float dst = 0.8f;
             float glow = Math.max((dst - (Math.abs(fract() - 0.5f) * 2)) / dst, 0f);
-            if(lightRegion.found()){
+            if (lightRegion.found()) {
                 Draw.mixcol(team.color, glow);
                 Draw.rect(lightRegion, x, y);
                 Draw.mixcol();
             }
-            if(dLightRegions != null){
-                for(int i = 0; i < 2; i++){
-                    if(payloads[i] != null) Draw.mixcol(team.color, glow);
+            if (dLightRegions != null) {
+                for (int i = 0; i < 2; i++) {
+                    if (payloads[i] != null) Draw.mixcol(team.color, glow);
                     Draw.rect(dLightRegions[i], x, y);
                     Draw.mixcol();
                 }
@@ -200,13 +198,13 @@ public class PayloadJunction extends Block {
         }
 
         @Override
-        public void onProximityUpdate(){
+        public void onProximityUpdate() {
             super.onProximityUpdate();
 
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 Building accept = nearby(Geometry.d4(i).x * (size/2+1), Geometry.d4(i).y * (size/2+1));
                 //next block must be aligned and of the same size
-                if(accept != null && (
+                if (accept != null && (
                         //same size
                         (accept.block.size == size && tileX() + Geometry.d4(i).x * size == accept.tileX() && tileY() + Geometry.d4(i).y * size == accept.tileY()) ||
                                 //differing sizes
@@ -214,9 +212,9 @@ public class PayloadJunction extends Block {
                                         (i % 2 == 0 ? //check orientation
                                                 Math.abs(accept.y - y) <= (accept.block.size * tilesize - size * tilesize)/2f : //check Y alignment
                                                 Math.abs(accept.x - x) <= (accept.block.size * tilesize - size * tilesize)/2f   //check X alignment
-                                        )))){
+                                        )))) {
                     surrounding[i] = accept;
-                }else{
+                } else {
                     surrounding[i] = null;
                 }
 
@@ -227,20 +225,20 @@ public class PayloadJunction extends Block {
         }
 
         @Override
-        public void payloadDraw(){
+        public void payloadDraw() {
             Draw.rect(block.fullIcon, x, y);
         }
 
         @Override
-        public boolean acceptPayload(Building source, Payload payload){
+        public boolean acceptPayload(Building source, Payload payload) {
             int relative = source.relativeTo(tile);
             return source != this && payloads[relative % 2] == null && payload.fits(payloadLimit) && enabled && progress <= 5;
         }
 
         @Override
-        public void handlePayload(Building source, Payload payload){
+        public void handlePayload(Building source, Payload payload) {
             int relative = source.relativeTo(tile);
-            if(payloads[relative % 2] != null) return;
+            if (payloads[relative % 2] != null) return;
 
             payloads[relative % 2] = payload;
             animation[relative % 2] = 0;
@@ -250,36 +248,36 @@ public class PayloadJunction extends Block {
         }
 
         @Override
-        public void onRemoved(){
+        public void onRemoved() {
             super.onRemoved();
-            for(Payload p : payloads){
-                if(p != null) p.dump();
+            for (Payload p : payloads) {
+                if (p != null) p.dump();
             }
         }
 
-        public float fract(){
+        public float fract() {
             return interp.apply(progress / moveTime);
         }
 
-        public int curStep(){
-            return (int)(Time.time / moveTime);
+        public int curStep() {
+            return (int) (Time.time / moveTime);
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
 
-            for(int i = 0; i < 2; i++){
+            for (int i = 0; i < 2; i++) {
                 write.i(from[i]);
                 Payload.write(payloads[i], write);
             }
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
 
-            for(int i = 0; i < 2; i++){
+            for (int i = 0; i < 2; i++) {
                 from[i] = read.i();
                 payloads[i] = Payload.read(read);
             }

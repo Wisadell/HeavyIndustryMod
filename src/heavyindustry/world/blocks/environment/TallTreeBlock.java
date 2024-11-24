@@ -13,7 +13,7 @@ public class TallTreeBlock extends TreeBlock {
     }
 
     @Override
-    public void drawBase(Tile tile){
+    public void drawBase(Tile tile) {
 
         float
                 x = tile.worldx(), y = tile.worldy(),
@@ -23,7 +23,7 @@ public class TallTreeBlock extends TreeBlock {
 
         TextureRegion shad = variants == 0 ? customShadowRegion : variantShadowRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantShadowRegions.length - 1))];
 
-        if(shad.found()){
+        if (shad.found()) {
             Draw.z(Layer.power - 1);
             Draw.rect(shad, tile.worldx() + shadowOffset, tile.worldy() + shadowOffset, rot);
         }

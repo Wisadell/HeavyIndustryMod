@@ -7,7 +7,6 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.game.*;
@@ -40,14 +39,14 @@ public class DerivativeUnitFactory extends UnitFactory {
     @Override
     public void init() {
         super.init();
-        for(UnitPlan plan : plans){
-            areaSize = Math.max((int) plan.unit.hitSize/tilesize, areaSize);
+        for (UnitPlan plan : plans) {
+            areaSize = Math.max((int) plan.unit.hitSize / tilesize, areaSize);
         }
     }
 
-    public Rect getRect(Rect rect, float x, float y, int rotation){
+    public Rect getRect(Rect rect, float x, float y, int rotation) {
         rect.setCentered(x, y, areaSize * tilesize);
-        float len = tilesize * (areaSize + size)/2f;
+        float len = tilesize * (areaSize + size) / 2f;
 
         rect.x += Geometry.d4x(rotation) * len;
         rect.y += Geometry.d4y(rotation) * len;
@@ -56,7 +55,7 @@ public class DerivativeUnitFactory extends UnitFactory {
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
 
         x *= tilesize;
@@ -70,7 +69,7 @@ public class DerivativeUnitFactory extends UnitFactory {
     }
 
     @Override
-    public boolean canPlaceOn(Tile tile, Team team, int rotation){
+    public boolean canPlaceOn(Tile tile, Team team, int rotation) {
         //same as UnitAssembler
         Rect rect = getRect(Tmp.r1, tile.worldx() + offset, tile.worldy() + offset, rotation).grow(0.1f);
         return !indexer.getFlagged(team, BlockFlag.factory).contains(b -> b instanceof DerivativeUnitFactoryBuild && getRect(Tmp.r2, b.x, b.y, b.rotation).overlaps(rect));
@@ -84,7 +83,7 @@ public class DerivativeUnitFactory extends UnitFactory {
         protected final Object[] objects = new Object[4];
         protected final Effect espEffect = HIFx.edessp(24);
 
-        public Vec2 getUnitSpawn(){
+        public Vec2 getUnitSpawn() {
             float len = tilesize * (areaSize + size)/2f;
             float unitX = x + Geometry.d4x(rotation) * len, unitY = y + Geometry.d4y(rotation) * len;
             v2.set(unitX, unitY);
@@ -93,37 +92,37 @@ public class DerivativeUnitFactory extends UnitFactory {
 
         @Override
         public void updateTile() {
-            if(!configurable){
+            if (!configurable) {
                 currentPlan = 0;
             }
 
-            if(currentPlan < 0 || currentPlan >= plans.size){
+            if (currentPlan < 0 || currentPlan >= plans.size) {
                 currentPlan = -1;
             }
 
-            if(efficiency > 0 && currentPlan != -1){
-                time += edelta() * speedScl * Vars.state.rules.unitBuildSpeed(team);
-                progress += edelta() * Vars.state.rules.unitBuildSpeed(team);
+            if (efficiency > 0 && currentPlan != -1) {
+                time += edelta() * speedScl * state.rules.unitBuildSpeed(team);
+                progress += edelta() * state.rules.unitBuildSpeed(team);
                 speedScl = Mathf.lerpDelta(speedScl, 1f, 0.05f);
-            }else{
+            } else {
                 speedScl = Mathf.lerpDelta(speedScl, 0f, 0.05f);
             }
 
             moveOutPayload();
 
-            if(currentPlan != -1 && payload == null){
+            if (currentPlan != -1 && payload == null) {
                 UnitPlan plan = plans.get(currentPlan);
 
-                if(plan.unit.isBanned()){
+                if (plan.unit.isBanned()) {
                     currentPlan = -1;
                     return;
                 }
 
-                if(progress >= plan.time){
+                if (progress >= plan.time) {
                     progress %= 1f;
 
                     Unit unit = plan.unit.create(team);
-                    if(unit.type != null) {
+                    if (unit.type != null) {
                         Vec2 v = getUnitSpawn();
                         float dst = v.dst(this);
                         float a = angleTo(v);
@@ -134,7 +133,7 @@ public class DerivativeUnitFactory extends UnitFactory {
                         espEffect.lifetime = 24 / (timeScale + 0.001f);
                         espEffect.at(x, y, a, objects);
                     }
-                    if(commandPos != null && unit.isCommandable()){
+                    if (commandPos != null && unit.isCommandable()) {
                         unit.command().commandPosition(commandPos);
                     }
                     payload = new UnitPayload(unit);
@@ -144,7 +143,7 @@ public class DerivativeUnitFactory extends UnitFactory {
                 }
 
                 progress = Mathf.clamp(progress, 0, plan.time);
-            }else{
+            } else {
                 progress = 0f;
             }
         }
@@ -157,27 +156,27 @@ public class DerivativeUnitFactory extends UnitFactory {
 
             Vec2 v = getUnitSpawn();
             float z = Draw.z();
-            if(currentPlan != -1) {
+            if (currentPlan != -1) {
                 UnitPlan plan = plans.get(currentPlan);
                 Draw.draw(Layer.blockOver, () -> Drawf.construct(v.x, v.y, plan.unit.fullIcon, rotdeg() - 90f, progress / plan.time + 0.05f, speedScl, time));
-                if(efficiency > 0.001f) {
+                if (efficiency > 0.001f) {
                     Draw.color(Pal.accent);
                     Draw.z(Layer.buildBeam);
                     Fill.circle(x, y, 3 * efficiency * speedScl);
                     Drawf.buildBeam(x, y, v.x, v.y, plan.unit.hitSize / 2f * efficiency * speedScl);
 
-                    if(plan.unit != null) {
+                    if (plan.unit != null) {
                         Draw.z(Layer.effect);
                         Fill.circle(x, y, 1.8f * efficiency * speedScl);
                         Lines.stroke(2.5f * efficiency * speedScl);
-                        for(int i = 1; i <= 3; i++){
+                        for (int i = 1; i <= 3; i++) {
                             end.set(v).sub(x, y);
                             end.setLength(Math.max(2f, end.len()));
                             end.add(offset.trns(time/2 + 60 * i, Mathf.sin(time * 2 + 30 * i, 50f, plan.unit.hitSize * 0.6f)));
                             end.add(x, y);
                             Lines.line(x, y, end.x, end.y);
                             aboveEffect.at(end.x, end.y, 2, Pal.accent);
-                            if(!state.isPaused() && Mathf.chance(0.01f)) {
+                            if (!state.isPaused() && Mathf.chance(0.01f)) {
                                 Fx.hitLancer.at(end);
                                 Sounds.spark.at(end.x, end.y, 0.5f, 0.3f);
                             }
@@ -185,11 +184,11 @@ public class DerivativeUnitFactory extends UnitFactory {
                         Draw.color(team.color);
                         Lines.arc(v.x, v.y, plan.unit.hitSize * 1.2f, 1 - progress / plan.time, rotation * 90);
                         control.sound.loop(ambientSound, self(), ambientSoundVolume * speedScl * efficiency);
-                        for(int i = 0; i < 2; i++){
+                        for (int i = 0; i < 2; i++) {
                             float rot = rotation * 90 - 90 + 180 * i;
                             float ax = v.x + Angles.trnsx(rot, plan.unit.hitSize * 1.1f);
                             float ay = v.y + Angles.trnsy(rot, plan.unit.hitSize * 1.1f);
-                            for(int a = 0; a < 3; a++){
+                            for (int a = 0; a < 3; a++) {
                                 float sin = Math.max(0, Mathf.sin(time + a * 60f, 55f, 1f)) * speedScl;
                                 Draw.rect(atlas.find(name("aim-shoot")), ax + Angles.trnsx(rot + 180, -4) * (tilesize / 2f + a * 2.8f), ay + Angles.trnsy(rot + 180, -4) * (tilesize / 2f + a * 2.8f), 45f * sin, 45f * sin, rot + 90);
                             }

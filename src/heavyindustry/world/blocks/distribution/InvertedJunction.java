@@ -53,24 +53,24 @@ public class InvertedJunction extends Junction {
         @Override
         public void configured(Unit player, Object value) {
             super.configured(player, value);
-            loc = (int)value;
+            if (value instanceof Integer in) loc = in;
         }
 
         @Override
         public void updateTile() {
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 int p = (i + loc) % 4;
                 if(buffer.indexes[i] > 0){
                     if(buffer.indexes[i] > capacity) buffer.indexes[i] = capacity;
                     long l = buffer.buffers[i][0];
                     float time = BufferItem.time(l);
 
-                    if(Time.time >= time + speed / timeScale || Time.time < time){
+                    if (Time.time >= time + speed / timeScale || Time.time < time) {
 
                         Item item = content.item(BufferItem.item(l));
                         Building dest = nearby(p);
 
-                        if(item == null || dest == null || !dest.acceptItem(this, item) || dest.team != team){
+                        if (item == null || dest == null || !dest.acceptItem(this, item) || dest.team != team) {
                             continue;
                         }
 
@@ -91,7 +91,7 @@ public class InvertedJunction extends Junction {
         public boolean acceptItem(Building source, Item item) {
             int relative = source.relativeTo(tile);
 
-            if(relative == -1 || !buffer.accepts(relative)) return false;
+            if (relative == -1 || !buffer.accepts(relative)) return false;
             Building to = nearby((relative + loc) % 4);
             return to != null && to.team == team;
         }
@@ -101,12 +101,12 @@ public class InvertedJunction extends Junction {
             super.drawSelect();
 
             float sin = Mathf.sin(Time.time, 6, 0.6f);
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 Draw.color(colors[i]);
                 int in = loc == 1 ? 3 : 1;
-                int input = (i + in)%4;
-                Draw.rect(arrow1, x + Geometry.d4x(i) * (tilesize + sin), y + Geometry.d4y(i) * (tilesize + sin), 90*i);
-                Draw.rect(arrow2, x + Geometry.d4x(input) * (tilesize - sin), y + Geometry.d4y(input) * (tilesize - sin), 90*input);
+                int input = (i + in) % 4;
+                Draw.rect(arrow1, x + Geometry.d4x(i) * (tilesize + sin), y + Geometry.d4y(i) * (tilesize + sin), 90 * i);
+                Draw.rect(arrow2, x + Geometry.d4x(input) * (tilesize - sin), y + Geometry.d4y(input) * (tilesize - sin), 90 * input);
                 Draw.color();
             }
         }
@@ -116,7 +116,7 @@ public class InvertedJunction extends Junction {
             table.button(new TextureRegionDrawable(atlas.find(modName + "-flip", atlas.find("clear"))), Styles.cleari, this::switchF).size(36f).tooltip("switch");
         }
 
-        public void switchF(){
+        public void switchF() {
             loc = loc == 1 ? 3 : 1;
             deselect();
             configure(loc);

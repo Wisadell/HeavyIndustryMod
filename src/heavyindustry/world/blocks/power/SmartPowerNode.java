@@ -9,7 +9,7 @@ import mindustry.gen.*;
 import mindustry.world.blocks.power.*;
 
 public class SmartPowerNode extends PowerNode {
-    public SmartPowerNode(String name){
+    public SmartPowerNode(String name) {
         super(name);
         update = true;
     }
@@ -19,13 +19,13 @@ public class SmartPowerNode extends PowerNode {
         public Color darkColor = new Color(), lightColor = new Color();
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             updatePowerColor();
         }
 
-        public void updatePowerColor(){
+        public void updatePowerColor() {
             int id = power.graph.getID();
-            if(id != lastID){
+            if (id != lastID) {
                 float hue = Mathf.randomSeed(id, 360f);
                 lightColor.fromHsv(hue, 1f, 1f);
                 darkColor.fromHsv(hue + 6f, 1f, 1f).mul(0.75f);
@@ -34,17 +34,17 @@ public class SmartPowerNode extends PowerNode {
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             Draw.rect(region, x, y);
             drawTeamTop();
 
             if(!Mathf.zero(Renderer.laserOpacity) && !this.isPayload()){
-                Draw.z(70.0F);
+                Draw.z(70f);
                 setupColor(power.graph.getSatisfaction());
 
-                for(int i = 0; i < this.power.links.size; ++i){
+                for (int i = 0; i < this.power.links.size; ++i) {
                     Building link = Vars.world.build(this.power.links.get(i));
-                    if(linkValid(this, link) && (!(link.block instanceof PowerNode) || link.id < this.id)){
+                    if (linkValid(this, link) && (!(link.block instanceof PowerNode) || link.id < this.id)) {
                         drawLaser(this.x, this.y, link.x, link.y, size, link.block.size);
                     }
                 }

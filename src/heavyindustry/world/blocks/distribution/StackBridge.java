@@ -25,21 +25,21 @@ public class StackBridge extends BufferedItemBridge {
             lastItem = v;
         }
 
-        protected Item getLastItem(){
+        protected Item getLastItem() {
             return lastItem;
         }
 
-        protected void setAmount(int v){
+        protected void setAmount(int v) {
             amount = v;
         }
 
-        protected int getAmount(){
+        protected int getAmount() {
             return amount;
         }
 
         @Override
         public void updateTile() {
-            if(getLastItem() == null || !items.has(getLastItem())){
+            if (getLastItem() == null || !items.has(getLastItem())) {
                 setLastItem(items.first());
             }
             super.updateTile();
@@ -47,7 +47,7 @@ public class StackBridge extends BufferedItemBridge {
 
         @Override
         public void updateTransport(Building other) {
-            if(items.total() >= block.itemCapacity && other instanceof StackBridgeBuild ot && ot.team == team && ot.items.total() < block.itemCapacity){
+            if (items.total() >= block.itemCapacity && other instanceof StackBridgeBuild ot && ot.team == team && ot.items.total() < block.itemCapacity) {
                 ot.setAmount(items.total());
                 ot.items.add(lastItem, ot.getAmount());
                 items.clear();
@@ -56,16 +56,16 @@ public class StackBridge extends BufferedItemBridge {
 
         @Override
         public void doDump() {
-            for(int i = 0; i < 4; i++) {
+            for (int i = 0; i < 4; i++) {
                 Building other = nearby(i);
-                if(other instanceof StackConveyorBuild ot && ot.team == team &&  ot.link == -1) ot.cooldown = 0;
+                if (other instanceof StackConveyorBuild ot && ot.team == team &&  ot.link == -1) ot.cooldown = 0;
                 dumpAccumulate();
             }
         }
 
         @Override
         public boolean acceptItem(Building source, Item item) {
-            if(this == source && items.total() < block.itemCapacity) return true;
+            if (this == source && items.total() < block.itemCapacity) return true;
             Tile other = world.tile(link);
             return (!((items.any() && !items.has(item)) || (items.total() >= getMaximumAccepted(item)))) && other != null && block instanceof StackBridge bl && bl.linkValid(tile, other);
         }

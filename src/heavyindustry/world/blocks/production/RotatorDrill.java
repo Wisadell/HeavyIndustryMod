@@ -14,7 +14,7 @@ import static arc.Core.*;
  * Draw the original drill bit rotation.
  * @author Wisadell
  */
-public class RotatorDrill extends AdaptDrill {
+public class RotatorDrill extends DrillF {
     public TextureRegion rotatorRegion, rimRegion;
 
     /** Speed the drill bit rotates at.  */
@@ -41,7 +41,7 @@ public class RotatorDrill extends AdaptDrill {
         return teamRegion.found() ? new TextureRegion[]{baseRegion, rotatorRegion, topRegion, teamRegions[Team.sharded.id]} : new TextureRegion[]{baseRegion, rotatorRegion, topRegion};
     }
 
-    public class RotatorDrillBuild extends AdaptDrillBuild {
+    public class RotatorDrillBuild extends DrillBuildF {
         public float timeDrilled;
 
         @Override
@@ -56,26 +56,26 @@ public class RotatorDrill extends AdaptDrill {
             float ts = 0.6f;
 
             Draw.rect(baseRegion, x, y);
-            if (warmup > 0f){
+            if (warmup > 0f) {
                 drawMining();
             }
 
             Draw.z(Layer.blockOver - 4f);
 
-            if(drawSpinSprite){
+            if (drawSpinSprite) {
                 Drawf.spinSprite(rotatorRegion, x, y, timeDrilled * rotateSpeed);
-            }else{
+            } else {
                 Draw.rect(rotatorRegion, x, y, timeDrilled * rotateSpeed);
             }
 
             Draw.rect(topRegion, x, y);
-            if(outputItem() != null && drawMineItem){
+            if (outputItem() != null && drawMineItem) {
                 Draw.color(dominantItem.color);
                 Draw.rect(oreRegion, x, y);
                 Draw.color();
             }
 
-            if(drawRim){
+            if (drawRim) {
                 Draw.color(heatColor);
                 Draw.alpha(warmup * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));
                 Draw.blend(Blending.additive);

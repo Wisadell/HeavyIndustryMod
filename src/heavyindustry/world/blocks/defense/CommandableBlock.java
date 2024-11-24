@@ -7,7 +7,6 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -17,7 +16,7 @@ import mindustry.io.*;
 import mindustry.logic.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
-import mindustry.world.blocks.storage.*;
+import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.world.draw.*;
 import heavyindustry.gen.*;
 
@@ -34,7 +33,7 @@ public abstract class CommandableBlock extends Block {
     public float reloadTime = 60;
     public float configureChargeTime = 60;
 
-    public CommandableBlock(String name){
+    public CommandableBlock(String name) {
         super(name);
         timers = 4;
         update = sync = configurable = solid = true;
@@ -47,27 +46,27 @@ public abstract class CommandableBlock extends Block {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         drawer.load(this);
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         drawer.drawPlan(this, plan, list);
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return drawer.finalIcons(this);
     }
 
     @Override
-    public void getRegionsToOutline(Seq<TextureRegion> out){
+    public void getRegionsToOutline(Seq<TextureRegion> out) {
         drawer.getRegionsToOutline(this, out);
     }
 
-    public boolean sameGroup(Block other){
+    public boolean sameGroup(Block other) {
         return equals(other);
     }
 
@@ -86,12 +85,12 @@ public abstract class CommandableBlock extends Block {
         public int target = -1;
         public float logicControlTime = -1;
 
-        public void setTarget(Point2 point2){
+        public void setTarget(Point2 point2) {
             target = point2.pack();
             target();
         }
 
-        public int getTarget(){
+        public int getTarget() {
             return target;
         }
 
@@ -102,56 +101,56 @@ public abstract class CommandableBlock extends Block {
         public abstract boolean isCharging();
         public abstract boolean shouldCharge();
 
-        public boolean isChargingConfigure(){
+        public boolean isChargingConfigure() {
             return initiateConfigure;
         }
 
-        public boolean shouldChargeConfigure(){
+        public boolean shouldChargeConfigure() {
             return configureChargeProgress < configureChargeTime && initiateConfigure;
         }
 
-        public boolean configureChargeComplete(){
+        public boolean configureChargeComplete() {
             return configureChargeProgress >= configureChargeTime && initiateConfigure;
         }
 
-        public Vec2 target(){
-            Tile tile = Vars.world.tile(target);
+        public Vec2 target() {
+            Tile tile = world.tile(target);
             if(tile != null){
                 return targetVec.set(tile);
             }else return targetVec.set((Position)self());
         }
 
         @Override
-        public void updateTile(){
-            if(unit != null){
+        public void updateTile() {
+            if (unit != null) {
                 unit.health(health);
                 unit.rotation(rotation);
                 unit.team(team);
                 unit.set(x, y);
             }
 
-            if(shouldCharge()){
+            if (shouldCharge()) {
                 reload += edelta() * warmup;
             }
 
-            if(efficiency > 0){
+            if (efficiency > 0) {
                 warmup = Mathf.lerpDelta(warmup, 1, warmupSpeed);
                 totalProgress += warmup * edelta();
-            }else warmup = Mathf.lerpDelta(warmup, 0, warmupFallSpeed);
+            } else warmup = Mathf.lerpDelta(warmup, 0, warmupFallSpeed);
         }
 
-        public void updateShoot(){}
+        public void updateShoot() {}
 
-        public void updateControl(){}
+        public void updateControl() {}
 
         @Override
-        public void created(){
+        public void created() {
             unit = (BlockUnitc)UnitTypes.block.create(team);
             unit.tile(this);
         }
 
         @Override
-        public void read(Reads read, byte v){
+        public void read(Reads read, byte v) {
             warmup = read.f();
             reload = read.f();
             TypeIO.readVec2(read, targetVec);
@@ -160,47 +159,47 @@ public abstract class CommandableBlock extends Block {
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             write.f(warmup);
             write.f(reload);
             TypeIO.writeVec2(write, targetVec);
         }
 
         @Override
-        public float range(){
+        public float range() {
             return range;
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             drawer.draw(this);
         }
 
         @Override
-        public float warmup(){
+        public float warmup() {
             return warmup;
         }
 
         @Override
-        public float totalProgress(){
+        public float totalProgress() {
             return totalProgress;
         }
 
         @Override
-        public float progress(){
+        public float progress() {
             return 0;
         }
 
         @Override
-        public void add(){
-            if(!added) WorldRegister.commandableBuilds.add(this);
+        public void add() {
+            if (!added) WorldRegister.commandableBuilds.add(this);
 
             super.add();
         }
 
         @Override
-        public void remove(){
-            if(added) WorldRegister.commandableBuilds.remove(this);
+        public void remove() {
+            if (added) WorldRegister.commandableBuilds.remove(this);
 
             super.remove();
         }
@@ -217,15 +216,15 @@ public abstract class CommandableBlock extends Block {
         public transient Team team;
 
         @Override
-        public float clipSize(){
+        public float clipSize() {
             return 500f;
         }
 
         @Override
-        public void draw(){}
+        public void draw() {}
 
         @Override
-        public void update(){
+        public void update() {
             time = Math.min(time + Time.delta, lifetime);
             if (time >= lifetime) {
                 remove();
@@ -233,202 +232,225 @@ public abstract class CommandableBlock extends Block {
         }
 
         @Override
-        public void remove(){
+        public void remove() {
             Groups.draw.remove(this);
             Groups.all.remove(this);
             added = false;
         }
 
         @Override
-        public void add(){
-            if(added)return;
+        public void add() {
+            if (added) return;
             Groups.all.add(this);
             Groups.draw.add(this);
             added = true;
         }
 
         @Override
-        public boolean isLocal(){
+        public boolean isLocal() {
             return this instanceof Unitc u && u.controller() == player;
         }
 
         @Override
-        public boolean isRemote(){
+        public boolean isRemote() {
             return this instanceof Unitc u && u.isPlayer() && !isLocal();
         }
 
         @Override
-        public float fin(){return time / lifetime;}
+        public float fin() {
+            return time / lifetime;
+        }
 
         @Override
-        public float time(){return time;}
+        public float time() {
+            return time;
+        }
 
         @Override
-        public void time(float time){this.time = time;}
+        public void time(float time) {
+            this.time = time;
+        }
 
         @Override
-        public float lifetime(){return lifetime;}
+        public float lifetime() {
+            return lifetime;
+        }
 
         @Override
-        public void lifetime(float lifetime){this.lifetime = lifetime;}
+        public void lifetime(float lifetime) {
+            this.lifetime = lifetime;
+        }
 
         @Override
         public void afterAllRead() {}
 
         @Override
-        public <T extends Entityc> T self(){
+        public <T extends Entityc> T self() {
             return (T)this;
         }
 
         @Override
-        public <T> T as(){
+        public <T> T as() {
             return (T)this;
         }
 
-        @Override public void set(float x, float y){
+        @Override
+        public void set(float x, float y) {
             this.x = x;
             this.y = y;
         }
 
         @Override
-        public void set(Position pos){set(pos.getX(), pos.getY());}
+        public void set(Position pos) {
+            set(pos.getX(), pos.getY());
+        }
 
         @Override
-        public void trns(float x, float y){set(this.x + x, this.y + y);}
+        public void trns(float x, float y) {
+            set(this.x + x, this.y + y);
+        }
 
         @Override
-        public void trns(Position pos){trns(pos.getX(), pos.getY());}
+        public void trns(Position pos) {
+            trns(pos.getX(), pos.getY());
+        }
 
         @Override
-        public int tileX(){
+        public int tileX() {
             return 0;
         }
 
         @Override
-        public int tileY(){
+        public int tileY() {
             return 0;
         }
 
         @Override
-        public Floor floorOn(){ return null; }
-
-        @Override
-        public Building buildOn(){
+        public Floor floorOn() {
             return null;
         }
 
         @Override
-        public Block blockOn(){
+        public Building buildOn() {
             return null;
         }
 
         @Override
-        public boolean onSolid(){
+        public Block blockOn() {
+            return null;
+        }
+
+        @Override
+        public boolean onSolid() {
             return false;
         }
 
         @Override
-        public Tile tileOn(){
+        public Tile tileOn() {
             return null;
         }
 
         @Override
-        public float getX(){
+        public float getX() {
             return x;
         }
 
         @Override
-        public float getY(){
+        public float getY() {
             return y;
         }
 
         @Override
-        public float x(){
+        public float x() {
             return x;
         }
 
         @Override
-        public void x(float x){
+        public void x(float x) {
             this.x = x;
         }
 
         @Override
-        public float y(){
+        public float y() {
             return y;
         }
 
         @Override
-        public void y(float y){ this.y = y; }
+        public void y(float y) {
+            this.y = y;
+        }
 
         @Override
-        public boolean isAdded(){ return added; }
+        public boolean isAdded() {
+            return added;
+        }
 
         @Override
-        public int classId(){
+        public int classId() {
             return 1001;
         }
 
         @Override
-        public boolean serialize(){
+        public boolean serialize() {
             return false;
         }
 
         @Override
-        public void read(Reads read){}
+        public void read(Reads read) {}
 
         @Override
-        public void write(Writes write){}
+        public void write(Writes write) {}
 
         @Override
-        public void afterRead(){}
+        public void afterRead() {}
 
         @Override
-        public int id(){
+        public int id() {
             return id;
         }
 
         @Override
-        public void id(int id){
+        public void id(int id) {
             this.id = id;
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "CommandEntity{" + "added=" + added + ", id=" + id + ", x=" + x + ", y=" + y + ", lifetime=" + lifetime + '}';
         }
 
         @Override
-        public boolean inFogTo(Team viewer){
-            return this.team != viewer && !Vars.fogControl.isVisible(viewer, this.x, this.y);
+        public boolean inFogTo(Team viewer) {
+            return this.team != viewer && !fogControl.isVisible(viewer, this.x, this.y);
         }
 
         @Override
-        public boolean cheating(){
+        public boolean cheating() {
             return team.rules().cheat;
         }
 
         @Override
-        public CoreBlock.CoreBuild core(){
+        public CoreBuild core() {
             return team.core();
         }
 
         @Override
-        public CoreBlock.CoreBuild closestCore(){
+        public CoreBuild closestCore() {
             return team.core();
         }
 
         @Override
-        public CoreBlock.CoreBuild closestEnemyCore(){
+        public CoreBuild closestEnemyCore() {
             return state.teams.closestEnemyCore(x, y, team);
         }
 
         @Override
-        public Team team(){
+        public Team team() {
             return team;
         }
 
         @Override
-        public void team(Team team){
+        public void team(Team team) {
             this.team = team;
         }
     }

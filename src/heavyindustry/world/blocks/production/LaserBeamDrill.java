@@ -10,7 +10,7 @@ import heavyindustry.content.*;
 
 import static arc.Core.*;
 
-public class LaserBeamDrill extends AdaptDrill {
+public class LaserBeamDrill extends DrillF {
     public TextureRegion laser;
     public TextureRegion laserEnd;
 
@@ -45,7 +45,7 @@ public class LaserBeamDrill extends AdaptDrill {
         updateEffectChance = 0.01f;
     }
 
-    public void load(){
+    public void load() {
         super.load();
         laser = atlas.find("minelaser");
         laserEnd = atlas.find("minelaser-end");
@@ -53,7 +53,7 @@ public class LaserBeamDrill extends AdaptDrill {
     }
 
     @Override
-    public float getMineSpeedHardnessMul(Item item){
+    public float getMineSpeedHardnessMul(Item item) {
         if (item == null) return 0f;
         return switch (item.hardness) {
             case 0 -> 2f;
@@ -63,7 +63,7 @@ public class LaserBeamDrill extends AdaptDrill {
         };
     }
 
-    public class LaserBeamDrillBuild extends AdaptDrillBuild{
+    public class LaserBeamDrillBuild extends DrillBuildF {
         public Rand rand = new Rand();
 
         @Override
@@ -80,7 +80,7 @@ public class LaserBeamDrill extends AdaptDrill {
         }
 
         @Override
-        public void drawMining(){
+        public void drawMining() {
             float timeDrilled = Time.time / 2.5f;
             float
                     moveX = Mathf.sin(timeDrilled, moveScale + Mathf.randomSeed(id, -moveScaleRand, moveScaleRand), shooterMoveRange) + x,
@@ -103,7 +103,7 @@ public class LaserBeamDrill extends AdaptDrill {
 
             rand.setSeed(id);
             float base = (Time.time / particleLife);
-            for(int i = 0; i < particles; i++){
+            for (int i = 0; i < particles; i++) {
                 float fin = (rand.random(1f) + base) % 1f, fout = 1f - fin;
                 float angle = rand.random(360f);
                 float len = Mathf.randomSeed(rand.nextLong(), particleRad * 0.8f, particleRad * 1.1f) * Interp.pow2Out.apply(fin);

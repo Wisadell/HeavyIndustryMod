@@ -26,7 +26,7 @@ public class BombLauncher extends CommandableAttackerBlock {
 
     public float bombVelPerTile = 2f;
 
-    public BombLauncher(String name){
+    public BombLauncher(String name) {
         super(name);
         storage = 4;
         range = 800f;
@@ -40,13 +40,13 @@ public class BombLauncher extends CommandableAttackerBlock {
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
-        if(bullet.shootEffect == HIFx.boolSelector) bullet.shootEffect = HIFx.square(baseColor, 50f, 6, size * tilesize * 2f, size);
+        if (bullet.shootEffect == HIFx.boolSelector) bullet.shootEffect = HIFx.square(baseColor, 50f, 6, size * tilesize * 2f, size);
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         bombRegion = atlas.find(name + "-bomb", atlas.find("launchpod"));
     }
@@ -56,9 +56,9 @@ public class BombLauncher extends CommandableAttackerBlock {
         public void draw(){
             super.draw();
             Draw.draw(Draw.z(), () -> {
-                if(reload / reloadTime > 1){
+                if (reload / reloadTime > 1) {
                     Draw.rect(bombRegion, x, y);
-                }else Drawf.construct(x, y, bombRegion, baseColor, 0, reload / reloadTime, Mathf.curve(1 - reload / reloadTime, 0, 0.15f) * warmup, totalProgress);
+                } else Drawf.construct(x, y, bombRegion, baseColor, 0, reload / reloadTime, Mathf.curve(1 - reload / reloadTime, 0, 0.15f) * warmup, totalProgress);
             });
         }
 
@@ -89,9 +89,11 @@ public class BombLauncher extends CommandableAttackerBlock {
         public float damage, radius;
         public Trail trail;
 
-        public BombEntity(){this(Team.derelict, 50f, Vec2.ZERO, -1, -1, false);}
+        public BombEntity() {
+            this(Team.derelict, 50f, Vec2.ZERO, -1, -1, false);
+        }
 
-        public BombEntity(Team team, float lifetime, Position from, float x, float y, boolean parent){
+        public BombEntity(Team team, float lifetime, Position from, float x, float y, boolean parent) {
             this.team = team;
             this.lifetime = lifetime;
             this.parent = parent;
@@ -101,7 +103,7 @@ public class BombLauncher extends CommandableAttackerBlock {
             trail = new Trail(16);
         }
 
-        public BombEntity init(Team team, float lifetime, Position from, float x, float y, boolean parent){
+        public BombEntity init(Team team, float lifetime, Position from, float x, float y, boolean parent) {
             this.team = team;
             this.lifetime = lifetime;
             this.parent = parent;
@@ -112,22 +114,22 @@ public class BombLauncher extends CommandableAttackerBlock {
             return this;
         }
 
-        public BombEntity setDamage(float damage, float radius){
+        public BombEntity setDamage(float damage, float radius) {
             this.damage = damage;
             this.radius = radius;
             return this;
         }
 
-        public float cx(){
+        public float cx() {
             return x + (parent ? fin(Interp.pow2In) : fout(Interp.pow2Out)) * (floatX + Mathf.randomSeedRange(id() + 3, floatX));
         }
 
-        public float cy(){
+        public float cy() {
             return y + (parent ? fin(Interp.pow2In) * 1.25f : fout(Interp.pow5Out)) * (floatY + Mathf.randomSeedRange(id() + 2, floatY));
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             float alpha = parent ? fout(Interp.pow5Out) : fin(Interp.pow5In);
             float scale = (1f - alpha) * 1.3f + 1f;
             float cx = cx(), cy = cy();
@@ -137,7 +139,7 @@ public class BombLauncher extends CommandableAttackerBlock {
 
             float rad = 0.2f + fslope();
 
-            if(parent){
+            if (parent) {
                 Draw.color(baseColor);
                 Fill.light(cx, cy, 10, 25f * (rad + scale - 1f), Tmp.c2.set(Pal.engine).a(alpha), Tmp.c1.set(Pal.engine).a(0f));
             }
@@ -145,7 +147,7 @@ public class BombLauncher extends CommandableAttackerBlock {
             Draw.alpha(alpha);
             trail.draw(baseColor, width);
             Draw.color(baseColor);
-            if(parent) for(int i = 0; i < 4; i++){
+            if (parent) for (int i = 0; i < 4; i++) {
                 Drawf.tri(cx, cy, 6f, 40f * (rad + scale - 1f) * Mathf.curve(fout(), 0, 0.5f), i * 90f + rotation);
             }
 
@@ -167,29 +169,29 @@ public class BombLauncher extends CommandableAttackerBlock {
             Draw.reset();
         }
 
-        public void hit(){
+        public void hit() {
             bullet.create(this, team, x, y, 0, 0, 0.001f);
         }
 
         @Override
-        public void update(){
+        public void update() {
             time = Math.min(time + Time.delta, lifetime);
             trail.update(cx(), cy());
             if(Mathf.chance(bullet.trailChance))bullet.trailEffect.at(cx(), cy(), bullet.trailParam, baseColor);
-            if(time >= lifetime){
+            if (time >= lifetime) {
                 remove();
             }
         }
 
         @Override
-        public void remove(){
+        public void remove() {
             Fx.trailFade.at(x, y, width, baseColor, trail.copy());
 
-            if(parent){
+            if (parent) {
                 BombEntity next = Pools.obtain(BombEntity.class, BombEntity::new);
                 next.init(team, lifetime / 1.5f, target, target.x, target.y, false);
                 Time.run(target.dst(this) / tilesize * bombVelPerTile, next::add);
-            }else hit();
+            } else hit();
 
             Groups.draw.remove(this);
             Groups.all.remove(this);
@@ -197,12 +199,12 @@ public class BombLauncher extends CommandableAttackerBlock {
         }
 
         @Override
-        public float damage(){
+        public float damage() {
             return damage;
         }
 
         @Override
-        public void damage(float damage){
+        public void damage(float damage) {
             this.damage = damage;
         }
     }

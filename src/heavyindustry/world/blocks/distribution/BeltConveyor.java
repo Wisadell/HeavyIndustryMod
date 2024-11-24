@@ -62,12 +62,12 @@ public class BeltConveyor extends Conveyor {
 
     public class BeltConveyorBuild extends ConveyorBuild {
         @Override
-        public boolean acceptItem(Building source, Item item){
+        public boolean acceptItem(Building source, Item item) {
             return noSideBlend ? super.acceptItem(source, item) && (source.block instanceof Conveyor || Edges.getFacingEdge(source.tile(), tile).relativeTo(tile) == rotation) : super.acceptItem(source, item);
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             int frame = enabled && clogHeat <= 0.5f ? (int)(((Time.time * speed * 8f * timeScale * efficiency)) % 4) : 0;
 
             //draw extra conveyors facing this one for non-square tiling purposes

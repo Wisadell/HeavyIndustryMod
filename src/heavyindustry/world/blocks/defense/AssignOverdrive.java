@@ -21,11 +21,11 @@ import static mindustry.Vars.*;
 /**
  * Assign Overdrive
  */
-public class AssignOverdrive extends OverdriveProjector{
+public class AssignOverdrive extends OverdriveProjector {
     public int maxLink = 4;
     public float strokeOffset = 0.1f, strokeClamp = 0f;
 
-    public AssignOverdrive(String name){
+    public AssignOverdrive(String name) {
         super(name);
         configurable = true;
         saveConfig = update = true;
@@ -35,20 +35,20 @@ public class AssignOverdrive extends OverdriveProjector{
         config(Integer.class, (Cons2<AssignOverdriveBuild, Integer>) AssignOverdriveBuild::linkPos);
         config(Point2.class, (Cons2<AssignOverdriveBuild, Point2>) AssignOverdriveBuild::linkPos);
         config(Point2[].class, (AssignOverdriveBuild tile, Point2[] points) -> {
-            for(Point2 p : points){
+            for (Point2 p : points) {
                 tile.linkPos(Point2.pack(p.x + tile.tileX(), p.y + tile.tileY()));
             }
         });
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
         stats.add(Stat.powerConnections, maxLink, StatUnit.none);
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
         addBar("boost", (AssignOverdriveBuild tile) -> new Bar(() -> bundle.format("bar.boost", (int)(tile.realBoost() * 100)), () -> Pal.accent, () -> tile.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
     }
@@ -57,16 +57,16 @@ public class AssignOverdrive extends OverdriveProjector{
         protected IntSeq targets = new IntSeq(maxLink);
 
         @Override
-        public Point2[] config(){
+        public Point2[] config() {
             Point2[] out = new Point2[targets.size];
-            for(int i = 0; i < out.length; i++){
+            for (int i = 0; i < out.length; i++) {
                 out[i] = Point2.unpack(targets.get(i)).sub(tile.x, tile.y);
             }
             return out;
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             if (block.variants != 0 && block.variantRegions != null) {
                 Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0,block.variantRegions.length - 1))], x, y, drawrot());
             } else {
@@ -85,9 +85,9 @@ public class AssignOverdrive extends OverdriveProjector{
 
             float r = Math.max(0f, Mathf.clamp(2f - f * 2f) * size * tilesize / 2f - f - 0.2f), w = Mathf.clamp(0.5f - f) * size * tilesize;
             Lines.beginLine();
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 Lines.linePoint(x + Geometry.d4(i).x * r + Geometry.d4(i).y * w, y + Geometry.d4(i).y * r - Geometry.d4(i).x * w);
-                if(f < 0.5f) Lines.linePoint(x + Geometry.d4(i).x * r - Geometry.d4(i).y * w, y + Geometry.d4(i).y * r + Geometry.d4(i).x * w);
+                if (f < 0.5f) Lines.linePoint(x + Geometry.d4(i).x * r - Geometry.d4(i).y * w, y + Geometry.d4(i).y * r + Geometry.d4(i).x * w);
             }
             Lines.endLine(true);
 
@@ -95,8 +95,8 @@ public class AssignOverdrive extends OverdriveProjector{
         }
 
         @Override
-        public boolean onConfigureBuildTapped(Building other){
-            if(other != null && within(other, range())){
+        public boolean onConfigureBuildTapped(Building other) {
+            if (other != null && within(other, range())) {
                 configure(other.pos());
                 return false;
             }
@@ -104,42 +104,42 @@ public class AssignOverdrive extends OverdriveProjector{
         }
 
         @Override
-        public boolean linkValid(Building b){
+        public boolean linkValid(Building b) {
             return b != null && b.team == team && b.block.canOverdrive;
         }
 
         @Override
-        public void drawLight(){
+        public void drawLight() {
             Drawf.light(x, y, 50f * smoothEfficiency, baseColor, 0.7f * smoothEfficiency);
         }
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, 0.08f);
             heat = Mathf.lerpDelta(heat, efficiency > 0 ? 1f : 0f, 0.08f);
             charge += heat * Time.delta;
 
-            if(hasBoost){
+            if (hasBoost) {
                 phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);
             }
 
-            if(charge >= reload){
+            if (charge >= reload) {
                 charge = 0f;
                 linkBuilds().each(other -> other.applyBoost(realBoost(), reload + 1f));
             }
 
-            if(efficiency > 0){
+            if (efficiency > 0) {
                 useProgress += delta();
             }
 
-            if(useProgress >= useTime){
+            if (useProgress >= useTime) {
                 consume();
                 useProgress %= useTime;
             }
         }
 
         @Override
-        public void drawConfigure(){
+        public void drawConfigure() {
             float offset = size * tilesize / 2f + 1f;
 
             Lines.stroke(3f, Pal.gray);
@@ -147,7 +147,7 @@ public class AssignOverdrive extends OverdriveProjector{
 
             Seq<Building> buildings = linkBuilds();
 
-            for(Building b : buildings){
+            for (Building b : buildings) {
                 float targetOffset = b.block.size * tilesize / 2f + 1f;
                 float angle = angleTo(b);
 
@@ -166,10 +166,10 @@ public class AssignOverdrive extends OverdriveProjector{
                 Lines.line(fromX, fromY, Tmp.v1.x, Tmp.v1.y, false);
                 Lines.line(Tmp.v1.x, Tmp.v1.y, toX, toY, false);
                 Fill.square(Tmp.v1.x, Tmp.v1.y, 1.5f);
-                Lines.square(b.x, b.y, b.block().size * tilesize / 2f + 2.0f);
+                Lines.square(b.x, b.y, b.block().size * tilesize / 2f + 2f);
             }
 
-            for(Building b : buildings){
+            for (Building b : buildings) {
                 float targetOffset = b.block.size * tilesize / 2f + 1f;
                 float angle = angleTo(b);
 
@@ -203,24 +203,24 @@ public class AssignOverdrive extends OverdriveProjector{
         }
 
         @Override
-        public void drawLink(){
+        public void drawLink() {
             LinkGroupc.super.drawLink();
         }
 
         @Override
-        public IntSeq linkGroup(){
+        public IntSeq linkGroup() {
             return targets;
         }
 
         @Override
-        public void linkGroup(IntSeq seq){
+        public void linkGroup(IntSeq seq) {
             targets = seq;
         }
 
         @Override
-        public boolean linkValid(){
-            for(Building b : linkBuilds()){
-                if(!linkValid(b)){
+        public boolean linkValid() {
+            for (Building b : linkBuilds()) {
+                if (!linkValid(b)) {
                     targets.removeValue(b.pos());
                     return false;
                 }
@@ -229,17 +229,17 @@ public class AssignOverdrive extends OverdriveProjector{
         }
 
         @Override
-        public int linkPos(){
+        public int linkPos() {
             return pos();
         }
 
         @Override
-        public Building link(){
+        public Building link() {
             return world.build(targets.first());
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.f(heat);
             write.f(phaseHeat);
@@ -247,7 +247,7 @@ public class AssignOverdrive extends OverdriveProjector{
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             heat = read.f();
             phaseHeat = read.f();
@@ -255,19 +255,19 @@ public class AssignOverdrive extends OverdriveProjector{
         }
 
         @Override
-        public void linkPos(int value){
+        public void linkPos(int value) {
             Building other = world.build(value);
 
             if(other != null && !targets.removeValue(value) && targets.size < maxLink - 1 && within(other, range()))targets.add(value);
         }
 
         @Override
-        public Color getLinkColor(){
+        public Color getLinkColor() {
             return baseColor;
         }
 
         @Override
-        public float range(){
+        public float range() {
             return range;
         }
     }

@@ -16,47 +16,46 @@ public class AccelerationCrafter extends GenericCrafter {
 
     public Cons<AcceleratingCrafterBuild> onCraft = tile -> {};
 
-    public AccelerationCrafter(String name){
+    public AccelerationCrafter(String name) {
         super(name);
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
 
         addBar("craft-speed", (AcceleratingCrafterBuild tile) -> new Bar(() -> bundle.format("bar.hi-craft-speed", Mathf.round(tile.getDisplaySpeed() * 100f)), () -> Pal.surge, tile::getDisplaySpeed));
     }
 
-    public class AcceleratingCrafterBuild extends GenericCrafterBuild{
-        public float speed, totalActivity;
+    public class AcceleratingCrafterBuild extends GenericCrafterBuild {
+        public float speed;
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             float s = getSpeed();
-            if(hasItems()){
+            if (hasItems()) {
                 progress += getProgressIncrease(craftTime) * s;
                 totalProgress += delta() * s;
             }
-            totalActivity += delta() * s;
 
-            if(Mathf.chanceDelta(updateEffectChance * s)){
+            if (Mathf.chanceDelta(updateEffectChance * s)) {
                 updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
             }
 
-            if(canConsume()){
+            if (canConsume()) {
                 warmup = Mathf.approachDelta(warmup, 1f, warmupSpeed);
                 float e = efficiency;
-                if(speed <= e){
+                if (speed <= e){
                     speed = Mathf.approachDelta(speed, e, accelerationSpeed * e);
-                }else{
+                } else {
                     speed = Mathf.approachDelta(speed, e, decelerationSpeed);
                 }
-            }else{
+            } else {
                 warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);
                 speed = Mathf.approachDelta(speed, 0f, decelerationSpeed);
             }
 
-            if(progress >= 1f){
+            if (progress >= 1f) {
                 craft();
                 onCraft.get(this);
             }
@@ -64,33 +63,33 @@ public class AccelerationCrafter extends GenericCrafter {
             dumpOutputs();
         }
 
-        public float getDisplaySpeed(){
+        public float getDisplaySpeed() {
             return hasItems() ? getSpeed() : 0f;
         }
 
-        public float getSpeed(){
+        public float getSpeed() {
             return interp.apply(speed);
         }
 
         @Override
-        public float getProgressIncrease(float baseTime){
+        public float getProgressIncrease(float baseTime) {
             return 1f / baseTime * delta();
         }
 
-        public boolean hasItems(){
+        public boolean hasItems() {
             ConsumeItems consumeItems = findConsumer(c -> c instanceof ConsumeItems);
             return consumeItems == null || consumeItems.efficiency(this) == 1;
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
 
             write.f(speed);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
 
             speed = read.f();

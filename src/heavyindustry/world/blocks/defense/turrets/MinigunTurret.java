@@ -27,14 +27,14 @@ public class MinigunTurret extends ItemTurret {
     public float barX, barY, barStroke, barLength;
     public float barWidth = 1.5f, barHeight = 0.75f;
 
-    public MinigunTurret(String name){
+    public MinigunTurret(String name) {
         super(name);
 
         drawer = new DrawMinigun();
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         stats.remove(Stat.reload);
@@ -42,31 +42,31 @@ public class MinigunTurret extends ItemTurret {
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
         addBar("hi-minigun-speed", (MinigunTurretBuild tile) -> new Bar(() -> bundle.format("bar.hi-minigun-speed", Strings.autoFixed(tile.speedf() * 100f, 2)), tile::barColor, tile::speedf));
     }
 
-    public class MinigunTurretBuild extends ItemTurretBuild{
+    public class MinigunTurretBuild extends ItemTurretBuild {
         protected float[] heats = {0f, 0f, 0f, 0f};
         protected float spinSpeed, spin;
 
-        public Color barColor(){
+        public Color barColor() {
             return spinSpeed > minFiringSpeed ? team.color : team.palette[2];
         }
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             boolean notShooting = !hasAmmo() || !isShooting() || !isActive();
-            if(notShooting){
+            if (notShooting) {
                 spinSpeed = Mathf.approachDelta(spinSpeed, 0, windDownSpeed);
             }
 
-            if(spinSpeed > getMaxSpeed()){
+            if (spinSpeed > getMaxSpeed()) {
                 spinSpeed = Mathf.approachDelta(spinSpeed, getMaxSpeed(), windDownSpeed);
             }
 
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 heats[i] = Math.max(heats[i] - Time.delta / cooldownTime, 0);
             }
 
@@ -74,12 +74,12 @@ public class MinigunTurret extends ItemTurret {
         }
 
         @Override
-        protected void updateShooting(){
-            if(!hasAmmo()) return;
+        protected void updateShooting() {
+            if (!hasAmmo()) return;
 
             spinSpeed = Mathf.approachDelta(spinSpeed, getMaxSpeed(), windupSpeed * peekAmmo().reloadMultiplier * timeScale);
 
-            if(reloadCounter >= 90 && spinSpeed > minFiringSpeed){
+            if (reloadCounter >= 90 && spinSpeed > minFiringSpeed) {
                 BulletType type = peekAmmo();
 
                 shoot(type);
@@ -91,16 +91,16 @@ public class MinigunTurret extends ItemTurret {
         }
 
         @Override
-        protected void updateReload(){
+        protected void updateReload() {
             boolean shooting = hasAmmo() && isShooting() && isActive();
             float multiplier = hasAmmo() ? peekAmmo().reloadMultiplier : 1f;
             float add = spinSpeed * multiplier * Time.delta;
-            if(shooting && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0){
+            if (shooting && coolant != null && coolant.efficiency(this) > 0 && efficiency > 0) {
                 float capacity = coolant instanceof ConsumeLiquidFilter filter ? filter.getConsumed(this).heatCapacity : 1f;
                 coolant.update(this);
                 add += coolant.amount * edelta() * capacity * coolantMultiplier;
 
-                if(Mathf.chance(0.06 * coolant.amount)){
+                if (Mathf.chance(0.06 * coolant.amount)) {
                     coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));
                 }
             }
@@ -108,36 +108,36 @@ public class MinigunTurret extends ItemTurret {
             reloadCounter += add;
         }
 
-        protected float getMaxSpeed(){
+        protected float getMaxSpeed() {
             return maxSpeed * (!isControlled() && logicControlled() && logicShooting ? logicSpeedScl : 1f);
         }
 
-        protected float speedf(){
+        protected float speedf() {
             return spinSpeed / maxSpeed;
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.f(spinSpeed);
             write.f(spin % 360f);
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
 
-            if(revision >= 2){
+            if (revision >= 2) {
                 spinSpeed = read.f();
 
-                if(revision >= 3){
+                if (revision >= 3) {
                     spin = read.f();
                 }
             }
         }
 
         @Override
-        public byte version(){
+        public byte version() {
             return 3;
         }
     }
@@ -152,7 +152,7 @@ public class MinigunTurret extends ItemTurret {
         }
 
         @Override
-        public void load(Block block){
+        public void load(Block block) {
             super.load(block);
 
             barrel = atlas.find(block.name + "-barrel");
@@ -160,20 +160,20 @@ public class MinigunTurret extends ItemTurret {
         }
 
         @Override
-        public void drawTurret(Turret block, TurretBuild build){
-            if(!(block instanceof MinigunTurret bl && build instanceof MinigunTurretBuild bu)) return;
+        public void drawTurret(Turret block, TurretBuild build) {
+            if (!(block instanceof MinigunTurret bl && build instanceof MinigunTurretBuild bu)) return;
 
             Vec2 v = Tmp.v1;
 
             Draw.z(Layer.turret- 0.01f);
             Draw.rect(outline, build.x + bu.recoilOffset.x, build.y + bu.recoilOffset.y, build.drawrot());
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 Draw.z(Layer.turret - 0.01f);
                 v.trns(bu.rotation - 90f, bl.barWidth * Mathf.cosDeg(bu.spin - 90 * i), bl.barHeight * Mathf.sinDeg(bu.spin - 90 * i)).add(bu.recoilOffset);
                 Draw.rect(barrelOutline, bu.x + v.x, bu.y + v.y, bu.drawrot());
                 Draw.z(Layer.turret - 0.005f - Mathf.sinDeg(bu.spin - 90 * i) / 1000f);
                 Draw.rect(barrel, bu.x + v.x, bu.y + v.y, bu.drawrot());
-                if(bu.heats[i] > 0.001f){
+                if (bu.heats[i] > 0.001f) {
                     Drawf.additive(heat, bl.heatColor.write(Tmp.c1).a(bu.heats[i]), bu.x + v.x, bu.y + v.y, bu.drawrot(), Draw.z());
                 }
             }
@@ -181,10 +181,10 @@ public class MinigunTurret extends ItemTurret {
             Draw.z(Layer.turret);
             super.drawTurret(block, build);
 
-            if(bu.speedf() > 0.0001f){
+            if (bu.speedf() > 0.0001f) {
                 Draw.color(bu.barColor());
                 Lines.stroke(bl.barStroke);
-                for(int i = 0; i < 2; i++){
+                for (int i = 0; i < 2; i++) {
                     v.trns(bu.drawrot(), bl.barX * Mathf.signs[i], bl.barY).add(bu.recoilOffset);
                     Lines.lineAngle(bu.x + v.x, bu.y + v.y, bu.rotation, bl.barLength * Mathf.clamp(bu.speedf()), false);
                 }
@@ -192,7 +192,7 @@ public class MinigunTurret extends ItemTurret {
         }
 
         @Override
-        public void drawHeat(Turret block, TurretBuild build){
+        public void drawHeat(Turret block, TurretBuild build) {
             //Don't
         }
     }

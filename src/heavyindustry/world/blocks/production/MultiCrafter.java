@@ -7,7 +7,6 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -95,8 +94,9 @@ public class MultiCrafter extends Block {
     @Override
     public void init() {
         super.init();
-        capacities = new int[Vars.content.items().size];
+        capacities = new int[content.items().size];
         for (Recipe r : recipeSeq) {
+            r.init();
             if (r.inputLiquids != null) hasLiquids = true;
             if (r.outputLiquids != null) {
                 hasLiquids = true;
@@ -122,7 +122,7 @@ public class MultiCrafter extends Block {
         stats.add(Stat.output, table -> {
             table.row();
 
-            for(Recipe r : recipeSeq){
+            for (Recipe r : recipeSeq) {
                 table.table(Styles.grayPanel, info -> {
                     info.label(() -> "[accent]" + r.recipeName).pad(5,5,0,0).left().row();
                     info.label(() -> "[white]" + r.recipeDescription).pad(5,10,5,10).size(480, 0).wrap().left().row();
@@ -140,13 +140,13 @@ public class MultiCrafter extends Block {
                         recipeInfo.image().growY().pad(0,10,0,10).width(5).color(Pal.gray);
                         recipeInfo.table(input -> {
                             input.left();
-                            if(r.inputItems != null){
-                                for(ItemStack stack: r.inputItems){
+                            if (r.inputItems != null) {
+                                for (ItemStack stack: r.inputItems) {
                                     input.add(new ItemDisplay(stack.item, stack.amount, false));
                                 }
                             }
-                            if(r.inputLiquids != null){
-                                for(LiquidStack stack: r.inputLiquids){
+                            if (r.inputLiquids != null) {
+                                for (LiquidStack stack: r.inputLiquids) {
                                     input.add(new LiquidDisplay(stack.liquid, stack.amount * r.craftTime, false));
                                 }
                             }
@@ -156,19 +156,19 @@ public class MultiCrafter extends Block {
 
                         recipeInfo.table(output -> {
                             output.right();
-                            if(r.outputItems != null){
-                                for(ItemStack stack: r.outputItems){
+                            if (r.outputItems != null) {
+                                for (ItemStack stack: r.outputItems) {
                                     output.add(new ItemDisplay(stack.item, stack.amount, false));
                                 }
                             }
-                            if(r.outputLiquids != null){
-                                for(LiquidStack stack: r.outputLiquids){
+                            if (r.outputLiquids != null) {
+                                for (LiquidStack stack: r.outputLiquids) {
                                     output.add(new LiquidDisplay(stack.liquid, stack.amount * r.craftTime, false));
                                 }
                             }
                         }).size(160,0);
                     }).right().grow().pad(20f).row();
-                    if (bundle.has(r.recipeDetail)){
+                    if (bundle.has(r.recipeDetail)) {
                         Table detail = new Table();
                         detail.label(() -> "[gray]" + r.recipeDetail).pad(0,15,8,15).size(460, 0).wrap().left().row();
                         Collapser coll = new Collapser(detail, true);
@@ -221,7 +221,7 @@ public class MultiCrafter extends Block {
         }
 
         public @Nullable Recipe current() {
-            return currentRecipeIndex != -1 ? recipeSeq.get(currentRecipeIndex): null;
+            return currentRecipeIndex != -1 ? recipeSeq.get(currentRecipeIndex) : null;
         }
 
         @Override
@@ -230,7 +230,7 @@ public class MultiCrafter extends Block {
         }
 
         public float getInputPower() {
-            return currentRecipeIndex != -1 ? current().inputPower: 0f;
+            return currentRecipeIndex != -1 ? current().inputPower : 0f;
         }
 
         @Override
@@ -257,7 +257,7 @@ public class MultiCrafter extends Block {
                     }
                 }
 
-                if(wasVisible && Mathf.chanceDelta(current().updateEffectChance)){
+                if (wasVisible && Mathf.chanceDelta(current().updateEffectChance)) {
                     current().updateEffect.at(x + Mathf.range(size * 4f), y + Mathf.range(size * 4));
                 }
 
@@ -426,7 +426,7 @@ public class MultiCrafter extends Block {
         }
 
         @Override
-        public void onProximityUpdate(){
+        public void onProximityUpdate() {
             super.onProximityUpdate();
         }
 
@@ -517,7 +517,7 @@ public class MultiCrafter extends Block {
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             currentRecipeIndex = read.i();
             progress = read.f();
@@ -526,23 +526,22 @@ public class MultiCrafter extends Block {
     }
 
     public static class Recipe {
-        public Recipe() {}
+        public Recipe() {
+            this("default");
+        }
 
         public Recipe(String name) {
             this.name = name;
-            recipeName = bundle.get("recipe." + name + ".name");
-            recipeDescription = bundle.get("recipe." + name + ".description");
-            recipeDetail = bundle.get("recipe." + name + ".details");
         }
 
-        public String name = "oh-no";
+        public String name;
 
         public @Nullable ItemStack[] inputItems;
         public @Nullable ItemStack[] outputItems;
         public @Nullable LiquidStack[] inputLiquids;
         public @Nullable LiquidStack[] outputLiquids;
-        public @Nullable float inputPower;
-        public @Nullable float outputPower;
+        public float inputPower = 0f;
+        public float outputPower = 0f;
         public float craftTime = 60f;
 
         public int[] liquidOutputDirections = {-1};
@@ -553,8 +552,14 @@ public class MultiCrafter extends Block {
         public Effect updateEffect = Fx.none;
         public float updateEffectChance = 0.04f;
 
-        public String recipeName = "oh-no";
-        public String recipeDescription = "oh-no";
-        public String recipeDetail = "oh-no";
+        public String recipeName = "";
+        public String recipeDescription = "";
+        public String recipeDetail = "";
+
+        public void init(){
+            recipeName = bundle.get("recipe." + name + ".name");
+            recipeDescription = bundle.get("recipe." + name + ".description");
+            recipeDetail = bundle.get("recipe." + name + ".details");
+        }
     }
 }

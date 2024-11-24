@@ -13,12 +13,12 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
-import heavyindustry.world.blocks.production.AdaptDrill.*;
+import heavyindustry.world.blocks.production.DrillF.*;
 import heavyindustry.world.meta.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 
 /**
  * Basic drill bit expansion module.
@@ -75,9 +75,9 @@ public abstract class DrillModule extends Block {
         if (convertList.size > 0) stats.add(HIStat.itemConvertList, getConvertList());
     }
 
-    public String getConvertList(){
+    public String getConvertList() {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < convertList.size; i++){
+        for (int i = 0; i < convertList.size; i++) {
             Item[] convert = convertList.get(i);
             String cvt = Fonts.getUnicodeStr(convert[0].name) + convert[0].localizedName + " -> " + Fonts.getUnicodeStr(convert[1].name) + convert[1].localizedName + "(" + Strings.autoFixed((convertMul.get(convert[0], boostFinalMul)) * 100, 0) + "%)" + (i == convertList.size - 1?"": "\n");
             builder.append(cvt);
@@ -86,7 +86,7 @@ public abstract class DrillModule extends Block {
     }
 
     @Override
-    public void drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         if (teamRegion != null && teamRegion.found()) {
             Draw.rect(baseRegion, plan.drawx(), plan.drawy());
             Draw.rect(teamRegions[player.team().id], plan.drawx(), plan.drawy());
@@ -101,7 +101,7 @@ public abstract class DrillModule extends Block {
     }
 
     public abstract class DrillModuleBuild extends Building {
-        public @Nullable AdaptDrillBuild drillBuild;
+        public @Nullable DrillBuildF drillBuild;
         public float smoothWarmup, targetWarmup;
 
         @Override
@@ -120,46 +120,46 @@ public abstract class DrillModule extends Block {
             super.onProximityUpdate();
         }
 
-        public boolean canApply(AdaptDrillBuild drill){
-            for (int i = 0; i < size; i++){
+        public boolean canApply(DrillBuildF drill) {
+            for (int i = 0; i < size; i++) {
                 Point2 p = Edges.getEdges(size)[rotation * size + i];
                 Building t = world.build(tileX() + p.x, tileY() + p.y);
-                if (t != drill){
+                if (t != drill) {
                     return false;
                 }
             }
             return (drill.boostMul + boostSpeed <= drill.maxBoost() + 1) && checkConvert(drill) && checkSameModule(drill);
         }
 
-        public boolean checkConvert(AdaptDrillBuild drill){
+        public boolean checkConvert(DrillBuildF drill) {
             if (convertList.size == 0) return true;
-            for (Item[] convert: convertList){
-                if (drill.dominantItem == convert[0]){
+            for (Item[] convert: convertList) {
+                if (drill.dominantItem == convert[0]) {
                     return true;
                 }
             }
             return false;
         }
 
-        public boolean checkSameModule(AdaptDrillBuild drill){
+        public boolean checkSameModule(DrillBuildF drill) {
             if (stackable) return true;
-            for (DrillModuleBuild module: drill.modules){
+            for (DrillModuleBuild module: drill.modules) {
                 if (module.block == this.block) return false;
             }
             return true;
         }
 
-        public void apply(AdaptDrillBuild drill){
+        public void apply(DrillBuildF drill) {
             drill.powerConsMul += powerMul;
             drill.powerConsExtra += powerExtra;
             drill.boostMul += boostSpeed;
             for (Item[] convert: convertList){
-                if (drill.dominantItem == convert[0]){
+                if (drill.dominantItem == convert[0]) {
                     drill.convertItem = convert[1];
                     drill.boostFinalMul += convertMul.get(convert[0], boostFinalMul);
                 }
             }
-            if (coreSend){
+            if (coreSend) {
                 drill.coreSend = true;
             }
         }

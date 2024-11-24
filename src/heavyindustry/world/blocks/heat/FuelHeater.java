@@ -49,11 +49,11 @@ public class FuelHeater extends GenericCrafter {
         public float heat, efficiencyMultiplier = 1f;
 
         @Override
-        public void updateEfficiencyMultiplier(){
-            if(filterItem != null){
+        public void updateEfficiencyMultiplier() {
+            if (filterItem != null) {
                 float m = filterItem.efficiencyMultiplier(this);
                 if(m > 0) efficiencyMultiplier = m;
-            }else if(filterLiquid != null){
+            } else if (filterLiquid != null) {
                 float m = filterLiquid.efficiencyMultiplier(this);
                 if(m > 0) efficiencyMultiplier = m;
             }

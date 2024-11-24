@@ -66,10 +66,8 @@ public class MinerPoint extends Block {
     @Override
     public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
-        if (world.tile(x, y) != null) {
-            if (!canPlaceOn(world.tile(x, y), player.team(), rotation)) {
-                drawPlaceText(bundle.get((player.team().core() != null && player.team().core().items.has(requirements, state.rules.buildCostMultiplier)) || state.rules.infiniteResources ? "bar.hi-close" : "bar.noresources"), x, y, valid);
-            }
+        if (world.tile(x, y) != null && !canPlaceOn(world.tile(x, y), player.team(), rotation)) {
+            drawPlaceText(bundle.get((player.team().core() != null && player.team().core().items.has(requirements, state.rules.buildCostMultiplier)) || state.rules.infiniteResources ? "bar.hi-close" : "bar.noresources"), x, y, valid);
         }
         x *= tilesize;
         y *= tilesize;
@@ -158,15 +156,15 @@ public class MinerPoint extends Block {
 
         @Override
         public void updateTile() {
-            if(sort != -1 && lastSort != sort) {
+            if (sort != -1 && lastSort != sort) {
                 lastSort = sort;
                 sortTile = world.tile(sort);
             }
-            if(sort == -1 && lastSort != sort){
+            if (sort == -1 && lastSort != sort) {
                 lastSort = sort;
                 sortTile = null;
             }
-            if(sortTile != null && (!checkOre(sortTile) || !validOre(sortTile))) {
+            if (sortTile != null && (!checkOre(sortTile) || !validOre(sortTile))) {
                 sortTile = null;
                 sort = -1;
             }
@@ -269,7 +267,7 @@ public class MinerPoint extends Block {
 
             Drawf.dashSquare(Pal.accent, x, y, range * tilesize * 2);
 
-            if(settings != null && settings.getBool("eu-show-miner-point")) {
+            if (settings != null && settings.getBool("eu-show-miner-point")) {
                 if (tiles.size == 0 && !placeInAir) {
                     findOre();
                     if (tiles.size == 0) {
@@ -320,7 +318,7 @@ public class MinerPoint extends Block {
             return (t.solid() && t.wallDrop() != null && !blockedItem.contains(t.wallDrop()) && t.wallDrop().hardness <= tier) || (t.block() == Blocks.air && t.drop() != null && !blockedItem.contains(t.drop()) && t.drop().hardness <= tier);
         }
 
-        protected Item oreDrop(Tile t){
+        protected Item oreDrop(Tile t) {
             if(t.solid() && t.wallDrop() != null) return t.wallDrop();
             if(t.block() == Blocks.air && t.drop() != null) return t.drop();
 
@@ -350,8 +348,8 @@ public class MinerPoint extends Block {
         @Override
         public boolean onConfigureTapped(float x, float y) {
             Tile t = world.tileWorld(x, y);
-            if(t != null && checkOre(t) && validOre(t)){
-                if(sort == t.pos()){
+            if (t != null && checkOre(t) && validOre(t)) {
+                if(sort == t.pos()) {
                     configure(-1);
                 } else {
                     configure(t.pos());
@@ -362,7 +360,7 @@ public class MinerPoint extends Block {
         }
 
         @Override
-        public Integer config(){
+        public Integer config() {
             return sort;
         }
 
@@ -411,25 +409,25 @@ public class MinerPoint extends Block {
     }
 
     public static class MinerPointDroneSpawnedCallPacket extends Packet {
-        private byte[] DATA;
+        private byte[] data;
         public Tile tile;
         public int id;
 
         public MinerPointDroneSpawnedCallPacket() {
-            this.DATA = NODATA;
+            this.data = NODATA;
         }
 
-        public void write(Writes WRITE) {
-            TypeIO.writeTile(WRITE, tile);
-            WRITE.i(id);
+        public void write(Writes write) {
+            TypeIO.writeTile(write, tile);
+            write.i(id);
         }
 
-        public void read(Reads READ, int LENGTH) {
-            this.DATA = READ.b(LENGTH);
+        public void read(Reads read, int length) {
+            this.data = read.b(length);
         }
 
         public void handled() {
-            BAIS.setBytes(DATA);
+            BAIS.setBytes(data);
             tile = TypeIO.readTile(READ);
             id = READ.i();
         }

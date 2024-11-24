@@ -42,48 +42,48 @@ public class MultiBulletTurret extends Turret {
         ammoTypes = ObjectMap.of(objects);
     }
 
-    public void limitRange(){
+    public void limitRange() {
         limitRange(9f);
     }
 
-    public void limitRange(float margin){
-        for(Entry<Item, BulletType[]> entry : ammoTypes.entries()){
-            for(BulletType b : entry.value) limitRange(b, margin);
+    public void limitRange(float margin) {
+        for (Entry<Item, BulletType[]> entry : ammoTypes.entries()) {
+            for (BulletType b : entry.value) limitRange(b, margin);
         }
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         stats.remove(Stat.itemCapacity);
         stats.add(Stat.ammo, HIStatValues.ammo(ammoTypes));
-        if(all){
+        if (all) {
             stats.remove(Stat.reload);
             stats.add(Stat.reload, bundle.format("stat.hi-shoot-time", Strings.autoFixed(reload/60f, 2)));
         }
     }
 
     @Override
-    public void init(){
+    public void init() {
         consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){
             @Override
             public void build(Building build, Table table){
                 MultiReqImage image = new MultiReqImage();
                 content.items().each(i -> filter.get(i) && i.unlockedNow(),
                         item -> image.add(new ReqImage(new Image(item.uiIcon),
-                                () -> build instanceof MultiBulletTurretBuild&& !((MultiBulletTurretBuild)build).ammo.isEmpty() && ((MultiBulletTurretBuild)build).ammo.peek().item == item)));
+                                () -> build instanceof MultiBulletTurretBuild mbt && !mbt.ammo.isEmpty() && mbt.ammo.peek().item == item)));
 
                 table.add(image).size(8 * 4);
             }
 
             @Override
-            public float efficiency(Building build){
-                return build instanceof MultiBulletTurretBuild&& !((MultiBulletTurretBuild)build).ammo.isEmpty() ? 1f : 0f;
+            public float efficiency(Building build) {
+                return build instanceof MultiBulletTurretBuild mbt && !mbt.ammo.isEmpty() ? 1f : 0f;
             }
 
             @Override
-            public void display(Stats stats){}
+            public void display(Stats stats) {}
         });
 
         ammoTypes.each((item, type) -> {
@@ -94,26 +94,26 @@ public class MultiBulletTurret extends Turret {
         super.init();
     }
 
-    public class MultiBulletTurretBuild extends TurretBuild{
+    public class MultiBulletTurretBuild extends TurretBuild {
 
         public Seq<ItemEntry> ammo = new Seq<>();
         public int bid = 0;
         public float ResetBidTimer = 0;
 
         @Override
-        public void onProximityAdded(){
+        public void onProximityAdded() {
             super.onProximityAdded();
 
-            if(cheating() && ammo.size > 0){
+            if (cheating() && ammo.size > 0) {
                 handleItem(this, ammoTypes.entries().next().key);
             }
         }
 
         @Override
-        public void updateTile(){
-            unit.ammo((float)unit.type().ammoCapacity * totalAmmo / maxAmmo);
+        public void updateTile() {
+            unit.ammo((float) unit.type().ammoCapacity * totalAmmo / maxAmmo);
 
-            if(autoResetBid && bid > 0) {
+            if (autoResetBid && bid > 0) {
                 if (target == null) {
                     ResetBidTimer += Time.delta;
                     if (ResetBidTimer >= 60) {
@@ -140,74 +140,74 @@ public class MultiBulletTurret extends Turret {
         public int acceptStack(Item item, int amount, Teamc source){
             BulletType[] types = ammoTypes.get(item);
 
-            if(types == null) return 0;
-            for(BulletType type : types) if(type == null) return 0;
+            if (types == null) return 0;
+            for (BulletType type : types) if (type == null) return 0;
 
-            return Math.min((int)((maxAmmo - totalAmmo) / types[0].ammoMultiplier), amount);
+            return Math.min((int) ((maxAmmo - totalAmmo) / types[0].ammoMultiplier), amount);
         }
 
         @Override
         public void handleStack(Item item, int amount, Teamc source){
-            for(int i = 0; i < amount; i++){
+            for (int i = 0; i < amount; i++) {
                 handleItem(null, item);
             }
         }
 
         @Override
-        public int removeStack(Item item, int amount){
+        public int removeStack(Item item, int amount) {
             return 0;
         }
 
         @Override
-        public void handleItem(Building source, Item item){
+        public void handleItem(Building source, Item item) {
 
-            if(item == Items.pyratite){
+            if (item == Items.pyratite) {
                 Events.fire(EventType.Trigger.flameAmmo);
             }
 
-            if(totalAmmo == 0){
+            if(totalAmmo == 0) {
                 Events.fire(EventType.Trigger.resupplyTurret);
             }
 
             BulletType[] types = ammoTypes.get(item);
-            if(types == null) return;
-            for(BulletType type : types) if(type == null) return;
+            if (types == null) return;
+            for (BulletType type : types) if (type == null) return;
             float ammoMultiplier = types[0].ammoMultiplier;
 
             totalAmmo += ammoMultiplier;
 
-            for(int i = 0; i < ammo.size; i++){
+            for (int i = 0; i < ammo.size; i++) {
                 ItemEntry entry = ammo.get(i);
 
-                if(entry.item == item){
+                if (entry.item == item) {
                     entry.amount += ammoMultiplier;
                     ammo.swap(i, ammo.size - 1);
                     return;
                 }
             }
 
-            ammo.add(new MultiBulletTurret.ItemEntry(item, (int)ammoMultiplier));
+            ammo.add(new MultiBulletTurret.ItemEntry(item, (int) ammoMultiplier));
         }
 
         @Override
         public boolean acceptItem(Building source, Item item){
             BulletType[] types = ammoTypes.get(item);
             if(types == null) return false;
-            for(BulletType type : types) if(type == null) return false;
+            for(BulletType type : types) if (type == null) return false;
 
             float ammoMultiplier = 1;
-            for(BulletType type : types){
+            for (BulletType type : types) {
                 ammoMultiplier = Math.max(ammoMultiplier, type.ammoMultiplier);
             }
             return totalAmmo + ammoMultiplier <= maxAmmo;
         }
 
-        public BulletType useAmmo(){
-            if(cheating()) return peekAmmo();
+        public BulletType useAmmo() {
+            if (cheating()) return peekAmmo();
 
             ItemEntry entry = ammo.peek();
             entry.amount -= ammoPerShot;
-            if(entry.amount <= 0) ammo.pop();
+            if (entry.amount <= 0) ammo.pop();
             totalAmmo -= ammoPerShot;
             totalAmmo = Math.max(totalAmmo, 0);
             return entry.type()[0];
@@ -228,15 +228,12 @@ public class MultiBulletTurret extends Turret {
             return ammo.size > 0 && ammo.peek().amount >= ammoPerShot;
         }
 
-        public @Nullable
-        BulletType[] peekAmmos(){
-            return ammo.size == 0 ? new BulletType[]{null} : ammo.peek().type();
+        public BulletType[] peekAmmos() {
+            return ammo.size == 0 ? new BulletType[]{Bullets.placeholder} : ammo.peek().type();
         }
 
-
-        protected void updateShooting(){
-
-            if(reloadCounter >= reload && !charging() && shootWarmup >= minWarmup){
+        protected void updateShooting() {
+            if (reloadCounter >= reload && !charging() && shootWarmup >= minWarmup) {
                 BulletType[] type = peekAmmos();
 
                 shoots(type);
@@ -265,24 +262,24 @@ public class MultiBulletTurret extends Turret {
                 totalShots++;
             });
 
-            if(consumeAmmoOnce){
+            if (consumeAmmoOnce) {
                 useAmmo();
             }
-            if(!all) bid ++;
+            if (!all) bid ++;
         }
 
-        protected void bullets(BulletType[] type, float xOffset, float yOffset, float angleOffset, Mover mover){
+        protected void bullets(BulletType[] type, float xOffset, float yOffset, float angleOffset, Mover mover) {
             queuedBullets --;
 
-            if(dead || (!consumeAmmoOnce && !hasAmmo()) || type == null) return;
-            for(BulletType b : type) if(b == null) return;
+            if (dead || (!consumeAmmoOnce && !hasAmmo()) || type == null) return;
+            for (BulletType b : type) if (b == null) return;
 
             float
                     xSpread = Mathf.range(xRand),
                     bulletX = x + Angles.trnsx(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset),
                     bulletY = y + Angles.trnsy(rotation - 90, shootX + xOffset + xSpread, shootY + yOffset);
 
-            if(all) {
+            if (all) {
                 for (BulletType b : type) {
                     float shootAngle = rotation + angleOffset + Mathf.range(inaccuracy + b.inaccuracy);
                     float lifeScl = b.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / b.range, minRange / b.range, range() / b.range) : 1f;
@@ -300,50 +297,46 @@ public class MultiBulletTurret extends Turret {
             }
             shootSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
 
-            ammoUseEffect.at(
-                    x - Angles.trnsx(rotation, ammoEjectBack),
-                    y - Angles.trnsy(rotation, ammoEjectBack),
-                    rotation * Mathf.sign(xOffset)
-            );
+            ammoUseEffect.at(x - Angles.trnsx(rotation, ammoEjectBack), y - Angles.trnsy(rotation, ammoEjectBack), rotation * Mathf.sign(xOffset));
 
-            if(shake > 0){
+            if (shake > 0) {
                 Effect.shake(shake, shake, this);
             }
 
             curRecoil = 1f;
             heat = 1f;
 
-            if(!consumeAmmoOnce){
+            if (!consumeAmmoOnce) {
                 useAmmo();
             }
         }
 
         @Override
-        public byte version(){
+        public byte version() {
             return 2;
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.b(ammo.size);
-            for(ItemEntry entry : ammo){
+            for (ItemEntry entry : ammo) {
                 write.s(entry.item.id);
                 write.s(entry.amount);
             }
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             ammo.clear();
             totalAmmo = 0;
             int amount = read.ub();
-            for(int i = 0; i < amount; i++){
+            for (int i = 0; i < amount; i++) {
                 Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());
                 short a = read.s();
 
-                if(item != null && ammoTypes.containsKey(item)){
+                if (item != null && ammoTypes.containsKey(item)) {
                     totalAmmo += a;
                     ammo.add(new MultiBulletTurret.ItemEntry(item, a));
                 }
@@ -355,17 +348,17 @@ public class MultiBulletTurret extends Turret {
         public Item item;
         public int amount;
 
-        ItemEntry(Item item, int amount){
+        ItemEntry(Item item, int amount) {
             this.item = item;
             this.amount = amount;
         }
 
-        public BulletType[] type(){
+        public BulletType[] type() {
             return ammoTypes.get(item);
         }
 
         @Override
-        public String toString(){
+        public String toString() {
             return "ItemEntry{" +
                     "item=" + item +
                     ", amount=" + amount +

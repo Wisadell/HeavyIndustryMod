@@ -20,12 +20,12 @@ public class SmartBeamNode extends BeamNode {
         public Color darkColor = new Color(), lightColor = new Color();
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             super.updateTile();
             updatePowerColor();
         }
 
-        public void updatePowerColor(){
+        public void updatePowerColor() {
             int id = power.graph.getID();
             if(id != lastID){
                 float hue = Mathf.randomSeed(id, 360f);
@@ -34,8 +34,9 @@ public class SmartBeamNode extends BeamNode {
                 lastID = id;
             }
         }
+
         @Override
-        public void draw(){
+        public void draw() {
             Draw.rect(region, x, y);
             drawTeamTop();
 
@@ -46,14 +47,14 @@ public class SmartBeamNode extends BeamNode {
             Draw.alpha(Renderer.laserOpacity);
             float w = laserWidth + Mathf.absin(pulseScl, pulseMag);
 
-            for(int i = 0; i < 4; i ++){
-                if(dests[i] != null && links[i].wasVisible && (!(links[i].block instanceof BeamNode node) ||
+            for (int i = 0; i < 4; i ++) {
+                if (dests[i] != null && links[i].wasVisible && (!(links[i].block instanceof BeamNode node) ||
                     (links[i].tileX() != tileX() && links[i].tileY() != tileY()) ||
-                    (links[i].id > id && range >= node.range) || range > node.range)){
+                    (links[i].id > id && range >= node.range) || range > node.range)) {
 
                     int dst = Math.max(Math.abs(dests[i].x - tile.x),  Math.abs(dests[i].y - tile.y));
                     //don't draw lasers for adjacent blocks
-                    if(dst > 1 + size/2){
+                    if (dst > 1 + size/2) {
                         var point = Geometry.d4[i];
                         float poff = tilesize/2f;
                         Drawf.laser(laser, laserEnd, x + poff*size*point.x, y + poff*size*point.y, dests[i].worldx() - poff*point.x, dests[i].worldy() - poff*point.y, w);

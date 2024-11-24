@@ -35,8 +35,8 @@ public class NodeBridge extends ItemBridge {
     /** Change its connection method to range connection. */
     @Override
     public boolean linkValid(Tile tile, Tile other, boolean checkDouble) {
-        if(other == null || tile == null || other == tile) return false;
-        if(!tile.within(other, range * tilesize + 0.1f)) return false;
+        if (other == null || tile == null || other == tile) return false;
+        if (!tile.within(other, range * tilesize + 0.1f)) return false;
         return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof NodeBridge) && other.block() == this))
                 && (other.team() == tile.team() || tile.block() != this)
                 && (!checkDouble || ((NodeBridgeBuild)other.build).link != tile.pos());
@@ -49,45 +49,45 @@ public class NodeBridge extends ItemBridge {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         drawer.load(this);
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         drawer.drawPlan(this, plan, list);
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return drawer.finalIcons(this);
     }
 
-    public class NodeBridgeBuild extends ItemBridgeBuild{
+    public class NodeBridgeBuild extends ItemBridgeBuild {
         @Override
         public void updateTile() {
             Building other = world.build(link);
-            if(other != null && !linkValid(tile, other.tile)){
+            if (other != null && !linkValid(tile, other.tile)) {
                 link = -1;
             }
             super.updateTile();
         }
 
         @Override
-        public void updateTransport(Building other){
-            if(hasItems) super.updateTransport(other);
-            if(hasLiquids){
-                if(warmup >= 0.25f){
+        public void updateTransport(Building other) {
+            if (hasItems) super.updateTransport(other);
+            if (hasLiquids) {
+                if (warmup >= 0.25f) {
                     moved |= moveLiquid(other, liquids.current()) > 0.05f;
                 }
             }
         }
 
         @Override
-        public void doDump(){
-            if(hasItems) super.doDump();
-            if(hasLiquids) dumpLiquid(liquids.current(), 1f);
+        public void doDump() {
+            if (hasItems) super.doDump();
+            if (hasLiquids) dumpLiquid(liquids.current(), 1f);
         }
 
         @Override
@@ -98,7 +98,7 @@ public class NodeBridge extends ItemBridge {
             Lines.stroke(1);
             Drawf.circles(x, y, (block.size / 2f + 1) * tilesize + sin - 2, Pal.accent);
             Building other = world.build(link);
-            if(other != null){
+            if (other != null) {
                 Drawf.circles(other.x, other.y, (block.size / 3f + 1) * tilesize + sin - 2, Pal.place);
                 Drawf.arrow(x, y, other.x, other.y, block.size * tilesize + sin, 4 + sin, Pal.accent);
             }
@@ -113,7 +113,7 @@ public class NodeBridge extends ItemBridge {
         /** Modify its items and output items to be omnidirectional. */
         @Override
         protected boolean checkAccept(Building source, Tile other) {
-            if(tile == null || linked(source)) return true;
+            if (tile == null || linked(source)) return true;
             return linkValid(tile, other);
         }
 
@@ -132,12 +132,12 @@ public class NodeBridge extends ItemBridge {
 
             Draw.z(Layer.power);
             Building other = world.build(bu.link);
-            if(other == null) return;
+            if (other == null) return;
             float op = settings.getInt("bridgeopacity") / 100f;
-            if(Mathf.zero(op)) return;
+            if (Mathf.zero(op)) return;
 
             Draw.color(Color.white);
-            if(bu.block.hasPower) Draw.alpha(Math.max(bu.power.status, 0.25f) * op);
+            if (bu.block.hasPower) Draw.alpha(Math.max(bu.power.status, 0.25f) * op);
             else Draw.alpha(op);
 
             Draw.rect(endRegion, bu.x, bu.y);

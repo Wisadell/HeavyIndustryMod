@@ -7,8 +7,8 @@ public class CopyMemoryBlock extends MemoryBlock {
         super(name);
 
         config(Object[].class, (CopyMemoryBuild tile, Object[] ds) -> {
-            for(int i = 0; i < ds.length; i++){
-                if(ds[i] instanceof Double d) tile.memory[i] = d;
+            for (int i = 0; i < ds.length; i++) {
+                if (ds[i] instanceof Double d) tile.memory[i] = d;
             }
         });
     }

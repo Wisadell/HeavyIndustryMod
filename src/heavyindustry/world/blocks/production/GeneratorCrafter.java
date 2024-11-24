@@ -43,7 +43,7 @@ public class GeneratorCrafter extends GenericCrafter {
 
     public class GeneratorCrafterBuild extends GenericCrafterBuild {
         @Override
-        public float getPowerProduction(){
+        public float getPowerProduction() {
             return efficiency > 0f ? powerProduction : 0f;
         }
     }

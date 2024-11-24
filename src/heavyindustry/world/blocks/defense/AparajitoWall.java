@@ -20,7 +20,7 @@ public class AparajitoWall extends Wall {
         update = true;
     }
 
-    public class AparajitoWallBuild extends WallBuild{
+    public class AparajitoWallBuild extends WallBuild {
         public boolean wasInReload = false;
         public float timerHit = 0f, timerHeal = 0f;
 

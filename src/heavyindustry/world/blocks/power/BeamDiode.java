@@ -5,7 +5,6 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
-import mindustry.*;
 import mindustry.core.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
@@ -26,7 +25,7 @@ import static mindustry.Vars.*;
  * Stitching it up is enough.
  * @author Wisadell
  */
-public class BeamDiode extends Block{
+public class BeamDiode extends Block {
     public int range = 5;
 
     public Color laserColor1 = Color.white;
@@ -37,7 +36,7 @@ public class BeamDiode extends Block{
     public TextureRegion laser, arrow;
     public TextureRegion[] laserEnds = new TextureRegion[2];
 
-    public BeamDiode(String name){
+    public BeamDiode(String name) {
         super(name);
         rotate = true;
         update = true;
@@ -50,7 +49,7 @@ public class BeamDiode extends Block{
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
 
         arrow = atlas.find(name + "-arrow");
@@ -60,21 +59,21 @@ public class BeamDiode extends Block{
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         stats.add(Stat.powerRange, range, StatUnit.blocks);
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
 
         updateClipRadius((range + 1) * tilesize);
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
 
         addBar("back", (BeamDiodeBuild tile) -> new Bar("bar.input", Pal.powerBar, () -> bar(tile.links[1])));
@@ -82,27 +81,27 @@ public class BeamDiode extends Block{
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         Draw.rect(fullIcon, plan.drawx(), plan.drawy());
         Draw.rect(arrow, plan.drawx(), plan.drawy(), !rotate ? 0 : plan.rotation * 90);
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
-        for(int i = 0; i < 2; i++){
-            int maxLen = range + size/2;
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
+        for (int i = 0; i < 2; i++) {
+            int maxLen = range + size / 2;
             Building dest = null;
-            var dir = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
+            Point2 dir = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
             int dx = dir.x, dy = dir.y;
-            int offset = size/2;
-            for(int j = 1 + offset; j <= range + offset; j++){
-                var other = world.build(x + j * dir.x, y + j * dir.y);
+            int offset = size / 2;
+            for (int j = 1 + offset; j <= range + offset; j++) {
+                Building other = world.build(x + j * dir.x, y + j * dir.y);
 
-                if(other != null && other.isInsulated()){
+                if (other != null && other.isInsulated()) {
                     break;
                 }
 
-                if(other != null && other.block.hasPower && other.team == Vars.player.team() && !(other.block instanceof PowerNode)){
+                if (other != null && other.block.hasPower && other.team == player.team() && !(other.block instanceof PowerNode)) {
                     maxLen = j;
                     dest = other;
                     break;
@@ -111,44 +110,44 @@ public class BeamDiode extends Block{
 
             Drawf.dashLine(Pal.placing, x * tilesize + dx * (tilesize * size / 2f + 2), y * tilesize + dy * (tilesize * size / 2f + 2), x * tilesize + dx * (maxLen) * tilesize, y * tilesize + dy * (maxLen) * tilesize);
 
-            if(dest != null){
-                Drawf.square(dest.x, dest.y, dest.block.size * tilesize/2f + 2.5f, 0f);
+            if (dest != null) {
+                Drawf.square(dest.x, dest.y, dest.block.size * tilesize / 2f + 2.5f, 0f);
             }
         }
     }
 
-    public float bar(Building tile){
+    public float bar(Building tile) {
         return (tile != null && tile.block.hasPower) ? tile.power.graph.getLastPowerStored() / tile.power.graph.getTotalBatteryCapacity() : 0f;
     }
 
-    public class BeamDiodeBuild extends Building{
+    public class BeamDiodeBuild extends Building {
         public Building[] links = new Building[2];
         public Tile[] dests = new Tile[2];
         public int lastChange = -2;
 
         @Override
-        public void placed(){
+        public void placed() {
             super.placed();
             updateDirections();
         }
 
         @Override
-        public void updateTile(){
-            if(lastChange != world.tileChanges){
+        public void updateTile() {
+            if(lastChange != world.tileChanges) {
                 lastChange = world.tileChanges;
                 updateDirections();
             }
 
-            if(tile == null || links[0] == null || links[1] == null || !links[1].block.hasPower || !links[0].block.hasPower || links[1].team != team || links[0].team != team) return;
+            if (tile == null || links[0] == null || links[1] == null || !links[1].block.hasPower || !links[0].block.hasPower || links[1].team != team || links[0].team != team) return;
 
             PowerGraph backGraph = links[1].power.graph;
             PowerGraph frontGraph = links[0].power.graph;
-            if(backGraph == frontGraph) return;
+            if (backGraph == frontGraph) return;
 
             float backStored = backGraph.getBatteryStored() / backGraph.getTotalBatteryCapacity();
             float frontStored = frontGraph.getBatteryStored() / frontGraph.getTotalBatteryCapacity();
 
-            if(backStored > frontStored){
+            if (backStored > frontStored) {
                 float amount = backGraph.getBatteryStored() * (backStored - frontStored) / 2;
 
                 amount = Mathf.clamp(amount, 0, frontGraph.getTotalBatteryCapacity() * (1 - frontStored));
@@ -159,13 +158,13 @@ public class BeamDiode extends Block{
         }
 
         @Override
-        public void onProximityUpdate(){
+        public void onProximityUpdate() {
             super.onProximityUpdate();
             updateDirections();
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             Draw.rect(region, x, y, 0);
             Draw.rect(arrow, x, y, rotate ? rotdeg() : 0);
 
@@ -175,13 +174,13 @@ public class BeamDiode extends Block{
             Draw.alpha(Renderer.laserOpacity);
             float w = laserWidth + Mathf.absin(pulseScl, pulseMag);
 
-            for(int i = 0; i < 2; i++){
-                if(dests[i] != null){
+            for (int i = 0; i < 2; i++) {
+                if (dests[i] != null) {
                     int dst = Math.max(Math.abs(dests[i].x - tile.x),  Math.abs(dests[i].y - tile.y));
 
-                    if(dst > 1 + size/2){
-                        var point = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
-                        float poff = tilesize/2f;
+                    if (dst > 1 + size / 2) {
+                        Point2 point = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
+                        float poff = tilesize / 2f;
                         Draw.color(laserColor1, laserColor2, (1f - links[i].power.graph.getSatisfaction()) * 0.86f + Mathf.absin(3f, 0.1f));
                         Drawf.laser(laser, laserEnds[1 - i], laserEnds[i], x + poff*size*point.x, y + poff*size*point.y, dests[i].worldx() - poff*point.x, dests[i].worldy() - poff*point.y, w);
                     }
@@ -192,26 +191,26 @@ public class BeamDiode extends Block{
         }
 
         @Override
-        public void pickedUp(){
+        public void pickedUp() {
             Arrays.fill(links, null);
             Arrays.fill(dests, null);
         }
 
-        public void updateDirections(){
+        public void updateDirections() {
             for(int i = 0; i < 2; i ++){
-                var dir = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
+                Point2 dir = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
                 links[i] = null;
                 dests[i] = null;
                 int offset = size / 2;
 
-                for(int j = 1 + offset; j <= range + offset; j++){
-                    var other = world.build(tile.x + j * dir.x, tile.y + j * dir.y);
+                for(int j = 1 + offset; j <= range + offset; j++) {
+                    Building other = world.build(tile.x + j * dir.x, tile.y + j * dir.y);
 
-                    if(other != null && other.isInsulated()){
+                    if (other != null && other.isInsulated()) {
                         break;
                     }
 
-                    if(other != null && other.block.hasPower && other.team == team){
+                    if (other != null && other.block.hasPower && other.team == team) {
                         links[i] = other;
                         dests[i] = world.tile(tile.x + j * dir.x, tile.y + j * dir.y);
                         break;

@@ -57,16 +57,10 @@ public class CoreStorageBlock extends StorageBlock {
     public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
 
-        if(state.rules.infiniteResources) return;
+        if (state.rules.infiniteResources) return;
 
-        if(world.tile(x, y) != null) {
-            if (!canPlaceOn(world.tile(x, y), player.team(), rotation)) {
-                drawPlaceText(bundle.get(
-                        (player.team().core() != null && player.team().core().items.has(requirements, state.rules.buildCostMultiplier)) || state.rules.infiniteResources ?
-                                "bar.hi-close" :
-                                "bar.noresources"
-                ), x, y, valid);
-            }
+        if (world.tile(x, y) != null && !canPlaceOn(world.tile(x, y), player.team(), rotation)) {
+            drawPlaceText(bundle.get((player.team().core() != null && player.team().core().items.has(requirements, state.rules.buildCostMultiplier)) || state.rules.infiniteResources ? "bar.hi-close" : "bar.noresources"), x, y, valid);
         }
         x *= tilesize;
         y *= tilesize;
@@ -74,23 +68,22 @@ public class CoreStorageBlock extends StorageBlock {
         Drawf.square(x, y, range * tilesize * 1.414f, 90, player.team().color);
     }
 
-    public Rect getRect(Rect rect, float x, float y, float range){
+    public Rect getRect(Rect rect, float x, float y, float range) {
         rect.setCentered(x, y, range * 2 * tilesize);
 
         return rect;
     }
 
     @Override
-    public boolean canPlaceOn(Tile tile, Team team, int rotation){
-        if(state.rules.infiniteResources) return true;
+    public boolean canPlaceOn(Tile tile, Team team, int rotation) {
+        if (state.rules.infiniteResources) return true;
 
         CoreBlock.CoreBuild core = team.core();
-        if(core == null || (!state.rules.infiniteResources && !core.items.has(requirements, state.rules.buildCostMultiplier))) return false;
+        if (core == null || (!state.rules.infiniteResources && !core.items.has(requirements, state.rules.buildCostMultiplier))) return false;
 
         Rect rect = getRect(Tmp.r1, tile.worldx() + offset, tile.worldy() + offset, range).grow(0.1f);
         return !indexer.getFlagged(team, BlockFlag.storage).contains(b -> {
-            if(b instanceof CoreStorageBuild build) {
-                CoreStorageBlock block = (CoreStorageBlock) b.block;
+            if (b instanceof CoreStorageBuild build && b.block instanceof CoreStorageBlock block) {
                 return getRect(Tmp.r2, build.x, build.y, block.range).overlaps(rect);
             }
             return false;
@@ -100,23 +93,23 @@ public class CoreStorageBlock extends StorageBlock {
     public class CoreStorageBuild extends StorageBuild {
         @Override
         public void updateTile(){
-            if(core() != null){
-                if(linkedCore == null || !linkedCore.isValid()){
+            if (core() != null) {
+                if (linkedCore == null || !linkedCore.isValid()) {
                     linkedCore = core();
                     items = linkedCore.items;
                 }
-            }else{
+            } else {
                 linkedCore = null;
                 items = new ItemModule();
             }
         }
 
         @Override
-        public boolean canPickup(){
+        public boolean canPickup() {
             return false;
         }
 
         @Override
-        public void drawSelect(){}
+        public void drawSelect() {}
     }
 }

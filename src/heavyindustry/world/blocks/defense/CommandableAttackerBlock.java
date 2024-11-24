@@ -31,7 +31,7 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
 
     protected BulletType bullet = Bullets.placeholder;
 
-    public CommandableAttackerBlock(String name){
+    public CommandableAttackerBlock(String name) {
         super(name);
 
         replaceable = true;
@@ -39,13 +39,13 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
         Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.accent);
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
         stats.add(Stat.range, range / tilesize, StatUnit.blocks);
         stats.add(Stat.damage, StatValues.ammo(ObjectMap.of(this, bullet)));
@@ -68,43 +68,43 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
 
     public abstract class CommandableAttackerBlockBuild extends CommandableBlockBuild{
         @Override
-        public boolean isCharging(){
+        public boolean isCharging() {
             return efficiency > 0 && reload < reloadTime * storage && !initiateConfigure;
         }
 
         @Override
-        public boolean shouldCharge(){
+        public boolean shouldCharge() {
             return reload < reloadTime * storage;
         }
 
-        public int ammo(){
-            return (int)(reload / reloadTime);
+        public int ammo() {
+            return (int) (reload / reloadTime);
         }
 
         @Override
-        public void control(LAccess type, Object p1, double p2, double p3, double p4){
+        public void control(LAccess type, Object p1, double p2, double p3, double p4) {
             super.control(type, p1, p2, p3, p4);
         }
 
         @Override
-        public BlockStatus status(){
+        public BlockStatus status() {
             return canCommand(targetVec) ? BlockStatus.active : isCharging() ? BlockStatus.noOutput : BlockStatus.noInput;
         }
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             super.updateTile();
 
-            if(shouldChargeConfigure()){
+            if (shouldChargeConfigure()) {
                 configureChargeProgress += edelta() * warmup;
-                if(configureChargeComplete()){
+                if (configureChargeComplete()) {
                     shoot(lastConfirmedTarget);
                 }
             }
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             target = read.i();
             reload = read.f();
@@ -115,7 +115,7 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
         }
 
         @Override
-        public void write(Writes write){
+        public void write(Writes write) {
             super.write(write);
             write.i(target);
             write.f(reload);
@@ -126,7 +126,7 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
         }
 
         @Override
-        public void command(Vec2 pos){
+        public void command(Vec2 pos) {
             lastConfirmedTarget.set(pos);
             targetVec.set(pos);
             target = Point2.pack(World.toTile(pos.x), World.toTile(pos.y));
@@ -136,7 +136,7 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
         }
 
         /** Should Be Overridden. */
-        public void shoot(Vec2 target){
+        public void shoot(Vec2 target) {
             configureChargeProgress = 0;
             initiateConfigure = false;
             reload = Math.max(0, reload - reloadTime);
@@ -145,56 +145,56 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
         }
 
         @Override
-        public void drawConfigure(){
+        public void drawConfigure() {
             super.drawConfigure();
 
             Drawf.dashCircle(x, y, range, team.color);
 
             Seq<CommandableBlockBuild> builds = new Seq<>();
-            for(CommandableBlockBuild build : WorldRegister.commandableBuilds){
-                if(build != this && build != null && build.team == team && sameGroup(build.block()) && build.canCommand(targetVec)){
+            for (CommandableBlockBuild build : WorldRegister.commandableBuilds) {
+                if (build != this && build != null && build.team == team && sameGroup(build.block()) && build.canCommand(targetVec)) {
                     builds.add(build);
                     Drawn.posSquareLink(Pal.gray, 3, 4, false, build.x, build.y, targetVec.x, targetVec.y);
                 }
             }
 
-            for(CommandableBlockBuild build : builds){
+            for (CommandableBlockBuild build : builds) {
                 Drawn.posSquareLink(Pal.heal, 1, 2, false, build.x, build.y, targetVec.x, targetVec.y);
             }
 
-            if(builds.any()){
+            if (builds.any()) {
                 Drawn.posSquareLink(Pal.accent, 1, 2, true, x, y, targetVec.x, targetVec.y);
                 Drawn.drawConnected(targetVec.x, targetVec.y, 10f, Pal.accent);
             }
 
-            if(canCommand(targetVec))builds.add(this);
-            if(builds.any())Drawn.overlayText(bundle.format("hi-participants", builds.size), targetVec.x, targetVec.y, tilesize * 2f, Pal.accent, true);
+            if (canCommand(targetVec)) builds.add(this);
+            if (builds.any()) Drawn.overlayText(bundle.format("hi-participants", builds.size), targetVec.x, targetVec.y, tilesize * 2f, Pal.accent, true);
         }
 
-        public void commandAll(Vec2 pos){
+        public void commandAll(Vec2 pos) {
             participantsTmp.clear();
 
-            for(CommandableBlockBuild build : WorldRegister.commandableBuilds){
-                if(build.team == team && sameGroup(build.block()) && build.canCommand(pos)){
+            for (CommandableBlockBuild build : WorldRegister.commandableBuilds) {
+                if (build.team == team && sameGroup(build.block()) && build.canCommand(pos)) {
                     build.command(pos);
                     participantsTmp.add(build);
                     build.lastAccessed(Iconc.modeAttack + "");
                 }
             }
 
-            if(!headless && participantsTmp.any()){
-                if(team != player.team()) TableUtils.showToast(Icon.warning, "[#ff7b69]Caution: []Attack " +  (int)(pos.x / 8) + ", " + (int)(pos.y / 8), HISounds.alert2);
+            if (!headless && participantsTmp.any()) {
+                if (team != player.team()) TableUtils.showToast(Icon.warning, "[#ff7b69]Caution: []Attack " +  (int)(pos.x / 8) + ", " + (int)(pos.y / 8), HISounds.alert2);
                 HIFx.attackWarningRange.at(pos.x, pos.y, 80, team.color);
             }
         }
 
         @Override
-        public boolean canCommand(Vec2 target){
+        public boolean canCommand(Vec2 target) {
             return ammo() > 0 && warmup > 0.25f && within(target, range()) && !isChargingConfigure();
         }
 
         @Override
-        public void buildConfiguration(Table table){
+        public void buildConfiguration(Table table) {
             control.input.selectedBlock();
 
             table.table(Tex.paneSolid, t -> {

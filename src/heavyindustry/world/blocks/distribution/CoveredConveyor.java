@@ -7,7 +7,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.Item;
 
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
@@ -38,7 +38,7 @@ public class CoveredConveyor extends BeltConveyor {
         public boolean backCap, leftCap, rightCap, frontCap;
 
         @Override
-        public void draw(){
+        public void draw() {
             int frame = enabled && clogHeat <= 0.5f ? (int) (((Time.time * speed * 8f * timeScale * efficiency)) % 4) : 0;
 
             //draw extra conveyors facing this one for non-square tiling purposes
@@ -83,12 +83,12 @@ public class CoveredConveyor extends BeltConveyor {
         }
 
         @Override
-        public void unitOn(Unit unit){
+        public void unitOn(Unit unit) {
             //There is a cover, can't slide on this thing.
         }
 
         @Override
-        public void onProximityUpdate(){
+        public void onProximityUpdate() {
             super.onProximityUpdate();
 
             frontCap = nextc == null || block != nextc.block;
