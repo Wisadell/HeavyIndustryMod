@@ -35,7 +35,7 @@ public class EnergyUnit extends UnitEntity {
     });
 
     public static Effect teleportTrans = new Effect(45, 600, e -> {
-        if(!(e.data instanceof Vec2 v))return;
+        if (!(e.data instanceof Vec2 v)) return;
 
         float angle = Angles.angle(e.x, e.y, v.x, v.y);
         float dst = Mathf.dst(e.x, e.y, v.x, v.y);
@@ -43,8 +43,8 @@ public class EnergyUnit extends UnitEntity {
         Tmp.v1.set(v).sub(e.x, e.y).nor().scl(tilesize * 3f);
         Lines.stroke(Mathf.curve(e.fout(), 0, 0.3f) * 1.75f);
         Draw.color(e.color, Color.white, e.fout() * 0.75f);
-        for(int i = 1; i < dst / tilesize / 3f; i++){
-            for(int j = 0; j < (int)e.rotation / 3; j++){
+        for (int i = 1; i < dst / tilesize / 3f; i++) {
+            for (int j = 0; j < (int) e.rotation / 3; j++) {
                 Tmp.v4.trns(angle, rand.random(e.rotation / 4, e.rotation / 2), rand.range(e.rotation));
                 Tmp.v3.set(Tmp.v2.set(Tmp.v1)).scl(i).add(Tmp.v2.scl(rand.range(0.5f))).add(Tmp.v4).add(e.x, e.y);
                 Lines.lineAngle(Tmp.v3.x, Tmp.v3.y, angle - 180, e.fout(Interp.pow2Out) * 18 + 8);
@@ -66,12 +66,12 @@ public class EnergyUnit extends UnitEntity {
     protected Trail[] trails = {};
 
     @Override
-    public int classId(){
+    public int classId() {
         return EntityRegister.getId(EnergyUnit.class);
     }
 
     @Override
-    public void destroy(){
+    public void destroy() {
         super.destroy();
 
         for(int i = 0; i < trails.length; i++){
@@ -83,9 +83,9 @@ public class EnergyUnit extends UnitEntity {
 
         Vec2 v = new Vec2().set(this);
 
-        for(int i = 0; i < HIFx.energyUnitBlast.lifetime / 6; i++){
+        for (int i = 0; i < HIFx.energyUnitBlast.lifetime / 6; i++) {
             Time.run(i * 6, () -> {
-                for(int j = 0; j < 3; j++){
+                for (int j = 0; j < 3; j++) {
                     Lightning.create(team, team.color, 120f, v.x, v.y, Mathf.random(360), Mathf.random(12, 28));
                     Drawn.randFadeLightningEffect(v.x, v.y, Mathf.random(360), Mathf.random(12, 28), team.color, Mathf.chance(0.5));
                 }
@@ -94,29 +94,29 @@ public class EnergyUnit extends UnitEntity {
     }
 
     @Override
-    public void setType(UnitType type){
+    public void setType(UnitType type) {
         super.setType(type);
 
-        if(trails.length != 3){
+        if (trails.length != 3) {
             trails = new Trail[3];
-            for(int i = 0; i < trails.length; i++){
+            for (int i = 0; i < trails.length; i++) {
                 trails[i] = new Trail(type.trailLength);
             }
         }
     }
 
     @Override
-    public void add(){
+    public void add() {
         super.add();
 
         lastPos.set(this);
     }
 
     @Override
-    public void draw(){
+    public void draw() {
         Draw.z(Layer.bullet);
 
-        for(int i = 0; i < trails.length; i++){
+        for (int i = 0; i < trails.length; i++) {
             Tmp.c1.set(team.color).mul(1 + i * 0.005f).lerp(Color.white, 0.015f * i + Mathf.absin(4f, 0.3f) +  Mathf.clamp(hitTime) / 5f);
             trails[i].drawCap(Tmp.c1, type.trailScl);
             trails[i].draw(Tmp.c1, type.trailScl);
@@ -125,8 +125,8 @@ public class EnergyUnit extends UnitEntity {
         super.draw();
     }
 
-    protected void updateTeleport(){
-        if(!isPlayer()){
+    protected void updateTeleport() {
+        if (!isPlayer()) {
             reloadValue += Time.delta;
 
             Teamc target = Units.closestEnemy(team, x, y, teleportRange * 2f, b -> true);
@@ -136,13 +136,13 @@ public class EnergyUnit extends UnitEntity {
             reloadValue += Math.max(lastHealth - health, 0) / 2f;
             lastHealth = health;
 
-            if(timer.get(5f)) Groups.bullet.intersect(x - teleportRange, y - teleportRange, teleportRange * 2f, teleportRange * 2f, bullet -> {
-                if(bullet.team == team)return;
+            if (timer.get(5f)) Groups.bullet.intersect(x - teleportRange, y - teleportRange, teleportRange * 2f, teleportRange * 2f, bullet -> {
+                if (bullet.team == team) return;
                 num[0]++;
                 damage[0] += bullet.damage();
             });
 
-            if(teleportValid() && (target != null || ((hitTime > 0 || num[0] > 4 || damage[0] > reload / 2))) && (!isLocal() || mobile)){
+            if (teleportValid() && (target != null || ((hitTime > 0 || num[0] > 4 || damage[0] > reload / 2))) && (!isLocal() || mobile)) {
                 float dst = target == null ? teleportRange + teleportMinRange : dst(target) / 2f;
                 float angle = target == null ? rotation : angleTo(target);
                 Tmp.v2.trns(angle + Mathf.range(1) * 45,dst * Mathf.random(1, 2), Mathf.range(0.2f) * dst).clamp(teleportMinRange, teleportRange).add(this).clamp(-finalWorldBounds, -finalWorldBounds, world.unitHeight() + finalWorldBounds, world.unitWidth() + finalWorldBounds);
@@ -152,19 +152,19 @@ public class EnergyUnit extends UnitEntity {
         }
     }
 
-    public boolean teleportValid(){
+    public boolean teleportValid() {
         return reloadValue > reload;
     }
 
-    public void teleport(float x, float y){
+    public void teleport(float x, float y) {
         Drawn.teleportUnitNet(this, x, y, angleTo(x, y), isPlayer() ? getPlayer() : null);
         reloadValue = 0;
     }
 
     @Override
-    public void update(){
+    public void update() {
         super.update();
-        if(!headless && lastPos.dst(this) > effectTriggerLen){
+        if (!headless && lastPos.dst(this) > effectTriggerLen) {
             Sounds.plasmaboom.at(this);
             Sounds.plasmaboom.at(lastPos);
 
@@ -172,7 +172,7 @@ public class EnergyUnit extends UnitEntity {
             teleport.at(lastPos.x, lastPos.y, hitSize / 2, team.color);
             teleportTrans.at(lastPos.x, lastPos.y, hitSize / 2, team.color, new Vec2().set(this));
 
-            for(Trail t : trails){
+            for (Trail t : trails) {
                 Fx.trailFade.at(lastPos.x, lastPos.y, type.trailScl, team.color, t.copy());
                 t.clear();
             }
@@ -183,8 +183,8 @@ public class EnergyUnit extends UnitEntity {
         Rand rand = HIFx.rand1;
         rand.setSeed(id);
 
-        if(!headless){
-            for(int i = 0; i < trails.length; i++){
+        if(!headless) {
+            for (int i = 0; i < trails.length; i++) {
                 Trail trail = trails[i];
 
                 float scl = rand.random(0.75f, 1.5f) * Mathf.sign(rand.range(1)) * (i + 1) / 1.25f;
@@ -201,13 +201,13 @@ public class EnergyUnit extends UnitEntity {
             }
         }
 
-        if(Mathf.chanceDelta(0.15) && healthf() < 0.6f)Drawn.randFadeLightningEffect(x, y, Mathf.range(hitSize, hitSize * 4), Mathf.range(hitSize / 4, hitSize / 2), team.color, Mathf.chance(0.5));
+        if (Mathf.chanceDelta(0.15) && healthf() < 0.6f) Drawn.randFadeLightningEffect(x, y, Mathf.range(hitSize, hitSize * 4), Mathf.range(hitSize / 4, hitSize / 2), team.color, Mathf.chance(0.5));
 
-        if(!net.client() || isLocal())updateTeleport();
+        if (!net.client() || isLocal())updateTeleport();
     }
 
     @Override
-    public void damage(float amount, boolean withEffect){
+    public void damage(float amount, boolean withEffect) {
         super.damage(amount, withEffect);
     }
 }

@@ -30,7 +30,7 @@ public final class HIShaders {
     public static PlanetTextureShader planetTextureShader;
 
     /** Loads the shaders. */
-    public static void init(){
+    public static void init() {
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
 
@@ -51,8 +51,8 @@ public final class HIShaders {
         planetTextureShader = new PlanetTextureShader();
     }
 
-    public static void dispose(){
-        if(!headless){
+    public static void dispose() {
+        if (!headless) {
             dalani.dispose();
             brine.dispose();
             nanofluid.dispose();
@@ -79,12 +79,12 @@ public final class HIShaders {
         public Camera3D camera;
         public BetterPlanet planet;
 
-        public DepthAtmosphereShader(){
+        public DepthAtmosphereShader() {
             super("depth-atmosphere","depth-atmosphere");
         }
 
         @Override
-        public void apply(){
+        public void apply() {
             setUniformMatrix4("u_proj", camera.combined.val);
             setUniformMatrix4("u_trans", planet.getTransform(mat).val);
 
@@ -110,12 +110,12 @@ public final class HIShaders {
     public static class DepthShader extends HILoadShader {
         public Camera3D camera;
 
-        public DepthShader(){
+        public DepthShader() {
             super("depth", "depth");
         }
 
         @Override
-        public void apply(){
+        public void apply() {
             setUniformf("u_camPos", camera.position);
             setUniformf("u_camRange", camera.near, camera.far - camera.near);
         }
@@ -128,12 +128,12 @@ public final class HIShaders {
         public float alpha = 1f;
         public Planet planet;
 
-        public PlanetTextureShader(){
+        public PlanetTextureShader() {
             super("circle-mesh", "circle-mesh");
         }
 
         @Override
-        public void apply(){
+        public void apply() {
             camDir.set(renderer.planets.cam.direction).rotate(Vec3.Y, planet.getRotation());
 
             setUniformf("u_alpha", alpha);
@@ -156,12 +156,12 @@ public final class HIShaders {
         public Texture texture = atlas.white().texture;
         public float scl = 4f;
 
-        public Tiler(){
+        public Tiler() {
             super("screenspace", "tiler");
         }
 
         @Override
-        public void apply(){
+        public void apply() {
             setUniformf("u_offset", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
             setUniformf("u_texsize", camera.width, camera.height);
             setUniformf("u_tiletexsize", texture.width / scl, texture.height / scl);
@@ -176,12 +176,12 @@ public final class HIShaders {
     public static class AlphaShader extends HILoadShader {
         public float alpha = 1f;
 
-        public AlphaShader(){
+        public AlphaShader() {
             super("screenspace", "postalpha");
         }
 
         @Override
-        public void apply(){
+        public void apply() {
             setUniformf("u_alpha", alpha);
         }
     }
@@ -194,12 +194,12 @@ public final class HIShaders {
         public float minThreshold = 0.6f;
         public float waveScl = 0.2f;
 
-        public WaveShader(){
+        public WaveShader() {
             super("screenspace", "wave");
         }
 
         @Override
-        public void apply(){
+        public void apply() {
             setUniformf("u_campos", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
             setUniformf("u_resolution", camera.width, camera.height);
             setUniformf("u_time", Time.time);
@@ -230,7 +230,7 @@ public final class HIShaders {
         }
 
         @Override
-        public void apply(){
+        public void apply() {
             setUniformf("u_campos", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
             setUniformf("u_resolution", camera.width, camera.height);
             setUniformf("u_time", Time.time);
@@ -284,13 +284,13 @@ public final class HIShaders {
         }
 
         @Override
-        public void apply(){
+        public void apply() {
             setUniformf("u_campos", camera.position.x - camera.width / 2, camera.position.y - camera.height / 2);
             setUniformf("u_resolution", camera.width, camera.height);
             setUniformf("u_time", Time.time);
 
-            if(hasUniform("u_noise")){
-                if(noiseTex == null){
+            if (hasUniform("u_noise")) {
+                if (noiseTex == null) {
                     noiseTex = assets.get("sprites/" + textureName() + ".png", Texture.class);
                 }
 
@@ -303,7 +303,7 @@ public final class HIShaders {
     }
 
     public static class HILoadShader extends Shader {
-        public HILoadShader(String vertex, String fragment){
+        public HILoadShader(String vertex, String fragment) {
             super(file(vertex + ".vert"), file(fragment + ".frag"));
         }
     }

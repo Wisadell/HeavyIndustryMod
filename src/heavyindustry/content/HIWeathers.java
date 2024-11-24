@@ -19,7 +19,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  * @author Wisadell
  */
 public final class HIWeathers {
-    public static Weather wind,blizzard,hailStone;
+    public static Weather wind,blizzard,hailStone,stoneStorm;
     public static void load(){
         wind = new EffectWeather("wind"){{
             weatherFx = HIFx.windTail;
@@ -90,6 +90,59 @@ public final class HIWeathers {
                     new HailStoneBulletType(name("hailstone-small"), 5){{
                         hitEffect = Fx.none;
                         despawnEffect = HIFx.fellStone;
+                        splashDamage = 0f;
+                        splashDamageRadius = 0;
+                    }}, 1f
+            );
+        }};
+        stoneStorm = new HailStormWeather("stone-storm") {{
+            attrs.set(Attribute.light, -0.5f);
+            particleRegion = name("stone-storm-small-3");
+            noisePath = "distortAlpha";
+            inBounceCam = drawRain = false;
+            useWindVector = drawNoise = true;
+            noiseColor = Color.valueOf("8c8c8c");
+            baseSpeed = 5.4f;
+            duration = 15f * Time.toMinutes;
+            bulletChange = 0.5f;
+            soundVol = 0.05f;
+            sound = Sounds.wind;
+            setBullets(
+                    new HailStoneBulletType(name("stone-storm-big"), 3){{
+                        speed = 4f;
+                        hitEffect = Fx.explosion.layer(Layer.power);
+                        hitSound = HISounds.bigHailstoneHit;
+                        hitSoundVolume = 0.2f;
+                        despawnEffect = HIFx.staticStone;
+                        damage = splashDamage = 95f;
+                        splashDamageRadius = 40f;
+                        canCollideFalling = pierce = true;
+                        immovable = false;
+                        fallingDamage = 120f;
+                        fallingRadius = 30f;
+                        minDistanceFallingCollide = 15f;
+                        hitFallingEffect = HIFx.bigExplosionStone;
+                        hitFallingColor = Color.valueOf("5e9098");
+                    }}, 1 / 1600f,
+                    new HailStoneBulletType(name("stone-storm-middle"), 2){{
+                        speed = 4f;
+                        hitEffect = Fx.none;
+                        despawnEffect = HIFx.fellStoneAghanite;
+                        damage = splashDamage = 10f;
+                        splashDamageRadius = 25f;
+                        canCollideFalling = true;
+                        immovable = false;
+                        fallingDamage = 25f;
+                        fallingRadius = 15f;
+                        minDistanceFallingCollide = 5f;
+                        hitFallingEffect = HIFx.explosionStone;
+                        hitFallingColor = Color.valueOf("5e9098");
+                    }}, 1 / 12f,
+                    new HailStoneBulletType(name("stone-storm-small"), 5){{
+                        speed = 4f;
+                        immovable = false;
+                        hitEffect = Fx.none;
+                        despawnEffect = HIFx.fellStoneAghanite;
                         splashDamage = 0f;
                         splashDamageRadius = 0;
                     }}, 1f

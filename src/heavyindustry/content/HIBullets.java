@@ -38,8 +38,8 @@ public final class HIBullets {
             //It is not recommended to use it directly.
             collapseFrag,collapse;
 
-    public static void load(){
-        ancientArtilleryProjectile = new ShieldBreakerType(7f, 6000, "missile-large", 7000){{
+    public static void load() {
+        ancientArtilleryProjectile = new ShieldBreakerType(7f, 6000, "missile-large", 7000) {{
             backColor = trailColor = lightColor = lightningColor = hitColor = HIPal.ancientLightMid;
             frontColor = HIPal.ancientLight;
             trailEffect = HIFx.hugeTrail;
@@ -71,19 +71,19 @@ public final class HIBullets {
 
             hitEffect = new MultiEffect(HIFx.square(hitColor, 200, 20 ,splashDamageRadius + 80, 10), HIFx.lightningHitLarge, HIFx.hitSpark(hitColor, 130, 85, splashDamageRadius * 1.5f, 2.2f, 10f), HIFx.subEffect(140, splashDamageRadius + 12, 33, 34f, Interp.pow2Out, ((i, x, y, rot, fin) -> {
                 float fout = Interp.pow2Out.apply(1 - fin);
-                for(int s : Mathf.signs) {
+                for (int s : Mathf.signs) {
                     Drawf.tri(x, y, 12 * fout, 45 * Mathf.curve(fin, 0, 0.1f) * HIFx.fout(fin, 0.25f), rot + s * 90);
                 }
             })));
             despawnEffect = HIFx.circleOut(145f, splashDamageRadius + 15f, 3f);
 
-            shootEffect = EffectWrapper.wrap(HIFx.missileShoot, hitColor);//NHFx.blast(hitColor, 45f);
+            shootEffect = WrapperEffect.wrap(HIFx.missileShoot, hitColor);//NHFx.blast(hitColor, 45f);
             smokeEffect = HIFx.instShoot(hitColor, frontColor);
 
             despawnSound = hitSound = Sounds.largeExplosion;
 
             fragBullets = 22;
-            fragBullet = new BasicBulletType(2f, 300, name("circle-bolt")){{
+            fragBullet = new BasicBulletType(2f, 300, name("circle-bolt")) {{
                 width = height = 10f;
                 shrinkY = shrinkX = 0.7f;
                 backColor = trailColor = lightColor = lightningColor = hitColor = HIPal.ancientLightMid;
@@ -116,7 +116,7 @@ public final class HIBullets {
             fragVelocityMax = 2f;
             fragVelocityMin = 0.35f;
         }};
-        hitter = new EffectBulletType(15f, 500f, 600f){{
+        hitter = new EffectBulletType(15f, 500f, 600f) {{
             speed = 0;
 
             hittable = false;
@@ -134,14 +134,14 @@ public final class HIBullets {
             hitEffect = despawnEffect = new MultiEffect(HIFx.square45_8_45, HIFx.hitSparkHuge, HIFx.crossBlast_45);
         }
             @Override
-            public void despawned(Bullet b){
-                if(despawnHit){
+            public void despawned(Bullet b) {
+                if (despawnHit) {
                     hit(b);
-                }else{
+                } else {
                     createUnits(b, b.x, b.y);
                 }
 
-                if(!fragOnHit){
+                if (!fragOnHit) {
                     createFrags(b, b.x, b.y);
                 }
 
@@ -152,32 +152,32 @@ public final class HIBullets {
             }
 
             @Override
-            public void hit(Bullet b, float x, float y){
+            public void hit(Bullet b, float x, float y) {
                 hitEffect.at(x, y, b.rotation(), lightColor);
                 hitSound.at(x, y, hitSoundPitch, hitSoundVolume);
 
                 Effect.shake(hitShake, hitShake, b);
 
-                if(fragOnHit){
+                if (fragOnHit) {
                     createFrags(b, x, y);
                 }
                 createPuddles(b, x, y);
                 createIncend(b, x, y);
                 createUnits(b, x, y);
 
-                if(suppressionRange > 0){
+                if (suppressionRange > 0) {
                     //bullets are pooled, require separate Vec2 instance
                     Damage.applySuppression(b.team, b.x, b.y, suppressionRange, suppressionDuration, 0f, suppressionEffectChance, new Vec2(b.x, b.y));
                 }
 
                 createSplashDamage(b, x, y);
 
-                for(int i = 0; i < lightning; i++){
+                for (int i = 0; i < lightning; i++) {
                     Lightning.create(b, lightColor, lightningDamage < 0 ? damage : lightningDamage, b.x, b.y, b.rotation() + Mathf.range(lightningCone / 2) + lightningAngle, lightningLength + Mathf.random(lightningLengthRand));
                 }
             }
         };
-        ncBlackHole = new EffectBulletType(120f, 10000f, 3800f){{
+        ncBlackHole = new EffectBulletType(120f, 10000f, 3800f) {{
             despawnHit = true;
             splashDamageRadius = 240;
 
@@ -193,17 +193,17 @@ public final class HIBullets {
             collidesAir = collidesGround = collidesTiles = true;
         }
             @Override
-            public void draw(Bullet b){
-                if(!(b.data instanceof Seq))return;
+            public void draw(Bullet b) {
+                if(!(b.data instanceof Seq)) return;
                 Seq<Sized> data = (Seq<Sized>)b.data;
 
                 Draw.color(lightColor, Color.white, b.fin() * 0.7f);
                 Draw.alpha(b.fin(Interp.pow3Out) * 1.1f);
                 Lines.stroke(2 * b.fout());
-                for(Sized s : data){
-                    if(s instanceof Building){
+                for (Sized s : data){
+                    if (s instanceof Building) {
                         Fill.square(s.getX(), s.getY(), s.hitSize() / 2);
-                    }else{
+                    } else {
                         Lines.spikes(s.getX(), s.getY(), s.hitSize() * (0.5f + b.fout() * 2f), s.hitSize() / 2f * b.fslope() + 12 * b.fin(), 4, 45);
                     }
                 }
@@ -211,13 +211,13 @@ public final class HIBullets {
                 Drawf.light(b.x, b.y, b.fdata, lightColor, 0.3f + b.fin() * 0.8f);
             }
 
-            public void hitT(Sized target, Entityc o, Team team, float x, float y){
-                for(int i = 0; i < lightning; i++){
+            public void hitT(Sized target, Entityc o, Team team, float x, float y) {
+                for (int i = 0; i < lightning; i++) {
                     Lightning.create(team, lightColor, lightningDamage, x, y, Mathf.random(360), lightningLength + Mathf.random(lightningLengthRand));
                 }
 
-                if(target instanceof Unit){
-                    if(((Unit)target).health > 1000) HIBullets.hitter.create(o, team, x, y, 0);
+                if (target instanceof Unit unit) {
+                    if(unit.health > 1000) HIBullets.hitter.create(o, team, x, y, 0);
                 }
             }
 
@@ -225,33 +225,33 @@ public final class HIBullets {
             public void update(Bullet b){
                 super.update(b);
 
-                if(!(b.data instanceof Seq))return;
-                Seq<Sized> data = (Seq<Sized>)b.data;
-                data.remove(d -> !((Healthc)d).isValid());
+                if(!(b.data instanceof Seq)) return;
+                Seq<Sized> data = (Seq<Sized>) b.data;
+                data.remove(d -> d instanceof Healthc h && !h.isValid());
             }
 
             @Override
-            public void despawned(Bullet b){
+            public void despawned(Bullet b) {
                 super.despawned(b);
 
                 float rad = 33;
 
                 Vec2 v = new Vec2().set(b);
 
-                for(int i = 0; i < 5; i++){
+                for (int i = 0; i < 5; i++) {
                     Time.run(i * 0.35f + Mathf.random(2), () -> {
                         Tmp.v1.rnd(rad / 3).scl(Mathf.random());
                         HIFx.shuttle.at(v.x + Tmp.v1.x, v.y + Tmp.v1.y, Tmp.v1.angle(), lightColor, Mathf.random(rad * 3f, rad * 12f));
                     });
                 }
 
-                if(!(b.data instanceof Seq))return;
+                if(!(b.data instanceof Seq)) return;
                 Entityc o = b.owner();
                 Seq<Sized> data = (Seq<Sized>)b.data;
-                for(Sized s : data){
+                for (Sized s : data) {
                     float size = Math.min(s.hitSize(), 85);
                     Time.run(Mathf.random(44), () -> {
-                        if(Mathf.chance(0.32) || data.size < 8)HIFx.shuttle.at(s.getX(), s.getY(), 45, lightColor, Mathf.random(size * 3f, size * 12f));
+                        if (Mathf.chance(0.32) || data.size < 8) HIFx.shuttle.at(s.getX(), s.getY(), 45, lightColor, Mathf.random(size * 3f, size * 12f));
                         hitT(s, o, b.team, s.getX(), s.getY());
                     });
                 }
@@ -260,25 +260,24 @@ public final class HIBullets {
             }
 
             @Override
-            public void init(Bullet b){
+            public void init(Bullet b) {
                 super.init(b);
-                if(!(b.data instanceof Float))return;
-                float fdata = (Float)b.data();
+                if (!(b.data instanceof Float f)) return;
 
                 Seq<Sized> data = new Seq<>();
 
-                indexer.eachBlock(null, b.x, b.y, fdata, bu -> bu.team != b.team, data::add);
+                indexer.eachBlock(null, b.x, b.y, f, bu -> bu.team != b.team, data::add);
 
-                Groups.unit.intersect(b.x - fdata / 2, b.y - fdata / 2, fdata, fdata, u -> {
-                    if(u.team != b.team)data.add(u);
+                Groups.unit.intersect(b.x - f / 2, b.y - f / 2, f, f, u -> {
+                    if (u.team != b.team) data.add(u);
                 });
 
                 b.data = data;
 
-                HIFx.circleOut.at(b.x, b.y, fdata * 1.25f, lightColor);
+                HIFx.circleOut.at(b.x, b.y, f * 1.25f, lightColor);
             }
         };
-        nuBlackHole = new EffectBulletType(20f, 10000f, 0f){{
+        nuBlackHole = new EffectBulletType(20f, 10000f, 0f) {{
             despawnHit = true;
             splashDamageRadius = 36;
 
@@ -294,17 +293,17 @@ public final class HIBullets {
             collidesAir = collidesGround = collidesTiles = true;
         }
             @Override
-            public void draw(Bullet b){
+            public void draw(Bullet b) {
                 if(!(b.data instanceof Seq))return;
                 Seq<Sized> data = (Seq<Sized>)b.data;
 
                 Draw.color(lightColor, Color.white, b.fin() * 0.7f);
                 Draw.alpha(b.fin(Interp.pow3Out) * 1.1f);
                 Lines.stroke(2 * b.fout());
-                for(Sized s : data){
-                    if(s instanceof Building){
+                for (Sized s : data) {
+                    if (s instanceof Building) {
                         Fill.square(s.getX(), s.getY(), s.hitSize() / 2);
-                    }else{
+                    } else {
                         Lines.spikes(s.getX(), s.getY(), s.hitSize() * (0.5f + b.fout() * 2f), s.hitSize() / 2f * b.fslope() + 12 * b.fin(), 4, 45);
                     }
                 }
@@ -312,8 +311,8 @@ public final class HIBullets {
                 Drawf.light(b.x, b.y, b.fdata, lightColor, 0.3f + b.fin() * 0.8f);
             }
 
-            public void hitT(Entityc o, Team team, float x, float y){
-                for(int i = 0; i < lightning; i++){
+            public void hitT(Entityc o, Team team, float x, float y) {
+                for (int i = 0; i < lightning; i++) {
                     Lightning.create(team, lightColor, lightningDamage, x, y, Mathf.random(360), lightningLength + Mathf.random(lightningLengthRand));
                 }
 
@@ -321,24 +320,24 @@ public final class HIBullets {
             }
 
             @Override
-            public void update(Bullet b){
+            public void update(Bullet b) {
                 super.update(b);
 
-                if(!(b.data instanceof Seq) || b.timer(0, 5))return;
+                if(!(b.data instanceof Seq) || b.timer(0, 5)) return;
                 Seq<Sized> data = (Seq<Sized>)b.data;
                 data.remove(d -> !((Healthc)d).isValid());
             }
 
             @Override
-            public void despawned(Bullet b){
+            public void despawned(Bullet b) {
                 super.despawned(b);
 
-                if(!(b.data instanceof Seq))return;
+                if(!(b.data instanceof Seq)) return;
                 Entityc o = b.owner();
                 Seq<Sized> data = (Seq<Sized>)b.data;
-                for(Sized s : data){
+                for (Sized s : data){
                     float size = Math.min(s.hitSize(), 75);
-                    if(Mathf.chance(0.32) || data.size < 8){
+                    if (Mathf.chance(0.32) || data.size < 8) {
                         float sd = Mathf.random(size * 3f, size * 12f);
 
                         HIFx.shuttleDark.at(s.getX() + Mathf.range(size), s.getY() + Mathf.range(size), 45, lightColor, sd);
@@ -350,7 +349,7 @@ public final class HIBullets {
             }
 
             @Override
-            public void init(Bullet b){
+            public void init(Bullet b) {
                 super.init(b);
                 b.fdata = splashDamageRadius;
 
@@ -372,28 +371,28 @@ public final class HIBullets {
             trailEffect = HIFx.ultFireBurn;
         }
             @Override
-            public void draw(Bullet b){
+            public void draw(Bullet b) {
                 Draw.color(colorFrom, colorMid, colorTo, b.fin());
                 Fill.square(b.x, b.y, radius * b.fout(), 45);
                 Draw.reset();
             }
 
             @Override
-            public void update(Bullet b){
-                if(Mathf.chanceDelta(fireTrailChance)){
+            public void update(Bullet b) {
+                if (Mathf.chanceDelta(fireTrailChance)) {
                     UltFire.create(b.tileOn());
                 }
 
-                if(Mathf.chanceDelta(fireEffectChance)){
+                if (Mathf.chanceDelta(fireEffectChance)) {
                     trailEffect.at(b.x, b.y);
                 }
 
-                if(Mathf.chanceDelta(fireEffectChance2)){
+                if (Mathf.chanceDelta(fireEffectChance2)) {
                     trailEffect2.at(b.x, b.y);
                 }
             }
         };
-        executor = new TrailFadeBulletType(28f, 1800f){{
+        executor = new TrailFadeBulletType(28f, 1800f) {{
             lifetime = 40f;
             trailLength = 90;
             trailWidth = 3.6F;
@@ -419,18 +418,18 @@ public final class HIBullets {
             lightningLength = 6;
             lightningLengthRand = 18;
             lightningDamage = 400;
-            smokeEffect = EffectWrapper.wrap(HIFx.hitSparkHuge, hitColor);
+            smokeEffect = WrapperEffect.wrap(HIFx.hitSparkHuge, hitColor);
             shootEffect = HIFx.instShoot(backColor, frontColor);
             despawnEffect = HIFx.lightningHitLarge;
             hitEffect = new MultiEffect(HIFx.hitSpark(backColor, 75f, 24, 90f, 2f, 12f), HIFx.square45_6_45, HIFx.lineCircleOut(backColor, 18f, 20, 2), HIFx.sharpBlast(backColor, frontColor, 120f, 40f));
         }
             @Override
-            public void createFrags(Bullet b, float x, float y){
+            public void createFrags(Bullet b, float x, float y) {
                 super.createFrags(b, x, y);
                 HIBullets.nuBlackHole.create(b, x, y, 0);
             }
         };
-        basicSkyFrag = new BasicBulletType(3.8f, 50){{
+        basicSkyFrag = new BasicBulletType(3.8f, 50) {{
             speed = 6f;
             trailLength = 12;
             trailWidth = 2f;
@@ -458,12 +457,12 @@ public final class HIBullets {
             });
         }
             @Override
-            public void hit(Bullet b){
+            public void hit(Bullet b) {
                 super.hit(b);
                 UltFire.createChance(b, 12, 0.0075f);
             }
         };
-        annMissile = new BasicBulletType(5.6f, 80f, name("strike")){{
+        annMissile = new BasicBulletType(5.6f, 80f, name("strike")) {{
             trailColor = lightningColor = backColor = lightColor = frontColor = Pal.techBlue;
             lightning = 3;
             lightningCone = 360;
@@ -490,14 +489,14 @@ public final class HIBullets {
             });
             despawnEffect = new Effect(32f, e -> {
                 Draw.color(Color.gray);
-                Angles.randLenVectors(e.id + 1, 8, 2.0F + 30.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4.0F + 0.5F));
+                Angles.randLenVectors(e.id + 1, 8, 2f + 30f * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4f + 0.5f));
                 Draw.color(lightColor, Color.white, e.fin());
                 Lines.stroke(e.fout() * 2);
                 Fill.circle(e.x, e.y, e.fout() * e.fout() * 13);
                 Angles.randLenVectors(e.id, 4, 7 + 40 * e.fin(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 8 + 3));
             });
         }};
-        hyperBlast = new BasicBulletType(3.3f, 400){{
+        hyperBlast = new BasicBulletType(3.3f, 400) {{
             lifetime = 60;
 
             trailLength = 15;
@@ -521,7 +520,7 @@ public final class HIBullets {
             hitShake = 3f;
             hitSound = Sounds.plasmaboom;
         }};
-        hyperBlastLinker = new LightningLinkerBulletType(5f, 220f){{
+        hyperBlastLinker = new LightningLinkerBulletType(5f, 220f) {{
             effectLightningChance = 0.15f;
             backColor = trailColor = lightColor = lightningColor = hitColor = Pal.techBlue;
             size = 8f;
@@ -547,7 +546,7 @@ public final class HIBullets {
             shootEffect = HIFx.hitSpark(backColor, 45f, 12, 60, 3, 8);
             smokeEffect = HIFx.hugeSmokeGray;
         }};
-        arc9000frag = new FlakBulletType(3.75f, 200){{
+        arc9000frag = new FlakBulletType(3.75f, 200) {{
             trailColor = lightColor = lightningColor = backColor = frontColor = Pal.techBlue;
 
             trailLength = 14;
@@ -573,7 +572,7 @@ public final class HIBullets {
             hitSound = Sounds.plasmaboom;
             status = StatusEffects.shocked;
         }};
-        arc9000 = new LightningLinkerBulletType(2.75f, 200){{
+        arc9000 = new LightningLinkerBulletType(2.75f, 200) {{
             trailWidth = 4.5f;
             trailLength = 66;
 
@@ -618,16 +617,16 @@ public final class HIBullets {
             hitSpacing = 3;
         }
             @Override
-            public void update(Bullet b){
+            public void update(Bullet b) {
                 super.update(b);
 
-                if(b.timer(1, 6))for(int j = 0; j < 2; j++){
+                if (b.timer(1, 6)) for (int j = 0; j < 2; j++) {
                     Drawn.randFadeLightningEffect(b.x, b.y, Mathf.random(360), Mathf.random(7, 12), backColor, Mathf.chance(0.5));
                 }
             }
 
             @Override
-            public void draw(Bullet b){
+            public void draw(Bullet b) {
                 Draw.color(backColor);
                 Drawn.surround(b.id, b.x, b.y, size * 1.45f, 14, 7,11, (b.fin(HIInterp.parabola4Reversed) + 1f) / 2 * b.fout(0.1f));
 
@@ -647,7 +646,7 @@ public final class HIBullets {
                 Drawf.light(b.x, b.y, size * 1.85f, backColor, 0.7f);
             }
         };
-        arc9000hyper = new AccelBulletType(10f, 1000f){{
+        arc9000hyper = new AccelBulletType(10f, 1000f) {{
             drawSize = 1200f;
             width = height = shrinkX = shrinkY = 0;
             collides = false;
@@ -720,7 +719,7 @@ public final class HIBullets {
             }));
         }
             @Override
-            public void draw(Bullet b){
+            public void draw(Bullet b) {
                 super.draw(b);
 
                 Draw.color(Pal.techBlue, Color.white, b.fout() * 0.25f);
@@ -733,18 +732,18 @@ public final class HIBullets {
 
                 float rotAngle = b.fdata;
 
-                for(int i : Mathf.signs){
+                for (int i : Mathf.signs) {
                     Drawn.tri(b.x, b.y, width * b.foutpowdown(), 200 + 570 * extend, rotAngle + 90 * i - 45);
                 }
 
-                for(int i : Mathf.signs){
+                for (int i : Mathf.signs) {
                     Drawn.tri(b.x, b.y, width * b.foutpowdown(), 200 + 570 * extend, rotAngle + 90 * i + 45);
                 }
 
                 float cameraFin = (1 + 2 * Drawn.cameraDstScl(b.x, b.y, mobile ? 200 : 320)) / 3f;
                 float triWidth = b.fout() * chargeCircleFrontRad * cameraFin;
 
-                for(int i : Mathf.signs){
+                for (int i : Mathf.signs) {
                     Fill.tri(b.x, b.y + triWidth, b.x, b.y - triWidth, b.x + i * cameraFin * chargeCircleFrontRad * (23 + Mathf.absin(10f, 0.75f)) * (b.fout() * 1.25f + 1f), b.y);
                 }
 
@@ -759,19 +758,19 @@ public final class HIBullets {
             }
 
             @Override
-            public void init(Bullet b){
+            public void init(Bullet b) {
                 super.init(b);
                 b.fdata = Mathf.randomSeed(b.id, 90);
             }
 
             @Override
-            public void update(Bullet b){
+            public void update(Bullet b) {
                 super.update(b);
                 b.fdata += b.vel.len() / 3f;
             }
 
             @Override
-            public void despawned(Bullet b){
+            public void despawned(Bullet b) {
                 super.despawned(b);
 
                 Angles.randLenVectors(b.id, 8, splashDamageRadius / 1.25f, ((x, y) -> {
@@ -793,16 +792,16 @@ public final class HIBullets {
                         hitEffect.at(vec2.x, vec2.y, 0, hitColor);
                         hitSound.at(vec2.x, vec2.y, hitSoundPitch, hitSoundVolume);
 
-                        if(fragBullet != null){
-                            for(int i = 0; i < fragBullets; i++){
+                        if (fragBullet != null) {
+                            for (int i = 0; i < fragBullets; i++) {
                                 fragBullet.create(team.cores().firstOpt(), team, vec2.x, vec2.y, Mathf.random(360), Mathf.random(fragVelocityMin, fragVelocityMax), Mathf.random(fragLifeMin, fragLifeMax));
                             }
                         }
 
-                        if(splashDamageRadius > 0 && !b.absorbed){
+                        if (splashDamageRadius > 0 && !b.absorbed) {
                             Damage.damage(team, vec2.x, vec2.y, splashDamageRadius, splashDamage * mul, collidesAir, collidesGround);
 
-                            if(status != StatusEffects.none){
+                            if (status != StatusEffects.none) {
                                 Damage.status(team, vec2.x, vec2.y, splashDamageRadius, status, statusDuration, collidesAir, collidesGround);
                             }
                         }
@@ -810,7 +809,7 @@ public final class HIBullets {
                 }));
             }
         };
-        collapseFrag = new LightningLinkerBulletType(){{
+        collapseFrag = new LightningLinkerBulletType() {{
             effectLightningChance = 0.15f;
             damage = 200;
             backColor = trailColor = lightColor = lightningColor = hitColor = HIPal.thurmixRed;
@@ -837,7 +836,7 @@ public final class HIBullets {
             shootEffect = HIFx.hitSpark(backColor, 45f, 12, 60, 3, 8);
             smokeEffect = HIFx.hugeSmoke;
         }};
-        collapse = new EffectBulletType(480f){{
+        collapse = new EffectBulletType(480f) {{
             hittable = false;
             collides = false;
             collidesTiles = collidesAir = collidesGround = true;
@@ -876,14 +875,14 @@ public final class HIBullets {
             despawnEffect = HIFx.collapserBulletExplode;
         }
             @Override
-            public void despawned(Bullet b){
+            public void despawned(Bullet b) {
                 super.despawned(b);
 
                 Vec2 vec = new Vec2().set(b);
 
                 float damageMulti = b.damageMultiplier();
                 Team team = b.team;
-                for(int i = 0; i < splashDamageRadius / (tilesize * 3.5f); i++){
+                for (int i = 0; i < splashDamageRadius / (tilesize * 3.5f); i++) {
                     int finalI = i;
                     Time.run(i * despawnEffect.lifetime / (splashDamageRadius / (tilesize * 2)), () -> Damage.damage(team, vec.x, vec.y, tilesize * (finalI + 6), splashDamage * damageMulti, true));
                 }
@@ -891,9 +890,9 @@ public final class HIBullets {
                 float rad = 120;
                 float spacing = 2.5f;
 
-                for(int k = 0; k < (despawnEffect.lifetime - HIFx.chainLightningFadeReversed.lifetime) / spacing; k++){
+                for (int k = 0; k < (despawnEffect.lifetime - HIFx.chainLightningFadeReversed.lifetime) / spacing; k++) {
                     Time.run(k * spacing, () -> {
-                        for(int j : Mathf.signs){
+                        for (int j : Mathf.signs) {
                             Vec2 v = Tmp.v6.rnd(rad * 2 + Mathf.random(rad * 4)).add(vec);
                             (j > 0 ? HIFx.chainLightningFade : HIFx.chainLightningFadeReversed).at(v.x, v.y, 12f, hitColor, vec);
                         }
@@ -902,31 +901,31 @@ public final class HIBullets {
             }
 
             @Override
-            public void update(Bullet b){
+            public void update(Bullet b) {
                 float rad = 120;
 
                 Effect.shake(8 * b.fin(), 6, b);
 
-                if(b.timer(1, 12)){
+                if(b.timer(1, 12)) {
                     Seq<Teamc> entites = new Seq<>();
 
                     Units.nearbyEnemies(b.team, b.x, b.y, rad * 2.5f * (1 + b.fin()) / 2, entites::add);
 
                     Units.nearbyBuildings(b.x, b.y, rad * 2.5f * (1 + b.fin()) / 2, e -> {
-                        if(e.team != b.team)entites.add(e);
+                        if (e.team != b.team) entites.add(e);
                     });
 
                     entites.shuffle();
                     entites.truncate(15);
 
-                    for(Teamc e : entites){
+                    for (Teamc e : entites) {
                         PosLightning.create(b, b.team, b, e, lightningColor, false, lightningDamage, 5 + Mathf.random(5), PosLightning.WIDTH, 1, p -> HIFx.lightningHitSmall.at(p.getX(), p.getY(), 0, lightningColor));
                     }
                 }
 
-                if(b.lifetime() - b.time() > HIFx.chainLightningFadeReversed.lifetime)for(int i = 0; i < 2; i++){
-                    if(Mathf.chanceDelta(0.2 * Mathf.curve(b.fin(), 0, 0.8f))){
-                        for(int j : Mathf.signs){
+                if (b.lifetime() - b.time() > HIFx.chainLightningFadeReversed.lifetime) for (int i = 0; i < 2; i++) {
+                    if (Mathf.chanceDelta(0.2 * Mathf.curve(b.fin(), 0, 0.8f))) {
+                        for (int j : Mathf.signs) {
                             Sounds.spark.at(b.x, b.y, 1f, 0.3f);
                             Vec2 v = Tmp.v6.rnd(rad / 2 + Mathf.random(rad * 2) * (1 + Mathf.curve(b.fin(), 0, 0.9f)) / 1.5f).add(b);
                             (j > 0 ? HIFx.chainLightningFade : HIFx.chainLightningFadeReversed).at(v.x, v.y, 12f, hitColor, b);
@@ -934,7 +933,7 @@ public final class HIBullets {
                     }
                 }
 
-                if(b.fin() > 0.05f && Mathf.chanceDelta(b.fin() * 0.3f + 0.02f)){
+                if (b.fin() > 0.05f && Mathf.chanceDelta(b.fin() * 0.3f + 0.02f)) {
                     HISounds.blaster.at(b.x, b.y, 1f, 0.3f);
                     Tmp.v1.rnd(rad / 4 * b.fin());
                     HIFx.shuttleLerp.at(b.x + Tmp.v1.x, b.y + Tmp.v1.y, Tmp.v1.angle(), hitColor, Mathf.random(rad, rad * 3f) * (Mathf.curve(b.fin(Interp.pow2In), 0, 0.7f) + 2) / 3);
@@ -942,7 +941,7 @@ public final class HIBullets {
             }
 
             @Override
-            public void draw(Bullet b){
+            public void draw(Bullet b) {
                 float fin = Mathf.curve(b.fin(), 0, 0.02f);
                 float f = fin * Mathf.curve(b.fout(), 0f, 0.1f);
                 float rad = 120;
@@ -958,14 +957,14 @@ public final class HIBullets {
 
                 Rand rand = HIFx.rand0;
                 rand.setSeed(b.id);
-                for(int i = 0; i < (int)(rad / 3); i++){
+                for (int i = 0; i < (int)(rad / 3); i++) {
                     Tmp.v1.trns(rand.random(360f) + rand.range(1f) * rad / 5 * b.fin(Interp.pow2Out), rad / 2.05f * circleF + rand.random(rad * (1 + b.fin(Interp.circleOut)) / 1.8f));
                     float angle = Tmp.v1.angle();
                     Drawn.tri(b.x + Tmp.v1.x, b.y + Tmp.v1.y, (b.fin() + 1) / 2 * 28 + rand.random(0, 8), rad / 16 * (b.fin(Interp.exp5In) + 0.25f), angle);
                     Drawn.tri(b.x + Tmp.v1.x, b.y + Tmp.v1.y, (b.fin() + 1) / 2 * 12 + rand.random(0, 2), rad / 12 * (b.fin(Interp.exp5In) + 0.5f) / 1.2f, angle - 180);
                 }
 
-                Angles.randLenVectors(b.id + 1, (int)(rad / 3), rad / 4 * circleF, rad * (1 + b.fin(Interp.pow3Out)) / 3, (x, y) -> {
+                Angles.randLenVectors(b.id + 1, (int) (rad / 3), rad / 4 * circleF, rad * (1 + b.fin(Interp.pow3Out)) / 3, (x, y) -> {
                     float angle = Mathf.angle(x, y);
                     Drawn.tri(b.x + x, b.y + y, rad / 8 * (1 + b.fout()) / 2.2f, (b.fout() * 3 + 1) / 3 * 25 + rand.random(4, 12) * (b.fout(Interp.circleOut) + 1) / 2, angle);
                     Drawn.tri(b.x + x, b.y + y, rad / 8 * (1 + b.fout()) / 2.2f, (b.fout() * 3 + 1) / 3 * 9 + rand.random(0, 2) * (b.fin() + 1) / 2, angle - 180);

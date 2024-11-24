@@ -15,11 +15,11 @@ public final class WorldRegister {
 
     public static boolean worldLoaded = false;
 
-    public static void postAfterLoad(Runnable runnable){
-        if(worldLoaded) afterLoad.add(runnable);
+    public static void postAfterLoad(Runnable runnable) {
+        if (worldLoaded) afterLoad.add(runnable);
     }
 
-    public static void load(){
+    public static void load() {
         Events.on(ResetEvent.class, e -> {
             commandableBuilds.clear();
 
@@ -29,7 +29,7 @@ public final class WorldRegister {
         Events.on(WorldLoadEvent.class, e -> app.post(() -> worldLoaded = false));
 
         Events.on(StateChangeEvent.class, e -> {
-            if(e.to == GameState.State.menu){
+            if (e.to == GameState.State.menu) {
                 worldLoaded = true;
             }
         });

@@ -23,95 +23,95 @@ public class LightningEffect extends Effect {
 
     protected boolean initialized;
 
-    public LightningEffect(float life, float clipsize, float stroke){
+    public LightningEffect(float life, float clipsize, float stroke) {
         this();
         this.lifetime = life;
         this.clip = clipsize;
         this.stroke = stroke;
     }
 
-    public LightningEffect(){
+    public LightningEffect() {
         super();
         followParent = false;
     }
 
-    public LightningEffect colorFrom(Color colorFrom){
+    public LightningEffect colorFrom(Color colorFrom) {
         this.colorFrom = colorFrom;
         return this;
     }
 
-    public LightningEffect colorTo(Color colorTo){
+    public LightningEffect colorTo(Color colorTo) {
         this.colorTo = colorTo;
         return this;
     }
 
-    public LightningEffect shrink(boolean s){
+    public LightningEffect shrink(boolean s) {
         shrink = s;
         return this;
     }
 
-    public LightningEffect extend(boolean e){
+    public LightningEffect extend(boolean e) {
         extend = e;
         return this;
     }
 
-    public LightningEffect startDelay(float d){
+    public LightningEffect startDelay(float d) {
         startDelay = d;
         return this;
     }
 
-    public LightningEffect followParent(boolean follow){
+    public LightningEffect followParent(boolean follow) {
         followParent = follow;
         return this;
     }
 
-    public LightningEffect rotWithParent(boolean follow){
+    public LightningEffect rotWithParent(boolean follow) {
         rotWithParent = follow;
         return this;
     }
 
-    public LightningEffect layer(float l){
+    public LightningEffect layer(float l) {
         layer = l;
         return this;
     }
 
-    public LightningEffect layer(float l, float duration){
+    public LightningEffect layer(float l, float duration) {
         layer = l;
         this.layerDuration = duration;
         return this;
     }
 
-    public LightningEffect width(float w){
+    public LightningEffect width(float w) {
         width = w;
         return this;
     }
 
-    public void at(float x, float y, float ex, float ey, Color color){
+    public void at(float x, float y, float ex, float ey, Color color) {
         at(x, y, ex, ey, color, null);
     }
 
-    public void at(float x, float y, float ex, float ey, Color color, Object data){
+    public void at(float x, float y, float ex, float ey, Color color, Object data) {
         create(x, y, ex, ey, color, data);
     }
 
-    public void create(float x, float y, float ex, float ey, Color color, Object data){
-        if(!shouldCreate()) return;
+    public void create(float x, float y, float ex, float ey, Color color, Object data) {
+        if (!shouldCreate()) return;
 
-        if(Core.camera.bounds(Tmp.r1).overlaps(Tmp.r2.setCentered(x, y, clip))){
-            if(!initialized){
+        if (Core.camera.bounds(Tmp.r1).overlaps(Tmp.r2.setCentered(x, y, clip))) {
+            if (!initialized) {
                 initialized = true;
                 init();
             }
 
-            if(startDelay <= 0f){
+            if (startDelay <= 0f) {
                 add(ex, ey, x, y, color, data);
-            }else{
+            } else {
                 Time.run(startDelay, () -> add(x, y, ex, ey, color, data));
             }
         }
     }
 
-    protected void add(float x, float y, float ex, float ey, Color color, Object data){
+    protected void add(float x, float y, float ex, float ey, Color color, Object data) {
         LightningEffectState entity = LightningEffectState.create();
         entity.effect = this;
         entity.data = data;
@@ -120,7 +120,7 @@ public class LightningEffect extends Effect {
         entity.ey = ey;
         entity.set(x, y);
         entity.color.set(color);
-        if(followParent && data instanceof Posc p){
+        if (followParent && data instanceof Posc p) {
             entity.parent = p;
             entity.rotWithParent = rotWithParent;
         }
@@ -149,16 +149,16 @@ public class LightningEffect extends Effect {
         rand.setSeed(id);
 
         float l = links;
-        if(extend) l *= Mathf.curve(fin, 0f, 0.5f);
+        if (extend) l *= Mathf.curve(fin, 0f, 0.5f);
 
-        for(int i = 0; i < l; i ++){
+        for (int i = 0; i < l; i ++) {
             float nx, ny;
-            if(i == links - 1){
+            if (i == links - 1) {
                 nx = ex;
                 ny = ey;
-            }else{
+            } else {
                 float len = (i + 1) * spacing, r = width / 2f;
-                if(shrink) r *= (float)i / links;
+                if (shrink) r *= (float) i / links;
                 v.setToRandomDirection(rand).scl(r);
                 nx = x + normx * len + v.x;
                 ny = y + normy * len + v.y;
@@ -177,7 +177,7 @@ public class LightningEffect extends Effect {
         public float ex, ey;
 
         @Override
-        public void draw(){
+        public void draw() {
             lifetime = ((LightningEffect)effect).render(id, color, time, lifetime, x, y, ex, ey, data);
         }
 

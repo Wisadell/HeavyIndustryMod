@@ -17,24 +17,24 @@ import static mindustry.Vars.*;
 public class BetterPlanet extends Planet {
     public @Nullable FrameBuffer depthBuffer;
 
-    public BetterPlanet(String name, Planet parent, float radius){
+    public BetterPlanet(String name, Planet parent, float radius) {
         super(name, parent, radius);
     }
-    public BetterPlanet(String name, Planet parent, float radius, int sectorSize){
+    public BetterPlanet(String name, Planet parent, float radius, int sectorSize) {
         super(name, parent, radius, sectorSize);
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
-        if(!headless){
+        if (!headless) {
             depthBuffer = new FrameBuffer(graphics.getWidth(), graphics.getHeight(), true);
             depthBuffer.getTexture().setFilter(TextureFilter.nearest);
         }
     }
 
     @Override
-    public void drawAtmosphere(Mesh atmosphere, Camera3D cam){
+    public void drawAtmosphere(Mesh atmosphere, Camera3D cam) {
         Gl.depthMask(false);
         Blending.additive.apply();
 
@@ -52,17 +52,17 @@ public class BetterPlanet extends Planet {
     public class AtmosphereHexMesh implements GenericMesh {
         protected Mesh mesh;
 
-        public AtmosphereHexMesh(HexMesher mesher, int divisions){
+        public AtmosphereHexMesh(HexMesher mesher, int divisions) {
             mesh = MeshBuilder.buildHex(mesher, divisions, false, radius, 0.2f);
         }
 
-        public AtmosphereHexMesh(int divisions){
+        public AtmosphereHexMesh(int divisions) {
             this(generator, divisions);
         }
 
         @Override
-        public void render(PlanetParams params, Mat3D projection, Mat3D transform){
-            if(params.alwaysDrawAtmosphere || settings.getBool("atmosphere")){
+        public void render(PlanetParams params, Mat3D projection, Mat3D transform) {
+            if (params.alwaysDrawAtmosphere || settings.getBool("atmosphere")) {
                 var depth = HIShaders.depth;
                 depthBuffer.resize(graphics.getWidth(), graphics.getHeight());
                 depthBuffer.begin(Tmp.c1.set(0xffffff00));

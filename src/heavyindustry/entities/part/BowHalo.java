@@ -40,7 +40,5 @@ public class BowHalo extends DrawPart {
     }
 
     @Override
-    public void load(String name) {
-
-    }
+    public void load(String name) {}
 }

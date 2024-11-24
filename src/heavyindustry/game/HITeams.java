@@ -2,6 +2,7 @@ package heavyindustry.game;
 
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.graphics.g2d.Font.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -24,7 +25,7 @@ public final class HITeams {
         team.palette[1] = color.cpy().mul(0.75f);
         team.palette[2] = color.cpy().mul(0.5f);
 
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             team.palettei[i] = team.palette[i].rgba();
         }
 
@@ -33,12 +34,12 @@ public final class HITeams {
         int ch = 65000 + id;
         Reflect.<ObjectIntMap<String>>get(Fonts.class, "unicodeIcons").put(name, ch);
         var stringIcons = Reflect.<ObjectMap<String, String>>get(Fonts.class, "stringIcons");
-        stringIcons.put(name, ((char)ch) + "");
+        stringIcons.put(name, ((char) ch) + "");
 
-        int size = (int)(Fonts.def.getData().lineHeight/Fonts.def.getData().scaleY);
+        int size = (int) (Fonts.def.getData().lineHeight / Fonts.def.getData().scaleY);
         TextureRegion region = atlas.find("team-" + name);
         Vec2 out = Scaling.fit.apply(region.width, region.height, size, size);
-        Font.Glyph glyph = new Font.Glyph(){{
+        Glyph glyph = new Glyph() {{
             id = ch;
             srcX = 0;
             srcY = 0;

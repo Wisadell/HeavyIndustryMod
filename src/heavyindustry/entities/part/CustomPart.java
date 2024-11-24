@@ -21,12 +21,12 @@ public class CustomPart extends DrawPart {
     protected final Vec2 vec2 = new Vec2();
 
     @Override
-    public void draw(PartParams params){
+    public void draw(PartParams params) {
         float prog = Mathf.clamp(progress.get(params));
         float z = Draw.z();
 
         float dx = 0, dy = 0, dr = 0;
-        for(PartMove move: moves){
+        for (PartMove move: moves) {
             dx += move.x * move.progress.get(params);
             dy += move.y * move.progress.get(params);
             dr += move.rot * move.progress.get(params);
@@ -39,10 +39,10 @@ public class CustomPart extends DrawPart {
         float drawX = vec.x + vec2.x;
         float drawY = vec.y + vec2.y;
 
-        if(layer >= 0) Draw.z(layer);
+        if (layer >= 0) Draw.z(layer);
         draw.draw(params.x + drawX, params.y + drawY, params.rotation + rot, prog);
 
-        if(mirror){
+        if (mirror) {
             vec.setAngle(2 * params.rotation - vec.angle());
             vec2.setAngle(-rot).rotate(params.rotation);
             drawX = vec.x + vec2.x;
@@ -53,9 +53,9 @@ public class CustomPart extends DrawPart {
     }
 
     @Override
-    public void load(String name){}
+    public void load(String name) {}
 
-    public interface Drawer{
+    public interface Drawer {
         void draw(float x, float y, float rotation, float progress);
     }
 }

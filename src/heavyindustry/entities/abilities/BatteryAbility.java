@@ -26,7 +26,7 @@ public class BatteryAbility extends Ability {
     public float capacity, shieldRange, range, px, py;
     public Effect abilityEffect = HIFx.shieldDefense;
 
-    public BatteryAbility(float capacity, float shieldRange, float range, float px, float py){
+    public BatteryAbility(float capacity, float shieldRange, float range, float px, float py) {
         this.capacity = capacity;
         this.shieldRange = shieldRange;
         this.range = range;
@@ -58,23 +58,23 @@ public class BatteryAbility extends Ability {
     protected float timerRetarget = 0;
     protected float amount = 0;
 
-    protected void setupColor(float satisfaction){
+    protected void setupColor(float satisfaction) {
         Draw.color(Color.white, Pal.powerLight, (1 - satisfaction) * 0.86f + Mathf.absin(3, 0.1f));
         Draw.alpha(Renderer.laserOpacity);
     }
 
-    protected void findTarget(Unit unit){
-        if(target != null) return;
+    protected void findTarget(Unit unit) {
+        if (target != null) return;
         indexer.allBuildings(unit.x, unit.y, range, other -> {
-            if(other.block != null && other.team == unit.team && other.block instanceof PowerNode){
+            if (other.block != null && other.team == unit.team && other.block instanceof PowerNode){
                 target = other;
             }
         });
     }
 
-    protected void updateTarget(Unit unit){
+    protected void updateTarget(Unit unit) {
         timerRetarget += Time.delta;
-        if(timerRetarget > 5){
+        if (timerRetarget > 5) {
             target = null;
             findTarget(unit);
             timerRetarget = 0;
@@ -90,14 +90,14 @@ public class BatteryAbility extends Ability {
     public void draw(Unit unit) {
         float x = unit.x + Angles.trnsx(unit.rotation, py, px);
         float y = unit.y + Angles.trnsy(unit.rotation, py, px);
-        if(unit.shield > 0){
+        if (unit.shield > 0){
             Draw.color(Pal.heal);
             Draw.z(Layer.effect);
             Lines.stroke(1.5f);
             Lines.poly(unit.x, unit.y, 6, shieldRange);
         }
-        if(target == null || target.block == null) return;
-        if(Mathf.zero(Renderer.laserOpacity)) return;
+        if (target == null || target.block == null) return;
+        if (Mathf.zero(Renderer.laserOpacity)) return;
         Draw.z(Layer.power);
         setupColor(target.power.graph.getSatisfaction());
         ((PowerNode)target.block).drawLaser(x, y, target.x, target.y, 2, target.block.size);
@@ -111,14 +111,14 @@ public class BatteryAbility extends Ability {
         updateTarget(unit);
         Groups.bullet.intersect(unit.x - shieldRange, unit.y - shieldRange, shieldRange * 2, shieldRange * 2, cons);
         amount = unit.shield * 10;
-        if(state.rules.unitAmmo && amount > 0){
+        if (state.rules.unitAmmo && amount > 0){
             Units.nearby(unit.team, unit.x, unit.y, range, other -> {
-                if(other.type.ammoType instanceof PowerAmmoType){
-                    float powerPerAmmo = ((PowerAmmoType)other.type.ammoType).totalPower / other.type.ammoCapacity;
+                if (other.type.ammoType instanceof PowerAmmoType type){
+                    float powerPerAmmo = type.totalPower / other.type.ammoCapacity;
                     float ammoRequired = other.type.ammoCapacity - other.ammo;
                     float powerRequired = ammoRequired * powerPerAmmo;
                     float powerTaken = Math.min(amount, powerRequired);
-                    if(powerTaken > 1){
+                    if (powerTaken > 1) {
                         unit.shield -= powerTaken / 10;
                         other.ammo += powerTaken / powerPerAmmo;
                         Fx.itemTransfer.at(unit.x, unit.y, Math.max(powerTaken / 100, 1), Pal.power, other);
@@ -126,9 +126,9 @@ public class BatteryAbility extends Ability {
                 }
             });
         }
-        if(target == null || target.block == null) return;
+        if (target == null || target.block == null) return;
         PowerGraph g = target.power.graph;
-        if(g.getPowerBalance() > 0) amount = Math.min(amount + (g.getLastPowerProduced()) * Time.delta, capacity);
+        if (g.getPowerBalance() > 0) amount = Math.min(amount + (g.getLastPowerProduced()) * Time.delta, capacity);
         unit.shield = amount / 10;
     }
 

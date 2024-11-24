@@ -10,15 +10,15 @@ public class AccelBulletType extends BasicBulletType {
 
     public Interp accelInterp = Interp.linear;
 
-    public void disableAccel(){
+    public void disableAccel() {
         accelerateBegin = 10;
     }
 
-    public AccelBulletType(){
+    public AccelBulletType() {
         super();
     }
 
-    public AccelBulletType(float velocityBegin, float velocityIncrease, Interp accelInterp, float damage, String bulletSprite){
+    public AccelBulletType(float velocityBegin, float velocityIncrease, Interp accelInterp, float damage, String bulletSprite) {
         super(1, damage, bulletSprite);
         this.velocityBegin = velocityBegin;
         this.velocityIncrease = velocityIncrease;
@@ -33,38 +33,38 @@ public class AccelBulletType extends BasicBulletType {
         this(speed, damage, "bullet");
     }
 
-    public AccelBulletType(float damage, String bulletSprite){
+    public AccelBulletType(float damage, String bulletSprite) {
         super(1, damage, bulletSprite);
     }
 
     @Override
-    protected float calculateRange(){
-        if(velocityBegin < 0)velocityBegin = speed;
+    protected float calculateRange() {
+        if (velocityBegin < 0) velocityBegin = speed;
 
         boolean computeRange = rangeOverride < 0;
         float cal = 0;
 
         FloatSeq speeds = new FloatSeq();
-        for(float i = 0; i <= 1; i += 0.05f){
+        for (float i = 0; i <= 1; i += 0.05f) {
             float s = velocityBegin + accelInterp.apply(Mathf.curve(i, accelerateBegin, accelerateEnd)) * velocityIncrease;
             speeds.add(s);
-            if(computeRange)cal += s * lifetime * 0.05f;
+            if (computeRange) cal += s * lifetime * 0.05f;
         }
         speed = speeds.sum() / speeds.size;
 
-        if(computeRange)cal += 1;
+        if (computeRange) cal += 1;
 
         return cal;
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
     }
 
     @Override
-    public void update(Bullet b){
-        if(accelerateBegin < 1)b.vel.setLength((velocityBegin + accelInterp.apply(Mathf.curve(b.fin(), accelerateBegin, accelerateEnd)) * velocityIncrease) * (drag != 0 ? (1 * Mathf.pow(b.drag, b.fin() * b.lifetime() / 6)) : 1));
+    public void update(Bullet b) {
+        if (accelerateBegin < 1) b.vel.setLength((velocityBegin + accelInterp.apply(Mathf.curve(b.fin(), accelerateBegin, accelerateEnd)) * velocityIncrease) * (drag != 0 ? (1 * Mathf.pow(b.drag, b.fin() * b.lifetime() / 6)) : 1));
         super.update(b);
     }
 }

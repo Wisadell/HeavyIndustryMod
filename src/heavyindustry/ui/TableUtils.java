@@ -39,35 +39,35 @@ public final class TableUtils {
 
     public static final float LEN = 60f;
     public static final float OFFSET = 12f;
-    public static String format(float value){
+    public static String format(float value) {
         return df.format(value);
     }
 
     public static PowerGraphInfoDialog powerInfoDialog;
 
-    public static void init(){
+    public static void init() {
         powerInfoDialog = new PowerGraphInfoDialog();
     }
 
     /** Based on {@link UI#formatAmount(long)} but for floats. */
-    public static String formatAmount(float number){
-        if(number == Float.MAX_VALUE) return "infinite";
-        if(number == Float.MIN_VALUE) return "-infinite";
+    public static String formatAmount(float number) {
+        if (number == Float.MAX_VALUE) return "infinite";
+        if (number == Float.MIN_VALUE) return "-infinite";
 
         float mag = Math.abs(number);
         String sign = number < 0 ? "-" : "";
-        if(mag >= 1_000_000_000f){
+        if (mag >= 1_000_000_000f) {
             return sign + Strings.fixed(mag / 1_000_000_000f, 2) + "[gray]" + UI.billions + "[]";
-        }else if(mag >= 1_000_000f){
+        } else if (mag >= 1_000_000f) {
             return sign + Strings.fixed(mag / 1_000_000f, 2) + "[gray]" + UI.millions + "[]";
-        }else if(mag >= 1000f){
+        } else if (mag >= 1000f) {
             return sign + Strings.fixed(mag / 1000f, 2) + "[gray]" + UI.thousands + "[]";
-        }else{
+        } else {
             return sign + Strings.fixed(mag, 2);
         }
     }
 
-    public static void collapseTextToTable(Table t, String text){
+    public static void collapseTextToTable(Table t, String text) {
         Table ic = new Table();
         ic.add(text).wrap().fillX().width(500f).padTop(2).padBottom(6).left();
         ic.row();
@@ -84,7 +84,7 @@ public final class TableUtils {
         t.row();
     }
 
-    public static void addToTable(UnlockableContent c, Table t){
+    public static void addToTable(UnlockableContent c, Table t) {
         t.row();
         t.table(log -> {
             log.table(Styles.grayPanel, img -> {
@@ -101,11 +101,11 @@ public final class TableUtils {
         });
     }
 
-    private static boolean pointValid(){
+    private static boolean pointValid() {
         return point.x >= 0 && point.y >= 0 && point.x <= world.width() * tilesize && point.y <= world.height() * tilesize;
     }
 
-    private static class Inner extends Table{
+    private static class Inner extends Table {
         Inner(){
             name = "INNER";
             background(Tex.paneSolid);
@@ -118,33 +118,32 @@ public final class TableUtils {
             }).growY().fillX().padRight(OFFSET);
         }
 
-        public void init(float width){
+        public void init(float width) {
             setSize(width, starter.getHeight());
             setPosition(-this.width, starter.originY);
         }
     }
 
-    private static final Table starter = new Table(Tex.paneSolid){
+    private static final Table starter = new Table(Tex.paneSolid) {
 
     };
 
     public static final TextArea textArea = headless ? null : new TextArea("");
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static int getLineNum(String string){
-        string.replaceAll("\r", "\n");
-        return string.split("\n").length;
+    public static int getLineNum(String string) {
+        String dex = string.replaceAll("\r", "\n");
+        return dex.split("\n").length;
     }
 
-    public static void disableTable(){
+    public static void disableTable() {
         scene.root.removeChild(starter);
     }
 
-    public static void showTable(){
+    public static void showTable() {
         scene.root.addChildAt(3, starter);
     }
 
-    public static void showInner(Table parent, Table children){
+    public static void showInner(Table parent, Table children) {
         Inner inner = new Inner();
 
         parent.addChildAt(parent.getZIndex() + 1, inner);
@@ -162,11 +161,11 @@ public final class TableUtils {
         inner.actions(Actions.moveTo(0, inner.y, 0.35f, Interp.pow3Out));
     }
 
-    public static Table tableImageShrink(TextureRegion tex, float size, Table table){
+    public static Table tableImageShrink(TextureRegion tex, float size, Table table) {
         return tableImageShrink(tex, size, table, c -> {});
     }
 
-    public static Table tableImageShrink(TextureRegion tex, float size, Table table, Cons<Image> modifier){
+    public static Table tableImageShrink(TextureRegion tex, float size, Table table, Cons<Image> modifier) {
         float parma = Math.max(tex.height, tex.width);
         float f = Math.min(size, parma);
         Image image = new Image(tex);
@@ -176,7 +175,7 @@ public final class TableUtils {
         return table;
     }
 
-    public static void itemStack(Table parent, ItemStack stack, ItemModule itemModule){
+    public static void itemStack(Table parent, ItemStack stack, ItemModule itemModule) {
         float size = LEN - OFFSET;
         parent.table(t -> {
             t.image(stack.item.fullIcon).size(size).left();
@@ -194,26 +193,26 @@ public final class TableUtils {
         }).growX().height(size).left().row();
     }
 
-    public static void selectPos(Table parentT, Cons<Point2> cons){
+    public static void selectPos(Table parentT, Cons<Point2> cons) {
         Prov<Touchable> original = parentT.touchablility;
         Touchable parentTouchable = parentT.touchable;
 
         parentT.touchablility = () -> Touchable.disabled;
 
-        if(!pTable.hasParent())ctrlVec.set(camera.unproject(input.mouse()));
+        if(!pTable.hasParent()) ctrlVec.set(camera.unproject(input.mouse()));
 
-        if(!pTable.hasParent())pTable = new Table(Tex.clear){{
+        if (!pTable.hasParent()) pTable = new Table(Tex.clear) {{
             update(() -> {
-                if(state.isMenu()){
+                if (state.isMenu()) {
                     remove();
-                }else{
+                } else {
                     Vec2 v = camera.project(World.toTile(ctrlVec.x) * tilesize, World.toTile(ctrlVec.y) * tilesize);
                     setPosition(v.x, v.y, 0);
                 }
             });
         }
             @Override
-            public void draw(){
+            public void draw() {
                 super.draw();
 
                 Lines.stroke(9, Pal.gray);
@@ -222,7 +221,7 @@ public final class TableUtils {
                 drawLines();
             }
 
-            private void drawLines(){
+            private void drawLines() {
                 Lines.square(x, y, 28, 45);
                 Lines.line(x - OFFSET * 4, y, 0, y);
                 Lines.line(x + OFFSET * 4, y, graphics.getWidth(), y);
@@ -231,16 +230,16 @@ public final class TableUtils {
             }
         };
 
-        if(!pTable.hasParent())floatTable = new Table(Tex.clear){{
+        if (!pTable.hasParent()) floatTable = new Table(Tex.clear) {{
             update(() -> {
-                if(state.isMenu())remove();
+                if (state.isMenu()) remove();
             });
             touchable = Touchable.enabled;
             setFillParent(true);
 
-            addListener(new InputListener(){
+            addListener(new InputListener() {
                 @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, KeyCode button){
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, KeyCode button) {
                     ctrlVec.set(camera.unproject(x, y));
                     return false;
                 }
@@ -259,19 +258,19 @@ public final class TableUtils {
         scene.root.addChildAt(Math.max(parentT.getZIndex() - 2, 0), floatTable);
     }
 
-    private static void scheduleToast(Runnable run){
+    private static void scheduleToast(Runnable run) {
         long duration = (int)(3.5 * 1000);
         long since = Time.timeSinceMillis(lastToast);
-        if(since > duration){
+        if (since > duration) {
             lastToast = Time.millis();
             run.run();
-        }else{
+        } else {
             Time.runTask((duration - since) / 1000f * 60f, run);
             lastToast += duration;
         }
     }
 
-    public static void countdown(Element e, Floatp remainTime){
+    public static void countdown(Element e, Floatp remainTime) {
         e.addListener(new Tooltip(t2 -> {
             t2.background(Tex.bar);
             t2.color.set(Color.black);
@@ -283,15 +282,15 @@ public final class TableUtils {
         }));
     }
 
-    public static void showToast(Drawable icon, String text, Sound sound){
-        if(state.isMenu()) return;
+    public static void showToast(Drawable icon, String text, Sound sound) {
+        if (state.isMenu()) return;
 
         scheduleToast(() -> {
             sound.play();
 
             Table table = new Table(Tex.button);
             table.update(() -> {
-                if(state.isMenu() || !ui.hudfrag.shown){
+                if (state.isMenu() || !ui.hudfrag.shown) {
                     table.remove();
                 }
             });
@@ -312,7 +311,7 @@ public final class TableUtils {
         });
     }
 
-    public static void link(Table parent, Links.LinkEntry link){
+    public static void link(Table parent, Links.LinkEntry link) {
         parent.add(new LinkTable(link)).size(LinkTable.w + OFFSET * 2f, LinkTable.h).padTop(OFFSET / 2f).row();
     }
 
@@ -320,12 +319,12 @@ public final class TableUtils {
         protected static float h = graphics.isPortrait() ? 90f : 80f;
         protected static float w = graphics.isPortrait() ? 330f : 600f;
 
-        public static void sync(){
+        public static void sync() {
             h = graphics.isPortrait() ? 90f : 80f;
             w = graphics.isPortrait() ? 300f : 600f;
         }
 
-        public LinkTable(Links.LinkEntry link){
+        public LinkTable(Links.LinkEntry link) {
             background(Tex.underline);
             margin(0);
             table(img -> {
@@ -346,7 +345,7 @@ public final class TableUtils {
             }).padLeft(OFFSET / 1.5f);
 
             button(Icon.link, () -> {
-                if(!app.openURI(link.link)){
+                if (!app.openURI(link.link)) {
                     ui.showErrorMessage("@linkfail");
                     app.setClipboardText(link.link);
                 }

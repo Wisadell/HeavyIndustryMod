@@ -32,11 +32,11 @@ public class PartBow extends DrawPart {
         Draw.color(color);
         Fill.circle(rx, ry, 3 * warmup);
         Lines.stroke(3 * warmup);
-        for(int i : new int[]{-1, 1}) {
+        for (int i : new int[]{-1, 1}) {
             Tmp.v2.set(turretTk * i, bowHeight).rotate(rot);
             Tmp.v3.set(turretTk * i, bowHeight + bowTk).rotate(rot);
             float x1 = params.x + Tmp.v2.x, x2 = params.x + Tmp.v3.x, y1 = params.y + Tmp.v2.y, y2 = params.y + Tmp.v3.y;
-            float dx = HIUtils.dx(x1, bowWidth, rot + 270 + (70 * warmup - visRad * rp * warmup) * i), dy = HIUtils.dy(y1, bowWidth, rot + 270 + (70 * warmup - visRad * rp * warmup) * i);
+            float dx = Utils.dx(x1, bowWidth, rot + 270 + (70 * warmup - visRad * rp * warmup) * i), dy = Utils.dy(y1, bowWidth, rot + 270 + (70 * warmup - visRad * rp * warmup) * i);
             Tmp.v1.set(bowTk / 2f * warmup * i, 0).rotate(rot);
             float dx1 = dx + Tmp.v1.x, dy1 = dy + Tmp.v1.y;
             Fill.tri(x1, y1, x2, y2, dx, dy);
@@ -49,7 +49,7 @@ public class PartBow extends DrawPart {
         Lines.stroke(2 * warmup);
         Lines.circle(pullx, pully, 4);
         float sin = Mathf.absin(Time.time, 6, 1.5f);
-        for(int i = 0; i < 3; i++){
+        for (int i = 0; i < 3; i++) {
             float angle = i* 360f / 3;
             Drawf.tri(pullx + Angles.trnsx(angle - Time.time, 5f + sin), pully + Angles.trnsy(angle - Time.time, 5f + sin), 4f, -2f * warmup, angle - Time.time);
         }
@@ -57,14 +57,12 @@ public class PartBow extends DrawPart {
         float arx = rx + Angles.trnsx(rot, 0, -bowMoveY/2), ary = ry + Angles.trnsy(rot, 0, -bowMoveY/2);
         //arrow
         Draw.color(color.cpy().a(p));
-        if(arrowSp != null) Draw.rect(Core.atlas.find(arrowSp), arx, ary, 32 * warmup, 50, rot);
+        if (arrowSp != null) Draw.rect(Core.atlas.find(arrowSp), arx, ary, 32 * warmup, 50, rot);
         else Drawf.tri(arx, ary, 16 * warmup, 20, rot + 90);
         Drawf.tri(arx, ary, 12 * warmup, 8, rot - 90);
         Draw.reset();
     }
 
     @Override
-    public void load(String s) {
-
-    }
+    public void load(String s) {}
 }

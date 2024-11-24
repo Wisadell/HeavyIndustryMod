@@ -53,9 +53,9 @@ public final class Drawn {
 
         int sides = Lines.circleVertices(rad);
 
-        float space = 360.0F / (float)sides;
+        float space = 360f / (float)sides;
         float len = 2 * rad * Mathf.sinDeg(space / 2);
-        float hstep = Lines.getStroke() / 2.0F / Mathf.cosDeg(space / 2.0F);
+        float hstep = Lines.getStroke() / 2f / Mathf.cosDeg(space / 2f);
         float r1 = rad - hstep;
         float r2 = rad + hstep;
 
@@ -94,7 +94,7 @@ public final class Drawn {
 
         Draw.color(color);
 
-        Lines.square(x2, y2, to.block().size * tilesize / 2f + 1.0f);
+        Lines.square(x2, y2, to.block().size * tilesize / 2f + 1f);
 
         Tmp.v1.trns(from.angleTo(to), r1);
         Tmp.v2.trns(to.angleTo(from), r2);
@@ -323,25 +323,25 @@ public final class Drawn {
         GlyphLayout layout = Pools.obtain(GlyphLayout.class, GlyphLayout::new);
         boolean ints = font.usesIntegerPositions();
         font.setUseIntegerPositions(false);
-        font.getData().setScale(size / Scl.scl(1.0f));
+        font.getData().setScale(size / Scl.scl(1f));
         layout.setText(font, text);
         font.setColor(color);
 
-        float dy = offset + 3.0F;
-        font.draw(text, x, y + layout.height / (align ? 2 : 1) + (dy + 1.0F) * offsetScl, 1);
+        float dy = offset + 3f;
+        font.draw(text, x, y + layout.height / (align ? 2 : 1) + (dy + 1f) * offsetScl, 1);
         --dy;
 
         if(underline){
-            Lines.stroke(2.0F, Color.darkGray);
-            Lines.line(x - layout.width / 2.0F - 2.0F, dy + y, x + layout.width / 2.0F + 1.5F, dy + y);
-            Lines.stroke(1.0F, color);
-            Lines.line(x - layout.width / 2.0F - 2.0F, dy + y, x + layout.width / 2.0F + 1.5F, dy + y);
+            Lines.stroke(2f, Color.darkGray);
+            Lines.line(x - layout.width / 2f - 2f, dy + y, x + layout.width / 2f + 1.5f, dy + y);
+            Lines.stroke(1f, color);
+            Lines.line(x - layout.width / 2f - 2f, dy + y, x + layout.width / 2f + 1.5f, dy + y);
             Draw.color();
         }
 
         font.setUseIntegerPositions(ints);
         font.setColor(Color.white);
-        font.getData().setScale(1.0F);
+        font.getData().setScale(1f);
         Draw.reset();
         Pools.free(layout);
     }

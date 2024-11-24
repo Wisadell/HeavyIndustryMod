@@ -14,7 +14,7 @@ public class BuildingTetherPayloadLegsUnit extends PayloadLegsUnit implements Bu
     @Override
     public void update() {
         super.update();
-        if(building == null || !building.isValid() || building.team != team){
+        if (building == null || !building.isValid() || building.team != team) {
             Call.unitDespawn(self());
         }
     }

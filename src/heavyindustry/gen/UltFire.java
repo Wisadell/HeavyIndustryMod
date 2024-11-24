@@ -16,7 +16,7 @@ import heavyindustry.content.*;
 
 import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 
 public class UltFire extends Fire {
     public static TextureRegion[] ultRegion;
@@ -29,57 +29,57 @@ public class UltFire extends Fire {
 
     public static final float baseLifetime = 1200f;
 
-    public static void create(float x, float y, Team team){
+    public static void create(float x, float y, Team team) {
         Tile tile = world.tile(World.toTile(x), World.toTile(y));
 
-        if(tile != null && tile.build != null && tile.build.team != team)create(tile);
+        if(tile != null && tile.build != null && tile.build.team != team) create(tile);
     }
 
-    public static void createChance(Position pos, double chance){
+    public static void createChance(Position pos, double chance) {
         if(Mathf.chanceDelta(chance)) UltFire.create(pos);
     }
 
-    public static void createChance(float x, float y, float range, float chance, Team team){
+    public static void createChance(float x, float y, float range, float chance, Team team) {
         indexer.eachBlock(null, x, y, range, other -> other.team != team && Mathf.chanceDelta(chance), other -> UltFire.create(other.tile));
     }
 
-    public static void createChance(Teamc teamc, float range, float chance){
+    public static void createChance(Teamc teamc, float range, float chance) {
         indexer.eachBlock(null, teamc.x(), teamc.y(), range, other -> other.team != teamc.team() && Mathf.chanceDelta(chance), other -> UltFire.create(other.tile));
     }
 
-    public static void create(float x, float y, float range, Team team){
+    public static void create(float x, float y, float range, Team team) {
         indexer.eachBlock(null, x, y, range, other -> other.team != team, other -> UltFire.create(other.tile));
     }
 
-    public static void create(float x, float y, float range){
+    public static void create(float x, float y, float range) {
         indexer.eachBlock(null, x, y, range, other -> true, other -> UltFire.create(other.tile));
     }
 
-    public static void create(Teamc teamc, float range){
+    public static void create(Teamc teamc, float range) {
         indexer.eachBlock(null, teamc.x(), teamc.y(), range, other -> other.team != teamc.team(), other -> UltFire.create(other.tile));
     }
 
-    public static void create(Position position){
+    public static void create(Position position) {
         create(World.toTile(position.getX()), World.toTile(position.getY()));
     }
 
-    public static void create(int x, int y){
+    public static void create(int x, int y) {
         create(world.tile(x, y));
     }
 
-    public static void create(Tile tile){
-        if(net.client() || tile == null || !state.rules.fire) return; //not clientside.
+    public static void create(Tile tile) {
+        if (net.client() || tile == null || !state.rules.fire) return; //not clientside.
 
         Fire fire = Fires.get(tile.x, tile.y);
 
-        if(!(fire instanceof UltFire)){
+        if (!(fire instanceof UltFire)) {
             fire = UltFire.create();
             fire.tile = tile;
             fire.lifetime = baseLifetime;
             fire.set(tile.worldx(), tile.worldy());
             fire.add();
             Fires.register(fire);
-        }else{
+        } else {
             fire.lifetime = baseLifetime;
             fire.time = 0f;
         }
@@ -94,7 +94,7 @@ public class UltFire extends Fire {
         Draw.alpha(0.35f);
         Draw.alpha(Mathf.clamp(warmup / 20f));
         Draw.z(110f);
-        Draw.rect(ultRegion[Math.min((int)animation, ultRegion.length - 1)], x + Mathf.randomSeedRange((int)y, 2f), y + Mathf.randomSeedRange((int)x, 2f));
+        Draw.rect(ultRegion[Math.min((int) animation, ultRegion.length - 1)], x + Mathf.randomSeedRange((int) y, 2f), y + Mathf.randomSeedRange((int) x, 2f));
         Draw.reset();
         Drawf.light(x, y, 50f + Mathf.absin(5f, 5f), Pal.techBlue, 0.6f * Mathf.clamp(warmup / 20f));
     }
@@ -141,10 +141,10 @@ public class UltFire extends Fire {
                     Puddlec p = Puddles.get(tile);
                     puddleFlammability = p != null ? p.getFlammability() / 3f : 0f;
                     if (damage) {
-                        entity.damage(15);
+                        entity.damage(25f);
                     }
 
-                    Damage.damageUnits(null, tile.worldx(), tile.worldy(), 8f, 10, (unit) -> !unit.isFlying() && !unit.isImmune(HIStatusEffects.ultFireBurn), (unit) -> {
+                    Damage.damageUnits(null, tile.worldx(), tile.worldy(), 8f, 15f, (unit) -> !unit.isFlying() && !unit.isImmune(HIStatusEffects.ultFireBurn), (unit) -> {
                         unit.apply(HIStatusEffects.ultFireBurn, 300f);
                     });
                 }
@@ -169,7 +169,7 @@ public class UltFire extends Fire {
     }
 
     @Override
-    public int classId(){
+    public int classId() {
         return EntityRegister.getId(UltFire.class);
     }
 
@@ -192,7 +192,7 @@ public class UltFire extends Fire {
         }
     }
 
-    public void removeEffect(){
+    public void removeEffect() {
         remove.at(x, y, animation);
     }
 }

@@ -13,17 +13,17 @@ public class ShieldBreakerType extends BasicBulletType {
     public float fragSpawnSpacing = 5;
     public float maxShieldDamage;
 
-    protected static BulletType breakType = new EffectBulletType(3f){{
-        this.absorbable = true;
+    protected static BulletType breakType = new EffectBulletType(3f) {{
+        absorbable = true;
         collides = false;
         lifetime = 8f;
         drawSize = 0;
-        this.damage = 1;
+        damage = 1;
     }
         @Override
         public void despawned(Bullet b){
-            if(b.absorbed && b.data instanceof Color){
-                HIFx.shuttle.at(b.x, b.y, Mathf.random(360f), (Color)b.data, b.damage / tilesize / 2f);
+            if(b.absorbed && b.data instanceof Color color) {
+                HIFx.shuttle.at(b.x, b.y, Mathf.random(360f), color, b.damage / tilesize / 2f);
                 Effect.shake(b.damage / 100, b.damage / 100, b);
                 Sounds.plasmaboom.at(b);
             }
@@ -32,9 +32,9 @@ public class ShieldBreakerType extends BasicBulletType {
 
     public ShieldBreakerType(float speed, float damage, String bulletSprite, float shieldDamage) {
         super(speed, damage, bulletSprite);
-        this.splashDamage = this.splashDamageRadius = -1f;
-        this.maxShieldDamage = shieldDamage;
-        this.absorbable = false;
+        splashDamage = splashDamageRadius = -1f;
+        maxShieldDamage = shieldDamage;
+        absorbable = false;
     }
 
     public ShieldBreakerType(float speed, float damage, float shieldDamage) {
@@ -42,11 +42,11 @@ public class ShieldBreakerType extends BasicBulletType {
     }
 
     public ShieldBreakerType() {
-        this(1.0F, 1.0F, "bullet", 500f);
+        this(1f, 1f, "bullet", 500f);
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
     }
 

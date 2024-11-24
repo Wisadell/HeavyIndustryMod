@@ -14,7 +14,7 @@ import mindustry.graphics.*;
 import heavyindustry.content.*;
 import heavyindustry.entities.*;
 
-public class LightningLinkerBulletType extends BasicBulletType{
+public class LightningLinkerBulletType extends BasicBulletType {
     public float hitSpacing = 10f, size = 30f, linkRange = 240f, boltWidth = PosLightning.WIDTH;
 
     public float randomGenerateRange = -1f, randomGenerateChance = 0.03f, randomLightningChance = 0.1f;
@@ -44,7 +44,7 @@ public class LightningLinkerBulletType extends BasicBulletType{
         collidesGround = collidesAir = true;
         collides = false;
         scaleLife = despawnHit = true;
-        hitShake = 3.0F;
+        hitShake = 3f;
         hitSound = Sounds.explosion;
         shootEffect = Fx.shootBig;
         lightning = 4;
@@ -57,45 +57,44 @@ public class LightningLinkerBulletType extends BasicBulletType{
         liHitEffect = HIFx.lightningHitSmall;
     }
 
-    public LightningLinkerBulletType(){
+    public LightningLinkerBulletType() {
         this(1f, 1f);
     }
 
     @Override
-    public boolean testCollision(Bullet bullet, Building tile){
+    public boolean testCollision(Bullet bullet, Building tile) {
         return super.testCollision(bullet, tile);
     }
 
     @Override
-    public float estimateDPS(){
+    public float estimateDPS() {
         return lightningDamage * maxHit * 0.75f * 60 / hitSpacing;
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
-        if(slopeEffect == null)slopeEffect = new Effect(25, e -> {
-            if(!(e.data instanceof Integer))return;
-            int i = e.data();
+        if (slopeEffect == null) slopeEffect = new Effect(25, e -> {
+            if (!(e.data instanceof Integer i)) return;
             Draw.color(backColor);
             Angles.randLenVectors(e.id, (int)(size / 8f), size / 4f + size * 2f * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * size / 1.65f));
             Lines.stroke((i < 0 ? e.fin() : e.fout()) * 3f);
             Lines.circle(e.x, e.y, (i > 0 ? e.fin() : e.fout()) * size * 1.1f);
         });
-        if(spreadEffect == null)spreadEffect = new Effect(32f, e -> Angles.randLenVectors(e.id, 2, 6 + 45 * e.fin(), (x, y) -> {
+        if (spreadEffect == null) spreadEffect = new Effect(32f, e -> Angles.randLenVectors(e.id, 2, 6 + 45 * e.fin(), (x, y) -> {
             Draw.color(backColor);
             Fill.circle(e.x + x, e.y + y, e.fout() * size / 2f);
             Draw.color(frontColor);
             Fill.circle(e.x + x, e.y + y, e.fout() * (size / 3f - 1f));
         })).layer(Layer.effect + 0.00001f);
 
-        if(trailWidth < 0)trailWidth = size * 0.75f;
-        if(trailLength < 0)trailLength = 12;
+        if (trailWidth < 0) trailWidth = size * 0.75f;
+        if (trailLength < 0) trailLength = 12;
 
         drawSize = Math.max(drawSize, size * 2f);
 
-        if(effectLightningLength < 0)effectLightningLength = size * 1.5f;
-        if(effectLightningLengthRand < 0)effectLightningLengthRand = size * 2f;
+        if (effectLightningLength < 0) effectLightningLength = size * 1.5f;
+        if (effectLightningLengthRand < 0) effectLightningLengthRand = size * 2f;
     }
 
     @Override
@@ -161,7 +160,7 @@ public class LightningLinkerBulletType extends BasicBulletType{
             HIFx.lightningHitLarge.at(hitPos.getX(), hitPos.getY(), lightningColor);
             liHitEffect.at(hitPos);
             for (int j = 0; j < lightning; j++) {
-                Lightning.create(b, lightningColor, lightningDamage < 0.0F ? damage : lightningDamage, b.x, b.y, b.rotation() + Mathf.range(lightningCone / 2.0F) + lightningAngle, lightningLength + Mathf.random(lightningLengthRand));
+                Lightning.create(b, lightningColor, lightningDamage < 0f ? damage : lightningDamage, b.x, b.y, b.rotation() + Mathf.range(lightningCone / 2f) + lightningAngle, lightningLength + Mathf.random(lightningLengthRand));
             }
             hitSound.at(hitPos, Mathf.random(0.9f, 1.1f));
 

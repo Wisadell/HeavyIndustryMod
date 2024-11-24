@@ -25,9 +25,9 @@ public final class HICacheLayer {
         brine = new ShaderLayer(HIShaders.brine);
         nanofluid = new ShaderLayer(HIShaders.nanofluid);
 
-        armor = new ShaderLayer(HIShaders.tiler){
+        armor = new ShaderLayer(HIShaders.tiler) {
             @Override
-            public void begin(){
+            public void begin() {
                 renderer.blocks.floor.endc();
                 renderer.effectBuffer.begin();
                 graphics.clear(Color.clear);
@@ -35,7 +35,7 @@ public final class HICacheLayer {
             }
 
             @Override
-            public void end(){
+            public void end() {
                 renderer.blocks.floor.endc();
                 renderer.effectBuffer.end();
 
@@ -71,7 +71,7 @@ public final class HICacheLayer {
             });
         }
 
-        static Texture loadTexture(String name, Cons<Texture> modifier){
+        static Texture loadTexture(String name, Cons<Texture> modifier) {
             Texture tex = new Texture(HeavyIndustryMod.modInfo.root.child("textures").child(name + (name.endsWith(".png") ? "" : ".png")));
             modifier.get(tex);
 

@@ -74,20 +74,18 @@ public class CtrlMissileBulletType extends BasicBulletType {
                 }
             }
 
-            if(reflectable) return;
+            if (reflectable) return;
             if (target != null && autoHoming) {
                 b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta));
             } else {
-                @Nullable Unit shooter = null;
-                if(b.owner instanceof Unit) shooter = (Unit)b.owner;
-                if(b.owner instanceof ControlBlock) shooter = ((ControlBlock)b.owner).unit();
+                Unit shooter = null;
+                if (b.owner instanceof Unit unit) shooter = unit;
+                if (b.owner instanceof ControlBlock control) shooter = control.unit();
                 if (shooter != null) {
                     if(shooter.isPlayer()) lookAt(shooter.aimX, shooter.aimY, b);
                     else {
-                        if (b.data instanceof Position p)
-                            lookAt(p.getX(), p.getY(), b);
-                        else
-                            lookAt(realAimX, realAimY, b);
+                        if (b.data instanceof Position p) lookAt(p.getX(), p.getY(), b);
+                        else lookAt(realAimX, realAimY, b);
                     }
                 }
             }

@@ -33,9 +33,9 @@ public class ElectricStormBulletType extends BulletType {
 
     @Override
     public void update(Bullet b) {
-        if(b.time >= b.lifetime - HIFx.chainLightningFade.lifetime) return;
+        if (b.time >= b.lifetime - HIFx.chainLightningFade.lifetime) return;
         float baseRange = splashDamageRadius * 0.1f + splashDamageRadius * 0.9f * b.finpow();
-        if(b.timer.get(lifetime/15f)) {
+        if (b.timer.get(lifetime / 15f)) {
             Seq<Healthc> t = new Seq<>();
             indexer.allBuildings(b.x, b.y, baseRange, building -> {
                 if (building.team != b.team && Mathf.chance(0.5f) && t.size < maxTarget) t.addUnique(building);
@@ -44,25 +44,25 @@ public class ElectricStormBulletType extends BulletType {
                 if (Mathf.chance(0.5f) && t.size < maxTarget) t.addUnique(unit);
             });
             t.removeAll(hc -> hc == null || hc.dead());
-            if(t.size > 0) sound.at(b);
-            for(int i = 0; i < t.size; i++){
+            if (t.size > 0) sound.at(b);
+            for (int i = 0; i < t.size; i++) {
                 Healthc hc = t.get(i);
-                if(hc != null){
+                if (hc != null) {
                     HIFx.chainLightningFade.at(b.x, b.y, 4, color.cpy().a(0.3f), hc);
                     Fx.randLifeSpark.at(hc.getX(), hc.getY(), b.angleTo(hc), color);
-                    if(hc instanceof Building bd){
+                    if (hc instanceof Building bd) {
                         bd.applySlowdown(0, 300);
                     }
-                    if(hc instanceof Unit uc){
+                    if (hc instanceof Unit uc) {
                         uc.apply(StatusEffects.disarmed, 300);
                     }
 
                     hc.damage(damage * state.rules.unitCrashDamage(b.team));
-                    if(hc.health() < (hc.maxHealth() * 0.04)) hc.kill();
+                    if (hc.health() < (hc.maxHealth() * 0.04)) hc.kill();
                 }
             }
         }
-        if(!state.isPaused()) Effect.shake(2, 2, b);
+        if (!state.isPaused()) Effect.shake(2, 2, b);
     }
 
     @Override
@@ -79,17 +79,17 @@ public class ElectricStormBulletType extends BulletType {
         Lines.circle(b.x, b.y, baseRange);
 
         Draw.color(color);
-        for(int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             Drawf.tri(b.x, b.y, 12 * b.finpow(), baseRange * 1.5f, i * 180);
             Drawf.tri(b.x, b.y, 6 * b.finpow(), baseRange/3, i * 180 + 90);
         }
 
-        if(b.timer.get(1, 27 * b.foutpow() + 3)){
-            if(b.time >= b.lifetime - HIFx.chainLightningFade.lifetime) return;
-            for(int i = 0; i < 3; i++) {
+        if (b.timer.get(1, 27 * b.foutpow() + 3)) {
+            if (b.time >= b.lifetime - HIFx.chainLightningFade.lifetime) return;
+            for (int i = 0; i < 3; i++) {
                 float a = Mathf.random(360);
-                float x = HIUtils.dx(b.x, baseRange, a);
-                float y = HIUtils.dy(b.y, baseRange, a);
+                float x = Utils.dx(b.x, baseRange, a);
+                float y = Utils.dy(b.y, baseRange, a);
                 HIFx.chainLightningFade.at(x, y, 8, color, b);
             }
         }

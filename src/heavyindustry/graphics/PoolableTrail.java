@@ -5,16 +5,29 @@ import arc.util.pooling.Pool.*;
 import mindustry.graphics.*;
 
 public class PoolableTrail extends Trail implements Poolable {
+    private PoolableTrail(int length) {
+        super(length);
+    }
+
     private PoolableTrail() {
         super(0);
     }
 
+    /**
+     * @deprecated deprecated.
+     * @see PoolableTrail#copy(int) copy(int length).
+     */
+    @Deprecated
     @Override
-    public Trail copy() {
-        return null;
+    public PoolableTrail copy() {
+        PoolableTrail out = new PoolableTrail(length);
+        out.points.addAll(points);
+        out.lastX = lastX;
+        out.lastY = lastY;
+        return out;
     }
 
-    public static PoolableTrail get(int length){
+    public static PoolableTrail copy(int length){
         PoolableTrail trail = Pools.obtain(PoolableTrail.class, PoolableTrail::new);
         trail.length = length;
 

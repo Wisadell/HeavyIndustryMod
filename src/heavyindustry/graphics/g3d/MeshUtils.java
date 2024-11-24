@@ -24,7 +24,7 @@ final class MeshUtils {
         mesh.getVerticesBuffer().position(0);
     }
 
-    static Mesh end(){
+    static Mesh end() {
         Mesh last = mesh;
 
         last.getVerticesBuffer().limit(last
@@ -44,13 +44,13 @@ final class MeshUtils {
         ).nor();
     }
 
-    static void verts(Vec3 a, Vec3 b, Vec3 c, Vec3 normal, Vec2 texCords){
+    static void verts(Vec3 a, Vec3 b, Vec3 c, Vec3 normal, Vec2 texCords) {
         vert(a, normal, texCords);
         vert(b, normal, texCords);
         vert(c, normal, texCords);
     }
 
-    static void vert(Vec3 a, Vec3 normal, Vec2 texCords){
+    static void vert(Vec3 a, Vec3 normal, Vec2 texCords) {
         floats[0] = a.x;
         floats[1] = a.y;
         floats[2] = a.z;

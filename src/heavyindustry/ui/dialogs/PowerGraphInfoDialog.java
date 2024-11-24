@@ -14,26 +14,26 @@ import static arc.Core.*;
 import static heavyindustry.ui.TableUtils.*;
 
 public class PowerGraphInfoDialog extends BaseDialog {
-    private final float updateInterval = 60; //Update every second
+    protected final float updateInterval = 60; //Update every second
 
-    private final IntSet opened = new IntSet();
-    private final IntMap<Seq<Building>> producers = new IntMap<>();
-    private final IntMap<Seq<Building>> consumers = new IntMap<>();
-    private final IntMap<Seq<Building>> batteries = new IntMap<>();
-    private final InfoToggled collToggled = (int id, boolean open) -> {
-        if(open){
+    protected final IntSet opened = new IntSet();
+    protected final IntMap<Seq<Building>> producers = new IntMap<>();
+    protected final IntMap<Seq<Building>> consumers = new IntMap<>();
+    protected final IntMap<Seq<Building>> batteries = new IntMap<>();
+    protected final InfoToggled collToggled = (int id, boolean open) -> {
+        if (open) {
             opened.add(id);
-        }else{
+        } else {
             opened.remove(id);
         }
     };
-    private PowerGraph graph;
-    private float updateTimer;
+    protected PowerGraph graph;
+    protected float updateTimer;
 
-    private Table infoTable;
-    private PowerInfoType currType = PowerInfoType.producer;
+    protected Table infoTable;
+    protected PowerInfoType currType = PowerInfoType.producer;
 
-    public PowerGraphInfoDialog(){
+    public PowerGraphInfoDialog() {
         super("@hi-power-info-title");
 
         cont.table(modes -> {
@@ -83,26 +83,26 @@ public class PowerGraphInfoDialog extends BaseDialog {
         addCloseButton();
     }
 
-    public void show(PowerGraph graph){
+    public void show(PowerGraph graph) {
         this.graph = graph;
         updateListings();
         show();
     }
 
-    private String selectionTitle(PowerInfoType type){
-        if(graph == null) return "";
+    protected String selectionTitle(PowerInfoType type) {
+        if (graph == null) return "";
 
-        return switch(type){
+        return switch(type) {
             case producer -> bundle.get("hi-power-info-producer") + " - " + bundle.format("hi-power-info-persec", "[#98ffa9]+" + formatAmount(graph.getLastScaledPowerIn() * 60));
             case consumer -> bundle.get("hi-power-info-consumer") + " - " + bundle.format("hi-power-info-persec", "[#e55454]-" + formatAmount(graph.getLastScaledPowerOut() * 60));
             case battery -> bundle.get("hi-power-info-battery") + " - [#fbad67]" + formatAmount(graph.getLastPowerStored()) + "[gray]/[]" + formatAmount(graph.getLastCapacity());
         };
     }
 
-    private void refresh(){
+    protected void refresh() {
         infoTable.clear();
 
-        switch(currType){
+        switch(currType) {
             case producer -> {
                 IntSeq prodKeys = producers.keys().toArray();
                 prodKeys.sort();
@@ -130,7 +130,7 @@ public class PowerGraphInfoDialog extends BaseDialog {
         }
     }
 
-    private void updateListings(){
+    protected void updateListings() {
         if(graph == null) return;
 
         clearData();
@@ -142,7 +142,7 @@ public class PowerGraphInfoDialog extends BaseDialog {
         refresh();
     }
 
-    private void clearData(){
+    protected void clearData() {
         producers.clear();
         consumers.clear();
         batteries.clear();

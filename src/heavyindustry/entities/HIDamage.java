@@ -37,18 +37,18 @@ public final class HIDamage {
     private static float tmpFloat;
     private static boolean check;
 
-    public static void trueEachBlock(float wx, float wy, float range, Cons<Building> cons){
+    public static void trueEachBlock(float wx, float wy, float range, Cons<Building> cons) {
         collidedBlocks.clear();
         int tx = World.toTile(wx);
         int ty = World.toTile(wy);
 
         int tileRange = Mathf.floorPositive(range / tilesize);
 
-        for(int x = tx - tileRange - 2; x <= tx + tileRange + 2; x++){
-            for(int y = ty - tileRange - 2; y <= ty + tileRange + 2; y++){
-                if(Mathf.within(x * tilesize, y * tilesize, wx, wy, range)){
+        for (int x = tx - tileRange - 2; x <= tx + tileRange + 2; x++) {
+            for (int y = ty - tileRange - 2; y <= ty + tileRange + 2; y++) {
+                if (Mathf.within(x * tilesize, y * tilesize, wx, wy, range)) {
                     Building other = world.build(x, y);
-                    if(other != null && !collidedBlocks.contains(other.pos())){
+                    if (other != null && !collidedBlocks.contains(other.pos())) {
                         cons.get(other);
                         collidedBlocks.add(other.pos());
                     }
@@ -57,18 +57,18 @@ public final class HIDamage {
         }
     }
 
-    public static void trueEachTile(float wx, float wy, float range, Cons<Tile> cons){
+    public static void trueEachTile(float wx, float wy, float range, Cons<Tile> cons) {
         collidedBlocks.clear();
         int tx = World.toTile(wx);
         int ty = World.toTile(wy);
 
         int tileRange = Mathf.floorPositive(range / tilesize);
 
-        for(int x = tx - tileRange - 2; x <= tx + tileRange + 2; x++){
-            for(int y = ty - tileRange - 2; y <= ty + tileRange + 2; y++){
-                if(Mathf.within(x * tilesize, y * tilesize, wx, wy, range)){
+        for (int x = tx - tileRange - 2; x <= tx + tileRange + 2; x++) {
+            for (int y = ty - tileRange - 2; y <= ty + tileRange + 2; y++) {
+                if (Mathf.within(x * tilesize, y * tilesize, wx, wy, range)) {
                     Tile other = world.tile(x, y);
-                    if(other != null && !collidedBlocks.contains(other.pos())){
+                    if (other != null && !collidedBlocks.contains(other.pos())) {
                         cons.get(other);
                         collidedBlocks.add(other.pos());
                     }
@@ -77,31 +77,31 @@ public final class HIDamage {
         }
     }
 
-    public static void allNearbyEnemies(Team team, float x, float y, float radius, Cons<Healthc> cons){
+    public static void allNearbyEnemies(Team team, float x, float y, float radius, Cons<Healthc> cons) {
         Units.nearbyEnemies(team, x - radius, y - radius, radius * 2f, radius * 2f, unit -> {
-            if(unit.within(x, y, radius + unit.hitSize / 2f) && !unit.dead){
+            if (unit.within(x, y, radius + unit.hitSize / 2f) && !unit.dead){
                 cons.get(unit);
             }
         });
 
         trueEachBlock(x, y, radius, build -> {
-            if(build.team != team && !build.dead && build.block != null){
+            if (build.team != team && !build.dead && build.block != null) {
                 cons.get(build);
             }
         });
     }
 
-    public static boolean checkForTargets(Team team, float x, float y, float radius){
+    public static boolean checkForTargets(Team team, float x, float y, float radius) {
         check = false;
 
         Units.nearbyEnemies(team, x - radius, y - radius, radius * 2f, radius * 2f, unit -> {
-            if(unit.within(x, y, radius + unit.hitSize / 2f) && !unit.dead){
+            if (unit.within(x, y, radius + unit.hitSize / 2f) && !unit.dead) {
                 check = true;
             }
         });
 
         trueEachBlock(x, y, radius, build -> {
-            if(build.team != team && !build.dead && build.block != null){
+            if (build.team != team && !build.dead && build.block != null) {
                 check = true;
             }
         });
@@ -110,12 +110,12 @@ public final class HIDamage {
     }
 
     public static Teamc bestTarget(Team team, float cx, float cy, float x, float y, float range, Boolf<Unit> unitPred, Boolf<Building> tilePred, Sortf sort){
-        if(team == Team.derelict) return null;
+        if (team == Team.derelict) return null;
 
         Unit unit = findEnemyUnit(team, cx, cy, x, y, range, unitPred, sort);
-        if(unit != null){
+        if (unit != null) {
             return unit;
-        }else{
+        } else {
             return findEnemyTile(team, cx, cy, x, y, range, tilePred);
         }
     }
@@ -126,7 +126,7 @@ public final class HIDamage {
 
         Units.nearbyEnemies(team, cx - range, cy - range, range * 2f, range * 2f, unit -> {
             float cost = unitSort.cost(unit, x, y);
-            if(!unit.dead && tmpFloat < cost && unit.within(cx, cy, range + unit.hitSize / 2f) && pred.get(unit)){
+            if (!unit.dead && tmpFloat < cost && unit.within(cx, cy, range + unit.hitSize / 2f) && pred.get(unit)) {
                 tmpUnit = unit;
                 tmpFloat = cost;
             }
@@ -135,15 +135,15 @@ public final class HIDamage {
         return tmpUnit;
     }
 
-    public static Building findEnemyTile(Team team, float cx, float cy, float x, float y, float range, Boolf<Building> pred){
+    public static Building findEnemyTile(Team team, float cx, float cy, float x, float y, float range, Boolf<Building> pred) {
         tmpBuilding = null;
         tmpFloat = 0;
 
         trueEachBlock(cx, cy, range, b -> {
-            if(!(b.team() == team || (b.team() == Team.derelict && !state.rules.coreCapture)) && pred.get(b)){
+            if (!(b.team() == team || (b.team() == Team.derelict && !state.rules.coreCapture)) && pred.get(b)) {
                 //if a block has the same priority, the closer one should be targeted
                 float dist = b.dst(x, y) - b.hitSize() / 2f;
-                if(tmpBuilding == null ||
+                if (tmpBuilding == null ||
                         //if its closer and is at least equal priority
                         (dist < tmpFloat && b.block.priority >= tmpBuilding.block.priority) ||
                         // block has higher priority (so range doesnt matter)
@@ -157,7 +157,7 @@ public final class HIDamage {
         return tmpBuilding;
     }
 
-    public static boolean collideLine(float damage, Team team, Effect effect, StatusEffect status, float statusDuration, float x, float y, float angle, float length, boolean ground, boolean air){
+    public static boolean collideLine(float damage, Team team, Effect effect, StatusEffect status, float statusDuration, float x, float y, float angle, float length, boolean ground, boolean air) {
         return collideLine(damage, team, effect, status, statusDuration, x, y, angle, length, ground, air, false);
     }
 
@@ -165,18 +165,18 @@ public final class HIDamage {
      * Damage entities in a line.
      * Only enemies of the specified team are damaged.
      */
-    public static boolean collideLine(float damage, Team team, Effect effect, StatusEffect status, float statusDuration, float x, float y, float angle, float length, boolean ground, boolean air, boolean buildings){
+    public static boolean collideLine(float damage, Team team, Effect effect, StatusEffect status, float statusDuration, float x, float y, float angle, float length, boolean ground, boolean air, boolean buildings) {
         tr.trnsExact(angle, length);
 
         rect.setPosition(x, y).setSize(tr.x, tr.y);
         float x2 = x + tr.x, y2 = y + tr.y;
 
-        if(rect.width < 0){
+        if (rect.width < 0) {
             rect.x += rect.width;
             rect.width *= -1;
         }
 
-        if(rect.height < 0){
+        if (rect.height < 0) {
             rect.y += rect.height;
             rect.height *= -1;
         }
@@ -195,7 +195,7 @@ public final class HIDamage {
 
             Vec2 vec = Geometry.raycastRect(x, y, x2, y2, hitrect.grow(expand * 2));
 
-            if(vec != null && damage > 0){
+            if (vec != null && damage > 0) {
                 effect.at(vec.x, vec.y, angle, team.color);
                 e.damage(damage);
                 e.apply(status, statusDuration);
@@ -214,14 +214,14 @@ public final class HIDamage {
         units.sort(u -> u.dst2(x, y));
         units.each(cons);
 
-        if(buildings){
+        if (buildings) {
             collidedBlocks.clear();
 
             Intc2 collider = (cx, cy) -> {
                 Building tile = world.build(cx, cy);
                 boolean collide = tile != null && collidedBlocks.add(tile.pos());
 
-                if(collide && damage > 0 && tile.team != team){
+                if (collide && damage > 0 && tile.team != team) {
                     effect.at(tile.x, tile.y, angle, team.color);
                     tile.damage(damage);
                     check = true;
@@ -233,9 +233,9 @@ public final class HIDamage {
             World.raycastEachWorld(x, y, seg2.x, seg2.y, (cx, cy) -> {
                 collider.get(cx, cy);
 
-                for(Point2 p : Geometry.d4){
+                for (Point2 p : Geometry.d4) {
                     Tile other = world.tile(p.x + cx, p.y + cy);
-                    if(other != null && Intersector.intersectSegmentRectangle(seg1, seg2, other.getBounds(Tmp.r1))){
+                    if (other != null && Intersector.intersectSegmentRectangle(seg1, seg2, other.getBounds(Tmp.r1))) {
                         collider.get(cx + p.x, cy + p.y);
                     }
                 }
@@ -315,13 +315,13 @@ public final class HIDamage {
 
         World.raycast(b.tileX(), b.tileY(), World.toTile(b.x + tr.x), World.toTile(b.y + tr.y), (x, y) -> {
             //add distance to list so it can be processed
-            var build = world.build(x, y);
+            Building build = world.build(x, y);
 
-            if(build != null && build.team != b.team && build.collide(b) && b.checkUnderBuild(build, x * tilesize, y * tilesize)){
+            if (build != null && build.team != b.team && build.collide(b) && b.checkUnderBuild(build, x * tilesize, y * tilesize)) {
                 float dst = b.dst(x * tilesize, y * tilesize) - tilesize;
                 distances.add(dst);
 
-                if(b.type.laserAbsorb && build.absorbLasers()){
+                if (b.type.laserAbsorb && build.absorbLasers()) {
                     tmpFloat = Math.min(tmpFloat, dst);
                     return true;
                 }
@@ -333,7 +333,7 @@ public final class HIDamage {
         Units.nearbyEnemies(b.team, rect, u -> {
             u.hitbox(hitrect);
 
-            if(u.checkTarget(b.type.collidesAir, b.type.collidesGround) && u.hittable() && Intersector.intersectSegmentRectangle(b.x, b.y, b.x + tr.x, b.y + tr.y, hitrect)){
+            if (u.checkTarget(b.type.collidesAir, b.type.collidesGround) && u.hittable() && Intersector.intersectSegmentRectangle(b.x, b.y, b.x + tr.x, b.y + tr.y, hitrect)) {
                 distances.add(b.dst(u) - u.hitSize());
             }
         });
@@ -345,21 +345,21 @@ public final class HIDamage {
         return Math.min(distances.size < pierceCap || pierceCap < 0 ? length : Math.max(6f, distances.get(pierceCap - 1)), tmpFloat);
     }
 
-    public static void completeDamage(Team team, float x, float y, float radius, float damage, float buildDmbMult, boolean air, boolean ground){
+    public static void completeDamage(Team team, float x, float y, float radius, float damage, float buildDmbMult, boolean air, boolean ground) {
         allNearbyEnemies(team, x, y, radius, t -> {
-            if(t instanceof Unit u){
-                if(u.isFlying() && air || u.isGrounded() && ground){
+            if (t instanceof Unit u){
+                if (u.isFlying() && air || u.isGrounded() && ground) {
                     u.damage(damage);
                 }
-            }else if(t instanceof Building b){
-                if(ground){
+            } else if (t instanceof Building b) {
+                if (ground) {
                     b.damage(team, damage * buildDmbMult);
                 }
             }
         });
     }
 
-    public static void completeDamage(Team team, float x, float y, float radius, float damage){
+    public static void completeDamage(Team team, float x, float y, float radius, float damage) {
         completeDamage(team, x, y, radius, damage, 1f, true, true);
     }
 
@@ -367,17 +367,17 @@ public final class HIDamage {
      * Casts forward in a line.
      * @return the collision point of the first encountered object.
      */
-    public static Vec2 linecast(boolean ground, boolean air, Team team, float x, float y, float angle, float length){
+    public static Vec2 linecast(boolean ground, boolean air, Team team, float x, float y, float angle, float length) {
         tr.trnsExact(angle, length);
 
         tmpBuilding = null;
 
-        if(ground){
+        if (ground) {
             seg1.set(x, y);
             seg2.set(seg1).add(tr);
             World.raycastEachWorld(x, y, seg2.x, seg2.y, (cx, cy) -> {
                 Building tile = world.build(cx, cy);
-                if(tile != null && tile.team != team){
+                if (tile != null && tile.team != team) {
                     tmpBuilding = tile;
                     Tmp.v1.set(cx * tilesize, cy * tilesize);
                     return true;
@@ -394,24 +394,24 @@ public final class HIDamage {
         tmpUnit = null;
 
         Units.nearbyEnemies(team, rect, e -> {
-            if((tmpUnit != null && e.dst2(x, y) > tmpUnit.dst2(x, y)) || !e.checkTarget(ground, air)) return;
+            if ((tmpUnit != null && e.dst2(x, y) > tmpUnit.dst2(x, y)) || !e.checkTarget(ground, air)) return;
 
             e.hitbox(hitrect);
             Vec2 vec = Geometry.raycastRect(x, y, x2, y2, hitrect.grow(expand * 2));
 
-            if(vec != null){
+            if (vec != null) {
                 tmpUnit = e;
                 Tmp.v2.set(vec);
             }
         });
 
-        if(tmpBuilding != null && tmpUnit != null){
-            if(Mathf.dst2(x, y, Tmp.v1.x, Tmp.v1.y) <= Mathf.dst2(x, y, Tmp.v2.x, Tmp.v2.y)){
+        if (tmpBuilding != null && tmpUnit != null) {
+            if (Mathf.dst2(x, y, Tmp.v1.x, Tmp.v1.y) <= Mathf.dst2(x, y, Tmp.v2.x, Tmp.v2.y)) {
                 return Tmp.v1;
             }
-        }else if(tmpBuilding != null){
+        } else if (tmpBuilding != null) {
             return Tmp.v1;
-        }else if(tmpUnit != null){
+        } else if (tmpUnit != null) {
             return Tmp.v2;
         }
 

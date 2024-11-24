@@ -26,7 +26,7 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.util.HIReflect.*;
+import static heavyindustry.util.Reflects.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
@@ -111,16 +111,16 @@ public final class HIOverride {
         Blocks.coreNucleus.armor = 11f;
         Blocks.reinforcedContainer.itemCapacity = 160;
         //Blocks-Turret
-        ((LiquidTurret) Blocks.wave).ammoTypes.put(HILiquids.nitratedOil, new LiquidBulletType(HILiquids.nitratedOil){{
+        ((LiquidTurret) Blocks.wave).ammoTypes.put(HILiquids.nitratedOil, new LiquidBulletType(HILiquids.nitratedOil) {{
             drag = 0.01f;
             layer = Layer.bullet - 2f;
         }});
-        ((LiquidTurret) Blocks.wave).ammoTypes.put(HILiquids.nanofluid, new LiquidBulletType(HILiquids.nanofluid){{
+        ((LiquidTurret) Blocks.wave).ammoTypes.put(HILiquids.nanofluid, new LiquidBulletType(HILiquids.nanofluid) {{
             drag = 0.01f;
             healPercent = 5f;
             collidesTeam = true;
         }});
-        ((ItemTurret) Blocks.salvo).ammoTypes.put(HIItems.uranium, new BasicBulletType(5f, 39, "bullet"){{
+        ((ItemTurret) Blocks.salvo).ammoTypes.put(HIItems.uranium, new BasicBulletType(5f, 39, "bullet") {{
             width = 10f;
             height = 13f;
             pierceCap = 2;
@@ -130,14 +130,14 @@ public final class HIOverride {
             ammoMultiplier = 4f;
             lifetime = 50f;
         }});
-        ((ItemTurret) Blocks.fuse).ammoTypes.put(HIItems.uranium, new ShrapnelBulletType(){{
+        ((ItemTurret) Blocks.fuse).ammoTypes.put(HIItems.uranium, new ShrapnelBulletType() {{
             length = 100f;
             damage = 135f;
             ammoMultiplier = 6f;
             toColor = Color.valueOf("a5b2c2");
             shootEffect = smokeEffect = HIFx.shoot(HIPal.uraniumGrey);
         }});
-        ((LiquidTurret) Blocks.tsunami).ammoTypes.put(HILiquids.nitratedOil, new LiquidBulletType(HILiquids.nitratedOil){{
+        ((LiquidTurret) Blocks.tsunami).ammoTypes.put(HILiquids.nitratedOil, new LiquidBulletType(HILiquids.nitratedOil) {{
             lifetime = 49f;
             speed = 4f;
             knockback = 1.3f;
@@ -149,7 +149,7 @@ public final class HIOverride {
             damage = 0.2f;
             layer = Layer.bullet - 2f;
         }});
-        ((LiquidTurret) Blocks.tsunami).ammoTypes.put(HILiquids.nanofluid, new LiquidBulletType(HILiquids.nanofluid){{
+        ((LiquidTurret) Blocks.tsunami).ammoTypes.put(HILiquids.nanofluid, new LiquidBulletType(HILiquids.nanofluid) {{
             lifetime = 49f;
             speed = 4f;
             knockback = 1.3f;
@@ -162,7 +162,7 @@ public final class HIOverride {
             collidesTeam = true;
             damage = 0.2f;
         }});
-        ((ItemTurret) Blocks.foreshadow).ammo(Items.surgeAlloy, new RailBulletType(){{
+        ((ItemTurret) Blocks.foreshadow).ammo(Items.surgeAlloy, new RailBulletType() {{
             shootEffect = Fx.railShoot;
             length = 600f;
             pointEffectSpace = 60f;
@@ -176,7 +176,7 @@ public final class HIOverride {
             buildingDamageMultiplier = 0.3f;
         }});
         ((ItemTurret) Blocks.spectre).range = 280f;
-        ((ItemTurret) Blocks.spectre).ammoTypes.put(HIItems.uranium, new BasicBulletType(9f, 105f){{
+        ((ItemTurret) Blocks.spectre).ammoTypes.put(HIItems.uranium, new BasicBulletType(9f, 105f) {{
             hitSize = 5f;
             width = 16f;
             height = 23f;
@@ -188,7 +188,7 @@ public final class HIOverride {
             statusDuration = 270f;
         }});
         ((LaserTurret) Blocks.meltdown).range = 245;
-        ((LaserTurret) Blocks.meltdown).shootType = new ContinuousLaserBulletType(96){{
+        ((LaserTurret) Blocks.meltdown).shootType = new ContinuousLaserBulletType(96) {{
             length = 250f;
             hitEffect = Fx.hitMeltdown;
             hitColor = Pal.meltdownHit;
@@ -205,7 +205,7 @@ public final class HIOverride {
         Blocks.sublimate.armor = 4f;
         ((ContinuousLiquidTurret) Blocks.sublimate).range = 120f;
         ((ContinuousLiquidTurret) Blocks.sublimate).ammo(
-                HILiquids.methane, new ContinuousFlameBulletType(){{
+                HILiquids.methane, new ContinuousFlameBulletType() {{
                     damage = 40f;
                     length = 120f;
                     knockback = 1f;
@@ -215,7 +215,7 @@ public final class HIOverride {
                     lightColor = flareColor = Color.valueOf("fbd367");
                     hitColor = Color.valueOf("ffd367");
                 }},
-                Liquids.hydrogen, new ContinuousFlameBulletType(){{
+                Liquids.hydrogen, new ContinuousFlameBulletType() {{
                     damage = 60f;
                     rangeChange = 10f;
                     length = 130f;
@@ -225,7 +225,7 @@ public final class HIOverride {
                     colors = new Color[]{Color.valueOf("92abff7f"), Color.valueOf("92abffa2"), Color.valueOf("92abffd3"), Color.valueOf("92abff"), Color.valueOf("d4e0ff")};
                     lightColor = hitColor = flareColor = Color.valueOf("92abff");
                 }},
-                Liquids.cyanogen, new ContinuousFlameBulletType(){{
+                Liquids.cyanogen, new ContinuousFlameBulletType() {{
                     damage = 130f;
                     rangeChange = 80f;
                     length = 200f;
@@ -265,7 +265,7 @@ public final class HIOverride {
         UnitTypes.gamma.coreUnitDock = true;
         //UnitTypes-Erekir
         UnitTypes.quell.targetAir = true;
-        UnitTypes.quell.weapons.get(0).bullet = new CtrlMissileBulletType("quell-missile", -1, -1){{
+        UnitTypes.quell.weapons.get(0).bullet = new CtrlMissileBulletType("quell-missile", -1, -1) {{
             shootEffect = Fx.shootBig;
             smokeEffect = Fx.shootBigSmoke2;
             speed = 4.3f;
@@ -281,7 +281,7 @@ public final class HIOverride {
         }};
         UnitTypes.quell.weapons.get(0).shake = 1f;
         UnitTypes.disrupt.targetAir = true;
-        UnitTypes.disrupt.weapons.get(0).bullet = new CtrlMissileBulletType("disrupt-missile", -1, -1){{
+        UnitTypes.disrupt.weapons.get(0).bullet = new CtrlMissileBulletType("disrupt-missile", -1, -1) {{
             shootEffect = Fx.sparkShoot;
             smokeEffect = Fx.shootSmokeTitan;
             hitColor = Pal.suppress;
@@ -291,7 +291,7 @@ public final class HIOverride {
             homingDelay = 10f;
             trailColor = Pal.sapBulletBack;
             trailLength = 8;
-            hitEffect = despawnEffect = new ExplosionEffect(){{
+            hitEffect = despawnEffect = new ExplosionEffect() {{
                 lifetime = 50f;
                 waveStroke = 5f;
                 waveLife = 8f;
@@ -310,7 +310,7 @@ public final class HIOverride {
             splashDamage = 135f;
             splashDamageRadius = 25f;
             buildingDamageMultiplier = 0.5f;
-            parts.add(new ShapePart(){{
+            parts.add(new ShapePart() {{
                 layer = Layer.effect;
                 circle = true;
                 y = -3.5f;
@@ -321,13 +321,13 @@ public final class HIOverride {
             }});
         }};
         UnitTypes.disrupt.weapons.get(0).shake = 1f;
-        UnitTypes.anthicus.weapons.get(0).bullet = new CtrlMissileBulletType("anthicus-missile", -1, -1){{
+        UnitTypes.anthicus.weapons.get(0).bullet = new CtrlMissileBulletType("anthicus-missile", -1, -1) {{
             shootEffect = new MultiEffect(Fx.shootBigColor, new Effect(9, e -> {
                 Draw.color(Color.white, e.color, e.fin());
                 Lines.stroke(0.7f + e.fout());
                 Lines.square(e.x, e.y, e.fin() * 5f, e.rotation + 45f);
                 Drawf.light(e.x, e.y, 23f, e.color, e.fout() * 0.7f);
-            }), new WaveEffect(){{
+            }), new WaveEffect() {{
                 colorFrom = colorTo = Pal.techBlue;
                 sizeTo = 15f;
                 lifetime = 12f;
@@ -345,13 +345,13 @@ public final class HIOverride {
             splashDamage = 110f;
             splashDamageRadius = 25f;
             buildingDamageMultiplier = 0.8f;
-            despawnEffect = hitEffect = new MultiEffect(Fx.massiveExplosion, new WrapEffect(Fx.dynamicSpikes, Pal.techBlue, 24f), new WaveEffect(){{
+            despawnEffect = hitEffect = new MultiEffect(Fx.massiveExplosion, new WrapEffect(Fx.dynamicSpikes, Pal.techBlue, 24f), new WaveEffect() {{
                 colorFrom = colorTo = Pal.techBlue;
                 sizeTo = 40f;
                 lifetime = 12f;
                 strokeFrom = 4f;
             }});
-            parts.add(new FlarePart(){{
+            parts.add(new FlarePart() {{
                 progress = PartProgress.life.slope().curve(Interp.pow2In);
                 radius = 0f;
                 radiusTo = 35f;
@@ -388,20 +388,20 @@ public final class HIOverride {
     }
 
     /** special changes on April Fool's Day */
-    public static void loadAprilFoolsDay(){
+    public static void loadAprilFoolsDay() {
         Seq<Block> sc = content.blocks().copy();
         sc.removeAll(b -> b.localizedName == null || b.description == null);
-        for(int i = 0; i < sc.size; i++){
+        for (int i = 0; i < sc.size; i++) {
             Block b = sc.get(i);
-            if(b != null){
+            if(b != null) {
                 String l = b.localizedName;
                 String n = b.description;
                 int d = Mathf.random(sc.size - 1);
-                while (d == i){
+                while (d == i) {
                     d = Mathf.random(sc.size - 1);
                 }
                 Block b1 = sc.get(d);
-                if(b1 != null){
+                if (b1 != null) {
                     b.localizedName = b1.localizedName;
                     b.description = b1.description;
                     b1.localizedName = l;
@@ -412,7 +412,7 @@ public final class HIOverride {
 
         Seq<Item> ic = content.items().copy();
         ic.removeAll(it -> it.localizedName == null || it.description == null);
-        for(int i = 0; i < ic.size; i++) {
+        for (int i = 0; i < ic.size; i++) {
             Item b = ic.get(i);
             if (b != null) {
                 String l = b.localizedName;
@@ -432,7 +432,7 @@ public final class HIOverride {
         }
         Seq<UnitType> uc = content.units().copy();
         uc.removeAll(u -> u.localizedName == null || u.description == null);
-        for(int i = 0; i < uc.size; i++) {
+        for (int i = 0; i < uc.size; i++) {
             UnitType b = uc.get(i);
             if (b != null) {
                 String l = b.localizedName;

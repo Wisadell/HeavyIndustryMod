@@ -22,14 +22,14 @@ public class DelayedPointBulletType extends BulletType {
     public float errorCorrectionRadius = 16f, width = 8f, trailSpacing = 10f, delayEffectLifeTime = 30f;
 
     public static Effect laser = new Effect(60f, 2000f, b -> {
-        if(!(b.data instanceof Position p))return;
+        if (!(b.data instanceof Position p)) return;
 
         float tX = p.getX();
         float tY = p.getY();
         float cwidth = b.rotation;
         float compound = 1f;
 
-        for(int i = 0; i < colors.length; i++){
+        for (int i = 0; i < colors.length; i++) {
             Draw.color(Tmp.c1.set(b.color).lerp(colors[i], i * 0.3f + 0.1f));
             Lines.stroke((cwidth *= lengthFalloff) * b.fout());
             Lines.line(b.x, b.y, tX, tY, false);
@@ -44,7 +44,7 @@ public class DelayedPointBulletType extends BulletType {
         Drawf.light(b.x, b.y, tX, tY, cwidth * 1.4f * b.fout(), colors[0], 0.6f);
     }).followParent(false);
 
-    public DelayedPointBulletType(){
+    public DelayedPointBulletType() {
         scaleLife = true;
         speed = 0.001f;
         collides = false;
@@ -57,7 +57,7 @@ public class DelayedPointBulletType extends BulletType {
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
 
         lifetime = range / speed;
@@ -65,7 +65,7 @@ public class DelayedPointBulletType extends BulletType {
     }
 
     @Override
-    public void init(Bullet b){
+    public void init(Bullet b) {
         float px = b.x + b.lifetime * b.vel.x,
                 py = b.y + b.lifetime * b.vel.y,
                 rot = b.rotation();
@@ -74,19 +74,19 @@ public class DelayedPointBulletType extends BulletType {
         result = null;
 
         Units.nearbyEnemies(b.team, px - errorCorrectionRadius, py - errorCorrectionRadius, errorCorrectionRadius*2f, errorCorrectionRadius*2f, e -> {
-            if(e.dead() || !e.checkTarget(collidesAir, collidesGround) || !e.hittable()) return;
+            if (e.dead() || !e.checkTarget(collidesAir, collidesGround) || !e.hittable()) return;
 
             e.hitbox(Tmp.r1);
-            if(!Tmp.r1.contains(px, py)) return;
+            if (!Tmp.r1.contains(px, py)) return;
 
             float dst = e.dst(px, py) - e.hitSize;
-            if((result == null || dst < cdist)){
+            if ((result == null || dst < cdist)) {
                 result = e;
                 cdist = dst;
             }
         });
 
-        if(result == null)result = new Vec2(px, py);
+        if (result == null) result = new Vec2(px, py);
 
         b.data = result;
 
@@ -98,15 +98,15 @@ public class DelayedPointBulletType extends BulletType {
     }
 
     @Override
-    public void draw(Bullet b){
-        if(!(b.data instanceof Position p))return;
+    public void draw(Bullet b) {
+        if (!(b.data instanceof Position p)) return;
 
         float tX = p.getX();
         float tY = p.getY();
         float cwidth = width / 1.4f * b.fout();
         float compound = 1f;
 
-        for(int i = 0; i < colors.length; i++){
+        for (int i = 0; i < colors.length; i++) {
             Draw.color(Tmp.c1.set(hitColor).lerp(colors[i], i * 0.3f + 0.1f));
             float s = (cwidth *= lengthFalloff) * (b.fout() * 2 + 1) / 3;
             Lines.stroke(s);
@@ -125,8 +125,8 @@ public class DelayedPointBulletType extends BulletType {
     }
 
     @Override
-    public void despawned(Bullet b){
-        if(!(b.data instanceof Position p) || !b.isAdded())return;
+    public void despawned(Bullet b) {
+        if (!(b.data instanceof Position p) || !b.isAdded()) return;
 
         float tX = p.getX();
         float tY = p.getY();
@@ -140,16 +140,16 @@ public class DelayedPointBulletType extends BulletType {
         laser.at(b.x, b.y, width, hitColor, p);
         b.set(tX, tY);
 
-        if(p instanceof Hitboxc h){
+        if (p instanceof Hitboxc h) {
             hitEntity(b, h, 0);
             if(!despawnHit)hit(b, tX, tY);
-        }else if(collidesTiles){
+        } else if (collidesTiles) {
             Building build = world.buildWorld(tX, tY);
-            if(build != null && build.team != b.team){
+            if (build != null && build.team != b.team) {
                 build.collision(b);
-                if(!despawnHit)hit(b, build.x, build.y);
+                if (!despawnHit) hit(b, build.x, build.y);
             }
-        }else if(despawnHit)hit(b, tX, tY);
+        } else if(despawnHit) hit(b, tX, tY);
 
         b.hit = true;
         super.despawned(b);
@@ -157,8 +157,8 @@ public class DelayedPointBulletType extends BulletType {
 
 
     @Override
-    public Bullet create(Entityc owner, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY){
-        Bullet bullet = Bullet.create();//Pools.obtain(AdaptedBullet.class, AdaptedBullet::new);
+    public Bullet create(Entityc owner, Team team, float x, float y, float angle, float damage, float velocityScl, float lifetimeScl, Object data, Mover mover, float aimX, float aimY) {
+        Bullet bullet = Bullet.create();//Pools.obtain(BulletF.class, BulletF::new);
         bullet.type = this;
         bullet.owner = owner;
         bullet.team = team;
@@ -169,9 +169,9 @@ public class DelayedPointBulletType extends BulletType {
         bullet.aimX = aimX;
         bullet.aimY = aimY;
         bullet.initVel(angle, speed * velocityScl);
-        if(backMove){
+        if (backMove) {
             bullet.set(x - bullet.vel.x * Time.delta, y - bullet.vel.y * Time.delta);
-        }else{
+        } else {
             bullet.set(x, y);
         }
         bullet.lifetime = lifetime * lifetimeScl;
@@ -181,7 +181,7 @@ public class DelayedPointBulletType extends BulletType {
         bullet.mover = mover;
         bullet.damage = (damage < 0 ? this.damage : damage) * bullet.damageMultiplier();
 
-        if(bullet.trail != null){
+        if (bullet.trail != null) {
             bullet.trail.clear();
         }
         bullet.add();
@@ -190,15 +190,15 @@ public class DelayedPointBulletType extends BulletType {
     }
 
     @Override
-    public void handlePierce(Bullet b, float initialHealth, float x, float y){}
+    public void handlePierce(Bullet b, float initialHealth, float x, float y) {}
 
-    public static class AdaptedBullet extends Bullet {
-        static{
-            Pools.get(AdaptedBullet.class, AdaptedBullet::new, 1000);
+    public static class BulletF extends Bullet {
+        static {
+            Pools.get(BulletF.class, BulletF::new, 1000);
         }
 
         @Override
-        public void update(){
+        public void update() {
             super.update();
         }
     }

@@ -17,7 +17,7 @@ public class CircleMesh extends PlanetMesh {
     public Texture texture;
     public Color color = Color.white.cpy();
 
-    public CircleMesh(TextureRegion region, Planet planet, int sides, float radiusIn, float radiusOut, Vec3 axis){
+    public CircleMesh(TextureRegion region, Planet planet, int sides, float radiusIn, float radiusOut, Vec3 axis) {
         this.planet = planet;
         this.region = region;
 
@@ -25,7 +25,7 @@ public class CircleMesh extends PlanetMesh {
 
         Tmp.v33.setZero();
 
-        class MeshPoint{
+        class MeshPoint {
             final Vec3 position;
             final Vec2 textureCords;
 
@@ -35,15 +35,14 @@ public class CircleMesh extends PlanetMesh {
             }
         }
 
-        MeshPoint[] meshPoints = {new MeshPoint(Tmp.v31.setZero(), Tmp.v1.set(0, 0)), new MeshPoint(Tmp.v33.setZero(), Tmp.v3.set(1, 0)), new MeshPoint(Tmp.v34.setZero(), Tmp.v4.set(1, 1)), new MeshPoint(Tmp.v32.setZero(), Tmp.v2.set(0, 1)),
-        };
+        MeshPoint[] meshPoints = {new MeshPoint(Tmp.v31.setZero(), Tmp.v1.set(0, 0)), new MeshPoint(Tmp.v33.setZero(), Tmp.v3.set(1, 0)), new MeshPoint(Tmp.v34.setZero(), Tmp.v4.set(1, 1)), new MeshPoint(Tmp.v32.setZero(), Tmp.v2.set(0, 1))};
 
         int[] order = {0, 1, 2, 2, 3, 0};
         Vec3 plane = new Vec3().set(1, 0, 0).rotate(Vec3.X, 90).rotate(Vec3.X, axis.angle(Vec3.X) + 1).rotate(Vec3.Y, axis.angle(Vec3.Y) + 1).rotate(Vec3.Z, axis.angle(Vec3.Z) + 1).crs(axis);
 
         Vec3 inv = axis.cpy().unaryMinus();
 
-        for(int i = 0; i < sides; i++){
+        for (int i = 0; i < sides; i++) {
             meshPoints[0].position.set(plane).rotate(axis, i * 1f / sides * 360).setLength2(1).scl(radiusIn);
 
             meshPoints[1].position.set(plane).rotate(axis, i * 1f / sides * 360).setLength2(1).scl(radiusOut);
@@ -52,11 +51,11 @@ public class CircleMesh extends PlanetMesh {
 
             meshPoints[3].position.set(plane).rotate(axis, (i + 1f) / sides * 360).setLength2(1).scl(radiusIn);
 
-            for(int j : order){
+            for (int j : order) {
                 MeshPoint point = meshPoints[j];
                 MeshUtils.vert(point.position, axis, point.textureCords);
             }
-            for(int j = order.length - 1; j >= 0; j--){
+            for (int j = order.length - 1; j >= 0; j--) {
                 MeshPoint point = meshPoints[order[j]];
                 MeshUtils.vert(point.position, inv, point.textureCords);
             }
@@ -66,12 +65,12 @@ public class CircleMesh extends PlanetMesh {
     }
 
     @Override
-    public void render(PlanetParams params, Mat3D projection, Mat3D transform){
+    public void render(PlanetParams params, Mat3D projection, Mat3D transform) {
         //don't waste performance rendering 0-alpha
-        if(params.planet == planet && Mathf.zero(1f - params.uiAlpha, 0.01f)) return;
+        if (params.planet == planet && Mathf.zero(1f - params.uiAlpha, 0.01f)) return;
 
         preRender(params);
-        if(texture == null){
+        if (texture == null) {
             texture = new Texture(Core.atlas.getPixmap(region).crop());
         }
 
@@ -90,7 +89,7 @@ public class CircleMesh extends PlanetMesh {
     }
 
     @Override
-    public void preRender(PlanetParams params){
+    public void preRender(PlanetParams params) {
         HIShaders.planetTextureShader.planet = planet;
         HIShaders.planetTextureShader.lightDir.set(planet.solarSystem.position).sub(planet.position).rotate(Vec3.Y, planet.getRotation()).nor();
         HIShaders.planetTextureShader.ambientColor.set(planet.solarSystem.lightColor);
@@ -98,13 +97,13 @@ public class CircleMesh extends PlanetMesh {
         HIShaders.planetTextureShader.alpha = params.planet == planet ? 1f - params.uiAlpha : 1f;
     }
 
-    private void setPlanetInfo(String name, Planet planet){
+    private void setPlanetInfo(String name, Planet planet) {
         Vec3 position = planet.position;
         Shader shader = shader();
         shader.setUniformf(name, position.x, position.y, position.z, planet.radius);
     }
 
-    private static Shader shader(){
+    private static Shader shader() {
         return HIShaders.planetTextureShader;
     }
 }

@@ -10,7 +10,7 @@ import mindustry.gen.*;
 public class AimToPosBulletType extends BulletType {
     public float before = 30f, rotSpeed = 4f;
 
-    public AimToPosBulletType(){
+    public AimToPosBulletType() {
         reflectable = false;
         homingRange = 80f;
         homingDelay = 15f;
@@ -22,27 +22,27 @@ public class AimToPosBulletType extends BulletType {
 
         Teamc target;
 
-        if(heals()){
+        if (heals()) {
             target = Units.closestTarget(null, realAimX, realAimY, homingRange,
                     e -> e.checkTarget(collidesAir, collidesGround) && e.team != b.team && !b.hasCollided(e.id),
                     t -> collidesGround && (t.team != b.team || t.damaged()) && !b.hasCollided(t.id)
             );
-        }else{
-            if(b.aimTile != null && b.aimTile.build != null && b.aimTile.build.team != b.team && collidesGround && !b.hasCollided(b.aimTile.build.id)){
+        } else {
+            if (b.aimTile != null && b.aimTile.build != null && b.aimTile.build.team != b.team && collidesGround && !b.hasCollided(b.aimTile.build.id)) {
                 target = b.aimTile.build;
-            }else{
+            } else {
                 target = Units.closestTarget(b.team, realAimX, realAimY, homingRange,
                         e -> e != null && e.checkTarget(collidesAir, collidesGround) && !b.hasCollided(e.id),
                         t -> t != null && collidesGround && !b.hasCollided(t.id));
             }
         }
 
-        if(b.time > homingDelay && target != null) {
+        if (b.time > homingDelay && target != null) {
             b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), rotSpeed * Time.delta));
         }
-        if(!(b.data instanceof Position[] pos)) return;
+        if (!(b.data instanceof Position[] pos)) return;
         b.initVel(b.rotation(), b.time < before ? speed * (1 - b.time / (before + 10)) : speed * b.fin());
-        if(target != null) return;
-        if(b.time > homingDelay) b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(pos[1]), rotSpeed * Time.delta));
+        if (target != null) return;
+        if (b.time > homingDelay) b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(pos[1]), rotSpeed * Time.delta));
     }
 }

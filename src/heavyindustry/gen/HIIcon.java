@@ -67,7 +67,7 @@ public final class HIIcon {
         icons.put("time-icon-small", timeIconSmall);
     }
 
-    private static <T extends Drawable> T getModDrawable(String name){
+    private static <T extends Drawable> T getModDrawable(String name) {
         return atlas.getDrawable(modName + "-" + name);
     }
 }

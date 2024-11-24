@@ -16,7 +16,7 @@ public class FlameBulletType extends BulletType {
 
     public float damageBoost = 3f;
 
-    public FlameBulletType(Color colorBegin, Color colorTo, Color colorEnd, float length,  float cone, int number, float lifetime){
+    public FlameBulletType(Color colorBegin, Color colorTo, Color colorEnd, float length,  float cone, int number, float lifetime) {
         flameLength = length;
         flameCone = cone;
         particleNumber = number;
@@ -41,16 +41,16 @@ public class FlameBulletType extends BulletType {
 
     @Override
     public void hit(Bullet b) {
-        if(absorbable && b.absorbed) return;
+        if (absorbable && b.absorbed) return;
         Units.nearbyEnemies(b.team, b.x, b.y, flameLength, unit -> {
-            if(Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)){
+            if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)) {
                 Fx.hitFlameSmall.at(unit);
                 unit.damage(damage * damageBoost);
                 unit.apply(status, statusDuration);
             }
         });
         indexer.allBuildings(b.x, b.y, flameLength, other -> {
-            if(other.team != b.team && Angles.within(b.rotation(), b.angleTo(other), flameCone)){
+            if (other.team != b.team && Angles.within(b.rotation(), b.angleTo(other), flameCone)) {
                 Fx.hitFlameSmall.at(other);
                 other.damage(damage * buildingDamageMultiplier * damageBoost);
             }

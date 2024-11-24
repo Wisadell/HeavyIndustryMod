@@ -9,16 +9,16 @@ public final class EntityRegister {
 
     private static final ObjectMap<String, Prov<? extends Entityc>> map = new ObjectMap<>();
 
-    public static <T extends Entityc> void reg(String name, Class<T> type, Prov<? extends T> prov){
+    public static <T extends Entityc> void reg(String name, Class<T> type, Prov<? extends T> prov) {
         map.put(name, prov);
         ids.put(type, EntityMapping.register(name, prov));
     }
 
-    public static int getId(Class<? extends Entityc> type){
+    public static int getId(Class<? extends Entityc> type) {
         return ids.get(type, -1);
     }
 
-    public static void load(){
+    public static void load() {
         reg("PayloadLegsUnit", PayloadLegsUnit.class, PayloadLegsUnit::new);
         reg("BuildingTetherPayloadLegsUnit", BuildingTetherPayloadLegsUnit.class, BuildingTetherPayloadLegsUnit::new);
         reg("EnergyUnit", EnergyUnit.class, EnergyUnit::new);

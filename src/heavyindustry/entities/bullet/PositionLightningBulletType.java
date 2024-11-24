@@ -11,7 +11,7 @@ public class PositionLightningBulletType extends BulletType {
     public int boltNum = 2;
     public float hitEffectRotation = 12f;
 
-    public PositionLightningBulletType(float damage){
+    public PositionLightningBulletType(float damage) {
         super(0.0001f, damage);
         scaleLife = true;
         hitShake = 2f;
@@ -28,29 +28,29 @@ public class PositionLightningBulletType extends BulletType {
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
         drawSize = Math.max(drawSize, maxRange * 2);
-        if(hitEffect == HIFx.boolSelector)hitEffect = HIFx.lightningHitLarge(lightningColor);
-        if(smokeEffect == HIFx.boolSelector)smokeEffect = Fx.shootBigSmoke;
-        if(shootEffect == HIFx.boolSelector)shootEffect = HIFx.shootLineSmall(lightningColor);
+        if (hitEffect == HIFx.boolSelector) hitEffect = HIFx.lightningHitLarge(lightningColor);
+        if (smokeEffect == HIFx.boolSelector) smokeEffect = Fx.shootBigSmoke;
+        if (shootEffect == HIFx.boolSelector) shootEffect = HIFx.shootLineSmall(lightningColor);
     }
 
-    public float range(){
+    public float range() {
         return maxRange;
     }
 
     @Override
-    public void init(Bullet b){
+    public void init(Bullet b) {
         float length = b.lifetime * range() / lifetime;
 
         Healthc target = Damage.linecast(b, b.x, b.y, b.rotation(), length + 4f);
         b.data = target;
 
-        if(target instanceof Hitboxc hit){
+        if (target instanceof Hitboxc hit) {
             hit.collision(b, hit.x(), hit.y());
             b.collision(hit, hit.x(), hit.y());
-        }else if(target instanceof Building tile){
+        } else if (target instanceof Building tile) {
             if(tile.collide(b)){
                 tile.collision(b);
                 hit(b, tile.x, tile.y);
@@ -65,19 +65,19 @@ public class PositionLightningBulletType extends BulletType {
     }
 
     @Override
-    public void despawned(Bullet b){
+    public void despawned(Bullet b) {
         despawnEffect.at(b.x, b.y, b.rotation(), lightningColor);
     }
 
     @Override
-    public void hit(Bullet b){}
+    public void hit(Bullet b) {}
 
     @Override
-    public void hit(Bullet b, float x, float y){}
+    public void hit(Bullet b, float x, float y) {}
 
     @Override
-    public void draw(Bullet b){}
+    public void draw(Bullet b) {}
 
     @Override
-    public void drawLight(Bullet b){}
+    public void drawLight(Bullet b) {}
 }

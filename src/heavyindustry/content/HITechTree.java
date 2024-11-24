@@ -105,7 +105,7 @@ public final class HITechTree {
             node(chromiumTubeConveyor, () -> node(chromiumTubeDistributor, () -> {}));
             node(chromiumItemBridge, () -> {});
             node(chromiumRouter, () -> {});
-            node(chromiumJunction, () -> node(chromiumInvertedJunction, () -> {}));
+            node(chromiumJunction, () -> {});
         }));
         //distribution-erekir
         vanillaNode(duct, () -> {

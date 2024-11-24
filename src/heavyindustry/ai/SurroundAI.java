@@ -13,27 +13,27 @@ public class SurroundAI extends FlyingAI {
     public boolean inbound = false;
 
     @Override
-    public void updateMovement(){
+    public void updateMovement() {
         unloadPayloads();
 
-        if(target != null && unit.hasWeapons()){
+        if (target != null && unit.hasWeapons()) {
             float dst = unit.dst(target);
 
             float ang;
 
-            if(dst > unit.type.range * 0.975f){
+            if (dst > unit.type.range * 0.975f) {
                 ang = unit.angleTo(target) + Mathm.asinDeg(unit.type.range * 0.95f / dst);
                 inbound = false;
-            }else if(dst > unit.type.range * 0.725f){
-                if(!inbound)ang = angleVertical();
-                else{
+            } else if (dst > unit.type.range * 0.725f) {
+                if (!inbound) ang = angleVertical();
+                else {
                     ang = unit.rotation;
-                    if(dst > unit.type.range * 0.925f)inbound = false;
+                    if (dst > unit.type.range * 0.925f) inbound = false;
                 }
-            }else if(dst > unit.type.range * 0.35f || Angles.within(unit.rotation - 180, unit.angleTo(target), 15)){
+            } else if (dst > unit.type.range * 0.35f || Angles.within(unit.rotation - 180, unit.angleTo(target), 15)) {
                 ang = unit.rotation;
                 inbound = true;
-            }else{
+            } else {
                 ang = angleDelta(115f);
                 inbound = true;
             }
@@ -42,7 +42,7 @@ public class SurroundAI extends FlyingAI {
             unit.moveAt(tmp.trns(ang, unit.speed()));
         }
 
-        if(target == null && state.rules.waves && unit.team == state.rules.defaultTeam){
+        if (target == null && state.rules.waves && unit.team == state.rules.defaultTeam) {
             moveTo(getClosestSpawner(), state.rules.dropZoneRadius + 130f);
         }
     }

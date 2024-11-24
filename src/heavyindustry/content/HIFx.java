@@ -1,9 +1,10 @@
 package heavyindustry.content;
 
 import heavyindustry.entities.*;
-import heavyindustry.entities.bullet.*;
+import heavyindustry.entities.bullet.HailStoneBulletType.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.graphics.*;
+import heavyindustry.graphics.Draws.*;
 import heavyindustry.math.*;
 import heavyindustry.struct.*;
 import heavyindustry.util.*;
@@ -24,7 +25,6 @@ import mindustry.world.*;
 import java.util.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
-import static heavyindustry.graphics.Drawn.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
@@ -47,32 +47,34 @@ public final class HIFx {
         void draw(long id, float x, float y, float rot, float fin);
     }
 
-    public static float fout(float fin, float margin){
-        if(fin >= 1f - margin){
+    public static float fout(float fin, float margin) {
+        if (fin >= 1f - margin) {
             return 1f - (fin - (1f - margin)) / margin;
-        }else{
+        } else {
             return 1f;
         }
     }
 
-    public static Effect shoot(Color color){
+    public static Effect shoot(Color color) {
         return new Effect(12, e -> {
             Draw.color(Color.white, color, e.fin());
             Lines.stroke(e.fout() * 1.2f + 0.5f);
-            Angles.randLenVectors(e.id, 7, 25f * e.finpow(), e.rotation, 50f, (x, y) ->
-                    Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fin() * 5f + 2f)
-            );
+            Angles.randLenVectors(e.id, 7, 25f * e.finpow(), e.rotation, 50f, (x, y) -> {
+                Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fin() * 5f + 2f);
+            });
         });
     }
 
-    public static Effect flameShoot(Color colorBegin, Color colorTo, Color colorEnd, float length, float cone, int number, float lifetime){
+    public static Effect flameShoot(Color colorBegin, Color colorTo, Color colorFrom, float length, float cone, int number, float lifetime) {
         return new Effect(lifetime, 80, e -> {
-            Draw.color(colorBegin, colorTo, colorEnd, e.fin());
-            Angles.randLenVectors(e.id, number, e.finpow() * length, e.rotation, cone, (x, y) -> Fill.circle(e.x + x, e.y + y, 0.65f + e.fout() * 1.5f));
+            Draw.color(colorBegin, colorTo, colorFrom, e.fin());
+            Angles.randLenVectors(e.id, number, e.finpow() * length, e.rotation, cone, (x, y) -> {
+                Fill.circle(e.x + x, e.y + y, 0.65f + e.fout() * 1.5f);
+            });
         });
     }
 
-    public static Effect casing(float life){
+    public static Effect casing(float life) {
         return new Effect(life, e -> {
             Draw.color(Pal.lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
             Draw.alpha(e.fout(0.5f));
@@ -80,55 +82,50 @@ public final class HIFx {
             int i = -Mathf.sign(e.rotation);
             float len = (2f + e.finpow() * 10f) * i;
             float lr = rot + e.fin() * 20f * i;
-            Draw.rect(atlas.find("casing"),
-                    e.x + Angles.trnsx(lr, len) + Mathf.randomSeedRange(e.id + i + 7, 3f * e.fin()),
-                    e.y + Angles.trnsy(lr, len) + Mathf.randomSeedRange(e.id + i + 8, 3f * e.fin()),
-                    2f, 3f, rot + e.fin() * 50f * i
-            );
+            Draw.rect(atlas.find("casing"), e.x + Angles.trnsx(lr, len) + Mathf.randomSeedRange(e.id + i + 7, 3f * e.fin()), e.y + Angles.trnsy(lr, len) + Mathf.randomSeedRange(e.id + i + 8, 3f * e.fin()), 2f, 3f, rot + e.fin() * 50f * i);
         }).layer(Layer.bullet);
     }
 
-    public static Effect edessp(float lifetime){
+    public static Effect edessp(float lifetime) {
         return new Effect(lifetime, e -> {
-            if(!(e.data instanceof Object[] objects) || objects.length < 4 ||
-                    !(objects[0] instanceof TextureRegion region) ||
-                    !(objects[1] instanceof Float range) ||
-                    !(objects[2] instanceof Float rot) ||
-                    !(objects[3] instanceof Float rRot)) return;
+            if(!(e.data instanceof Object[] objects) || objects.length < 4 || !(objects[0] instanceof TextureRegion region) || !(objects[1] instanceof Float range) || !(objects[2] instanceof Float rot) || !(objects[3] instanceof Float rRot)) return;
 
-            float ex = e.x + Angles.trnsx(e.rotation + rRot * e.fin(), range * e.fout()),
-                    ey = e.y + Angles.trnsy(e.rotation + rRot * e.fin(), range * e.fout());
-            Draw.rect(region, ex, ey, region.width/3f * e.fin(), region.height/3f * e.fin(), rot);
+            float ex = e.x + Angles.trnsx(e.rotation + rRot * e.fin(), range * e.fout()), ey = e.y + Angles.trnsy(e.rotation + rRot * e.fin(), range * e.fout());
+            Draw.rect(region, ex, ey, region.width / 3f * e.fin(), region.height / 3f * e.fin(), rot);
         }).followParent(true);
     }
 
-    public static Effect fireworksShoot(float r){
+    public static Effect fireworksShoot(float r) {
         return new Effect(30, e -> {
             Draw.z(Layer.effect - 0.1f);
-            Draw.color(HIUtils.c7.set(HIPal.rainBowRed).shiftHue(Time.time * 2.0f));
-            Angles.randLenVectors(e.id, 1, e.fin() * 20f, e.rotation + r, 0, (x, y) -> Fill.circle(e.x + x, e.y + y, 2 * e.fout()));
-            Angles.randLenVectors(e.id, 1, e.fin() * 20f, e.rotation - r, 0, (x, y) -> Fill.circle(e.x + x, e.y + y, 2 * e.fout()));
+            Draw.color(Utils.c7.set(HIPal.rainBowRed).shiftHue(Time.time * 2f));
+            Angles.randLenVectors(e.id, 1, e.fin() * 20f, e.rotation + r, 0, (x, y) -> {
+                Fill.circle(e.x + x, e.y + y, 2 * e.fout());
+            });
+            Angles.randLenVectors(e.id, 1, e.fin() * 20f, e.rotation - r, 0, (x, y) -> {
+                Fill.circle(e.x + x, e.y + y, 2 * e.fout());
+            });
             Draw.blend();
             Draw.reset();
         });
     }
 
-    public static float fslope(float fin){
+    public static float fslope(float fin) {
         return (0.5f - Math.abs(fin - 0.5f)) * 2f;
     }
 
-    public static Effect electricExp(float lifetime, float sw, float r){
+    public static Effect electricExp(float lifetime, float sw, float r) {
         return new Effect(lifetime, e -> {
-            if(e.time < sw) {
+            if (e.time < sw) {
                 float fin = e.time / sw, fout = 1 - fin;
-                Lines.stroke(r/12 * fout, Pal.heal);
+                Lines.stroke(r / 12 * fout, Pal.heal);
                 Lines.circle(e.x, e.y, r * fout);
             } else {
                 float fin = (e.time - sw) / (e.lifetime - sw), fout = 1 - fin;
                 float fbig = Math.min(fin * 10, 1);
                 Lines.stroke(r / 2 * fout, Pal.heal);
                 Lines.circle(e.x, e.y, r * fbig);
-                for(int i = 0; i < 2; i++){
+                for(int i = 0; i < 2; i++) {
                     float angle = i * 180 + 60;
                     Drawf.tri(e.x + Angles.trnsx(angle, r * fbig), e.y + Angles.trnsy(angle, r * fbig), 40 * fout, r / 1.5f, angle);
                 }
@@ -143,7 +140,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect circleOut(float lifetime, float radius, float thick){
+    public static Effect circleOut(float lifetime, float radius, float thick) {
         return new Effect(lifetime, radius * 2f, e -> {
             Draw.color(e.color, Color.white, e.fout() * 0.7f);
             Lines.stroke(thick * e.fout());
@@ -151,7 +148,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect circleOut(Color color, float range){
+    public static Effect circleOut(Color color, float range) {
         return new Effect(Mathf.clamp(range / 2, 45f, 360f), range * 1.5f, e -> {
             rand.setSeed(e.id);
 
@@ -159,14 +156,14 @@ public final class HIFx {
             float circleRad = e.fin(Interp.circleOut) * range;
             Lines.stroke(Mathf.clamp(range / 24, 4, 20) * e.fout());
             Lines.circle(e.x, e.y, circleRad);
-            for(int i = 0; i < Mathf.clamp(range / 12, 9, 60); i++){
+            for (int i = 0; i < Mathf.clamp(range / 12, 9, 60); i++) {
                 Tmp.v1.set(1, 0).setToRandomDirection(rand).scl(circleRad);
                 Drawn.tri(e.x + Tmp.v1.x, e.y + Tmp.v1.y, rand.random(circleRad / 16, circleRad / 12) * e.fout(), rand.random(circleRad / 4, circleRad / 1.5f) * (1 + e.fin()) / 2, Tmp.v1.angle() - 180);
             }
         });
     }
 
-    public static Effect circleSplash(Color color, float lifetime, int num, float range, float size){
+    public static Effect circleSplash(Color color, float lifetime, int num, float range, float size) {
         return new Effect(lifetime, e -> {
             Draw.color(color);
             rand.setSeed(e.id);
@@ -178,19 +175,19 @@ public final class HIFx {
         });
     }
 
-    public static Effect squareRand(Color color, float sizeMin, float sizeMax){
+    public static Effect squareRand(Color color, float sizeMin, float sizeMax) {
         return new Effect(20f, sizeMax * 2f, e -> {
             Draw.color(Color.white, color, e.fin() + 0.15f);
-            if(e.id % 2 == 0){
+            if (e.id % 2 == 0) {
                 Lines.stroke(1.5f * e.fout(Interp.pow3Out));
                 Lines.square(e.x, e.y, Mathf.randomSeed(e.id, sizeMin, sizeMax) * e.fin(Interp.pow2Out) + 3, 45);
-            }else{
+            } else {
                 Fill.square(e.x, e.y, Mathf.randomSeed(e.id, sizeMin * 0.5f, sizeMin * 0.8f) * e.fout(Interp.pow2Out), 45);
             }
         });
     }
 
-    public static Effect blast(Color color, float range){
+    public static Effect blast(Color color, float range) {
         float lifetime = Mathf.clamp(range * 1.5f, 90f, 600f);
         return new Effect(lifetime, range * 2.5f, e -> {
             Draw.color(color);
@@ -225,7 +222,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect laserEffect(float num){
+    public static Effect laserEffect(float num) {
         return new Effect(26f, e -> {
             Draw.color(Color.white);
             float length = !(e.data instanceof Float f) ? 70f : f;
@@ -236,18 +233,22 @@ public final class HIFx {
         });
     }
 
-    public static Effect chargeEffectSmall(Color color, float lifetime){
-        return new Effect(lifetime, 100.0F, e -> {
+    public static Effect chargeEffectSmall(Color color, float lifetime) {
+        return new Effect(lifetime, 100f, e -> {
             Draw.color(color);
             Drawf.light(e.x, e.y, e.fin() * 55f, color, 0.7f);
-            Angles.randLenVectors(e.id, 7, 3 + 50 * e.fout(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.finpow() * 3f));
+            Angles.randLenVectors(e.id, 7, 3 + 50 * e.fout(), (x, y) -> {
+                Fill.circle(e.x + x, e.y + y, e.finpow() * 3f);
+            });
             Lines.stroke(e.fin() * 1.75f);
             Lines.circle(e.x, e.y, e.fout() * 40f);
-            Angles.randLenVectors(e.id + 1, 16, 3 + 70 * e.fout(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 7 + 3));
+            Angles.randLenVectors(e.id + 1, 16, 3 + 70 * e.fout(), (x, y) -> {
+                Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 7 + 3);
+            });
         });
     }
 
-    public static Effect chargeBeginEffect(Color color, float size, float lifetime){
+    public static Effect chargeBeginEffect(Color color, float size, float lifetime) {
         return new Effect(lifetime, e -> {
             Draw.color(color);
             Drawf.light(e.x, e.y, e.fin() * size, color, 0.7f);
@@ -255,15 +256,15 @@ public final class HIFx {
         });
     }
 
-    public static Effect crossBlast(Color color){
+    public static Effect crossBlast(Color color) {
         return get("crossBlast", color, crossBlast(color, 72));
     }
 
-    public static Effect crossBlast(Color color, float size){
+    public static Effect crossBlast(Color color, float size) {
         return crossBlast(color, size, 0);
     }
 
-    public static Effect crossBlast(Color color, float size, float rotate){
+    public static Effect crossBlast(Color color, float size, float rotate) {
         return new Effect(Mathf.clamp(size / 3f, 35f, 240f), size * 2, e -> {
             Draw.color(color, Color.white, e.fout() * 0.55f);
             Drawf.light(e.x, e.y, e.fout() * size, color, 0.7f);
@@ -274,46 +275,48 @@ public final class HIFx {
             rand.setSeed(e.id);
             float sizeDiv = size / 1.5f;
             float randL = rand.random(sizeDiv);
-            for(int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 Drawn.tri(e.x, e.y, size / 20 * (e.fout() * 3f + 1) / 4 * (e.fout(Interp.pow3In) + 0.5f) / 1.5f, (sizeDiv + randL) * Mathf.curve(e.fin(), 0, 0.05f) * e.fout(Interp.pow3), i * 90 + rotate);
             }
         });
     }
 
-    public static Effect hyperBlast(Color color){
+    public static Effect hyperBlast(Color color) {
         return get("hyperBlast", color, new Effect(30f, e -> {
             Draw.color(color, Color.white, e.fout() * 0.75f);
             Drawf.light(e.x, e.y, e.fout() * 55f, color, 0.7f);
             Lines.stroke(1.3f * e.fslope());
             Lines.circle(e.x, e.y, 45f * e.fin());
-            Angles.randLenVectors(e.id + 1, 5, 8f + 50 * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 7f));
+            Angles.randLenVectors(e.id + 1, 5, 8f + 50 * e.finpow(), (x, y) -> {
+                Fill.circle(e.x + x, e.y + y, e.fout() * 7f);
+            });
         }));
     }
 
-    public static Effect instShoot(Color color, Color colorInner){
-        return new Effect(24.0F, e -> {
-            e.scaled(10.0F, (b) -> {
+    public static Effect instShoot(Color color, Color colorInner) {
+        return new Effect(24f, e -> {
+            e.scaled(10f, (b) -> {
                 Draw.color(Color.white, color, b.fin());
-                Lines.stroke(b.fout() * 3.0F + 0.2F);
-                Lines.circle(b.x, b.y, b.fin() * 50.0F);
+                Lines.stroke(b.fout() * 3f + 0.2f);
+                Lines.circle(b.x, b.y, b.fin() * 50f);
             });
             Draw.color(color);
 
-            for(int i : Mathf.signs){
-                Drawn.tri(e.x, e.y, 8.0F * e.fout(), 85.0F, e.rotation + 90.0F * i);
-                Drawn.tri(e.x, e.y, 8.0F * e.fout(), 50.0F, 90 + 90.0F * i);
+            for (int i : Mathf.signs) {
+                Drawn.tri(e.x, e.y, 8f * e.fout(), 85f, e.rotation + 90f * i);
+                Drawn.tri(e.x, e.y, 8f * e.fout(), 50f, 90 + 90f * i);
             }
 
             Draw.color(colorInner);
 
-            for(int i : Mathf.signs){
-                Drawn.tri(e.x, e.y, 5F * e.fout(), 48.0F, e.rotation + 90.0F * i);
-                Drawn.tri(e.x, e.y, 5F * e.fout(), 29.0F, 90 + 90.0F * i);
+            for (int i : Mathf.signs) {
+                Drawn.tri(e.x, e.y, 5f * e.fout(), 48f, e.rotation + 90f * i);
+                Drawn.tri(e.x, e.y, 5f * e.fout(), 29f, 90 + 90f * i);
             }
         });
     }
 
-    public static Effect hitSpark(Color color, float lifetime, int num, float range, float stroke, float length){
+    public static Effect hitSpark(Color color, float lifetime, int num, float range, float stroke, float length) {
         return new Effect(lifetime, e -> {
             Draw.color(color, Color.white, e.fout() * 0.3f);
             Lines.stroke(e.fout() * stroke);
@@ -325,14 +328,14 @@ public final class HIFx {
         });
     }
 
-    public static Effect get(String m, Color c, Effect effect){
+    public static Effect get(String m, Color c, Effect effect) {
         int hash = Objects.hash(m, c);
         Effect or = same.get(hash);
-        if(or == null)same.put(hash, effect);
+        if(or == null) same.put(hash, effect);
         return or == null ? effect : or;
     }
 
-    public static Effect shootLine(float size, float angleRange){
+    public static Effect shootLine(float size, float angleRange) {
         int num = Mathf.clamp((int)size / 6, 6, 20);
         float thick = Mathf.clamp(0.75f, 2f, size / 22f);
 
@@ -347,7 +350,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect shootCircleSmall(Color color){
+    public static Effect shootCircleSmall(Color color) {
         return get("shootCircleSmall", color, new Effect(30, e -> {
             Draw.color(color, Color.white, e.fout() * 0.75f);
             rand.setSeed(e.id);
@@ -358,7 +361,7 @@ public final class HIFx {
         }));
     }
 
-    public static Effect shootLineSmall(Color color){
+    public static Effect shootLineSmall(Color color) {
         return get("shootLineSmall", color,new Effect(37f, e -> {
             Draw.color(color, Color.white, e.fout() * 0.7f);
             Angles.randLenVectors(e.id, 4, 8 + 32 * e.fin(), e.rotation, 22F, (x, y) -> {
@@ -369,7 +372,7 @@ public final class HIFx {
         }));
     }
 
-    public static Effect square(Color color, float lifetime, int num, float range, float size){
+    public static Effect square(Color color, float lifetime, int num, float range, float size) {
         return new Effect(lifetime, e -> {
             Draw.color(color);
             rand.setSeed(e.id);
@@ -381,7 +384,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect sharpBlast(Color colorExternal, Color colorInternal, float lifetime, float range){
+    public static Effect sharpBlast(Color colorExternal, Color colorInternal, float lifetime, float range) {
         return new Effect(lifetime, range * 2, e -> {
             Angles.randLenVectors(e.id, (int)Mathf.clamp(range / 8, 4, 18), range / 8, range * (1 + e.fout(Interp.pow2OutInverse)) / 2f, (x, y) -> {
                 float angle = Mathf.angle(x, y);
@@ -404,7 +407,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect sharpBlastRand(Color colorExternal, Color colorInternal, float rotation, float ranAngle, float lifetime, float range){
+    public static Effect sharpBlastRand(Color colorExternal, Color colorInternal, float rotation, float ranAngle, float lifetime, float range) {
         return new Effect(lifetime, range * 2, e -> {
             Angles.randLenVectors(e.id, (int)Mathf.clamp(range / 8, 2, 6), (1 + e.fout(Interp.pow2OutInverse)) / 2f, rotation, ranAngle, (x, y) -> {
                 float angle = Mathf.angle(x, y);
@@ -427,7 +430,7 @@ public final class HIFx {
         return get("instBomb", color, instBombSize(color, 4, 80f));
     }
 
-    public static Effect instBombSize(Color color, int num, float size){
+    public static Effect instBombSize(Color color, int num, float size) {
         return new Effect(22f, size * 1.5f, e -> {
             Draw.color(color);
             Lines.stroke(e.fout() * 4f);
@@ -435,13 +438,13 @@ public final class HIFx {
             Drawf.light(e.x, e.y, e.fout() * size, color, 0.7f);
 
             int i;
-            for(i = 0; i < num; ++i) {
+            for (i = 0; i < num; ++i) {
                 Drawn.tri(e.x, e.y, size / 12f, size * e.fout(), (float)(i * 90 + 45));
             }
 
             Draw.color();
 
-            for(i = 0; i < num; ++i) {
+            for (i = 0; i < num; ++i) {
                 Drawn.tri(e.x, e.y, size / 26f, size / 2.5f * e.fout(), (float)(i * 90 + 45));
             }
         });
@@ -449,19 +452,19 @@ public final class HIFx {
 
     public static Effect instHit(Color color){return get("instHit", color, instHit(color, 5, 50)); }
 
-    public static Effect instHit(Color color, int num, float size){
+    public static Effect instHit(Color color, int num, float size) {
         return new Effect(20f, size * 1.5f, e -> {
             rand.setSeed(e.id);
 
-            for(int i = 0; i < 2; ++i) {
+            for (int i = 0; i < 2; ++i) {
                 Draw.color(i == 0 ? color : color.cpy().lerp(Color.white, 0.25f));
                 float m = i == 0 ? 1f : 0f;
 
-                for(int j = 0; j < num; ++j) {
+                for (int j = 0; j < num; ++j) {
                     float rot = e.rotation + rand.range(size);
                     float w = 15f * e.fout() * m;
                     Drawn.tri(e.x, e.y, w, (size + rand.range( size * 0.6f)) * m, rot);
-                    Drawn.tri(e.x, e.y, w, size * 0.3f * m, rot + 180.0F);
+                    Drawn.tri(e.x, e.y, w, size * 0.3f * m, rot + 180f);
                 }
             }
 
@@ -474,7 +477,7 @@ public final class HIFx {
             e.scaled(18f, (c) -> {
                 Draw.color(color);
                 Angles.randLenVectors(e.id, 25, 8f + e.fin() * size * 1.25f, e.rotation, 60f, (x, y) -> {
-                    Fill.square(e.x + x, e.y + y, c.fout() * 3.0F, 45f);
+                    Fill.square(e.x + x, e.y + y, c.fout() * 3f, 45f);
                 });
             });
 
@@ -482,23 +485,23 @@ public final class HIFx {
         });
     }
 
-    public static Effect instTrail(Color color, float angle, boolean random){
-        return new Effect(30.0F, e -> {
-            for(int j : angle == 0 ? oneArr: Mathf.signs){
-                for(int i = 0; i < 2; ++i) {
+    public static Effect instTrail(Color color, float angle, boolean random) {
+        return new Effect(30f, e -> {
+            for (int j : angle == 0 ? Drawn.oneArr: Mathf.signs) {
+                for (int i = 0; i < 2; ++i) {
                     Draw.color(i == 0 ? color : color.cpy().lerp(Color.white, 0.15f));
-                    float m = i == 0 ? 1.0F : 0.5F;
-                    float rot = e.rotation + 180.0F;
-                    float w = 10.0F * e.fout() * m;
-                    Drawn.tri(e.x, e.y, w, 30.0F + (random ? Mathf.randomSeedRange(e.id, 15.0F) : 8) * m, rot + j * angle);
-                    if(angle == 0)Drawn.tri(e.x, e.y, w, 10.0F * m, rot + 180.0F + j * angle);
+                    float m = i == 0 ? 1f : 0.5f;
+                    float rot = e.rotation + 180f;
+                    float w = 10f * e.fout() * m;
+                    Drawn.tri(e.x, e.y, w, 30f + (random ? Mathf.randomSeedRange(e.id, 15f) : 8) * m, rot + j * angle);
+                    if(angle == 0)Drawn.tri(e.x, e.y, w, 10f * m, rot + 180f + j * angle);
                     else  Fill.circle(e.x, e.y, w / 2f);
                 }
             }
         });
     }
 
-    public static Effect smoothColorRect(Color out, float rad, float lifetime){
+    public static Effect smoothColorRect(Color out, float rad, float lifetime) {
         return new Effect(lifetime, rad * 2, e -> {
             Draw.blend(Blending.additive);
             float radius = e.fin(Interp.pow3Out) * rad;
@@ -507,7 +510,7 @@ public final class HIFx {
         }).layer(Layer.effect + 0.15f);
     }
 
-    public static Effect smoothColorCircle(Color out, float rad, float lifetime){
+    public static Effect smoothColorCircle(Color out, float rad, float lifetime) {
         return new Effect(lifetime, rad * 2, e -> {
             Draw.blend(Blending.additive);
             float radius = e.fin(Interp.pow3Out) * rad;
@@ -517,7 +520,7 @@ public final class HIFx {
         }).layer(Layer.effect + 0.15f);
     }
 
-    public static Effect smoothColorCircle(Color out, float rad, float lifetime, float alpha){
+    public static Effect smoothColorCircle(Color out, float rad, float lifetime, float alpha) {
         return new Effect(lifetime, rad * 2, e -> {
             Draw.blend(Blending.additive);
             float radius = e.fin(Interp.pow3Out) * rad;
@@ -527,7 +530,7 @@ public final class HIFx {
         }).layer(Layer.effect + 0.15f);
     }
 
-    public static Effect lineCircleOut(Color color, float lifetime, float size, float stroke){
+    public static Effect lineCircleOut(Color color, float lifetime, float size, float stroke) {
         return new Effect(lifetime, e -> {
             Draw.color(color);
             Lines.stroke(e.fout() * stroke);
@@ -535,7 +538,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect lineSquareOut(Color color, float lifetime, float size, float stroke, float rotation){
+    public static Effect lineSquareOut(Color color, float lifetime, float size, float stroke, float rotation) {
         return new Effect(lifetime, e -> {
             Draw.color(color);
             Lines.stroke(e.fout() * stroke);
@@ -543,7 +546,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect polyCloud(Color color, float lifetime, float size, float range, int num){
+    public static Effect polyCloud(Color color, float lifetime, float size, float range, int num) {
         return (new Effect(lifetime, e -> {
             Angles.randLenVectors(e.id, num, range * e.finpow(), (x, y) -> {
                 Draw.color(color, Pal.gray, e.fin() * 0.65f);
@@ -555,7 +558,7 @@ public final class HIFx {
         })).layer(Layer.bullet);
     }
 
-    public static Effect polyTrail(Color fromColor, Color toColor, float size, float lifetime){
+    public static Effect polyTrail(Color fromColor, Color toColor, float size, float lifetime) {
         return new Effect(lifetime, size * 2, e -> {
             Draw.color(fromColor, toColor, e.fin());
             Fill.poly(e.x, e.y, 6, size * e.fout(), e.rotation);
@@ -563,7 +566,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect genericCharge(Color color, float size, float range, float lifetime){
+    public static Effect genericCharge(Color color, float size, float range, float lifetime) {
         return new Effect(lifetime, e -> {
             Draw.color(color);
             Lines.stroke(size / 7f * e.fin());
@@ -577,7 +580,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect lightningHitSmall(Color color){
+    public static Effect lightningHitSmall(Color color) {
         return get("lightningHitSmall", color, new Effect(20, e -> {
             Draw.color(color, Color.white, e.fout() * 0.7f);
             Angles.randLenVectors(e.id, 5, 18 * e.fin(), (x, y) -> {
@@ -587,7 +590,7 @@ public final class HIFx {
         }));
     }
 
-    public static Effect lightningHitLarge(Color color){
+    public static Effect lightningHitLarge(Color color) {
         return get("lightningHitLarge", color, new Effect(50f, 180f, e -> {
             Draw.color(color);
             Drawf.light(e.x, e.y, e.fout() * 90f, color, 0.7f);
@@ -596,14 +599,18 @@ public final class HIFx {
                 Lines.circle(e.x, e.y, 3f + t.fin(Interp.pow3Out) * 80f);
             });
             Fill.circle(e.x, e.y, e.fout() * 8f);
-            Angles.randLenVectors(e.id + 1, 4, 1f + 60f * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 5f));
+            Angles.randLenVectors(e.id + 1, 4, 1f + 60f * e.finpow(), (x, y) -> {
+                Fill.circle(e.x + x, e.y + y, e.fout() * 5f);
+            });
 
             Draw.color(Color.gray);
-            Angles.randLenVectors(e.id, 8, 2f + 30f * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 4f + 0.5f));
+            Angles.randLenVectors(e.id, 8, 2f + 30f * e.finpow(), (x, y) -> {
+                Fill.circle(e.x + x, e.y + y, e.fout() * 4f + 0.5f);
+            });
         }));
     }
 
-    public static Effect subEffect(float lifetime, float radius, int num, float childLifetime, Interp spreadOutInterp, EffectParam effect){
+    public static Effect subEffect(float lifetime, float radius, int num, float childLifetime, Interp spreadOutInterp, EffectParam effect) {
         return new Effect(lifetime, radius * 2f, e -> {
             rand.setSeed(e.id);
             float finT = e.lifetime * e.fin(spreadOutInterp);
@@ -627,7 +634,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect triSpark(float lifetime, Color colorFrom, Color colorTo){
+    public static Effect triSpark(float lifetime, Color colorFrom, Color colorTo) {
         return new Effect(lifetime, e -> {
             rand.setSeed(e.id);
             Draw.color(colorFrom, colorTo, e.fin());
@@ -638,11 +645,11 @@ public final class HIFx {
         });
     }
 
-    public static Effect impactExplode(float size, float lifeTime){
+    public static Effect impactExplode(float size, float lifeTime) {
         return impactExplode(size, lifeTime, false);
     }
 
-    public static Effect impactExplode(float size, float lifeTime, boolean heightBloom){
+    public static Effect impactExplode(float size, float lifeTime, boolean heightBloom) {
         return new Effect(lifeTime, e -> {
             float rate = e.fout(Interp.pow2In);
             float l = size * 1.16f * rate;
@@ -654,7 +661,7 @@ public final class HIFx {
 
             float x = e.x, y = e.y;
             int id = e.id;
-            Draws.DrawAcceptor<Bloom> draw = n -> {
+            DrawAcceptor<Bloom> draw = n -> {
                 Draw.color(e.color);
                 Draws.drawLightEdge(x, y, l, w, l, w);
                 Lines.stroke(size * 0.08f * fout);
@@ -669,10 +676,10 @@ public final class HIFx {
                 Draw.reset();
             };
 
-            if(heightBloom){
+            if (heightBloom) {
                 Draw.z(Layer.flyingUnit + 1);
                 Draws.drawBloomUponFlyUnit(null, draw);
-            }else{
+            } else {
                 draw.draw(null);
             }
 
@@ -685,7 +692,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect shrinkParticle(float radius, float maxSize, float lifeTime, Color color){
+    public static Effect shrinkParticle(float radius, float maxSize, float lifeTime, Color color) {
         return new Effect(lifeTime, e -> {
             Draw.z(Layer.effect);
             Draw.color(color == null ? e.color : color);
@@ -700,7 +707,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect graphiteCloud(float radius, int density){
+    public static Effect graphiteCloud(float radius, int density) {
         return new Effect(360f, e -> {
             Draw.z(Layer.bullet - 5);
             Draw.color(Pal.stoneGray);
@@ -730,7 +737,7 @@ public final class HIFx {
                         TextureRegion rg = type.fullIcon;
                         float w = rg.width * rg.scl() * Draw.xscl;
                         float h = rg.height * rg.scl() * Draw.yscl;
-                        float dx = HIUtils.dx(e.x, Math.max(w, h) * 0.3f * e.finpow(), e.rotation), dy = HIUtils.dy(e.y, Math.max(w, h) * 0.3f * e.finpow(), e.rotation);
+                        float dx = Utils.dx(e.x, Math.max(w, h) * 0.3f * e.finpow(), e.rotation), dy = Utils.dy(e.y, Math.max(w, h) * 0.3f * e.finpow(), e.rotation);
                         float z = Draw.z();
                         Draw.z(Layer.effect + 10);
                         Draw.alpha(e.foutpow());
@@ -745,7 +752,7 @@ public final class HIFx {
                         TextureRegion rg = type.fullIcon;
                         float w = rg.width * rg.scl() * Draw.xscl;
                         float h = rg.height * rg.scl() * Draw.yscl;
-                        float dx = HIUtils.dx(e.x, h * 0.2f * e.finpow(), e.rotation), dy = HIUtils.dy(e.y, h * 0.2f * e.finpow(), e.rotation);
+                        float dx = Utils.dx(e.x, h * 0.2f * e.finpow(), e.rotation), dy = Utils.dy(e.y, h * 0.2f * e.finpow(), e.rotation);
                         float z = Draw.z();
                         Draw.z(Layer.effect + 10);
                         Draw.alpha(e.foutpow());
@@ -758,7 +765,9 @@ public final class HIFx {
                 Draw.color(e.color);
                 Lines.stroke(e.fslope() * 2.5f);
                 Lines.poly(e.x, e.y, 6, 3 * e.fout() + 9);
-                Angles.randLenVectors(e.id, 2, 32 * e.fin(), 0, 360,(x, y) -> Lines.poly(e.x + x, e.y + y, 6, 2 * e.fout() + 2));
+                Angles.randLenVectors(e.id, 2, 32 * e.fin(), 0, 360,(x, y) -> {
+                    Lines.poly(e.x + x, e.y + y, 6, 2 * e.fout() + 2);
+                });
             }),
             smolSquare = new Effect(25f, e -> {
                 Draw.color(e.color);
@@ -830,7 +839,9 @@ public final class HIFx {
             line = new Effect(30f, e -> {
                 Draw.color(e.color, Color.white, e.fout() * 0.75f);
                 Lines.stroke(2 * e.fout());
-                Angles.randLenVectors(e.id, 6, 3 + e.rotation * e.fin(), (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 4));
+                Angles.randLenVectors(e.id, 6, 3 + e.rotation * e.fin(), (x, y) -> {
+                    Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 4);
+                });
             }),
             skyTrail = new Effect(22, e -> {
                 Draw.color(Pal.techBlue, Pal.gray, e.fin() * 0.6f);
@@ -864,11 +875,11 @@ public final class HIFx {
                     Drawf.light(e.x + x, e.y + y, e.fout() * 3.5f, e.color, 0.7f);
                 });
             }),
-            hyperCloud = new Effect(140.0F, 400.0F, e -> {
-                Angles.randLenVectors(e.id, 20, e.finpow() * 160.0F, (x, y) -> {
-                    float size = e.fout() * 15.0F;
+            hyperCloud = new Effect(140f, 400f, e -> {
+                Angles.randLenVectors(e.id, 20, e.finpow() * 160f, (x, y) -> {
+                    float size = e.fout() * 15f;
                     Draw.color(e.color, Color.lightGray, e.fin());
-                    Fill.circle(e.x + x, e.y + y, size / 2.0F);
+                    Fill.circle(e.x + x, e.y + y, size / 2f);
                     Drawf.light(e.x + x, e.y + y, e.fout() * size, e.color, 0.7f);
                 });
             }),
@@ -876,7 +887,9 @@ public final class HIFx {
                 Draw.color(e.color, Color.white, e.fout() * 0.75f);
                 Lines.stroke(1.3f * e.fslope());
                 Lines.circle(e.x, e.y, 45f * e.fin());
-                Angles.randLenVectors(e.id + 1, 5, 8f + 60 * e.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * 7f));
+                Angles.randLenVectors(e.id + 1, 5, 8f + 60 * e.finpow(), (x, y) -> {
+                    Fill.circle(e.x + x, e.y + y, e.fout() * 7f);
+                });
                 Drawf.light(e.x, e.y, e.fout() * 70f, e.color, 0.7f);
             }),
             ultFireBurn = new Effect(25f, e -> {
@@ -897,7 +910,9 @@ public final class HIFx {
 
                 Lines.stroke(0.75f + e.fout());
 
-                Angles.randLenVectors(e.id, 6, e.fin() * e.rotation + 7f, (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fout() * 4 + 2f));
+                Angles.randLenVectors(e.id, 6, e.fin() * e.rotation + 7f, (x, y) -> {
+                    Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fout() * 4 + 2f);
+                });
 
                 Fill.circle(e.x, e.y, 2.5f * e.fout());
             }),
@@ -907,11 +922,11 @@ public final class HIFx {
                 e.lifetime = v.size() < 2 ? 0 : 1000;
                 int strokeOffset = (int)e.rotation;
 
-                if(v.size() > strokeOffset + 1 && strokeOffset > 0 && v.size() > 2){
+                if (v.size() > strokeOffset + 1 && strokeOffset > 0 && v.size() > 2) {
                     v.removeRange(0, v.size() - strokeOffset - 1);
                 }
 
-                if(!state.isPaused() && v.any()){
+                if (!state.isPaused() && v.any()) {
                     v.remove(0);
                 }
 
@@ -922,7 +937,7 @@ public final class HIFx {
                 float fadeOffset = data.y;
 
                 Draw.color(e.color);
-                for(int i = 1; i < v.size() - 1; i++){
+                for (int i = 1; i < v.size() - 1; i++) {
                     Lines.stroke(Mathf.clamp((i + fadeOffset / 2f) / v.size() * (strokeOffset - (v.size() - i)) / strokeOffset) * stroke);
                     Vec2 from = v.setVec2(i - 1, Tmp.v1);
                     Vec2 to = v.setVec2(i, Tmp.v2);
@@ -1060,7 +1075,7 @@ public final class HIFx {
                 float sizeDiv = 35;
                 float randL = rand.random(sizeDiv);
 
-                for(int i = 0; i < 4; i++){
+                for (int i = 0; i < 4; i++) {
                     Drawn.tri(e.x, e.y, 3.5f * (e.fout() * 3f + 1) / 4 * (e.fout(Interp.pow3In) + 0.5f) / 1.5f, (sizeDiv + randL) * Mathf.curve(e.fin(), 0, 0.05f) * e.fout(Interp.pow3), i * 90);
                 }
             }),
@@ -1077,7 +1092,7 @@ public final class HIFx {
                 float sizeDiv = 60;
                 float randL = rand.random(sizeDiv);
 
-                for(int i = 0; i < 4; i++){
+                for (int i = 0; i < 4; i++) {
                     Drawn.tri(e.x, e.y, 5.85f * (e.fout() * 3f + 1) / 4 * (e.fout(Interp.pow3In) + 0.5f) / 1.5f, (sizeDiv + randL) * Mathf.curve(e.fin(), 0, 0.05f) * e.fout(Interp.pow3), i * 90 + 45);
                 }
             }),
@@ -1150,17 +1165,17 @@ public final class HIFx {
             hugeSmokeGray = new Effect(40f, e -> {
                 Draw.color(Color.gray, Color.darkGray, e.fin());
                 Angles.randLenVectors(e.id, 6, 2f + 19f * e.finpow(), (x, y) -> Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout() * 2f));
-                e.scaled(25f, i -> Angles.randLenVectors(e.id, 6, 2f + 19f * i.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, i.fout() * 4.0F)));
+                e.scaled(25f, i -> Angles.randLenVectors(e.id, 6, 2f + 19f * i.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, i.fout() * 4f)));
             }),
             hugeSmoke = new Effect(40f, e -> {
                 Draw.color(e.color);
-                Angles.randLenVectors(e.id, 6, 2.0F + 19.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout() * 2f));
-                e.scaled(25f, i -> Angles.randLenVectors(e.id, 6, 2f + 19f * i.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, i.fout() * 4.0F)));
+                Angles.randLenVectors(e.id, 6, 2f + 19f * e.finpow(), (x, y) -> Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout() * 2f));
+                e.scaled(25f, i -> Angles.randLenVectors(e.id, 6, 2f + 19f * i.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, i.fout() * 4f)));
             }),
             hugeSmokeLong = new Effect(120f, e -> {
                 Draw.color(e.color);
-                Angles.randLenVectors(e.id, 6, 2.0F + 19.0F * e.finpow(), (x, y) -> Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout() * 2f));
-                e.scaled(25f, i -> Angles.randLenVectors(e.id, 6, 2f + 19f * i.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, i.fout() * 4.0F)));
+                Angles.randLenVectors(e.id, 6, 2f + 19f * e.finpow(), (x, y) -> Fill.circle(e.x + x / 2f, e.y + y / 2f, e.fout() * 2f));
+                e.scaled(25f, i -> Angles.randLenVectors(e.id, 6, 2f + 19f * i.finpow(), (x, y) -> Fill.circle(e.x + x, e.y + y, i.fout() * 4f)));
             }),
             square45_4_45 = new Effect(45f, e-> {
                 Draw.color(e.color);
@@ -1194,7 +1209,7 @@ public final class HIFx {
                 });
             }),
             /** {@link PosLightning} */
-            posLightning = (new Effect(PosLightning.lifetime, 1200.0f, e -> {
+            posLightning = (new Effect(PosLightning.lifetime, 1200f, e -> {
                 if(!(e.data instanceof Vec2Seq v)) return;
 
                 Draw.color(e.color, Color.white, e.fout() * 0.6f);
@@ -1236,11 +1251,11 @@ public final class HIFx {
                 float fin = Mathf.curve(e.fin(), 0, lightningAlign);
                 int i;
                 float nx = e.x, ny = e.y;
-                for(i = 0; i < (int)(links * fin); i++){
-                    if(i == links - 1){
+                for (i = 0; i < (int)(links * fin); i++) {
+                    if (i == links - 1) {
                         nx = tx;
                         ny = ty;
-                    }else{
+                    } else {
                         float len = (i + 1) * spacing;
                         Tmp.v1.setToRandomDirection(rand).scl(range/2f);
                         nx = e.x + normx * len + Tmp.v1.x;
@@ -1250,7 +1265,7 @@ public final class HIFx {
                     Lines.linePoint(nx, ny);
                 }
 
-                if(i < links){
+                if (i < links) {
                     float f = Mathf.clamp(fin * links % 1);
                     float len = (i + 1) * spacing;
                     Tmp.v1.setToRandomDirection(rand).scl(range/2f);
@@ -1290,11 +1305,11 @@ public final class HIFx {
                 float fin = Mathf.curve(e.fin(), 0, lightningAlign);
                 int i;
                 float nx = p.getX(), ny = p.getY();
-                for(i = 0; i < (int)(links * fin); i++){
+                for (i = 0; i < (int)(links * fin); i++) {
                     if(i == links - 1){
                         nx = tx;
                         ny = ty;
-                    }else{
+                    } else {
                         float len = (i + 1) * spacing;
                         Tmp.v1.setToRandomDirection(rand).scl(range/2f);
                         nx = p.getX() + normx * len + Tmp.v1.x;
@@ -1304,7 +1319,7 @@ public final class HIFx {
                     Lines.linePoint(nx, ny);
                 }
 
-                if(i < links){
+                if (i < links) {
                     float f = Mathf.clamp(fin * links % 1);
                     float len = (i + 1) * spacing;
                     Tmp.v1.setToRandomDirection(rand).scl(range/2f);
@@ -1350,7 +1365,6 @@ public final class HIFx {
                 Fill.light(e.x, e.y, Lines.circleVertices(circleRad), circleRad, Color.clear, Tmp.c1.set(Draw.getColor()).a(e.fout(Interp.pow10Out)));
                 Draw.blend();
                 Draw.z(Layer.effect);
-
 
                 e.scaled(120f, i -> {
                     Draw.color(Color.white, i.color, i.fin() + 0.4f);
@@ -1571,7 +1585,7 @@ public final class HIFx {
                 Fill.circle(e.x + x, e.y + y + elevation, 12f);
             })),
             fellStone = new Effect(120f, e -> {
-                if(!(e.data instanceof HailStoneBulletType.HailStoneData data)) return;
+                if(!(e.data instanceof HailStoneData data)) return;
 
                 v7.trns(Mathf.randomSeed(e.id) * 360, data.fallTime/2 + Mathf.randomSeed(e.id + 1) * data.fallTime);
                 float scl = Interp.bounceIn.apply(e.fout() - 0.3f);
@@ -1584,10 +1598,27 @@ public final class HIFx {
                 Draw.z(Layer.power + 0.2f);
                 Draw.color(e.color);
                 Draw.alpha(e.fout());
-                Draw.rect(data.region, x, y + (scl * data.fallTime/2), rot);
+                Draw.rect(data.region, x, y + (scl * data.fallTime / 2), rot);
+            }),
+            fellStoneAghanite = new Effect(120f, e -> {
+                if(!(e.data instanceof HailStoneData data)) return;
+
+                rand.setSeed(e.id);
+                v7.trns(e.rotation + rand.range(30f), data.fallTime/2f + rand.random(data.fallTime));
+                float scl = Interp.bounceIn.apply(e.fout() - 0.3f);
+                float rot = v7.angle();
+                float x = e.x + (v7.x * e.finpow()), y = e.y + (v7.y * e.finpow());
+
+                Draw.z(Layer.power + 0.1f);
+                Drawm.shadow(data.region, x, y, rot, Math.min(e.fout(), Pal.shadow.a));
+
+                Draw.z(Layer.power + 0.2f);
+                Draw.color(e.color);
+                Draw.alpha(e.fout());
+                Draw.rect(data.region, x, y + (scl * data.fallTime/2f), rot);
             }),
             staticStone = new Effect(250f, e -> {
-                if(!(e.data instanceof HailStoneBulletType.HailStoneData data)) return;
+                if(!(e.data instanceof HailStoneData data)) return;
 
                 Draw.z(Layer.power + 0.1f);
                 Draw.color(e.color);
@@ -1627,8 +1658,8 @@ public final class HIFx {
                 }
             }),
             gasLeak = new Effect(90, e -> {
-                if(!(e.data() instanceof Number)) return;
-                float param = ((Number) e.data()).floatValue();
+                if(!(e.data instanceof Number number)) return;
+                float param = number.floatValue();
 
                 Draw.color(e.color, Color.lightGray, e.fin());
                 Draw.alpha(0.75f * param * e.fout());
@@ -1843,7 +1874,7 @@ public final class HIFx {
                     Lines.stroke((2f * b.fout()));
 
                     Draw.z(Layer.effect + 0.001f);
-                    Angles.randLenVectors(b.id + 1, b.finpow() + 0.001f, (int) (8*intensity), 28f * intensity, (x, y, in, out) -> {
+                    Angles.randLenVectors(b.id + 1, b.finpow() + 0.001f, (int) (8 * intensity), 28f * intensity, (x, y, in, out) -> {
                         Lines.lineAngle(b.x + x, b.y + y, Mathf.angle(x, y), 1f + out * 4 * (4f + intensity));
                         Drawf.light(b.x + x, b.y + y, (out* 4 * (3f + intensity)) * 3.5f, Draw.getColor(), 0.8f);
                     });
@@ -1882,19 +1913,19 @@ public final class HIFx {
             }),
             crossLightMini = new Effect(22, e -> {
                 Draw.color(e.color);
-                for(int i: Mathf.signs){
+                for (int i: Mathf.signs) {
                     Draws.drawDiamond(e.x, e.y, 12 + 64 * e.fin(Interp.pow3Out), 5 * e.fout(Interp.pow3Out), e.rotation + 45 + i * 45);
                 }
             }),
             crossLightSmall = new Effect(26, e -> {
                 Draw.color(e.color);
-                for(int i: Mathf.signs){
+                for (int i: Mathf.signs) {
                     Draws.drawDiamond(e.x, e.y, 22 + 74 * e.fin(Interp.pow3Out), 8 * e.fout(Interp.pow3Out), e.rotation + 45 + i * 45);
                 }
             }),
             crossLight = new Effect(30, e -> {
                 Draw.color(e.color);
-                for(int i: Mathf.signs){
+                for (int i: Mathf.signs) {
                     Draws.drawDiamond(e.x, e.y, 32 + 128 * e.fin(Interp.pow3Out), 12 * e.fout(Interp.pow3Out), e.rotation + 45 + i * 45);
                 }
             }),
@@ -1934,14 +1965,14 @@ public final class HIFx {
             explodeImpWaveLarge = impactExplode(60, 95f),
             explodeImpWaveLaserBlase = impactExplode(86, 200f),
             reactorExplode = new MultiEffect(Fx.reactorExplosion, new Effect(180, e -> {
-                float size = e.data() instanceof Float ? e.data() : 120;
+                float size = e.data instanceof Float f ? f : 120;
 
                 float fin1 = Mathf.clamp(e.fin() / 0.1f);
                 float fin2 = Mathf.clamp((e.fin() - 0.1f) / 0.3f);
 
                 Draw.color(Pal.reactorPurple);
                 Lines.stroke(6 * e.fout());
-                float radius = size*(1 - Mathf.pow(e.fout(), 3));
+                float radius = size * (1 - Mathf.pow(e.fout(), 3));
                 Lines.circle(e.x, e.y, radius);
 
                 Draw.z(Layer.effect + 10);
@@ -2002,22 +2033,22 @@ public final class HIFx {
                 Draws.drawDiamond(e.x, e.y, 15 + 45 * e.fin(), 8 * e.fout(), e.rotation + 90);
             }),
             steam = new Effect(90, e -> {
-                Vec2 motion = e.data() instanceof Vec2 ? e.data() : new Vec2(0, 0);
+                Vec2 motion = e.data instanceof Vec2 v ? v : new Vec2(0, 0);
                 float len = motion.len();
                 Draw.color(Color.white);
                 Draw.alpha(0.75f * e.fout());
 
-                for(int i = 0; i < 5; i++){
+                for (int i = 0; i < 5; i++) {
                     Vec2 curr = motion.cpy().rotate(Mathf.randomSeed(e.id, -20, 20)).setLength(len*e.finpow());
                     Fill.circle(e.x + curr.x, e.y + curr.y, Mathf.randomSeed(e.id, 3.5f, 5) * (0.3f + 0.7f * e.fslope()));
                 }
             }),
             steamBreakOut = new Effect(24, e -> {
-                float[] data = e.data instanceof float[] ? e.data() : new float[]{18, 24, 0.3f};
+                float[] data = e.data instanceof float[] f ? f : new float[]{18, 24, 0.3f};
 
                 float leng = Mathf.random(data[0], data[1]);
                 for(int i = 0; i < 4; i++){
-                    if(Mathf.chanceDelta(data[2])) steam.at(e.x, e.y, 0, new Vec2(leng*Geometry.d8(i * 2 + 1).x, leng*Geometry.d8(i * 2 + 1).y));
+                    if(Mathf.chanceDelta(data[2])) steam.at(e.x, e.y, 0, new Vec2(leng * Geometry.d8(i * 2 + 1).x, leng * Geometry.d8(i * 2 + 1).y));
                 }
             }),
             lightCone = new Effect(16, e -> {
@@ -2080,7 +2111,7 @@ public final class HIFx {
                 Draw.color(Color.white, e.color, e.fin());
                 Lines.stroke(e.fout() * 0.8f + 0.2f);
 
-                Angles.randLenVectors(e.id, 22, 4f*e.fin(), 12f, (x, y) -> {
+                Angles.randLenVectors(e.id, 22, 4f * e.fin(), 12f, (x, y) -> {
                     Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 2.2f);
                 });
             }),
@@ -2189,7 +2220,7 @@ public final class HIFx {
                 Draw.color(e.color);
 
                 Angles.randLenVectors(e.id, 3, 32, (x, y) -> {
-                    Fill.circle(e.x + x*e.fin(), e.y + y*e.fin(), 0.9f * e.fout(Interp.pow2Out));
+                    Fill.circle(e.x + x * e.fin(), e.y + y*e.fin(), 0.9f * e.fout(Interp.pow2Out));
                 });
             }),
             movingCrystalFrag = new Effect(45, e -> {
@@ -2216,8 +2247,7 @@ public final class HIFx {
                 float blingX = Angles.trnsx(rot, size * 2), blingY = Angles.trnsy(rot, size * 2);
                 Draws.drawDiamond(e.x, e.y, size * 2, size / 2, rot);
                 e.scaled(45, ec -> {
-                    Draws.drawDiamond(ec.x + blingX, ec.y + blingY, 85 * ec.fslope(), 1.2f * ec.fslope(),
-                            Mathf.randomSeed(ec.id + 2, 360) + Mathf.randomSeed(ec.id + 3, -15, 15) * ec.fin());
+                    Draws.drawDiamond(ec.x + blingX, ec.y + blingY, 85 * ec.fslope(), 1.2f * ec.fslope(), Mathf.randomSeed(ec.id + 2, 360) + Mathf.randomSeed(ec.id + 3, -15, 15) * ec.fin());
                 });
             }),
             shootRail = new Effect(60, e -> {
@@ -2245,7 +2275,7 @@ public final class HIFx {
                 float l = e.fin(Interp.pow2Out);
                 Angles.randLenVectors(e.id, Mathf.randomSeed(e.id, 8, 16), 48, e.rotation + 180, 60, (x, y) -> {
                     float size = Mathf.randomSeed((int) (e.id + x), 12, 20);
-                    Draws.drawDiamond(e.x + x*l, e.y + y * l, size, size / 2f * e.fout(), Mathf.angle(x, y));
+                    Draws.drawDiamond(e.x + x * l, e.y + y * l, size, size / 2f * e.fout(), Mathf.angle(x, y));
                 });
             }),
             laserBlastWeaveLarge = new Effect(280, 200, e -> {
@@ -2280,7 +2310,7 @@ public final class HIFx {
                     float le = rand.random(wi * 2f, wi * 4f);
 
                     Draws.drawTransform(e.x, e.y, radius, 0, rot, (x, y, ro) -> {
-                        Drawf.tri(x, y, wi*e.fout(), le, ro - 180);
+                        Drawf.tri(x, y, wi * e.fout(), le, ro - 180);
                     });
                 }
 
@@ -2288,7 +2318,7 @@ public final class HIFx {
                     Angles.randLenVectors(e.id, 9, 45, 164, (x, y) -> {
                         float lerp = ef.fin(Interp.pow4Out);
                         float si = Mathf.len(x, y) * Mathf.randomSeed((long) (x + y), 0.6f, 0.8f);
-                        Draws.drawDiamond(e.x + x * lerp, e.y + y*lerp, si, si / 10 * ef.fout(Interp.pow2Out), Mathf.angle(x, y) - 90);
+                        Draws.drawDiamond(e.x + x * lerp, e.y + y * lerp, si, si / 10 * ef.fout(Interp.pow2Out), Mathf.angle(x, y) - 90);
                     });
                 });
 
@@ -2296,7 +2326,7 @@ public final class HIFx {
                     Angles.randLenVectors(e.id * 2l, 9, 40, 154, (x, y) -> {
                         float lerp = Mathf.clamp((ef.fin(Interp.pow4Out) - 0.2f) / 0.8f);
                         float si = Mathf.len(x, y) * Mathf.randomSeed((long) (x + y), 0.7f, 0.9f);
-                        Draws.drawDiamond(e.x + x * lerp, e.y + y*lerp, si, si / 10 * ef.fout(Interp.pow2Out), Mathf.angle(x, y) - 90);
+                        Draws.drawDiamond(e.x + x * lerp, e.y + y * lerp, si, si / 10 * ef.fout(Interp.pow2Out), Mathf.angle(x, y) - 90);
                     });
                 });
 
@@ -2304,7 +2334,7 @@ public final class HIFx {
                     Angles.randLenVectors(e.id * 2l, 10, 36, 150, (x, y) -> {
                         float lerp = Mathf.clamp((ef.fin(Interp.pow4Out) - 0.4f) / 0.6f);
                         float si = Mathf.len(x, y) * Mathf.randomSeed((long) (x + y), 0.7f, 0.9f);
-                        Draws.drawDiamond(e.x + x * lerp, e.y + y*lerp, si, si / 10 * ef.fout(Interp.pow2Out), Mathf.angle(x, y) - 90);
+                        Draws.drawDiamond(e.x + x * lerp, e.y + y * lerp, si, si / 10 * ef.fout(Interp.pow2Out), Mathf.angle(x, y) - 90);
                     });
                 });
 

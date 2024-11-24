@@ -5,7 +5,7 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
 public class EffectBulletType extends BulletType {
-    public EffectBulletType(float lifetime){
+    public EffectBulletType(float lifetime) {
         super();
         this.lifetime = lifetime;
         hittable = false;
@@ -16,15 +16,15 @@ public class EffectBulletType extends BulletType {
         drawSize = 120f;
     }
 
-    public EffectBulletType(float lifetime, float damage, float splashDamage){
+    public EffectBulletType(float lifetime, float damage, float splashDamage) {
         this(lifetime);
         this.damage = damage;
         this.splashDamage = splashDamage;
     }
 
     @Override
-    public void draw(Bullet b){}
+    public void draw(Bullet b) {}
 
     @Override
-    public void drawLight(Bullet b){}
+    public void drawLight(Bullet b) {}
 }

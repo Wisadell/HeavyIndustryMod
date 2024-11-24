@@ -21,18 +21,18 @@ public class PowerInfoGroup extends Table {
         int maxCol = Vars.mobile ? 3 : 5;
         collT.image().growX().pad(5f).padLeft(10).padRight(10).height(3).color(Color.darkGray).colspan(maxCol);
         collT.row();
-        for(int i = 0; i < buildings.size; i++){
+        for (int i = 0; i < buildings.size; i++) {
             Building b = buildings.get(i);
             collT.label(() -> "[lightgray](" + b.tileX() + ", " + b.tileY() + "): " + getData(b, type)).pad(6f).uniformX().left();
 
             col++;
-            if(col == maxCol){
+            if (col == maxCol) {
                 collT.row();
                 col = 0;
             }
         }
-        if(col > 0){
-            for(int i = col; i < maxCol; i++){
+        if (col > 0) {
+            for (int i = col; i < maxCol; i++) {
                 collT.add().uniformX();
             }
         }
@@ -54,8 +54,8 @@ public class PowerInfoGroup extends Table {
         b.add(coll).growX().top();
     }
 
-    private String getData(Building building, PowerInfoType type){
-        return switch(type){
+    protected String getData(Building building, PowerInfoType type) {
+        return switch(type) {
             case producer -> {
                 float produced = building.getPowerProduction() * building.timeScale(); //Assume people don't override delta()
                 yield bundle.format("hi-power-info-persec", "[#98ffa9]+" + formatAmount(produced * 60));
@@ -73,7 +73,7 @@ public class PowerInfoGroup extends Table {
         };
     }
 
-    public interface InfoToggled{
+    public interface InfoToggled {
         void get(int id, boolean collapsed);
     }
 }

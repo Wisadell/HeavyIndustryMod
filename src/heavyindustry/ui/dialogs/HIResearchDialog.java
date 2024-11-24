@@ -49,7 +49,7 @@ public final class HIResearchDialog extends BaseDialog {
 
     private boolean showTechSelect;
 
-    public HIResearchDialog(){
+    public HIResearchDialog() {
         super("");
 
         titleTable.remove();
@@ -89,9 +89,9 @@ public final class HIResearchDialog extends BaseDialog {
         shouldPause = true;
 
         Runnable checkMargin = () -> {
-            if(Core.graphics.isPortrait() && showTechSelect){
+            if (Core.graphics.isPortrait() && showTechSelect){
                 itemDisplay.marginTop(60f);
-            }else{
+            } else {
                 itemDisplay.marginTop(0f);
             }
         };
@@ -105,17 +105,17 @@ public final class HIResearchDialog extends BaseDialog {
                     ui.planet.state.planet :
                     state.isCampaign() ? state.rules.sector.planet : null;
 
-            if(currPlanet != null && currPlanet.techTree != null){
+            if (currPlanet != null && currPlanet.techTree != null) {
                 switchTree(currPlanet.techTree);
             }
 
-            items = new ItemSeq(){
+            items = new ItemSeq() {
                 final ObjectMap<Sector, ItemSeq> cache = new ObjectMap<>();
 
                 {
-                    for(Planet planet : content.planets()){
-                        for(Sector sector : planet.sectors){
-                            if(sector.hasBase()){
+                    for (Planet planet : content.planets()) {
+                        for (Sector sector : planet.sectors) {
+                            if (sector.hasBase()) {
                                 ItemSeq cached = sector.items();
                                 cache.put(sector, cached);
                                 cached.each((item, amount) -> {
@@ -128,17 +128,17 @@ public final class HIResearchDialog extends BaseDialog {
                 }
 
                 @Override
-                public void add(Item item, int amount){
-                    if(amount < 0){
+                public void add(Item item, int amount) {
+                    if (amount < 0) {
 
                         amount = -amount;
 
-                        double percentage = (double)amount / get(item);
+                        double percentage = (double) amount / get(item);
                         int[] counter = {amount};
                         cache.each((sector, seq) -> {
-                            if(counter[0] == 0) return;
+                            if (counter[0] == 0) return;
 
-                            int toRemove = Math.min((int)Math.ceil(percentage * seq.get(item)), counter[0]);
+                            int toRemove = Math.min((int) Math.ceil(percentage * seq.get(item)), counter[0]);
 
                             sector.removeItem(item, toRemove);
                             seq.remove(item, toRemove);
@@ -164,7 +164,7 @@ public final class HIResearchDialog extends BaseDialog {
         addCloseButton();
 
         keyDown(key -> {
-            if(key == Core.keybinds.get(Binding.research).key){
+            if (key == Core.keybinds.get(Binding.research).key) {
                 Core.app.post(this::hide);
             }
         });
@@ -174,9 +174,9 @@ public final class HIResearchDialog extends BaseDialog {
             ui.database.show();
         }).size(210f, 64f).name("database");
 
-        addListener(new InputListener(){
+        addListener(new InputListener() {
             @Override
-            public boolean scrolled(InputEvent event, float x, float y, float amountX, float amountY){
+            public boolean scrolled(InputEvent event, float x, float y, float amountX, float amountY) {
                 view.setScale(Mathf.clamp(view.scaleX - amountY / 10f * view.scaleX, 0.25f, 1f));
                 view.setOrigin(Align.center);
                 view.setTransform(true);
@@ -184,7 +184,7 @@ public final class HIResearchDialog extends BaseDialog {
             }
 
             @Override
-            public boolean mouseMoved(InputEvent event, float x, float y){
+            public boolean mouseMoved(InputEvent event, float x, float y) {
                 view.requestScroll();
                 return super.mouseMoved(event, x, y);
             }
@@ -192,10 +192,10 @@ public final class HIResearchDialog extends BaseDialog {
 
         touchable = Touchable.enabled;
 
-        addCaptureListener(new ElementGestureListener(){
+        addCaptureListener(new ElementGestureListener() {
             @Override
-            public void zoom(InputEvent event, float initialDistance, float distance){
-                if(view.lastZoom < 0){
+            public void zoom(InputEvent event, float initialDistance, float distance) {
+                if (view.lastZoom < 0) {
                     view.lastZoom = view.scaleX;
                 }
 
@@ -205,12 +205,12 @@ public final class HIResearchDialog extends BaseDialog {
             }
 
             @Override
-            public void touchUp(InputEvent event, float x, float y, int pointer, KeyCode button){
+            public void touchUp(InputEvent event, float x, float y, int pointer, KeyCode button) {
                 view.lastZoom = view.scaleX;
             }
 
             @Override
-            public void pan(InputEvent event, float x, float y, float deltaX, float deltaY){
+            public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
                 view.panX += deltaX / view.scaleX;
                 view.panY += deltaY / view.scaleY;
                 view.moved = true;
@@ -219,14 +219,14 @@ public final class HIResearchDialog extends BaseDialog {
         });
     }
 
-    public @Nullable TechNode getPrefRoot(){
+    public @Nullable TechNode getPrefRoot() {
         Planet currPlanet = ui.planet.isShown() ?
                 ui.planet.state.planet :
                 state.isCampaign() ? state.rules.sector.planet : null;
         return currPlanet == null ? null : currPlanet.techTree;
     }
 
-    public void switchTree(TechNode node){
+    public void switchTree(TechNode node) {
         if (lastNode == node || node == null) return;
         nodes.clear();
         root = new TechTreeNode(node, null);
@@ -234,7 +234,7 @@ public final class HIResearchDialog extends BaseDialog {
         view.rebuildAll();
     }
 
-    public void rebuildTree(TechNode node){
+    public void rebuildTree(TechNode node) {
         switchTree(node);
         view.panX = 0f;
         view.panY = -200f;
@@ -248,7 +248,7 @@ public final class HIResearchDialog extends BaseDialog {
         treeLayout();
     }
 
-    void treeLayout(){
+    void treeLayout() {
         float spacing = 20f;
         LayoutNode node = new LayoutNode(root, null);
         LayoutNode[] children = node.children;
@@ -256,14 +256,14 @@ public final class HIResearchDialog extends BaseDialog {
         LayoutNode[] rightHalf = Arrays.copyOfRange(node.children, Mathf.ceil(node.children.length/2f), node.children.length);
 
         node.children = leftHalf;
-        new BranchTreeLayout(){{
+        new BranchTreeLayout() {{
             gapBetweenLevels = gapBetweenNodes = spacing;
             rootLocation = TreeLocation.top;
         }}.layout(node);
 
         float lastY = node.y;
 
-        if(rightHalf.length > 0){
+        if (rightHalf.length > 0) {
 
             node.children = rightHalf;
             new BranchTreeLayout(){{
@@ -279,39 +279,39 @@ public final class HIResearchDialog extends BaseDialog {
         float minx = 0f, miny = 0f, maxx = 0f, maxy = 0f;
         copyInfo(node);
 
-        for(TechTreeNode n : nodes){
+        for (TechTreeNode n : nodes) {
             if(!n.visible) continue;
-            minx = Math.min(n.x - n.width/2f, minx);
-            maxx = Math.max(n.x + n.width/2f, maxx);
-            miny = Math.min(n.y - n.height/2f, miny);
-            maxy = Math.max(n.y + n.height/2f, maxy);
+            minx = Math.min(n.x - n.width / 2f, minx);
+            maxx = Math.max(n.x + n.width / 2f, maxx);
+            miny = Math.min(n.y - n.height / 2f, miny);
+            maxy = Math.max(n.y + n.height / 2f, maxy);
         }
         bounds = new Rect(minx, miny, maxx - minx, maxy - miny);
         bounds.y += nodeSize*1.5f;
     }
 
-    void shift(LayoutNode[] children, float amount){
+    void shift(LayoutNode[] children, float amount) {
         for (LayoutNode node : children){
             node.y += amount;
             if (node.children != null && node.children.length > 0) shift(node.children, amount);
         }
     }
 
-    void copyInfo(LayoutNode node){
+    void copyInfo(LayoutNode node) {
         node.node.x = node.x;
         node.node.y = node.y;
-        if (node.children != null){
+        if (node.children != null) {
             for (LayoutNode child : node.children){
                 copyInfo(child);
             }
         }
     }
 
-    void checkNodes(TechTreeNode node){
+    void checkNodes(TechTreeNode node) {
         boolean locked = locked(node.node);
-        if(!locked && (node.parent == null || node.parent.visible)) node.visible = true;
+        if (!locked && (node.parent == null || node.parent.visible)) node.visible = true;
         node.selectable = selectable(node.node);
-        for(TechTreeNode l : node.children){
+        for (TechTreeNode l : node.children) {
             l.visible = !locked && l.parent.visible;
             checkNodes(l);
         }
@@ -319,15 +319,15 @@ public final class HIResearchDialog extends BaseDialog {
         itemDisplay.rebuild(items);
     }
 
-    boolean selectable(TechNode node){
+    boolean selectable(TechNode node) {
         return node.content.unlocked() || !node.objectives.contains(i -> !i.complete());
     }
 
-    boolean locked(TechNode node){
+    boolean locked(TechNode node) {
         return node.content.locked();
     }
 
-    class LayoutNode extends TreeNode<LayoutNode>{
+    class LayoutNode extends TreeNode<LayoutNode> {
         final TechTreeNode node;
 
         LayoutNode(TechTreeNode node, LayoutNode parent){

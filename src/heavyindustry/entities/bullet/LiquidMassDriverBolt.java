@@ -18,11 +18,11 @@ public class LiquidMassDriverBolt extends BulletType {
 
     @Override
     public void draw(Bullet b) {
-        if(!(b.data() instanceof LiquidBulletData data)) return;
+        if (!(b.data() instanceof LiquidBulletData data)) return;
 
         float mid = 100;//threshold
 
-        float p = Math.min((int)(data.amount/mid) + 1, 3);
+        float p = Math.min((int) (data.amount / mid) + 1, 3);
 
         float w = 4 * p, h = 5 * p;
 
@@ -34,14 +34,14 @@ public class LiquidMassDriverBolt extends BulletType {
 
     @Override
     public void update(Bullet b) {
-        if(!(b.data() instanceof LiquidBulletData data)){
+        if (!(b.data() instanceof LiquidBulletData data)) {
             hit(b);
             return;
         }
 
         float hitDst = 7f;
 
-        if(data.to.dead()){
+        if (data.to.dead()) {
             return;
         }
 
@@ -51,22 +51,22 @@ public class LiquidMassDriverBolt extends BulletType {
 
         boolean intersect = false;
 
-        if(dst1 > baseDst){
+        if (dst1 > baseDst) {
             float angleTo = b.angleTo(data.to);
             float baseAngle = data.to.angleTo(data.from);
 
-            if(Angles.near(angleTo, baseAngle, 2f)){
+            if (Angles.near(angleTo, baseAngle, 2f)) {
                 intersect = true;
 
                 b.set(data.to.x + Angles.trnsx(baseAngle, hitDst), data.to.y + Angles.trnsy(baseAngle, hitDst));
             }
         }
 
-        if(Math.abs(dst1 + dst2 - baseDst) < 4f && dst2 <= hitDst){
+        if (Math.abs(dst1 + dst2 - baseDst) < 4f && dst2 <= hitDst) {
             intersect = true;
         }
 
-        if(intersect){
+        if (intersect) {
             data.to.handlePayload(b, data);
         }
     }
@@ -74,7 +74,7 @@ public class LiquidMassDriverBolt extends BulletType {
     @Override
     public void despawned(Bullet b) {
         super.despawned(b);
-        if(!(b.data() instanceof LiquidBulletData data)) return;
+        if (!(b.data() instanceof LiquidBulletData data)) return;
         Fx.hitLiquid.at(b.x, b.y, b.rotation(), data.liquid.color);
     }
 

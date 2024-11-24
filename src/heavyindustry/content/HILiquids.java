@@ -15,39 +15,29 @@ import static heavyindustry.core.HeavyIndustryMod.*;
 public final class HILiquids {
     public static Liquid
             brine,methane,nanofluid,nitratedOil;
-    public static void load(){
-        brine = new Liquid("brine", Color.valueOf("b8c89f")){{
+    public static void load() {
+        brine = new Liquid("brine", Color.valueOf("b8c89f")) {{
             coolant = false;
             viscosity = 0.8f;
             explosiveness = 0.1f;
         }};
-        methane = new Liquid("methane", Color.valueOf("fbd367")){{
+        methane = new Liquid("methane", Color.valueOf("fbd367")) {{
             gasColor = barColor = lightColor = color;
             gas = true;
             flammability = 1f;
             explosiveness = 1f;
         }};
-        nanofluid = new Liquid("nanofluid", Color.valueOf("7fd489")){{
+        nanofluid = new Liquid("nanofluid", Color.valueOf("7fd489")) {{
             heatCapacity = 1.5f;
             viscosity = 0.8f;
             temperature = 0.3f;
             lightColor = Color.valueOf("7fd489").a(0.3f);
             particleSpacing = 10;
-            particleEffect = new ParticleEffect(){{
-                particles = 5;
-                baseLength = sizeFrom = 1f;
-                length = 13f;
-                region = name("diamond");
-                sizeInterp = Interp.pow5In;
-                lifetime = 22f;
-                sizeTo = 0f;
-                colorFrom = Color.valueOf("96e6a0");
-                colorTo = Color.valueOf("62ae7f");
-            }};
+            particleEffect = HIFx.iceParticle;
             effect = StatusEffects.electrified;
             coolant = true;
         }};
-        nitratedOil = new Liquid("nitrated-oil", Color.valueOf("3c3e45")){{
+        nitratedOil = new Liquid("nitrated-oil", Color.valueOf("3c3e45")) {{
             temperature = 0.5f;
             viscosity = 0.8f;
             flammability = 0.8f;

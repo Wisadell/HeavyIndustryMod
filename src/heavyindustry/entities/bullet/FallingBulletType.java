@@ -1,6 +1,5 @@
 package heavyindustry.entities.bullet;
 
-import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -13,21 +12,26 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import heavyindustry.math.*;
 
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class FallingBulletType extends BulletType {
-    public float fallTime = 50f, fallSpread = 60f;
+    public float fallTime = 50f;
+    public float fallSpread = 60;
     public String sprite;
     public TextureRegion region;
     public Color regionColor = Color.white;
     public boolean canCollideFalling = false;
-    public float fallingRadius = 20f, fallingDamage = 100f;
+    public float fallingRadius = 20f;
+    public float fallingDamage = 100f;
     public Effect hitFallingEffect = Fx.none;
     public Color hitFallingColor = Color.white;
     public boolean fallingHitCollideGround = false;
+    public boolean immovable = true;
     public float minDistanceFallingCollide = 10f;
 
-    public FallingBulletType(String sprite){
+
+    public FallingBulletType(String sprite) {
         super(1f, 0f);
 
         this.sprite = sprite;
@@ -40,29 +44,31 @@ public class FallingBulletType extends BulletType {
     public void load() {
         super.load();
 
-        region = Core.atlas.find(sprite);
+        region = atlas.find(sprite);
     }
 
     @Override
-    public void init(Bullet b){
+    public void init(Bullet b) {
         super.init(b);
 
-        Tmp.v2.trns(b.rotation(), b.lifetime() * speed);
-        b.set(b.x + Tmp.v2.x, b.y + Tmp.v2.y);
+        if (immovable) {
+            Tmp.v2.trns(b.rotation(), b.lifetime() * speed);
+            b.set(b.x + Tmp.v2.x, b.y + Tmp.v2.y);
 
-        b.vel.setZero();
+            b.vel.setZero();
+        }
         b.lifetime(fallTime);
     }
 
     @Override
-    public void draw(Bullet b){
+    public void draw(Bullet b) {
         drawTrail(b);
         drawFalling(b, region, regionColor);
     }
 
-    public void drawFalling(Bullet b, TextureRegion region, Color col){
+    public void drawFalling(Bullet b, TextureRegion region, Color col) {
         float rot = getRotTrajectory(b);
-        float sclFall = 1f + getElevation(b)/4;
+        float sclFall = 1f + getElevation(b) / 4;
         float sclShadow = 0.1f + b.fin();
 
         Vec2 pos = getTrajectory(b);
@@ -80,34 +86,30 @@ public class FallingBulletType extends BulletType {
         Draw.reset();
     }
 
-
     @Override
     public void drawLight(Bullet b) {
-        if(lightOpacity <= 0f || lightRadius <= 0f) return;
+        if (lightOpacity <= 0f || lightRadius <= 0f) return;
         Drawf.light(getTrajectory(b), (1 + b.fout()) * lightRadius, lightColor, lightOpacity);
     }
 
     @Override
-    public void update(Bullet b){
+    public void update(Bullet b) {
         super.update(b);
         updateFalling(b);
     }
 
-    public void updateFalling(Bullet b){
-        if (canCollideFalling && isLanding(b)){
-            Teamc target = Units.closestTarget(b.team, b.x, b.y, fallingRadius,
-                    e -> e.checkTarget(true, false) && e.team != b.team && !b.hasCollided(e.id)
-            );
+    public void updateFalling(Bullet b) {
+        if (canCollideFalling && isLanding(b)) {
+            Teamc target = Units.closestTarget(b.team, b.x, b.y, fallingRadius, e -> e.checkTarget(true, false) && e.team != b.team && !b.hasCollided(e.id));//ONLY AIR UNITS
 
             Vec2 pos = getTrajectory(b);
 
-
-            if (target != null && pos.dst(target.x(), target.y()) < minDistanceFallingCollide){
+            if (target != null && pos.dst(target.x(), target.y()) < minDistanceFallingCollide) {
                 hitFalling(b);
 
                 if (pierce) {
                     b.collided.add(target.id());
-                }else {
+                } else {
                     b.remove();
                 }
             }
@@ -141,7 +143,6 @@ public class FallingBulletType extends BulletType {
                 trailEffect.at(pos.x, pos.y, trailRotation ? b.rotation() : trailParam, trailColor);
             }
         }
-
     }
 
     public void hitFalling(Bullet b){
@@ -173,7 +174,7 @@ public class FallingBulletType extends BulletType {
     }
 
     public Vec2 getOffsetTrajectory(Bullet b){
-        return Tmp.v2.trns(90 + (Mathf.randomSeed(b.id + 1) - 0.5f) * fallSpread/2, fallTime);
+        return Tmp.v2.trns(90 + (Mathf.randomSeed(b.id + 1) - 0.5f) * fallSpread / 2, fallTime);
     }
 
     public float getRotTrajectory(Bullet b){
@@ -184,5 +185,7 @@ public class FallingBulletType extends BulletType {
         return b.fout() * fallTime / 10;
     }
 
-    public boolean isLanding(Bullet b) {return b.fin() > 0.75; }
+    public boolean isLanding(Bullet b) {
+        return b.fin() > 0.75f;
+    }
 }

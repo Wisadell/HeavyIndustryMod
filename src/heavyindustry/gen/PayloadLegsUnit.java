@@ -32,14 +32,14 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     }
 
     @Override
-    public void update(){
+    public void update() {
         super.update();
-        if(payloadPower != null){
+        if (payloadPower != null) {
             payloadPower.clear();
         }
 
         //update power graph first, resolve everything
-        for(Payload pay : payloads){
+        for (Payload pay : payloads) {
             if(pay instanceof BuildPayload pb && pb.build.power != null){
                 if(payloadPower == null) payloadPower = new PowerGraph(false);
 
@@ -49,19 +49,19 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
             }
         }
 
-        if(payloadPower != null){
+        if (payloadPower != null) {
             payloadPower.update();
         }
 
-        for(Payload pay : payloads){
+        for (Payload pay : payloads) {
             pay.set(x, y, rotation);
             pay.update(self(), null);
         }
     }
 
     @Override
-    public void destroy(){
-        if(Vars.state.rules.unitPayloadsExplode) payloads.each(Payload::destroyed);
+    public void destroy() {
+        if (Vars.state.rules.unitPayloadsExplode) payloads.each(Payload::destroyed);
         super.destroy();
     }
 
@@ -71,37 +71,37 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     }
 
     @Override
-    public float payloadUsed(){
+    public float payloadUsed() {
         return payloads.sumf(p -> p.size() * p.size());
     }
 
     @Override
-    public boolean canPickup(Unit unit){
+    public boolean canPickup(Unit unit) {
         return type.pickupUnits && payloadUsed() + unit.hitSize * unit.hitSize <= type.payloadCapacity + 0.001f && unit.team == team() && unit.isAI();
     }
 
     @Override
-    public boolean canPickup(Building build){
+    public boolean canPickup(Building build) {
         return payloadUsed() + build.block.size * build.block.size * Vars.tilesize * Vars.tilesize <= type.payloadCapacity + 0.001f && build.canPickup() && build.team == team;
     }
 
     @Override
-    public boolean canPickupPayload(Payload pay){
-        return payloadUsed() + pay.size()*pay.size() <= type.payloadCapacity + 0.001f && (type.pickupUnits || !(pay instanceof UnitPayload));
+    public boolean canPickupPayload(Payload pay) {
+        return payloadUsed() + pay.size() * pay.size() <= type.payloadCapacity + 0.001f && (type.pickupUnits || !(pay instanceof UnitPayload));
     }
 
     @Override
-    public boolean hasPayload(){
+    public boolean hasPayload() {
         return payloads.size > 0;
     }
 
     @Override
-    public void addPayload(Payload load){
+    public void addPayload(Payload load) {
         payloads.add(load);
     }
 
     @Override
-    public void pickup(Unit unit){
+    public void pickup(Unit unit) {
         if(unit.isAdded()) unit.team.data().updateCount(unit.type, 1);
 
         unit.remove();
@@ -114,7 +114,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     }
 
     @Override
-    public void pickup(Building tile){
+    public void pickup(Building tile) {
         tile.pickedUp();
         tile.tile.remove();
         tile.afterPickedUp();
@@ -124,12 +124,12 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     }
 
     @Override
-    public boolean dropLastPayload(){
-        if(payloads.isEmpty()) return false;
+    public boolean dropLastPayload() {
+        if (payloads.isEmpty()) return false;
 
         Payload load = payloads.peek();
 
-        if(tryDropPayload(load)){
+        if (tryDropPayload(load)) {
             payloads.pop();
             return true;
         }
@@ -137,31 +137,31 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     }
 
     @Override
-    public boolean tryDropPayload(Payload payload){
+    public boolean tryDropPayload(Payload payload) {
         Tile on = tileOn();
 
         //clear removed state of unit so it can be synced
-        if(Vars.net.client() && payload instanceof UnitPayload u){
+        if (Vars.net.client() && payload instanceof UnitPayload u) {
             Vars.netClient.clearRemovedEntity(u.unit.id);
         }
 
         //drop off payload on an acceptor if possible
-        if(on != null && on.build != null && on.build.team == team && on.build.acceptPayload(on.build, payload)){
+        if (on != null && on.build != null && on.build.team == team && on.build.acceptPayload(on.build, payload)) {
             Fx.unitDrop.at(on.build);
             on.build.handlePayload(on.build, payload);
             return true;
         }
 
-        if(payload instanceof BuildPayload b){
+        if (payload instanceof BuildPayload b) {
             return dropBlock(b);
-        }else if(payload instanceof UnitPayload p){
+        } else if (payload instanceof UnitPayload p) {
             return dropUnit(p);
         }
         return false;
     }
 
     @Override
-    public boolean dropUnit(UnitPayload payload){
+    public boolean dropUnit(UnitPayload payload) {
         Unit u = payload.unit;
 
         //add random offset to prevent unit stacking
@@ -169,7 +169,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
 
         //can't drop ground units
         //allow stacking for small units for now - otherwise, unit transfer would get annoying
-        if(!u.canPass(World.toTile(x + Tmp.v1.x), World.toTile(y + Tmp.v1.y)) || Units.count(x, y, u.physicSize(), o -> o.isGrounded() && o.hitSize > 14f) > 1){
+        if (!u.canPass(World.toTile(x + Tmp.v1.x), World.toTile(y + Tmp.v1.y)) || Units.count(x, y, u.physicSize(), o -> o.isGrounded() && o.hitSize > 14f) > 1) {
             return false;
         }
 
@@ -183,7 +183,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         //reset the ID to a new value to make sure it's synced
         u.id = EntityGroup.nextId();
         //decrement count to prevent double increment
-        if(!u.isAdded()) u.team.data().updateCount(u.type, -1);
+        if (!u.isAdded()) u.team.data().updateCount(u.type, -1);
         u.add();
         u.unloaded();
         Events.fire(new PayloadDropEvent(self(), u));
@@ -193,15 +193,15 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
 
     /** @return whether the tile has been successfully placed. */
     @Override
-    public boolean dropBlock(BuildPayload payload){
+    public boolean dropBlock(BuildPayload payload) {
         Building tile = payload.build;
         int tx = World.toTile(x - tile.block.offset), ty = World.toTile(y - tile.block.offset);
         Tile on = Vars.world.tile(tx, ty);
-        if(on != null && Build.validPlace(tile.block, tile.team, tx, ty, tile.rotation, false)){
+        if (on != null && Build.validPlace(tile.block, tile.team, tx, ty, tile.rotation, false)) {
             payload.place(on, tile.rotation);
             Events.fire(new PayloadDropEvent(self(), tile));
 
-            if(getControllerName() != null){
+            if (getControllerName() != null) {
                 payload.build.lastAccessed = getControllerName();
             }
 
@@ -219,17 +219,17 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     }
 
     @Override
-    public void contentInfo(Table table, float itemSize, float width){
+    public void contentInfo(Table table, float itemSize, float width) {
         table.clear();
         table.top().left();
 
         float pad = 0;
         float items = payloads.size;
-        if(itemSize * items + pad * items > width){
+        if (itemSize * items + pad * items > width) {
             pad = (width - (itemSize) * items) / items;
         }
 
-        for(Payload p : payloads){
+        for (Payload p : payloads) {
             table.image(p.icon()).size(itemSize).padRight(pad);
         }
     }
@@ -239,9 +239,9 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         super.read(read);
         int r = read.i();
         payloads.clear();
-        for(int i = 0; i < r; i++) {
+        for (int i = 0; i < r; i++) {
             Payload p = TypeIO.readPayload(read);
-            if(p != null) payloads.add(p);
+            if (p != null) payloads.add(p);
         }
     }
 
@@ -249,7 +249,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     public void write(Writes write) {
         super.write(write);
         write.i(payloads.size);
-        for(int i = 0; i < payloads.size; i++) {
+        for (int i = 0; i < payloads.size; i++) {
             TypeIO.writePayload(write, payloads.get(i));
         }
     }
@@ -259,9 +259,9 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         super.readSync(read);
         int r = read.i();
         payloads.clear();
-        for(int i = 0; i < r; i++) {
+        for (int i = 0; i < r; i++) {
             Payload p = TypeIO.readPayload(read);
-            if(p != null) payloads.add(p);
+            if (p != null) payloads.add(p);
         }
     }
 
@@ -269,7 +269,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     public void writeSync(Writes write) {
         super.writeSync(write);
         write.i(payloads.size);
-        for(int i = 0; i < payloads.size; i++) {
+        for (int i = 0; i < payloads.size; i++) {
             TypeIO.writePayload(write, payloads.get(i));
         }
     }

@@ -15,14 +15,7 @@ public final class Draw3d {
     public static final Mat3D tmpMat3 = new Mat3D();
     public static final Mat3D tmpMat4 = new Mat3D();
     public static final Mat3D tmpMat5 = new Mat3D();
-    public static final Vec3
-            v1 = new Vec3(),
-            v2 = new Vec3(),
-            v3 = new Vec3(),
-            v4 = new Vec3(),
-            v5 = new Vec3(),
-            v6 = new Vec3(),
-            v7 = new Vec3();
+    public static final Vec3 v1 = new Vec3(), v2 = new Vec3(), v3 = new Vec3(), v4 = new Vec3(), v5 = new Vec3(), v6 = new Vec3(), v7 = new Vec3();
     static float[] vertices = new float[3 * 2 * 4];
 
     public static void rect(Mat3D mat3D, TextureRegion region, float x, float y, float width, float height, float rotation) {
