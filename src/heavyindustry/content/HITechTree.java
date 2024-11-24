@@ -20,7 +20,7 @@ import static mindustry.content.SectorPresets.*;
  */
 public final class HITechTree {
     public static TechNode context = null;
-    public static void load(){
+    public static void load() {
         //items,liquids
         vanillaNode(Liquids.water, () -> nodeProduce(HILiquids.brine, () -> {}));
         vanillaNode(Liquids.oil, () -> nodeProduce(HILiquids.nitratedOil, () -> {}));
@@ -281,24 +281,24 @@ public final class HITechTree {
         children.run();
     }
 
-    public static void removeNode(UnlockableContent content){
+    public static void removeNode(UnlockableContent content) {
         context = TechTree.all.find(t -> t.content == content);
-        if(context != null){
+        if (context != null) {
             context.remove();
         }
     }
 
-    public static void node(UnlockableContent content, Runnable children){
+    public static void node(UnlockableContent content, Runnable children) {
         node(content, content.researchRequirements(), children);
     }
 
-    public static void node(UnlockableContent content, ItemStack[] requirements, Runnable children){
+    public static void node(UnlockableContent content, ItemStack[] requirements, Runnable children) {
         node(content, requirements, null, children);
     }
 
-    public static void node(UnlockableContent content, ItemStack[] requirements, Seq<Objective> objectives, Runnable children){
+    public static void node(UnlockableContent content, ItemStack[] requirements, Seq<Objective> objectives, Runnable children) {
         TechNode node = new TechNode(context, content, requirements);
-        if(objectives != null) node.objectives.addAll(objectives);
+        if (objectives != null) node.objectives.addAll(objectives);
 
         TechNode prev = context;
         context = node;
@@ -306,15 +306,15 @@ public final class HITechTree {
         context = prev;
     }
 
-    public static void node(UnlockableContent content, Seq<Objective> objectives, Runnable children){
+    public static void node(UnlockableContent content, Seq<Objective> objectives, Runnable children) {
         node(content, content.researchRequirements(), objectives, children);
     }
 
-    public static void nodeProduce(UnlockableContent content, Seq<Objective> objectives, Runnable children){
+    public static void nodeProduce(UnlockableContent content, Seq<Objective> objectives, Runnable children) {
         node(content, content.researchRequirements(), objectives.add(new Produce(content)), children);
     }
 
-    public static void nodeProduce(UnlockableContent content, Runnable children){
+    public static void nodeProduce(UnlockableContent content, Runnable children) {
         nodeProduce(content, new Seq<>(), children);
     }
 }

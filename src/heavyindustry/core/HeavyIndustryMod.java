@@ -4,6 +4,7 @@ import heavyindustry.content.*;
 import heavyindustry.game.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
+import heavyindustry.graphics.Draws.*;
 import heavyindustry.ui.*;
 import heavyindustry.ui.dialogs.*;
 import heavyindustry.util.*;
@@ -40,18 +41,18 @@ public final class HeavyIndustryMod extends Mod {
     public static final String modName = "heavy-industry";
 
     /** Omitting longer mod names is generally used to load mod sprites. */
-    public static String name(String add){
+    public static String name(String add) {
         return modName + "-" + add;
     }
 
-    public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode"), developerMode = settings.getBool("hi-developer-mode");
+    public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode"), developer = settings.getBool("hi-developer-mode");
 
     private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
     public static String massageRand = "oh no";
 
     public static LoadedMod modInfo;
 
-    public HeavyIndustryMod(){
+    public HeavyIndustryMod() {
         Log.info("Loaded HeavyIndustry Mod constructor.");
 
         HIClassMap.load();
@@ -81,7 +82,7 @@ public final class HeavyIndustryMod extends Mod {
     }
 
     @Override
-    public void loadContent(){
+    public void loadContent() {
         EntityRegister.load();
         WorldRegister.load();
 
@@ -101,13 +102,13 @@ public final class HeavyIndustryMod extends Mod {
         HISectorPresets.load();
         HITechTree.load();
 
-        HIUtils.loadItems();
+        Utils.loadItems();
     }
 
     @Override
-    public void init(){
-        if(!headless){
-            Draws.ScreenSampler.setup();
+    public void init() {
+        if(!headless) {
+            ScreenSampler.setup();
 
             TableUtils.init();
         }
@@ -117,18 +118,18 @@ public final class HeavyIndustryMod extends Mod {
         settings.defaults("hi-tesla-range", true);
         settings.defaults("hi-plug-in-mode", false);
 
-        mod().meta.hidden = onlyPlugIn;
-        if(onlyPlugIn){
-            mod().meta.displayName = mod().meta.displayName + "PlugIn";
-            mod().meta.version = mod().meta.version + "-plug-in";
-        }else{
-            if(mods.getMod("extra-utilities") == null && isAprilFoolsDay()){
+        modInfo.meta.hidden = onlyPlugIn;
+        if (onlyPlugIn) {
+            modInfo.meta.displayName = modInfo.meta.displayName + "PlugIn";
+            modInfo.meta.version = modInfo.meta.version + "-plug-in";
+        } else {
+            if (mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
                 HIOverride.loadAprilFoolsDay();
                 if(ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
             }
         }
 
-        if(ui != null && ui.settings != null){
+        if (ui != null && ui.settings != null) {
             BaseDialog dialog = new BaseDialog("tips");
             Runnable exit = () -> {
                 dialog.hide();
@@ -174,18 +175,14 @@ public final class HeavyIndustryMod extends Mod {
         setString();
     }
 
-    public static LoadedMod mod(){
-        return modInfo;
-    }
-
-    public static boolean isAprilFoolsDay(){
+    public static boolean isAprilFoolsDay() {
         LocalDate date = LocalDate.now();
         DateTimeFormatter sdf = DateTimeFormatter.ofPattern("MMdd");
         String fd = sdf.format(date);
         return fd.equals("0401");
     }
 
-    private static void showDialog(){
+    private static void showDialog() {
         if (settings.getBool("hi-closed-dialog")) return;
 
         FLabel label = new FLabel(bundle.get("hi-author") + author);
@@ -210,7 +207,7 @@ public final class HeavyIndustryMod extends Mod {
         dialog.show();
     }
 
-    private static void showAprilFoolsDayDialog(){
+    private static void showAprilFoolsDayDialog() {
         BaseDialog dialog = new BaseDialog(bundle.get("hi-name")){
             private int con = 0;
             private float bx, by;
@@ -226,7 +223,7 @@ public final class HeavyIndustryMod extends Mod {
         }
             @Override
             public void hide() {
-                if(con >= 5) {
+                if (con >= 5) {
                     super.hide();
                     return;
                 }
@@ -238,31 +235,31 @@ public final class HeavyIndustryMod extends Mod {
         dialog.show();
     }
 
-    private static void showMultipleMods(){
+    private static void showMultipleMods() {
         if (settings.getBool("hi-closed-multiple-mods")) return;
 
         boolean announces = true;
 
-        for(LoadedMod mod : mods.orderedMods()) if(!modName.equals(mod.meta.name) && !mod.meta.hidden){
+        for (LoadedMod mod : mods.orderedMods()) if (!modName.equals(mod.meta.name) && !mod.meta.hidden) {
             announces = false;
             break;
         }
 
-        if(announces) return;
-        BaseDialog dialog = new BaseDialog("oh-no"){
+        if (announces) return;
+        BaseDialog dialog = new BaseDialog("oh-no") {
             float time = 300f;
             boolean canClose;
         {
             update(() -> canClose = (time -= Time.delta) <= 0f);
             cont.add(bundle.get("hi-multiple-mods"));
             buttons.button("", this::hide).update(b -> {
-                b.setDisabled(!canClose);b.setText(canClose ? "@close" : String.format("%s(%ss)", "@close", Strings.fixed(time / 60.0f, 1)));
+                b.setDisabled(!canClose);b.setText(canClose ? "@close" : String.format("%s(%ss)", "@close", Strings.fixed(time / 60f, 1)));
             }).size(210f, 64f);
         }};
         dialog.show();
     }
 
-    private static void setString(){
+    private static void setString() {
         String massage = bundle.get("hi-random-massage");
         String[] massageSplit = massage.split("/");
 
@@ -270,9 +267,9 @@ public final class HeavyIndustryMod extends Mod {
 
         massageRand = massageSplit[Mathf.random(length - 1)];
 
-        mod().meta.displayName = bundle.get("hi-name");
+        modInfo.meta.displayName = bundle.get("hi-name");
 
-        if(ui == null || mods.getMod("extra-utilities") != null) return;
+        if (ui == null || mods.getMod("extra-utilities") != null) return;
 
         HIMenuFragment subTitle = new HIMenuFragment(massageRand);
         subTitle.build(ui.menuGroup);
@@ -284,9 +281,9 @@ public final class HeavyIndustryMod extends Mod {
 
         protected String title = "oh no";
 
-        public HIMenuFragment(){}
+        public HIMenuFragment() {}
 
-        public HIMenuFragment(String title){
+        public HIMenuFragment(String title) {
             this.title = title;
         }
 
@@ -300,7 +297,7 @@ public final class HeavyIndustryMod extends Mod {
 
                 float fx = (int)(width / 2f);
                 float fy = (int)(height - 6 - logoh) + logoh / 2 - (graphics.isPortrait() ? Scl.scl(30f) : 0f);
-                if(settings.getBool("macnotch") ){
+                if (settings.getBool("macnotch")) {
                     fy -= Scl.scl(macNotchHeight);
                 }
 
@@ -309,8 +306,8 @@ public final class HeavyIndustryMod extends Mod {
 
                 float dst = Mathf.dst(ex, ey, 0, 0);
                 vec2.set(0, 0);
-                float dx = HIUtils.dx(0, dst, vec2.angleTo(ex, ey) + ang);
-                float dy = HIUtils.dy(0, dst, vec2.angleTo(ex, ey) + ang);
+                float dx = Utils.dx(0, dst, vec2.angleTo(ex, ey) + ang);
+                float dy = Utils.dy(0, dst, vec2.angleTo(ex, ey) + ang);
 
                 reMat.set(Draw.trans());
 

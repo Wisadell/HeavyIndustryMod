@@ -20,8 +20,8 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  */
 public final class HIWeathers {
     public static Weather wind,blizzard,hailStone,stoneStorm;
-    public static void load(){
-        wind = new EffectWeather("wind"){{
+    public static void load() {
+        wind = new EffectWeather("wind") {{
             weatherFx = HIFx.windTail;
             particleRegion = "particle";
             sizeMax = 5f;
@@ -36,7 +36,7 @@ public final class HIWeathers {
             maxSpawn = 2;
             duration = 8f * Time.toMinutes;
         }};
-        blizzard = new ParticleWeather("blizzard"){{
+        blizzard = new ParticleWeather("blizzard") {{
             particleRegion = "particle";
             sizeMax = 14f;
             sizeMin = 3f;
@@ -53,7 +53,7 @@ public final class HIWeathers {
             soundVolOscScl = 1100f;
             soundVolMin = 0.15f;
         }};
-        hailStone = new HailStormWeather("hail-storm"){{
+        hailStone = new HailStormWeather("hail-storm") {{
             attrs.set(Attribute.light, -0.5f);
             drawParticles = inBounceCam = drawNoise = false;
             duration = 15f * Time.toMinutes;
@@ -61,7 +61,7 @@ public final class HIWeathers {
             soundVol = 0.05f;
             sound = HISounds.hailRain;
             setBullets(
-                    new HailStoneBulletType(name("hailstone-big"), 3){{
+                    new HailStoneBulletType(name("hailstone-big"), 3) {{
                         hitEffect = Fx.explosion.layer(Layer.power);
                         hitSound = HISounds.bigHailstoneHit;
                         hitSoundVolume = 0.2f;
@@ -75,7 +75,7 @@ public final class HIWeathers {
                         hitFallingEffect = HIFx.bigExplosionStone;
                         hitFallingColor = Color.valueOf("5867ac");
                     }}, 1 / 1600f,
-                    new HailStoneBulletType(name("hailstone-middle"), 2){{
+                    new HailStoneBulletType(name("hailstone-middle"), 2) {{
                         hitEffect = Fx.dynamicWave.layer(Layer.power);
                         despawnEffect = HIFx.fellStone;
                         splashDamage = 10f;
@@ -87,7 +87,7 @@ public final class HIWeathers {
                         hitFallingEffect = HIFx.explosionStone;
                         hitFallingColor = Color.valueOf("5867ac");
                     }}, 1 / 12f,
-                    new HailStoneBulletType(name("hailstone-small"), 5){{
+                    new HailStoneBulletType(name("hailstone-small"), 5) {{
                         hitEffect = Fx.none;
                         despawnEffect = HIFx.fellStone;
                         splashDamage = 0f;
@@ -108,7 +108,7 @@ public final class HIWeathers {
             soundVol = 0.05f;
             sound = Sounds.wind;
             setBullets(
-                    new HailStoneBulletType(name("stone-storm-big"), 3){{
+                    new HailStoneBulletType(name("stone-storm-big"), 3) {{
                         speed = 4f;
                         hitEffect = Fx.explosion.layer(Layer.power);
                         hitSound = HISounds.bigHailstoneHit;
@@ -124,7 +124,7 @@ public final class HIWeathers {
                         hitFallingEffect = HIFx.bigExplosionStone;
                         hitFallingColor = Color.valueOf("5e9098");
                     }}, 1 / 1600f,
-                    new HailStoneBulletType(name("stone-storm-middle"), 2){{
+                    new HailStoneBulletType(name("stone-storm-middle"), 2) {{
                         speed = 4f;
                         hitEffect = Fx.none;
                         despawnEffect = HIFx.fellStoneAghanite;
@@ -138,7 +138,7 @@ public final class HIWeathers {
                         hitFallingEffect = HIFx.explosionStone;
                         hitFallingColor = Color.valueOf("5e9098");
                     }}, 1 / 12f,
-                    new HailStoneBulletType(name("stone-storm-small"), 5){{
+                    new HailStoneBulletType(name("stone-storm-small"), 5) {{
                         speed = 4f;
                         immovable = false;
                         hitEffect = Fx.none;

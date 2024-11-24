@@ -36,7 +36,7 @@ import static mindustry.type.ItemStack.*;
  * @author Wisadell
  */
 public final class HIOverride {
-    public static void load(){
+    public static void load() {
         //Blocks-Environment
         Blocks.sandWater.itemDrop = Blocks.darksandWater.itemDrop = Blocks.darksandTaintedWater.itemDrop = Items.sand;
         Blocks.sandWater.playerUnmineable = Blocks.darksandWater.playerUnmineable = Blocks.darksandTaintedWater.playerUnmineable = true;
@@ -393,7 +393,7 @@ public final class HIOverride {
         sc.removeAll(b -> b.localizedName == null || b.description == null);
         for (int i = 0; i < sc.size; i++) {
             Block b = sc.get(i);
-            if(b != null) {
+            if (b != null) {
                 String l = b.localizedName;
                 String n = b.description;
                 int d = Mathf.random(sc.size - 1);

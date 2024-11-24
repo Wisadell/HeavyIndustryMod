@@ -28,7 +28,7 @@ import static mindustry.mod.ClassMap.*;
 
 /** Generated class. Maps simple class names to concrete classes. For use in JSON attached mods. */
 final class HIClassMap {
-    static void load(){
+    static void load() {
         //ai
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
@@ -40,7 +40,7 @@ final class HIClassMap {
         classes.put("DeathAbility", DeathAbility.class);
         //bullets
         classes.put("AccelBulletType", AccelBulletType.class);
-        classes.put("AdaptedLightningBulletType", AdaptedLightningBulletType.class);
+        classes.put("LightningBulletTypeF", LightningBulletTypeF.class);
         classes.put("AimToPosBulletType", AimToPosBulletType.class);
         classes.put("CritBulletType", CritBulletType.class);
         classes.put("CtrlMissileBulletType", CtrlMissileBulletType.class);
@@ -63,7 +63,7 @@ final class HIClassMap {
         classes.put("Shooter", LaserWall.Shooter.class);
         //effects
         classes.put("LightningEffect", LightningEffect.class);
-        classes.put("EffectWrapper", EffectWrapper.class);
+        classes.put("WrapperEffect", WrapperEffect.class);
         //parts
         classes.put("HIDrawPart", HIPartProgress.class);
         classes.put("ConstructPart", ConstructPart.class);
@@ -123,8 +123,8 @@ final class HIClassMap {
         classes.put("EruptorTurretBuild", EruptorTurret.EruptorTurretBuild.class);
         classes.put("TeslaTurret", TeslaTurret.class);
         classes.put("TeslaTurretBuild", TeslaTurret.TeslaTurretBuild.class);
-        classes.put("AdaptDirectionalUnloader", AdaptDirectionalUnloader.class);
-        classes.put("AdaptDirectionalUnloaderBuild", AdaptDirectionalUnloader.AdaptDirectionalUnloaderBuild.class);
+        classes.put("DirectionalUnloaderF", DirectionalUnloaderF.class);
+        classes.put("DirectionalUnloaderBuildF", DirectionalUnloaderF.DirectionalUnloaderBuildF.class);
         classes.put("BeltConveyor", BeltConveyor.class);
         classes.put("BeltConveyorBuild", BeltConveyor.BeltConveyorBuild.class);
         classes.put("BeltStackConveyor", BeltStackConveyor.class);
@@ -141,8 +141,6 @@ final class HIClassMap {
         classes.put("DuctJunctionBuild", DuctJunction.DuctJunctionBuild.class);
         classes.put("InvertedJunction", InvertedJunction.class);
         classes.put("InvertedJunctionBuild", InvertedJunction.InvertedJunctionBuild.class);
-        classes.put("MultiInvertedJunction", MultiInvertedJunction.class);
-        classes.put("MultiInvertedJunctionBuild", MultiInvertedJunction.MultiInvertedJunctionBuild.class);
         classes.put("MultiJunction", MultiJunction.class);
         classes.put("MultiJunctionBuild", MultiJunction.MultiJunctionBuild.class);
         classes.put("MultiRouter", MultiRouter.class);
@@ -169,6 +167,8 @@ final class HIClassMap {
         classes.put("SortLiquidRouterBuild", SortLiquidRouter.SortLiquidRouterBuild.class);
         classes.put("BeltConduit", BeltConduit.class);
         classes.put("BeltConduitBuild", BeltConduit.BeltConduitBuild.class);
+        classes.put("TubeConduit", TubeConduit.class);
+        classes.put("TubeConduitBuild", TubeConduit.TubeConduitBuild.class);
         classes.put("LiquidOverflowValve", LiquidOverflowValve.class);
         classes.put("LiquidOverfloatValveBuild", LiquidOverflowValve.LiquidOverfloatValveBuild.class);
         classes.put("LiquidUnloader", LiquidUnloader.class);
@@ -192,8 +192,8 @@ final class HIClassMap {
         classes.put("DerivativeUnitFactoryBuild", DerivativeUnitFactory.DerivativeUnitFactoryBuild.class);
         classes.put("UnitBoost", UnitBoost.class);
         classes.put("UnitBoostBuild", UnitBoost.UnitBoostBuild.class);
-        classes.put("AdaptPayloadSource", AdaptPayloadSource.class);
-        classes.put("AdaptPayloadSourceBuild", AdaptPayloadSource.AdaptPayloadSourceBuild.class);
+        classes.put("PayloadSourceF", PayloadSourceF.class);
+        classes.put("PayloadSourceBuildF", PayloadSourceF.PayloadSourceBuildF.class);
         classes.put("PowerAnalyzer", PowerAnalyzer.class);
         classes.put("PowerAnalyzerBuild", PowerAnalyzer.PowerAnalyzerBuild.class);
         classes.put("BeamDiode", BeamDiode.class);
@@ -235,8 +235,8 @@ final class HIClassMap {
         classes.put("DeliveryModuleBuild", DeliveryModule.DeliveryModuleBuild.class);
         classes.put("MinerPoint", MinerPoint.class);
         classes.put("MinerPointBuild", MinerPoint.MinerPointBuild.class);
-        classes.put("AdaptUnloader", AdaptUnloader.class);
-        classes.put("AdaptUnloaderBuild", AdaptUnloader.AdaptUnloaderBuild.class);
+        classes.put("UnloaderF", UnloaderF.class);
+        classes.put("UnloaderBuildF", UnloaderF.UnloaderBuildF.class);
         classes.put("CoreStorageBlock", CoreStorageBlock.class);
         classes.put("CoreStorageBuild", CoreStorageBlock.CoreStorageBuild.class);
         classes.put("RandomSource", RandomSource.class);
