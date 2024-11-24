@@ -8,7 +8,7 @@ import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
 
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 
 /**
  * Display multi-layer textures in sequence according to the progress of the building.

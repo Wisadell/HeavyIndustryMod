@@ -13,11 +13,11 @@ import mindustry.world.*;
 import mindustry.world.draw.*;
 
 public class DrawPrinter extends DrawDefault {
-    public DrawPrinter(Item item){
+    public DrawPrinter(Item item) {
         this.toPrint = item;
     }
 
-    public DrawPrinter(){
+    public DrawPrinter() {
         this.toPrint = Items.copper;
     }
 
@@ -56,7 +56,7 @@ public class DrawPrinter extends DrawDefault {
     }
 
     @Override
-    public void drawLight(Building build){
+    public void drawLight(Building build) {
         Drawf.light(build.x, build.y, build.warmup() * build.block.size * Vars.tilesize, lightColor, 0.7f);
     }
 

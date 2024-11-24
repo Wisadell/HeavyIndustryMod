@@ -24,27 +24,27 @@ public class DrawEdgeLinkBits<T extends Building> extends DrawBlock {
     public String suffix = "-linker";
 
     @Override
-    public void load(Block block){
+    public void load(Block block) {
         super.load(block);
         linker = atlas.find(block.name + suffix);
     }
 
     @Override
-    public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list){}
+    public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {}
 
     @Override
-    public void draw(Building build){
+    public void draw(Building build) {
         float z = Draw.z();
         if (layer > 0) Draw.z(layer);
-        for(int dir = 0; dir < 4; dir++){
-            Point2[] arr = HIUtils.DirEdges.get(build.block.size, dir);
+        for (int dir = 0; dir < 4; dir++) {
+            Point2[] arr = DirEdges.get(build.block.size, dir);
             byte[] linkBits = this.compLinked.get((T) build);
-            for(int i = 0; i < arr.length; i++){
-                if((linkBits[dir] & 1 << i) == 0) continue;
+            for (int i = 0; i < arr.length; i++) {
+                if ((linkBits[dir] & 1 << i) == 0) continue;
                 float dx = 0, dy = 0;
 
                 Draw.scl(1, dir == 1 || dir == 2? -1: 1);
-                switch(dir){
+                switch(dir) {
                     case 0 -> dx = -1;
                     case 1 -> dy = -1;
                     case 2 -> dx = 1;

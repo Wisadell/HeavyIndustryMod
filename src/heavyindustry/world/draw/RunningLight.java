@@ -17,7 +17,7 @@ public class RunningLight extends DrawBlock {
     public Color color = Pal.accent;
     public boolean contrary = true;
 
-    public RunningLight(int size){
+    public RunningLight(int size) {
         this.size = size;
         this.regions = new TextureRegion[size];
     }
@@ -32,11 +32,11 @@ public class RunningLight extends DrawBlock {
 
     @Override
     public void draw(Building build) {
-        for(int i = 0; i < size; i ++){
+        for (int i = 0; i < size; i ++) {
             float sin = Mathf.absin(Time.time + i * (60f/size), 6, 1);
             float a = sin * build.warmup();
             Draw.color(color.cpy().a(a));
-            if(build instanceof TurretBuild) Draw.rect(regions[i], build.x + ((TurretBuild)build).recoilOffset.x, build.y + ((TurretBuild)build).recoilOffset.y, build.drawrot());
+            if (build instanceof TurretBuild) Draw.rect(regions[i], build.x + ((TurretBuild)build).recoilOffset.x, build.y + ((TurretBuild)build).recoilOffset.y, build.drawrot());
             else Draw.rect(regions[i], build.x, build.y, build.drawrot());
         }
         Draw.reset();

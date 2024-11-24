@@ -23,29 +23,29 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public final class HIStatValues {
-    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map){
+    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map) {
         return ammo(map, 0, false);
     }
 
-    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map, boolean showUnit){
+    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map, boolean showUnit) {
         return ammo(map, 0, showUnit);
     }
 
-    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map, int indent, boolean showUnit){
+    public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map, int indent, boolean showUnit) {
         return table -> {
             table.row();
 
             Seq<T> orderedKeys = map.keys().toSeq();
             orderedKeys.sort();
 
-            for(T t : orderedKeys) {
+            for (T t : orderedKeys) {
                 boolean compact = t instanceof UnitType && !showUnit || indent > 0;
                 if (!compact && !(t instanceof Turret)) {
                     table.image(icon(t)).size(3 * 8).padRight(4).right().top();
                     table.add(t.localizedName).padRight(10).left().top();
                 }
                 table.row();
-                for(BulletType type : map.get(t)){
+                for (BulletType type : map.get(t)) {
                     if (type.spawnUnit != null && type.spawnUnit.weapons.size > 0) {
                         ammo(ObjectMap.of(t, type.spawnUnit.weapons.first().bullet), indent, false).display(table);
                         return;
@@ -141,7 +141,7 @@ public final class HIStatValues {
                 t.add(bundle.format("bullet.lightning", maxTargets, damage));
                 t.row();
 
-                if(status != StatusEffects.none){
+                if (status != StatusEffects.none) {
                     t.add((status.minfo.mod == null ? status.emoji() : "") + "[stat]" + status.localizedName);
                 }
             }).padTop(-9).left().get().background(Tex.underline);
@@ -153,11 +153,11 @@ public final class HIStatValues {
         table.add(text);
     }
 
-    private static TextureRegion icon(UnlockableContent t){
+    private static TextureRegion icon(UnlockableContent t) {
         return t.uiIcon;
     }
 
-    public static StatValue colorString(Color color, CharSequence s){
+    public static StatValue colorString(Color color, CharSequence s) {
         return table -> {
             table.row();
             table.table(c -> {
@@ -168,9 +168,9 @@ public final class HIStatValues {
         };
     }
 
-    public static <T extends UnlockableContent> StatValue ammoString(ObjectMap<T, BulletType> map){
+    public static <T extends UnlockableContent> StatValue ammoString(ObjectMap<T, BulletType> map) {
         return table -> {
-            for(T i : map.keys()){
+            for (T i : map.keys()) {
                 table.row();
                 table.table(c -> {
                     c.image(icon(i)).size(32).scaling(Scaling.fit).padRight(4).left().top();
@@ -186,14 +186,14 @@ public final class HIStatValues {
         return table -> {
             table.row();
             table.table(c -> {
-                for(Item item : content.items()){
-                    if(!filter.get(item)) continue;
+                for (Item item : content.items()) {
+                    if (!filter.get(item)) continue;
 
                     c.table(Styles.grayPanel, b -> {
-                        for(ItemStack stack : items){
-                            if(timePeriod < 0){
+                        for (ItemStack stack : items) {
+                            if (timePeriod < 0) {
                                 b.add(new ItemDisplay(stack.item, stack.amount, true)).pad(20f).left();
-                            }else{
+                            } else {
                                 b.add(new ItemDisplay(stack.item, stack.amount, timePeriod, true)).pad(20f).left();
                             }
                             if(items.length > 1) b.row();
@@ -201,20 +201,20 @@ public final class HIStatValues {
 
                         b.table(bt -> {
                             bt.left().defaults().left();
-                            if(status.length > 0){
-                                for(StatusEffect s : status){
-                                    if(s == StatusEffects.none) continue;
+                            if (status.length > 0) {
+                                for (StatusEffect s : status) {
+                                    if (s == StatusEffects.none) continue;
                                     bt.row();
-                                    bt.add(HIUtils.selfStyleImageButton(new TextureRegionDrawable(s.uiIcon), Styles.emptyi, () -> ui.content.show(s))).padTop(2f).padBottom(6f).size(42);
+                                    bt.add(Utils.selfStyleImageButton(new TextureRegionDrawable(s.uiIcon), Styles.emptyi, () -> ui.content.show(s))).padTop(2f).padBottom(6f).size(42);
                                     bt.add(s.localizedName).padLeft(5);
                                 }
-                                if(replace){
+                                if (replace) {
                                     bt.row();
                                     bt.add(bundle.get("hi-stat-value-replace"));
                                 }
                             }
                             bt.row();
-                            if(rangeBoost != 0) bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
+                            if (rangeBoost != 0) bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
                         }).right().grow().pad(10f).padRight(15f);
                     }).growX().pad(5).padBottom(-5).row();
                 }

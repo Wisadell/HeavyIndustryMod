@@ -16,14 +16,14 @@ public class DrawExpandPlasma extends DrawPlasma {
     public float cycle = 15;
     public float expandSpeed = 0.8f;
 
-    public DrawExpandPlasma(){
+    public DrawExpandPlasma() {
         suffix = "-plasma-";
     }
 
     @Override
-    public void draw(Building entity){
+    public void draw(Building entity) {
         Draw.blend(Blending.additive);
-        for(int i = 0; i < regions.length; i++){
+        for (int i = 0; i < regions.length; i++) {
             float r = entity.block.size * tilesize * (2f / 3f) + ((Time.time % cycle) / cycle) * expandSpeed * entity.block.size * tilesize * (2f / 3);
             float rd = entity.block.size * tilesize * (2f / 3f) + ((Time.time * 1.65f % cycle) / cycle) * expandSpeed * entity.block.size * tilesize * (2f / 3);
 
@@ -37,7 +37,7 @@ public class DrawExpandPlasma extends DrawPlasma {
     }
 
     @Override
-    public TextureRegion[] icons(Block block){
-        return HIUtils.EMP_REGIONS;
+    public TextureRegion[] icons(Block block) {
+        return Utils.EMP_REGIONS;
     }
 }

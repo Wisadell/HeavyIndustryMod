@@ -32,7 +32,7 @@ public class DrawScanLine extends DrawBlock implements Cloneable {
     public float x, y;
 
     @Override
-    public void draw(Building build){
+    public void draw(Building build) {
         Draw.blend(blending);
         Draw.color(colorFrom, colorTo, Mathf.absin(build.totalProgress() * totalProgressMultiplier + phaseOffset, colorLerpScl, colorLerpRatio));
         Draw.alpha(alpha * build.warmup());
@@ -48,16 +48,16 @@ public class DrawScanLine extends DrawBlock implements Cloneable {
         Draw.blend();
     }
 
-    public DrawScanLine copyAnd(Cons<DrawScanLine> modifier){
+    public DrawScanLine copyAnd(Cons<DrawScanLine> modifier) {
         DrawScanLine n = copy();
         modifier.get(n);
         return n;
     }
 
-    public DrawScanLine copy(){
-        try{
-            return (DrawScanLine)super.clone();
-        }catch(CloneNotSupportedException e){
+    public DrawScanLine copy() {
+        try {
+            return (DrawScanLine) super.clone();
+        } catch (Exception e){
             throw new AssertionError();
         }
     }

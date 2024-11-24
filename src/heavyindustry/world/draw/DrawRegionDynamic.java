@@ -30,14 +30,14 @@ public class DrawRegionDynamic<E extends Building> extends DrawBlock {
 
     public boolean makeIcon = false;
 
-    public DrawRegionDynamic(String suffix){
+    public DrawRegionDynamic(String suffix) {
         this.suffix = suffix;
     }
 
-    public DrawRegionDynamic(){}
+    public DrawRegionDynamic() {}
 
     @Override
-    public void draw(Building build){
+    public void draw(Building build) {
         E entity = (E) build;
 
         float alp = alpha.get(entity);
@@ -45,14 +45,14 @@ public class DrawRegionDynamic<E extends Building> extends DrawBlock {
 
         float z = Draw.z();
 
-        if(layer > 0) Draw.z(layer);
-        if(color != null) Draw.color(color.get(entity));
+        if (layer > 0) Draw.z(layer);
+        if (color != null) Draw.color(color.get(entity));
 
         Draw.alpha(alp);
 
-        if(spinSprite){
+        if (spinSprite) {
             Drawf.spinSprite(region, build.x + x, build.y + y, rotation.get(entity));
-        }else{
+        } else {
             Draw.rect(region, build.x + x, build.y + y, rotation.get(entity));
         }
         Draw.color();
@@ -60,18 +60,18 @@ public class DrawRegionDynamic<E extends Building> extends DrawBlock {
     }
 
     @Override
-    public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list){
-        if(!drawPlan) return;
-        Draw.rect(region, plan.drawx(), plan.drawy(), planRotate? plan.rotation*90: 0);
+    public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {
+        if (!drawPlan) return;
+        Draw.rect(region, plan.drawx(), plan.drawy(), planRotate ? plan.rotation * 90 : 0);
     }
 
     @Override
-    public TextureRegion[] icons(Block block){
-        return makeIcon ? new TextureRegion[]{region} : HIUtils.EMP_REGIONS;
+    public TextureRegion[] icons(Block block) {
+        return makeIcon ? new TextureRegion[]{region} : Utils.EMP_REGIONS;
     }
 
     @Override
-    public void load(Block block){
+    public void load(Block block) {
         region = atlas.find(block.name + suffix);
     }
 }

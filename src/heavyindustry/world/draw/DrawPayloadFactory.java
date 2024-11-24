@@ -7,7 +7,7 @@ import arc.util.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.world.*;
-import heavyindustry.util.HIUtils.*;
+import heavyindustry.util.*;
 
 import static arc.Core.*;
 
@@ -30,16 +30,16 @@ public class DrawPayloadFactory<E extends Building> extends DrawDirSpliceBlock<E
 
         PixmapRegion region = atlas.getPixmap(atlas.find(name + "-in", "factory-in-" + size + suffix));
         Pixmap pixmap = region.crop();
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             Pixmap m = i == 1 || i == 2 ? SpriteUtils.rotatePixmap90(pixmap.flipY(), i) : SpriteUtils.rotatePixmap90(pixmap, i);
             splicers[i] = m;
         }
 
-        for(int i = 0; i < regions.length; i++){
+        for (int i = 0; i < regions.length; i++) {
             regions[i] = getSpliceRegion(splicers, i);
         }
 
-        for(Pixmap p: splicers){
+        for (Pixmap p: splicers) {
             p.dispose();
         }
     }

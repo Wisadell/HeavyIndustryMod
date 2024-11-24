@@ -9,7 +9,7 @@ import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
 
-import static heavyindustry.util.HIUtils.*;
+import static heavyindustry.util.Utils.*;
 
 public class DrawFramesF extends DrawFrames {
     public TextureRegion icon;

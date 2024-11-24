@@ -33,9 +33,9 @@ public class DrawAntiSpliceBlock<E extends Building> extends DrawBlock {
     public void load(Block block) {
         icon = atlas.find(block.name + "-icon");
 
-        if(split){
-            drawRegions = HIUtils.split(block.name + "-full", 32, 16, 16);
-        }else{
+        if (split) {
+            drawRegions = Utils.split(block.name + "-full", 32, 16, 16);
+        } else {
             Pixmap[] regions = new Pixmap[8];
             Pixmap[] inner = new Pixmap[4];
 
@@ -92,29 +92,29 @@ public class DrawAntiSpliceBlock<E extends Building> extends DrawBlock {
         int data = 0;
         Block planBlock = plan.block;
 
-        t: for(int i = 0; i < 8; i++){
+        t: for(int i = 0; i < 8; i++) {
             Block other = null;
-            for(Point2 p: HIUtils.DirEdges.get8(plan.block.size, i)){
+            for (Point2 p: DirEdges.get8(plan.block.size, i)) {
                 int x = plan.x + p.x;
                 int y = plan.y + p.y;
                 BuildPlan[] target = {null};
 
                 list.each(pl -> {
-                    if(target[0] != null) return;
-                    if(pl.x == x && pl.y == y){
+                    if (target[0] != null) return;
+                    if (pl.x == x && pl.y == y) {
                         target[0] = pl;
                     }
                 });
 
-                if(target[0] == null) continue t;
+                if (target[0] == null) continue t;
 
-                if(other == null){
-                    if(planSplicer.get(plan, target[0])){
+                if (other == null) {
+                    if (planSplicer.get(plan, target[0])) {
                         other = target[0].block;
-                    }else{
+                    } else {
                         continue t;
                     }
-                }else if(other != planBlock || !planSplicer.get(plan, target[0])){
+                } else if (other != planBlock || !planSplicer.get(plan, target[0])) {
                     continue t;
                 }
             }
