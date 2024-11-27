@@ -15,6 +15,9 @@ public final class StructUtils {
     private static final Object[] emptyArray = new Object[0];
     private static final Empty<?> empty = new Empty<>();
 
+    /** StructUtils should not be instantiated. */
+    private StructUtils() {}
+
     public static <T> Empty<T> empty() {
         // SAFETY: Has no references or casts to T, so type erasure shouldn't mess everything up.
         return (Empty<T>)empty;
@@ -66,12 +69,12 @@ public final class StructUtils {
     }
 
     public static <T, R> R reduce(T[] array, R initial, Func2<T, R, R> reduce) {
-        for(var item : array) initial = reduce.get(item, initial);
+        for (T item : array) initial = reduce.get(item, initial);
         return initial;
     }
 
     public static <T> int reducei(T[] array, int initial, Reducei<T> reduce) {
-        for(var item : array) initial = reduce.get(item, initial);
+        for (T item : array) initial = reduce.get(item, initial);
         return initial;
     }
 
@@ -80,7 +83,7 @@ public final class StructUtils {
     }
 
     public static <T> float reducef(T[] array, float initial, Reducef<T> reduce) {
-        for(var item : array) initial = reduce.get(item, initial);
+        for (T item : array) initial = reduce.get(item, initial);
         return initial;
     }
 
@@ -94,12 +97,12 @@ public final class StructUtils {
     }
 
     public static <T> T[] resize(T[] array, ArrayCreator<T> create, int newSize, T fill) {
-        if(array.length == newSize) return array;
+        if (array.length == newSize) return array;
 
         T[] out = create.get(newSize);
         System.arraycopy(array, 0, out, 0, Math.min(array.length, newSize));
 
-        if(fill != null && newSize > array.length) Arrays.fill(out, array.length, newSize, fill);
+        if (fill != null && newSize > array.length) Arrays.fill(out, array.length, newSize, fill);
         return out;
     }
 

@@ -58,6 +58,9 @@ public final class PosLightning {
     /** Used for range spawn, make the lightning more random and has smoother spacing. */
     public static float trueHitChance = 1;
 
+    /** PosLightning should not be instantiated. */
+    private PosLightning() {}
+
     /** (0, 1] */
     public static void setHitChance(float f) {
         trueHitChance = f;

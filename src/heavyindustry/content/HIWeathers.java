@@ -20,6 +20,10 @@ import static heavyindustry.core.HeavyIndustryMod.*;
  */
 public final class HIWeathers {
     public static Weather wind,blizzard,hailStone,stoneStorm;
+
+    /** HIWeathers should not be instantiated. */
+    private HIWeathers() {}
+
     public static void load() {
         wind = new EffectWeather("wind") {{
             weatherFx = HIFx.windTail;

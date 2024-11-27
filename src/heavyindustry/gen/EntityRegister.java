@@ -9,6 +9,9 @@ public final class EntityRegister {
 
     private static final ObjectMap<String, Prov<? extends Entityc>> map = new ObjectMap<>();
 
+    /** EntityRegister should not be instantiated. */
+    private EntityRegister() {}
+
     public static <T extends Entityc> void reg(String name, Class<T> type, Prov<? extends T> prov) {
         map.put(name, prov);
         ids.put(type, EntityMapping.register(name, prov));

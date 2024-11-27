@@ -20,6 +20,10 @@ import static mindustry.content.SectorPresets.*;
  */
 public final class HITechTree {
     public static TechNode context = null;
+
+    /** HITechTree should not be instantiated. */
+    private HITechTree() {}
+
     public static void load() {
         //items,liquids
         vanillaNode(Liquids.water, () -> nodeProduce(HILiquids.brine, () -> {}));

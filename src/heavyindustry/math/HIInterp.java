@@ -24,4 +24,7 @@ public final class HIInterp {
     public static final Pow pow10 = new Pow(10);
 
     public static final PowIn pow1_5In = new PowIn(1.5f);
+
+    /** HIInterp should not be instantiated. */
+    private HIInterp() {}
 }

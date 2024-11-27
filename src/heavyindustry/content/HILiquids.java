@@ -13,6 +13,10 @@ import mindustry.type.*;
 public final class HILiquids {
     public static Liquid
             brine,methane,nanofluid,nitratedOil;
+
+    /** HILiquids should not be instantiated. */
+    private HILiquids() {}
+
     public static void load() {
         brine = new Liquid("brine", Color.valueOf("b8c89f")) {{
             coolant = false;

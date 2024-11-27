@@ -3,6 +3,7 @@ package heavyindustry.util;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.graphics.g2d.TextureAtlas.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.scene.style.*;
@@ -25,14 +26,17 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 import static arc.Core.*;
-import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 
 /**
  * Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to require me to write a class for it.
  * @author Wisadell
  */
 public final class Utils {
+    /** Utils should not be instantiated. */
+    private Utils() {}
+
     @Contract(pure = true)
     public static int reverse(int rotation) {
         return switch (rotation) {
@@ -346,8 +350,8 @@ public final class Utils {
 
         for (Item item : new Item[]{Items.scrap, Items.copper, Items.lead, Items.graphite, Items.coal, Items.titanium, Items.thorium, Items.silicon, Items.plastanium,
                 Items.phaseFabric, Items.surgeAlloy, Items.sporePod, Items.sand, Items.blastCompound, Items.pyratite, Items.metaglass,
-                Items.beryllium, Items.tungsten, Items.oxide, Items.carbide, Items.fissileMatter, Items.dormantCyst}){
-            if(item.hidden) continue;
+                Items.beryllium, Items.tungsten, Items.oxide, Items.carbide, Items.fissileMatter, Items.dormantCyst}) {
+            if (item.hidden) continue;
             ObjectMap<Integer, Cons<Item>> cons = getEntries(item, size);
             item(cons, item.name, item.color, item.explosiveness, item.flammability, item.cost, item.radioactivity, item.charge, item.healthScaling);
         }
@@ -361,8 +365,8 @@ public final class Utils {
             cons.put(i, it -> {
                 PixmapRegion base = atlas.getPixmap(item.uiIcon);
                 Pixmap mix = base.crop();
-                var number = atlas.find(name("number-" + finalI));
-                if(number.found()) {
+                AtlasRegion number = atlas.find(name("number-" + finalI));
+                if (number.found()) {
                     PixmapRegion region = TextureAtlas.blankAtlas().getPixmap(number);
 
                     mix.draw(region.pixmap, region.x, region.y, region.width, region.height, 0, base.height - size, size, size, false, true);
@@ -385,7 +389,7 @@ public final class Utils {
             cons.put(i, ld -> {
                 PixmapRegion base = atlas.getPixmap(liquid.uiIcon);
                 Pixmap mix = base.crop();
-                TextureAtlas.AtlasRegion number = atlas.find(name("number-" + finalI));
+                AtlasRegion number = atlas.find(name("number-" + finalI));
                 if (number.found()) {
                     PixmapRegion region = TextureAtlas.blankAtlas().getPixmap(number);
 

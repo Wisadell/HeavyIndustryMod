@@ -15,6 +15,9 @@ public final class HISectorPresets {
             //erekir
             ;
 
+    /** HISectorPresets should not be instantiated. */
+    private HISectorPresets() {}
+
     public static void load() {
         //serpulo
         volcanicArchipelago = new SectorPreset("volcanicArchipelago", serpulo, 111) {{

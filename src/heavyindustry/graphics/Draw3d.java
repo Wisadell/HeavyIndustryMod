@@ -18,6 +18,9 @@ public final class Draw3d {
     public static final Vec3 v1 = new Vec3(), v2 = new Vec3(), v3 = new Vec3(), v4 = new Vec3(), v5 = new Vec3(), v6 = new Vec3(), v7 = new Vec3();
     static float[] vertices = new float[3 * 2 * 4];
 
+    /** Draw3d should not be instantiated. */
+    private Draw3d() {}
+
     public static void rect(Mat3D mat3D, TextureRegion region, float x, float y, float width, float height, float rotation) {
         float originX = width / 2f;
         float originY = height / 2f;

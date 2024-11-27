@@ -23,6 +23,10 @@ import static mindustry.content.Planets.*;
 /** Defines the {@linkplain Planet planets} and other celestial objects this mod offers. */
 public final class HIPlanets {
     public static Planet kepler;
+
+    /** HIPlanets should not be instantiated. */
+    private HIPlanets() {}
+
     public static void load(){
         kepler = new BetterPlanet("kepler", sun, 1f, 3){{
             icon = "kepler-icon";

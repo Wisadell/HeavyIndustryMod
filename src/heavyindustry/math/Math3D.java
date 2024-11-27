@@ -8,6 +8,9 @@ import static arc.math.Mathf.*;
 public final class Math3D {
     public static final float horiToVerti = 1f / 48f;
 
+    /** Math3D should not be instantiated. */
+    private Math3D() {}
+
     public static float xOffset(float x, float height) {
         return (x - camera.position.x) * hMul(height);
     }

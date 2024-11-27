@@ -39,9 +39,13 @@ public final class TableUtils {
 
     public static final float LEN = 60f;
     public static final float OFFSET = 12f;
+
     public static String format(float value) {
         return df.format(value);
     }
+
+    /** TableUtils should not be instantiated. */
+    private TableUtils() {}
 
     public static PowerGraphInfoDialog powerInfoDialog;
 

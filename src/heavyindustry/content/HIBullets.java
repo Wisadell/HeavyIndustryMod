@@ -38,6 +38,9 @@ public final class HIBullets {
             //It is not recommended to use it directly.
             collapseFrag,collapse;
 
+    /** HIBullets should not be instantiated. */
+    private HIBullets() {}
+
     public static void load() {
         ancientArtilleryProjectile = new ShieldBreakerType(7f, 6000f, "missile-large", 7000f) {{
             backColor = trailColor = lightColor = lightningColor = hitColor = HIPal.ancientLightMid;

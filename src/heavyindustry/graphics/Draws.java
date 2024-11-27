@@ -63,6 +63,9 @@ public final class Draws {
         });
     }
 
+    /** Draws should not be instantiated. */
+    private Draws() {}
+
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
      * @param taskId The identification ID of the task, used to distinguish the task cache.

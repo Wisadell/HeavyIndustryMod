@@ -21,6 +21,9 @@ public final class Mathm {
         aSinTable[index(0.5f)] = Mathf.pi + Mathf.halfPi + radFull;
     }
 
+    /** Mathm should not be instantiated. */
+    private Mathm() {}
+
     public static int index(float sin) {
         return (int)((sin + 1) * sinToIndex) & aSinMask;
     }

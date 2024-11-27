@@ -98,15 +98,18 @@ public final class SpriteUtils {
         }
     }
 
-    public static TextureRegion[] split(String name, int tileWidth, int tileHeight){
-        return split(name, tileWidth, tileHeight, 0);
+    /** SpriteUtils should not be instantiated. */
+    private SpriteUtils() {}
+
+    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight){
+        return splitMulti(name, tileWidth, tileHeight, 0);
     }
 
-    public static TextureRegion[] split(String name, int tileWidth, int tileHeight, int pad){
-        return split(name, tileWidth, tileHeight, pad, null);
+    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight, int pad){
+        return splitMulti(name, tileWidth, tileHeight, pad, null);
     }
 
-    public static TextureRegion[] split(String name, int tileWidth, int tileHeight, int pad, int[] indexMap){
+    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight, int pad, int[] indexMap){
         TextureRegion region = atlas.find(name);
 
         int x = region.getX();

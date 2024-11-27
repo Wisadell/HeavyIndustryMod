@@ -38,6 +38,9 @@ public final class Drawn {
 
     public static final float sinScl = 1f;
 
+    /** Drawn should not be instantiated. */
+    private Drawn() {}
+
     public static void drawSnow(float x, float y, float rad, float rot, Color color){
         Draw.color(color);
         for(int i = 0; i < 6; i++){

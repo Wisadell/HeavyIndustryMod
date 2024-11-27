@@ -43,6 +43,9 @@ public final class HIFx {
 
     public static final IntMap<Effect> same = new IntMap<>();
 
+    /** HIFx should not be instantiated. */
+    private HIFx() {}
+
     public interface EffectParam {
         void draw(long id, float x, float y, float rot, float fin);
     }

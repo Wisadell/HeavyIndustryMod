@@ -13,6 +13,10 @@ public final class HIIcon {
             startIcon,telegramIcon,timeIcon,translateIcon,unShowInfosIcon,
             //small
             resetIconSmall,timeIconSmall;
+
+    /** HIIcon should not be instantiated. */
+    private HIIcon() {}
+
     public static void load() {
         keplerIcon = getModDrawable("kepler-icon");
         icons.put("kepler-icon", keplerIcon);

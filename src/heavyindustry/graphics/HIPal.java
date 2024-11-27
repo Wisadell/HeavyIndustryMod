@@ -38,4 +38,6 @@ public final class HIPal {
             frost = Color.valueOf("aff7ff"),
             winter = Color.valueOf("6ca5ff");
 
+    /** HIPal should not be instantiated. */
+    private HIPal() {}
 }

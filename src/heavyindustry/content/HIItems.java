@@ -12,6 +12,10 @@ public final class HIItems {
             salt,rareEarth,
             nanocore,nanocoreErekir,
             uranium,chromium,heavyAlloy;
+
+    /** HIItems should not be instantiated. */
+    private HIItems() {}
+
     public static void load() {
         salt = new Item("salt", Color.white) {{
             cost = 1.1f;

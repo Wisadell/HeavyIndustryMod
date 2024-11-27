@@ -17,6 +17,9 @@ import static mindustry.Vars.*;
 public final class HICacheLayer {
     public static ShaderLayer dalani,brine,nanofluid,armor;
 
+    /** HICacheLayer should not be instantiated. */
+    private HICacheLayer() {}
+
     /** Loads the cache layers. */
     public static void init() {
         Textures.load();
@@ -52,6 +55,9 @@ public final class HICacheLayer {
     public static final class Textures {
         public static Texture smooth,particle,darker,armor;
 
+        /** Textures should not be instantiated. */
+        private Textures() {}
+
         public static void load() {
             smooth = loadTexture("smooth-noise", t -> {
                 t.setFilter(TextureFilter.linear);
@@ -71,7 +77,7 @@ public final class HICacheLayer {
             });
         }
 
-        static Texture loadTexture(String name, Cons<Texture> modifier) {
+        public static Texture loadTexture(String name, Cons<Texture> modifier) {
             Texture tex = new Texture(HeavyIndustryMod.modInfo.root.child("textures").child(name + (name.endsWith(".png") ? "" : ".png")));
             modifier.get(tex);
 

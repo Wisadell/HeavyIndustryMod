@@ -36,6 +36,9 @@ import static mindustry.type.ItemStack.*;
  * @author Wisadell
  */
 public final class HIOverride {
+    /** HIOverride should not be instantiated. */
+    private HIOverride() {}
+
     public static void load() {
         //Blocks-Environment
         Blocks.sandWater.itemDrop = Blocks.darksandWater.itemDrop = Blocks.darksandTaintedWater.itemDrop = Items.sand;

@@ -7,6 +7,7 @@ import arc.struct.*;
 import mindustry.*;
 import mindustry.gen.*;
 import mindustry.world.*;
+import mindustry.world.consumers.*;
 import heavyindustry.ui.dialogs.PowerGraphInfoDialog.*;
 
 import static arc.Core.*;
@@ -61,12 +62,12 @@ public class PowerInfoGroup extends Table {
                 yield bundle.format("hi-power-info-persec", "[#98ffa9]+" + formatAmount(produced * 60));
             }
             case consumer -> {
-                var consumePower = building.block.consPower;
+                ConsumePower consumePower = building.block.consPower;
                 float consumed = consumePower.requestedPower(building) * building.timeScale();
                 yield bundle.format("hi-power-info-persec", "[#e55454]-" + formatAmount(consumed * 60));
             }
             case battery -> {
-                var consumePower = building.block.consPower;
+                ConsumePower consumePower = building.block.consPower;
                 float stored = building.power.status * consumePower.capacity;
                 yield "[#fbad67]" + formatAmount(stored) + "[gray]/[]" + formatAmount(consumePower.capacity);
             }

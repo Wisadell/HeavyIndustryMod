@@ -52,6 +52,9 @@ public final class DirEdges {
         }
     }
 
+    /** DirEdges should not be instantiated. */
+    private DirEdges() {}
+
     /**
      * Obtain all coordinate arrays of the edges of a block of a certain size in one direction.
      * @param size The size of the block.

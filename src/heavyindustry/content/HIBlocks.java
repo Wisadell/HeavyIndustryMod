@@ -144,6 +144,9 @@ public final class HIBlocks {
     /** Key is component itself, value is its inferior. */
     public static final ObjectMap<UnlockableContent, Block> compositeMap = new ObjectMap<>();
 
+    /** HIBlocks should not be instantiated. */
+    private HIBlocks() {}
+
     public static void load() {
         //environment
         darkPanel7 = new Floor("dark-panel-7", 0);
@@ -2147,9 +2150,23 @@ public final class HIBlocks {
             consumeLiquids(LiquidStack.with(Liquids.slag, 80f / 60f, Liquids.hydrogen, 12f / 60f));
             consumePower(12f);
             squareSprite = false;
+        }
+            public TextureRegion lightRegion, heatRegion, shadowRegion;
+
+            public final float sizeScl = 15 * 6f;
+            public final Color color1 = Pal.lancerLaser, color2 = Pal.sapBullet;
+
+            @Override
+            public void load() {
+                super.load();
+                lightRegion = atlas.find(name + "-light");
+                heatRegion = atlas.find(name + "-light-heat");
+                shadowRegion = atlas.find("circle-shadow");
+            }
+        {
             buildType = () -> new GenericCrafterBuild() {
-                private boolean nextFlash;
-                private float heatf, warmupf;
+                public boolean nextFlash;
+                public float heatf, warmupf;
 
                 @Override
                 public void updateTile(){
@@ -2212,20 +2229,7 @@ public final class HIBlocks {
                     tmp.set(color1).lerp(color2, Mathf.absin(Time.time + Mathf.randomSeed(pos(), 0f, 9f * 6.29f), 9f, 1f));
                 }
             };
-        }
-            private TextureRegion lightRegion, heatRegion, shadowRegion;
-
-            private final float sizeScl = 15 * 6f;
-            private final Color color1 = Pal.lancerLaser, color2 = Pal.sapBullet;
-
-            @Override
-            public void load() {
-                super.load();
-                lightRegion = atlas.find(name + "-light");
-                heatRegion = atlas.find(name + "-light-heat");
-                shadowRegion = atlas.find("circle-shadow");
-            }
-        };
+        }};
         //defense
         lighthouse = new LightBlock("lighthouse") {{
             requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 20, Items.silicon, 10, Items.lead, 30, Items.titanium, 15));
@@ -3493,12 +3497,10 @@ public final class HIBlocks {
 
                     boolean cool = false;
 
-                    if(b.data == null)cool = true;
-                    else if (b.data instanceof Healthc h) {
-                        if (!h.isValid() || !h.within(b.aimX, b.aimY, ((Sized)h).hitSize() + 4)) {
-                            b.data = null;
-                            cool = true;
-                        }
+                    if (b.data == null) cool = true;
+                    else if (b.data instanceof Healthc h && (!h.isValid() || !h.within(b.aimX, b.aimY, ((Sized)h).hitSize() + 4))) {
+                        b.data = null;
+                        cool = true;
                     }
 
                     if (cool) {

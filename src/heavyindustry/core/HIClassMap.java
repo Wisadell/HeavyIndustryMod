@@ -28,6 +28,9 @@ import static mindustry.mod.ClassMap.*;
 
 /** Generated class. Maps simple class names to concrete classes. For use in JSON attached mods. */
 final class HIClassMap {
+    /** HIClassMap should not be instantiated. */
+    HIClassMap() {}
+
     static void load() {
         //ai
         classes.put("SniperAI", SniperAI.class);

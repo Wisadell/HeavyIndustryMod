@@ -15,6 +15,9 @@ import static arc.graphics.g2d.Lines.*;
 public final class Drawm {
     private static final Vec2 vec1 = new Vec2(), vec2 = new Vec2(), vec3 = new Vec2(), vec4 = new Vec2();
 
+    /** Drawm should not be instantiated. */
+    private Drawm() {}
+
     /** Draws an ellipse. */
     public static void ellipse(float x, float y, float rad, float wScl, float hScl, float rot) {
         float sides = Lines.circleVertices(rad);

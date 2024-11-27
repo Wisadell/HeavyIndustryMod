@@ -29,6 +29,9 @@ public final class HIShaders {
     public static Tiler tiler;
     public static PlanetTextureShader planetTextureShader;
 
+    /** HIShaders should not be instantiated. */
+    private HIShaders() {}
+
     /** Loads the shaders. */
     public static void init() {
         depth = new DepthShader();

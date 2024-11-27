@@ -9,6 +9,9 @@ import java.lang.reflect.*;
 
 @SuppressWarnings("unchecked")
 public final class Reflects {
+    /** Reflects should not be instantiated. */
+    private Reflects() {}
+
     public static void removeAllConsumes(Block block) throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
         getBlockConsumeBuilder(block).clear();
         block.consPower = null;

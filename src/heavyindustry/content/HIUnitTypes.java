@@ -99,6 +99,9 @@ public final class HIUnitTypes {
             //boss
             vast;
 
+    /** HIUnitTypes should not be instantiated. */
+    private HIUnitTypes() {}
+
     public static void load() {
         //vanilla-tank
         vanguard = new UnitType("vanguard") {{
@@ -1884,7 +1887,7 @@ public final class HIUnitTypes {
                 shootCone = 35f;
                 bullet = new CtrlMissileBulletType("missile-large", 6, 10) {{
                     damage = 165f;
-                    buildingDamageMultiplier = 0.7f;
+                    buildingDamageMultiplier = 1.2f;
                     pierceArmor = true;
                     autoHoming = true;
                     homingPower = 7.5f;
@@ -1941,6 +1944,8 @@ public final class HIUnitTypes {
                                 else unit.kill();
                             }
                             unit.damagePierce(b.damage * (1 + Math.max(unit.type.armor, 0) / 10f));
+                        } else if (entity instanceof Building build && build.block != null) {
+                            build.damagePierce(b.damage * buildingDamageMultiplier * (1 + Math.max(build.block.armor, 0) / 10f));
                         } else super.hitEntity(b, entity, health);
                     }
 
@@ -2058,7 +2063,7 @@ public final class HIUnitTypes {
             drawShields = false;
             engineOffset = 18f;
             engineSize = 9f;
-            speed = 0.32f;
+            speed = 0.37f;
             hitSize = 52f;
             health = 182000f;
             buildSpeed = 4f;

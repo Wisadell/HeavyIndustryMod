@@ -21,6 +21,10 @@ public final class HIStatusEffects {
     public static StatusEffect
             overheat,regenerating,breached,flamePoint,ultFireBurn,
             territoryFieldIncrease,territoryFieldSuppress;
+
+    /** HIStatusEffects should not be instantiated. */
+    private HIStatusEffects() {}
+
     public static void load() {
         overheat = new StatusEffect("overheat") {{
             color = Color.valueOf("ffdcd8");

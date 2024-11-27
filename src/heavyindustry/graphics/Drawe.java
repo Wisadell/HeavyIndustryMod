@@ -13,6 +13,9 @@ import mindustry.graphics.Pal;
 public final class Drawe {
     private static final float[] vertices = new float[24];
 
+    /** Drawe should not be instantiated. */
+    private Drawe() {}
+
     public static void quad(TextureRegion region, float x1, float y1, float c1, float x2, float y2, float c2, float x3, float y3, float c3, float x4, float y4, float c4) {
         float u = region.u, v = region.v, u2 = region.u2, v2 = region.v2;
         quad(region.texture, x1, y1, c1, u, v, x2, y2, c2, u, v2, x3, y3, c3, u2, v2, x4, y4, c4, u2, v);
