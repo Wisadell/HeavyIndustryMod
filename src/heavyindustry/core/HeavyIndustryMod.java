@@ -1,6 +1,7 @@
 package heavyindustry.core;
 
 import heavyindustry.content.*;
+import heavyindustry.files.*;
 import heavyindustry.game.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
@@ -52,6 +53,9 @@ public final class HeavyIndustryMod extends Mod {
 
     public static LoadedMod modInfo;
 
+    /** jar internal navigation **/
+    public static InternalFileTree internalTree;
+
     public HeavyIndustryMod() {
         Log.info("Loaded HeavyIndustry Mod constructor.");
 
@@ -66,7 +70,10 @@ public final class HeavyIndustryMod extends Mod {
             showMultipleMods();
         });
 
-        app.post(() -> modInfo = mods.getMod(HeavyIndustryMod.class));
+        app.post(() -> {
+            modInfo = mods.getMod(HeavyIndustryMod.class);
+            internalTree = new InternalFileTree(HeavyIndustryMod.class);
+        });
 
         Events.on(FileTreeInitEvent.class, e -> {
             HISounds.load();
