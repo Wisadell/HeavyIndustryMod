@@ -67,11 +67,11 @@ public class LiquidUnloader extends Block {
 
         @Override
         public void updateTile() {
-            if(lastSort != sortLiquid){
+            if (lastSort != sortLiquid) {
                 liquids.clear();
                 lastSort = sortLiquid;
             }
-            for(int i = 0; i < proximity.size; i++) {
+            for (int i = 0; i < proximity.size; i++) {
                 int pos = (int) (offset + i) % proximity.size;
                 Building other = proximity.get(pos);
 
@@ -88,7 +88,7 @@ public class LiquidUnloader extends Block {
                 offset ++;
                 offset %= proximity.size;
             }
-            this.dumpLiquid(liquids.current());
+            dumpLiquid(liquids.current());
         }
 
         @Override

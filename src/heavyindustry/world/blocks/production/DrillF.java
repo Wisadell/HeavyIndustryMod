@@ -249,7 +249,7 @@ public abstract class DrillF extends Block {
             return Integer.compare(item1.id, item2.id);
         });
 
-        if(itemArray.size == 0){
+        if (itemArray.size == 0) {
             return;
         }
 
@@ -318,7 +318,7 @@ public abstract class DrillF extends Block {
                 int outCount = (int) (progress / mineInterval()) * mineCount;
                 for (int i = 0; i < outCount; i++) {
                     if (outputItem() != null) {
-                        if (coreSend && core() != null && core().acceptItem(this, outputItem())){
+                        if (coreSend && core() != null && core().acceptItem(this, outputItem())) {
                             core().handleItem(this, outputItem());
                         } else {
                             offload(outputItem());
