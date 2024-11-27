@@ -12,6 +12,8 @@ import mindustry.world.draw.*;
 import heavyindustry.util.*;
 
 import static arc.Core.*;
+import static heavyindustry.util.SpriteUtils.*;
+import static heavyindustry.util.Utils.*;
 
 @SuppressWarnings("unchecked")
 public class DrawDirSpliceBlock<E extends Building> extends DrawBlock {
@@ -30,7 +32,7 @@ public class DrawDirSpliceBlock<E extends Building> extends DrawBlock {
     @Override
     public void load(Block block) {
         if (split) {
-            regions = Utils.split(block.name + suffix, size * 32, 0);
+            regions = split(block.name + suffix, size * 32, 0);
         } else {
             Pixmap[] splicers = new Pixmap[4];
 
@@ -38,7 +40,7 @@ public class DrawDirSpliceBlock<E extends Building> extends DrawBlock {
                 PixmapRegion region = atlas.getPixmap(block.name + suffix);
                 Pixmap pixmap = region.crop();
                 for (int i = 0; i < 4; i++) {
-                    Pixmap m = i == 1 || i == 2 ? SpriteUtils.rotatePixmap90(pixmap.flipY(), i) : SpriteUtils.rotatePixmap90(pixmap, i);
+                    Pixmap m = i == 1 || i == 2 ? rotatePixmap90(pixmap.flipY(), i) : rotatePixmap90(pixmap, i);
                     splicers[i] = m;
                 }
             } else {

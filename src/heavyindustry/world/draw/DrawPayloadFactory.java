@@ -7,9 +7,9 @@ import arc.util.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.world.*;
-import heavyindustry.util.*;
 
 import static arc.Core.*;
+import static heavyindustry.util.SpriteUtils.*;
 
 @SuppressWarnings("unchecked")
 public class DrawPayloadFactory<E extends Building> extends DrawDirSpliceBlock<E> {
@@ -31,7 +31,7 @@ public class DrawPayloadFactory<E extends Building> extends DrawDirSpliceBlock<E
         PixmapRegion region = atlas.getPixmap(atlas.find(name + "-in", "factory-in-" + size + suffix));
         Pixmap pixmap = region.crop();
         for (int i = 0; i < 4; i++) {
-            Pixmap m = i == 1 || i == 2 ? SpriteUtils.rotatePixmap90(pixmap.flipY(), i) : SpriteUtils.rotatePixmap90(pixmap, i);
+            Pixmap m = i == 1 || i == 2 ? rotatePixmap90(pixmap.flipY(), i) : rotatePixmap90(pixmap, i);
             splicers[i] = m;
         }
 

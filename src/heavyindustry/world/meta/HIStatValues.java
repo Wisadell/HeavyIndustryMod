@@ -2,11 +2,13 @@ package heavyindustry.world.meta;
 
 import heavyindustry.ui.display.*;
 import heavyindustry.util.*;
+import heavyindustry.world.blocks.production.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.scene.style.*;
+import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
@@ -14,15 +16,20 @@ import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
+import mindustry.maps.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public final class HIStatValues {
+    /** HIStatValues should not be instantiated. */
+    private HIStatValues() {}
+
     public static <T extends UnlockableContent> StatValue ammo(ObjectMap<T, BulletType[]> map) {
         return ammo(map, 0, false);
     }
@@ -221,5 +228,77 @@ public final class HIStatValues {
             }).growX().colspan(table.getColumns());
             table.row();
         };
+    }
+
+    public static StatValue fuelEfficiency(Floor floor, float multiplier) {
+        return table -> table.stack(
+                new Image(floor.uiIcon).setScaling(Scaling.fit),
+                new Table(t -> t.top().right().add((multiplier < 0 ? "[accent]" : "[scarlet]+") + Strings.autoFixed(multiplier * 100, 2)).style(Styles.outlineLabel))
+        );
+    }
+
+    public static StatValue fuel(FuelCrafter crafter) {
+        return table -> table.table(t -> {
+            t.image(icon(crafter.fuelItem)).size(3 * 8).padRight(4).right().top();
+            t.add(crafter.fuelItem.localizedName).padRight(10).left().top();
+
+            t.table(ft -> {
+                ft.clearChildren();
+                ft.left().defaults().padRight(3).left();
+
+                ft.add(bundle.format("stat.hi-fuel.input", crafter.fuelPerItem));
+
+                sep(ft, bundle.format("stat.hi-fuel.use", crafter.fuelPerCraft));
+
+                sep(ft, bundle.format("stat.hi-fuel.capacity", crafter.fuelCapacity));
+
+                if (crafter.attribute != null) {
+                    ft.row();
+                    ft.table(at -> {
+                        Runnable[] rebuild = {null};
+                        Map[] lastMap = {null};
+
+                        rebuild[0] = () -> {
+                            at.clearChildren();
+                            at.left();
+
+                            at.add("@stat.hi-fuel.affinity");
+
+                            if (state.isGame()) {
+                                Seq<Floor> blocks = content.blocks()
+                                        .select(block -> block instanceof Floor f && indexer.isBlockPresent(block) && f.attributes.get(crafter.attribute) != 0 && !(f.isLiquid && !crafter.floating))
+                                        .<Floor>as().with(s -> s.sort(f -> f.attributes.get(crafter.attribute)));
+
+                                if (blocks.any()) {
+                                    int i = 0;
+                                    for (Floor block: blocks) {
+                                        fuelEfficiency(block, block.attributes.get(crafter.attribute) * crafter.fuelUseReduction / -100f).display(at);
+                                        if (++i % 5 == 0) {
+                                            at.row();
+                                        }
+                                    }
+                                } else {
+                                    at.add("@none.inmap");
+                                }
+                            } else {
+                                at.add("@stat.show-inmap");
+                            }
+                        };
+
+                        rebuild[0].run();
+
+                        //rebuild when map changes.
+                        at.update(() -> {
+                            Map current = state.isGame() ? state.map : null;
+
+                            if (current != lastMap[0]) {
+                                rebuild[0].run();
+                                lastMap[0] = current;
+                            }
+                        });
+                    });
+                }
+            }).left().get().background(Tex.underline);
+        });
     }
 }

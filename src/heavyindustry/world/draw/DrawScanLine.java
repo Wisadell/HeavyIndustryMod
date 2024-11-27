@@ -57,7 +57,7 @@ public class DrawScanLine extends DrawBlock implements Cloneable {
     public DrawScanLine copy() {
         try {
             return (DrawScanLine) super.clone();
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new AssertionError();
         }
     }

@@ -8,4 +8,7 @@ public final class HIAttribute {
     /** Arkycite content. Used for arkycite extractor yield. */
     public static final Attribute
             arkycite = add("arkycite");
+
+    /** HIAttribute should not be instantiated. */
+    private HIAttribute() {}
 }

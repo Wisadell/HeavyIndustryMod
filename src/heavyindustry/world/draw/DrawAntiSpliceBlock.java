@@ -12,6 +12,7 @@ import mindustry.world.draw.*;
 import heavyindustry.util.*;
 
 import static arc.Core.*;
+import static heavyindustry.util.Utils.*;
 
 @SuppressWarnings("unchecked")
 public class DrawAntiSpliceBlock<E extends Building> extends DrawBlock {
@@ -34,7 +35,7 @@ public class DrawAntiSpliceBlock<E extends Building> extends DrawBlock {
         icon = atlas.find(block.name + "-icon");
 
         if (split) {
-            drawRegions = Utils.split(block.name + "-full", 32, 16, 16);
+            drawRegions = split(block.name + "-full", 32, 16, 16);
         } else {
             Pixmap[] regions = new Pixmap[8];
             Pixmap[] inner = new Pixmap[4];
