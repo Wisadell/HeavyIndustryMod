@@ -1,12 +1,10 @@
 package heavyindustry.content;
 
 import arc.graphics.*;
-import arc.math.*;
+import heavyindustry.entities.effect.*;
 import mindustry.content.*;
-import mindustry.entities.effect.*;
 import mindustry.type.*;
 
-import static heavyindustry.core.HeavyIndustryMod.*;
 
 /**
  * Defines the {@linkplain Liquid liquid} this mod offers.
@@ -33,7 +31,7 @@ public final class HILiquids {
             temperature = 0.3f;
             lightColor = Color.valueOf("7fd489").a(0.3f);
             particleSpacing = 10;
-            particleEffect = HIFx.iceParticle;
+            particleEffect = WrapperEffect.wrap(HIFx.glowParticle, color);
             effect = StatusEffects.electrified;
             coolant = true;
         }};

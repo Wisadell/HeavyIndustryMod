@@ -1940,7 +1940,7 @@ public final class HIUnitTypes {
                                 if (unit.health > damage) unit.health -= damage;
                                 else unit.kill();
                             }
-                            unit.damagePierce(b.damage * (1 + unit.type.armor / 10f));
+                            unit.damagePierce(b.damage * (1 + Math.max(unit.type.armor, 0) / 10f));
                         } else super.hitEntity(b, entity, health);
                     }
 
@@ -2476,7 +2476,7 @@ public final class HIUnitTypes {
                 if (slopeEffect == HIFx.boolSelector) slopeEffect = new Effect(30, b -> {
                     if (!(b.data instanceof Integer i)) return;
                     Draw.color(b.color);
-                    Angles.randLenVectors(b.id, (int)(b.rotation / 8f), b.rotation / 4f + b.rotation * 2f * b.fin(), (x, y) -> Fill.circle(b.x + x, b.y + y, b.fout() * b.rotation / 2.25f));
+                    Angles.randLenVectors(b.id, (int) (b.rotation / 8f), b.rotation / 4f + b.rotation * 2f * b.fin(), (x, y) -> Fill.circle(b.x + x, b.y + y, b.fout() * b.rotation / 2.25f));
                     Lines.stroke((i < 0 ? b.fin(Interp.pow2InInverse) : b.fout(Interp.pow2Out)) * 2f);
                     Lines.circle(b.x, b.y, (i > 0 ? (b.fin(Interp.pow2InInverse) + 0.5f) : b.fout(Interp.pow2Out)) * b.rotation);
                 }).layer(Layer.bullet);

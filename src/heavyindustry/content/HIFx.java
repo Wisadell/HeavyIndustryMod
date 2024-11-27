@@ -74,8 +74,8 @@ public final class HIFx {
         });
     }
 
-    public static Effect casing(float life) {
-        return new Effect(life, e -> {
+    public static Effect casing(float lifetime) {
+        return new Effect(lifetime, e -> {
             Draw.color(Pal.lightOrange, Color.lightGray, Pal.lightishGray, e.fin());
             Draw.alpha(e.fout(0.5f));
             float rot = Math.abs(e.rotation) + 90f;
@@ -88,10 +88,10 @@ public final class HIFx {
 
     public static Effect edessp(float lifetime) {
         return new Effect(lifetime, e -> {
-            if(!(e.data instanceof Object[] objects) || objects.length < 4 || !(objects[0] instanceof TextureRegion region) || !(objects[1] instanceof Float range) || !(objects[2] instanceof Float rot) || !(objects[3] instanceof Float rRot)) return;
-
-            float ex = e.x + Angles.trnsx(e.rotation + rRot * e.fin(), range * e.fout()), ey = e.y + Angles.trnsy(e.rotation + rRot * e.fin(), range * e.fout());
-            Draw.rect(region, ex, ey, region.width / 3f * e.fin(), region.height / 3f * e.fin(), rot);
+            if (e.data instanceof Object[] objects && objects.length == 4 && objects[0] instanceof TextureRegion region && objects[1] instanceof Float range && objects[2] instanceof Float rot && objects[3] instanceof Float rRot) {
+                float ex = e.x + Angles.trnsx(e.rotation + rRot * e.fin(), range * e.fout()), ey = e.y + Angles.trnsy(e.rotation + rRot * e.fin(), range * e.fout());
+                Draw.rect(region, ex, ey, region.width / 3f * e.fin(), region.height / 3f * e.fin(), rot);
+            }
         }).followParent(true);
     }
 
@@ -1306,7 +1306,7 @@ public final class HIFx {
                 int i;
                 float nx = p.getX(), ny = p.getY();
                 for (i = 0; i < (int) (links * fin); i++) {
-                    if(i == links - 1){
+                    if(i == links - 1) {
                         nx = tx;
                         ny = ty;
                     } else {
@@ -1444,7 +1444,7 @@ public final class HIFx {
                 Fill.circle(e.x, e.y, 2.5f * e.fout());
             }),
             attackWarningPos = new Effect(120f, 2000f, e -> {
-                if (!(e.data instanceof Position p))return;
+                if (!(e.data instanceof Position p)) return;
 
                 e.lifetime = e.rotation;
 
@@ -1556,7 +1556,7 @@ public final class HIFx {
 
                 e.lifetime = trail.length * 1.4f;
 
-                if(!state.isPaused()){
+                if (!state.isPaused()) {
                     trail.shorten();
                 }
                 trail.drawCap(e.color, e.rotation);
@@ -1618,7 +1618,7 @@ public final class HIFx {
                 Draw.rect(data.region, x, y + (scl * data.fallTime/2f), rot);
             }),
             staticStone = new Effect(250f, e -> {
-                if(!(e.data instanceof HailStoneData data)) return;
+                if (!(e.data instanceof HailStoneData data)) return;
 
                 Draw.z(Layer.power + 0.1f);
                 Draw.color(e.color);
@@ -1636,7 +1636,7 @@ public final class HIFx {
                 float z = rand.random(0, 10);
                 Vec3[] windTailPoints = new Vec3[12];
 
-                for(int i = 0; i < 12; i++){
+                for (int i = 0; i < 12; i++) {
                     float scl = (e.fin() - i * 0.05f);
                     float x = (scl * dis) + Mathf.cos(scl * 10) * force * rx;
                     float y = Mathf.sin(scl * 10) * force * ry;
@@ -1658,8 +1658,8 @@ public final class HIFx {
                 }
             }),
             gasLeak = new Effect(90, e -> {
-                if(!(e.data instanceof Number number)) return;
-                float param = number.floatValue();
+                if (!(e.data instanceof Number n)) return;
+                float param = n.floatValue();
 
                 Draw.color(e.color, Color.lightGray, e.fin());
                 Draw.alpha(0.75f * param * e.fout());
@@ -1688,13 +1688,13 @@ public final class HIFx {
                     Tmp.v1.set(n.floatValue(), 0).setAngle(e.rotation);
                 }
 
-                float rad = Mathf.randomSeed(e.id, 1.6f, 3.4f)*e.fout(Interp.pow2Out);
+                float rad = Mathf.randomSeed(e.id, 1.6f, 3.4f) * e.fout(Interp.pow2Out);
 
                 if (Mathf.randomSeed(e.id) > 0.5f){
                     Lines.stroke(rad / 2f);
-                    Lines.square(e.x + Tmp.v1.x*e.fin(), e.y + Tmp.v1.y * e.fin(), rad, e.fin() * Mathf.randomSeed(e.id, 180f, 480f));
+                    Lines.square(e.x + Tmp.v1.x * e.fin(), e.y + Tmp.v1.y * e.fin(), rad, e.fin() * Mathf.randomSeed(e.id, 180f, 480f));
                 } else {
-                    Fill.square(e.x + Tmp.v1.x*e.fin(), e.y + Tmp.v1.y * e.fin(), rad, e.fin() * Mathf.randomSeed(e.id, 180f, 480f));
+                    Fill.square(e.x + Tmp.v1.x * e.fin(), e.y + Tmp.v1.y * e.fin(), rad, e.fin() * Mathf.randomSeed(e.id, 180f, 480f));
                 }
             }),
             cloudGradient = new Effect(45, e -> {
@@ -1705,7 +1705,7 @@ public final class HIFx {
             }),
             shootRecoilWave = new Effect(40, e -> {
                 Draw.color(e.color);
-                for(int i : Mathf.signs){
+                for (int i : Mathf.signs) {
                     Drawf.tri(e.x, e.y, 15f * e.fout(), 50f, e.rotation + 40f*i);
                 }
             }),
@@ -1737,7 +1737,7 @@ public final class HIFx {
                     Fill.polyBegin();
                     Lines.beginLine();
 
-                    for(int i = 0; i < vertices; i++){
+                    for (int i = 0; i < vertices; i++) {
                         float radius = Mathf.randomSeed(e.id + i, 1.5f, 4f) * e.fout(Interp.pow3Out);
                         float lerp = e.fin(Interp.pow2Out);
                         float rot = Mathf.randomSeed(e.id + i, -360, 360);
@@ -1812,7 +1812,7 @@ public final class HIFx {
             }),
             forceField = new Effect(45, e -> {
                 Draw.color(e.color);
-                if(e.data instanceof Float f){
+                if (e.data instanceof Float f) {
                     Draw.alpha(f);
                 }
                 float endRot = ((int) Math.ceil(e.rotation / 45) + 1) * 45;
@@ -1856,7 +1856,7 @@ public final class HIFx {
                 });
             }),
             freezingBreakDown = new Effect(180, e -> {
-                if(!(e.data instanceof Unit u)) return;
+                if (!(e.data instanceof Unit u)) return;
                 float size = u.hitSize * 1.2f;
 
                 float intensity = size / 32 - 2.2f;
@@ -1995,7 +1995,7 @@ public final class HIFx {
 
                 Draw.color(Pal.reactorPurple2);
                 Draw.alpha(0.7f);
-                for(int i = 0; i < 4; i++){
+                for (int i = 0; i < 4; i++) {
                     rand.setSeed(e.id * 2L + i);
                     float lenScl = rand.random(0.4f, 1f);
                     int fi = i;
@@ -2047,7 +2047,7 @@ public final class HIFx {
                 float[] data = e.data instanceof float[] f ? f : new float[]{18, 24, 0.3f};
 
                 float leng = Mathf.random(data[0], data[1]);
-                for(int i = 0; i < 4; i++){
+                for (int i = 0; i < 4; i++) {
                     if(Mathf.chanceDelta(data[2])) steam.at(e.x, e.y, 0, new Vec2(leng * Geometry.d8(i * 2 + 1).x, leng * Geometry.d8(i * 2 + 1).y));
                 }
             }),
@@ -2176,7 +2176,7 @@ public final class HIFx {
                 Draw.color(e.color);
 
                 int amo = Mathf.randomSeed(e.id, 2, 5);
-                for(int i = 0; i < amo; i++){
+                for (int i = 0; i < amo; i++) {
                     float len = Mathf.randomSeed(e.id + i * 2l, 40) * e.fin();
                     float off = Mathf.randomSeed(e.id + i, -8, 8);
                     float x = Angles.trnsx(e.rotation, len) + Angles.trnsx(e.rotation + 90, off);

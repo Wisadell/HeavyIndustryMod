@@ -98,7 +98,7 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
     }
 
     public Vec2Seq addAll(Vec2Seq vec2s) {
-        vec2s.each(((Floatc2)this::add));
+        vec2s.each(((Floatc2) this::add));
         return this;
     }
 
@@ -198,7 +198,7 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
 
     @Override
     public void each(Cons<? super Vec2> cons) {
-        for(int i = 0; i < size(); i++){
+        for (int i = 0; i < size(); i++) {
             cons.get(tmpVec2(i));
         }
     }

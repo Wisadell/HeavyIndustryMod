@@ -29,7 +29,7 @@ public final class DirEdges {
             for (int j = 0; j < 4; j++) {
                 edges[i][j] = new Point2[i];
                 for (int m = minOff; m <= rad; m++) {
-                    switch(j) {
+                    switch (j) {
                         case 0 -> edges[i][j][m + rad - off] = new Point2(rad + 1, m);
                         case 1 -> edges[i][j][m + rad - off] = new Point2(m, rad + 1);
                         case 2 -> edges[i][j][m + rad - off] = new Point2(-rad - 1 + off, m);
@@ -38,7 +38,7 @@ public final class DirEdges {
                 }
 
                 angle[i][j] = new Point2[]{
-                        switch(j) {
+                        switch (j) {
                             case 0 -> new Point2(rad + 1, rad + 1);
                             case 1 -> new Point2(-rad - 1 + off, rad + 1);
                             case 2 -> new Point2(-rad - 1 + off, -rad - 1 + off);

@@ -124,7 +124,11 @@ public final class HeavyIndustryMod extends Mod {
             modInfo.meta.version = modInfo.meta.version + "-plug-in";
         } else {
             if (mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
-                HIOverride.loadAprilFoolsDay();
+                try {
+                    HIOverride.loadAprilFoolsDay();
+                } catch (Throwable e) {
+                    Log.err(e);
+                }
                 if(ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
             }
         }

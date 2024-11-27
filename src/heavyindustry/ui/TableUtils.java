@@ -259,7 +259,7 @@ public final class TableUtils {
     }
 
     private static void scheduleToast(Runnable run) {
-        long duration = (int)(3.5 * 1000);
+        long duration = (int) (3.5 * 1000);
         long since = Time.timeSinceMillis(lastToast);
         if (since > duration) {
             lastToast = Time.millis();

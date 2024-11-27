@@ -190,6 +190,8 @@ final class HIClassMap {
         classes.put("PayloadRailBuild", PayloadRail.PayloadRailBuild.class);
         classes.put("DerivativeUnitFactory", DerivativeUnitFactory.class);
         classes.put("DerivativeUnitFactoryBuild", DerivativeUnitFactory.DerivativeUnitFactoryBuild.class);
+        classes.put("SelectableReconstructor", SelectableReconstructor.class);
+        classes.put("SelectableReconstructorBuild", SelectableReconstructor.SelectableReconstructorBuild.class);
         classes.put("UnitBoost", UnitBoost.class);
         classes.put("UnitBoostBuild", UnitBoost.UnitBoostBuild.class);
         classes.put("PayloadSourceF", PayloadSourceF.class);
@@ -212,6 +214,8 @@ final class HIClassMap {
         classes.put("AttributeGeneratorBuild", AttributeGenerator.AttributeGeneratorBuild.class);
         classes.put("AccelerationCrafter", AccelerationCrafter.class);
         classes.put("AcceleratingCrafterBuild", AccelerationCrafter.AcceleratingCrafterBuild.class);
+        classes.put("FuelCrafter", FuelCrafter.class);
+        classes.put("FuelCrafterBuild", FuelCrafter.FuelCrafterBuild.class);
         classes.put("MultiCrafter", MultiCrafter.class);
         classes.put("MultiCrafterBuild", MultiCrafter.MultiCrafterBuild.class);
         classes.put("Recipe", MultiCrafter.Recipe.class);

@@ -75,7 +75,7 @@ public class FireWorkBulletType extends BulletType {
 
     @Override
     public void drawTrail(Bullet b) {
-        if(trailLength > 0 && b.trail != null) {
+        if (trailLength > 0 && b.trail != null) {
             float z = Draw.z();
             Draw.z(z - 0.0001f);
             b.trail.draw(colorful ? Utils.c5.set(HIPal.rainBowRed).a(0.7f).shiftHue(b.time * 2) : color, trailWidth);

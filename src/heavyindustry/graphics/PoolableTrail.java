@@ -5,7 +5,12 @@ import arc.util.pooling.Pool.*;
 import mindustry.graphics.*;
 
 public class PoolableTrail extends Trail implements Poolable {
-    private PoolableTrail(int length) {
+    /**
+     * @deprecated deprecated.
+     * @see PoolableTrail#copy(int) copy(int length)
+     */
+    @Deprecated
+    public PoolableTrail(int length) {
         super(length);
     }
 
@@ -15,7 +20,7 @@ public class PoolableTrail extends Trail implements Poolable {
 
     /**
      * @deprecated deprecated.
-     * @see PoolableTrail#copy(int) copy(int length).
+     * @see PoolableTrail#copy(int) copy(int length)
      */
     @Deprecated
     @Override

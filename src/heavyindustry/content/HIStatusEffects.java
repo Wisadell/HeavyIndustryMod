@@ -1,10 +1,10 @@
 package heavyindustry.content;
 
+import heavyindustry.util.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
-import heavyindustry.util.Utils;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
@@ -29,13 +29,13 @@ public final class HIStatusEffects {
             speedMultiplier = 0.5f;
             damage = 5f;
             effectChance = 0.35f;
-            effect = HIFx.trailParticle;
+            effect = HIFx.glowParticle;
         }};
         regenerating = new StatusEffect("regenerating") {{
             color = Color.valueOf("97ffa8");
             damage = -4;
             effectChance = 0.3f;
-            effect = HIFx.trailParticle;
+            effect = HIFx.glowParticle;
             init(() -> opposite(sapped, slow, breached));
         }};
         breached = new StatusEffect("breached") {{

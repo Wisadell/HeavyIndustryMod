@@ -35,7 +35,7 @@ import static mindustry.Vars.*;
 public final class Utils {
     @Contract(pure = true)
     public static int reverse(int rotation) {
-        return switch(rotation) {
+        return switch (rotation) {
             case 0 -> 2; case 2 -> 0; case 1 -> 3; case 3 -> 1;
             default -> throw new IllegalStateException("Unexpected value: " + rotation);
         };
@@ -76,8 +76,8 @@ public final class Utils {
         float tileHeight = (textures.v2 - textures.v) / height;
 
         for (int i = 0; i < textureSize; i++) {
-            float tileX = ((float)(i % width)) / width;
-            float tileY = ((float)(i / width)) / height;
+            float tileX = ((float) (i % width)) / width;
+            float tileY = ((float) (i / width)) / height;
             TextureRegion region = new TextureRegion(textures);
 
             //start coordinate

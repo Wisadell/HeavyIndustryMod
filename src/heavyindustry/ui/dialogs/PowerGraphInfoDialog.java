@@ -92,7 +92,7 @@ public class PowerGraphInfoDialog extends BaseDialog {
     protected String selectionTitle(PowerInfoType type) {
         if (graph == null) return "";
 
-        return switch(type) {
+        return switch (type) {
             case producer -> bundle.get("hi-power-info-producer") + " - " + bundle.format("hi-power-info-persec", "[#98ffa9]+" + formatAmount(graph.getLastScaledPowerIn() * 60));
             case consumer -> bundle.get("hi-power-info-consumer") + " - " + bundle.format("hi-power-info-persec", "[#e55454]-" + formatAmount(graph.getLastScaledPowerOut() * 60));
             case battery -> bundle.get("hi-power-info-battery") + " - [#fbad67]" + formatAmount(graph.getLastPowerStored()) + "[gray]/[]" + formatAmount(graph.getLastCapacity());
@@ -102,7 +102,7 @@ public class PowerGraphInfoDialog extends BaseDialog {
     protected void refresh() {
         infoTable.clear();
 
-        switch(currType) {
+        switch (currType) {
             case producer -> {
                 IntSeq prodKeys = producers.keys().toArray();
                 prodKeys.sort();

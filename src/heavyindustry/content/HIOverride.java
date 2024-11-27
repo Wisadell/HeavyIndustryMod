@@ -430,6 +430,28 @@ public final class HIOverride {
                 }
             }
         }
+
+        Seq<Liquid> lc = content.liquids().copy();
+        lc.removeAll(lt -> lt.localizedName == null || lt.description == null);
+        for (int i = 0; i < lc.size; i++) {
+            Liquid b = lc.get(i);
+            if (b != null) {
+                String l = b.localizedName;
+                String n = b.description;
+                int d = Mathf.random(ic.size - 1);
+                while (d == i) {
+                    d = Mathf.random(ic.size - 1);
+                }
+                Liquid b1 = lc.get(d);
+                if (b1 != null) {
+                    b.localizedName = b1.localizedName;
+                    b.description = b1.description;
+                    b1.localizedName = l;
+                    b1.description = n;
+                }
+            }
+        }
+
         Seq<UnitType> uc = content.units().copy();
         uc.removeAll(u -> u.localizedName == null || u.description == null);
         for (int i = 0; i < uc.size; i++) {

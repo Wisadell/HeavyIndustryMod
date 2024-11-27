@@ -55,7 +55,7 @@ public class PowerInfoGroup extends Table {
     }
 
     protected String getData(Building building, PowerInfoType type) {
-        return switch(type) {
+        return switch (type) {
             case producer -> {
                 float produced = building.getPowerProduction() * building.timeScale(); //Assume people don't override delta()
                 yield bundle.format("hi-power-info-persec", "[#98ffa9]+" + formatAmount(produced * 60));

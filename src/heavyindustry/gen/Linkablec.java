@@ -74,5 +74,6 @@ public interface Linkablec extends Buildingc, Ranged{
     int linkPos();
 
     void linkPos(int value);
+
     Color getLinkColor();
 }

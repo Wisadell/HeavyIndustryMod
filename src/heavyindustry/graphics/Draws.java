@@ -710,7 +710,7 @@ public final class Draws {
         v1.set(halfWidth, 0).rotate(Mathf.angle(targetX - originX, targetY - originY) + 90);
 
         float c1, c2, c3, c4;
-        switch(gradientDir) {
+        switch (gradientDir) {
             case 0 -> {
                 c1 = origin.toFloatBits();
                 c2 = origin.toFloatBits();
@@ -1184,6 +1184,7 @@ public final class Draws {
         private static FrameBuffer samplerBuffer = new FrameBuffer(), pingpong = new FrameBuffer();
         private static boolean setup = false;
 
+        /** Load Events for ScreenSampler. If you try to load it a second time, nothing will happen. */
         public static void setup() {
             if (setup) return;
 
@@ -1195,6 +1196,7 @@ public final class Draws {
             setup = true;
         }
 
+        /** @return Has whether set up. */
         public static boolean isSetup() {
             return setup;
         }

@@ -39,7 +39,7 @@ public final class HIBullets {
             collapseFrag,collapse;
 
     public static void load() {
-        ancientArtilleryProjectile = new ShieldBreakerType(7f, 6000, "missile-large", 7000) {{
+        ancientArtilleryProjectile = new ShieldBreakerType(7f, 6000f, "missile-large", 7000f) {{
             backColor = trailColor = lightColor = lightningColor = hitColor = HIPal.ancientLightMid;
             frontColor = HIPal.ancientLight;
             trailEffect = HIFx.hugeTrail;
@@ -69,7 +69,7 @@ public final class HIBullets {
 
             despawnShake = hitShake = 12f;
 
-            hitEffect = new MultiEffect(HIFx.square(hitColor, 200, 20 ,splashDamageRadius + 80, 10), HIFx.lightningHitLarge, HIFx.hitSpark(hitColor, 130, 85, splashDamageRadius * 1.5f, 2.2f, 10f), HIFx.subEffect(140, splashDamageRadius + 12, 33, 34f, Interp.pow2Out, ((i, x, y, rot, fin) -> {
+            hitEffect = new MultiEffect(HIFx.square(hitColor, 200f, 20 ,splashDamageRadius + 80, 10), HIFx.lightningHitLarge, HIFx.hitSpark(hitColor, 130, 85, splashDamageRadius * 1.5f, 2.2f, 10f), HIFx.subEffect(140, splashDamageRadius + 12, 33, 34f, Interp.pow2Out, ((i, x, y, rot, fin) -> {
                 float fout = Interp.pow2Out.apply(1 - fin);
                 for (int s : Mathf.signs) {
                     Drawf.tri(x, y, 12 * fout, 45 * Mathf.curve(fin, 0, 0.1f) * HIFx.fout(fin, 0.25f), rot + s * 90);

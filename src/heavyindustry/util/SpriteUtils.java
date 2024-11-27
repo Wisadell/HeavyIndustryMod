@@ -149,7 +149,7 @@ public final class SpriteUtils {
         for (int i = 0; i < target.width; i++) {
             for (int j = 0; j < target.height; j++) {
                 int c = target.get(i, j);
-                switch(Mathf.mod(-rotate, 4)) {
+                switch (Mathf.mod(-rotate, 4)) {
                     case 0 -> res.set(i, j, c);
                     case 1 -> res.set(target.width - j - 1, i, c);
                     case 2 -> res.set(target.width - i - 1, target.height - j - 1, c);
