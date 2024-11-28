@@ -15,6 +15,7 @@ import mindustry.graphics.*;
 import mindustry.ui.*;
 import heavyindustry.content.*;
 import heavyindustry.math.*;
+import mindustry.world.*;
 
 import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
@@ -248,6 +249,10 @@ public final class Drawn {
         Lines.lineAngleCenter(t.x + Mathf.sin(time, 20f, size / 2f), t.y, 90, size);
 
         Draw.reset();
+    }
+
+    public static void selected(Buildingc tile, Color color){
+        Drawf.selected(tile.tile(), color);
     }
 
     public static void posSquareLink(Color color, float stroke, float size, boolean drawBottom, float x, float y, float x2, float y2) {

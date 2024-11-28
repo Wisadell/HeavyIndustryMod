@@ -83,5 +83,12 @@ public final class HICacheLayer {
 
             return tex;
         }
+
+        static {
+            //Second layer insurance.
+            if (HeavyIndustryMod.modInfo == null) {
+                HeavyIndustryMod.modInfo = mods.getMod(HeavyIndustryMod.class);
+            }
+        }
     }
 }

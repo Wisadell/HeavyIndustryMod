@@ -7,6 +7,7 @@ import heavyindustry.entities.abilities.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.part.*;
+import heavyindustry.type.unit.*;
 import heavyindustry.type.weapons.*;
 import heavyindustry.ui.*;
 import arc.graphics.*;
@@ -43,6 +44,7 @@ import static mindustry.gen.EntityMapping.*;
  * Defines the {@linkplain UnitType units} this mod offers.
  * @author Wisadell
  */
+@SuppressWarnings("unchecked")
 public final class HIUnitTypes {
     //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
     static {
@@ -93,7 +95,8 @@ public final class HIUnitTypes {
             //miner-erekir
             miner,largeMiner,legsMiner,
             //other
-            armoredCarrierVehicle,pioneer,vulture,burner,shadowBlade,artilleryFirePioneer,
+            armoredCarrierVehicle,pioneer,vulture,
+            burner,shadowBlade,artilleryFirePioneer,
             //elite
             tiger,thunder,
             //boss

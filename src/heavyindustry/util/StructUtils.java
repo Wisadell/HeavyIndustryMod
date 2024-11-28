@@ -206,7 +206,7 @@ public final class StructUtils {
 
         @Override
         public void each(Cons<? super T> cons) {
-            while(hasNext()) cons.get(array[offset + index++]);
+            while (hasNext()) cons.get(array[offset + index++]);
         }
     }
 
@@ -235,8 +235,8 @@ public final class StructUtils {
 
         @Override
         public void each(Cons<? super T> cons) {
-            while(first.hasNext()) cons.get(first.next());
-            while(second.hasNext()) cons.get(second.next());
+            while (first.hasNext()) cons.get(first.next());
+            while (second.hasNext()) cons.get(second.next());
         }
     }
 }
