@@ -98,7 +98,7 @@ public class MultiBulletTurret extends Turret {
 
         public Seq<ItemEntry> ammo = new Seq<>();
         public int bid = 0;
-        public float ResetBidTimer = 0;
+        public float resetBidTimer = 0;
 
         @Override
         public void onProximityAdded() {
@@ -115,13 +115,13 @@ public class MultiBulletTurret extends Turret {
 
             if (autoResetBid && bid > 0) {
                 if (target == null) {
-                    ResetBidTimer += Time.delta;
-                    if (ResetBidTimer >= 60) {
+                    resetBidTimer += Time.delta;
+                    if (resetBidTimer >= 60) {
                         bid = 0;
-                        ResetBidTimer = 0;
+                        resetBidTimer = 0;
                     }
                 } else {
-                    ResetBidTimer = 0;
+                    resetBidTimer = 0;
                 }
             }
 

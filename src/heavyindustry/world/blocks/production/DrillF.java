@@ -7,6 +7,7 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -20,8 +21,8 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
 import heavyindustry.content.*;
+import heavyindustry.gen.*;
 import heavyindustry.math.*;
-import heavyindustry.world.blocks.production.DrillModule.*;
 import heavyindustry.world.consumers.*;
 import heavyindustry.world.meta.*;
 
@@ -267,7 +268,7 @@ public abstract class DrillF extends Block {
         return tile.drop();
     }
 
-    public abstract class DrillBuildF extends Building {
+    public abstract class DrillBuildF extends Building implements DrillFc {
         public float progress;
 
         //only for visual
@@ -284,7 +285,7 @@ public abstract class DrillF extends Block {
         //(base * multiplier) + extra
         public float powerConsMul = 1f;
         public float powerConsExtra = 0f;
-        public Seq<DrillModuleBuild> modules = new Seq<>();
+        public Seq<DrillModulec> modules = new Seq<>();
 
         @Override
         public float progress() {
@@ -296,6 +297,7 @@ public abstract class DrillF extends Block {
             return warmup;
         }
 
+        @Override
         public float maxBoost() {
             return maxBoost;
         }
@@ -354,8 +356,8 @@ public abstract class DrillF extends Block {
             }
 
             Drawf.selected(this, Pal.accent);
-            for (DrillModuleBuild module: modules) {
-                Drawf.selected(module, Pal.accent);
+            for (DrillModulec module : modules) {
+                Drawn.selected(module, Pal.accent);
             }
         }
 
@@ -412,17 +414,17 @@ public abstract class DrillF extends Block {
         @Override
         public void remove() {
             super.remove();
-            for (DrillModuleBuild module: modules) {
-                module.drillBuild = null;
+            for (DrillModulec module: modules) {
+                module.drillBuild(null);
             }
         }
 
         public void updateDrillModule() {
             resetModule();
             for (Building building: proximity) {
-                if (building instanceof DrillModuleBuild module) {
+                if (building instanceof DrillModulec module) {
                     if (module.canApply(this)) {
-                        module.drillBuild = this;
+                        module.drillBuild(this);
                         modules.add(module);
                         module.apply(this);
                     }
@@ -474,6 +476,99 @@ public abstract class DrillF extends Block {
             super.read(read, revision);
             progress = read.f();
             warmup = read.f();
+        }
+
+        @Override
+        public int dominantItems() {
+            return dominantItems;
+        }
+
+        @Override
+        public Item dominantItem() {
+            return dominantItem;
+        }
+
+        @Override
+        public Item convertItem() {
+            return convertItem;
+        }
+
+        @Override
+        public boolean coreSend() {
+            return coreSend;
+        }
+
+        @Override
+        public float boostMul() {
+            return boostMul;
+        }
+
+        @Override
+        public float boostFinalMul() {
+            return boostFinalMul;
+        }
+
+        @Override
+        public float powerConsMul() {
+            return powerConsMul;
+        }
+
+        @Override
+        public float powerConsExtra() {
+            return powerConsExtra;
+        }
+
+        @Override
+        public Seq<DrillModulec> modules() {
+            return modules;
+        }
+
+        @Override
+        public void maxBoost(float maxBoost) {}
+
+        @Override
+        public void dominantItems(int dominantItems) {
+            this.dominantItems = dominantItems;
+        }
+
+        @Override
+        public void dominantItem(Item dominantItem) {
+            this.dominantItem = dominantItem;
+        }
+
+        @Override
+        public void convertItem(Item convertItem) {
+            this.convertItem = convertItem;
+        }
+
+        @Override
+        public void coreSend(boolean coreSend) {
+            this.coreSend = coreSend;
+        }
+
+        @Override
+        public void boostMul(float boostMul) {
+            this.boostMul = boostMul;
+        }
+
+        @Override
+        public void boostFinalMul(float boostFinalMul) {
+            this.boostFinalMul = boostFinalMul;
+        }
+
+        @Override
+        public void powerConsMul(float powerConsMul) {
+            this.powerConsMul = powerConsMul;
+        }
+
+        @Override
+        public void powerConsExtra(float powerConsExtra) {
+            this.powerConsExtra = powerConsExtra;
+        }
+
+        @Override
+        public void modules(Seq<DrillModulec> modules) {
+            this.modules = modules;
         }
     }
 }

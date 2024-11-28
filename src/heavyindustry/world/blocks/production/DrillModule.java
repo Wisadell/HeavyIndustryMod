@@ -13,7 +13,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
-import heavyindustry.world.blocks.production.DrillF.*;
+import heavyindustry.gen.*;
 import heavyindustry.world.meta.*;
 
 import static arc.Core.*;
@@ -100,8 +100,8 @@ public abstract class DrillModule extends Block {
         return teamRegion.found() ? new TextureRegion[]{baseRegion, teamRegions[Team.sharded.id]} : new TextureRegion[]{region};
     }
 
-    public abstract class DrillModuleBuild extends Building {
-        public @Nullable DrillBuildF drillBuild;
+    public abstract class DrillModuleBuild extends Building implements DrillModulec {
+        public @Nullable DrillFc drillBuild;
         public float smoothWarmup, targetWarmup;
 
         @Override
@@ -111,7 +111,7 @@ public abstract class DrillModule extends Block {
             drawTeamTop();
             Draw.rect(topRotRegions[rotation], x, y);
 
-            targetWarmup = (drillBuild != null && drillBuild.modules.contains(this)) ? drillBuild.warmup : 0;
+            targetWarmup = (drillBuild != null && drillBuild.modules().contains(this)) ? drillBuild.warmup() : 0;
             smoothWarmup = Mathf.lerp(smoothWarmup, targetWarmup, 0.02f);
         }
 
@@ -120,7 +120,8 @@ public abstract class DrillModule extends Block {
             super.onProximityUpdate();
         }
 
-        public boolean canApply(DrillBuildF drill) {
+        @Override
+        public boolean canApply(DrillFc drill) {
             for (int i = 0; i < size; i++) {
                 Point2 p = Edges.getEdges(size)[rotation * size + i];
                 Building t = world.build(tileX() + p.x, tileY() + p.y);
@@ -128,40 +129,71 @@ public abstract class DrillModule extends Block {
                     return false;
                 }
             }
-            return (drill.boostMul + boostSpeed <= drill.maxBoost() + 1) && checkConvert(drill) && checkSameModule(drill);
+            return (drill.boostMul() + boostSpeed <= drill.maxBoost() + 1) && checkConvert(drill) && checkSameModule(drill);
         }
 
-        public boolean checkConvert(DrillBuildF drill) {
+        public boolean checkConvert(DrillFc drill) {
             if (convertList.size == 0) return true;
             for (Item[] convert: convertList) {
-                if (drill.dominantItem == convert[0]) {
+                if (drill.dominantItem() == convert[0]) {
                     return true;
                 }
             }
             return false;
         }
 
-        public boolean checkSameModule(DrillBuildF drill) {
+        public boolean checkSameModule(DrillFc drill) {
             if (stackable) return true;
-            for (DrillModuleBuild module: drill.modules) {
-                if (module.block == this.block) return false;
+            for (DrillModulec module: drill.modules()) {
+                if (module.block() == this.block) return false;
             }
             return true;
         }
 
-        public void apply(DrillBuildF drill) {
-            drill.powerConsMul += powerMul;
-            drill.powerConsExtra += powerExtra;
-            drill.boostMul += boostSpeed;
+        @Override
+        public void apply(DrillFc drill) {
+            drill.powerConsMul(drill.powerConsMul() + powerMul);
+            drill.powerConsExtra(drill.powerConsExtra() + powerExtra);
+            drill.boostMul(drill.boostMul() + boostSpeed);
             for (Item[] convert: convertList) {
-                if (drill.dominantItem == convert[0]) {
-                    drill.convertItem = convert[1];
-                    drill.boostFinalMul += convertMul.get(convert[0], boostFinalMul);
+                if (drill.dominantItem() == convert[0]) {
+                    drill.convertItem(convert[1]);
+                    drill.boostFinalMul(drill.boostFinalMul() + convertMul.get(convert[0], boostFinalMul));
                 }
             }
             if (coreSend) {
-                drill.coreSend = true;
+                drill.coreSend(true);
             }
+        }
+
+        @Override
+        public DrillFc drillBuild() {
+            return drillBuild;
+        }
+
+        @Override
+        public float smoothWarmup() {
+            return smoothWarmup;
+        }
+
+        @Override
+        public float targetWarmup() {
+            return targetWarmup;
+        }
+
+        @Override
+        public void drillBuild(DrillFc drillBuild) {
+            this.drillBuild = drillBuild;
+        }
+
+        @Override
+        public void smoothWarmup(float smoothWarmup) {
+            this.smoothWarmup = smoothWarmup;
+        }
+
+        @Override
+        public void targetWarmup(float targetWarmup) {
+            this.targetWarmup = targetWarmup;
         }
     }
 }
