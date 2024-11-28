@@ -82,7 +82,7 @@ public final class HIDamage {
 
     public static void allNearbyEnemies(Team team, float x, float y, float radius, Cons<Healthc> cons) {
         Units.nearbyEnemies(team, x - radius, y - radius, radius * 2f, radius * 2f, unit -> {
-            if (unit.within(x, y, radius + unit.hitSize / 2f) && !unit.dead){
+            if (unit.within(x, y, radius + unit.hitSize / 2f) && !unit.dead) {
                 cons.get(unit);
             }
         });
@@ -112,7 +112,7 @@ public final class HIDamage {
         return check;
     }
 
-    public static Teamc bestTarget(Team team, float cx, float cy, float x, float y, float range, Boolf<Unit> unitPred, Boolf<Building> tilePred, Sortf sort){
+    public static Teamc bestTarget(Team team, float cx, float cy, float x, float y, float range, Boolf<Unit> unitPred, Boolf<Building> tilePred, Sortf sort) {
         if (team == Team.derelict) return null;
 
         Unit unit = findEnemyUnit(team, cx, cy, x, y, range, unitPred, sort);
@@ -123,7 +123,7 @@ public final class HIDamage {
         }
     }
 
-    public static Unit findEnemyUnit(Team team, float cx, float cy, float x, float y, float range, Boolf<Unit> pred, Sortf unitSort){
+    public static Unit findEnemyUnit(Team team, float cx, float cy, float x, float y, float range, Boolf<Unit> pred, Sortf unitSort) {
         tmpUnit = null;
         tmpFloat = Float.NEGATIVE_INFINITY;
 
@@ -149,8 +149,8 @@ public final class HIDamage {
                 if (tmpBuilding == null ||
                         //if its closer and is at least equal priority
                         (dist < tmpFloat && b.block.priority >= tmpBuilding.block.priority) ||
-                        // block has higher priority (so range doesnt matter)
-                        (b.block.priority > tmpBuilding.block.priority)){
+                        // block has higher priority (so range doesn't matter)
+                        (b.block.priority > tmpBuilding.block.priority)) {
                     tmpBuilding = b;
                     tmpFloat = dist;
                 }
@@ -209,7 +209,7 @@ public final class HIDamage {
         units.clear();
 
         Units.nearbyEnemies(team, rect, u -> {
-            if(u.checkTarget(air, ground)){
+            if (u.checkTarget(air, ground)) {
                 units.add(u);
             }
         });
@@ -250,10 +250,10 @@ public final class HIDamage {
     }
 
     /** {@link Damage#collideLine} but only hits missile units. */
-    public static void missileCollideLine(Bullet hitter, Team team, Effect effect, float x, float y, float angle, float length, boolean large, boolean laser, int pierceCap){
-        if(pierceCap > 0){
+    public static void missileCollideLine(Bullet hitter, Team team, Effect effect, float x, float y, float angle, float length, boolean large, boolean laser, int pierceCap) {
+        if (pierceCap > 0) {
             length = findPierceLength(hitter, pierceCap, length);
-        }else if(laser){
+        } else if (laser) {
             length = Damage.findLaserLength(hitter, length);
         }
 
@@ -266,12 +266,12 @@ public final class HIDamage {
         float x2 = tr.x + x, y2 = tr.y + y;
 
         Units.nearbyEnemies(team, rect, u -> {
-            if(u.checkTarget(hitter.type.collidesAir, hitter.type.collidesGround) && u.hittable() && u.controller() instanceof MissileAI){
+            if (u.checkTarget(hitter.type.collidesAir, hitter.type.collidesGround) && u.hittable() && u.controller() instanceof MissileAI) {
                 u.hitbox(hitrect);
 
                 Vec2 vec = Geometry.raycastRect(x, y, x2, y2, hitrect.grow(expand * 2));
 
-                if(vec != null){
+                if (vec != null) {
                     collided.add(collidePool.obtain().set(vec.x, vec.y, u));
                 }
             }
@@ -280,8 +280,8 @@ public final class HIDamage {
         int[] collideCount = {0};
         collided.sort(c -> hitter.dst2(c.x, c.y));
         collided.each(c -> {
-            if(hitter.damage > 0 && (pierceCap <= 0 || collideCount[0] < pierceCap)){
-                if(c.target instanceof Unit u){
+            if (hitter.damage > 0 && (pierceCap <= 0 || collideCount[0] < pierceCap)) {
+                if (c.target instanceof Unit u) {
                     effect.at(c.x, c.y);
                     u.collision(hitter, c.x, c.y);
                     hitter.collision(u, c.x, c.y);
@@ -295,7 +295,7 @@ public final class HIDamage {
     }
 
     /** Like {@link Damage#findPierceLength}, but uses an (x, y) coord instead of bullet position */
-    public static float findLaserLength(float x, float y, float angle, Team team, float length){
+    public static float findLaserLength(float x, float y, float angle, Team team, float length) {
         Tmp.v1.trns(angle, length);
 
         furthest = null;
@@ -307,7 +307,7 @@ public final class HIDamage {
     }
 
     /** {@link Damage#findPierceLength} but it returns the distance to the point of contact, not the distance to the center of the target. */
-    public static float findPierceLength(Bullet b, int pierceCap, float length){
+    public static float findPierceLength(Bullet b, int pierceCap, float length) {
         tr.trnsExact(b.rotation(), length);
         rect.setPosition(b.x, b.y).setSize(tr.x, tr.y).normalize().grow(3f);
 
@@ -350,7 +350,7 @@ public final class HIDamage {
 
     public static void completeDamage(Team team, float x, float y, float radius, float damage, float buildDmbMult, boolean air, boolean ground) {
         allNearbyEnemies(team, x, y, radius, t -> {
-            if (t instanceof Unit u){
+            if (t instanceof Unit u) {
                 if (u.isFlying() && air || u.isGrounded() && ground) {
                     u.damage(damage);
                 }

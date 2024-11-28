@@ -101,7 +101,7 @@ public class FireWorkBulletType extends BulletType {
     @Override
     public void hitEntity(Bullet b, Hitboxc entity, float health) {
         super.hitEntity(b, entity, health);
-        if(!pierce || b.collided.size >= pierceCap) explode(b);
+        if (!pierce || b.collided.size >= pierceCap) explode(b);
     }
 
     @Override
@@ -111,14 +111,14 @@ public class FireWorkBulletType extends BulletType {
     }
 
     public void explode(Bullet b) {
-        if(fire == null) return;
+        if (fire == null) return;
         for (int i = 0; i < num; i++) {
             if (colorful && childColorful) {
                 Color c = colors[(int) Mathf.random(0, colors.length-0.01f)];
                 fire.create(b, b.team, b.x, b.y, Mathf.random(360), -1, 1, 1, c);
             } else fire.create(b, b.team, b.x, b.y, Mathf.random(360), -1, 1, 1, color);
         }
-        if (textFire != null){
+        if (textFire != null) {
             if (colorful) {
                 Color c = colors[Mathf.random(0, colors.length)];
                 textFire.create(b, b.team, b.x, b.y, 0, -1, 1, 1, c);

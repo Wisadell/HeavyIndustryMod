@@ -64,7 +64,7 @@ public final class HeavyIndustryMod extends Mod {
         Events.on(ClientLoadEvent.class, e -> {
             HIIcon.load();
 
-            if(onlyPlugIn) return;
+            if (onlyPlugIn) return;
 
             showDialog();
             showMultipleMods();
@@ -93,7 +93,7 @@ public final class HeavyIndustryMod extends Mod {
         EntityRegister.load();
         WorldRegister.load();
 
-        if(onlyPlugIn) return;
+        if (onlyPlugIn) return;
 
         HITeams.load();
         HIItems.load();
@@ -114,7 +114,7 @@ public final class HeavyIndustryMod extends Mod {
 
     @Override
     public void init() {
-        if(!headless) {
+        if (!headless) {
             ScreenSampler.setup();
 
             TableUtils.init();
@@ -136,7 +136,7 @@ public final class HeavyIndustryMod extends Mod {
                 } catch (Throwable e) {
                     Log.err(e);
                 }
-                if(ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
+                if (ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
             }
         }
 
@@ -197,7 +197,7 @@ public final class HeavyIndustryMod extends Mod {
         if (settings.getBool("hi-closed-dialog")) return;
 
         FLabel label = new FLabel(bundle.get("hi-author") + author);
-        BaseDialog dialog = new BaseDialog(bundle.get("hi-name")){{
+        BaseDialog dialog = new BaseDialog(bundle.get("hi-name")) {{
             buttons.button("@close", this::hide).size(210f, 64f);
             buttons.button((bundle.get("hi-link-github")), () -> {
                 if (!app.openURI(linkGitHub)) {
@@ -219,14 +219,14 @@ public final class HeavyIndustryMod extends Mod {
     }
 
     private static void showAprilFoolsDayDialog() {
-        BaseDialog dialog = new BaseDialog(bundle.get("hi-name")){
+        BaseDialog dialog = new BaseDialog(bundle.get("hi-name")) {
             private int con = 0;
             private float bx, by;
         {
             cont.add(bundle.get("hi-ap-main"));
             buttons.button("", this::hide).update(b -> {
                 b.setText(con > 0 ? con == 5 ? bundle.get("hi-ap-happy") : bundle.get("hi-ap-click") : bundle.get("hi-ap-ok"));
-                if(con > 0){
+                if (con > 0) {
                     b.x = bx;
                     b.y = by;
                 }

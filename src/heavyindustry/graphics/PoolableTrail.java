@@ -32,7 +32,7 @@ public class PoolableTrail extends Trail implements Poolable {
         return out;
     }
 
-    public static PoolableTrail copy(int length){
+    public static PoolableTrail copy(int length) {
         PoolableTrail trail = Pools.obtain(PoolableTrail.class, PoolableTrail::new);
         trail.length = length;
 

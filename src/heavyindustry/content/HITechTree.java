@@ -280,7 +280,7 @@ public final class HITechTree {
         vanillaNode(desolateRift, () -> node(moltenRiftValley, Seq.with(new SectorComplete(desolateRift)), () -> {}));
     }
 
-    public static void vanillaNode(UnlockableContent content, Runnable children){
+    public static void vanillaNode(UnlockableContent content, Runnable children) {
         context = TechTree.all.find(t -> t.content == content);
         children.run();
     }

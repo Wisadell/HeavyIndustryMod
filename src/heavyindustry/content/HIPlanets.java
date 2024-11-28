@@ -27,8 +27,8 @@ public final class HIPlanets {
     /** HIPlanets should not be instantiated. */
     private HIPlanets() {}
 
-    public static void load(){
-        kepler = new BetterPlanet("kepler", sun, 1f, 3){{
+    public static void load() {
+        kepler = new BetterPlanet("kepler", sun, 1f, 3) {{
             icon = "kepler-icon";
             orbitRadius = 40f;
             atmosphereRadIn = 0f;
@@ -37,12 +37,12 @@ public final class HIPlanets {
 
             Vec3 ringPos = new Vec3(0,1,0).rotate(Vec3.X, 25);
 
-            generator = new KeplerPlanetGenerator(){{
+            generator = new KeplerPlanetGenerator() {{
                 baseHeight = 0;
                 baseColor = Blocks.stone.mapColor;
 
                 Mathf.rand.setSeed(2);
-                heights.add(new NoiseHeight(){{
+                heights.add(new NoiseHeight() {{
                     offset.set(1000, 0, 0);
                     octaves = 7;
                     persistence = 0.5;
@@ -50,8 +50,8 @@ public final class HIPlanets {
                     heightOffset = -0.5f;
                 }});
                 Seq<HeightPass> mountains = new Seq<>();
-                for(int i = 0; i < 30; i++) {
-                    mountains.add(new DotHeight(){{
+                for (int i = 0; i < 30; i++) {
+                    mountains.add(new DotHeight() {{
                         dir.setToRandomDirection().y *= 10f;
                         dir.rotate(Vec3.X, 22f);
                         min = 0.99f;
@@ -61,7 +61,7 @@ public final class HIPlanets {
                 }
                 heights.add(new MultiHeight(mountains, MultiHeight.MixType.max, MultiHeight.Operation.add), new ClampHeight(0f, 0.8f));
                 colors.addAll(
-                        new NoiseColorPass(){{
+                        new NoiseColorPass() {{
                             scale = 1.5;
                             persistence = 0.5;
                             octaves = 3;
@@ -71,7 +71,7 @@ public final class HIPlanets {
                             out = HIBlocks.corruptedMoss.mapColor;
                             offset.set(1500f, 300f, -500f);
                         }},
-                        new NoiseColorPass(){{
+                        new NoiseColorPass() {{
                             seed = 5;
                             scale = 1.5;
                             persistence = 0.5;
@@ -82,7 +82,7 @@ public final class HIPlanets {
                             out = HIBlocks.overgrownGrass.mapColor;
                             offset.set(1500f, 300f, -500f);
                         }},
-                        new NoiseColorPass(){{
+                        new NoiseColorPass() {{
                             seed = 8;
                             scale = 1.5;
                             persistence = 0.5;
@@ -94,20 +94,20 @@ public final class HIPlanets {
                             offset.set(1500f, 300f, -500f);
                         }}
                 );
-                for(int i = 0; i < 5; i++) {
+                for (int i = 0; i < 5; i++) {
                     colors.add(new SphereColorPass(new Vec3().setToRandomDirection(), 0.06f, Blocks.darksand.mapColor));
                 }
                 colors.add(
-                        new FlatColorPass(){{
+                        new FlatColorPass() {{
                             min = max = 0f;
                             out = Blocks.water.mapColor;
                         }},
-                        new FlatColorPass(){{
+                        new FlatColorPass() {{
                             min = 0.3f;
                             max = 0.5f;
                             out = Blocks.snow.mapColor;
                         }},
-                        new FlatColorPass(){{
+                        new FlatColorPass() {{
                             max = 1f;
                             min = 0.5f;
                             out = Blocks.iceSnow.mapColor;

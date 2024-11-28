@@ -31,7 +31,7 @@ public class BowHalo extends DrawPart {
         Tmp.v1.set(x, y).rotate(rot);
         float px = bx + Tmp.v1.x, py = by + Tmp.v1.y;
         Lines.circle(px, py, realR);
-        for(int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             float angle = i* 360f / 2 + (rotAb ? rot : 0);
             Drawf.tri(px + Angles.trnsx(angle - Time.time * rotateSpeed, realR), py + Angles.trnsy(angle - Time.time * rotateSpeed, realR), w1, h1 * warmup, angle - Time.time * rotateSpeed);
             Drawf.tri(px + Angles.trnsx(angle, realR), py + Angles.trnsy(angle, realR), w2, h2 * warmup, angle);

@@ -142,14 +142,14 @@ public class DelayedPointBulletType extends BulletType {
 
         if (p instanceof Hitboxc h) {
             hitEntity(b, h, 0);
-            if(!despawnHit)hit(b, tX, tY);
+            if (!despawnHit)hit(b, tX, tY);
         } else if (collidesTiles) {
             Building build = world.buildWorld(tX, tY);
             if (build != null && build.team != b.team) {
                 build.collision(b);
                 if (!despawnHit) hit(b, build.x, build.y);
             }
-        } else if(despawnHit) hit(b, tX, tY);
+        } else if (despawnHit) hit(b, tX, tY);
 
         b.hit = true;
         super.despawned(b);

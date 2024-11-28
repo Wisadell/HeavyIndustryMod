@@ -46,7 +46,7 @@ public class HailStoneBulletType extends FallingBulletType {
 
     @Override
     public void despawned(Bullet b) {
-        if(despawnHit){
+        if (despawnHit) {
             hit(b);
         } else {
             createUnits(b, b.x, b.y);
@@ -62,7 +62,7 @@ public class HailStoneBulletType extends FallingBulletType {
         Effect.shake(despawnShake, despawnShake, b);
     }
 
-    public TextureRegion getRegion(Bullet b){
+    public TextureRegion getRegion(Bullet b) {
         return variantsRegion[Mathf.floor(Mathf.randomSeed(b.id) * (variants - 1))];
     }
 

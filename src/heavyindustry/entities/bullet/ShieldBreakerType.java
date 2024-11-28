@@ -21,8 +21,8 @@ public class ShieldBreakerType extends BasicBulletType {
         damage = 1;
     }
         @Override
-        public void despawned(Bullet b){
-            if(b.absorbed && b.data instanceof Color color) {
+        public void despawned(Bullet b) {
+            if (b.absorbed && b.data instanceof Color color) {
                 HIFx.shuttle.at(b.x, b.y, Mathf.random(360f), color, b.damage / tilesize / 2f);
                 Effect.shake(b.damage / 100, b.damage / 100, b);
                 Sounds.plasmaboom.at(b);
@@ -53,6 +53,6 @@ public class ShieldBreakerType extends BasicBulletType {
     @Override
     public void update(Bullet b) {
         super.update(b);
-        if(b.timer(5, fragSpawnSpacing))breakType.create(b, b.team, b.x, b.y, 0, maxShieldDamage, 0, 1, backColor);
+        if (b.timer(5, fragSpawnSpacing))breakType.create(b, b.team, b.x, b.y, 0, maxShieldDamage, 0, 1, backColor);
     }
 }

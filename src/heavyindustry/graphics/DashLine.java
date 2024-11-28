@@ -25,7 +25,7 @@ public final class DashLine {
 
         final int length = cords.length - cords.length % 2;
         final int realSize = length / 2;
-        if(realSize < 2) return;
+        if (realSize < 2) return;
         PointList pointList = pointListPool.obtain().set(cords, length);
 
         try {
@@ -82,7 +82,7 @@ public final class DashLine {
             float diff2x = (x22 - x21) / len2 * kstroke, diff2y = (y22 - y21) / len2 * kstroke;
             floats.add(x22 + diff2x - diff2y, y22 + diff2y + diff2x, x22 + diff2x + diff2y, y22 + diff2y - diff2x);
 
-            for(int i = 0; i < floats.size / 2 - 2; i += 2){
+            for (int i = 0; i < floats.size / 2 - 2; i += 2) {
                 float x1 = xfloats(i);
                 float y1 = yfloats(i);
                 float x2 = xfloats(i + 1);
@@ -133,7 +133,7 @@ public final class DashLine {
                 Vec2 next = Tmp.v2.set(pointList.x(currentIndex + 1), pointList.y(currentIndex + 1));
                 Vec2 position = Tmp.v3.set(cur);
                 vector.set(next).sub(cur).limit2(len2);
-                if(cornerPercent != -1) {
+                if (cornerPercent != -1) {
                     Vec2 set = Tmp.v4.set(vector.x * cornerPercent, vector.y * cornerPercent);
                     position.add(set);
                     cornerPercent = -1;
@@ -169,7 +169,7 @@ public final class DashLine {
                                 nextLen = perfectLen;
                             }
                             floats.add(currentx + nextPosition.x, currenty + nextPosition.y);
-                            if (nextLen < perfectLen && cornerPercent > 0.0000001f){
+                            if (nextLen < perfectLen && cornerPercent > 0.0000001f) {
                                 cornerPercent = (perfectLen - nextLen) / len;
                             } else {
                                 break;

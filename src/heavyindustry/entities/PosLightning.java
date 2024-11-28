@@ -37,7 +37,7 @@ import static mindustry.Vars.*;
  * @author Yuria
  */
 public final class PosLightning {
-    public static final BulletType hitter = new EffectBulletType(5f){{
+    public static final BulletType hitter = new EffectBulletType(5f) {{
         absorbable = true;
         collides = collidesAir = collidesGround = collidesTiles = true;
         status = StatusEffects.shocked;
@@ -109,13 +109,13 @@ public final class PosLightning {
 
     /** A create method that with a Bullet owner. */
     public static void create(Entityc owner, Team team, Position from, Position target, Color color, boolean createSubLightning, float damage, int subLightningLength, float lightningWidth, int lightningNum, Cons<Position> hitPointMovement) {
-        if(!Mathf.chance(trueHitChance))return;
+        if (!Mathf.chance(trueHitChance))return;
         Position sureTarget = findInterceptedPoint(from, target, team);
         hitPointMovement.get(sureTarget);
 
         if (createSubLightning) {
             if (owner instanceof Bullet b) {
-                for(int i = 0; i < b.type.lightning; i++) Lightning.create(b, color, b.type.lightningDamage < 0f ? b.damage : b.type.lightningDamage, sureTarget.getX(), sureTarget.getY(), b.rotation() + Mathf.range(b.type.lightningCone / 2f) + b.type.lightningAngle, b.type.lightningLength + Mathf.random(b.type.lightningLengthRand));
+                for (int i = 0; i < b.type.lightning; i++) Lightning.create(b, color, b.type.lightningDamage < 0f ? b.damage : b.type.lightningDamage, sureTarget.getX(), sureTarget.getY(), b.rotation() + Mathf.range(b.type.lightningCone / 2f) + b.type.lightningAngle, b.type.lightningLength + Mathf.random(b.type.lightningLengthRand));
             } else for (int i = 0; i < 3; i++) Lightning.create(team, color, damage <= 0f ? 1f : damage, sureTarget.getX(), sureTarget.getY(), Mathf.random(360f), subLightningLength);
         }
 
@@ -155,7 +155,7 @@ public final class PosLightning {
     }
 
     public static void createEffect(Position from, float length, float angle, Color color, int lightningNum, float width) {
-        if(headless)return;
+        if (headless)return;
         createEffect(from, tmp2.trns(angle, length).add(from), color, lightningNum, width);
     }
 
@@ -213,7 +213,7 @@ public final class PosLightning {
     /** create lightning effect. */
     public static void createBoltEffect(Color color, float width, Vec2Seq vets) {
         vets.each(((x, y) -> {
-            if(Mathf.chance(0.0855))HIFx.lightningSpark.at(x, y, rand.random(2f + width, 4f + width), color);
+            if (Mathf.chance(0.0855))HIFx.lightningSpark.at(x, y, rand.random(2f + width, 4f + width), color);
         }));
         HIFx.posLightning.at((vets.firstTmp().x + vets.peekTmp().x) / 2f, (vets.firstTmp().y + vets.peekTmp().y) / 2f, width, color, vets);
     }

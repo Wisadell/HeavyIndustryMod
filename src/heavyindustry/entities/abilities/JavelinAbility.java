@@ -127,20 +127,20 @@ public class JavelinAbility extends Ability {
             float ax = unit.x + x, ay = unit.y + y;
             targets.clear();
             Units.nearby(null, ax, ay, radius, other -> {
-                if(other != unit && other.checkTarget(targetAir, targetGround) && other.targetable(unit.team) && (other.team != unit.team)) {
+                if (other != unit && other.checkTarget(targetAir, targetGround) && other.targetable(unit.team) && (other.team != unit.team)) {
                     targets.add(other);
                 }
             });
-            if(targetGround) {
+            if (targetGround) {
                 Units.nearbyBuildings(ax, ay, radius, b -> {
-                    if((b.team != Team.derelict || state.rules.coreCapture) && (b.team != unit.team)) {
+                    if ((b.team != Team.derelict || state.rules.coreCapture) && (b.team != unit.team)) {
                         targets.add(b);
                     }
                 });
             }
             float dmg = Math.max(minDamage, damage * scl * state.rules.unitDamage(unit.team));
             targets.each(other -> {
-                if(other instanceof Building b) {
+                if (other instanceof Building b) {
                     b.damage(unit.team, dmg);
                 } else other.damage(dmg);
                 hitEffect.at(other.x(), other.y(), unit.rotation - 90f, color);

@@ -11,7 +11,7 @@ public class DeathAbility extends Ability {
     @Override
     public void update(Unit unit) {
         Groups.bullet.intersect(unit.x - length, unit.y - length, length * 2, length * 2, b -> {
-            if (b.team != unit.team && unit.within(b, 200)){
+            if (b.team != unit.team && unit.within(b, 200)) {
                 Unit owner = null;
                 if (b.owner instanceof Unit unit1) owner = unit1;
                 if (b.type.damage > unit.maxHealth / 2f || b.type.splashDamage > unit.maxHealth / 2f || b.type.lightningDamage > unit.maxHealth / 2f) {
@@ -22,7 +22,7 @@ public class DeathAbility extends Ability {
 
                 Building building = null;
                 if (b.owner instanceof Building building1) building = building1;
-                if (b.type.damage > unit.maxHealth / 2f || b.type.splashDamage > unit.maxHealth / 2f || b.type.lightningDamage > unit.maxHealth / 2f){
+                if (b.type.damage > unit.maxHealth / 2f || b.type.splashDamage > unit.maxHealth / 2f || b.type.lightningDamage > unit.maxHealth / 2f) {
                     if (building != null) building.kill();
                     b.remove();
                 }

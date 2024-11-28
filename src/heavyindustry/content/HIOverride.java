@@ -477,7 +477,7 @@ public final class HIOverride {
         }
     }
 
-    public static void loadReflect(){
+    public static void loadReflect() {
         try {
             removeConsumeItems(Blocks.disassembler);
             ((Separator)Blocks.disassembler).results = ItemStack.with(Items.copper, 1, Items.lead, 1, Items.graphite, 1, Items.titanium, 1, Items.thorium, 1);

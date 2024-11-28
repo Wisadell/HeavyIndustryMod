@@ -85,7 +85,7 @@ public final class Drawm {
     public static TextureRegion[] loadCustomTeamRegion(String name) {
         TextureRegion[] ret = new TextureRegion[Team.all.length];
         TextureRegion def = Core.atlas.find(name + "-team");
-        for(Team team : Team.all){
+        for (Team team : Team.all) {
             ret[team.id] = def.found() && team.hasPalette ? Core.atlas.find(name + "-team-" + team.name, def) : def;
         }
         return ret;
@@ -94,7 +94,7 @@ public final class Drawm {
     /** Draws a sprite that should be lightwise correct, using 4 sprites each colored with a different lighting angle. */
     public static void spinSprite(TextureRegion[] sprites, float x, float y, float r) {
         r = Mathf.mod(r, 360f);
-        int now = (((int)(r + 45f)) / 90) % 4;
+        int now = (((int) (r + 45f)) / 90) % 4;
 
         Draw.rect(sprites[now], x, y, r);
         Draw.alpha(((r + 45f) % 90f) / 90f);
@@ -138,7 +138,7 @@ public final class Drawm {
     }
 
     private static void prepareRollColor(float roll, Color lightColor, Color darkColor, float a) {
-        if(Mathf.zero(roll)) return;
+        if (Mathf.zero(roll)) return;
         float f = Mathf.sin(roll) * 0.7f;
         if (roll > Mathf.pi / 2f || roll < -Mathf.pi / 2f) {
             f = -f;
@@ -163,7 +163,7 @@ public final class Drawm {
 
     /** Outlines a list of regions. Run in createIcons. */
     public static void outlineRegion(MultiPacker packer, TextureRegion[] textures, Color outlineColor, String name) {
-        for(int i = 0; i < textures.length; i++){
+        for (int i = 0; i < textures.length; i++) {
             outlineRegion(packer, textures[i], outlineColor, name + "-" + i);
         }
     }
@@ -210,7 +210,7 @@ public final class Drawm {
     }
 
     public static void plus(float x, float y, float stroke, float diameter, float angle) {
-        for(int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             Fill.rect(x, y, stroke, diameter, angle + i * 90f);
         }
     }

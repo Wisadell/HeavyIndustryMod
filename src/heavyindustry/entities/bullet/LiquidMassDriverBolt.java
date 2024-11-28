@@ -8,7 +8,7 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
 public class LiquidMassDriverBolt extends BulletType {
-    public LiquidMassDriverBolt(){
+    public LiquidMassDriverBolt() {
         super(1f, 75);
         collidesTiles = false;
         lifetime = 1f;

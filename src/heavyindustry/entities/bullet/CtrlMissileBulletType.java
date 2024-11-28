@@ -82,7 +82,7 @@ public class CtrlMissileBulletType extends BasicBulletType {
                 if (b.owner instanceof Unit unit) shooter = unit;
                 if (b.owner instanceof ControlBlock control) shooter = control.unit();
                 if (shooter != null) {
-                    if(shooter.isPlayer()) lookAt(shooter.aimX, shooter.aimY, b);
+                    if (shooter.isPlayer()) lookAt(shooter.aimX, shooter.aimY, b);
                     else {
                         if (b.data instanceof Position p) lookAt(p.getX(), p.getY(), b);
                         else lookAt(realAimX, realAimY, b);

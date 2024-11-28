@@ -1286,7 +1286,7 @@ public final class HIBlocks {
             update = true;
             buildType = () -> new PowerNodeBuild() {
                 @Override
-                public void updateTile(){
+                public void updateTile() {
                     if (damaged() && power.graph.getSatisfaction() > 0.5f) {
                         if (timer.get(90f)) {
                             Fx.healBlockFull.at(x, y, 0, Pal.powerLight, this.block);
@@ -1381,7 +1381,7 @@ public final class HIBlocks {
 
                     drawGlow();
 
-                    if(heat > flashThreshold){
+                    if (heat > flashThreshold) {
                         flash += (1f + ((heat - flashThreshold) / (1f - flashThreshold)) * 5.4f) * Time.delta;
                         Draw.color(Color.red, Color.yellow, Mathf.absin(flash, 9f, 1f));
                         Draw.alpha(0.3f);
@@ -1392,7 +1392,7 @@ public final class HIBlocks {
                 }
 
                 public void drawGlow() {
-                    if(warmup() <= 0.001f) return;
+                    if (warmup() <= 0.001f) return;
 
                     float z = Draw.z();
                     Draw.z(layer);
@@ -1434,7 +1434,7 @@ public final class HIBlocks {
             itemCapacity = 30;
             itemDuration = 180f;
             liquidCapacity = 360f;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPlasma(){{
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPlasma() {{
                 plasma1 = plasma2 = Pal.techBlue;
             }}, new DrawDefault());
             ambientSound = Sounds.pulse;
@@ -1773,7 +1773,7 @@ public final class HIBlocks {
             }
                 @Override
                 public void draw(Building build) {
-                    if(build.warmup() > 0f && flameColor.a > 0.001f){
+                    if (build.warmup() > 0f && flameColor.a > 0.001f) {
                         Lines.stroke(circleStroke * build.warmup());
                         float si = Mathf.absin(flameRadiusScl, flameRadiusMag);
                         float a = alpha * build.warmup();
@@ -1801,7 +1801,7 @@ public final class HIBlocks {
                 alpha = 1.1f;
             }}, new DrawRotator(1f, "-top") {
                 @Override
-                public void draw(Building build){
+                public void draw(Building build) {
                     Drawf.spinSprite(rotator, build.x + x, build.y + y, Drawn.rotator_90(Drawn.cycle(build.totalProgress() * rotateSpeed, 0, craftTime), 0.15f));
                 }
             });
@@ -1831,7 +1831,7 @@ public final class HIBlocks {
                 particleColorFrom = color2;
                 particleColorTo = color3;
                 color = color1;
-            }}, new DrawDefault()/*, new DrawGlowRegion("-glow"){{
+            }}, new DrawDefault()/*, new DrawGlowRegion("-glow") {{
                 alpha = 0.7f;
                 glowScale = 6;
             }}*/);
@@ -1894,7 +1894,7 @@ public final class HIBlocks {
             liquidCapacity = 30f;
             craftTime = 20f;
             results = with(Items.titanium, 2, Items.thorium, 2, HIItems.uranium, 1, HIItems.chromium, 1);
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPistons(){{
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPistons() {{
                 sides = 4;
                 sinMag = 3.9f;
                 lenOffset = -1.785f;
@@ -2169,7 +2169,7 @@ public final class HIBlocks {
                 public float heatf, warmupf;
 
                 @Override
-                public void updateTile(){
+                public void updateTile() {
                     super.updateTile();
                     if (!nextFlash && heatf < 0.001f && Mathf.chance(0.01f * edelta()) && canConsume() && efficiency() > 0.0001f) {
                         nextFlash = true;
@@ -2267,7 +2267,7 @@ public final class HIBlocks {
                 stroke = 3f;
                 timeScl = 120f;
                 color = HIPal.regenerating;
-            }}, new DrawShape(){{
+            }}, new DrawShape() {{
                 layer = 110;
                 radius = 5f;
                 useWarmupRadius = true;
@@ -2905,7 +2905,7 @@ public final class HIBlocks {
             underBullets = true;
             elevation = 0f;
             unitSort = UnitSorts.weakest;
-            drawer = new DrawTurret(){{
+            drawer = new DrawTurret() {{
                 parts.addAll(new RegionPart("-cover-top") {{
                     progress = PartProgress.warmup;
                     moveY = -6f;
@@ -2950,11 +2950,11 @@ public final class HIBlocks {
         }};
         dragonBreath = new ItemTurret("dragon-breath") {{
             requirements(Category.turret, with(Items.graphite, 40, Items.silicon, 25, Items.titanium, 60, Items.plastanium, 30));
-            ammo(Items.coal, new FlameBulletType(Pal.lightFlame, Pal.darkFlame, Color.gray, range + 8, 14, 60, 22), Items.pyratite, new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8, 20, 72, 22){{
+            ammo(Items.coal, new FlameBulletType(Pal.lightFlame, Pal.darkFlame, Color.gray, range + 8, 14, 60, 22), Items.pyratite, new FlameBulletType(Pal.lightPyraFlame, Pal.darkPyraFlame, Color.gray, range + 8, 20, 72, 22) {{
                 damage = 98;
                 statusDuration = 60 * 6;
                 ammoMultiplier = 4;
-            }}, Items.blastCompound, new FlameBulletType(Items.blastCompound.color.cpy().mul(Pal.lightFlame), Items.blastCompound.color.cpy(), Pal.lightishGray, range + 8, 22, 66, 30){{
+            }}, Items.blastCompound, new FlameBulletType(Items.blastCompound.color.cpy().mul(Pal.lightFlame), Items.blastCompound.color.cpy(), Pal.lightishGray, range + 8, 22, 66, 30) {{
                 damage = 90;
                 status = HIStatusEffects.flamePoint;
                 statusDuration = 8 * 60f;
@@ -2979,9 +2979,9 @@ public final class HIBlocks {
 
                 @Override
                 public void hit(Bullet b) {
-                    if(absorbable && b.absorbed) return;
+                    if (absorbable && b.absorbed) return;
                     Units.nearbyEnemies(b.team, b.x, b.y, flameLength, unit -> {
-                        if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)){
+                        if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)) {
                             Fx.hitFlameSmall.at(unit);
                             unit.damage(damage);
                             if (unit.hasEffect(status)) {
@@ -2995,7 +2995,7 @@ public final class HIBlocks {
                         }
                     });
                     indexer.allBuildings(b.x, b.y, flameLength, other -> {
-                        if(other.team != b.team && Angles.within(b.rotation(), b.angleTo(other), flameCone)){
+                        if (other.team != b.team && Angles.within(b.rotation(), b.angleTo(other), flameCone)) {
                             Fx.hitFlameSmall.at(other);
                             other.damage(damage * buildingDamageMultiplier);
                         }
@@ -3014,7 +3014,7 @@ public final class HIBlocks {
             coolantMultiplier = 1.5f;
             coolant = consumeCoolant(0.1f);
         }};
-        cloudbreaker = new ItemTurret("cloudbreaker"){{
+        cloudbreaker = new ItemTurret("cloudbreaker") {{
             requirements(Category.turret, with(Items.graphite, 230, Items.titanium, 220, Items.thorium, 150));
             ammo(
                     Items.titanium, new CritBulletType(14f, 220f) {{
@@ -3068,7 +3068,7 @@ public final class HIBlocks {
                         @Override
                         public void removed(Bullet b) {
                             super.removed(b);
-                            if(b.fdata != 1f) createFrags(b, b.x, b.y);
+                            if (b.fdata != 1f) createFrags(b, b.x, b.y);
                         }
                     }
             );
@@ -3187,7 +3187,7 @@ public final class HIBlocks {
             range = 200f;
             smokeEffect = Fx.shootBigSmoke;
             coolant = consumeCoolant(0.1f);
-            shoot = new ShootSpread(){{
+            shoot = new ShootSpread() {{
                 shots = 12;
                 shotDelay = 2f;
                 spread = 0.55f;
@@ -3410,7 +3410,7 @@ public final class HIBlocks {
             inaccuracy = 0.75f;
             recoil = 0.5f;
             coolant = consumeCoolant(0.2f);
-            drawer = new DrawTurret(){{
+            drawer = new DrawTurret() {{
                 parts.add(new RegionPart("-shooter") {{
                     under = true;
                     outline = true;
@@ -3425,7 +3425,7 @@ public final class HIBlocks {
             shootSound = HISounds.fissure;
             shoot = new ShootMulti(new ShootPattern(), new ShootBarrel() {{
                 barrels = new float[]{-6.5f, 3f, 0f};
-            }}, new ShootBarrel(){{
+            }}, new ShootBarrel() {{
                 barrels = new float[]{6.5f, 3f, 0f};
             }});
         }};
@@ -3454,7 +3454,7 @@ public final class HIBlocks {
         }};
         judgement = new ContinuousTurret("judgement") {{
             requirements(Category.turret, with(Items.silicon, 1200, Items.metaglass, 400, Items.plastanium, 800, Items.surgeAlloy, 650, Items.phaseFabric, 550, HIItems.heavyAlloy, 400));
-            shootType = new PointLaserBulletType(){{
+            shootType = new PointLaserBulletType() {{
                 damage = 100f;
                 hitEffect = HIFx.hitSpark;
                 beamEffect = Fx.none;
@@ -3588,12 +3588,12 @@ public final class HIBlocks {
 
                 @Override
                 public void hit(Bullet b, float x, float y) {
-                    if(Mathf.chance(0.4))hitEffect.at(x, y, b.rotation(), getColor(b));
+                    if (Mathf.chance(0.4))hitEffect.at(x, y, b.rotation(), getColor(b));
                     hitSound.at(x, y, hitSoundPitch, hitSoundVolume);
 
                     Effect.shake(hitShake, hitShake, b);
 
-                    if(fragOnHit){
+                    if (fragOnHit) {
                         createFrags(b, x, y);
                     }
                 }
@@ -3620,12 +3620,12 @@ public final class HIBlocks {
                 @Override
                 public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
                     super.hitTile(b, build, x, y, initialHealth, direct);
-                    if(build == b.data)b.fdata += Time.delta;
+                    if (build == b.data)b.fdata += Time.delta;
                     else b.fdata = 0;
                     b.data = build;
                 }
             };
-            drawer = new DrawTurret(){{parts.addAll(new RegionPart("-charger") {{
+            drawer = new DrawTurret() {{parts.addAll(new RegionPart("-charger") {{
                 mirror = true;
                 under = true;
                 moveRot = 10;
@@ -3667,7 +3667,7 @@ public final class HIBlocks {
         rupture = new ItemTurret("rupture") {{
             requirements(Category.turret, with(Items.graphite, 360, Items.silicon, 250, Items.beryllium, 380, Items.tungsten, 180, Items.oxide, 45));
             ammo(
-                    Items.beryllium, new BasicBulletType(12f, 72f){{
+                    Items.beryllium, new BasicBulletType(12f, 72f) {{
                         buildingDamageMultiplier = 0.33f;
                         ammoMultiplier = 3f;
                         knockback = 1.1f;
@@ -3684,7 +3684,7 @@ public final class HIBlocks {
                         smokeEffect = Fx.shootBigSmoke;
                         shootEffect = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
                     }},
-                    Items.tungsten, new BasicBulletType(13f, 96.8f){{
+                    Items.tungsten, new BasicBulletType(13f, 96.8f) {{
                         buildingDamageMultiplier = 0.33f;
                         ammoMultiplier = 4f;
                         knockback = 1.5f;
@@ -3702,7 +3702,7 @@ public final class HIBlocks {
                         smokeEffect = Fx.shootBigSmoke;
                         shootEffect = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
                     }},
-                    Items.thorium, new BasicBulletType(15f, 126.3f){{
+                    Items.thorium, new BasicBulletType(15f, 126.3f) {{
                         buildingDamageMultiplier = 0.33f;
                         ammoMultiplier = 5f;
                         knockback = 1.5f;
@@ -3954,7 +3954,7 @@ public final class HIBlocks {
             size = 3;
             absorbLasers = insulated = true;
             unlocked = false;
-            buildType = () -> new WallBuild(){
+            buildType = () -> new WallBuild() {
                 @Override
                 public void damage(float damage) {}
 
@@ -4250,7 +4250,7 @@ public final class HIBlocks {
                         if (shootEffect != null) {
                             shootEffect.at(bulletX, bulletY, angle, Pal.spore);
                         }
-                        if (shake > 0){
+                        if (shake > 0) {
                             Effect.shake(shake, shake, this);
                         }
                         useAmmo();
@@ -4262,7 +4262,7 @@ public final class HIBlocks {
                 }
             };
         }};
-        nextWave = new Block("next-wave"){{
+        nextWave = new Block("next-wave") {{
             requirements(Category.effect, BuildVisibility.sandboxOnly, with());
             size = 2;
             health = 1000;

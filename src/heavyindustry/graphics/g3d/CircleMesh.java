@@ -29,7 +29,7 @@ public class CircleMesh extends PlanetMesh {
             final Vec3 position;
             final Vec2 textureCords;
 
-            public MeshPoint(Vec3 position, Vec2 textureCords){
+            public MeshPoint(Vec3 position, Vec2 textureCords) {
                 this.position = position;
                 this.textureCords = textureCords;
             }

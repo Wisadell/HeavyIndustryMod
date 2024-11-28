@@ -29,7 +29,7 @@ public final class Draws {
 
     private static int idCount = 0;
 
-    public static int nextTaskId(){
+    public static int nextTaskId() {
         return idCount++;
     }
 
@@ -495,7 +495,7 @@ public final class Draws {
         float mx = Angles.trnsx(rotation + 90, widthReal), my = Angles.trnsy(rotation + 90, widthReal);
         Fill.quad(x + v31.x, y + v31.y, x + mx, y + my, x - v31.x, y - v31.y, x - mx, y - my);
 
-        if(edgeStoke > 0.01f && edgeColor.a > 0.01){
+        if (edgeStoke > 0.01f && edgeColor.a > 0.01) {
             Lines.stroke(edgeStoke, edgeColor);
             crystalEdge(x, y, w1 >= widthReal, v32.z > v33.z, edgeLayer, botLayer, v32);
             crystalEdge(x, y, w2 >= widthReal, v33.z > v32.z, edgeLayer, botLayer, v33);
@@ -525,7 +525,7 @@ public final class Draws {
 
         if (line) Lines.beginLine();
         for (int i = 0; i < sides; i++) {
-            v1.set(rad, 0).setAngle(step*i + rotate);
+            v1.set(rad, 0).setAngle(step * i + rotate);
             v2.set(v1).rotate90(1).setLength(cornerLen);
 
             if (line) {
@@ -533,7 +533,7 @@ public final class Draws {
                 Lines.linePoint(x + v1.x + v2.x, y + v1.y + v2.y);
             } else Fill.tri(x, y, x + v1.x - v2.x, y + v1.y - v2.y, x + v1.x + v2.x, y + v1.y + v2.y);
         }
-        if(line) Lines.endLine(true);
+        if (line) Lines.endLine(true);
     }
 
     public static void drawHaloPart(float x, float y, float width, float len, float rotate) {
@@ -1072,12 +1072,12 @@ public final class Draws {
                 varyings.append("varying vec2 v_texCoords").append(c).append(";").append(System.lineSeparator());
 
                 assignVar.append("v_texCoords").append(c).append(" = ").append("a_texCoord0");
-                if (c - half != 0) assignVar.append(c - half > 0 ? "+" : "-").append(Math.abs((float) c - half)).append("*len");
+                if (c - half != 0) assignVar.append(c - half > 0 ? "+" : "-").append(Math.abs((float) c - half)).append(" * len");
 
                 assignVar.append(";").append(System.lineSeparator()).append("  ");
 
                 if (c > 0) convolution.append("        + ");
-                convolution.append(v).append("*texture2D(u_texture1, v_texCoords").append(c).append(")").append(".rgb").append(System.lineSeparator());
+                convolution.append(v).append(" * texture2D(u_texture1, v_texCoords").append(c).append(")").append(".rgb").append(System.lineSeparator());
 
                 c++;
             }
@@ -1092,7 +1092,7 @@ public final class Draws {
                     
                     varying vec2 v_texCoords;
                     %varying%
-                    void main(){
+                    void main() {
                         vec2 len = dir/size;
                     
                         v_texCoords = a_texCoord0;
@@ -1108,18 +1108,17 @@ public final class Draws {
                     
                     varying vec2 v_texCoords;
                     %varying%
-                    void main(){
+                    void main() {
                         vec4 blur = texture2D(u_texture0, v_texCoords);
                         vec3 color = texture2D(u_texture1, v_texCoords).rgb;
                     
-                        if(blur.a > 0.0){
+                        if (blur.a > 0.0) {
                             vec3 blurColor =
                                 %convolution%
                     
                             gl_FragColor.rgb = mix(color, blurColor, blur.a);
                             gl_FragColor.a = 1.0;
-                        }
-                        else{
+                        } else {
                             gl_FragColor.rgb = color;
                             gl_FragColor.a = def_alpha;
                         }

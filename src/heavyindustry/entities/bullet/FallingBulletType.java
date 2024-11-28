@@ -118,8 +118,8 @@ public class FallingBulletType extends BulletType {
 
     @Override
     public void updateTrail(Bullet b) {
-        if(!headless && trailLength > 0){
-            if(b.trail == null){
+        if (!headless && trailLength > 0) {
+            if (b.trail == null) {
                 b.trail = new Trail(trailLength);
             }
             Vec2 pos = getTrajectory(b);
@@ -129,27 +129,27 @@ public class FallingBulletType extends BulletType {
     }
 
     @Override
-    public void updateTrailEffects(Bullet b){
-        if(trailChance > 0){
-            if(Mathf.chanceDelta(trailChance)){
+    public void updateTrailEffects(Bullet b) {
+        if (trailChance > 0) {
+            if (Mathf.chanceDelta(trailChance)) {
                 Vec2 pos = getTrajectory(b);
                 trailEffect.at(pos.x, pos.y, trailRotation ? b.rotation() : trailParam, trailColor);
             }
         }
 
-        if(trailInterval > 0f){
-            if(b.timer(0, trailInterval)){
+        if (trailInterval > 0f) {
+            if (b.timer(0, trailInterval)) {
                 Vec2 pos = getTrajectory(b);
                 trailEffect.at(pos.x, pos.y, trailRotation ? b.rotation() : trailParam, trailColor);
             }
         }
     }
 
-    public void hitFalling(Bullet b){
+    public void hitFalling(Bullet b) {
         hitFalling(b, b.x, b.y);
     }
 
-    public void hitFalling(Bullet b, float x, float y){
+    public void hitFalling(Bullet b, float x, float y) {
         hitFallingEffect.at(x, y, b.rotation(), hitFallingColor);
         hitSound.at(x, y, hitSoundPitch, hitSoundVolume);
 
@@ -158,12 +158,12 @@ public class FallingBulletType extends BulletType {
         if (b.absorbed) return;
         Damage.damage(b.team, x, y, fallingRadius, fallingDamage * b.damageMultiplier(), splashDamagePierce, true, fallingHitCollideGround, scaledSplashDamage, b);
 
-        if(status != StatusEffects.none){
+        if (status != StatusEffects.none) {
             Damage.status(b.team, x, y, fallingRadius, status, statusDuration, true, fallingHitCollideGround);
         }
     }
 
-    public Vec2 getTrajectory(Bullet b){
+    public Vec2 getTrajectory(Bullet b) {
         float elevation = getElevation(b);
         Vec2 off = getOffsetTrajectory(b);
         Vec2 pos = new Vec2(b.x, b.y);
@@ -173,15 +173,15 @@ public class FallingBulletType extends BulletType {
         return pos;
     }
 
-    public Vec2 getOffsetTrajectory(Bullet b){
+    public Vec2 getOffsetTrajectory(Bullet b) {
         return Tmp.v2.trns(90 + (Mathf.randomSeed(b.id + 1) - 0.5f) * fallSpread / 2, fallTime);
     }
 
-    public float getRotTrajectory(Bullet b){
+    public float getRotTrajectory(Bullet b) {
         return Mathf.randomSeed(b.id) * 360f;
     }
 
-    public float getElevation(Bullet b){
+    public float getElevation(Bullet b) {
         return b.fout() * fallTime / 10;
     }
 

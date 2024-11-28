@@ -47,7 +47,7 @@ public class BatteryAbility extends Ability {
     public static float rangeS;
 
     protected static final Cons<Bullet> cons = b -> {
-        if(b.team != paramUnit.team && b.type.absorbable && Intersector.isInsideHexagon(paramUnit.x, paramUnit.y, rangeS * 2, b.getX(), b.getY()) && paramUnit.shield > 0){
+        if (b.team != paramUnit.team && b.type.absorbable && Intersector.isInsideHexagon(paramUnit.x, paramUnit.y, rangeS * 2, b.getX(), b.getY()) && paramUnit.shield > 0) {
             b.absorb();
             absorb.at(b.getX(), b.getY(), Pal.heal);
             paramUnit.shield = Math.max(paramUnit.shield - b.damage, 0);
@@ -66,7 +66,7 @@ public class BatteryAbility extends Ability {
     protected void findTarget(Unit unit) {
         if (target != null) return;
         indexer.allBuildings(unit.x, unit.y, range, other -> {
-            if (other.block != null && other.team == unit.team && other.block instanceof PowerNode){
+            if (other.block != null && other.team == unit.team && other.block instanceof PowerNode) {
                 target = other;
             }
         });
@@ -90,7 +90,7 @@ public class BatteryAbility extends Ability {
     public void draw(Unit unit) {
         float x = unit.x + Angles.trnsx(unit.rotation, py, px);
         float y = unit.y + Angles.trnsy(unit.rotation, py, px);
-        if (unit.shield > 0){
+        if (unit.shield > 0) {
             Draw.color(Pal.heal);
             Draw.z(Layer.effect);
             Lines.stroke(1.5f);
@@ -111,9 +111,9 @@ public class BatteryAbility extends Ability {
         updateTarget(unit);
         Groups.bullet.intersect(unit.x - shieldRange, unit.y - shieldRange, shieldRange * 2, shieldRange * 2, cons);
         amount = unit.shield * 10;
-        if (state.rules.unitAmmo && amount > 0){
+        if (state.rules.unitAmmo && amount > 0) {
             Units.nearby(unit.team, unit.x, unit.y, range, other -> {
-                if (other.type.ammoType instanceof PowerAmmoType type){
+                if (other.type.ammoType instanceof PowerAmmoType type) {
                     float powerPerAmmo = type.totalPower / other.type.ammoCapacity;
                     float ammoRequired = other.type.ammoCapacity - other.ammo;
                     float powerRequired = ammoRequired * powerPerAmmo;
@@ -139,7 +139,7 @@ public class BatteryAbility extends Ability {
 
     @Override
     public void death(Unit unit) {
-        new ElectricStormBulletType(capacity / 100 + amount / 100, Pal.heal, 20 + (int)amount / 1000){{
+        new ElectricStormBulletType(capacity / 100 + amount / 100, Pal.heal, 20 + (int) amount / 1000) {{
             lifetime = 300;
             splashDamageRadius = 20 * 8;
             despawnEffect = hitEffect = HIFx.electricExp(60, 15, splashDamageRadius);

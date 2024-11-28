@@ -134,7 +134,7 @@ public final class HIUnitTypes {
                 ejectEffect = Fx.casing1;
                 shootSound = Sounds.shoot;
                 alternate = false;
-                bullet = new BasicBulletType(9f, 10f){{
+                bullet = new BasicBulletType(9f, 10f) {{
                     buildingDamageMultiplier = 0.8f;
                     lifetime = 18f;
                     width = 3f;
@@ -238,7 +238,7 @@ public final class HIUnitTypes {
             faceTarget = false;
             immunities = ObjectSet.with(StatusEffects.burning, StatusEffects.shocked);
             targetFlags = new BlockFlag[]{BlockFlag.repair, BlockFlag.turret};
-            abilities.add(new StatusFieldAbility(StatusEffects.overclock, 1200f, 1200f, 45f){{
+            abilities.add(new StatusFieldAbility(StatusEffects.overclock, 1200f, 1200f, 45f) {{
                 applyEffect = Fx.none;
                 activeEffect = HIFx.circle;
             }});
@@ -358,7 +358,7 @@ public final class HIUnitTypes {
             groundLayer = 74f;
             itemCapacity = 200;
             ammoType = new ItemAmmoType(HIItems.uranium);
-            abilities.add(new TerritoryFieldAbility(20 * 8f, 90f, 210f){{
+            abilities.add(new TerritoryFieldAbility(20 * 8f, 90f, 210f) {{
                 open = true;
             }});
             immunities = ObjectSet.with(HIStatusEffects.territoryFieldSuppress);
@@ -429,7 +429,7 @@ public final class HIUnitTypes {
             speed = 0.3f;
             immunities = ObjectSet.with(StatusEffects.sapped, StatusEffects.wet, StatusEffects.electrified);
             drawShields = false;
-            abilities.add(new EnergyFieldAbility(60, 90, 200){{
+            abilities.add(new EnergyFieldAbility(60, 90, 200) {{
                 maxTargets = 25;
                 healPercent = 6f;
                 hitUnits = false;
@@ -469,7 +469,7 @@ public final class HIUnitTypes {
                 }
                     @Override
                     public void hitEntity(Bullet b, Hitboxc entity, float health) {
-                        if(entity instanceof Healthc h) {
+                        if (entity instanceof Healthc h) {
                             float damage = b.damage;
                             float gain = 1f;
                             float shield = 0f;
@@ -481,7 +481,7 @@ public final class HIUnitTypes {
                             h.damage(damage * gain);
                         }
 
-                        if(entity instanceof Unit unit) {
+                        if (entity instanceof Unit unit) {
                             Tmp.v3.set(unit).sub(b).nor().scl(knockback * 80f);
                             unit.impulse(Tmp.v3);
                             unit.apply(status, statusDuration);
@@ -776,7 +776,7 @@ public final class HIUnitTypes {
                     clipSize = 250f;
                     trailEffect = new Effect(16f, e -> {
                         Draw.color(Pal.heal);
-                        for(int s : Mathf.signs){
+                        for (int s : Mathf.signs) {
                             Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f*s);
                         }
                     });
@@ -790,7 +790,7 @@ public final class HIUnitTypes {
                         Lines.circle(e.x, e.y, rad);
                         int points = 10;
                         float offset = Mathf.randomSeed(e.id, 360f);
-                        for(int i = 0; i < points; i++){
+                        for (int i = 0; i < points; i++) {
                             float angle = i* 360f / points + offset;
                             Drawf.tri(e.x + Angles.trnsx(angle, rad), e.y + Angles.trnsy(angle, rad), 6f, 50f * e.fout(), angle);
                         }
@@ -816,7 +816,7 @@ public final class HIUnitTypes {
             health = 63000f;
             itemCapacity = 350;
             ammoType = new ItemAmmoType(HIItems.uranium);
-            abilities.add(new ShieldRegenFieldAbility(100f, 1500f, 60f * 4, 200f), new TerritoryFieldAbility(220, -1, 150){{
+            abilities.add(new ShieldRegenFieldAbility(100f, 1500f, 60f * 4, 200f), new TerritoryFieldAbility(220, -1, 150) {{
                 active = false;
             }});
             immunities = ObjectSet.with(HIStatusEffects.territoryFieldSuppress);
@@ -952,7 +952,7 @@ public final class HIUnitTypes {
                     clipSize = 250f;
                     trailEffect = new Effect(16f, e -> {
                         Draw.color(Pal.heal);
-                        for(int s : Mathf.signs){
+                        for (int s : Mathf.signs) {
                             Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f*s);
                         }
                     });
@@ -966,7 +966,7 @@ public final class HIUnitTypes {
                         Lines.circle(e.x, e.y, rad);
                         int points = 10;
                         float offset = Mathf.randomSeed(e.id, 360f);
-                        for(int i = 0; i < points; i++){
+                        for (int i = 0; i < points; i++) {
                             float angle = i* 360f / points + offset;
                             Drawf.tri(e.x + Angles.trnsx(angle, rad), e.y + Angles.trnsy(angle, rad), 6f, 50f * e.fout(), angle);
                         }
@@ -1029,12 +1029,12 @@ public final class HIUnitTypes {
                     public void update(Bullet b) {
                         super.update(b);
                         float startTime = homingDelay + 12;
-                        if(b.time < startTime){
+                        if (b.time < startTime) {
                             float in = b.time / startTime;
                             float out = 1 - in;
                             out = Interp.fastSlow.apply(out);
                             b.initVel(b.rotation(), speed * out + 1f);
-                        }else{
+                        } else {
                             float in = Math.min(1, (b.time - startTime) / 30);
                             b.initVel(b.rotation(), speed * 2f * in + 1f);
                         }
@@ -1043,10 +1043,10 @@ public final class HIUnitTypes {
                     @Override
                     public void hitEntity(Bullet b, Hitboxc entity, float health) {
                         super.hitEntity(b, entity, health);
-                        if(entity instanceof Unit unit){
-                            if(unit.shield > 0){
+                        if (entity instanceof Unit unit) {
+                            if (unit.shield > 0) {
                                 HIFx.hitOut.at(unit.x, unit.y, b.rotation(), unit);
-                                if(unit.health > damage) unit.health -= damage;
+                                if (unit.health > damage) unit.health -= damage;
                                 else unit.kill();
                             }
                         }
@@ -1055,10 +1055,10 @@ public final class HIUnitTypes {
                     @Override
                     public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
                         super.hitTile(b, build, x, y, initialHealth, direct);
-                        if(build == null || build.dead) return;
-                        if(build.timeScale() > 1){
+                        if (build == null || build.dead) return;
+                        if (build.timeScale() > 1) {
                             HIFx.hitOut.at(build.x, build.y, b.rotation(), build);
-                            if(build.health > damage) build.health -= damage;
+                            if (build.health > damage) build.health -= damage;
                             else build.kill();
                         }
                         build.applySlowdown(0.6f, 30);
@@ -1144,7 +1144,7 @@ public final class HIUnitTypes {
                     radius = 14f;
                     layer = Layer.effect;
                     y = -21f;
-                }}, new AimPart(){{
+                }}, new AimPart() {{
                     layer = Layer.effect;
                     y = 15f;
                     width = 0.9f;
@@ -1516,7 +1516,7 @@ public final class HIUnitTypes {
                     under = true;
                     mirror = true;
                 }});
-                bullet = new CtrlMissileBulletType(name("havoc-missile"), -1, -1){{
+                bullet = new CtrlMissileBulletType(name("havoc-missile"), -1, -1) {{
                     shootEffect = Fx.sparkShoot;
                     smokeEffect = Fx.shootSmokeTitan;
                     hitColor = Pal.suppress;
@@ -1738,7 +1738,7 @@ public final class HIUnitTypes {
         }};
         vulture = new UnitType("vulture") {{
             aiController = SurroundAI::new;
-            weapons.add(new Weapon(){{
+            weapons.add(new Weapon() {{
                 top = false;
                 rotate = true;
                 alternate = true;
@@ -1831,7 +1831,7 @@ public final class HIUnitTypes {
                     public void hit(Bullet b) {
                         if (absorbable && b.absorbed) return;
                         Units.nearbyEnemies(b.team, b.x, b.y, flameLength, unit -> {
-                            if(Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)) {
+                            if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)) {
                                 Fx.hitFlameSmall.at(unit);
                                 if (unit.health() <= damage * damageBoost) unit.kill();
                                 else unit.health(unit.health() - damage * damageBoost);
@@ -1839,7 +1839,7 @@ public final class HIUnitTypes {
                             }
                         });
                         indexer.allBuildings(b.x, b.y, flameLength, other -> {
-                            if(other.team != b.team && Angles.within(b.rotation(), b.angleTo(other), flameCone)){
+                            if (other.team != b.team && Angles.within(b.rotation(), b.angleTo(other), flameCone)) {
                                 Fx.hitFlameSmall.at(other);
                                 if (other.health() <= damage * buildingDamageMultiplier * damageBoost) other.kill();
                                 else other.health(other.health() - damage * buildingDamageMultiplier * damageBoost);
@@ -1988,7 +1988,7 @@ public final class HIUnitTypes {
             targetAir = false;
             ammoType = new PowerAmmoType(22000f);
             targetFlags = new BlockFlag[]{BlockFlag.storage, BlockFlag.repair, BlockFlag.turret, null};
-            weapons.add(new Weapon(){{
+            weapons.add(new Weapon() {{
                 mirror = false;
                 rotate = true;
                 rotateSpeed = 100f;
@@ -2407,7 +2407,7 @@ public final class HIUnitTypes {
 
                         @Override
                         public void hitEntity(Bullet b, Hitboxc entity, float health) {
-                            if (entity instanceof Healthc h && !h.dead()){
+                            if (entity instanceof Healthc h && !h.dead()) {
                                 if (h.health() <= damage) h.kill();
                                 else h.health(h.health() - (float) Math.ceil(h.maxHealth() * percent));
                             }
@@ -2535,7 +2535,7 @@ public final class HIUnitTypes {
             @Override
             public void update(Unit unit) {
                 super.update(unit);
-                if(Mathf.chanceDelta(0.1)) for (int i : Mathf.signs) slopeEffect.at(unit.x + Mathf.range(bodySize), unit.y + Mathf.range(bodySize), bodySize, unit.team.color, i);
+                if (Mathf.chanceDelta(0.1)) for (int i : Mathf.signs) slopeEffect.at(unit.x + Mathf.range(bodySize), unit.y + Mathf.range(bodySize), bodySize, unit.team.color, i);
             }
 
             @Override

@@ -103,7 +103,7 @@ public class LightningLinkerBulletType extends BasicBulletType {
 
         Effect.shake(hitShake, hitShake, b);
         if (b.timer(4, hitSpacing)) {
-            for(int i : Mathf.signs)slopeEffect.at(b.x + Mathf.range(size / 4f), b.y + Mathf.range(size / 4f), b.rotation(), i);
+            for (int i : Mathf.signs)slopeEffect.at(b.x + Mathf.range(size / 4f), b.y + Mathf.range(size / 4f), b.rotation(), i);
             spreadEffect.at(b);
             PosLightning.setHitChance(trueHitChance);
             PosLightning.createRange(b, collidesAir, collidesGround, b, b.team, linkRange, maxHit, backColor, Mathf.chanceDelta(randomLightningChance), lightningDamage, lightningLength, PosLightning.WIDTH, boltNum, p -> {
@@ -112,7 +112,7 @@ public class LightningLinkerBulletType extends BasicBulletType {
             PosLightning.setHitChanceDef();
         }
 
-        if(randomGenerateRange > 0f && Mathf.chance(Time.delta * randomGenerateChance) && b.lifetime - b.time > PosLightning.lifetime)
+        if (randomGenerateRange > 0f && Mathf.chance(Time.delta * randomGenerateChance) && b.lifetime - b.time > PosLightning.lifetime)
             PosLightning.createRandomRange(b, b.team, b, randomGenerateRange, backColor, Mathf.chanceDelta(randomLightningChance), 0, 0, boltWidth, boltNum, randomLightningNum, hitPos -> {
             randomGenerateSound.at(hitPos, Mathf.random(0.9f, 1.1f));
             Damage.damage(b.team, hitPos.getX(), hitPos.getY(), splashDamageRadius / 8, splashDamage * b.damageMultiplier() / 8, collidesAir, collidesGround);
@@ -121,8 +121,8 @@ public class LightningLinkerBulletType extends BasicBulletType {
             hitModifier.get(hitPos);
         });
 
-        if(Mathf.chanceDelta(effectLightningChance) && b.lifetime - b.time > Fx.chainLightning.lifetime){
-            for(int i = 0; i < effectLingtning; i++){
+        if (Mathf.chanceDelta(effectLightningChance) && b.lifetime - b.time > Fx.chainLightning.lifetime) {
+            for (int i = 0; i < effectLingtning; i++) {
                 Vec2 v = randVec.rnd(effectLightningLength + Mathf.random(effectLightningLengthRand)).add(b).add(Tmp.v1.set(b.vel).scl(Fx.chainLightning.lifetime / 2));
                 Fx.chainLightning.at(b.x, b.y, 12f, backColor, v.cpy());
                 HIFx.lightningHitSmall.at(v.x, v.y, 20f, backColor);
@@ -141,12 +141,12 @@ public class LightningLinkerBulletType extends BasicBulletType {
     public void draw(Bullet b) {
         drawTrail(b);
 
-        if(drawCircle){
+        if (drawCircle) {
             Draw.color(backColor);
             Fill.circle(b.x, b.y, size);
             Draw.color(frontColor);
             Fill.circle(b.x, b.y, size / 7f + size / 3 * Mathf.curve(b.fout(), 0.1f, 0.35f));
-        }else{
+        } else {
             super.draw(b);
         }
 

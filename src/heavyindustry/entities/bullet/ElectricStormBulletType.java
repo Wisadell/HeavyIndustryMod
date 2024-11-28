@@ -20,7 +20,7 @@ public class ElectricStormBulletType extends BulletType {
     public int maxTarget;
     public Sound sound = Sounds.spark;
 
-    public ElectricStormBulletType(float damage, Color color, int maxTarget){
+    public ElectricStormBulletType(float damage, Color color, int maxTarget) {
         this.damage = damage;
         this.splashDamage = damage * 10;
         this.color = color;

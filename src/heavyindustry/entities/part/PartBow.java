@@ -24,7 +24,7 @@ public class PartBow extends DrawPart {
         float warmup = progressWarmup.getClamp(params);
         float p = 1 - progressReload.getClamp(params);
         float rot = params.rotation - 90;
-        if(warmup < 0.001) return;
+        if (warmup < 0.001) return;
         float rp = Math.min(p * 1.2f, 1);
         float bx = params.x + Angles.trnsx(rot, 0, bowHeight), by = params.y + Angles.trnsy(rot, 0, bowHeight);
         float rx = bx + Angles.trnsx(rot, 0, bowMoveY * rp + bowFY), ry = by + Angles.trnsy(rot, 0, bowMoveY * rp + bowFY);

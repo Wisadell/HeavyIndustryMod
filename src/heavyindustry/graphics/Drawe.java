@@ -42,7 +42,7 @@ public final class Drawe {
         quad(texture, x, y, color, 0, 1, x, y + height, color, 0, 0, x + width, y + height, color, 1, 0, x + width, y, color, 1, 1);
     }
 
-    public static void quad(Texture texture, float x1, float y1, float c1, float u1, float v1, float x2, float y2, float c2, float u2, float v2, float x3, float y3, float c3, float u3, float v3, float x4, float y4, float c4, float u4, float v4){
+    public static void quad(Texture texture, float x1, float y1, float c1, float u1, float v1, float x2, float y2, float c2, float u2, float v2, float x3, float y3, float c3, float u3, float v3, float x4, float y4, float c4, float u4, float v4) {
         float mcolor = Draw.getMixColor().toFloatBits();
         vertices[0] = x1;
         vertices[1] = y1;

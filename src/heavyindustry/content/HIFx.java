@@ -334,7 +334,7 @@ public final class HIFx {
     public static Effect get(String m, Color c, Effect effect) {
         int hash = Objects.hash(m, c);
         Effect or = same.get(hash);
-        if(or == null) same.put(hash, effect);
+        if (or == null) same.put(hash, effect);
         return or == null ? effect : or;
     }
 
@@ -429,7 +429,7 @@ public final class HIFx {
         });
     }
 
-    public static Effect instBomb(Color color){
+    public static Effect instBomb(Color color) {
         return get("instBomb", color, instBombSize(color, 4, 80f));
     }
 
@@ -453,7 +453,9 @@ public final class HIFx {
         });
     }
 
-    public static Effect instHit(Color color){return get("instHit", color, instHit(color, 5, 50)); }
+    public static Effect instHit(Color color) {
+        return get("instHit", color, instHit(color, 5, 50));
+    }
 
     public static Effect instHit(Color color, int num, float size) {
         return new Effect(20f, size * 1.5f, e -> {
@@ -736,7 +738,7 @@ public final class HIFx {
             hitOut = new Effect(60, e -> {
                 if (e.data instanceof Unit u) {
                     UnitType type = u.type;
-                    if(type != null) {
+                    if (type != null) {
                         TextureRegion rg = type.fullIcon;
                         float w = rg.width * rg.scl() * Draw.xscl;
                         float h = rg.height * rg.scl() * Draw.yscl;
@@ -933,7 +935,7 @@ public final class HIFx {
                     v.remove(0);
                 }
 
-                if(v.size() < 2)return;
+                if (v.size() < 2)return;
 
                 Vec2 data = v.peekTmp();
                 float stroke = data.x;
@@ -1273,7 +1275,7 @@ public final class HIFx {
                     float len = (i + 1) * spacing;
                     Tmp.v1.setToRandomDirection(rand).scl(range/2f);
                     Tmp.v2.set(nx, ny);
-                    if(i == links - 1)Tmp.v2.lerp(tx, ty, f);
+                    if (i == links - 1)Tmp.v2.lerp(tx, ty, f);
                     else Tmp.v2.lerp(e.x + (normx * len + Tmp.v1.x), e.y + (normy * len + Tmp.v1.y), f);
 
                     Lines.linePoint(Tmp.v2.x, Tmp.v2.y);
@@ -1309,7 +1311,7 @@ public final class HIFx {
                 int i;
                 float nx = p.getX(), ny = p.getY();
                 for (i = 0; i < (int) (links * fin); i++) {
-                    if(i == links - 1) {
+                    if (i == links - 1) {
                         nx = tx;
                         ny = ty;
                     } else {
@@ -1327,7 +1329,7 @@ public final class HIFx {
                     float len = (i + 1) * spacing;
                     Tmp.v1.setToRandomDirection(rand).scl(range/2f);
                     Tmp.v2.set(nx, ny);
-                    if(i == links - 1)Tmp.v2.lerp(tx, ty, f);
+                    if (i == links - 1)Tmp.v2.lerp(tx, ty, f);
                     else Tmp.v2.lerp(p.getX() + (normx * len + Tmp.v1.x), p.getY() + (normy * len + Tmp.v1.y), f);
 
                     Lines.linePoint(Tmp.v2.x, Tmp.v2.y);
@@ -1675,7 +1677,7 @@ public final class HIFx {
                 Draw.color(e.color);
 
                 Tmp.v1.setZero();
-                if (e.data instanceof Number n){
+                if (e.data instanceof Number n) {
                     Tmp.v1.set(n.floatValue(), 0).setAngle(e.rotation);
                 }
 
@@ -1693,7 +1695,7 @@ public final class HIFx {
 
                 float rad = Mathf.randomSeed(e.id, 1.6f, 3.4f) * e.fout(Interp.pow2Out);
 
-                if (Mathf.randomSeed(e.id) > 0.5f){
+                if (Mathf.randomSeed(e.id) > 0.5f) {
                     Lines.stroke(rad / 2f);
                     Lines.square(e.x + Tmp.v1.x * e.fin(), e.y + Tmp.v1.y * e.fin(), rad, e.fin() * Mathf.randomSeed(e.id, 180f, 480f));
                 } else {
@@ -1838,7 +1840,7 @@ public final class HIFx {
                 Draw.color(e.color);
                 Draw.alpha(0.5f);
                 rand.setSeed(e.id);
-                for(int i = 0; i < 18; i++){
+                for (int i = 0; i < 18; i++) {
                     Tmp.v1.trns(e.rotation + 180f + rand.range(19f), rand.random(e.finpow() * 60f)).add(rand.range(2f), rand.range(2f));
                     e.scaled(e.lifetime * rand.random(0.2f, 1f), b -> {
                         Fill.circle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, b.fout() * 3.5f + 0.3f);
@@ -2051,7 +2053,7 @@ public final class HIFx {
 
                 float leng = Mathf.random(data[0], data[1]);
                 for (int i = 0; i < 4; i++) {
-                    if(Mathf.chanceDelta(data[2])) steam.at(e.x, e.y, 0, new Vec2(leng * Geometry.d8(i * 2 + 1).x, leng * Geometry.d8(i * 2 + 1).y));
+                    if (Mathf.chanceDelta(data[2])) steam.at(e.x, e.y, 0, new Vec2(leng * Geometry.d8(i * 2 + 1).x, leng * Geometry.d8(i * 2 + 1).y));
                 }
             }),
             lightCone = new Effect(16, e -> {

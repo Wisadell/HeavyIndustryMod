@@ -148,7 +148,7 @@ public final class HIShaders {
             setUniformf("u_campos", renderer.planets.cam.position);
         }
 
-        private void setPlanetInfo(String name, Planet planet){
+        private void setPlanetInfo(String name, Planet planet) {
             Vec3 position = planet.position;
             Shader shader = this;
             shader.setUniformf(name, position.x, position.y, position.z, planet.radius);

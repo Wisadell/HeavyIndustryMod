@@ -197,13 +197,13 @@ public final class HIBullets {
         }
             @Override
             public void draw(Bullet b) {
-                if(!(b.data instanceof Seq)) return;
+                if (!(b.data instanceof Seq)) return;
                 Seq<Sized> data = (Seq<Sized>)b.data;
 
                 Draw.color(lightColor, Color.white, b.fin() * 0.7f);
                 Draw.alpha(b.fin(Interp.pow3Out) * 1.1f);
                 Lines.stroke(2 * b.fout());
-                for (Sized s : data){
+                for (Sized s : data) {
                     if (s instanceof Building) {
                         Fill.square(s.getX(), s.getY(), s.hitSize() / 2);
                     } else {
@@ -220,15 +220,15 @@ public final class HIBullets {
                 }
 
                 if (target instanceof Unit unit) {
-                    if(unit.health > 1000) HIBullets.hitter.create(o, team, x, y, 0);
+                    if (unit.health > 1000) HIBullets.hitter.create(o, team, x, y, 0);
                 }
             }
 
             @Override
-            public void update(Bullet b){
+            public void update(Bullet b) {
                 super.update(b);
 
-                if(!(b.data instanceof Seq)) return;
+                if (!(b.data instanceof Seq)) return;
                 Seq<Sized> data = (Seq<Sized>) b.data;
                 data.remove(d -> d instanceof Healthc h && !h.isValid());
             }
@@ -248,7 +248,7 @@ public final class HIBullets {
                     });
                 }
 
-                if(!(b.data instanceof Seq)) return;
+                if (!(b.data instanceof Seq)) return;
                 Entityc o = b.owner();
                 Seq<Sized> data = (Seq<Sized>)b.data;
                 for (Sized s : data) {
@@ -297,7 +297,7 @@ public final class HIBullets {
         }
             @Override
             public void draw(Bullet b) {
-                if(!(b.data instanceof Seq))return;
+                if (!(b.data instanceof Seq))return;
                 Seq<Sized> data = (Seq<Sized>)b.data;
 
                 Draw.color(lightColor, Color.white, b.fin() * 0.7f);
@@ -326,7 +326,7 @@ public final class HIBullets {
             public void update(Bullet b) {
                 super.update(b);
 
-                if(!(b.data instanceof Seq) || b.timer(0, 5)) return;
+                if (!(b.data instanceof Seq) || b.timer(0, 5)) return;
                 Seq<Sized> data = (Seq<Sized>)b.data;
                 data.remove(d -> !((Healthc)d).isValid());
             }
@@ -335,10 +335,10 @@ public final class HIBullets {
             public void despawned(Bullet b) {
                 super.despawned(b);
 
-                if(!(b.data instanceof Seq)) return;
+                if (!(b.data instanceof Seq)) return;
                 Entityc o = b.owner();
                 Seq<Sized> data = (Seq<Sized>)b.data;
-                for (Sized s : data){
+                for (Sized s : data) {
                     float size = Math.min(s.hitSize(), 75);
                     if (Mathf.chance(0.32) || data.size < 8) {
                         float sd = Mathf.random(size * 3f, size * 12f);
@@ -361,13 +361,13 @@ public final class HIBullets {
                 indexer.eachBlock(null, b.x, b.y, b.fdata, bu -> bu.team != b.team, data::add);
 
                 Groups.unit.intersect(b.x - b.fdata / 2, b.y - b.fdata / 2, b.fdata, b.fdata, u -> {
-                    if(u.team != b.team)data.add(u);
+                    if (u.team != b.team)data.add(u);
                 });
 
                 b.data = data;
             }
         };
-        ultFireball = new FireBulletType(1f, 10){{
+        ultFireball = new FireBulletType(1f, 10) {{
             colorFrom = colorMid = Pal.techBlue;
             lifetime = 12f;
             radius = 4f;
@@ -784,11 +784,11 @@ public final class HIBullets {
                     Team team = b.team;
                     float mul = b.damageMultiplier();
                     Time.run(Mathf.random(6f, 24f) + Mathf.sqrt(x * x + y * y) / splashDamageRadius * 3f, () -> {
-                        if(Mathf.chanceDelta(0.4f))hitSound.at(vec2.x, vec2.y, hitSoundPitch, hitSoundVolume);
+                        if (Mathf.chanceDelta(0.4f))hitSound.at(vec2.x, vec2.y, hitSoundPitch, hitSoundVolume);
                         despawnSound.at(vec2);
                         Effect.shake(hitShake, hitShake, vec2);
 
-                        for(int i = 0; i < lightning / 2; i++){
+                        for (int i = 0; i < lightning / 2; i++) {
                             Lightning.create(team, lightningColor, lightningDamage, vec2.x, vec2.y, Mathf.random(360f), lightningLength + Mathf.random(lightningLengthRand));
                         }
 
@@ -909,7 +909,7 @@ public final class HIBullets {
 
                 Effect.shake(8 * b.fin(), 6, b);
 
-                if(b.timer(1, 12)) {
+                if (b.timer(1, 12)) {
                     Seq<Teamc> entites = new Seq<>();
 
                     Units.nearbyEnemies(b.team, b.x, b.y, rad * 2.5f * (1 + b.fin()) / 2, entites::add);

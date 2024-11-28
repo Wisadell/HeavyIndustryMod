@@ -49,7 +49,7 @@ public class CritBulletType extends BasicBulletType {
     public void init() {
         super.init();
 
-        if(trailWidth < 0f) trailWidth = width * (10f / 52f);
+        if (trailWidth < 0f) trailWidth = width * (10f / 52f);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class CritBulletType extends BasicBulletType {
 
         if (homingPower > 0.0001f && b.time >= homingDelay) {
             Teamc target = Units.closestTarget(b.team, b.x, b.y, homingRange, e -> e.checkTarget(collidesAir, collidesGround) && !b.collided.contains(e.id), t -> collidesGround && !b.collided.contains(t.id));
-            if(target != null) {
+            if (target != null) {
                 b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(target), homingPower * Time.delta * 50f));
             }
         }
@@ -105,7 +105,7 @@ public class CritBulletType extends BasicBulletType {
     public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
         super.hitTile(b, build, x, y, initialHealth, direct);
 
-        if(direct) {
+        if (direct) {
             bounce(b);
         }
     }
@@ -118,7 +118,7 @@ public class CritBulletType extends BasicBulletType {
 
     @Override
     public void removed(Bullet b) {
-        if(trailLength > 0 && b.trail instanceof CritTrail trail && b.trail.size() > 0) {
+        if (trailLength > 0 && b.trail instanceof CritTrail trail && b.trail.size() > 0) {
             HIFx.critTrailFade.at(b.x, b.y, trailWidth, backColor, trail.copy());
         }
     }
@@ -126,7 +126,7 @@ public class CritBulletType extends BasicBulletType {
     @Override
     public void hit(Bullet b, float x, float y) {
         b.hit = true;
-        if(b.fdata != 1f || despawnHitEffects){
+        if (b.fdata != 1f || despawnHitEffects) {
             hitEffect.at(x, y, b.rotation(), hitColor);
             hitSound.at(x, y, hitSoundPitch, hitSoundVolume);
         }

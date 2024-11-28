@@ -63,7 +63,7 @@ public class TrailFadeBulletType extends AccelBulletType {
     }
 
     @Override
-    public void hit(Bullet b){
+    public void hit(Bullet b) {
         super.hit(b);
 
         if (headless || !(b.data instanceof Vec2Seq[])) return;
@@ -110,7 +110,7 @@ public class TrailFadeBulletType extends AccelBulletType {
     }
 
     @Override
-    public void drawTrail(Bullet b){
+    public void drawTrail(Bullet b) {
         super.drawTrail(b);
 
         if ((b.data instanceof Vec2Seq[] vecs)) {

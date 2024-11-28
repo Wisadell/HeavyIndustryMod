@@ -51,7 +51,7 @@ public class PositionLightningBulletType extends BulletType {
             hit.collision(b, hit.x(), hit.y());
             b.collision(hit, hit.x(), hit.y());
         } else if (target instanceof Building tile) {
-            if(tile.collide(b)){
+            if (tile.collide(b)) {
                 tile.collision(b);
                 hit(b, tile.x, tile.y);
             }

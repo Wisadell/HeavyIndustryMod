@@ -127,7 +127,7 @@ public class LightningEffect extends Effect {
         entity.add();
     }
 
-    public float render(int id, Color color, float life, float lifetime, float x, float y, float ex, float ey, Object data){
+    public float render(int id, Color color, float life, float lifetime, float x, float y, float ex, float ey, Object data) {
         Draw.z(layer);
         Draw.reset();
 
