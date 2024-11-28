@@ -15,7 +15,7 @@ public class MinerPointAI extends AIController {
             mining = false;
         }
         if (unit instanceof BuildingTetherc tether && tether.building() != null) {
-            if(unit.mineTile != null && !unit.mineTile.within(unit, unit.type.mineRange)) {
+            if (unit.mineTile != null && !unit.mineTile.within(unit, unit.type.mineRange)) {
                 unit.mineTile(null);
             }
 
@@ -28,11 +28,11 @@ public class MinerPointAI extends AIController {
                     if (ore != null) {
                         moveTo(ore, unit.type.mineRange / 2f, 20f);
 
-                        if((ore.block() == Blocks.air || ore.wallDrop() != null) && unit.within(ore, unit.type.mineRange)) {
+                        if ((ore.block() == Blocks.air || ore.wallDrop() != null) && unit.within(ore, unit.type.mineRange)) {
                             unit.mineTile = ore;
                         }
 
-                        if(!(ore.block() == Blocks.air || ore.wallDrop() != null)) {
+                        if (!(ore.block() == Blocks.air || ore.wallDrop() != null)) {
                             mining = false;
                         }
                     }
@@ -59,8 +59,8 @@ public class MinerPointAI extends AIController {
         }
     }
 
-    protected boolean checkDrop(Tile t){
-        if(t == null) return true;
+    protected boolean checkDrop(Tile t) {
+        if (t == null) return true;
         return t.solid() ? t.wallDrop() != unit.stack.item : t.drop() != unit.stack.item;
     }
 }

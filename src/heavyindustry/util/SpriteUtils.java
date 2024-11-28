@@ -101,15 +101,15 @@ public final class SpriteUtils {
     /** SpriteUtils should not be instantiated. */
     private SpriteUtils() {}
 
-    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight){
+    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight) {
         return splitMulti(name, tileWidth, tileHeight, 0);
     }
 
-    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight, int pad){
+    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight, int pad) {
         return splitMulti(name, tileWidth, tileHeight, pad, null);
     }
 
-    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight, int pad, int[] indexMap){
+    public static TextureRegion[] splitMulti(String name, int tileWidth, int tileHeight, int pad, int[] indexMap) {
         TextureRegion region = atlas.find(name);
 
         int x = region.getX();

@@ -221,7 +221,7 @@ public final class Utils {
         int size = content.blocks().size;
         for (int i = 0; i < size; i++) {
             Block b = content.block(i);
-            if(b instanceof Turret t){
+            if (b instanceof Turret t) {
                 turretSeq.addUnique(t);
             }
         }
@@ -317,7 +317,7 @@ public final class Utils {
     }
 
     public static void item(ObjectMap<Integer, Cons<Item>> cons, String name, Color color, float exp, float fla, float cos, float radio, float chg, float health) {
-        for (int i = 1 ; i < 10 ; i++){
+        for (int i = 1 ; i < 10 ; i++) {
             int index = i;
             Item item = new Item(name + index, color) {{
                 explosiveness = exp * index;
@@ -402,7 +402,7 @@ public final class Utils {
         return cons;
     }
 
-    public static ImageButton selfStyleImageButton(Drawable imageUp, ImageButtonStyle is, Runnable listener){
+    public static ImageButton selfStyleImageButton(Drawable imageUp, ImageButtonStyle is, Runnable listener) {
         ImageButton ib = new ImageButton(new ImageButtonStyle(null, null, null, imageUp, null, null));
         ImageButtonStyle style = new ImageButtonStyle(is);
         style.imageUp = imageUp;

@@ -40,8 +40,8 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
 
         //update power graph first, resolve everything
         for (Payload pay : payloads) {
-            if(pay instanceof BuildPayload pb && pb.build.power != null){
-                if(payloadPower == null) payloadPower = new PowerGraph(false);
+            if (pay instanceof BuildPayload pb && pb.build.power != null) {
+                if (payloadPower == null) payloadPower = new PowerGraph(false);
 
                 //pb.build.team = team;
                 pb.build.power.graph = null;
@@ -102,12 +102,12 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
 
     @Override
     public void pickup(Unit unit) {
-        if(unit.isAdded()) unit.team.data().updateCount(unit.type, 1);
+        if (unit.isAdded()) unit.team.data().updateCount(unit.type, 1);
 
         unit.remove();
         addPayload(new UnitPayload(unit));
         Fx.unitPickup.at(unit);
-        if(Vars.net.client()){
+        if (Vars.net.client()) {
             Vars.netClient.clearRemovedEntity(unit.id);
         }
         Events.fire(new PickupEvent(self(), unit));
@@ -176,7 +176,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         Fx.unitDrop.at(this);
 
         //clients do not drop payloads
-        if(Vars.net.client()) return true;
+        if (Vars.net.client()) return true;
 
         u.set(x + Tmp.v1.x, y + Tmp.v1.y);
         u.rotation(rotation);

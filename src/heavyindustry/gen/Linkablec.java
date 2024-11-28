@@ -37,7 +37,7 @@ public interface Linkablec extends Buildingc, Ranged{
                 Drawf.circles(getX(), getY(), block().size / 2f * tilesize + Mathf.absin(Time.time * Drawn.sinScl, 6f, 1f), getLinkColor());
                 Drawn.link(this, link(), getLinkColor());
             }
-        } else if(builds.size > 0){
+        } else if (builds.size > 0) {
             Draw.color(getLinkColor());
             Drawf.circles(getX(), getY(), block().size / 2f * tilesize + Mathf.absin(Time.time * Drawn.sinScl, 6f, 1f), getLinkColor());
 

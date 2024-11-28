@@ -72,7 +72,7 @@ public class PowerGraphInfoDialog extends BaseDialog {
 
         update(() -> {
             updateTimer += Time.delta;
-            if(updateTimer >= updateInterval){
+            if (updateTimer >= updateInterval) {
                 updateTimer %= updateInterval;
                 updateListings();
             }
@@ -131,7 +131,7 @@ public class PowerGraphInfoDialog extends BaseDialog {
     }
 
     protected void updateListings() {
-        if(graph == null) return;
+        if (graph == null) return;
 
         clearData();
 

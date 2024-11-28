@@ -17,7 +17,7 @@ public class ItemImage extends Stack {
             o.add(new Image(region)).size(32f).scaling(Scaling.fit);
         }));
 
-        if(amount != 0) {
+        if (amount != 0) {
             add(new Table(t -> {
                 t.left().bottom();
                 t.add(amount >= 1000 ? UI.formatAmount(amount) : amount + "").style(Styles.outlineLabel);

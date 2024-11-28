@@ -174,7 +174,7 @@ public abstract class HeightPass {
                     return heights.max(pass -> pass.height(pos, 0f)).height(pos, 0f);
                 }
                 case average -> {
-                    return heights.sumf(pass -> pass.height(pos, 0))/(float)heights.size;
+                    return heights.sumf(pass -> pass.height(pos, 0))/(float) heights.size;
                 }
             }
             return 0f;

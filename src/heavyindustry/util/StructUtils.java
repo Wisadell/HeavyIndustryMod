@@ -30,17 +30,17 @@ public final class StructUtils {
 
     public static <T> T[] copyArray(T[] array, Func<T, T> copy) {
         T[] out = array.clone();
-        for(int i = 0, len = out.length; i < len; i++) out[i] = copy.get(out[i]);
+        for (int i = 0, len = out.length; i < len; i++) out[i] = copy.get(out[i]);
         return out;
     }
 
     public static <T> boolean any(T[] array, Boolf<T> pred) {
-        for(T e : array) if(pred.get(e)) return true;
+        for (T e : array) if (pred.get(e)) return true;
         return false;
     }
 
     public static <T> boolean all(T[] array, Boolf<T> pred) {
-        for(T e : array) if(!pred.get(e)) return false;
+        for (T e : array) if (!pred.get(e)) return false;
         return true;
     }
 
@@ -49,7 +49,7 @@ public final class StructUtils {
     }
 
     public static <T> void each(T[] array, int offset, int length, Cons<? super T> cons) {
-        for(int i = offset, len = i + length; i < len; i++) cons.get(array[i]);
+        for (int i = offset, len = i + length; i < len; i++) cons.get(array[i]);
     }
 
     public static <T> Single<T> iter(T item) {
@@ -106,7 +106,7 @@ public final class StructUtils {
         return out;
     }
 
-    public static <T> boolean arrayEq(T[] first, T[] second, Boolf2<T, T> eq){
+    public static <T> boolean arrayEq(T[] first, T[] second, Boolf2<T, T> eq) {
         if (first.length != second.length) return false;
         for (int i = 0; i < first.length; i++) {
             if (!eq.get(first[i], second[i])) return false;
@@ -200,7 +200,7 @@ public final class StructUtils {
 
         @Override
         public T next() {
-            if(hasNext()) return array[offset + index++];
+            if (hasNext()) return array[offset + index++];
             else return null;
         }
 

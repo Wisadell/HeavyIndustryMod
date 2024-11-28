@@ -29,7 +29,7 @@ public class SpawnerWeather extends ParticleWeather {
     }
 
     //Spawn only visible area in area camera
-    public void spawnByBounceCam(WeatherState state){
+    public void spawnByBounceCam(WeatherState state) {
         //on based draw weather draw particle
         Tmp.r1.setCentered(camera.position.x, camera.position.y, graphics.getWidth() / renderer.minScale(), graphics.getHeight() / renderer.minScale());
         Tmp.r1.grow(sizeMax * 1.5f);
@@ -56,7 +56,7 @@ public class SpawnerWeather extends ParticleWeather {
             x += Tmp.r1.x;
             y += Tmp.r1.y;
 
-            if(Tmp.r3.setCentered(x, y, size).overlaps(Tmp.r2) && canSpawn(state)) {
+            if (Tmp.r3.setCentered(x, y, size).overlaps(Tmp.r2) && canSpawn(state)) {
                 float x1 = Mathf.random(1, world.tiles.width - 1) * tilesize;
                 float y1 = Mathf.random(1, world.tiles.height - 1) * tilesize;
 
@@ -66,14 +66,14 @@ public class SpawnerWeather extends ParticleWeather {
     }
 
     //Spawn on the world
-    public void spawn(WeatherState state){
+    public void spawn(WeatherState state) {
         Tmp.r2.set(0f,0f, world.unitWidth(), world.unitHeight());
         rand.setSeed((long) Time.time);
 
         int total = (int) Mathf.clamp(Tmp.r2.area() / density * state.intensity, 0f, maxSpawn);
 
         for (int i = 0; i < total; i++) {
-            if(canSpawn(state)) {
+            if (canSpawn(state)) {
                 float x1 = Mathf.random(1, world.tiles.width - 1) * tilesize;
                 float y1 = Mathf.random(1, world.tiles.height - 1) * tilesize;
 
@@ -82,9 +82,9 @@ public class SpawnerWeather extends ParticleWeather {
         }
     }
 
-    public void spawnAt(WeatherState state, float x, float y){}
+    public void spawnAt(WeatherState state, float x, float y) {}
 
-    public boolean canSpawn(WeatherState state){
+    public boolean canSpawn(WeatherState state) {
         return true;
     }
 }

@@ -74,7 +74,7 @@ public class EnergyUnit extends UnitEntity {
     public void destroy() {
         super.destroy();
 
-        for(int i = 0; i < trails.length; i++){
+        for (int i = 0; i < trails.length; i++) {
             Tmp.c1.set(team.color).mul(i * 0.045f).lerp(Color.white, 0.075f * i);
             Fx.trailFade.at(x, y, type.trailScl, team.color, trails[i].copy());
         }
@@ -183,7 +183,7 @@ public class EnergyUnit extends UnitEntity {
         Rand rand = HIFx.rand1;
         rand.setSeed(id);
 
-        if(!headless) {
+        if (!headless) {
             for (int i = 0; i < trails.length; i++) {
                 Trail trail = trails[i];
 

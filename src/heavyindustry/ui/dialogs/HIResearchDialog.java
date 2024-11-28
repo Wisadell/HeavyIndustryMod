@@ -61,14 +61,14 @@ public final class HIResearchDialog extends BaseDialog {
             b.label(() -> root.node.localizedName()).color(Pal.accent);
             b.add().growX();
             b.add().size(iconMed);
-        }, () -> new BaseDialog("@techtree.select"){{
+        }, () -> new BaseDialog("@techtree.select") {{
             cont.pane(t -> t.table(Tex.button, in -> {
                 in.defaults().width(300f).height(60f);
-                for(TechNode node : TechTree.roots){
-                    if(node.requiresUnlock && !node.content.unlocked() && node != getPrefRoot()) continue;
+                for (TechNode node : TechTree.roots) {
+                    if (node.requiresUnlock && !node.content.unlocked() && node != getPrefRoot()) continue;
 
                     in.button(node.localizedName(), node.icon(), Styles.flatTogglet, iconMed, () -> {
-                        if(node == lastNode){
+                        if (node == lastNode) {
                             return;
                         }
 
@@ -89,7 +89,7 @@ public final class HIResearchDialog extends BaseDialog {
         shouldPause = true;
 
         Runnable checkMargin = () -> {
-            if (Core.graphics.isPortrait() && showTechSelect){
+            if (Core.graphics.isPortrait() && showTechSelect) {
                 itemDisplay.marginTop(60f);
             } else {
                 itemDisplay.marginTop(0f);
@@ -101,9 +101,7 @@ public final class HIResearchDialog extends BaseDialog {
         shown(() -> {
             checkMargin.run();
 
-            Planet currPlanet = ui.planet.isShown() ?
-                    ui.planet.state.planet :
-                    state.isCampaign() ? state.rules.sector.planet : null;
+            Planet currPlanet = ui.planet.isShown() ? ui.planet.state.planet : state.isCampaign() ? state.rules.sector.planet : null;
 
             if (currPlanet != null && currPlanet.techTree != null) {
                 switchTree(currPlanet.techTree);
@@ -111,21 +109,20 @@ public final class HIResearchDialog extends BaseDialog {
 
             items = new ItemSeq() {
                 final ObjectMap<Sector, ItemSeq> cache = new ObjectMap<>();
-
-                {
-                    for (Planet planet : content.planets()) {
-                        for (Sector sector : planet.sectors) {
-                            if (sector.hasBase()) {
-                                ItemSeq cached = sector.items();
-                                cache.put(sector, cached);
-                                cached.each((item, amount) -> {
-                                    values[item.id] += Math.max(amount, 0);
-                                    total += Math.max(amount, 0);
-                                });
-                            }
+            {
+                for (Planet planet : content.planets()) {
+                    for (Sector sector : planet.sectors) {
+                        if (sector.hasBase()) {
+                            ItemSeq cached = sector.items();
+                            cache.put(sector, cached);
+                            cached.each((item, amount) -> {
+                                values[item.id] += Math.max(amount, 0);
+                                total += Math.max(amount, 0);
+                            });
                         }
                     }
                 }
+            }
 
                 @Override
                 public void add(Item item, int amount) {
@@ -220,9 +217,7 @@ public final class HIResearchDialog extends BaseDialog {
     }
 
     public @Nullable TechNode getPrefRoot() {
-        Planet currPlanet = ui.planet.isShown() ?
-                ui.planet.state.planet :
-                state.isCampaign() ? state.rules.sector.planet : null;
+        Planet currPlanet = ui.planet.isShown() ? ui.planet.state.planet : state.isCampaign() ? state.rules.sector.planet : null;
         return currPlanet == null ? null : currPlanet.techTree;
     }
 
@@ -266,7 +261,7 @@ public final class HIResearchDialog extends BaseDialog {
         if (rightHalf.length > 0) {
 
             node.children = rightHalf;
-            new BranchTreeLayout(){{
+            new BranchTreeLayout() {{
                 gapBetweenLevels = gapBetweenNodes = spacing;
                 rootLocation = TreeLocation.bottom;
             }}.layout(node);
@@ -280,7 +275,7 @@ public final class HIResearchDialog extends BaseDialog {
         copyInfo(node);
 
         for (TechTreeNode n : nodes) {
-            if(!n.visible) continue;
+            if (!n.visible) continue;
             minx = Math.min(n.x - n.width / 2f, minx);
             maxx = Math.max(n.x + n.width / 2f, maxx);
             miny = Math.min(n.y - n.height / 2f, miny);
@@ -291,7 +286,7 @@ public final class HIResearchDialog extends BaseDialog {
     }
 
     void shift(LayoutNode[] children, float amount) {
-        for (LayoutNode node : children){
+        for (LayoutNode node : children) {
             node.y += amount;
             if (node.children != null && node.children.length > 0) shift(node.children, amount);
         }
@@ -301,7 +296,7 @@ public final class HIResearchDialog extends BaseDialog {
         node.node.x = node.x;
         node.node.y = node.y;
         if (node.children != null) {
-            for (LayoutNode child : node.children){
+            for (LayoutNode child : node.children) {
                 copyInfo(child);
             }
         }
@@ -330,35 +325,35 @@ public final class HIResearchDialog extends BaseDialog {
     class LayoutNode extends TreeNode<LayoutNode> {
         final TechTreeNode node;
 
-        LayoutNode(TechTreeNode node, LayoutNode parent){
+        LayoutNode(TechTreeNode node, LayoutNode parent) {
             this.node = node;
             this.parent = parent;
             this.width = this.height = nodeSize;
-            if (node.children != null){
+            if (node.children != null) {
                 children = Seq.with(node.children).map(t -> new LayoutNode(t, this)).toArray(LayoutNode.class);
             }
         }
     }
 
-    public class TechTreeNode extends TreeNode<TechTreeNode>{
+    public class TechTreeNode extends TreeNode<TechTreeNode> {
         public final TechNode node;
         public boolean visible = true, selectable = true;
 
-        public TechTreeNode(TechNode node, TechTreeNode parent){
+        public TechTreeNode(TechNode node, TechTreeNode parent) {
             this.node = node;
             this.parent = parent;
             this.width = this.height = nodeSize;
             nodes.add(this);
-            if(node.children != null){
+            if (node.children != null) {
                 children = new TechTreeNode[node.children.size];
-                for(int i = 0; i < children.length; i++){
+                for (int i = 0; i < children.length; i++) {
                     children[i] = new TechTreeNode(node.children.get(i), this);
                 }
             }
         }
     }
 
-    public class View extends Group{
+    public class View extends Group {
         public float panX = 0, panY = -200, lastZoom = -1;
         public boolean moved = false;
         public ImageButton hoverNode;
@@ -368,48 +363,46 @@ public final class HIResearchDialog extends BaseDialog {
             rebuildAll();
         }
 
-        public void rebuildAll(){
+        public void rebuildAll() {
             clear();
             hoverNode = null;
             infoTable.clear();
             infoTable.touchable = Touchable.enabled;
 
-            for(TechTreeNode node : nodes){
+            for (TechTreeNode node : nodes) {
                 ImageButton button = new ImageButton(node.node.content.uiIcon, Styles.nodei);
                 button.visible(() -> true);
                 button.clicked(() -> {
-                    if(moved) return;
+                    if (moved) return;
 
-                    if(mobile){
+                    if (mobile) {
                         hoverNode = button;
                         rebuild();
                         float right = infoTable.getRight();
-                        if(right > Core.graphics.getWidth()){
+                        if (right > Core.graphics.getWidth()) {
                             float moveBy = right - Core.graphics.getWidth();
-                            addAction(new RelativeTemporalAction(){
-                                {
-                                    setDuration(0.1f);
-                                    setInterpolation(Interp.fade);
-                                }
-
+                            addAction(new RelativeTemporalAction() {{
+                                setDuration(0.1f);
+                                setInterpolation(Interp.fade);
+                            }
                                 @Override
-                                protected void updateRelative(float percentDelta){
+                                protected void updateRelative(float percentDelta) {
                                     panX -= moveBy * percentDelta;
                                 }
                             });
                         }
-                    }else if(canSpend(node.node) && locked(node.node)){
+                    } else if (canSpend(node.node) && locked(node.node)) {
                         spend(node.node);
                     }
                 });
                 button.hovered(() -> {
-                    if(!mobile && hoverNode != button){
+                    if (!mobile && hoverNode != button) {
                         hoverNode = button;
                         rebuild();
                     }
                 });
                 button.exited(() -> {
-                    if(!mobile && hoverNode == button && !infoTable.hasMouse() && !hoverNode.hasMouse()){
+                    if (!mobile && hoverNode == button && !infoTable.hasMouse() && !hoverNode.hasMouse()) {
                         hoverNode = null;
                         rebuild();
                     }
@@ -422,17 +415,17 @@ public final class HIResearchDialog extends BaseDialog {
                     button.setPosition(node.x + panX + width / 2f, node.y + panY + height / 2f + offset, Align.center);
                     button.getStyle().up = !locked(node.node) ? Tex.buttonOver : !selectable(node.node) || !canSpend(node.node) ? Tex.buttonRed : Tex.button;
 
-                    ((TextureRegionDrawable)button.getStyle().imageUp).setRegion(node.node.content.uiIcon);
+                    ((TextureRegionDrawable) button.getStyle().imageUp).setRegion(node.node.content.uiIcon);
                     button.getImage().setColor(Color.white);
                     button.getImage().setScaling(Scaling.bounded);
                 });
                 addChild(button);
             }
 
-            if(mobile){
+            if (mobile) {
                 tapped(() -> {
                     Element e = Core.scene.hit(Core.input.mouseX(), Core.input.mouseY(), true);
-                    if(e == this){
+                    if (e == this) {
                         hoverNode = null;
                         rebuild();
                     }
@@ -444,7 +437,7 @@ public final class HIResearchDialog extends BaseDialog {
             released(() -> moved = false);
         }
 
-        void clamp(){
+        void clamp() {
             float pad = nodeSize;
 
             float ox = width/2f, oy = height/2f;
@@ -456,17 +449,17 @@ public final class HIResearchDialog extends BaseDialog {
             panY = ry - bounds.y - oy;
         }
 
-        boolean canSpend(TechNode node){
-            if(!selectable(node)) return false;
+        boolean canSpend(TechNode node) {
+            if (!selectable(node)) return false;
 
-            if(node.parent != null) {
-                if(node.parent.content.locked()) return false;
+            if (node.parent != null) {
+                if (node.parent.content.locked()) return false;
             }
 
-            if(node.requirements.length == 0) return true;
+            if (node.requirements.length == 0) return true;
 
-            for(int i = 0; i < node.requirements.length; i++){
-                if(node.finishedRequirements[i].amount < node.requirements[i].amount && items.has(node.requirements[i].item)){
+            for (int i = 0; i < node.requirements.length; i++) {
+                if (node.finishedRequirements[i].amount < node.requirements[i].amount && items.has(node.requirements[i].item)) {
                     return true;
                 }
             }
@@ -474,13 +467,13 @@ public final class HIResearchDialog extends BaseDialog {
             return node.content.locked();
         }
 
-        void spend(TechNode node){
+        void spend(TechNode node) {
             boolean complete = true;
 
             boolean[] shine = new boolean[node.requirements.length];
             boolean[] usedShine = new boolean[content.items().size];
 
-            for(int i = 0; i < node.requirements.length; i++){
+            for (int i = 0; i < node.requirements.length; i++) {
                 ItemStack req = node.requirements[i];
                 ItemStack completed = node.finishedRequirements[i];
 
@@ -488,17 +481,17 @@ public final class HIResearchDialog extends BaseDialog {
                 items.remove(req.item, used);
                 completed.amount += used;
 
-                if(used > 0){
+                if (used > 0) {
                     shine[i] = true;
                     usedShine[req.item.id] = true;
                 }
 
-                if(completed.amount < req.amount){
+                if (completed.amount < req.amount) {
                     complete = false;
                 }
             }
 
-            if(complete){
+            if (complete) {
                 unlock(node);
             }
 
@@ -509,11 +502,11 @@ public final class HIResearchDialog extends BaseDialog {
             itemDisplay.rebuild(items, usedShine);
         }
 
-        void unlock(TechNode node){
+        void unlock(TechNode node) {
             node.content.unlock();
 
             TechNode parent = node.parent;
-            while(parent != null){
+            while (parent != null) {
                 parent.content.unlock();
                 parent = parent.parent;
             }
@@ -527,23 +520,23 @@ public final class HIResearchDialog extends BaseDialog {
             Events.fire(new ResearchEvent(node.content));
         }
 
-        void rebuild(){
+        void rebuild() {
             rebuild(null);
         }
 
-        void rebuild(@Nullable boolean[] shine){
+        void rebuild(@Nullable boolean[] shine) {
             ImageButton button = hoverNode;
 
             infoTable.remove();
             infoTable.clear();
             infoTable.update(null);
 
-            if(button == null) return;
+            if (button == null) return;
 
             TechNode node = (TechNode)button.userObject;
 
             infoTable.exited(() -> {
-                if(hoverNode == button && !infoTable.hasMouse() && !hoverNode.hasMouse()){
+                if (hoverNode == button && !infoTable.hasMouse() && !hoverNode.hasMouse()) {
                     hoverNode = null;
                     rebuild();
                 }
@@ -559,7 +552,7 @@ public final class HIResearchDialog extends BaseDialog {
             infoTable.table(b -> {
                 b.margin(0).left().defaults().left();
 
-                if((node.content.description != null || node.content.stats.toMap().size > 0)){
+                if ((node.content.description != null || node.content.stats.toMap().size > 0)) {
                     b.button(Icon.info, Styles.flati, () -> ui.content.show(node.content)).growY().width(50f);
                 }
                 b.add().grow();
@@ -567,37 +560,37 @@ public final class HIResearchDialog extends BaseDialog {
                     desc.left().defaults().left();
                     desc.add(node.content.localizedName);
                     desc.row();
-                    if(locked(node) || debugShowRequirements){
+                    if (locked(node) || debugShowRequirements) {
 
                         desc.table(t -> {
                             t.left();
-                            if(selectable){
+                            if (selectable) {
 
-                                if(Structs.contains(node.finishedRequirements, s -> s.amount > 0)){
+                                if (Structs.contains(node.finishedRequirements, s -> s.amount > 0)) {
                                     float sum = 0f, used = 0f;
                                     boolean shiny = false;
 
-                                    for(int i = 0; i < node.requirements.length; i++){
+                                    for (int i = 0; i < node.requirements.length; i++) {
                                         sum += node.requirements[i].item.cost * node.requirements[i].amount;
                                         used += node.finishedRequirements[i].item.cost * node.finishedRequirements[i].amount;
-                                        if(shine != null) shiny |= shine[i];
+                                        if (shine != null) shiny |= shine[i];
                                     }
 
-                                    Label label = t.add(Core.bundle.format("research.progress", Math.min((int)(used / sum * 100), 99))).left().get();
+                                    Label label = t.add(Core.bundle.format("research.progress", Math.min((int) (used / sum * 100), 99))).left().get();
 
                                     label.setColor(Pal.accent);
-                                    if(shiny){
+                                    if (shiny) {
                                         label.actions(Actions.color(Color.lightGray, 0.75f, Interp.fade));
                                     }
 
                                     t.row();
                                 }
 
-                                for(int i = 0; i < node.requirements.length; i++){
+                                for (int i = 0; i < node.requirements.length; i++) {
                                     ItemStack req = node.requirements[i];
                                     ItemStack completed = node.finishedRequirements[i];
 
-                                    if(req.amount <= completed.amount && !debugShowRequirements) continue;
+                                    if (req.amount <= completed.amount && !debugShowRequirements) continue;
                                     boolean shiny = shine != null && shine[i];
 
                                     t.table(list -> {
@@ -612,22 +605,22 @@ public final class HIResearchDialog extends BaseDialog {
 
                                         Color targetColor = items.has(req.item) ? Color.lightGray : Color.scarlet;
 
-                                        if(shiny){
+                                        if (shiny) {
                                             label.setColor(Pal.accent);
                                             label.actions(Actions.color(targetColor, 0.75f, Interp.fade));
-                                        }else{
+                                        } else {
                                             label.setColor(targetColor);
                                         }
 
                                     }).fillX().left();
                                     t.row();
                                 }
-                            }else if(node.objectives.size > 0){
+                            } else if (node.objectives.size > 0) {
                                 t.table(r -> {
                                     r.add("@complete").colspan(2).left();
                                     r.row();
-                                    for(Objective o : node.objectives){
-                                        if(o.complete()) continue;
+                                    for (Objective o : node.objectives) {
+                                        if (o.complete()) continue;
 
                                         r.add("> " + display(o)).color(Color.lightGray).left();
                                         r.image(o.complete() ? Icon.ok : Icon.cancel, o.complete() ? Color.lightGray : Color.scarlet).padLeft(3);
@@ -637,14 +630,14 @@ public final class HIResearchDialog extends BaseDialog {
                                 t.row();
                             }
                         });
-                    }else{
+                    } else {
                         desc.add("@completed");
                     }
                 }).pad(9);
 
-                if(mobile && locked(node)){
+                if (mobile && locked(node)) {
                     b.row();
-                    b.button("@research", Icon.ok, new TextButtonStyle(){{
+                    b.button("@research", Icon.ok, new TextButtonStyle() {{
                                 disabled = Tex.button;
                                 font = Fonts.def;
                                 fontColor = Color.white;
@@ -656,7 +649,7 @@ public final class HIResearchDialog extends BaseDialog {
             });
 
             infoTable.row();
-            if(node.content.description != null && node.content.inlineDescription){
+            if (node.content.description != null && node.content.inlineDescription) {
                 infoTable.table(t -> t.margin(3f).left().labelWrap(node.content.displayDescription()).color(Color.lightGray).growX()).fillX();
             }
 
@@ -665,32 +658,32 @@ public final class HIResearchDialog extends BaseDialog {
             infoTable.act(Core.graphics.getDeltaTime());
         }
 
-        public String display(Objective o){
-            if(o instanceof Produce A){
-                return Core.bundle.format("requirement.produce", A.content.emoji() + " " + A.content.localizedName);
+        public String display(Objective o) {
+            if (o instanceof Produce produce) {
+                return Core.bundle.format("requirement.produce", produce.content.emoji() + " " + produce.content.localizedName);
             }
-            if(o instanceof Research A){
-                return Core.bundle.format("requirement.research", A.content.emoji() + " " + A.content.localizedName);
+            if (o instanceof Research research) {
+                return Core.bundle.format("requirement.research", research.content.emoji() + " " + research.content.localizedName);
             }
             return o.display();
         }
 
         @Override
-        public void drawChildren(){
+        public void drawChildren() {
             clamp();
             float offsetX = panX + width / 2f, offsetY = panY + height / 2f;
             Draw.sort(true);
 
-            for(TechTreeNode node : nodes){
-                for(TechTreeNode child : node.children){
+            for (TechTreeNode node : nodes) {
+                for (TechTreeNode child : node.children) {
                     boolean lock = locked(node.node) || locked(child.node);
                     Draw.z(lock ? 1f : 2f);
 
                     Lines.stroke(Scl.scl(4f), lock ? Pal.gray : Pal.accent);
                     Draw.alpha(parentAlpha);
-                    if(Mathf.equal(Math.abs(node.y - child.y), Math.abs(node.x - child.x), 1f) && Mathf.dstm(node.x, node.y, child.x, child.y) <= node.width*3){
+                    if (Mathf.equal(Math.abs(node.y - child.y), Math.abs(node.x - child.x), 1f) && Mathf.dstm(node.x, node.y, child.x, child.y) <= node.width * 3) {
                         Lines.line(node.x + offsetX, node.y + offsetY, child.x + offsetX, child.y + offsetY);
-                    }else{
+                    } else {
                         Lines.line(node.x + offsetX, node.y + offsetY, child.x + offsetX, node.y + offsetY);
                         Lines.line(child.x + offsetX, node.y + offsetY, child.x + offsetX, child.y + offsetY);
                     }

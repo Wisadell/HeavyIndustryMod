@@ -225,7 +225,7 @@ public final class InfoDialog extends BaseDialog {
         }
     }
 
-    private void copyInfo(LayoutNode node){
+    private void copyInfo(LayoutNode node) {
         node.node.x = node.x;
         node.node.y = node.y;
 
@@ -269,9 +269,9 @@ public final class InfoDialog extends BaseDialog {
                         if (right > graphics.getWidth()) {
 
                             float moveBy = right - graphics.getWidth();
-                            addAction(new RelativeTemporalAction(){
+                            addAction(new RelativeTemporalAction() {
                                 @Override
-                                protected void updateRelative(float percentDelta){
+                                protected void updateRelative(float percentDelta) {
                                     panX -= moveBy * percentDelta;
                                     setDuration(0.1f);
                                     setInterpolation(Interp.fade);
@@ -304,7 +304,7 @@ public final class InfoDialog extends BaseDialog {
                     button.setPosition(node.x + panX + width / 2f, node.y + panY + height / 2f + offset, Align.center);
                     button.getStyle().up = !locked(node.node) ? Tex.buttonOver : locked(node.node) || !locked(node.node) ? Tex.buttonRed : Tex.button;
 
-                    if (button.getStyle().imageUp instanceof TextureRegionDrawable drawable){
+                    if (button.getStyle().imageUp instanceof TextureRegionDrawable drawable) {
                         drawable.setRegion(node.selectable ? node.node.content.uiIcon : Icon.lock.getRegion());
                     }
                     button.getImage().setColor(!locked(node.node) ? Color.white : node.selectable ? Color.gray : Pal.gray);
@@ -327,7 +327,7 @@ public final class InfoDialog extends BaseDialog {
             released(() -> moved = false);
         }
 
-        private void clamp(){
+        private void clamp() {
             float pad = nodeSize;
             float ox = width / 2f, oy = height / 2f;
             float rw = bounds.width, rh = bounds.height;
@@ -340,15 +340,15 @@ public final class InfoDialog extends BaseDialog {
             panY = ry - bounds.y - oy;
         }
 
-        private String getKey(InfoNode node){
+        private String getKey(InfoNode node) {
             return node.content.getContentType() + "." + node.content.name + ".info";
         }
 
-        private boolean hasInfo(InfoNode node){
+        private boolean hasInfo(InfoNode node) {
             return !bundle.get(getKey(node)).startsWith("?");
         }
 
-        private void rebuild(){
+        private void rebuild() {
             ImageButton button = hoverNode;
 
             infoTable.remove();
@@ -391,7 +391,7 @@ public final class InfoDialog extends BaseDialog {
                     }
                 }).pad(9f);
 
-                if(hasInfo(node)) t.minWidth(480f);
+                if (hasInfo(node)) t.minWidth(480f);
             });
 
             infoTable.row();
@@ -417,7 +417,7 @@ public final class InfoDialog extends BaseDialog {
             Draw.sort(true);
 
             for (InfoTreeNode node : nodes) {
-                if(!node.visible) continue;
+                if (!node.visible) continue;
 
                 for (InfoTreeNode child : node.children) {
                     if (!child.visible) continue;
@@ -462,7 +462,7 @@ public final class InfoDialog extends BaseDialog {
         private final InfoNode node;
         private boolean visible = true, selectable = true;
 
-        private InfoTreeNode(InfoNode node, InfoTreeNode parent){
+        private InfoTreeNode(InfoNode node, InfoTreeNode parent) {
             this.node = node;
             this.parent = parent;
             width = height = nodeSize;
@@ -488,7 +488,7 @@ public final class InfoDialog extends BaseDialog {
         private final Seq<InfoNode> children = new Seq<>();
 
         private InfoNode(@Nullable InfoNode parent, UnlockableContent content) {
-            if(parent != null) parent.children.add(this);
+            if (parent != null) parent.children.add(this);
 
             this.content = content;
             this.depth = (short) (parent == null ? 0 : parent.depth + 1);

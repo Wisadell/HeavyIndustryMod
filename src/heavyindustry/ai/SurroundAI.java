@@ -47,11 +47,11 @@ public class SurroundAI extends FlyingAI {
         }
     }
 
-    public float angleDelta(float ang){
+    public float angleDelta(float ang) {
         return unit.angleTo(target) + /*Mathf.sign(unit.team.id % 2 == 0) **/ ang;
     }
 
-    public float angleVertical(){
+    public float angleVertical() {
         return angleDelta(90f);
     }
 }

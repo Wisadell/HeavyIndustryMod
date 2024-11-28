@@ -47,7 +47,7 @@ public class BoostWeapon extends Weapon {
                     mount.rotation = Angles.moveToward(mount.rotation, baseRotation, dst - rotationLimit / 2f);
                 }
             }
-        } else if(!rotate) {
+        } else if (!rotate) {
             mount.rotation = baseRotation;
             mount.targetRotation = unit.angleTo(mount.aimX, mount.aimY);
         }
@@ -73,7 +73,7 @@ public class BoostWeapon extends Weapon {
 
             boolean shoot = false;
 
-            if(mount.target != null) {
+            if (mount.target != null) {
                 shoot = mount.target.within(mountX, mountY, bullet.range + Math.abs(shootY) + (mount.target instanceof Sized sized ? sized.hitSize() / 2f : 0f)) && can;
 
                 if (predictTarget) {
@@ -96,7 +96,7 @@ public class BoostWeapon extends Weapon {
 
         //update continuous state
         if (continuous && mount.bullet != null) {
-            if (!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet){
+            if (!mount.bullet.isAdded() || mount.bullet.time >= mount.bullet.lifetime || mount.bullet.type != bullet) {
                 mount.bullet = null;
             } else {
                 mount.bullet.rotation(weaponRotation + 90);
@@ -148,7 +148,7 @@ public class BoostWeapon extends Weapon {
 
             if (useAmmo) {
                 unit.ammo--;
-                if(unit.ammo < 0) unit.ammo = 0;
+                if (unit.ammo < 0) unit.ammo = 0;
             }
         }
     }

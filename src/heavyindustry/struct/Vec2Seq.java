@@ -35,7 +35,7 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
 
     public Vec2Seq(FloatSeq vec2s) {
         coordinates = FloatSeq.with(vec2s.items.clone());
-        if(coordinates.size % 2 == 1) coordinates.pop();
+        if (coordinates.size % 2 == 1) coordinates.pop();
     }
 
     public Vec2Seq(float[] vec2s) {
@@ -73,26 +73,26 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
     }
 
     public void addAll(FloatSeq arr) {
-        for(int i = 0; i < arr.size / 2; i++){
+        for (int i = 0; i < arr.size / 2; i++) {
             add(arr.get(i), arr.get(i + 1));
         }
     }
 
     public void addAll(float[] arr) {
-        for(int i = 0; i < arr.length / 2; i++){
+        for (int i = 0; i < arr.length / 2; i++) {
             add(arr[i], arr[i + 1]);
         }
     }
 
     public void addAll(Iterable<Vec2> vecs) {
-        for(Vec2 v : vecs){
+        for (Vec2 v : vecs) {
             add(v);
         }
     }
 
     //TODO should be faster.
     public void addAll(Vec2[] vec2s) {
-        for(Vec2 vec2 : vec2s){
+        for (Vec2 vec2 : vec2s) {
             add(vec2);
         }
     }
@@ -109,8 +109,8 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
     public int count(Boolf<Vec2> bf) {
         int i = 0;
         Vec2 vec2 = new Vec2();
-        for(int j = 0; j < size(); j++){
-            if(bf.get(setVec2(j, vec2)))i++;
+        for (int j = 0; j < size(); j++) {
+            if (bf.get(setVec2(j, vec2))) i++;
         }
 
         return i;
@@ -118,9 +118,9 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
 
     public boolean contains(Boolf<Vec2> bf) {
         Vec2 vec2 = new Vec2();
-        for(int j = 0; j < size(); j++){
+        for (int j = 0; j < size(); j++) {
             setVec2(j, vec2);
-            if(bf.get(vec2))return true;
+            if (bf.get(vec2))return true;
         }
 
         return false;
@@ -128,7 +128,7 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
 
     public Seq<Vec2> asSeq() {
         Seq<Vec2> seq = new Seq<>(true, size());
-        for(int j = 0; j < size(); j++){
+        for (int j = 0; j < size(); j++) {
             seq.add(newVec2(j));
         }
         return seq;

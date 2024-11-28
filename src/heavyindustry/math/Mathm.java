@@ -13,7 +13,7 @@ public final class Mathm {
     private static final float sinToIndex = aSinCount / 2f;
 
     static {
-        for (int i = 0; i < aSinCount; i++) aSinTable[i] = (float)(Math.asin((i + 0.5f) / aSinCount * 2 - 1) + radFull);
+        for (int i = 0; i < aSinCount; i++) aSinTable[i] = (float) (Math.asin((i + 0.5f) / aSinCount * 2 - 1) + radFull);
 
         aSinTable[0] = radFull - Mathf.halfPi;
         aSinTable[aSinTable.length - 1] = radFull + Mathf.halfPi;
@@ -129,7 +129,7 @@ public final class Mathm {
      * The parameters can control the left and right attenuation rates separately.
      */
     public static double lerpIncrease(double lerpLeft, double lerpRight, double max, double optimal, double x) {
-        if(x < 0) return 0;
+        if (x < 0) return 0;
         return x >= 0 && x < optimal ? -max * Math.pow(1 - x / optimal, lerpLeft) + max: -max * Math.pow(1 - optimal / x, lerpRight) + max;
     }
 }

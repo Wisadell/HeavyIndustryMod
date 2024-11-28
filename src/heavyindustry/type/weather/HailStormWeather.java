@@ -31,7 +31,7 @@ public class HailStormWeather extends SpawnerWeather {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
 
         for (int i = 0; i < splashes.length; i++) {
@@ -43,17 +43,17 @@ public class HailStormWeather extends SpawnerWeather {
     public void spawnAt(WeatherState state, float x, float y) {
         BulletType b = getBullet();
 
-        if(!net.client()){
+        if (!net.client()) {
             b.createNet(bulletTeam, x, y, useWindVector ? state.windVector.angle() : 0, b.damage, 1f, 1f);
         }
     }
 
     @Override
-    public boolean canSpawn(WeatherState state){
+    public boolean canSpawn(WeatherState state) {
         return Mathf.randomBoolean(bulletChange * state.intensity);
     }
 
-    public BulletType getBullet(){
+    public BulletType getBullet() {
         for (BulletStack item : bullets) {
             if (Mathf.random() < item.change) {
                 return item.bullet;
@@ -63,8 +63,8 @@ public class HailStormWeather extends SpawnerWeather {
         return bullets[bullets.length -1].bullet;
     }
 
-    public void setBullets(Object... items){
-        var stack = new BulletStack[items.length / 2];
+    public void setBullets(Object... items) {
+        BulletStack[] stack = new BulletStack[items.length / 2];
 
         for (int i = 0; i < items.length; i += 2) {
             stack[i / 2] = new BulletStack((BulletType) items[i], (float) items[i + 1]);
@@ -85,7 +85,7 @@ public class HailStormWeather extends SpawnerWeather {
     }
 
     @Override
-    public void drawUnder(WeatherState state){
+    public void drawUnder(WeatherState state) {
         if (drawRain) drawSplashes(splashes, sizeMax, density, state.intensity, state.opacity, splashTimeScale, stroke, color, liquid);
     }
 
@@ -93,7 +93,7 @@ public class HailStormWeather extends SpawnerWeather {
         public BulletType bullet;
         public float change;
 
-        public BulletStack(BulletType bullet, float change){
+        public BulletStack(BulletType bullet, float change) {
             this.bullet = bullet;
             this.change = change;
         }

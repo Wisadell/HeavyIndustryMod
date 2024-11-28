@@ -110,7 +110,7 @@ public final class TableUtils {
     }
 
     private static class Inner extends Table {
-        Inner(){
+        Inner() {
             name = "INNER";
             background(Tex.paneSolid);
 
@@ -203,7 +203,7 @@ public final class TableUtils {
 
         parentT.touchablility = () -> Touchable.disabled;
 
-        if(!pTable.hasParent()) ctrlVec.set(camera.unproject(input.mouse()));
+        if (!pTable.hasParent()) ctrlVec.set(camera.unproject(input.mouse()));
 
         if (!pTable.hasParent()) pTable = new Table(Tex.clear) {{
             update(() -> {
