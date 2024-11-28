@@ -38,7 +38,7 @@ public class SmartPowerNode extends PowerNode {
             Draw.rect(region, x, y);
             drawTeamTop();
 
-            if(!Mathf.zero(Renderer.laserOpacity) && !this.isPayload()){
+            if (!Mathf.zero(Renderer.laserOpacity) && !this.isPayload()) {
                 Draw.z(70f);
                 setupColor(power.graph.getSatisfaction());
 

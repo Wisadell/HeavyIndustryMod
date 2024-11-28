@@ -48,11 +48,11 @@ public class UnitBoost extends Block {
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
 
-        addBar("heat", (UnitBoostBuild entity) -> new Bar(() ->
-                bundle.format("bar.heatpercent", (int)(entity.heat + 0.01f), (int)(entity.efficiencyScale() * 100 + 0.01f)),
+        addBar("heat", (UnitBoostBuild entity) -> new Bar(
+                () -> bundle.format("bar.heatpercent", (int)(entity.heat + 0.01f), (int)(entity.efficiencyScale() * 100 + 0.01f)),
                 () -> Pal.lightOrange,
                 () -> entity.heat / heatRequirement));
     }
@@ -171,7 +171,7 @@ public class UnitBoost extends Block {
             super.draw();
             if (drawer != null) {
                 drawer.draw(this);
-                if(onlyDrawer) return;
+                if (onlyDrawer) return;
             }
 
             if (!state.isPaused()) {
@@ -202,7 +202,7 @@ public class UnitBoost extends Block {
             for (int i = 0; i < 3; i++) {
                 float rt = 360 / 3f * i - rotation;
 
-                if(phaseHeat < 0.99f) Lines.arc(x, y, rd, 1/3f * (1 - phaseHeat + 0.05f), rt);
+                if (phaseHeat < 0.99f) Lines.arc(x, y, rd, 1/3f * (1 - phaseHeat + 0.05f), rt);
                 float ex = x + Angles.trnsx(rt, rd), ey = y + Angles.trnsy(rt, rd);
                 Float[] p = {ex, ey};
                 pos.add(p);
@@ -239,7 +239,7 @@ public class UnitBoost extends Block {
 
             Lines.stroke(2.4f, team.color);
             pos.clear();
-            for (Point2 q : Geometry.d8edge){
+            for (Point2 q : Geometry.d8edge) {
                 float lx = x + realRange / 2 * tilesize * q.x;
                 float ly = y + realRange / 2 * tilesize * q.y;
                 Float[] p = {lx, ly};

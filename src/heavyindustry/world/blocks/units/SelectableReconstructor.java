@@ -110,12 +110,12 @@ public class SelectableReconstructor extends Reconstructor {
         }
 
         @Override
-        public boolean acceptItem(Building source, Item item){
+        public boolean acceptItem(Building source, Item item) {
             return getMaximumAccepted(item) > items.get(item);
         }
 
         @Override
-        public boolean shouldConsume(){
+        public boolean shouldConsume() {
             if (payload == null) return false;
             return currentPlan != -1 && plans.get(currentPlan).unit == payload.unit.type;
         }
@@ -124,7 +124,7 @@ public class SelectableReconstructor extends Reconstructor {
         public void updateTile() {
             boolean valid = false;
             if (payload != null && currentPlan != -1) {
-                var Plan = plans.get(currentPlan);
+                DynamicUnitPlan Plan = plans.get(currentPlan);
                 if (Plan.unit != payload.unit.type) {
                     moveOutPayload();
                 } else if (moveInPayload()) {
@@ -159,7 +159,7 @@ public class SelectableReconstructor extends Reconstructor {
         }
 
         @Override
-        public void buildConfiguration(Table table){
+        public void buildConfiguration(Table table) {
             if (canSetCommand()) {
                 super.buildConfiguration(table);
                 return;

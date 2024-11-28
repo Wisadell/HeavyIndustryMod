@@ -108,14 +108,14 @@ public class PayloadJunction extends Block {
             updatePayloads();
 
             int curStep = curStep();
-            if (curStep > step){
+            if (curStep > step) {
                 boolean valid = step != -1;
                 step = curStep;
                 for (int i = 0; i < 2; i++) {
                     Payload item = payloads[i];
                     boolean had = item != null;
 
-                    if (valid && stepAccepted != curStep && item != null){
+                    if (valid && stepAccepted != curStep && item != null) {
                         Building next = surrounding[from[i]];
                         if (next != null) {
                             //trigger update forward
@@ -127,7 +127,7 @@ public class PayloadJunction extends Block {
                                 payloads[i] = null;
                                 moved();
                             }
-                        } else if (!blocked[from[i]]){
+                        } else if (!blocked[from[i]]) {
                             //dump item forward
                             if (item.dump()) {
                                 payloads[i] = null;

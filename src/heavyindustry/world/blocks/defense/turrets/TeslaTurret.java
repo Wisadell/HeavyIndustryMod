@@ -152,7 +152,7 @@ public class TeslaTurret extends Block {
         public boolean drawUnder, hasSprite;
         public float rotationMul, radius, xOffset, yOffset;
 
-        public TeslaRing(float radius){
+        public TeslaRing(float radius) {
             this.radius = radius;
         }
     }
@@ -195,9 +195,9 @@ public class TeslaTurret extends Block {
 
             for (int i = 0; i < rings.size; i++) {
                 TeslaRing ring = rings.get(i);
-                if (ring.drawUnder){
-                    if (ring.hasSprite){
-                        if (ring.rotationMul != 0){
+                if (ring.drawUnder) {
+                    if (ring.hasSprite) {
+                        if (ring.rotationMul != 0) {
                             Drawf.spinSprite(ringRegions[i], x, y, rotation * ring.rotationMul - 90f);
                         } else {
                             Draw.rect(ringRegions[i], x, y);
@@ -294,7 +294,7 @@ public class TeslaTurret extends Block {
 
                             //lightning gets absorbed by plastanium
                             Building absorber = Damage.findAbsorber(team, x, y, other.getX(), other.getY());
-                            if(absorber != null){
+                            if (absorber != null) {
                                 other = absorber;
                             }
 
@@ -365,7 +365,7 @@ public class TeslaTurret extends Block {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
 
-            if(revision >= 2){
+            if (revision >= 2) {
                 reloadCounter = read.f();
                 nearby = read.bool();
             }

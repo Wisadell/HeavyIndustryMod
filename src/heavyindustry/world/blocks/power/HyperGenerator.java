@@ -95,7 +95,7 @@ public class HyperGenerator extends ImpactReactor {
                 Draw.color(effectColor);
                 Fill.circle(b.x, b.y, size * tilesize / 3f * f);
 
-                for(int i : Mathf.signs) {
+                for (int i : Mathf.signs) {
                     Drawf.tri(b.x, b.y, triWidth * f2 * f, triLength * 1.3f * f2 * f, (i + 1) * 90 + Time.time * 2);
                     Drawf.tri(b.x, b.y, triWidth * f2 * f, triLength * 1.3f * f2 * f, (i + 1) * 90 - Time.time * 2 + 90);
                 }

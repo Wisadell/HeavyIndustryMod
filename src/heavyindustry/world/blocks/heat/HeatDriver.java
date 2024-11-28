@@ -55,25 +55,25 @@ public class HeatDriver extends Block {
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
         addBar("heat", (HeatDriverBuild tile) -> new Bar(() -> bundle.format("bar.heatamount", (int)(tile.heat + 0.001f)), () -> Pal.lightOrange, () -> tile.heat / visualMaxHeat));
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
 
         drawer.load(this);
     }
 
     @Override
-    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         drawer.drawPlan(this, plan, list);
     }
 
     @Override
-    public TextureRegion[] icons(){
+    public TextureRegion[] icons() {
         return drawer.finalIcons(this);
     }
 
@@ -102,7 +102,7 @@ public class HeatDriver extends Block {
 
         @Override
         public void updateTile() {
-            if(owners.size == 0 && link == -1) heat = 0;
+            if (owners.size == 0 && link == -1) heat = 0;
 
             checkOwner();
 
@@ -111,7 +111,7 @@ public class HeatDriver extends Block {
 
             if (hasLink) {
                 HeatDriverBuild other = (HeatDriverBuild) linked;
-                if(other.checkOneOwner(this)) other.owners.add(this);
+                if (other.checkOneOwner(this)) other.owners.add(this);
                 float toRotation = angleTo(other);
                 rotation = Mathf.slerpDelta(rotation, toRotation, 0.02f * power.status);
                 if (Angles.near(rotation, toRotation, 2)) {
@@ -125,7 +125,7 @@ public class HeatDriver extends Block {
                 progress = Mathf.slerpDelta(progress, 0, 0.04f);
             }
             float p = Math.min((heat / visualMaxHeat), 1);
-            if (owners.size > 0 && p > 0){
+            if (owners.size > 0 && p > 0) {
                 resProgress = Mathf.slerpDelta(resProgress, 1, 0.02f * p);
             } else {
                 resProgress = Mathf.slerpDelta(resProgress, 0, 0.05f);
@@ -133,7 +133,7 @@ public class HeatDriver extends Block {
         }
 
         public void updateTransfer() {
-            if (owners.size > 0){
+            if (owners.size > 0) {
                 float totalHeat = 0f;
                 for (int i = 0; i < owners.size; i++) {
                     HeatDriverBuild owner = (HeatDriverBuild)owners.get(i);
@@ -149,7 +149,7 @@ public class HeatDriver extends Block {
         }
 
         public void updateHeat() {
-            if(lastHeatUpdate == state.updateId) return;
+            if (lastHeatUpdate == state.updateId) return;
 
             lastHeatUpdate = state.updateId;
             heat = calculateHeat(sideHeat, cameFrom);
@@ -205,7 +205,7 @@ public class HeatDriver extends Block {
         @Override
         public boolean onConfigureBuildTapped(Building other) {
             if (this == other) {
-                if(link == -1) deselect();
+                if (link == -1) deselect();
                 configure(-1);
                 return false;
             }
@@ -263,7 +263,7 @@ public class HeatDriver extends Block {
         }
 
         @Override
-        public void read(Reads read, byte revision){
+        public void read(Reads read, byte revision) {
             super.read(read, revision);
             link = read.i();
             rotation = read.f();

@@ -11,7 +11,7 @@ import mindustry.world.blocks.power.*;
 import static mindustry.Vars.*;
 
 public class SmartBeamNode extends BeamNode {
-    public SmartBeamNode(String name){
+    public SmartBeamNode(String name) {
         super(name);
     }
 
@@ -27,7 +27,7 @@ public class SmartBeamNode extends BeamNode {
 
         public void updatePowerColor() {
             int id = power.graph.getID();
-            if(id != lastID){
+            if (id != lastID) {
                 float hue = Mathf.randomSeed(id, 360f);
                 lightColor.fromHsv(hue, 1f, 1f);
                 darkColor.fromHsv(hue + 6f, 1f, 1f).mul(0.75f);
@@ -40,7 +40,7 @@ public class SmartBeamNode extends BeamNode {
             Draw.rect(region, x, y);
             drawTeamTop();
 
-            if(Mathf.zero(Renderer.laserOpacity)) return;
+            if (Mathf.zero(Renderer.laserOpacity)) return;
 
             Draw.z(Layer.power);
             Draw.color(lightColor, darkColor, (1f - power.graph.getSatisfaction()) * 0.86f + Mathf.absin(3f, 0.1f));

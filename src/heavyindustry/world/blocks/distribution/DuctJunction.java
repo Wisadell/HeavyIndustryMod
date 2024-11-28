@@ -128,7 +128,7 @@ public class DuctJunction extends Block {
         @Override
         public void handleItem(Building source, Item item) {
             int relative = source.relativeTo(tile);
-            if(current[relative % 2] != null) return;
+            if (current[relative % 2] != null) return;
 
             current[relative % 2] = item;
             progress[relative % 2] = -1;

@@ -70,7 +70,7 @@ public class LaserBeamDrill extends DrillF {
         public void draw() {
             Draw.rect(baseRegion, x, y);
 
-            if (warmup > 0f){
+            if (warmup > 0f) {
                 drawMining();
             }
 

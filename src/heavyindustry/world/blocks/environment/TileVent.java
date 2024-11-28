@@ -9,9 +9,9 @@ import mindustry.entities.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
-import static heavyindustry.util.Utils.*;
-import static heavyindustry.util.StructUtils.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.StructUtils.*;
+import static heavyindustry.util.Utils.*;
 
 /**
  * A {@link SteamVent} that can be of any size. Spans multiple tiles; only the middle tile (or in case of {@code size % 2 == 0},
@@ -51,7 +51,7 @@ public class TileVent extends SteamVent {
         parent.drawBase(tile);
         if (checkAdjacent(tile)) {
             float x = tile.worldx(), y = tile.worldy();
-            if (size % 2 == 0){
+            if (size % 2 == 0) {
                 x += tilesize / 2f;
                 y += tilesize / 2f;
             }
@@ -71,7 +71,7 @@ public class TileVent extends SteamVent {
     }
 
     @Override
-    public void renderUpdate(UpdateRenderState state){
+    public void renderUpdate(UpdateRenderState state) {
         Tile tile = state.tile;
         if (clear(tile) && (state.data += Time.delta) >= effectSpacing) {
             float x = tile.worldx(), y = tile.worldy();
@@ -86,9 +86,9 @@ public class TileVent extends SteamVent {
     }
 
     public boolean checkAdjacent(Tile tile) {
-        for(Point2 point : getOffsets(size)){
+        for (Point2 point : getOffsets(size)) {
             Tile other = world.tile(tile.x + point.x, tile.y + point.y);
-            if(other == null || other.floor() != this) return false;
+            if (other == null || other.floor() != this) return false;
         }
 
         return true;
@@ -104,7 +104,7 @@ public class TileVent extends SteamVent {
     }
 
     public static Point2[] getOffsets(int size) {
-        if(size < 1) throw new IllegalArgumentException("Size may not < 1 (" + size + " < 1).");
+        if (size < 1) throw new IllegalArgumentException("Size may not < 1 (" + size + " < 1).");
 
         int index = size - 1;
         if (index >= offsets.length) {
@@ -118,7 +118,7 @@ public class TileVent extends SteamVent {
     }
 
     protected static Point2[] createOffsets(int size) {
-        if(size == 1) return new Point2[]{new Point2(0, 0)};
+        if (size == 1) return new Point2[]{new Point2(0, 0)};
         int offset = (size - 1) / 2;
 
         Point2[] out = new Point2[size * size];

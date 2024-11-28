@@ -90,7 +90,7 @@ public class PowerAnalyzer extends PowerBlock {
 
         public void drawUsage(float produced, float consumed) {
             float total = produced + consumed;
-            if(horizontal){
+            if (horizontal) {
                 Draw.color(produceColor);
                 Lines.lineAngle(x - displayLength / 2f, y + displaySpacing / 2f, 0, displayLength * (produced / total), false);
                 Draw.color(consumeColor);
@@ -137,13 +137,13 @@ public class PowerAnalyzer extends PowerBlock {
         @Override
         public void drawStatus() { //Literally just removing the requirement of having a consumer
             if (enableDrawStatus) {
-                float multiplier = this.block.size > 1 ? 1f : 0.64f;
-                float brcx = this.x + (float)(this.block.size * 8) / 2f - 8f * multiplier / 2f;
-                float brcy = this.y - (float)(this.block.size * 8) / 2f + 8f * multiplier / 2f;
+                float multiplier = block.size > 1 ? 1f : 0.64f;
+                float brcx = x + (float) (block.size * 8) / 2f - 8f * multiplier / 2f;
+                float brcy = y - (float) (block.size * 8) / 2f + 8f * multiplier / 2f;
                 Draw.z(71f);
                 Draw.color(Pal.gray);
                 Fill.square(brcx, brcy, 2.5f * multiplier, 45f);
-                Draw.color(this.status().color);
+                Draw.color(status().color);
                 Fill.square(brcx, brcy, 1.5f * multiplier, 45f);
                 Draw.color();
             }

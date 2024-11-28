@@ -45,7 +45,7 @@ public class AccelerationCrafter extends GenericCrafter {
             if (canConsume()) {
                 warmup = Mathf.approachDelta(warmup, 1f, warmupSpeed);
                 float e = efficiency;
-                if (speed <= e){
+                if (speed <= e) {
                     speed = Mathf.approachDelta(speed, e, accelerationSpeed * e);
                 } else {
                     speed = Mathf.approachDelta(speed, e, decelerationSpeed);

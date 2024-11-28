@@ -25,7 +25,7 @@ public class StackHelper extends Block {
     }
 
     @Override
-    public void drawPlace(int x, int y, int rotation, boolean valid){
+    public void drawPlace(int x, int y, int rotation, boolean valid) {
         super.drawPlace(x, y, rotation, valid);
 
         x *= tilesize;
@@ -56,7 +56,7 @@ public class StackHelper extends Block {
 
         @Override
         public void drawSelect() {
-            for (int i = 0; i < 4; i++){
+            for (int i = 0; i < 4; i++) {
                 Building b = nearby(i);
                 if (b instanceof StackConveyorBuild sc && b.block instanceof StackConveyor && b.team == team && sc.state == 1) {
                     float sin = Mathf.absin(Time.time, 5, 1);

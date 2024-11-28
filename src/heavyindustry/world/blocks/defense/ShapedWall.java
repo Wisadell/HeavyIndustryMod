@@ -1,9 +1,5 @@
 package heavyindustry.world.blocks.defense;
 
-import heavyindustry.content.*;
-import heavyindustry.graphics.*;
-import heavyindustry.util.*;
-import heavyindustry.world.meta.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -11,9 +7,13 @@ import arc.struct.*;
 import mindustry.gen.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.meta.*;
+import heavyindustry.content.*;
+import heavyindustry.graphics.*;
+import heavyindustry.world.meta.*;
 
-import static heavyindustry.util.SpriteUtils.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.SpriteUtils.*;
+import static heavyindustry.util.Utils.*;
 
 /**
  * Shaped Wall
@@ -35,7 +35,7 @@ public class ShapedWall extends Wall {
     @Override
     public void load() {
         super.load();
-        orthogonalRegion = Utils.splitLayers(name + "-full", 32, 2);
+        orthogonalRegion = splitLayers(name + "-full", 32, 2);
     }
 
     @Override
@@ -164,8 +164,8 @@ public class ShapedWall extends Wall {
         @Override
         public void draw() {
             Draw.rect(orthogonalRegion[0][orthogonalIndex], x, y);
-            for (int i = 0; i < diagonalIndex.length; i++){
-                if (diagonalIndex[i]){
+            for (int i = 0; i < diagonalIndex.length; i++) {
+                if (diagonalIndex[i]) {
                     Draw.rect(orthogonalRegion[1][i], x, y);
                 }
             }
@@ -193,7 +193,7 @@ public class ShapedWall extends Wall {
         }
 
         @Override
-        public void onRemoved(){
+        public void onRemoved() {
             for (ShapedWallBuild other : connectedWalls) {
                 other.updateProximityWall();
             }

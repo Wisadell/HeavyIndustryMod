@@ -258,7 +258,7 @@ public class AssignOverdrive extends OverdriveProjector {
         public void linkPos(int value) {
             Building other = world.build(value);
 
-            if(other != null && !targets.removeValue(value) && targets.size < maxLink - 1 && within(other, range()))targets.add(value);
+            if (other != null && !targets.removeValue(value) && targets.size < maxLink - 1 && within(other, range()))targets.add(value);
         }
 
         @Override

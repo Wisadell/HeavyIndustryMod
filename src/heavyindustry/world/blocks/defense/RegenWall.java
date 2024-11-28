@@ -70,7 +70,7 @@ public class RegenWall extends Wall {
 
         @Override
         public void updateTile() {
-            if (lastChange != world.tileChanges){
+            if (lastChange != world.tileChanges) {
                 lastChange = world.tileChanges;
                 updateTargets();
             }
@@ -93,7 +93,7 @@ public class RegenWall extends Wall {
 
                 //use Math.max to prevent stacking
                 for (Building build : targets) {
-                    if(!build.damaged() || build.isHealSuppressed()) continue;
+                    if (!build.damaged() || build.isHealSuppressed()) continue;
 
                     didRegen = true;
 
@@ -104,12 +104,12 @@ public class RegenWall extends Wall {
                 }
             }
 
-            if(lastUpdateFrame != state.updateId){
+            if (lastUpdateFrame != state.updateId) {
                 lastUpdateFrame = state.updateId;
 
-                for(var entry : mendMap.entries()){
+                for (var entry : mendMap.entries()) {
                     Building build = world.build(entry.key);
-                    if(build != null){
+                    if (build != null) {
                         build.heal(entry.value);
                         build.recentlyHealed();
                     }

@@ -11,9 +11,9 @@ import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.draw.*;
 
-import static heavyindustry.util.Utils.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.Utils.*;
 
 public class TubeDistributor extends Router {
     public DrawBlock drawer = new DrawTubeDistributor();
@@ -48,28 +48,28 @@ public class TubeDistributor extends Router {
 
         @Override
         public void updateTile() {
-            if(lastItem == null && items.any()) {
+            if (lastItem == null && items.any()) {
                 lastItem = items.first();
             }
 
-            if(lastItem != null) {
+            if (lastItem != null) {
                 time += 1f / speed * delta();
 
                 Building target = getTileTarget(lastItem, lastInput, false);
 
-                if(target == null && time >= 0.7f) {
+                if (target == null && time >= 0.7f) {
                     rot = lastRot;
                     time = 0.7f;
                 }
 
-                if(target != null && (time >= 1f)) {
+                if (target != null && (time >= 1f)) {
                     getTileTarget(lastItem, lastInput, true);
                     target.handleItem(this, lastItem);
                     items.remove(lastItem, 1);
                     lastItem = null;
                 }
 
-                if(lastInput != null && lastItem != null) {
+                if (lastInput != null && lastItem != null) {
                     int sa = sourceAngle(), ta = targetAngle();
 
                     angle = (sa == 0) ? (ta == 2 ? 1 : (ta == 0 || ta == 3) ? -1 : 1) :
@@ -153,7 +153,7 @@ public class TubeDistributor extends Router {
                     }
                 } else {
                     if (isf) {
-                        if(sourceAngle() == targetAngle()){
+                        if (sourceAngle() == targetAngle()) {
                             ox = time >= 0.5f ? linearMove : -linearMove;
                             oy = time >= 0.5f ? (time * s2 - s) * (targetAngle() == 1 ? 1 : -1)
                                     : (time * s2 - s) * (targetAngle() == 1 ? -1 : 1);

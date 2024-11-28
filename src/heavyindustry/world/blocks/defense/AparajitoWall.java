@@ -31,19 +31,19 @@ public class AparajitoWall extends Wall {
 
         @Override
         public void updateTile() {
-            if(wasInReload) {
+            if (wasInReload) {
                 timerHit -= Time.delta;
             }
-            if(timerHit <= 0){
+            if (timerHit <= 0) {
                 wasInReload = false;
             }
 
             timerHeal = Math.max(0, timerHeal - Time.delta);
-            if(timerHeal <= 0 && this.health < this.maxHealth - 1e-5f){
-                if(!net.client()){
+            if (timerHeal <= 0 && health < maxHealth - 1e-5f) {
+                if (!net.client()) {
                     heal(maxHealth() * healRadio / 60f * Time.delta);
                 }
-                if(timer.get(60)){
+                if (timer.get(60)) {
                     Fx.healBlockFull.at(x, y, 0, healColor, block);
                 }
             }
@@ -52,8 +52,8 @@ public class AparajitoWall extends Wall {
         @Override
         public void damage(float damage) {
             timerHeal = healTimer;
-            if(!wasInReload) {
-                if(!net.client()) {
+            if (!wasInReload) {
+                if (!net.client()) {
                     heal(maxHealth() * hitHealAmount);
                 }
                 Fx.healBlockFull.at(x, y, 0, healColor, block);

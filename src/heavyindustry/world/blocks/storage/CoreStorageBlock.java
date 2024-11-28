@@ -44,7 +44,7 @@ public class CoreStorageBlock extends StorageBlock {
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
         removeBar("items");
         addBar("items", (CoreStorageBuild tile) -> new Bar(
@@ -92,7 +92,7 @@ public class CoreStorageBlock extends StorageBlock {
 
     public class CoreStorageBuild extends StorageBuild {
         @Override
-        public void updateTile(){
+        public void updateTile() {
             if (core() != null) {
                 if (linkedCore == null || !linkedCore.isValid()) {
                     linkedCore = core();

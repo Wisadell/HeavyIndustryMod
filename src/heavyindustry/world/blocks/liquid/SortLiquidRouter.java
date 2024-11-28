@@ -29,7 +29,7 @@ public class SortLiquidRouter extends LiquidRouter {
 
     @Override
     public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list) {
-        if(configurable) drawPlanConfigCenter(plan, plan.config, name + "-config", false);
+        if (configurable) drawPlanConfigCenter(plan, plan.config, name + "-config", false);
     }
 
     @Override

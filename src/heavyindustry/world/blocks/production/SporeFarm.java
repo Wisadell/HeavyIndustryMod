@@ -8,10 +8,11 @@ import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import heavyindustry.util.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.Utils.*;
+import static heavyindustry.util.SpriteUtils.*;
 
 /**
  * e.
@@ -46,10 +47,10 @@ public class SporeFarm extends Block {
     @Override
     public void load() {
         super.load();
-        sporeRegions = Utils.split(name + "-spore", 32, 0);
-        groundRegions = Utils.split(name + "-ground", 32, 0);
+        sporeRegions = split(name + "-spore", 32, 0);
+        groundRegions = split(name + "-ground", 32, 0);
 
-        fenceRegions = Utils.split(name + "-fence", 32, 12, 4);
+        fenceRegions = split(name + "-fence", 32, 12, 4);
         cageFloor = atlas.find(name + "-floor");
     }
 
@@ -139,7 +140,7 @@ public class SporeFarm extends Block {
             }
 
             //Mainly to prevent terrible situations.
-            Draw.rect(fenceRegions[SpriteUtils.atlasIndex412tile[Math.max(tileIndex, 0)]], x, y, 8f, 8f);
+            Draw.rect(fenceRegions[atlasIndex412tile[Math.max(tileIndex, 0)]], x, y, 8f, 8f);
             drawTeamTop();
         }
 

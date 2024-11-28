@@ -1,15 +1,15 @@
 package heavyindustry.world.blocks.distribution;
 
 import arc.graphics.g2d.*;
-import arc.math.geom.Geometry;
+import arc.math.geom.*;
 import arc.util.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.Item;
+import mindustry.type.*;
 
-import static heavyindustry.util.Utils.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.Utils.*;
 
 /**
  * Compared to the original conveyor belt, there is an additional sprites on top of the item layer.
@@ -18,17 +18,17 @@ import static mindustry.Vars.*;
 public class CoveredConveyor extends BeltConveyor {
     public TextureRegion inputRegion, outputRegion;
 
-    public CoveredConveyor(String name){
+    public CoveredConveyor(String name) {
         super(name);
     }
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         inputRegion = atlas.find(name + "-cover-in");
         outputRegion = atlas.find(name + "-cover-out");
@@ -76,10 +76,10 @@ public class CoveredConveyor extends BeltConveyor {
             Draw.z(Layer.block - 0.08f);
             Draw.rect(edgeAtlas[(tile.x + tile.y) % 2][blendbits], x, y, tilesize * blendsclx, tilesize * blendscly, rotation * 90);
 
-            if(frontCap) Draw.rect(outputRegion, x, y, rotdeg());
-            if(!backCap) Draw.rect(inputRegion, x, y, rotdeg());
-            if(leftCap) Draw.rect(inputRegion, x, y, rotdeg() - 90f);
-            if(rightCap) Draw.rect(inputRegion, x, y, rotdeg() + 90f);
+            if (frontCap) Draw.rect(outputRegion, x, y, rotdeg());
+            if (!backCap) Draw.rect(inputRegion, x, y, rotdeg());
+            if (leftCap) Draw.rect(inputRegion, x, y, rotdeg() - 90f);
+            if (rightCap) Draw.rect(inputRegion, x, y, rotdeg() + 90f);
         }
 
         @Override

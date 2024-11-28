@@ -9,9 +9,9 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.blocks.distribution.*;
 
-import static heavyindustry.util.Utils.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.Utils.*;
 
 /**
  * Compared to CoveredConverter, its upper layer texture has been changed to one that can have light and shadow effects.
@@ -53,14 +53,14 @@ public class TubeConveyor extends BeltConveyor {
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         int[] bits = getTiling(plan, list);
 
-        if(bits == null) return;
+        if (bits == null) return;
 
         TextureRegion conveyor = conveyorAtlas[0][bits[0]];
         Draw.rect(conveyor, plan.drawx(), plan.drawy(), conveyor.width * bits[1] * conveyor.scl(), conveyor.height * bits[2] * conveyor.scl(), plan.rotation * 90);
 
         BuildPlan[] directionals = new BuildPlan[4];
         list.each(other -> {
-            if(other.breaking || other == plan) return;
+            if (other.breaking || other == plan) return;
 
             int i = 0;
             for (Point2 point : Geometry.d4) {
@@ -75,7 +75,7 @@ public class TubeConveyor extends BeltConveyor {
         });
 
         int mask = 0;
-        for(int i = 0; i < directionals.length; i++) {
+        for (int i = 0; i < directionals.length; i++) {
             if (directionals[i] != null) {
                 mask += (1 << i);
             }

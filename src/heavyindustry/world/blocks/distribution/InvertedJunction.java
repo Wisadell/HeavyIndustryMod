@@ -60,8 +60,8 @@ public class InvertedJunction extends Junction {
         public void updateTile() {
             for (int i = 0; i < 4; i++) {
                 int p = (i + loc) % 4;
-                if(buffer.indexes[i] > 0){
-                    if(buffer.indexes[i] > capacity) buffer.indexes[i] = capacity;
+                if (buffer.indexes[i] > 0) {
+                    if (buffer.indexes[i] > capacity) buffer.indexes[i] = capacity;
                     long l = buffer.buffers[i][0];
                     float time = BufferItem.time(l);
 

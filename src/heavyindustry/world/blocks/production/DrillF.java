@@ -111,7 +111,7 @@ public abstract class DrillF extends Block {
     @Override
     public void init() {
         super.init();
-        if(drillEffectRnd < 0) drillEffectRnd = size;
+        if (drillEffectRnd < 0) drillEffectRnd = size;
         if (Mathm.confine(maxOreTileReq, 0, size * size)) maxOreTileReq = size * size;
     }
 
@@ -148,7 +148,7 @@ public abstract class DrillF extends Block {
             table.row();
             table.table(c -> {
                 int i = 0;
-                for (Block block : content.blocks()){
+                for (Block block : content.blocks()) {
                     if (block.itemDrop == null || (blockedItem.contains(block.itemDrop) || block.itemDrop.hardness > mineTier)) continue;
                     if ((block instanceof Prop) || (block instanceof TallBlock) || (block instanceof Floor floor) && floor.wallOre) continue;
 
@@ -162,7 +162,7 @@ public abstract class DrillF extends Block {
                         b.add(Strings.autoFixed(mineSpeed * getMineSpeedHardnessMul(block.itemDrop), 1) + StatUnit.perSecond.localized())
                                 .right().pad(10f).padRight(15f).color(Color.lightGray);
                     }).growX().pad(5);
-                    if(++i % 2 == 0) c.row();
+                    if (++i % 2 == 0) c.row();
                 }
             }).growX().colspan(table.getColumns());
         });
@@ -171,9 +171,9 @@ public abstract class DrillF extends Block {
 
     @Override
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-        if (isMultiblock()){
+        if (isMultiblock()) {
             for (Tile other : tile.getLinkedTilesAs(this, tempTiles)) {
-                if (canMine(other)){
+                if (canMine(other)) {
                     return true;
                 }
             }
@@ -243,7 +243,7 @@ public abstract class DrillF extends Block {
 
         itemArray.sort((item1, item2) -> {
             int type = Boolean.compare(!item1.lowPriority, !item2.lowPriority);
-            if(type != 0) return type;
+            if (type != 0) return type;
             int amounts = Integer.compare(oreCount.get(item1, 0), oreCount.get(item2, 0));
             if (amounts != 0) return amounts;
             return Integer.compare(item1.id, item2.id);
@@ -286,6 +286,16 @@ public abstract class DrillF extends Block {
         public float powerConsExtra = 0f;
         public Seq<DrillModuleBuild> modules = new Seq<>();
 
+        @Override
+        public float progress() {
+            return progress;
+        }
+
+        @Override
+        public float warmup() {
+            return warmup;
+        }
+
         public float maxBoost() {
             return maxBoost;
         }
@@ -327,7 +337,7 @@ public abstract class DrillF extends Block {
                 }
                 progress %= mineInterval();
 
-                if(wasVisible && Mathf.chanceDelta(updateEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
+                if (wasVisible && Mathf.chanceDelta(updateEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
             }
         }
 
@@ -402,16 +412,16 @@ public abstract class DrillF extends Block {
         @Override
         public void remove() {
             super.remove();
-            for (DrillModuleBuild module: modules){
+            for (DrillModuleBuild module: modules) {
                 module.drillBuild = null;
             }
         }
 
         public void updateDrillModule() {
             resetModule();
-            for (Building building: proximity){
+            for (Building building: proximity) {
                 if (building instanceof DrillModuleBuild module) {
-                    if (module.canApply(this)){
+                    if (module.canApply(this)) {
                         module.drillBuild = this;
                         modules.add(module);
                         module.apply(this);

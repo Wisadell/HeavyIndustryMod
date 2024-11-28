@@ -20,9 +20,9 @@ public class TileStaticWall extends StaticWall {
     }
 
     protected boolean findAtlas(TextureRegion... ts) {
-        if(ts.length == 0) return false;
-        for(var t : ts){
-            if(!atlas.isFound(t)) return false;
+        if (ts.length == 0) return false;
+        for (TextureRegion t : ts) {
+            if (!atlas.isFound(t)) return false;
         }
         return true;
     }
@@ -47,7 +47,7 @@ public class TileStaticWall extends StaticWall {
     }
 
     @Override
-    public void load(){
+    public void load() {
         super.load();
         if (variantsLarge > 0) {
             larges = new TextureRegion[variantsLarge];

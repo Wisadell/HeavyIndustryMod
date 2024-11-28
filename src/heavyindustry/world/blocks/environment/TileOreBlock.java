@@ -21,9 +21,9 @@ public class TileOreBlock extends OreBlock {
     }
 
     protected boolean findAtlas(TextureRegion... ts) {
-        if(ts.length == 0) return false;
+        if (ts.length == 0) return false;
         for (TextureRegion t : ts) {
-            if(!atlas.isFound(t)) return false;
+            if (!atlas.isFound(t)) return false;
         }
         return true;
     }

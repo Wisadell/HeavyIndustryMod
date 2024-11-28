@@ -66,9 +66,9 @@ public class MultiBulletTurret extends Turret {
 
     @Override
     public void init() {
-        consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){
+        consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)) {
             @Override
-            public void build(Building build, Table table){
+            public void build(Building build, Table table) {
                 MultiReqImage image = new MultiReqImage();
                 content.items().each(i -> filter.get(i) && i.unlockedNow(),
                         item -> image.add(new ReqImage(new Image(item.uiIcon),
@@ -129,15 +129,15 @@ public class MultiBulletTurret extends Turret {
         }
 
         @Override
-        public void displayBars(Table bars){
+        public void displayBars(Table bars) {
             super.displayBars(bars);
 
-            bars.add(new Bar("stat.ammo", Pal.ammo, () -> (float)totalAmmo / maxAmmo)).growX();
+            bars.add(new Bar("stat.ammo", Pal.ammo, () -> (float) totalAmmo / maxAmmo)).growX();
             bars.row();
         }
 
         @Override
-        public int acceptStack(Item item, int amount, Teamc source){
+        public int acceptStack(Item item, int amount, Teamc source) {
             BulletType[] types = ammoTypes.get(item);
 
             if (types == null) return 0;
@@ -147,7 +147,7 @@ public class MultiBulletTurret extends Turret {
         }
 
         @Override
-        public void handleStack(Item item, int amount, Teamc source){
+        public void handleStack(Item item, int amount, Teamc source) {
             for (int i = 0; i < amount; i++) {
                 handleItem(null, item);
             }
@@ -165,7 +165,7 @@ public class MultiBulletTurret extends Turret {
                 Events.fire(EventType.Trigger.flameAmmo);
             }
 
-            if(totalAmmo == 0) {
+            if (totalAmmo == 0) {
                 Events.fire(EventType.Trigger.resupplyTurret);
             }
 
@@ -190,10 +190,10 @@ public class MultiBulletTurret extends Turret {
         }
 
         @Override
-        public boolean acceptItem(Building source, Item item){
+        public boolean acceptItem(Building source, Item item) {
             BulletType[] types = ammoTypes.get(item);
-            if(types == null) return false;
-            for(BulletType type : types) if (type == null) return false;
+            if (types == null) return false;
+            for (BulletType type : types) if (type == null) return false;
 
             float ammoMultiplier = 1;
             for (BulletType type : types) {
@@ -220,9 +220,9 @@ public class MultiBulletTurret extends Turret {
 
         @Override
         public boolean hasAmmo() {
-            if(!canConsume()) return false;
+            if (!canConsume()) return false;
 
-            if(ammo.size >= 2 && ammo.peek().amount < ammoPerShot && ammo.get(ammo.size - 2).amount >= ammoPerShot){
+            if (ammo.size >= 2 && ammo.peek().amount < ammoPerShot && ammo.get(ammo.size - 2).amount >= ammoPerShot) {
                 ammo.swap(ammo.size - 1, ammo.size - 2);
             }
             return ammo.size > 0 && ammo.peek().amount >= ammoPerShot;
@@ -242,12 +242,12 @@ public class MultiBulletTurret extends Turret {
             }
         }
 
-        protected void shoots(BulletType[] type){
+        protected void shoots(BulletType[] type) {
             float
                     bulletX = x + Angles.trnsx(rotation - 90, shootX, shootY),
                     bulletY = y + Angles.trnsy(rotation - 90, shootX, shootY);
 
-            if(shoot.firstShotDelay > 0){
+            if (shoot.firstShotDelay > 0) {
                 chargeSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
                 type[0].chargeEffect.at(bulletX, bulletY, rotation);
             }

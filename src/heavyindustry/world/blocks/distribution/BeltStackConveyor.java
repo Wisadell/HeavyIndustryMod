@@ -6,12 +6,13 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import mindustry.entities.units.*;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 
-import static heavyindustry.util.Utils.*;
 import static mindustry.Vars.*;
+import static heavyindustry.util.Utils.*;
 
 public class BeltStackConveyor extends StackConveyor {
     public TextureRegion[] fullRegion;
@@ -35,7 +36,7 @@ public class BeltStackConveyor extends StackConveyor {
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         int[] bits = getTiling(plan, list);
 
-        if(bits == null) return;
+        if (bits == null) return;
 
         TextureRegion region = fullRegion[0];
         Draw.rect(region, plan.drawx(), plan.drawy(), plan.rotation * 90);
@@ -62,9 +63,9 @@ public class BeltStackConveyor extends StackConveyor {
 
             //draw inputs
             if (state == stateLoad) {
-                for (int i = 0; i < 4; i++){
+                for (int i = 0; i < 4; i++) {
                     int dir = rotation - i;
-                    var near = nearby(dir);
+                    Building near = nearby(dir);
                     if ((blendprox & (1 << i)) != 0 && i != 0 && near != null && !near.block.squareSprite) {
                         Draw.rect(sliced(fullRegion[0], SliceMode.bottom), x + Geometry.d4x(dir) * tilesize*0.75f, y + Geometry.d4y(dir) * tilesize*0.75f, (float)(dir*90));
                     }
@@ -81,7 +82,7 @@ public class BeltStackConveyor extends StackConveyor {
             Tile from = world.tile(link);
 
             //TODO do not draw for certain configurations?
-            if(glowRegion.found() && power != null && power.status > 0f) {
+            if (glowRegion.found() && power != null && power.status > 0f) {
                 Draw.z(Layer.blockAdditive);
                 Draw.color(glowColor, glowAlpha * power.status);
                 Draw.blend(Blending.additive);
@@ -91,7 +92,7 @@ public class BeltStackConveyor extends StackConveyor {
                 Draw.z(Layer.block - 0.1f);
             }
 
-            if(link == -1 || from == null || lastItem == null) return;
+            if (link == -1 || from == null || lastItem == null) return;
 
             int fromRot = from.build == null ? rotation : from.build.rotation;
 

@@ -221,7 +221,7 @@ public class MultiSorter extends Block{
         }
 
         protected TextureRegionDrawable getArrow(int dir) {
-            return switch (dir){
+            return switch (dir) {
                 case 4, 0 -> Icon.right;
                 case 2 -> Icon.left;
                 case -1, 3 -> Icon.down;
@@ -231,7 +231,7 @@ public class MultiSorter extends Block{
 
         public void setSelection(Table table) {
             table.clear();
-            switch (selectionDir){
+            switch (selectionDir) {
                 case 1 -> ItemSelection.buildTable(block, table, content.items(), () -> frontSort, i -> {
                     frontSort = i;
                     configure(config());

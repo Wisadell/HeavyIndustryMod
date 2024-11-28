@@ -28,7 +28,7 @@ public class PayloadSourceF extends PayloadSource {
         destructible = false;
 
         config(Block.class, (PayloadSourceBuildF tile, Block block) -> {
-            if(canProduce(block) && tile.configBlock != block){
+            if (canProduce(block) && tile.configBlock != block) {
                 tile.configBlock = block;
                 tile.unit = null;
                 tile.payload = null;
@@ -37,7 +37,7 @@ public class PayloadSourceF extends PayloadSource {
         });
 
         config(UnitType.class, (PayloadSourceBuildF tile, UnitType unit) -> {
-            if(canProduce(unit) && tile.unit != unit){
+            if (canProduce(unit) && tile.unit != unit) {
                 tile.unit = unit;
                 tile.configBlock = null;
                 tile.payload = null;
@@ -73,17 +73,17 @@ public class PayloadSourceF extends PayloadSource {
         }
 
         @Override
-        public void buildConfiguration(Table table){
+        public void buildConfiguration(Table table) {
             ButtonGroup<ImageButton> g = new ButtonGroup<>();
             Table cont = new Table();
             cont.defaults().size(55);
             int i = 0;
-            for(; i < teams.length; i++){
+            for (; i < teams.length; i++) {
                 Team team1 = teams[i];
                 ImageButton button = cont.button(((TextureRegionDrawable)Tex.whiteui).tint(team1.color), Styles.clearTogglei, 35, () -> {}).group(g).get();
                 button.changed(() -> {
-                    if(button.isChecked()) {
-                        if(player.team() == team){
+                    if (button.isChecked()) {
+                        if (player.team() == team) {
                             configure(team1.id);
                         } else deselect();
                     }
@@ -100,14 +100,14 @@ public class PayloadSourceF extends PayloadSource {
 
         @Override
         public void configure(Object value) {
-            if(player.team() == team) super.configure(value);
+            if (player.team() == team) super.configure(value);
             else deselect();
         }
 
         @Override
         public void configured(Unit builder, Object value) {
             super.configured(builder, value);
-            if(!(value instanceof Integer v)) return;
+            if (!(value instanceof Integer v)) return;
             if (builder != null && builder.isPlayer()) {
                 Team team = Team.get(v);
                 builder.team = team;

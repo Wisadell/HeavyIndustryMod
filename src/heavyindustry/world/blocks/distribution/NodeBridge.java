@@ -128,7 +128,7 @@ public class NodeBridge extends ItemBridge {
 
         @Override
         public void draw(Building build) {
-            if(!(build instanceof NodeBridgeBuild bu)) return;
+            if (!(build instanceof NodeBridgeBuild bu)) return;
 
             Draw.z(Layer.power);
             Building other = world.build(bu.link);

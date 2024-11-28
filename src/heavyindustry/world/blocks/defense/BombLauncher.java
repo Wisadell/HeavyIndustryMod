@@ -53,7 +53,7 @@ public class BombLauncher extends CommandableAttackerBlock {
 
     public class BombLauncherBuild extends CommandableAttackerBlockBuild {
         @Override
-        public void draw(){
+        public void draw() {
             super.draw();
             Draw.draw(Draw.z(), () -> {
                 if (reload / reloadTime > 1) {
@@ -63,7 +63,7 @@ public class BombLauncher extends CommandableAttackerBlock {
         }
 
         @Override
-        public void shoot(Vec2 target){
+        public void shoot(Vec2 target) {
             super.shoot(target);
 
             Effect.shake(bullet.despawnShake / 2, bullet.despawnShake, this);
@@ -177,7 +177,7 @@ public class BombLauncher extends CommandableAttackerBlock {
         public void update() {
             time = Math.min(time + Time.delta, lifetime);
             trail.update(cx(), cy());
-            if(Mathf.chance(bullet.trailChance))bullet.trailEffect.at(cx(), cy(), bullet.trailParam, baseColor);
+            if (Mathf.chance(bullet.trailChance))bullet.trailEffect.at(cx(), cy(), bullet.trailParam, baseColor);
             if (time >= lifetime) {
                 remove();
             }

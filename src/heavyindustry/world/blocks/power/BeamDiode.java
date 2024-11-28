@@ -133,7 +133,7 @@ public class BeamDiode extends Block {
 
         @Override
         public void updateTile() {
-            if(lastChange != world.tileChanges) {
+            if (lastChange != world.tileChanges) {
                 lastChange = world.tileChanges;
                 updateDirections();
             }
@@ -168,7 +168,7 @@ public class BeamDiode extends Block {
             Draw.rect(region, x, y, 0);
             Draw.rect(arrow, x, y, rotate ? rotdeg() : 0);
 
-            if(Mathf.zero(Renderer.laserOpacity)) return;
+            if (Mathf.zero(Renderer.laserOpacity)) return;
 
             Draw.z(Layer.power);
             Draw.alpha(Renderer.laserOpacity);
@@ -197,13 +197,13 @@ public class BeamDiode extends Block {
         }
 
         public void updateDirections() {
-            for(int i = 0; i < 2; i ++){
+            for (int i = 0; i < 2; i ++) {
                 Point2 dir = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
                 links[i] = null;
                 dests[i] = null;
                 int offset = size / 2;
 
-                for(int j = 1 + offset; j <= range + offset; j++) {
+                for (int j = 1 + offset; j <= range + offset; j++) {
                     Building other = world.build(tile.x + j * dir.x, tile.y + j * dir.y);
 
                     if (other != null && other.isInsulated()) {

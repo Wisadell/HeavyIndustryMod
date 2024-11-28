@@ -25,7 +25,7 @@ public class ShapedWallF extends ShapedWall {
     @Override
     public void load() {
         super.load();
-        atlasRegion = split(name + "-atlas", 32, 32, 0, atlasIndex412);
+        atlasRegion = splitMulti(name + "-atlas", 32, 32, 0, atlasIndex412);
         topLargeRegion = new TextureRegion[2];
         topSmallRegion = new TextureRegion[2];
         topHorizontalRegion = new TextureRegion[2];
@@ -130,20 +130,20 @@ public class ShapedWallF extends ShapedWall {
 
             }
 
-            if(tileX() % 2 == 0 && tileY() % 2 == 1 && validTile(1, 0)) {
+            if (tileX() % 2 == 0 && tileY() % 2 == 1 && validTile(1, 0)) {
                 topIdx = 5;
                 return;
             }
-            if(tileX() % 2 == 1 && tileY() % 2 == 1 && validTile(-1, 0)) {
+            if (tileX() % 2 == 1 && tileY() % 2 == 1 && validTile(-1, 0)) {
                 topIdx = 0;
                 return;
             }
 
-            if(tileX() % 2 == 0 && tileY() % 2 == 0 && validTile(1, 0)) {
+            if (tileX() % 2 == 0 && tileY() % 2 == 0 && validTile(1, 0)) {
                 topIdx = 6;
                 return;
             }
-            if(tileX() % 2 == 1 && tileY() % 2 == 0 && validTile(-1, 0)) {
+            if (tileX() % 2 == 1 && tileY() % 2 == 0 && validTile(-1, 0)) {
                 topIdx = 0;
                 return;
             }

@@ -48,11 +48,11 @@ public class ArmorFloor extends Floor {
 
     @Override
     public void init() {
-        if(solidReact != null) blendGroup = solidReact;
+        if (solidReact != null) blendGroup = solidReact;
 
         super.init();
 
-        if(drawLiquidLight && !headless) {
+        if (drawLiquidLight && !headless) {
             colors = new Color[variants];
 
             for (int i = 0; i < variants; i++) {
@@ -94,7 +94,7 @@ public class ArmorFloor extends Floor {
 
     @Override
     public void drawEnvironmentLight(Tile tile) {
-        if(!useDynamicLight) super.drawEnvironmentLight(tile);
+        if (!useDynamicLight) super.drawEnvironmentLight(tile);
         else {
             Color color = lightColor(tile);
             Drawf.light(tile.worldx(), tile.worldy(), lightRadius, color, color.a);

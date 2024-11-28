@@ -23,13 +23,13 @@ public class AttributeGenerator extends AttributeCrafter {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
         stats.add(Stat.basePowerGeneration, powerProduction * 60f, StatUnit.powerSecond);
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
         addBar("power", (AttributeGeneratorBuild tile) -> new Bar(
                 () -> bundle.format("bar.poweroutput", Strings.fixed(tile.getPowerProduction() * 60f * tile.timeScale(), 1)),

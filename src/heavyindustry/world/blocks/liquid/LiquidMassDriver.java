@@ -179,7 +179,7 @@ public class LiquidMassDriver extends Block {
 
                 //align to shooter rotation
                 rotation = Angles.moveToward(rotation, angleTo(currentShooter()), rotateSpeed * efficiency);
-            } else if (state == DriverState.shooting){
+            } else if (state == DriverState.shooting) {
 
                 if (!hasLink || (!waitingShooters.isEmpty() && (liquidCapacity - liquidTotal() >= minDistribute))) {
                     state = DriverState.idle;
@@ -192,7 +192,7 @@ public class LiquidMassDriver extends Block {
                     LiquidMassDriverBuild other = (LiquidMassDriverBuild)link;
                     other.waitingShooters.add(this);
 
-                    if(reloadCounter <= 0.0001f){
+                    if (reloadCounter <= 0.0001f) {
 
                         //align to target location
                         rotation = Angles.moveToward(rotation, targetRotation, rotateSpeed * efficiency);
@@ -219,7 +219,7 @@ public class LiquidMassDriver extends Block {
 
         @Override
         public double sense(LAccess sensor) {
-            if(sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter / reload);
+            if (sensor == LAccess.progress) return Mathf.clamp(1f - reloadCounter / reload);
             return super.sense(sensor);
         }
 
@@ -253,7 +253,7 @@ public class LiquidMassDriver extends Block {
         @Override
         public boolean onConfigureBuildTapped(Building other) {
             if (this == other) {
-                if(link == -1) deselect();
+                if (link == -1) deselect();
                 configure(-1);
                 return false;
             }
@@ -276,7 +276,7 @@ public class LiquidMassDriver extends Block {
 
         @Override
         public void dumpLiquid(Liquid liquid) {
-            if(linkValid()) return;
+            if (linkValid()) return;
             super.dumpLiquid(liquid);
         }
 

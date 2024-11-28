@@ -153,7 +153,7 @@ public abstract class DrillModule extends Block {
             drill.powerConsMul += powerMul;
             drill.powerConsExtra += powerExtra;
             drill.boostMul += boostSpeed;
-            for (Item[] convert: convertList){
+            for (Item[] convert: convertList) {
                 if (drill.dominantItem == convert[0]) {
                     drill.convertItem = convert[1];
                     drill.boostFinalMul += convertMul.get(convert[0], boostFinalMul);

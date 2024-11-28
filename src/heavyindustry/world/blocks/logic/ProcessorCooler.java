@@ -96,7 +96,7 @@ public class ProcessorCooler extends Block {
         }
 
         @Override
-        public void updateTile(){
+        public void updateTile() {
             int count = 0;
 
             int b = realBoost();
@@ -112,7 +112,7 @@ public class ProcessorCooler extends Block {
         }
 
         @Override
-        public void draw(){
+        public void draw() {
             super.draw();
             if (liquids != null) {
                 if (liquids.currentAmount() > 0.01f) LiquidBlock.drawTiledFrames(size, x, y, 0f, 0f, 0f, 0f, liquids.current(), liquids.get(liquids.current()) / liquidCapacity);

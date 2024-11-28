@@ -115,7 +115,7 @@ public abstract class CommandableBlock extends Block {
 
         public Vec2 target() {
             Tile tile = world.tile(target);
-            if(tile != null){
+            if (tile != null) {
                 return targetVec.set(tile);
             }else return targetVec.set((Position)self());
         }

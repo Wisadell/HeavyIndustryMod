@@ -39,7 +39,7 @@ public class EruptorTurret extends PowerTurret {
             Vec2 offset = Tmp.v1.setZero();
 
             //when delay is accurate, assume unit has moved by chargeTime already.
-            if(accurateDelay && pos instanceof Hitboxc h){
+            if (accurateDelay && pos instanceof Hitboxc h) {
                 offset.set(h.deltaX(), h.deltaY()).scl(shoot.firstShotDelay / Time.delta);
             }
 

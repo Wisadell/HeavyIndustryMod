@@ -82,12 +82,12 @@ public class TubeConduit extends BeltConduit {
             if (r == 1 || r == 2) Draw.yscl = -1;
             else Draw.yscl = 1;
 
-            if(capped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg());
+            if (capped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg());
 
             if (Mathf.mod(r + 2, 4) == 1 || Mathf.mod(r + 2, 4) == 2) Draw.yscl = -1;
             else Draw.yscl = 1;
 
-            if(backCapped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg() + 180);
+            if (backCapped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg() + 180);
         }
 
         @Override

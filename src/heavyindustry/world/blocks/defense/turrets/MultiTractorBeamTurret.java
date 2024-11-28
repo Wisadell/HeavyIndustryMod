@@ -30,7 +30,7 @@ public class MultiTractorBeamTurret extends TractorBeamTurret {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
         stats.add(Stat.shots, maxAttract);
         if (status != null && status != StatusEffects.none && !status.isHidden()) stats.add(Stat.abilities, table -> {

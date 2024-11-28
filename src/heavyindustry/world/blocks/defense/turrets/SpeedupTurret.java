@@ -98,7 +98,7 @@ public class SpeedupTurret extends PowerTurret {
                     logicControlTime -= Time.delta;
                 }
 
-                if(overheat < 1) {
+                if (overheat < 1) {
                     overheat = 0;
                     requireCompleteCooling = false;
                 }
@@ -134,7 +134,7 @@ public class SpeedupTurret extends PowerTurret {
         }
 
         @Override
-        protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){
+        protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover) {
             super.bullet(type, xOffset, yOffset, angleOffset + Mathf.range(speedupScl * inaccuracyUp), mover);
         }
     }

@@ -319,8 +319,8 @@ public class MinerPoint extends Block {
         }
 
         protected Item oreDrop(Tile t) {
-            if(t.solid() && t.wallDrop() != null) return t.wallDrop();
-            if(t.block() == Blocks.air && t.drop() != null) return t.drop();
+            if (t.solid() && t.wallDrop() != null) return t.wallDrop();
+            if (t.block() == Blocks.air && t.drop() != null) return t.drop();
 
             return null;
         }
@@ -349,7 +349,7 @@ public class MinerPoint extends Block {
         public boolean onConfigureTapped(float x, float y) {
             Tile t = world.tileWorld(x, y);
             if (t != null && checkOre(t) && validOre(t)) {
-                if(sort == t.pos()) {
+                if (sort == t.pos()) {
                     configure(-1);
                 } else {
                     configure(t.pos());

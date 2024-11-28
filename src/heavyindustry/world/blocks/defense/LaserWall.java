@@ -127,7 +127,7 @@ public class LaserWall extends Wall {
 
             Drawf.dashCircle(x, y, range(), color);
 
-            if(target != null) {
+            if (target != null) {
                 float fin = Interp.smoother.apply(Drawn.cycle_100());
                 Drawf.square(Mathf.lerp(x, target.x, fin), Mathf.lerp(y, target.y, fin), size * tilesize / 6f, Drawn.rotator_90(Drawn.cycle_100(), 0) + 45, color);
 
@@ -189,9 +189,9 @@ public class LaserWall extends Wall {
         @Override
         public void linkPos(int value) {
             linkPos = value;
-            if(linkValid(world.build(linkPos))){
+            if (linkValid(world.build(linkPos))) {
                 target = (LaserWallBuild)world.build(linkPos);
-            }else{
+            } else {
                 target = null;
                 linkPos = -1;
             }
@@ -294,7 +294,7 @@ public class LaserWall extends Wall {
         }
 
         @Override
-        public void draw(Bullet b){
+        public void draw(Bullet b) {
             if (!(b.data instanceof LaserWallBuild build)) return;
 
             for (int s = 0; s < colors.length; s++) {

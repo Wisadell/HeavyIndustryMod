@@ -18,7 +18,7 @@ import static arc.Core.*;
  */
 public class GeneratorCrafter extends GenericCrafter {
     public float powerProduction = 1f;
-    public GeneratorCrafter(String name){
+    public GeneratorCrafter(String name) {
         super(name);
         hasPower = true;
         consumesPower = false;
@@ -26,13 +26,13 @@ public class GeneratorCrafter extends GenericCrafter {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
         stats.add(Stat.basePowerGeneration, powerProduction * 60f, StatUnit.powerSecond);
     }
 
     @Override
-    public void setBars(){
+    public void setBars() {
         super.setBars();
         addBar("power", (GeneratorCrafterBuild tile) -> new Bar(
                 () -> bundle.format("bar.poweroutput", Strings.fixed(tile.getPowerProduction() * 60f * tile.timeScale(), 1)),

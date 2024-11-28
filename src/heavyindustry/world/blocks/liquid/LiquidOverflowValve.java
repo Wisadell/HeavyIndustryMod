@@ -50,7 +50,7 @@ public class LiquidOverflowValve extends LiquidBlock {
         public void handleLiquid(Building source, Liquid liquid, float amount) {
             Building target = getTileTarget(source, liquid);
 
-            if(target != null) target.handleLiquid(this, liquid, amount);
+            if (target != null) target.handleLiquid(this, liquid, amount);
         }
 
         public Building getTileTarget(Building source, Liquid liquid) {

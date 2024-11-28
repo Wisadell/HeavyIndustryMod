@@ -30,7 +30,7 @@ public class DrawerDrill extends DrillF {
 
     public class DrawerDrillBuild extends DrillBuildF {
         @Override
-        public void draw(){
+        public void draw() {
             drawer.draw(this);
             if (outputItem() != null && drawMineItem) {
                 Draw.color(dominantItem.color);

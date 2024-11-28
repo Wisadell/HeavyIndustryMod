@@ -36,7 +36,7 @@ public class BeltConduit extends Conduit {
     public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
         int[] bits = getTiling(plan, list);
 
-        if(bits == null) return;
+        if (bits == null) return;
 
         Draw.scl(bits[1], bits[2]);
         Draw.color(botColor);

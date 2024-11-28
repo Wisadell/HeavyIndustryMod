@@ -133,13 +133,13 @@ public class PayloadRail extends PayloadBlock {
                 boolean fallback = true;
                 for (int i = 0; i < 4; ++i) {
                     if (blends(i)) {
-                        Draw.rect(inRegion, x, y, (float)(i * 90 - 180));
+                        Draw.rect(inRegion, x, y, (float) (i * 90 - 180));
                         fallback = false;
                     }
                 }
 
                 if (fallback) {
-                    Draw.rect(inRegion, x, y, (float)(rotation * 90));
+                    Draw.rect(inRegion, x, y, (float) (rotation * 90));
                 }
             }
 
@@ -162,10 +162,10 @@ public class PayloadRail extends PayloadBlock {
 
             drawPayload();
 
-            if(checkLink()) return;
+            if (checkLink()) return;
             Building other = world.build(link);
             float opacity = Renderer.bridgeOpacity;
-            if(!(other instanceof PayloadRailBuild) || Mathf.zero(opacity)) return;
+            if (!(other instanceof PayloadRailBuild) || Mathf.zero(opacity)) return;
 
             items.each(p -> {
                 Draw.z(Layer.power - 1);
@@ -210,7 +210,7 @@ public class PayloadRail extends PayloadBlock {
 
         @Override
         public void drawSelect() {
-            if (!checkLink()){
+            if (!checkLink()) {
                 drawInput(world.tile(link));
             }
 
@@ -457,7 +457,7 @@ public class PayloadRail extends PayloadBlock {
         }
 
         public void update(Position target) {
-            if(target == null) return;
+            if (target == null) return;
 
             Tmp.v1.set(target);
             Tmp.v2.set(this);

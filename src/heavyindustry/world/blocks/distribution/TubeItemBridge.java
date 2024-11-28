@@ -52,7 +52,7 @@ public class TubeItemBridge extends ItemBridge {
     public void init() {
         super.init();
         Seq<Block> blocks = connectBlocksGetter.get();
-        if(blocks == null) blocks = new Seq<>();
+        if (blocks == null) blocks = new Seq<>();
         blocks.add(this);
         connectibleBlocks = blocks;
         maxConnections++;
@@ -71,7 +71,7 @@ public class TubeItemBridge extends ItemBridge {
         addBar("connections", tile -> new Bar(() ->
                 Core.bundle.format("bar.powerlines", cast(tile).realConnections(), maxConnections - 1),
                 () -> Pal.items,
-                () -> (float) cast(tile).realConnections() / (float)(maxConnections - 1)
+                () -> (float) cast(tile).realConnections() / (float) (maxConnections - 1)
         ));
     }
 
@@ -123,7 +123,7 @@ public class TubeItemBridge extends ItemBridge {
 
         Draw.reset();
         Draw.color(Pal.placing);
-        if (link != null && world.build(link.x, link.y) instanceof TubeItemBridgeBuild && Math.abs(link.x - x) + Math.abs(link.y - y) > 1){
+        if (link != null && world.build(link.x, link.y) instanceof TubeItemBridgeBuild && Math.abs(link.x - x) + Math.abs(link.y - y) > 1) {
             Vec2 end = new Vec2(x, y), start = new Vec2(link.x, link.y);
             float angle = Tmp.v1.set(start).sub(end).angle() + 90;
             float layer = Draw.z();
@@ -170,14 +170,14 @@ public class TubeItemBridge extends ItemBridge {
             }
         } else {
             check: {
-                if(!(other != null && tile != null) || other.build == null || tile.build == null) break check;
+                if (!(other != null && tile != null) || other.build == null || tile.build == null) break check;
                 other = other.build.tile;
                 tile = tile.build.tile;
                 int offset = other.block().isMultiblock() ? Mathf.floor(other.block().size / 2f) : 0;
                 boolean b2 = tile.pos() != other.pos();
                 if (tile.block() == this) {
                     Vec2 offVec = Tmp.v1.trns(tile.angleTo(other) + 90f, offset, offset);
-                    if(!positionsValid(tile.x, tile.y, Mathf.ceil(other.x + offVec.x), Mathf.ceil(other.y + offVec.y))) break check;
+                    if (!positionsValid(tile.x, tile.y, Mathf.ceil(other.x + offVec.x), Mathf.ceil(other.y + offVec.y))) break check;
                     TubeItemBridge block = (TubeItemBridge) tile.block();
                     boolean connected = false;
                     if (other.build instanceof ItemBridgeBuild) {
@@ -189,7 +189,7 @@ public class TubeItemBridge extends ItemBridge {
 
                             (!checkDouble || !connected);
                 } else {
-                    if(!positionsValid(tile.x, tile.y, other.x, other.y)) break check;
+                    if (!positionsValid(tile.x, tile.y, other.x, other.y)) break check;
                     boolean b3 = other.team() == tile.team() || tile.block() != this;
                     if (other.block() == this) {
                         other.block();
@@ -254,7 +254,7 @@ public class TubeItemBridge extends ItemBridge {
         @Override
         public void updateTile() {
             Building other = world.build(link);
-            if(other != null && !linkValid(tile, other.tile)){
+            if (other != null && !linkValid(tile, other.tile)) {
                 link = -1;
             }
             super.updateTile();
@@ -338,7 +338,7 @@ public class TubeItemBridge extends ItemBridge {
             Drawf.select(x, y, (float) (tile.block().size * 8) / 2f + 2f, Pal.accent);
             Drawf.dashCircle(x, y, (range) * 8f, Pal.accent);
             Draw.color();
-            if(!canReLink() && !canLinked() && realConnections() >= maxConnections - 1) return;
+            if (!canReLink() && !canLinked() && realConnections() >= maxConnections - 1) return;
             OrderedMap<Building, Boolean> orderedMap = new OrderedMap<>();
             for (int x = -range; x <= range; ++x) {
                 for (int y = -range; y <= range; ++y) {

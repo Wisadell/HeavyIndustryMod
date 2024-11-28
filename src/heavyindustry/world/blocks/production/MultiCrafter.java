@@ -114,7 +114,7 @@ public class MultiCrafter extends Block {
     }
 
     @Override
-    public void setStats(){
+    public void setStats() {
         super.setStats();
 
         stats.remove(Stat.itemCapacity);
@@ -275,7 +275,7 @@ public class MultiCrafter extends Block {
         }
 
         @Override
-        public float getPowerProduction(){
+        public float getPowerProduction() {
             if (current() == null) return 0f;
             //just prevent awful situation.
             return current().outputPower > 0f ? current().outputPower * warmup() + 0.00001f : 0f;
@@ -478,7 +478,7 @@ public class MultiCrafter extends Block {
                     }
                 }
 
-                if(wasVisible){
+                if (wasVisible) {
                     current().craftEffect.at(x, y);
                 }
 
@@ -556,7 +556,7 @@ public class MultiCrafter extends Block {
         public String recipeDescription = "";
         public String recipeDetail = "";
 
-        public void init(){
+        public void init() {
             recipeName = bundle.get("recipe." + name + ".name");
             recipeDescription = bundle.get("recipe." + name + ".description");
             recipeDetail = bundle.get("recipe." + name + ".details");

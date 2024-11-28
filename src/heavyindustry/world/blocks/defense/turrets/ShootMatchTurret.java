@@ -19,7 +19,7 @@ public class ShootMatchTurret extends ItemTurret {
     public void shooter(Object... objects) {
         ObjectMap<Item, ShootPattern> mapper = ObjectMap.of(objects);
 
-        for(ObjectMap.Entry<Item, BulletType> entry : ammoTypes.entries()){
+        for (ObjectMap.Entry<Item, BulletType> entry : ammoTypes.entries()) {
             shooterMap.put(entry.value.id, mapper.get(entry.key, shoot));
         }
     }
@@ -29,7 +29,7 @@ public class ShootMatchTurret extends ItemTurret {
     }
 
     public class ShootMatchTurretBuild extends ItemTurretBuild {
-        public ShootPattern getShooter(BulletType type){
+        public ShootPattern getShooter(BulletType type) {
             ShootPattern s = shooterMap.get(type.id);
             return s == null ? shoot : s;
         }
@@ -42,7 +42,7 @@ public class ShootMatchTurret extends ItemTurret {
 
             ShootPattern shoot = getShooter(type);
 
-            if(shoot.firstShotDelay > 0) {
+            if (shoot.firstShotDelay > 0) {
                 chargeSound.at(bulletX, bulletY, Mathf.random(soundPitchMin, soundPitchMax));
                 type.chargeEffect.at(bulletX, bulletY, rotation);
             }
@@ -61,7 +61,7 @@ public class ShootMatchTurret extends ItemTurret {
             }
         }
 
-        protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover){
+        protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover) {
             queuedBullets --;
 
             if (dead || (!consumeAmmoOnce && !hasAmmo())) return;
