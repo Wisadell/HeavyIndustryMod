@@ -8,20 +8,20 @@ import mindustry.world.meta.*;
 public class ConsumerPowerF extends ConsumePower {
     private final Floatf<Building> usage;
 
-    public ConsumerPowerF(Floatf<Building> usage){
+    public ConsumerPowerF(Floatf<Building> usage) {
         super(0, 0, false);
         this.usage = usage;
     }
 
     @Override
-    public float requestedPower(Building entity){
+    public float requestedPower(Building entity) {
         return usage.get(entity);
     }
 
     @Override
-    public void display(Stats stats){}
+    public void display(Stats stats) {}
 
-    public float efficiency(Building build){
+    public float efficiency(Building build) {
         return usage.get(build) != 0? build.power.status : 1f;
     }
 }

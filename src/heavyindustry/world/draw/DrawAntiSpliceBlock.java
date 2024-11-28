@@ -62,12 +62,12 @@ public class DrawAntiSpliceBlock<E extends Building> extends DrawBlock {
         Pixmap pixmap = new Pixmap(regions[0].width, regions[0].height);
 
         for (int i = 0; i < 8; i++) {
-            if (i % 2 == 0 && (index & (1 << i)) == 0){
+            if (i % 2 == 0 && (index & (1 << i)) == 0) {
                 pixmap.draw(regions[i], true);
             }
         }
         for (int i = 0; i < 8; i++) {
-            if ((i + 1) % 2 == 0){
+            if ((i + 1) % 2 == 0) {
                 int dirBit = 1 << (i + 1) % 8 | 1 << (i - 1);
                 if ((index & dirBit) == 0) pixmap.draw(regions[i], true);
                 else if ((index & dirBit) == dirBit && (interConner || (index & (1 << i)) == 0)) pixmap.draw(inner[i / 2], true);
@@ -89,11 +89,11 @@ public class DrawAntiSpliceBlock<E extends Building> extends DrawBlock {
     }
 
     @Override
-    public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list){
+    public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {
         int data = 0;
         Block planBlock = plan.block;
 
-        t: for(int i = 0; i < 8; i++) {
+        t: for (int i = 0; i < 8; i++) {
             Block other = null;
             for (Point2 p: DirEdges.get8(plan.block.size, i)) {
                 int x = plan.x + p.x;

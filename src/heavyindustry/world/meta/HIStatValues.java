@@ -139,7 +139,7 @@ public final class HIStatValues {
         };
     }
 
-    public static StatValue teslaZapping(float damage, float maxTargets, StatusEffect status){
+    public static StatValue teslaZapping(float damage, float maxTargets, StatusEffect status) {
         return table -> {
             table.row();
             table.table(t -> {
@@ -155,7 +155,7 @@ public final class HIStatValues {
         };
     }
 
-    private static void sep(Table table, String text){
+    private static void sep(Table table, String text) {
         table.row();
         table.add(text);
     }
@@ -189,7 +189,7 @@ public final class HIStatValues {
         };
     }
 
-    public static StatValue itemRangeBoosters(String unit, float timePeriod, StatusEffect[] status, float rangeBoost, ItemStack[] items, boolean replace, Boolf<Item> filter){
+    public static StatValue itemRangeBoosters(String unit, float timePeriod, StatusEffect[] status, float rangeBoost, ItemStack[] items, boolean replace, Boolf<Item> filter) {
         return table -> {
             table.row();
             table.table(c -> {
@@ -203,7 +203,7 @@ public final class HIStatValues {
                             } else {
                                 b.add(new ItemDisplay(stack.item, stack.amount, timePeriod, true)).pad(20f).left();
                             }
-                            if(items.length > 1) b.row();
+                            if (items.length > 1) b.row();
                         }
 
                         b.table(bt -> {

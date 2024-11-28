@@ -24,7 +24,7 @@ public class RunningLight extends DrawBlock {
 
     @Override
     public void load(Block block) {
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             int ci = size - 1 - i;
             regions[i] = !contrary ? Core.atlas.find(block.name + "-glow-" + i) : Core.atlas.find(block.name + "-glow-" + ci);
         }

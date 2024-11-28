@@ -33,7 +33,7 @@ public class DrawFrame<E extends Building> extends DrawBlock {
     @Override
     public void load(Block block) {
         regions = new TextureRegion[frames];
-        for(int i = 0; i < frames; i++){
+        for (int i = 0; i < frames; i++) {
             regions[i] = atlas.find(block.name + "-frame" + i);
         }
     }

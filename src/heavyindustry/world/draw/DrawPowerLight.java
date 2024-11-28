@@ -10,11 +10,11 @@ import mindustry.world.draw.*;
 public class DrawPowerLight extends DrawBlock {
     public Color lightColor;
 
-    public DrawPowerLight(){
+    public DrawPowerLight() {
         lightColor = Color.white;
     }
 
-    public DrawPowerLight(Color lightColor){
+    public DrawPowerLight(Color lightColor) {
         this.lightColor = lightColor;
     }
 
