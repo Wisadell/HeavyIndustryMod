@@ -222,10 +222,15 @@ final class HIClassMap {
         classes.put("MultiCrafter", MultiCrafter.class);
         classes.put("MultiCrafterBuild", MultiCrafter.MultiCrafterBuild.class);
         classes.put("Recipe", MultiCrafter.Recipe.class);
+        classes.put("AnyMtiCrafter", AnyMtiCrafter.class);
+        classes.put("AnyMtiCrafterBuild", AnyMtiCrafter.AnyMtiCrafterBuild.class);
+        classes.put("Formula", AnyMtiCrafter.Formula.class);
         classes.put("SporeFarm", SporeFarm.class);
         classes.put("SporeFarmBuild", SporeFarm.SporeFarmBuild.class);
         classes.put("DrawerDrill", DrawerDrill.class);
         classes.put("DrawerDrillBuild", DrawerDrill.DrawerDrillBuild.class);
+        classes.put("HeatProducerDrill", HeatProducerDrill.class);
+        classes.put("HeatProducerDrillBuild", HeatProducerDrill.HeatProducerDrillBuild.class);
         classes.put("LaserBeamDrill", LaserBeamDrill.class);
         classes.put("LaserBeamDrillBuild", LaserBeamDrill.LaserBeamDrillBuild.class);
         classes.put("RotatorDrill", RotatorDrill.class);

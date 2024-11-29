@@ -34,6 +34,13 @@ public final class HIShaders {
 
     /** Loads the shaders. */
     public static void init() {
+        String prevVert = Shader.prependVertexCode, prevFrag = Shader.prependFragmentCode;
+        Shader.prependVertexCode = Shader.prependFragmentCode = "";
+
+        if (graphics.getGLVersion().type == GLVersion.GlType.OpenGL) {
+            Shader.prependFragmentCode = "#define HAS_GL_FRAGDEPTH\n";
+        }
+
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
 
@@ -52,6 +59,9 @@ public final class HIShaders {
         tiler = new Tiler();
 
         planetTextureShader = new PlanetTextureShader();
+
+        Shader.prependVertexCode = prevVert;
+        Shader.prependFragmentCode = prevFrag;
     }
 
     public static void dispose() {

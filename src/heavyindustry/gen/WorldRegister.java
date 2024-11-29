@@ -29,7 +29,11 @@ public final class WorldRegister {
             worldLoaded = true;
         });
 
-        Events.on(WorldLoadEvent.class, e -> app.post(() -> worldLoaded = false));
+        Events.on(WorldLoadEvent.class, e -> {
+            app.post(() -> {
+                worldLoaded = false;
+            });
+        });
 
         Events.on(StateChangeEvent.class, e -> {
             if (e.to == GameState.State.menu) {

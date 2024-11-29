@@ -13,6 +13,7 @@ import arc.scene.event.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
+import arc.struct.*;
 import arc.util.*;
 import mindustry.core.*;
 import mindustry.ctype.*;
@@ -20,6 +21,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
+import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 import heavyindustry.ui.dialogs.*;
 
@@ -86,6 +88,46 @@ public final class TableUtils {
         t.row();
         t.add(coll);
         t.row();
+    }
+
+    public static void statToTable(Stats stat, Table table) {
+        var m = stat.toMap().keys().toSeq();
+        for (int i = 0; i < m.size; i++) {
+            var s = stat.toMap().get(m.get(i)).keys().toSeq();
+            for (int j = 0; j < s.size; j++) {
+                var v = stat.toMap().get(m.get(i)).get(s.get(j));
+                for (int k = 0; k < v.size; k++) {
+                    v.get(k).display(table);
+                }
+            }
+        }
+    }
+
+    public static void statTurnTable(Stats stats, Table table) {
+        for (StatCat cat : stats.toMap().keys()) {
+            var map = stats.toMap().get(cat);
+
+            if (map.size == 0) continue;
+
+            if (stats.useCategories) {
+                table.add("@category." + cat.name).color(Pal.accent).fillX();
+                table.row();
+            }
+
+            for (Stat stat : map.keys()) {
+                table.table(inset -> {
+                    inset.left();
+                    inset.add("[lightgray]" + stat.localized() + ":[] ").left().top();
+                    Seq<StatValue> arr = map.get(stat);
+                    for (StatValue value : arr) {
+                        value.display(inset);
+                        inset.add().size(10f);
+                    }
+
+                }).fillX().padLeft(10);
+                table.row();
+            }
+        }
     }
 
     public static void addToTable(UnlockableContent c, Table t) {

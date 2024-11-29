@@ -67,8 +67,8 @@ public final class HITeams {
             team.emoji = stringIcons.get(team.name, "");
 
             return team;
-        } catch (Throwable t) {
-            Log.err(t);
+        } catch (Exception e) {
+            Log.err(e);
             return Team.derelict;
         }
     }

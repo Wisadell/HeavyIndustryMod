@@ -7,7 +7,6 @@ import heavyindustry.entities.abilities.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.part.*;
-import heavyindustry.type.unit.*;
 import heavyindustry.type.weapons.*;
 import heavyindustry.ui.*;
 import arc.graphics.*;
@@ -44,7 +43,6 @@ import static mindustry.gen.EntityMapping.*;
  * Defines the {@linkplain UnitType units} this mod offers.
  * @author Wisadell
  */
-@SuppressWarnings("unchecked")
 public final class HIUnitTypes {
     //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
     static {
@@ -73,6 +71,7 @@ public final class HIUnitTypes {
         nameMap.put(name("legs-miner"), BuildingTetherPayloadLegsUnit::new);
         //other
         nameMap.put(name("armored-carrier-vehicle"), idMap[43]);
+        nameMap.put(name("sage"), idMap[3]);
         nameMap.put(name("pioneer"), PayloadLegsUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
@@ -95,7 +94,7 @@ public final class HIUnitTypes {
             //miner-erekir
             miner,largeMiner,legsMiner,
             //other
-            armoredCarrierVehicle,pioneer,vulture,
+            armoredCarrierVehicle,sage,pioneer,vulture,
             burner,shadowBlade,artilleryFirePioneer,
             //elite
             tiger,thunder,
@@ -1688,6 +1687,60 @@ public final class HIUnitTypes {
             fogRadius = 30f;
             deathExplosionEffect = new MultiEffect(HIFx.explodeImpWave);
         }};
+        sage = new UnitType("sage") {{
+            flying = lowAltitude = true;
+            health = 3500f;
+            armor = 6f;
+            hitSize = 35f;
+            speed = 0.8f;
+            accel = 0.04f;
+            drag = 0.04f;
+            rotateSpeed = 1.9f;
+            engineOffset = 16f;
+            engineSize = 6f;
+            setEnginesMirror(new UnitEngine(10, -14f, 3, -45));
+            BulletType shootType = new CtrlMissileBulletType("anthicus-missile", 2f, 5f) {{
+                speed = 3.3f;
+                lifetime = 75f;
+                damage = 65f;
+                splashDamage = 85f;
+                splashDamageRadius = 32f;
+                width = height = 8f;
+                shrinkY = 0f;
+                trailWidth = 2f;
+                trailLength = 5;
+                frontColor = Color.valueOf("d1efff");
+                backColor = trailColor = Color.valueOf("8ca9e8");
+                hitEffect = despawnEffect = new Effect(30f, e -> {
+                    Lines.stroke(3f * e.fout(), backColor);
+                    Lines.circle(e.x, e.y, 32f * e.finpow());
+                    for (int i = 0; i < 4; i++) {
+                        Draw.color(frontColor);
+                        Drawf.tri(e.x, e.y, 6f * e.fout(), 24f * e.finpow(), e.rotation + i * 90f + 45f);
+                    }
+                });
+                hitSound = despawnSound = Sounds.plasmaboom;
+            }};
+            weapons.addAll(new Weapon(name("sage-salvo")) {{
+                reload = 90f;
+                rotate = true;
+                rotateSpeed = 12f;
+                x = 6.5f;
+                y = 1f;
+                shoot.firstShotDelay = 40f;
+                shootCone = 45f;
+                shootSound = Sounds.missile;
+                bullet = shootType;
+            }}, new Weapon(name("sage-salvo")) {{
+                reload = 90f;
+                rotate = true;
+                rotateSpeed = 14f;
+                x = -10.25f;
+                y = -8f;
+                shootSound = Sounds.missile;
+                bullet = shootType;
+            }});
+        }};
         pioneer = new UnitType("pioneer") {{
             drag = 0.1f;
             speed = 0.62f;
@@ -1834,7 +1887,7 @@ public final class HIUnitTypes {
                     public void hit(Bullet b) {
                         if (absorbable && b.absorbed) return;
                         Units.nearbyEnemies(b.team, b.x, b.y, flameLength, unit -> {
-                            if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)) {
+                            if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround) && unit.hittable()) {
                                 Fx.hitFlameSmall.at(unit);
                                 if (unit.health() <= damage * damageBoost) unit.kill();
                                 else unit.health(unit.health() - damage * damageBoost);
@@ -2482,11 +2535,11 @@ public final class HIUnitTypes {
                 super.init();
                 if (trailLength < 0) trailLength = (int) bodySize * 4;
                 if (slopeEffect == HIFx.boolSelector) slopeEffect = new Effect(30, b -> {
-                    if (!(b.data instanceof Integer i)) return;
+                    if (!(b.data instanceof Integer index)) return;
                     Draw.color(b.color);
                     Angles.randLenVectors(b.id, (int) (b.rotation / 8f), b.rotation / 4f + b.rotation * 2f * b.fin(), (x, y) -> Fill.circle(b.x + x, b.y + y, b.fout() * b.rotation / 2.25f));
-                    Lines.stroke((i < 0 ? b.fin(Interp.pow2InInverse) : b.fout(Interp.pow2Out)) * 2f);
-                    Lines.circle(b.x, b.y, (i > 0 ? (b.fin(Interp.pow2InInverse) + 0.5f) : b.fout(Interp.pow2Out)) * b.rotation);
+                    Lines.stroke((index < 0 ? b.fin(Interp.pow2InInverse) : b.fout(Interp.pow2Out)) * 2f);
+                    Lines.circle(b.x, b.y, (index > 0 ? (b.fin(Interp.pow2InInverse) + 0.5f) : b.fout(Interp.pow2Out)) * b.rotation);
                 }).layer(Layer.bullet);
 
                 engineSize = bodySize / 4;

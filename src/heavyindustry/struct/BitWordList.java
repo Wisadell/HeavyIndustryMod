@@ -1,9 +1,8 @@
 package heavyindustry.struct;
 
 /**
- * Original code from MindustryModCore
+ * Original code from MindustryModCore.
  * <a href="https://github.com/Zelaux/MindustryModCore">...</a>
- * by Zelaux
  */
 public class BitWordList {
     final byte wordLen;
@@ -14,7 +13,7 @@ public class BitWordList {
 
 
     /**
-     * Creates a bit set whose initial size is large enough to explicitly represent bits with indices in the range 0 through
+     * Creates a bit set whose initial size is large enough to explicitly represent bits with indices in the range 0 through.
      * nbits-1.
      * @param nwords the initial size of the word set
      */
@@ -34,8 +33,8 @@ public class BitWordList {
     }
 
     /**
-     * @param index the index of the bit
-     * @return whether the bit is set
+     * @param index the index of the bit.
+     * @return whether the bit is set.
      * @throws ArrayIndexOutOfBoundsException if index < 0
      */
     public byte get(int index) {
@@ -48,7 +47,7 @@ public class BitWordList {
     }
 
     /**
-     * @param index the index of the bit to set
+     * @param index the index of the bit to set.
      * @throws ArrayIndexOutOfBoundsException if index < 0
      */
     public void set(int index, byte number) {
@@ -92,9 +91,9 @@ public class BitWordList {
         long[] bits = this.bits;
         for (int word = bits.length - 1; word >= 0; --word) {
             long bitsAtWord = bits[word];
-            if (bitsAtWord != 0){
+            if (bitsAtWord != 0) {
                 for (int bit = 63; bit >= 0; bit-=wordLen) {
-                    if ((bitsAtWord & ((long)wordMask << bit)) != 0L) {
+                    if ((bitsAtWord & ((long)wordMask << bit)) != 0l) {
                         return ((word << 6) + bit + 1)/wordLen;
                     }
                 }
@@ -135,7 +134,7 @@ public class BitWordList {
 
         int commonWords = Math.min(bits.length, otherBits.length);
         for (int i = 0; commonWords > i; i++) {
-            if(bits[i] != otherBits[i]){
+            if (bits[i] != otherBits[i]) {
                 return false;
             }
         }

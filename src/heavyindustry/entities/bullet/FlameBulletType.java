@@ -43,7 +43,7 @@ public class FlameBulletType extends BulletType {
     public void hit(Bullet b) {
         if (absorbable && b.absorbed) return;
         Units.nearbyEnemies(b.team, b.x, b.y, flameLength, unit -> {
-            if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)) {
+            if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround) && unit.hittable()) {
                 Fx.hitFlameSmall.at(unit);
                 unit.damage(damage * damageBoost);
                 unit.apply(status, statusDuration);

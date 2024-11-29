@@ -251,7 +251,7 @@ public final class Drawn {
         Draw.reset();
     }
 
-    public static void selected(Buildingc tile, Color color){
+    public static void selected(Buildingc tile, Color color) {
         Drawf.selected(tile.tile(), color);
     }
 

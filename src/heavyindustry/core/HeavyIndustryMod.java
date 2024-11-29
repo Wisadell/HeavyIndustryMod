@@ -76,6 +76,10 @@ public final class HeavyIndustryMod extends Mod {
             });
         });
 
+        Events.on(MusicRegisterEvent.class, e -> {
+            HIMusics.load();
+        });
+
         Events.on(DisposeEvent.class, e -> {
             HIShaders.dispose();
         });
@@ -124,11 +128,7 @@ public final class HeavyIndustryMod extends Mod {
             modInfo.meta.version = modInfo.meta.version + "-plug-in";
         } else {
             if (mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
-                try {
-                    HIOverride.loadAprilFoolsDay();
-                } catch (Throwable e) {
-                    Log.err(e);
-                }
+                HIOverride.loadAprilFoolsDay();
                 if (ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
             }
         }
@@ -213,8 +213,8 @@ public final class HeavyIndustryMod extends Mod {
 
     private static void showAprilFoolsDayDialog() {
         BaseDialog dialog = new BaseDialog(bundle.get("hi-name")) {
-            private int con = 0;
-            private float bx, by;
+            int con = 0;
+            float bx, by;
         {
             cont.add(bundle.get("hi-ap-main"));
             buttons.button("", this::hide).update(b -> {

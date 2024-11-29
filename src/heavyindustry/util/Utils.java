@@ -21,6 +21,7 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.draw.*;
 import org.jetbrains.annotations.*;
 
 import java.util.*;
@@ -132,6 +133,14 @@ public final class Utils {
         for (UnlockableContent c : developerItems) {
             c.description = (c.description == null ? DEVELOPER : c.description + "\n" + DEVELOPER);
         }
+    }
+
+    public static DrawBlock base() {
+        return base(0f);
+    }
+
+    public static DrawBlock base(float rotatorSpeed) {
+        return new DrawMulti(new DrawRegion("-rotator", rotatorSpeed), new DrawDefault(), new DrawRegion("-top"));
     }
 
     public static class ExtendedPosition implements Position {
@@ -409,5 +418,13 @@ public final class Utils {
         ib.setStyle(style);
         if (listener != null) ib.changed(listener);
         return ib;
+    }
+
+    public static void drawTiledFramesBar(float w, float h, float x, float y, Liquid liquid, float alpha) {
+        TextureRegion region = renderer.fluidFrames[liquid.gas ? 1 : 0][liquid.getAnimationFrame()];
+
+        Draw.color(liquid.color, liquid.color.a * alpha);
+        Draw.rect(region, x + w / 2f, y + h / 2f, w, h);
+        Draw.color();
     }
 }

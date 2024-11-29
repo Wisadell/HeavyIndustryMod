@@ -728,6 +728,20 @@ public final class HIBlocks {
             pumpAmount = 0.9f;
             envRequired |= Env.none;
             consumePower(3.5f);
+        }
+            public TextureRegion rotatorRegion1;
+
+            @Override
+            public void load() {
+                super.load();
+                rotatorRegion1 = atlas.find(name + "-rotator1");
+            }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region};
+            }
+        {
             buildType = () -> new SolidPumpBuild() {
                 @Override
                 public void draw() {
@@ -742,20 +756,7 @@ public final class HIBlocks {
                     Draw.rect(topRegion, x, y);
                 }
             };
-        }
-            public TextureRegion rotatorRegion1;
-
-            @Override
-            public void load() {
-                super.load();
-                rotatorRegion1 = atlas.find(name + "-rotator1");
-            }
-
-            @Override
-            public TextureRegion[] icons() {
-                return new TextureRegion[]{region};
-            }
-        };
+        }};
         oilRig = new Fracker("oil-rig") {{
             requirements(Category.production, with(Items.lead, 220, Items.graphite, 200, Items.silicon, 100, Items.thorium, 180, Items.plastanium, 120, Items.phaseFabric, 30));
             size = 4;
@@ -1625,7 +1626,7 @@ public final class HIBlocks {
             health = 50;
             rebuildable = false;
             hasItems = true;
-            itemCapacity = 2;
+            itemCapacity = 3;
             envRequired |= Env.spores;
             breakSound = Sounds.splash;
             buildCostMultiplier = 0.1f;
@@ -2961,8 +2962,8 @@ public final class HIBlocks {
                 reloadMultiplier = 0.5f;
                 ammoMultiplier = 4;
             }
-                public final float slpRange = 52f;
-                public final Effect easyExp = new Effect(20, e -> {
+                final float slpRange = 52f;
+                final Effect easyExp = new Effect(20, e -> {
                     Fx.rand.setSeed(e.id);
                     float baseRd = e.rotation;
                     float randRd = baseRd / 6f;
@@ -2981,7 +2982,7 @@ public final class HIBlocks {
                 public void hit(Bullet b) {
                     if (absorbable && b.absorbed) return;
                     Units.nearbyEnemies(b.team, b.x, b.y, flameLength, unit -> {
-                        if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround)) {
+                        if (Angles.within(b.rotation(), b.angleTo(unit), flameCone) && unit.checkTarget(collidesAir, collidesGround) && unit.hittable()) {
                             Fx.hitFlameSmall.at(unit);
                             unit.damage(damage);
                             if (unit.hasEffect(status)) {
@@ -3473,8 +3474,8 @@ public final class HIBlocks {
             }
                 public final Color tmpColor = new Color();
                 public final Color from = color, to = Pal.techBlue;
-                public final static float chargeReload = 65f;
-                public final static float lerpReload = 10f;
+                public final float chargeReload = 65f;
+                public final float lerpReload = 10f;
 
                 public boolean charged(Bullet b) {
                     return b.fdata > chargeReload;
