@@ -1,0 +1,970 @@
+package dynamilize.classmaker;
+
+import dynamilize.*;
+import dynamilize.classmaker.code.*;
+
+import java.lang.reflect.*;
+import java.util.*;
+
+import static dynamilize.classmaker.ClassInfo.*;
+
+/**
+ * A code block object that describes the specific behavior of a method,
+ * which is decomposed into a linear structure of {@linkplain Element basic behavior} concatenated,
+ * providing a fast way to add behavior.
+ */
+@SuppressWarnings("unchecked")
+public class CodeBlock<R> implements ICodeBlock<R> {
+    public static class StackElem<T> implements ILocal<T> {
+        private static final HashMap<IClass<?>, StackElem<?>> caching = new HashMap<>();
+
+        private final IClass<T> type;
+
+        private StackElem(IClass<T> type) {
+            this.type = type;
+        }
+
+        public static <T> StackElem<T> get(IClass<T> type) {
+            return (StackElem<T>) caching.computeIfAbsent(type, StackElem::new);
+        }
+
+        @Override
+        public String name() {
+            return "<stack>";
+        }
+
+        @Override
+        public int modifiers() {
+            return 0;
+        }
+
+        @Override
+        public IClass<T> type() {
+            return type;
+        }
+
+        @Override
+        public Object initial() {
+            return null;
+        }
+    }
+
+    public static <T> ILocal<T> stack(IClass<T> type) {
+        return StackElem.get(type);
+    }
+
+    protected final ArrayList<Element> statements = new ArrayList<>();
+
+    protected final ArrayList<ILocal<?>> parameter = new ArrayList<>();
+    Local<?> selfPointer;
+
+    final List<Label> labelList = new ArrayList<>();
+    final IMethod<?, R> method;
+
+    public CodeBlock(IMethod<?, R> method) {
+        this.method = method;
+    }
+
+    protected void initParams(IClass<?> self, List<Parameter<?>> params) {
+        if (!Modifier.isStatic(method.modifiers())) {
+            selfPointer = new Local<>("this", Modifier.FINAL, self);
+            parameter.add(selfPointer);
+        }
+
+        for (Parameter<?> param: params) {
+            parameter.add(
+                    new Local<>(param.name(), param.modifiers(), param.getType())
+            );
+        }
+    }
+
+    public IMethod<?, R> owner() {
+        return method;
+    }
+
+    @Override
+    public List<Element> codes() {
+        return statements;
+    }
+
+    @Override
+    public List<ILocal<?>> getParamList() {
+        return selfPointer == null ? new ArrayList<>(parameter) : parameter.subList(1, parameter.size());
+    }
+
+    public List<ILocal<?>> getParamAll() {
+        return new ArrayList<>(parameter);
+    }
+
+    @Override
+    public int modifiers() {
+        return 0;
+    }
+
+    //*=============*//
+    //* utilMethods *//
+    //*=============*//
+    private static final String VAR_DEFAULT = "var&";
+
+    private int defVarCount = 0;
+
+    public <T> ILocal<T> local(IClass<T> type, String name, int flags) {
+        ILocal<T> res = new Local<>(name, flags, type);
+        codes().add(res);
+        return res;
+    }
+
+    public <T> ILocal<T> local(IClass<T> type, int flags) {
+        return local(type, VAR_DEFAULT + defVarCount++, flags);
+    }
+
+    public <T> ILocal<T> local(IClass<T> type) {
+        return local(type, VAR_DEFAULT + defVarCount++, 0);
+    }
+
+    /**
+     * Get the local variable of the method's parameters,
+     * index the position of this parameter in the parameter list,
+     * and for non-static methods, index 0 is the 'this' pointer.
+     * @param index The position of this parameter in the formal parameter list is the 'this' pointer at the 0 index of the non static method.
+     * @param <T> Type of parameter.
+     */
+    public <T> ILocal<T> getParam(int index) {
+        return (ILocal<T>) parameter.get(index);
+    }
+
+    /**
+     * Get the local variable of the method's parameters,
+     * index the position of this parameter in the parameter list, different from {@link CodeBlock#getParam(int)},
+     * where index 0 is the first formal parameter instead of this.
+     * @param index The position of this parameter in the formal parameter list.
+     * @param <T> Type of parameter.
+     */
+    public <T> ILocal<T> getRealParam(int index) {
+        return (ILocal<T>) parameter.get(selfPointer != null? index + 1: index);
+    }
+
+    @Override
+    public List<Label> labelList() {
+        return labelList;
+    }
+
+    public <T> ILocal<T> getThis() {
+        if (selfPointer == null)
+            throw new IllegalHandleException("static method no \"this\" pointer");
+
+        return (ILocal<T>) selfPointer;
+    }
+
+    public final <S, T extends S> void assignField(ILocal<?> target, IField<S> src, IField<T> tar) {
+        ILocal<S> srcTemp = local(src.type());
+        assign(target, src, srcTemp);
+        assign(target, srcTemp, tar);
+    }
+
+    public final <S, T extends S> void assign(ILocal<S> src, ILocal<T> tar) {
+        codes().add(new LocalAssign<>(src, tar));
+    }
+
+    public final <S, T extends S> void assign(ILocal<?> tar, IField<S> src, ILocal<T> to) {
+        codes().add(new GetField<>(tar, src, to));
+    }
+
+    /**
+     * Assign the specified property of the target object to the value of the given local variable.
+     * @param tar Save the local variables of the target object for the field to be set.
+     * @param src Set the source local variable of the value.
+     * @param to Fields that need to be written with values.
+     */
+    public final <S, T extends S> void assign(ILocal<?> tar, ILocal<S> src, IField<T> to) {
+        codes().add(new PutField<>(tar, src, to));
+    }
+
+    public final <S, T extends S> void assign(ILocal<?> tar, String src, ILocal<T> to) {
+        codes().add(new GetField<>(tar, tar.type().getField(to.type(), src), to));
+    }
+
+    public final <S> void assign(ILocal<?> tar, ILocal<S> src, String to) {
+        codes().add(new PutField<>(tar, src, tar.type().getField(src.type(), to)));
+    }
+
+    public final <S, T extends S> void assignStatic(IClass<?> clazz, String src, ILocal<T> to) {
+        codes().add(new GetField<>(null, clazz.getField(to.type(), src), to));
+    }
+
+    public final <S, T extends S> void assignStatic(IField<S> src, ILocal<T> to) {
+        codes().add(new GetField<>(null, src, to));
+    }
+
+    public final <S> void assignStatic(IClass<?> clazz, ILocal<S> src, String to) {
+        codes().add(new PutField<>(null, src, clazz.getField(src.type(), to)));
+    }
+
+    public final <S> void assignStatic(ILocal<S> src, IField<? extends S> to) {
+        codes().add(new PutField<>(null, src, to));
+    }
+
+    public final <U> void invoke(ILocal<?> target, IMethod<?, U> method, ILocal<U> returnTo, ILocal<?>... args) {
+        codes().add(new Invoke<>(target, false, method, returnTo, args));
+    }
+
+    public final <U> void invoke(ILocal<?> target, String method, ILocal<U> returnTo, ILocal<?>... args) {
+        codes().add(new Invoke<>(target, false, target.type().getMethod(returnTo.type(), method, Arrays.stream(args).map(ILocal::type).toArray(IClass<?>[]::new)), returnTo, args));
+    }
+
+    public final <U> void invokeStatic(IMethod<?, U> method, ILocal<? super U> returnTo, ILocal<?>... args) {
+        codes().add(new Invoke<>(null, false, method, returnTo, args));
+    }
+
+    public final <U> void invokeStatic(IClass<?> target, String method, ILocal<U> returnTo, ILocal<?>... args) {
+        codes().add(new Invoke<>(null, false, target.getMethod(returnTo.type(), method, Arrays.stream(args).map(ILocal::type).toArray(IClass<?>[]::new)), returnTo, args));
+    }
+
+    public final <U> void invokeSuper(ILocal<?> target, IMethod<?, U> method, ILocal<? super U> returnTo, ILocal<?>... args) {
+        codes().add(new Invoke<>(target, true, method, returnTo, args));
+    }
+
+    public final <U> void invokeSuper(ILocal<?> target, String method, ILocal<U> returnTo, ILocal<?>... args) {
+        codes().add(new Invoke<>(target, true, target.type().getMethod(returnTo.type(), method, Arrays.stream(args).map(ILocal::type).toArray(IClass<?>[]::new)), returnTo, args));
+    }
+
+    public final <T extends R> void returnValue(ILocal<T> local) {
+        codes().add(new Return<>(local));
+    }
+
+    public final void returnVoid() {
+        codes().add(new Return<>(null));
+    }
+
+    public final <T> void operate(IOddOperate.OddOperator opCode, ILocal<T> opNumb, ILocal<T> to) {
+        codes().add(new OddOperate<>(opCode, opNumb, to));
+    }
+
+    public final <T> void operate(String symbol, ILocal<T> opNumb, ILocal<T> to) {
+        codes().add(new OddOperate<>(IOddOperate.OddOperator.as(symbol), opNumb, to));
+    }
+
+    public final <T> void operate(ILocal<T> lefOP, IOperate.OPCode opCode, ILocal<T> rigOP, ILocal<?> to) {
+        codes().add(new Operate<>(opCode, lefOP, rigOP, to));
+    }
+
+    public final <T> void operate(ILocal<T> lefOP, String symbol, ILocal<T> rigOP, ILocal<?> to) {
+        codes().add(new Operate<>(IOperate.OPCode.as(symbol), lefOP, rigOP, to));
+    }
+
+    public final Label label() {
+        Label l = new Label();
+        labelList.add(l);
+
+        return l;
+    }
+
+    public final void markLabel(Label label) {
+        codes().add(new MarkLabel(label));
+    }
+
+    public final void jump(Label label) {
+        codes().add(new Goto(label));
+    }
+
+    public final <T> void compare(ILocal<T> lef, ICompare.Comparison opc, ILocal<T> rig, Label ifJump) {
+        codes().add(new Compare<>(lef, rig, ifJump, opc));
+    }
+
+    public final <T> void compare(ILocal<T> lef, String symbol, ILocal<T> rig, Label ifJump) {
+        compare(lef, ICompare.Comparison.as(symbol), rig, ifJump);
+    }
+
+    public final <T> void condition(ILocal<T> target, String symbol, Label ifJump) {
+        condition(target, ICondition.CondCode.as(symbol), ifJump);
+    }
+
+    public final <T> void condition(ILocal<T> target, ICondition.CondCode condCode, Label ifJump) {
+        codes().add(new Condition(target, condCode, ifJump));
+    }
+
+    public final void cast(ILocal<?> source, ILocal<?> target) {
+        codes().add(new Cast(source, target));
+    }
+
+    public final void instanceOf(ILocal<?> target, IClass<?> type, ILocal<Boolean> result) {
+        codes().add(new InstanceOf(target, type, result));
+    }
+
+    public final  <T> void newInstance(IMethod<T, Void> constructor, ILocal<? extends T> resultTo, ILocal<?>... params) {
+        codes().add(new NewInstance<>(constructor, resultTo, params));
+    }
+
+    @SafeVarargs
+    public final <T> void newArray(IClass<T> arrElemType, ILocal<?> storeTo, ILocal<Integer>... length) {
+        codes().add(
+                new NewArray<>(arrElemType, Arrays.asList(length), storeTo)
+        );
+    }
+
+    public final <T> void arrayPut(ILocal<T[]> array, ILocal<Integer> index, ILocal<T> value) {
+        codes().add(new ArrayPut<>(array, index, value));
+    }
+
+    public final <T> void arrayGet(ILocal<T[]> array, ILocal<Integer> index, ILocal<T> getTo) {
+        codes().add(new ArrayGet<>(array, index, getTo));
+    }
+
+    public final <T> void loadConstant(ILocal<T> tar, T constant) {
+        codes().add(
+                new LoadConstant<>(constant, tar)
+        );
+    }
+
+    public final <T extends Comparable<?>> ISwitch<T> switchCase(ILocal<T> target, Label end, Object... casePairs) {
+        Switch<T> swi;
+        codes().add(swi = new Switch<>(target, end, casePairs));
+
+        return swi;
+    }
+
+    public final <T extends Comparable<?>> ISwitch<T> switchDef(ILocal<T> target, Label end) {
+        Switch<T> swi;
+        codes().add(swi = new Switch<>(target, end));
+
+        return swi;
+    }
+
+    public final <T extends Throwable> void thr(ILocal<T> throwable) {
+        codes().add(new Throw<>(throwable));
+    }
+
+    //*===============*//
+    //*memberCodeTypes*//
+    //*===============*//
+    protected static class Local<T> implements ILocal<T> {
+        final String name;
+        final int modifiers;
+        final IClass<T> type;
+
+        Object initial;
+
+        public Local(String name, int modifiers, IClass<T> type) {
+            this.name = name;
+            this.modifiers = modifiers;
+            this.type = type;
+        }
+
+        @Override
+        public String name() {
+            return name;
+        }
+
+        @Override
+        public int modifiers() {
+            return modifiers;
+        }
+
+        @Override
+        public IClass<T> type() {
+            return type;
+        }
+
+        @Override
+        public Object initial() {
+            return initial;
+        }
+    }
+
+    protected static class Operate<T> implements IOperate<T> {
+        final OPCode opc;
+
+        final ILocal<T> leftOP;
+        final ILocal<T> rightOP;
+        final ILocal<?> result;
+
+        public Operate(OPCode opc, ILocal<T> leftOP, ILocal<T> rightOP, ILocal<?> result) {
+            checkStack(this, leftOP, rightOP);
+
+            this.opc = opc;
+            this.leftOP = leftOP;
+            this.rightOP = rightOP;
+            this.result = result;
+        }
+
+        @Override
+        public OPCode opCode() {
+            return opc;
+        }
+
+        @Override
+        public ILocal<?> resultTo() {
+            return result;
+        }
+
+        @Override
+        public ILocal<T> leftOpNumber() {
+            return leftOP;
+        }
+
+        @Override
+        public ILocal<T> rightOpNumber() {
+            return rightOP;
+        }
+    }
+
+    protected static class OddOperate<T> implements IOddOperate<T> {
+        final ILocal<T> opNumb;
+        final ILocal<T> retTo;
+
+        final OddOperator opCode;
+
+        public OddOperate(OddOperator opCode, ILocal<T> opNumb, ILocal<T> retTo) {
+            this.opNumb = opNumb;
+            this.retTo = retTo;
+            this.opCode = opCode;
+        }
+
+        @Override
+        public ILocal<T> operateNumber() {
+            return opNumb;
+        }
+
+        @Override
+        public ILocal<T> resultTo() {
+            return retTo;
+        }
+
+        @Override
+        public OddOperator opCode() {
+            return opCode;
+        }
+    }
+
+    protected static class LocalAssign<S, T extends S> implements ILocalAssign<S, T> {
+        final ILocal<S> src;
+        final ILocal<T> tar;
+
+        public LocalAssign(ILocal<S> src, ILocal<T> tar) {
+            this.src = src;
+            this.tar = tar;
+        }
+
+        @Override
+        public ILocal<S> source() {
+            return src;
+        }
+
+        @Override
+        public ILocal<T> target() {
+            return tar;
+        }
+    }
+
+    protected static class PutField<S, T extends S> implements IPutField<S, T> {
+        final ILocal<?> inst;
+        final ILocal<S> source;
+        final IField<T> target;
+
+        public PutField(ILocal<?> inst, ILocal<S> source, IField<T> target) {
+            checkStack(this, inst, source);
+
+            this.inst = inst;
+            this.source = source;
+            this.target = target;
+        }
+
+        @Override
+        public ILocal<?> inst() {
+            return inst;
+        }
+
+        @Override
+        public ILocal<S> source() {
+            return source;
+        }
+
+        @Override
+        public IField<T> target() {
+            return target;
+        }
+    }
+
+    protected static class GetField<S, T extends S> implements IGetField<S, T> {
+        final ILocal<?> inst;
+        final IField<S> source;
+        final ILocal<T> target;
+
+        public GetField(ILocal<?> inst, IField<S> source, ILocal<T> target) {
+            this.inst = inst;
+            this.source = source;
+            this.target = target;
+        }
+
+        @Override
+        public ILocal<?> inst() {
+            return inst;
+        }
+
+        @Override
+        public IField<S> source() {
+            return source;
+        }
+
+        @Override
+        public ILocal<T> target() {
+            return target;
+        }
+    }
+
+    protected static class Goto implements IGoto {
+        final Label label;
+
+        public Goto(Label label) {
+            this.label = label;
+        }
+
+        @Override
+        public Label target() {
+            return label;
+        }
+    }
+
+    protected static class Invoke<R> implements IInvoke<R> {
+        final IMethod<?, R> method;
+        final ILocal<? super R> returnTo;
+        final List<ILocal<?>> args;
+        final ILocal<?> target;
+
+        final boolean callSuper;
+
+        public Invoke(ILocal<?> target, boolean callSuper, IMethod<?, R> method, ILocal<? super R> returnTo, ILocal<?>... args) {
+            checkStack(this, args);
+            if (args.length >= 1) checkStack(this, target, args[0]);
+
+            this.method = method;
+            this.returnTo = method.returnType() != VOID_TYPE ? returnTo: null;
+            this.target = target;
+            this.args = Arrays.asList(args);
+            this.callSuper = callSuper;
+
+            if (callSuper && !method.owner().isAssignableFrom(target.type()))
+                throw new IllegalHandleException("cannot call super method in non-super class");
+        }
+
+        @Override
+        public ILocal<?> target() {
+            return target;
+        }
+
+        @Override
+        public IMethod<?, R> method() {
+            return method;
+        }
+
+        @Override
+        public List<ILocal<?>> args() {
+            return args;
+        }
+
+        @Override
+        public ILocal<? super R> returnTo() {
+            return returnTo;
+        }
+
+        @Override
+        public boolean callSuper() {
+            return callSuper;
+        }
+    }
+
+    protected static class Compare<T> implements ICompare<T> {
+        final ILocal<T> left;
+        final ILocal<T> right;
+
+        final Label jumpTo;
+
+        final Comparison comparison;
+
+        public Compare(ILocal<T> left, ILocal<T> right, Label jumpTo, Comparison comparison) {
+            checkStack(this, left, right);
+
+            this.left = left;
+            this.right = right;
+            this.jumpTo = jumpTo;
+            this.comparison = comparison;
+        }
+
+        @Override
+        public ILocal<T> leftNumber() {
+            return left;
+        }
+
+        @Override
+        public ILocal<T> rightNumber() {
+            return right;
+        }
+
+        @Override
+        public Label ifJump() {
+            return jumpTo;
+        }
+
+        @Override
+        public Comparison comparison() {
+            return comparison;
+        }
+    }
+
+    protected static class Cast implements ICast {
+        final ILocal<?> src;
+        final ILocal<?> tar;
+
+        public Cast(ILocal<?> src, ILocal<?> tar) {
+            this.src = src;
+            this.tar = tar;
+        }
+
+        @Override
+        public ILocal<?> source() {
+            return src;
+        }
+
+        @Override
+        public ILocal<?> target() {
+            return tar;
+        }
+    }
+
+    protected static class Return<R> implements IReturn<R> {
+        final ILocal<R> local;
+
+        public Return(ILocal<R> local) {
+            this.local = local;
+        }
+
+        @Override
+        public ILocal<R> returnValue() {
+            return local;
+        }
+    }
+
+    protected static class InstanceOf implements IInstanceOf {
+        final ILocal<?> target;
+        final IClass<?> type;
+        final ILocal<Boolean> result;
+
+        public InstanceOf(ILocal<?> target, IClass<?> type, ILocal<Boolean> result) {
+            this.target = target;
+            this.type = type;
+            this.result = result;
+        }
+
+        @Override
+        public ILocal<?> target() {
+            return null;
+        }
+
+        @Override
+        public IClass<?> type() {
+            return null;
+        }
+
+        @Override
+        public ILocal<Boolean> result() {
+            return null;
+        }
+    }
+
+    protected static class NewInstance<T> implements INewInstance<T> {
+        final IMethod<T, Void> constructor;
+        final ILocal<? extends T> resultTo;
+
+        final IClass<T> type;
+
+        final List<ILocal<?>> params;
+
+        public NewInstance(IMethod<T, Void> constructor, ILocal<? extends T> resultTo, ILocal<?>... params) {
+            checkStack(this, params);
+
+            this.constructor = constructor;
+            this.type = constructor.owner();
+            this.resultTo = resultTo;
+            this.params = Arrays.asList(params);
+        }
+
+        @Override
+        public IMethod<T, Void> constructor() {
+            return constructor;
+        }
+
+        @Override
+        public IClass<T> type() {
+            return type;
+        }
+
+        @Override
+        public ILocal<? extends T> instanceTo() {
+            return resultTo;
+        }
+
+        @Override
+        public List<ILocal<?>> params() {
+            return params;
+        }
+    }
+
+    protected static class NewArray<T> implements INewArray<T> {
+        final IClass<T> arrCompType;
+        final List<ILocal<Integer>> arrayLength;
+        final ILocal<?> retTo;
+
+        public NewArray(IClass<T> arrCompType, List<ILocal<Integer>> arrayLength, ILocal<?> retTo) {
+            checkStack(this, arrayLength.toArray(new ILocal[0]));
+
+            this.arrCompType = arrCompType;
+            this.arrayLength = arrayLength;
+            this.retTo = retTo;
+        }
+
+        @Override
+        public IClass<T> arrayEleType() {
+            return arrCompType;
+        }
+
+        @Override
+        public List<ILocal<Integer>> arrayLength() {
+            return arrayLength;
+        }
+
+        @Override
+        public ILocal<?> resultTo() {
+            return retTo;
+        }
+    }
+
+    public static class ArrayPut<T> implements IArrayPut<T> {
+        final ILocal<T[]> array;
+        final ILocal<Integer> index;
+        final ILocal<T> value;
+
+        public ArrayPut(ILocal<T[]> array, ILocal<Integer> index, ILocal<T> value) {
+            checkStack(array, index, value);
+
+            this.array = array;
+            this.index = index;
+            this.value = value;
+        }
+
+        @Override
+        public ILocal<T[]> array() {
+            return array;
+        }
+
+        @Override
+        public ILocal<Integer> index() {
+            return index;
+        }
+
+        @Override
+        public ILocal<T> value() {
+            return value;
+        }
+    }
+
+    public static class ArrayGet<T> implements IArrayGet<T> {
+        final ILocal<T[]> array;
+        final ILocal<Integer> index;
+        final ILocal<T> getTo;
+
+        public ArrayGet(ILocal<T[]> array, ILocal<Integer> index, ILocal<T> getTo) {
+            checkStack(array, index);
+
+            this.array = array;
+            this.index = index;
+            this.getTo = getTo;
+        }
+
+        @Override
+        public ILocal<T[]> array() {
+            return array;
+        }
+
+        @Override
+        public ILocal<Integer> index() {
+            return index;
+        }
+
+        @Override
+        public ILocal<T> getTo() {
+            return getTo;
+        }
+    }
+
+    protected static class LoadConstant<T> implements ILoadConstant<T> {
+        final T constant;
+        final ILocal<T> resTo;
+
+        public LoadConstant(T constant, ILocal<T> resTo) {
+            this.constant = constant;
+            this.resTo = resTo;
+        }
+
+        @Override
+        public T constant() {
+            return constant;
+        }
+
+        @Override
+        public ILocal<T> constTo() {
+            return resTo;
+        }
+    }
+
+    protected static class MarkLabel implements IMarkLabel {
+        final Label label;
+
+        public MarkLabel(Label label) {
+            this.label = label;
+        }
+
+        @Override
+        public Label label() {
+            return label;
+        }
+    }
+
+    protected static class Condition implements ICondition {
+        final ILocal<?> condition;
+        final CondCode condCode;
+        final Label ifJump;
+
+        public Condition(ILocal<?> condition, CondCode condCode, Label ifJump) {
+            this.condition = condition;
+            this.condCode = condCode;
+            this.ifJump = ifJump;
+        }
+
+        @Override
+        public CondCode condCode() {
+            return condCode;
+        }
+
+        @Override
+        public ILocal<?> condition() {
+            return condition;
+        }
+
+        @Override
+        public Label ifJump() {
+            return ifJump;
+        }
+    }
+
+    protected static class Switch<T> implements ISwitch<T> {
+        final ILocal<T> target;
+        final Map<T, Label> casesMap;
+
+        final Label end;
+
+        boolean isTable;
+
+        public Switch(ILocal<T> target, Label end, Object... pairs) {
+            this.target = target;
+            this.casesMap = new TreeMap<>((a, b) -> a.hashCode() - b.hashCode());
+
+            this.end = end;
+
+            for (int i = 0; i < pairs.length; i += 2) {
+                casesMap.put((T) pairs[i], (Label) pairs[i + 1]);
+            }
+
+            checkTable();
+        }
+
+        public Switch(ILocal<T> target, Label end) {
+            this.target = target;
+            this.casesMap = new TreeMap<>();
+            this.end = end;
+        }
+
+        @Override
+        public boolean isTable() {
+            return isTable;
+        }
+
+        @Override
+        public Label end() {
+            return end;
+        }
+
+        @Override
+        public ILocal<T> target() {
+            return target;
+        }
+
+        @Override
+        public Map<T, Label> cases() {
+            return casesMap;
+        }
+
+        @Override
+        public void addCase(T caseKey, Label caseJump) {
+            casesMap.put(caseKey, caseJump);
+
+            checkTable();
+        }
+
+        protected void checkTable() {
+            if (target.type() == BOOLEAN_TYPE || (!target.type().isPrimitive()
+                    && !asType(Enum.class).isAssignableFrom(target.type())
+                    && target.type() != STRING_TYPE))
+                throw new IllegalHandleException("unsupported type error");
+
+            if (target.type() == LONG_TYPE || target.type() == INT_TYPE
+                    || target.type() == SHORT_TYPE || target.type() == BYTE_TYPE
+                    || target.type() == CHAR_TYPE || target.type() instanceof Enum<?>) {
+                int labelsNumber = casesMap.size();
+
+                int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+                for (T t: casesMap.keySet()) {
+                    if (t instanceof Number n) {
+                        max = Math.max(max, n.intValue());
+                        min = Math.min(min, n.intValue());
+                    } else if (t instanceof Character c) {
+                        max = Math.max(max, c);
+                        min = Math.min(min, c);
+                    } else if (t instanceof Enum<?> e) {
+                        max = Math.max(max, e.ordinal());
+                        min = Math.min(min, e.ordinal());
+                    }
+                }
+
+                int tableSpaceCost = 4 + max - min + 1;
+                int tableTimeCost = 3;
+                int lookupSpaceCost = 3 + 2*labelsNumber;
+
+                isTable = labelsNumber > 0 && tableSpaceCost + 3*tableTimeCost <= lookupSpaceCost + 3 * labelsNumber;
+            } else isTable = false;
+        }
+    }
+
+    protected static class Throw<T extends Throwable> implements IThrow<T> {
+        final ILocal<T> thr;
+
+        public Throw(ILocal<T> thr) {
+            this.thr = thr;
+        }
+
+        @Override
+        public ILocal<T> thr() {
+            return thr;
+        }
+    }
+
+    private static void checkStack(Element elem, ILocal<?>... accesses) {
+        boolean accessLocal = false;
+        for (ILocal<?> access : accesses) {
+            if (access == null) continue;
+
+            if (access instanceof StackElem) {
+                if (accessLocal) throw new IllegalHandleException("Bad stack access, element: " + elem);
+            } else accessLocal = true;
+        }
+    }
+}
