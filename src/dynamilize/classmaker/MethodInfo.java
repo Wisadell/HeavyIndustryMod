@@ -13,12 +13,12 @@ public class MethodInfo <S, R> extends AnnotatedMember implements IMethod<S, R> 
     IClass<S> owner;
 
     IClass<R> returnType;
-    List<Parameter<?>> parameter;
+    List<Parameterf<?>> parameterf;
     List<IClass<? extends Throwable>> throwsList;
 
     boolean initialized;
 
-    public MethodInfo(IClass<S> owner, int modifiers, String name, IClass<R> returnType, IClass<? extends Throwable>[] throwsList, Parameter<?>... params) {
+    public MethodInfo(IClass<S> owner, int modifiers, String name, IClass<R> returnType, IClass<? extends Throwable>[] throwsList, Parameterf<?>... params) {
         super(name);
         IClass<Throwable> thr = ClassInfo.asType(Throwable.class);
         for (IClass<? extends Throwable> iClass : throwsList) {
@@ -31,16 +31,16 @@ public class MethodInfo <S, R> extends AnnotatedMember implements IMethod<S, R> 
         this.owner = owner;
         this.returnType = returnType;
         this.throwsList = Arrays.asList(throwsList);
-        this.parameter = Arrays.asList(params);
+        this.parameterf = Arrays.asList(params);
 
         Arrays.stream(params).forEach(e -> e.setOwner(this));
 
-        if (block != null) block.initParams(owner, parameter);
+        if (block != null) block.initParams(owner, parameterf);
     }
 
     @Override
-    public List<Parameter<?>> parameters() {
-        return parameter;
+    public List<Parameterf<?>> parameters() {
+        return parameterf;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class MethodInfo <S, R> extends AnnotatedMember implements IMethod<S, R> 
     public String typeDescription() {
         StringBuilder builder = new StringBuilder();
         builder.append("(");
-        for (IClass<?> arg: parameter.stream().map(Parameter::getType).toArray(IClass[]::new)) {
+        for (IClass<?> arg: parameterf.stream().map(Parameterf::getType).toArray(IClass[]::new)) {
             builder.append(arg.realName());
         }
 

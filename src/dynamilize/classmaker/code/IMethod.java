@@ -22,7 +22,7 @@ public interface IMethod<S, R> extends Element, AnnotatedElement {
 
     String typeDescription();
 
-    List<Parameter<?>> parameters();
+    List<Parameterf<?>> parameters();
 
     List<IClass<? extends Throwable>> throwTypes();
 

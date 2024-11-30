@@ -132,7 +132,7 @@ public class DataPool {
      * which can effectively improve the speed of overload decision-making.
      * <p>If the function is not defined, return empty.
      * @param name The name of the function
-     * @param type Parameter types of functions
+     * @param type Parameterf types of functions
      * @return Select the function entry of the selected function
      */
     public IFunctionEntry select(String name, FunctionType type) {

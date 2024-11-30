@@ -65,13 +65,13 @@ public class CodeBlock<R> implements ICodeBlock<R> {
         this.method = method;
     }
 
-    protected void initParams(IClass<?> self, List<Parameter<?>> params) {
+    protected void initParams(IClass<?> self, List<Parameterf<?>> params) {
         if (!Modifier.isStatic(method.modifiers())) {
             selfPointer = new Local<>("this", Modifier.FINAL, self);
             parameter.add(selfPointer);
         }
 
-        for (Parameter<?> param: params) {
+        for (Parameterf<?> param: params) {
             parameter.add(
                     new Local<>(param.name(), param.modifiers(), param.getType())
             );
@@ -124,10 +124,10 @@ public class CodeBlock<R> implements ICodeBlock<R> {
 
     /**
      * Get the local variable of the method's parameters,
-     * index the position of this parameter in the parameter list,
+     * index the position of this parameterf in the parameterf list,
      * and for non-static methods, index 0 is the 'this' pointer.
-     * @param index The position of this parameter in the formal parameter list is the 'this' pointer at the 0 index of the non static method.
-     * @param <T> Type of parameter.
+     * @param index The position of this parameterf in the formal parameterf list is the 'this' pointer at the 0 index of the non static method.
+     * @param <T> Type of parameterf.
      */
     public <T> ILocal<T> getParam(int index) {
         return (ILocal<T>) parameter.get(index);
@@ -135,10 +135,10 @@ public class CodeBlock<R> implements ICodeBlock<R> {
 
     /**
      * Get the local variable of the method's parameters,
-     * index the position of this parameter in the parameter list, different from {@link CodeBlock#getParam(int)},
-     * where index 0 is the first formal parameter instead of this.
-     * @param index The position of this parameter in the formal parameter list.
-     * @param <T> Type of parameter.
+     * index the position of this parameterf in the parameterf list, different from {@link CodeBlock#getParam(int)},
+     * where index 0 is the first formal parameterf instead of this.
+     * @param index The position of this parameterf in the formal parameterf list.
+     * @param <T> Type of parameterf.
      */
     public <T> ILocal<T> getRealParam(int index) {
         return (ILocal<T>) parameter.get(selfPointer != null? index + 1: index);

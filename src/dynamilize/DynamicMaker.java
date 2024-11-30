@@ -1,6 +1,6 @@
 package dynamilize;
 
-import dynamilize.classmaker.Parameter;
+import dynamilize.classmaker.Parameterf;
 import dynamilize.classmaker.*;
 import dynamilize.classmaker.code.*;
 import dynamilize.classmaker.code.annotation.*;
@@ -423,7 +423,7 @@ public abstract class DynamicMaker {
                         aspectPoints.computeIfAbsent(method.getName(), e -> new HashMap())
                                 .computeIfAbsent(FunctionType.from(method), e -> {
                                     FuzzyMatch match = method.getAnnotation(FuzzyMatch.class);
-                                    java.lang.reflect.Parameter[] parameters = method.getParameters();
+                                    Parameter[] parameters = method.getParameters();
                                     Annotation[] argMatchers = new Annotation[parameters.length];
 
                                     if (match != null) {
@@ -487,7 +487,7 @@ public abstract class DynamicMaker {
             IClass<?>[] argArr = args.toArray(new IClass[0]);
             IMethod<?, Void> constructor = classInfo.superClass().getConstructor(argArr);
 
-            CodeBlock<Void> code = classInfo.declareConstructor(Modifier.PUBLIC, Parameter.trans(argArr));
+            CodeBlock<Void> code = classInfo.declareConstructor(Modifier.PUBLIC, Parameterf.trans(argArr));
             code.invokeSuper(code.getThis(), constructor, null, code.getParamList().toArray(new ILocal<?>[0]));
         }
 
@@ -581,14 +581,14 @@ public abstract class DynamicMaker {
                     new ClassInfo[]{
                             ClassInfo.asType(NoSuchMethodException.class)
                     },
-                    Parameter.trans(
+                    Parameterf.trans(
                             STRING_TYPE,
                             OBJECT_TYPE.asArray()
                     )
             );
 
             IMethod<T, Object> superCaller = (IMethod<T, Object>) classInfo.superClass().getMethod(code.owner().returnType(), code.owner().name(),
-                    code.owner().parameters().stream().map(Parameter::getType).toArray(IClass[]::new));
+                    code.owner().parameters().stream().map(Parameterf::getType).toArray(IClass[]::new));
 
             Label end = code.label();
             code.assign(null, methodIndex, stack(HASH_MAP_TYPE));
@@ -677,7 +677,7 @@ public abstract class DynamicMaker {
                         aspectPoints.computeIfAbsent(method.getName(), e -> new HashMap())
                                 .computeIfAbsent(FunctionType.from(method), e -> {
                                     FuzzyMatch match = method.getAnnotation(FuzzyMatch.class);
-                                    java.lang.reflect.Parameter[] parameters = method.getParameters();
+                                    Parameter[] parameters = method.getParameters();
                                     Annotation[] argMatchers = new Annotation[parameters.length];
 
                                     if (match != null) {
@@ -764,17 +764,17 @@ public abstract class DynamicMaker {
             if ((cstr.getModifiers() & (Modifier.PUBLIC | Modifier.PROTECTED)) == 0) continue;
             if (Modifier.isFinal(cstr.getModifiers())) continue;
 
-            List<Parameter<?>> params = new ArrayList<>(Arrays.asList(Parameter.as(
+            List<Parameterf<?>> params = new ArrayList<>(Arrays.asList(Parameterf.as(
                     0, DynamicClass.class, "$dyc$",
                     0, DataPool.class, "$datP$",
                     0, DataPool.class, "$basePool$"
             )));
-            List<Parameter<?>> superParams = Arrays.asList(Parameter.asParameter(cstr.getParameters()));
+            List<Parameterf<?>> superParams = Arrays.asList(Parameterf.asParameter(cstr.getParameters()));
             params.addAll(superParams);
 
-            IMethod<?, Void> constructor = classInfo.superClass().getConstructor(superParams.stream().map(Parameter::getType).toArray(IClass[]::new));
+            IMethod<?, Void> constructor = classInfo.superClass().getConstructor(superParams.stream().map(Parameterf::getType).toArray(IClass[]::new));
 
-            CodeBlock<Void> code = classInfo.declareConstructor(Modifier.PUBLIC, params.toArray(new Parameter[0]));
+            CodeBlock<Void> code = classInfo.declareConstructor(Modifier.PUBLIC, params.toArray(new Parameterf[0]));
             List<ILocal<?>> l = code.getParamList();
             ILocal<T> self = code.getThis();
 
@@ -928,7 +928,7 @@ public abstract class DynamicMaker {
                     Modifier.PUBLIC,
                     "varValueGet",
                     OBJECT_TYPE,
-                    Parameter.trans(STRING_TYPE)
+                    Parameterf.trans(STRING_TYPE)
             );
             code.assign(code.getThis(), varPool, stack(HASH_MAP_TYPE));
             code.invoke(stack(HASH_MAP_TYPE), MAP_GET, stack(OBJECT_TYPE), code.getRealParam(0));
@@ -943,7 +943,7 @@ public abstract class DynamicMaker {
                     Modifier.PUBLIC,
                     "varValueSet",
                     VOID_TYPE,
-                    Parameter.trans(
+                    Parameterf.trans(
                             STRING_TYPE,
                             OBJECT_TYPE
                     )
@@ -960,7 +960,7 @@ public abstract class DynamicMaker {
                     Modifier.PUBLIC,
                     "getVariable",
                     VAR_TYPE,
-                    Parameter.as(0, STRING_TYPE, "name")
+                    Parameterf.as(0, STRING_TYPE, "name")
             );
             code.assign(code.getThis(), dataPool, stack(DATA_POOL_TYPE));
             code.invoke(stack(DATA_POOL_TYPE), GET_VAR, stack(VAR_TYPE), code.getParam(1));
@@ -975,7 +975,7 @@ public abstract class DynamicMaker {
                     Modifier.PUBLIC,
                     "setVariable",
                     VOID_TYPE,
-                    Parameter.as(0, VAR_TYPE, "var")
+                    Parameterf.as(0, VAR_TYPE, "var")
             );
             code.assign(code.getThis(), dataPool, stack(DATA_POOL_TYPE));
             code.invoke(stack(DATA_POOL_TYPE), SET_VAR, null, code.getParam(1));
@@ -990,7 +990,7 @@ public abstract class DynamicMaker {
                     Modifier.PUBLIC,
                     "getFunc",
                     FUNC_ENTRY_TYPE,
-                    Parameter.as(
+                    Parameterf.as(
                             0, STRING_TYPE, "name",
                             0, FUNCTION_TYPE_TYPE, "type"
                     )
@@ -1009,7 +1009,7 @@ public abstract class DynamicMaker {
                     Modifier.PUBLIC,
                     "setFunc",
                     VOID_TYPE,
-                    Parameter.as(
+                    Parameterf.as(
                             0, STRING_TYPE, "name",
                             0, FUNCTION_TYPE, "func",
                             0, CLASS_TYPE.asArray(), "argTypes"
@@ -1028,7 +1028,7 @@ public abstract class DynamicMaker {
                     Modifier.PUBLIC,
                     "setFunc",
                     VOID_TYPE,
-                    Parameter.as(
+                    Parameterf.as(
                             0, STRING_TYPE, "name",
                             0, SUPER_GET_FUNC_TYPE, "func",
                             0, CLASS_TYPE.asArray(), "argTypes"
@@ -1055,7 +1055,7 @@ public abstract class DynamicMaker {
                 new ClassInfo[]{
                         ClassInfo.asType(NoSuchMethodException.class)
                 },
-                Parameter.trans(
+                Parameterf.trans(
                         STRING_TYPE,
                         OBJECT_TYPE.asArray()
                 )
@@ -1152,7 +1152,7 @@ public abstract class DynamicMaker {
                 Modifier.PUBLIC,
                 methodName,
                 returnType,
-                Parameter.asParameter(method.getParameters())
+                Parameterf.asParameter(method.getParameters())
         );
         AnnotationDef<DynamicMethod> anno = new AnnotationDef<>(
                 ClassInfo.asType(DynamicMethod.class).asAnnotation(EMP_MAP),
@@ -1239,7 +1239,7 @@ public abstract class DynamicMaker {
                     c.getMethod(
                             superMethod.returnType(),
                             superMethod.name(),
-                            superMethod.parameters().stream().map(Parameter::getType).toArray(IClass[]::new)
+                            superMethod.parameters().stream().map(Parameterf::getType).toArray(IClass[]::new)
                     );
                 }
             }
@@ -1288,11 +1288,11 @@ public abstract class DynamicMaker {
     protected abstract <T> Class<? extends T> generateClass(Class<T> baseClass, Class<?>[] interfaces, Class<?>[] aspects);
 
     protected static class FuzzyMatcher{
-        java.lang.reflect.Parameter[] parameters;
+        Parameter[] parameters;
         FuzzyMatch matcher;
         Annotation[] argsMatcher;
 
-        public FuzzyMatcher(java.lang.reflect.Parameter[] parameters, FuzzyMatch match, Annotation[] argMatchers) {
+        public FuzzyMatcher(Parameter[] parameters, FuzzyMatch match, Annotation[] argMatchers) {
             this.parameters = parameters;
             this.matcher = match;
             this.argsMatcher = argMatchers;
@@ -1305,7 +1305,7 @@ public abstract class DynamicMaker {
             if (matcher.abstractOnly() && !isAbstract) return false;
             if (matcher.anySameName()) return true;
 
-            java.lang.reflect.Parameter[] params = method.getParameters();
+            Parameter[] params = method.getParameters();
             if (argsMatcher.length != params.length) return false;
             for (int i = 0; i < params.length; i++) {
                 if (argsMatcher[i] instanceof FuzzyMatch.AnyType a) {

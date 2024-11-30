@@ -85,7 +85,7 @@ public interface DynamicObject<S> {
      * Anonymous function representation for obtaining the function of an object.
      * <p>The generator implementation should implement this method to call the {@link DataPool#select(String, FunctionType)} method of the data pool and return a value.
      * @param name Function name
-     * @param type Parameter types of functions
+     * @param type Parameterf types of functions
      * @return Anonymous representation of specified function
      */
     IFunctionEntry getFunc(String name, FunctionType type);

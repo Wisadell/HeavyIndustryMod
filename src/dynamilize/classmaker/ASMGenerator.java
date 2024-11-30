@@ -194,8 +194,8 @@ public class ASMGenerator extends AbstractClassGenerator implements Opcodes {
             methodVisitor.visitMaxs(0, 0);//Automatic calculation mode has been set, parameters are meaningless.
         }
 
-        for (Parameter<?> parameter: method.parameters()) {
-            visitAnnotation(parameter);
+        for (Parameterf<?> parameterf : method.parameters()) {
+            visitAnnotation(parameterf);
         }
 
         //Initialize static variable default values when processing clinit blocks.
@@ -894,8 +894,8 @@ public class ASMGenerator extends AbstractClassGenerator implements Opcodes {
                     annoType.realName(), ret
             ) : element.isType(ElementType.METHOD) || element.isType(ElementType.CONSTRUCTOR) ? methodVisitor.visitAnnotation(
                     annoType.realName(), ret
-            ) : element.isType(ElementType.PARAMETER) && element instanceof Parameter<?> ? methodVisitor.visitParameterAnnotation(
-                    localIndex.get(((Parameter<?>)element).name()),
+            ) : element.isType(ElementType.PARAMETER) && element instanceof Parameterf<?> ? methodVisitor.visitParameterAnnotation(
+                    localIndex.get(((Parameterf<?>)element).name()),
                     annoType.realName(),
                     ret
             ) : null;

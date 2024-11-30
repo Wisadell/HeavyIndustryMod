@@ -84,7 +84,7 @@ public class ArgumentList {
     /**
      * Retrieve the actual parameter value at the given index, infer the type based on the reference, and throw a type conversion exception if the type is unavailable.
      * @param index The index position of the parameter in the list.
-     * @param <T> Parameter types can usually be inferred based on references.
+     * @param <T> Parameterf types can usually be inferred based on references.
      * @return The value of the actual parameter.
      * @throws ClassCastException If the recipient's required type and parameter type are not assignable.
      */

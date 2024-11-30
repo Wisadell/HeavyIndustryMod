@@ -55,7 +55,7 @@ import java.util.*;
  *     Modifier.PUBLIC | Modifier.STATIC,
  *     "main",
  *     ClassInfo.VOID_TYPE,
- *     Parameter.trans(ClassInfo.STRING_TYPE.asArray())
+ *     Parameterf.trans(ClassInfo.STRING_TYPE.asArray())
  * );
  * ILocal<Long> time = code.local(ClassInfo.LONG_TYPE);
  * code.invokeStatic(nanoTime, time);
@@ -456,7 +456,7 @@ public class ClassInfo<T> extends AnnotatedMember implements IClass<T> {
 
             MethodInfo<T, R> method;
             if (met == null) {
-                method = new MethodInfo<>(this, Modifier.PUBLIC, name, returnType, EMP_ARR, Parameter.trans(args));
+                method = new MethodInfo<>(this, Modifier.PUBLIC, name, returnType, EMP_ARR, Parameterf.trans(args));
             } else {
                 Class<?>[] lis = met.getExceptionTypes();
                 IClass<? extends Throwable>[] thrs = new IClass[lis.length];
@@ -465,7 +465,7 @@ public class ClassInfo<T> extends AnnotatedMember implements IClass<T> {
                     thrs[i] = (IClass<? extends Throwable>) ClassInfo.asType(lis[i]);
                 }
 
-                method = new MethodInfo<>(this, met.getModifiers(), name, returnType, thrs, Parameter.asParameter(met.getParameters()));
+                method = new MethodInfo<>(this, met.getModifiers(), name, returnType, thrs, Parameterf.asParameter(met.getParameters()));
                 method.initAnnotations();
             }
 
@@ -500,7 +500,7 @@ public class ClassInfo<T> extends AnnotatedMember implements IClass<T> {
 
             MethodInfo<?, ?> res;
             if (cstr == null) {
-                res = new MethodInfo<>(this, Modifier.PUBLIC, INIT, VOID_TYPE, EMP_ARR, Parameter.trans(args));
+                res = new MethodInfo<>(this, Modifier.PUBLIC, INIT, VOID_TYPE, EMP_ARR, Parameterf.trans(args));
             } else {
                 Class<?>[] lis = cstr.getExceptionTypes();
                 IClass<? extends Throwable>[] thrs = new IClass[lis.length];
@@ -509,7 +509,7 @@ public class ClassInfo<T> extends AnnotatedMember implements IClass<T> {
                     thrs[i] = (IClass<? extends Throwable>) ClassInfo.asType(lis[i]);
                 }
 
-                res = new MethodInfo<>(this, cstr.getModifiers(), INIT, VOID_TYPE, thrs, Parameter.asParameter(cstr.getParameters()));
+                res = new MethodInfo<>(this, cstr.getModifiers(), INIT, VOID_TYPE, thrs, Parameterf.asParameter(cstr.getParameters()));
                 res.initAnnotations();
             }
 
@@ -600,24 +600,24 @@ public class ClassInfo<T> extends AnnotatedMember implements IClass<T> {
     /**
      * Declare a constructor and return the constructor body declaration object.
      * @param modifiers The modifier flags of this constructor cannot be static.
-     * @param parameters Parameter type identification of constructor.
+     * @param parameterfs Parameterf type identification of constructor.
      * @return Declaration object of constructor method body.
      * @throws IllegalArgumentException If modifiers contain static or are illegal.
      * @throws IllegalHandleException If this type declaration has already been generated as a class or type identifier.
      */
-    public CodeBlock<Void> declareConstructor(int modifiers, Parameter<?>... parameters) {
+    public CodeBlock<Void> declareConstructor(int modifiers, Parameterf<?>... parameterfs) {
         if (Modifier.isStatic(modifiers))
             throw new IllegalArgumentException("constructor cannot be static");
 
-        return declareMethod(modifiers, INIT, VOID_TYPE, parameters);
+        return declareMethod(modifiers, INIT, VOID_TYPE, parameterfs);
     }
 
     /**
      * Declare a method and return the declared object of the method block.
-     * @see ClassInfo#declareMethod(int, String, ClassInfo, ClassInfo[], Parameter[]).
+     * @see ClassInfo#declareMethod(int, String, ClassInfo, ClassInfo[], Parameterf[]).
      */
-    public <R> CodeBlock<R> declareMethod(int modifiers, String name, ClassInfo<R> returnType, Parameter<?>... parameters) {
-        return declareMethod(modifiers, name, returnType, new ClassInfo[0], parameters);
+    public <R> CodeBlock<R> declareMethod(int modifiers, String name, ClassInfo<R> returnType, Parameterf<?>... parameterfs) {
+        return declareMethod(modifiers, name, returnType, new ClassInfo[0], parameterfs);
     }
 
     /**
@@ -625,12 +625,12 @@ public class ClassInfo<T> extends AnnotatedMember implements IClass<T> {
      * @param modifiers Method modifier flags identification.
      * @param name Name of Method.
      * @param returnType The return value type of the method.
-     * @param parameters Method parameter type list.
+     * @param parameterfs Method parameterf type list.
      * @param throwsList List of thrown exceptions for methods.
      * @throws IllegalArgumentException If modifiers are illegal.
      * @throws IllegalHandleException If this type declaration has already been generated as a class or type identifier.
      */
-    public <R> CodeBlock<R> declareMethod(int modifiers, String name, ClassInfo<R> returnType, ClassInfo<? extends Throwable>[] throwsList, Parameter<?>... parameters) {
+    public <R> CodeBlock<R> declareMethod(int modifiers, String name, ClassInfo<R> returnType, ClassInfo<? extends Throwable>[] throwsList, Parameterf<?>... parameterfs) {
         checkGen();
         checkModifiers(modifiers, METHOD_ACCESS_MODIFIERS);
 
@@ -638,8 +638,8 @@ public class ClassInfo<T> extends AnnotatedMember implements IClass<T> {
             throw new IllegalArgumentException("conflicted modifiers " + Modifier.toString(modifiers));
 
         MethodInfo<T, R> method = (MethodInfo<T, R>) methodMap.computeIfAbsent(
-                pack(name, Arrays.stream(parameters).map(Parameter::getType).toArray(IClass[]::new)),
-                e -> new MethodInfo<>(this, modifiers, name, returnType, throwsList, parameters));
+                pack(name, Arrays.stream(parameterfs).map(Parameterf::getType).toArray(IClass[]::new)),
+                e -> new MethodInfo<>(this, modifiers, name, returnType, throwsList, parameterfs));
         elements.add(method);
 
         return method.block();
