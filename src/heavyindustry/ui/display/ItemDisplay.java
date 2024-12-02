@@ -3,7 +3,7 @@ package heavyindustry.ui.display;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.type.*;
-import mindustry.ui.Styles;
+import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 /** An item image with text. */

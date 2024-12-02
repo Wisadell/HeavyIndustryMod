@@ -15,6 +15,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.ui.dialogs.*;
 import mindustry.core.*;
 import mindustry.ctype.*;
 import mindustry.gen.*;
@@ -23,7 +24,6 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 import mindustry.world.modules.*;
-import heavyindustry.ui.dialogs.*;
 
 import java.text.*;
 

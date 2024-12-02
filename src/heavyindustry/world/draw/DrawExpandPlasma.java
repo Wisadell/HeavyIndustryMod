@@ -4,10 +4,10 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import heavyindustry.util.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
-import heavyindustry.util.*;
 
 import static mindustry.Vars.*;
 

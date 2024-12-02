@@ -4,11 +4,11 @@ import arc.func.*;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.util.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
-import heavyindustry.util.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;

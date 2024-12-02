@@ -3,12 +3,12 @@ package heavyindustry.ui.dialogs;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.ui.elements.*;
+import heavyindustry.ui.elements.PowerInfoGroup.*;
 import mindustry.gen.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 import mindustry.world.blocks.power.*;
-import heavyindustry.ui.elements.*;
-import heavyindustry.ui.elements.PowerInfoGroup.*;
 
 import static arc.Core.*;
 import static heavyindustry.ui.TableUtils.*;

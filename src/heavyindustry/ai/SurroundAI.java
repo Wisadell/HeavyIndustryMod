@@ -1,8 +1,8 @@
 package heavyindustry.ai;
 
-import heavyindustry.math.*;
 import arc.math.*;
 import arc.math.geom.*;
+import heavyindustry.math.*;
 import mindustry.ai.types.*;
 
 import static mindustry.Vars.*;

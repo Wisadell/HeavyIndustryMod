@@ -1,8 +1,8 @@
 package heavyindustry.world.draw;
 
-import heavyindustry.graphics.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import heavyindustry.graphics.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
@@ -12,7 +12,7 @@ import static heavyindustry.util.Utils.*;
 
 /**
  * Display multi-layer textures in sequence according to the progress of the building.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class DrawSpecConstruct extends DrawBlock {
     /** Color of Item Surface Construction. */

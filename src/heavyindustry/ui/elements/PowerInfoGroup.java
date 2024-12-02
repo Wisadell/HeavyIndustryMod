@@ -4,11 +4,11 @@ import arc.graphics.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
+import heavyindustry.ui.dialogs.PowerGraphInfoDialog.*;
 import mindustry.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.consumers.*;
-import heavyindustry.ui.dialogs.PowerGraphInfoDialog.*;
 
 import static arc.Core.*;
 import static heavyindustry.ui.TableUtils.*;

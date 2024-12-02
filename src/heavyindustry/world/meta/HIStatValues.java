@@ -1,8 +1,5 @@
 package heavyindustry.world.meta;
 
-import heavyindustry.ui.display.*;
-import heavyindustry.util.*;
-import heavyindustry.world.blocks.production.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -12,6 +9,9 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.ui.display.*;
+import heavyindustry.util.*;
+import heavyindustry.world.blocks.production.*;
 import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.entities.bullet.*;

@@ -3,9 +3,9 @@ package heavyindustry.maps.planets;
 import arc.graphics.*;
 import arc.math.geom.*;
 import arc.struct.*;
+import heavyindustry.maps.*;
 import mindustry.maps.generators.*;
 import mindustry.type.*;
-import heavyindustry.maps.*;
 
 public class KeplerPlanetGenerator extends PlanetGenerator {
     public Seq<HeightPass> heights = new Seq<>();

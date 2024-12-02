@@ -2,12 +2,12 @@ package heavyindustry.world.consumers;
 
 import arc.func.*;
 import arc.scene.ui.layout.*;
+import heavyindustry.ui.display.*;
 import mindustry.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.consumers.*;
-import heavyindustry.ui.display.*;
 
 public class ConsumeShowStat extends Consume {
     public final Func<Building, ItemStack[]> items;
