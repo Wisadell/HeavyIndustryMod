@@ -4,10 +4,9 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
-import arc.math.Angles;
-import arc.math.Mathf;
-import arc.util.Tmp;
-import mindustry.graphics.Pal;
+import arc.math.*;
+import arc.util.*;
+import mindustry.graphics.*;
 
 /** Extended Draw */
 public final class Drawe {

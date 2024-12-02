@@ -8,15 +8,15 @@ import mindustry.game.Objectives.*;
 import mindustry.type.*;
 
 import static heavyindustry.content.HIBlocks.*;
-import static heavyindustry.content.HIUnitTypes.*;
 import static heavyindustry.content.HISectorPresets.*;
+import static heavyindustry.content.HIUnitTypes.*;
 import static mindustry.content.Blocks.*;
-import static mindustry.content.UnitTypes.*;
 import static mindustry.content.SectorPresets.*;
+import static mindustry.content.UnitTypes.*;
 
 /**
  * Sets up content {@link TechNode tech tree nodes}. Loaded after every other content is instantiated.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HITechTree {
     public static TechNode context = null;

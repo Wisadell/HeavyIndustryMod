@@ -1,7 +1,5 @@
 package heavyindustry.entities.abilities;
 
-import heavyindustry.content.*;
-import heavyindustry.entities.bullet.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -9,6 +7,8 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import heavyindustry.content.*;
+import heavyindustry.entities.bullet.*;
 import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.entities.*;

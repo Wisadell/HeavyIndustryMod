@@ -6,16 +6,16 @@ import arc.graphics.g3d.*;
 import arc.graphics.gl.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.type.*;
 import mindustry.*;
 import mindustry.type.*;
-import heavyindustry.type.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
 /**
  * Defines the {@linkplain Shader shader}s this mod offers.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HIShaders {
     public static DepthShader depth;

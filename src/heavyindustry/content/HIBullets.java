@@ -1,17 +1,17 @@
 package heavyindustry.content;
 
-import heavyindustry.entities.*;
-import heavyindustry.entities.bullet.*;
-import heavyindustry.entities.effect.*;
-import heavyindustry.gen.*;
-import heavyindustry.graphics.*;
-import heavyindustry.math.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.entities.*;
+import heavyindustry.entities.bullet.*;
+import heavyindustry.entities.effect.*;
+import heavyindustry.gen.*;
+import heavyindustry.graphics.*;
+import heavyindustry.math.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
@@ -20,12 +20,12 @@ import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 
-import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static mindustry.Vars.*;
 
 /**
  * Some preset bullets. Perhaps it will be used multiple times.
- * @author Wisadell
+ * @author E-Nightingale
  */
 @SuppressWarnings("unchecked")
 public final class HIBullets {

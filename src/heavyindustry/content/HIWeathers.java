@@ -1,10 +1,10 @@
 package heavyindustry.content;
 
-import heavyindustry.gen.*;
-import heavyindustry.type.weather.*;
-import heavyindustry.entities.bullet.*;
 import arc.graphics.*;
 import arc.util.*;
+import heavyindustry.entities.bullet.*;
+import heavyindustry.gen.*;
+import heavyindustry.type.weather.*;
 import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -16,7 +16,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
 
 /**
  * Defines the {@linkplain Weather weather} this mod offers.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HIWeathers {
     public static Weather wind,blizzard,hailStone,stoneStorm;

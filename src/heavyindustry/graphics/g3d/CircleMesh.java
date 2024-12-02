@@ -4,12 +4,12 @@ import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
-import arc.math.Mathf;
+import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.graphics.*;
 import mindustry.graphics.g3d.*;
 import mindustry.type.*;
-import heavyindustry.graphics.*;
 
 public class CircleMesh extends PlanetMesh {
     public final Mesh mesh;

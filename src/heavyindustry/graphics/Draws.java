@@ -8,10 +8,10 @@ import arc.graphics.gl.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
-import mindustry.game.EventType.*;
-import mindustry.graphics.*;
 import heavyindustry.func.*;
 import heavyindustry.graphics.HIShaders.*;
+import mindustry.game.EventType.*;
+import mindustry.graphics.*;
 
 import java.util.*;
 

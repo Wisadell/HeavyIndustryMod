@@ -2,10 +2,10 @@ package heavyindustry.entities.bullet;
 
 import arc.graphics.*;
 import arc.math.*;
+import heavyindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
-import heavyindustry.content.*;
 
 import static mindustry.Vars.*;
 

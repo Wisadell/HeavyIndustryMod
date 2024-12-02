@@ -1,13 +1,5 @@
 package heavyindustry.core;
 
-import heavyindustry.content.*;
-import heavyindustry.game.*;
-import heavyindustry.gen.*;
-import heavyindustry.graphics.*;
-import heavyindustry.graphics.Draws.*;
-import heavyindustry.ui.*;
-import heavyindustry.ui.dialogs.*;
-import heavyindustry.util.*;
 import arc.*;
 import arc.flabel.*;
 import arc.graphics.*;
@@ -19,6 +11,15 @@ import arc.scene.event.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import heavyindustry.content.*;
+import heavyindustry.files.*;
+import heavyindustry.game.*;
+import heavyindustry.gen.*;
+import heavyindustry.graphics.Draws.*;
+import heavyindustry.graphics.*;
+import heavyindustry.ui.*;
+import heavyindustry.ui.dialogs.*;
+import heavyindustry.util.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
@@ -34,7 +35,7 @@ import static mindustry.Vars.*;
 
 /**
  * Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HeavyIndustryMod extends Mod {
     /** Commonly used static read-only String. do not change unless you know what you're doing. */
@@ -47,10 +48,10 @@ public final class HeavyIndustryMod extends Mod {
 
     public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode"), developer = settings.getBool("hi-developer-mode");
 
-    private static final String linkGitHub = "https://github.com/Wisadell/HeavyIndustryMod", author = "Wisadell";
-    public static String massageRand = "oh no";
+    private static final String linkGitHub = "https://github.com/E-Nightingale/HeavyIndustryMod", author = "E-Nightingale";
 
-    public static LoadedMod modInfo;
+    /** jar internal navigation. **/
+    public static InternalFileTree internalTree = new InternalFileTree(HeavyIndustryMod.class);
 
     public HeavyIndustryMod() {
         Log.info("Loaded HeavyIndustry Mod constructor.");
@@ -65,8 +66,6 @@ public final class HeavyIndustryMod extends Mod {
             showDialog();
             showMultipleMods();
         });
-
-        app.post(() -> modInfo = mods.getMod(HeavyIndustryMod.class));
 
         Events.on(FileTreeInitEvent.class, e -> {
             HISounds.load();
@@ -122,15 +121,9 @@ public final class HeavyIndustryMod extends Mod {
         settings.defaults("hi-tesla-range", true);
         settings.defaults("hi-plug-in-mode", false);
 
-        modInfo.meta.hidden = onlyPlugIn;
-        if (onlyPlugIn) {
-            modInfo.meta.displayName = modInfo.meta.displayName + "PlugIn";
-            modInfo.meta.version = modInfo.meta.version + "-plug-in";
-        } else {
-            if (mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
-                HIOverride.loadAprilFoolsDay();
-                if (ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
-            }
+        if (!onlyPlugIn && mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
+            HIOverride.loadAprilFoolsDay();
+            if (ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
         }
 
         if (ui != null && ui.settings != null) {
@@ -269,9 +262,7 @@ public final class HeavyIndustryMod extends Mod {
 
         int length = massageSplit.length;
 
-        massageRand = massageSplit[Mathf.random(length - 1)];
-
-        modInfo.meta.displayName = bundle.get("hi-name");
+        String massageRand = massageSplit[Mathf.random(length - 1)];
 
         if (ui == null || mods.getMod("extra-utilities") != null) return;
 

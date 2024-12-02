@@ -1,8 +1,8 @@
 package heavyindustry.entities.abilities;
 
-import arc.scene.ui.layout.Table;
-import heavyindustry.content.*;
+import arc.scene.ui.layout.*;
 import arc.util.*;
+import heavyindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
 import mindustry.gen.*;

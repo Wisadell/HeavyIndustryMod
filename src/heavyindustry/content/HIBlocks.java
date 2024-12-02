@@ -1,25 +1,5 @@
 package heavyindustry.content;
 
-import heavyindustry.entities.*;
-import heavyindustry.entities.bullet.*;
-import heavyindustry.gen.*;
-import heavyindustry.graphics.*;
-import heavyindustry.util.*;
-import heavyindustry.world.blocks.environment.*;
-import heavyindustry.world.blocks.defense.*;
-import heavyindustry.world.blocks.defense.turrets.*;
-import heavyindustry.world.blocks.distribution.*;
-import heavyindustry.world.blocks.payload.*;
-import heavyindustry.world.blocks.power.*;
-import heavyindustry.world.blocks.production.*;
-import heavyindustry.world.blocks.liquid.*;
-import heavyindustry.world.blocks.heat.*;
-import heavyindustry.world.blocks.storage.*;
-import heavyindustry.world.blocks.sandbox.*;
-import heavyindustry.world.blocks.units.*;
-import heavyindustry.world.blocks.logic.*;
-import heavyindustry.world.draw.*;
-import heavyindustry.world.meta.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -29,6 +9,26 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.entities.*;
+import heavyindustry.entities.bullet.*;
+import heavyindustry.gen.*;
+import heavyindustry.graphics.*;
+import heavyindustry.util.*;
+import heavyindustry.world.blocks.defense.*;
+import heavyindustry.world.blocks.defense.turrets.*;
+import heavyindustry.world.blocks.distribution.*;
+import heavyindustry.world.blocks.environment.*;
+import heavyindustry.world.blocks.heat.*;
+import heavyindustry.world.blocks.liquid.*;
+import heavyindustry.world.blocks.logic.*;
+import heavyindustry.world.blocks.payload.*;
+import heavyindustry.world.blocks.power.*;
+import heavyindustry.world.blocks.production.*;
+import heavyindustry.world.blocks.sandbox.*;
+import heavyindustry.world.blocks.storage.*;
+import heavyindustry.world.blocks.units.*;
+import heavyindustry.world.draw.*;
+import heavyindustry.world.meta.*;
 import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.entities.*;
@@ -41,7 +41,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.net.*;
 import mindustry.type.*;
-import mindustry.ui.Styles;
+import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
@@ -59,14 +59,14 @@ import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
 /**
  * Defines the {@linkplain Block blocks} this mod offers.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HIBlocks {
     public static Block
@@ -2138,7 +2138,7 @@ public final class HIBlocks {
             squareSprite = false;
         }};
         chromiumFuser = new GenericCrafter("chromium-fuser") {{
-            requirements(Category.crafting, with(Items.silicon, 120, Items.graphite, 60, Items.tungsten, 100, Items.oxide, 40, Items.surgeAlloy, 60));
+            requirements(Category.crafting, with(Items.silicon, 150, Items.graphite, 120, Items.tungsten, 200, Items.oxide, 180, Items.phaseFabric, 100));
             size = 3;
             itemCapacity = 20;
             craftTime = 35f;
@@ -2148,7 +2148,7 @@ public final class HIBlocks {
             outputItem = new ItemStack(HIItems.chromium, 1);
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.hydrogen, 3f), new DrawDefault(), new DrawHeatInput());
             consumeItem(Items.tungsten, 1);
-            consumeLiquids(LiquidStack.with(Liquids.slag, 80f / 60f, Liquids.hydrogen, 12f / 60f));
+            consumeLiquid(Liquids.hydrogen, 12f / 60f);
             consumePower(12f);
             squareSprite = false;
         }
@@ -2181,20 +2181,6 @@ public final class HIBlocks {
                     }
                     heatf = Mathf.approachDelta(heatf, 0f, 0.05f);
                     warmupf = Mathf.approachDelta(warmupf, efficiency(), 0.04f);
-                }
-
-                @Override
-                public void craft() {
-                    super.craft();
-                    int n = Mathf.random(0, 3) + 5;
-                    for (int i = 0; i < n; i++) {
-                        Tmp.v1.trns(Mathf.random(360f), size * tilesize / 1.414f).clamp(-size * tilesize /2f, -size * tilesize / 2f, size * tilesize /2f, size * tilesize / 2f);
-                        Tmp.v2.set(Tmp.v1).scl((size * tilesize / 2f + 4f) / (size * tilesize / 2f));
-                        Tile t = world.tileWorld(Tmp.v2.x + x, Tmp.v2.y + y);
-                        if (t == null || !t.solid()) {
-                            HIFx.smolSquare.at(Tmp.v1.x + x, Tmp.v1.y + y, Mathf.chance(0.33f) ? color1 : (Mathf.chance(0.5f) ? color2 : new Color()));
-                        }
-                    }
                 }
 
                 @Override

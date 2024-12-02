@@ -1,11 +1,11 @@
 package heavyindustry.graphics.g2d;
 
-import arc.Events;
-import arc.func.Cons2;
+import arc.*;
+import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
-import arc.struct.Seq;
+import arc.struct.*;
 import mindustry.game.EventType.*;
 
 public class ShaderTextureRegion extends TextureRegion {

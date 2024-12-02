@@ -6,13 +6,13 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.content.*;
+import heavyindustry.entities.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import heavyindustry.content.*;
-import heavyindustry.entities.*;
 
 public class LightningLinkerBulletType extends BasicBulletType {
     public float hitSpacing = 10f, size = 30f, linkRange = 240f, boltWidth = PosLightning.WIDTH;

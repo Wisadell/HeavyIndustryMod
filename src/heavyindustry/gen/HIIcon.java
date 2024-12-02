@@ -3,8 +3,8 @@ package heavyindustry.gen;
 import arc.scene.style.*;
 
 import static arc.Core.*;
-import static mindustry.gen.Icon.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static mindustry.gen.Icon.*;
 
 public final class HIIcon {
     public static TextureRegionDrawable

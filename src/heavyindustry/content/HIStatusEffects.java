@@ -1,10 +1,10 @@
 package heavyindustry.content;
 
-import heavyindustry.util.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import heavyindustry.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
@@ -15,7 +15,7 @@ import static mindustry.content.StatusEffects.*;
 
 /**
  * Sets up content {@link StatusEffect status effects}. Loaded after every other content is instantiated.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HIStatusEffects {
     public static StatusEffect

@@ -1,8 +1,8 @@
 package heavyindustry.entities.bullet;
 
-import heavyindustry.world.blocks.liquid.LiquidMassDriver.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import heavyindustry.world.blocks.liquid.LiquidMassDriver.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;

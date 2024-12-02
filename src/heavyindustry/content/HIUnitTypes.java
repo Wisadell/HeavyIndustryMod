@@ -1,14 +1,5 @@
 package heavyindustry.content;
 
-import heavyindustry.ai.*;
-import heavyindustry.gen.*;
-import heavyindustry.graphics.*;
-import heavyindustry.entities.abilities.*;
-import heavyindustry.entities.effect.*;
-import heavyindustry.entities.bullet.*;
-import heavyindustry.entities.part.*;
-import heavyindustry.type.weapons.*;
-import heavyindustry.ui.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -16,6 +7,15 @@ import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.ai.*;
+import heavyindustry.entities.abilities.*;
+import heavyindustry.entities.bullet.*;
+import heavyindustry.entities.effect.*;
+import heavyindustry.entities.part.*;
+import heavyindustry.gen.*;
+import heavyindustry.graphics.*;
+import heavyindustry.type.weapons.*;
+import heavyindustry.ui.*;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -34,14 +34,14 @@ import mindustry.type.unit.*;
 import mindustry.type.weapons.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 import static mindustry.gen.EntityMapping.*;
 
 /**
  * Defines the {@linkplain UnitType units} this mod offers.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HIUnitTypes {
     //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...

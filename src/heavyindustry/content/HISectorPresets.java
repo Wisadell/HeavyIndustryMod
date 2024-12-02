@@ -6,7 +6,7 @@ import static mindustry.content.Planets.*;
 
 /**
  * Defines the {@linkplain SectorPreset maps} this mod offers.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HISectorPresets {
     public static SectorPreset

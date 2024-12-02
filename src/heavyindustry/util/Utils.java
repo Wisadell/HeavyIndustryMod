@@ -27,12 +27,12 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static mindustry.Vars.*;
 
 /**
  * Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to require me to write a class for it.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class Utils {
     /** Utils should not be instantiated. */

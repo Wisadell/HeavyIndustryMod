@@ -1,11 +1,11 @@
 package heavyindustry.entities.part;
 
-import heavyindustry.util.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import heavyindustry.util.*;
 import mindustry.content.*;
 import mindustry.entities.part.*;
 import mindustry.graphics.*;

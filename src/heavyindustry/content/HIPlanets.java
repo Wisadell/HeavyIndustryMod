@@ -1,23 +1,23 @@
 package heavyindustry.content;
 
-import heavyindustry.graphics.g3d.*;
-import heavyindustry.maps.ColorPass.*;
-import heavyindustry.maps.HeightPass;
-import heavyindustry.maps.HeightPass.*;
-import heavyindustry.maps.planets.*;
-import heavyindustry.type.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.graphics.g3d.*;
+import heavyindustry.maps.ColorPass.*;
+import heavyindustry.maps.*;
+import heavyindustry.maps.HeightPass.*;
+import heavyindustry.maps.planets.*;
+import heavyindustry.type.*;
 import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.graphics.g3d.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.content.Planets.*;
 
 /** Defines the {@linkplain Planet planets} and other celestial objects this mod offers. */

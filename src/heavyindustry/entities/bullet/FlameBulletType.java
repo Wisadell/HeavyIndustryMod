@@ -1,8 +1,8 @@
 package heavyindustry.entities.bullet;
 
-import heavyindustry.content.*;
 import arc.graphics.*;
 import arc.math.*;
+import heavyindustry.content.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;

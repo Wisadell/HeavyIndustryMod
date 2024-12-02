@@ -11,11 +11,11 @@ public interface DrillModulec extends Buildingc {
 
     void drillBuild(DrillFc drillBuild);
 
-    void smoothWarmup(float smoothWarmup);
+    void smoothWarmup(float value);
 
-    void targetWarmup(float targetWarmup);
+    void targetWarmup(float value);
 
-    void apply(DrillFc tile);
+    void apply(DrillFc value);
 
-    boolean canApply(DrillFc tile);
+    boolean canApply(DrillFc value);
 }

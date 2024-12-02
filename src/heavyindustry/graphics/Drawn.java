@@ -10,15 +10,14 @@ import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import arc.util.pooling.*;
+import heavyindustry.content.*;
+import heavyindustry.math.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
-import heavyindustry.content.*;
-import heavyindustry.math.*;
-import mindustry.world.*;
 
-import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static mindustry.Vars.*;
 
 public final class Drawn {
     static final Vec2
@@ -414,7 +413,7 @@ public final class Drawn {
                 HIShaders.alphaShader.alpha = alpha;
                 buffer.blit(HIShaders.alphaShader);
             });
-        }else{
+        } else {
             drawSpinSprite(regions, x, y, w, h, r);
         }
     }

@@ -1,5 +1,11 @@
 package heavyindustry.content;
 
+import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
+import arc.struct.*;
+import arc.util.*;
 import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.HailStoneBulletType.*;
 import heavyindustry.entities.effect.*;
@@ -8,12 +14,6 @@ import heavyindustry.graphics.Draws.*;
 import heavyindustry.math.*;
 import heavyindustry.struct.*;
 import heavyindustry.util.*;
-import arc.graphics.*;
-import arc.graphics.g2d.*;
-import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
-import arc.util.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.effect.*;
@@ -24,13 +24,13 @@ import mindustry.world.*;
 
 import java.util.*;
 
-import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
 /**
  * Defines the {@linkplain Effect visual effects} this mod offers.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HIFx {
     public static final float EFFECT_MASK = Layer.effect + 0.0001f;
@@ -773,10 +773,6 @@ public final class HIFx {
                 Angles.randLenVectors(e.id, 2, 32 * e.fin(), 0, 360,(x, y) -> {
                     Lines.poly(e.x + x, e.y + y, 6, 2 * e.fout() + 2);
                 });
-            }),
-            smolSquare = new Effect(25f, e -> {
-                Draw.color(e.color);
-                Fill.square(e.x, e.y, e.fout() * 1.3f + 0.01f, 45f);
             }),
             missileShoot = new Effect(130f, 300f, e -> {
                 Draw.color(e.color);

@@ -5,15 +5,15 @@ import arc.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
+import heavyindustry.content.*;
+import heavyindustry.entities.bullet.*;
+import heavyindustry.struct.*;
 import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import heavyindustry.content.*;
-import heavyindustry.struct.*;
-import heavyindustry.entities.bullet.*;
 
 import static mindustry.Vars.*;
 

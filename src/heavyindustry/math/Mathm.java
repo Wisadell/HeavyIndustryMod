@@ -172,7 +172,7 @@ public final class Mathm {
     /**
      * Calculate vector coordinates using Fourier series in polar coordinate form.
      * @param time Parameters (or interpolation) passed in for Fourier series.
-     * @param params Parameter group, determine a sin function for every three data points, parameter format:{@code {Angular velocity, initial phase, extremum,...}}
+     * @param params Parameterf group, determine a sin function for every three data points, parameter format:{@code {Angular velocity, initial phase, extremum,...}}
      * @return The vector calculated by the specified Fourier series under given interpolation is in the form of an orthogonal coordinate system.
      */
     public static Vec2 fourierSeries(float time, float... params) {
@@ -192,7 +192,7 @@ public final class Mathm {
      * Use Fourier series in polar coordinate form to calculate vector coordinates, and call back the calculation result through a function.
      * @param transRecall The callback function for calculating the result.
      * @param time Parameters (or interpolation) passed in for Fourier series.
-     * @param params Parameter group, determine a sin function for every three data points, parameter format:{@code {Angular velocity, initial phase, extremum, ...}}
+     * @param params Parameterf group, determine a sin function for every three data points, parameter format:{@code {Angular velocity, initial phase, extremum, ...}}
      */
     public static void fourierSeries(Floatc2 transRecall, float time, float... params) {
         Vec2 v = fourierSeries(time, params);

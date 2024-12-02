@@ -1,12 +1,12 @@
 package heavyindustry.entities.bullet;
 
-import heavyindustry.graphics.*;
-import heavyindustry.util.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import heavyindustry.graphics.*;
+import heavyindustry.util.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;

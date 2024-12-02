@@ -25,23 +25,23 @@ public interface DrillFc extends Buildingc {
 
     Seq<DrillModulec> modules();
 
-    void maxBoost(float maxBoost);
+    void maxBoost(float value);
 
-    void dominantItems(int dominantItems);
+    void dominantItems(int value);
 
-    void dominantItem(Item dominantItem);
+    void dominantItem(Item value);
 
-    void convertItem(Item convertItem);
+    void convertItem(Item value);
 
-    void coreSend(boolean coreSend);
+    void coreSend(boolean value);
 
-    void boostMul(float boostMul);
+    void boostMul(float value);
 
-    void boostFinalMul(float boostFinalMul);
+    void boostFinalMul(float value);
 
-    void powerConsMul(float powerConsMul);
+    void powerConsMul(float value);
 
-    void powerConsExtra(float powerConsExtra);
+    void powerConsExtra(float value);
 
-    void modules(Seq<DrillModulec> modules);
+    void modules(Seq<DrillModulec> value);
 }

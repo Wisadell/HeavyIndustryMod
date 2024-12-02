@@ -5,7 +5,7 @@ import mindustry.type.*;
 
 /**
  * Defines the {@linkplain Item item} this mod offers.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HIItems {
     public static Item

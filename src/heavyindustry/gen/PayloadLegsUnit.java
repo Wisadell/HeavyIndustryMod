@@ -17,10 +17,6 @@ import mindustry.world.*;
 import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.power.*;
 
-/**
- * The damn annotation processor made me have to manually assemble Comp.
- * @author Wisadell
- */
 public class PayloadLegsUnit extends LegsUnit implements Payloadc {
     protected Seq<Payload> payloads = new Seq<>();
 

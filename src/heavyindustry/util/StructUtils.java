@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * Struct utilities, providing some stateless iterative utilities such as reduce.
- * @author Wisadell
+ * @author E-Nightingale
  */
 @SuppressWarnings("unchecked")
 public final class StructUtils {

@@ -1,7 +1,7 @@
 package heavyindustry.graphics;
 
-import heavyindustry.content.*;
 import arc.graphics.*;
+import heavyindustry.content.*;
 import mindustry.content.*;
 import mindustry.graphics.*;
 

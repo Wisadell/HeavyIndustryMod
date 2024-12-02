@@ -89,7 +89,7 @@ public final class DirEdges {
         tile = tile.build.tile;
         Point2[] arr = angles ? get8(tile.block().size, direction) : get(tile.block().size, direction);
 
-        for (Point2 p: arr) {
+        for (Point2 p : arr) {
             posCons.get(tile.x + p.x, tile.y + p.y);
         }
     }

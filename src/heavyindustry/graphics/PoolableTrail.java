@@ -1,7 +1,7 @@
 package heavyindustry.graphics;
 
-import arc.util.pooling.*;
 import arc.util.pooling.Pool.*;
+import arc.util.pooling.*;
 import mindustry.graphics.*;
 
 public class PoolableTrail extends Trail implements Poolable {

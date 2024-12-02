@@ -5,6 +5,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.pooling.*;
+import heavyindustry.content.*;
 import mindustry.core.*;
 import mindustry.entities.*;
 import mindustry.game.*;
@@ -12,11 +13,10 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
-import heavyindustry.content.*;
 
-import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 public class UltFire extends Fire {
     public static TextureRegion[] ultRegion;

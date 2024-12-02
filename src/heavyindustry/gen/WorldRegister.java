@@ -2,9 +2,9 @@ package heavyindustry.gen;
 
 import arc.*;
 import arc.struct.*;
+import heavyindustry.world.blocks.defense.CommandableBlock.*;
 import mindustry.core.*;
 import mindustry.game.EventType.*;
-import heavyindustry.world.blocks.defense.CommandableBlock.*;
 
 import static arc.Core.*;
 

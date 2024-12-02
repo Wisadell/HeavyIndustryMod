@@ -1,13 +1,13 @@
 package heavyindustry.content;
 
-import heavyindustry.entities.bullet.*;
-import heavyindustry.graphics.*;
-import heavyindustry.world.meta.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.entities.bullet.*;
+import heavyindustry.graphics.*;
+import heavyindustry.world.meta.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
@@ -15,7 +15,7 @@ import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.world.Block;
+import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.distribution.*;
@@ -26,14 +26,14 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.util.Reflects.*;
 import static arc.Core.*;
+import static heavyindustry.util.Reflects.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
 /**
  * Covering the original content.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HIOverride {
     /** HIOverride should not be instantiated. */

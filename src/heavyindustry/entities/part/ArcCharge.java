@@ -6,13 +6,13 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.graphics.*;
 import mindustry.entities.part.*;
 import mindustry.graphics.*;
-import heavyindustry.graphics.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static mindustry.Vars.*;
 
 public class ArcCharge extends DrawPart {
     public TextureRegion arrowRegion, pointerRegion;

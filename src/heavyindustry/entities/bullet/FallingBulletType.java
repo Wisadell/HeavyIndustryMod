@@ -5,12 +5,12 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.math.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import heavyindustry.math.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;

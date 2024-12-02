@@ -2,12 +2,12 @@ package heavyindustry.entities.bullet;
 
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.entities.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
-import mindustry.graphics.*;
 import mindustry.gen.*;
-import heavyindustry.entities.*;
+import mindustry.graphics.*;
 
 public class MagmaBulletType extends BulletType {
     public float radius, shake;

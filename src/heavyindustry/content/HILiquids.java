@@ -8,7 +8,7 @@ import mindustry.type.*;
 
 /**
  * Defines the {@linkplain Liquid liquid} this mod offers.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public final class HILiquids {
     public static Liquid

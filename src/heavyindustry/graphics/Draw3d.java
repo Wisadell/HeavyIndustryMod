@@ -1,10 +1,8 @@
 package heavyindustry.graphics;
 
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.TextureRegion;
-import arc.math.Mathf;
-import arc.math.geom.Mat3D;
-import arc.math.geom.Vec3;
+import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.math.geom.*;
 
 /**
  * Draws 2d region with applying {@link Mat3D}

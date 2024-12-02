@@ -1,8 +1,5 @@
 package heavyindustry.entities.abilities;
 
-import static mindustry.Vars.state;
-
-import heavyindustry.world.meta.*;
 import arc.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -10,6 +7,7 @@ import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.world.meta.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
@@ -17,6 +15,8 @@ import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
+
+import static mindustry.Vars.*;
 
 public class JavelinAbility extends Ability {
     public String suffix = "-overlay";
