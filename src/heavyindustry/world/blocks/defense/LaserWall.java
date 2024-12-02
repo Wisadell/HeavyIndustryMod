@@ -7,6 +7,9 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.entities.*;
+import heavyindustry.gen.*;
+import heavyindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
@@ -17,9 +20,6 @@ import mindustry.graphics.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
-import heavyindustry.entities.*;
-import heavyindustry.gen.*;
-import heavyindustry.graphics.*;
 
 import static mindustry.Vars.*;
 

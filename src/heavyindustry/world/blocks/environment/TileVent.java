@@ -9,14 +9,14 @@ import mindustry.entities.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
-import static mindustry.Vars.*;
 import static heavyindustry.util.StructUtils.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 /**
  * A {@link SteamVent} that can be of any size. Spans multiple tiles; only the middle tile (or in case of {@code size % 2 == 0},
  * the bottom-left middle) should update and draw the actual sprite.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class TileVent extends SteamVent {
     protected static Point2[][] offsets = new Point2[0][];

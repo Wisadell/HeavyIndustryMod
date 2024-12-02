@@ -1,8 +1,5 @@
 package heavyindustry.world.blocks.units;
 
-import heavyindustry.util.*;
-import heavyindustry.util.Utils.*;
-import heavyindustry.world.meta.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -11,6 +8,9 @@ import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import arc.util.pooling.*;
+import heavyindustry.util.*;
+import heavyindustry.util.Utils.*;
+import heavyindustry.world.meta.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;

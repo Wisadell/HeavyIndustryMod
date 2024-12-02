@@ -17,7 +17,7 @@ import static mindustry.Vars.*;
  * Are you still troubled by the 20 sprites of traditional conveyor belts?
  * <p>
  * This Type only sprites 3 textures to handle!
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class BeltConveyor extends Conveyor {
     public TextureRegion[][] conveyorAtlas, edgeAtlas;

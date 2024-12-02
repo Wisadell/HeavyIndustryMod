@@ -3,12 +3,12 @@ package heavyindustry.world.blocks.defense.turrets;
 import arc.graphics.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.content.*;
+import heavyindustry.entities.effect.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.blocks.defense.turrets.*;
-import heavyindustry.content.*;
-import heavyindustry.entities.effect.*;
 
 public class EruptorTurret extends PowerTurret {
     public final int beamTimer = timers++;

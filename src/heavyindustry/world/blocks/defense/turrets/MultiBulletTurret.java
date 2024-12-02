@@ -1,15 +1,14 @@
 package heavyindustry.world.blocks.defense.turrets;
 
-import heavyindustry.world.meta.*;
 import arc.*;
 import arc.math.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.struct.ObjectMap.*;
-import arc.struct.Seq;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.world.meta.*;
 import mindustry.*;
 import mindustry.content.*;
 import mindustry.entities.*;

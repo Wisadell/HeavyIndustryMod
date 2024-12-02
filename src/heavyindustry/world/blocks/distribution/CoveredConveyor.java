@@ -8,12 +8,12 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 /**
  * Compared to the original conveyor belt, there is an additional sprites on top of the item layer.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class CoveredConveyor extends BeltConveyor {
     public TextureRegion inputRegion, outputRegion;

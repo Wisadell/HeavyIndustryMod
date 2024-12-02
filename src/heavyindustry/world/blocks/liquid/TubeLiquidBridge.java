@@ -6,6 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.world.blocks.distribution.*;
 import mindustry.*;
 import mindustry.core.*;
 import mindustry.entities.units.*;
@@ -13,7 +14,6 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.liquid.*;
-import heavyindustry.world.blocks.distribution.*;
 
 import static mindustry.Vars.*;
 

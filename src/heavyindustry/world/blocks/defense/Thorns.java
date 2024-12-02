@@ -7,7 +7,7 @@ import mindustry.world.meta.*;
 
 /**
  * Causing damage to units walking on it.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class Thorns extends Block {
     public int timerDamage = timers++;

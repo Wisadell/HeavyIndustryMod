@@ -1,11 +1,11 @@
 package heavyindustry.world.blocks.production;
 
-import heavyindustry.gen.*;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
-import arc.graphics.g2d.*;
+import heavyindustry.gen.*;
 import mindustry.entities.units.*;
-import mindustry.game.Team;
+import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 

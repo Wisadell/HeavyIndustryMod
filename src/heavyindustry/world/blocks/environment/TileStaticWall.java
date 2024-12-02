@@ -6,7 +6,7 @@ import arc.math.geom.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 
-import static arc.Core.atlas;
+import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class TileStaticWall extends StaticWall {

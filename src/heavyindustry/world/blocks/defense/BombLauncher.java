@@ -7,13 +7,13 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.pooling.*;
+import heavyindustry.content.*;
+import heavyindustry.gen.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import heavyindustry.content.*;
-import heavyindustry.gen.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;

@@ -6,8 +6,8 @@ import mindustry.game.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.world.blocks.storage.*;
+import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.world.meta.*;
 import mindustry.world.modules.*;
 
@@ -16,7 +16,7 @@ import static mindustry.Vars.*;
 
 /**
  * Connect the core warehouse.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class CoreStorageBlock extends StorageBlock {
     protected CoreBuild tmpCoreBuild;

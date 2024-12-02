@@ -19,7 +19,7 @@ import static mindustry.Vars.*;
 
 /**
  * A wall with insulation properties that change with opening and closing.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class InsulationWall extends Wall {
     public final int timerToggle = timers++;

@@ -4,8 +4,8 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
-import mindustry.graphics.*;
 import heavyindustry.graphics.*;
+import mindustry.graphics.*;
 
 /**
  * A module that directly converts drill bit products into another item.

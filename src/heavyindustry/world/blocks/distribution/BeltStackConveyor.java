@@ -11,8 +11,8 @@ import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 
-import static mindustry.Vars.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 public class BeltStackConveyor extends StackConveyor {
     public TextureRegion[] fullRegion;

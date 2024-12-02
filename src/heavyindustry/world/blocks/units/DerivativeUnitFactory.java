@@ -1,12 +1,12 @@
 package heavyindustry.world.blocks.units;
 
-import heavyindustry.content.*;
 import arc.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.content.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.game.*;
@@ -17,8 +17,8 @@ import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.units.*;
 import mindustry.world.meta.*;
 
-import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
 public class DerivativeUnitFactory extends UnitFactory {

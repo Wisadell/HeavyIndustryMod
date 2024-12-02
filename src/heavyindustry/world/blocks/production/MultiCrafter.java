@@ -7,6 +7,8 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.ui.display.*;
+import heavyindustry.world.consumers.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -18,12 +20,10 @@ import mindustry.world.*;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
-import heavyindustry.ui.display.*;
-import heavyindustry.world.consumers.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.gen.HIIcon.*;
+import static mindustry.Vars.*;
 
 /**
  * A factory with multiple synthetic formulas.

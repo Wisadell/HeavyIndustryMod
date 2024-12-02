@@ -12,10 +12,10 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.distribution.*;
-import mindustry.world.draw.DrawBlock;
+import mindustry.world.draw.*;
 
-import static heavyindustry.core.HeavyIndustryMod.*;
 import static arc.Core.*;
+import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
 /**

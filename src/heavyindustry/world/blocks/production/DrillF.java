@@ -7,7 +7,12 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.content.*;
+import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
+import heavyindustry.math.*;
+import heavyindustry.world.consumers.*;
+import heavyindustry.world.meta.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -20,11 +25,6 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.meta.*;
-import heavyindustry.content.*;
-import heavyindustry.gen.*;
-import heavyindustry.math.*;
-import heavyindustry.world.consumers.*;
-import heavyindustry.world.meta.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
@@ -524,51 +524,53 @@ public abstract class DrillF extends Block {
         }
 
         @Override
-        public void maxBoost(float maxBoost) {}
-
-        @Override
-        public void dominantItems(int dominantItems) {
-            this.dominantItems = dominantItems;
+        public void maxBoost(float value) {
+            maxBoost = value;
         }
 
         @Override
-        public void dominantItem(Item dominantItem) {
-            this.dominantItem = dominantItem;
+        public void dominantItems(int value) {
+            dominantItems = value;
         }
 
         @Override
-        public void convertItem(Item convertItem) {
-            this.convertItem = convertItem;
+        public void dominantItem(Item value) {
+            dominantItem = value;
         }
 
         @Override
-        public void coreSend(boolean coreSend) {
-            this.coreSend = coreSend;
+        public void convertItem(Item value) {
+            convertItem = value;
         }
 
         @Override
-        public void boostMul(float boostMul) {
-            this.boostMul = boostMul;
+        public void coreSend(boolean value) {
+            coreSend = value;
         }
 
         @Override
-        public void boostFinalMul(float boostFinalMul) {
-            this.boostFinalMul = boostFinalMul;
+        public void boostMul(float value) {
+            boostMul = value;
         }
 
         @Override
-        public void powerConsMul(float powerConsMul) {
-            this.powerConsMul = powerConsMul;
+        public void boostFinalMul(float value) {
+            boostFinalMul = value;
         }
 
         @Override
-        public void powerConsExtra(float powerConsExtra) {
-            this.powerConsExtra = powerConsExtra;
+        public void powerConsMul(float value) {
+            powerConsMul = value;
         }
 
         @Override
-        public void modules(Seq<DrillModulec> modules) {
-            this.modules = modules;
+        public void powerConsExtra(float value) {
+            powerConsExtra = value;
+        }
+
+        @Override
+        public void modules(Seq<DrillModulec> value) {
+            modules = value;
         }
     }
 }

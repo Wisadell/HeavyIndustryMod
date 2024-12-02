@@ -1,10 +1,12 @@
 package heavyindustry.world.blocks.production;
 
 import arc.graphics.g2d.*;
-import arc.math.Mathf;
+import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.gen.*;
+import heavyindustry.world.meta.*;
 import mindustry.entities.units.*;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -13,12 +15,10 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
-import heavyindustry.gen.*;
-import heavyindustry.world.meta.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 /**
  * Basic drill bit expansion module.
@@ -145,7 +145,7 @@ public abstract class DrillModule extends Block {
         public boolean checkSameModule(DrillFc drill) {
             if (stackable) return true;
             for (DrillModulec module : drill.modules()) {
-                if (module.block() == this.block) return false;
+                if (module.block() == block) return false;
             }
             return true;
         }
@@ -182,18 +182,18 @@ public abstract class DrillModule extends Block {
         }
 
         @Override
-        public void drillBuild(DrillFc drillBuild) {
-            this.drillBuild = drillBuild;
+        public void drillBuild(DrillFc value) {
+            drillBuild = value;
         }
 
         @Override
-        public void smoothWarmup(float smoothWarmup) {
-            this.smoothWarmup = smoothWarmup;
+        public void smoothWarmup(float value) {
+            smoothWarmup = value;
         }
 
         @Override
-        public void targetWarmup(float targetWarmup) {
-            this.targetWarmup = targetWarmup;
+        public void targetWarmup(float value) {
+            targetWarmup = value;
         }
     }
 }

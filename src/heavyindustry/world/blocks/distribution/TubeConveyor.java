@@ -10,12 +10,12 @@ import mindustry.type.*;
 import mindustry.world.blocks.distribution.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 /**
  * Compared to CoveredConverter, its upper layer texture has been changed to one that can have light and shadow effects.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class TubeConveyor extends BeltConveyor {
     public static final float itemSpace = 0.4f;

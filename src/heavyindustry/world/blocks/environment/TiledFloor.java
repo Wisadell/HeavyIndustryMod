@@ -1,7 +1,7 @@
 package heavyindustry.world.blocks.environment;
 
 import arc.graphics.g2d.*;
-import arc.math.Mathf;
+import arc.math.*;
 import arc.math.geom.*;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;

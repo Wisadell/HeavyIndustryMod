@@ -1,6 +1,5 @@
 package heavyindustry.world.blocks.power;
 
-import heavyindustry.graphics.*;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -8,6 +7,11 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.content.*;
+import heavyindustry.entities.*;
+import heavyindustry.entities.bullet.*;
+import heavyindustry.gen.*;
+import heavyindustry.graphics.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.game.*;
@@ -15,10 +19,6 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.meta.*;
-import heavyindustry.content.*;
-import heavyindustry.entities.*;
-import heavyindustry.entities.bullet.*;
-import heavyindustry.gen.*;
 
 import static mindustry.Vars.*;
 

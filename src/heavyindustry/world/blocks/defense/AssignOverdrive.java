@@ -8,12 +8,12 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.gen.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.meta.*;
-import heavyindustry.gen.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;

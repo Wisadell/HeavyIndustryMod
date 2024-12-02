@@ -18,8 +18,8 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static mindustry.Vars.*;
 
 public class HeatDriver extends Block {
     public int range = 240;

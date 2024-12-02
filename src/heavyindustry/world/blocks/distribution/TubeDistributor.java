@@ -12,8 +12,8 @@ import mindustry.world.blocks.distribution.*;
 import mindustry.world.draw.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 public class TubeDistributor extends Router {
     public DrawBlock drawer = new DrawTubeDistributor();

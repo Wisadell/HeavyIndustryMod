@@ -1,11 +1,11 @@
 package heavyindustry.world.blocks.power;
 
-import heavyindustry.world.meta.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.world.meta.*;
 import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.entities.*;

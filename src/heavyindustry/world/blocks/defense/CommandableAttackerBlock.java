@@ -4,6 +4,10 @@ import arc.math.geom.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.io.*;
+import heavyindustry.content.*;
+import heavyindustry.gen.*;
+import heavyindustry.graphics.*;
+import heavyindustry.ui.*;
 import mindustry.content.*;
 import mindustry.core.*;
 import mindustry.entities.bullet.*;
@@ -14,14 +18,10 @@ import mindustry.io.*;
 import mindustry.logic.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
-import heavyindustry.content.*;
-import heavyindustry.gen.*;
-import heavyindustry.graphics.*;
-import heavyindustry.ui.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.ui.TableUtils.*;
+import static mindustry.Vars.*;
 
 public abstract class CommandableAttackerBlock extends CommandableBlock {
     public float spread = 120f;

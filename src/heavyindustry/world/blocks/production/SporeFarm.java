@@ -10,13 +10,13 @@ import mindustry.type.*;
 import mindustry.world.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
-import static heavyindustry.util.Utils.*;
 import static heavyindustry.util.SpriteUtils.*;
+import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 /**
  * e.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class SporeFarm extends Block {
     protected static final int frames = 5;

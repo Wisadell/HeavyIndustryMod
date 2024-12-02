@@ -17,7 +17,7 @@ import static mindustry.Vars.*;
 
 /**
  * The bridge where two PayloadJunction intersect.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class PayloadJunction extends Block {
     public float moveTime = 45f;

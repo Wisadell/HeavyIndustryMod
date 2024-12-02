@@ -11,6 +11,8 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.ui.*;
+import heavyindustry.util.*;
 import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.entities.*;
@@ -23,12 +25,10 @@ import mindustry.world.*;
 import mindustry.world.consumers.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
-import heavyindustry.ui.*;
-import heavyindustry.util.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static mindustry.Vars.*;
 
 /**
  * @author guiY
@@ -78,20 +78,18 @@ public class AnyMtiCrafter extends Block {
 
     @Override
     public void init() {
-        if (products.size > 0) {
-            for (var product : products) {
-                product.owner = this;
-                product.init();
-                if (product.outputLiquids != null) {
-                    hasLiquids = true;
-                }
-                if (product.outputItems != null) {
-                    hasItems = true;
-                }
-                if (product.consPower != null) {
-                    hasPower = true;
-                    consume(new ConsumePowerDynamic(b -> b instanceof AnyMtiCrafterBuild tile ? tile.formulaPower() : 0));
-                }
+        for (Formula product : products) {
+            product.owner = this;
+            product.init();
+            if (product.outputLiquids != null) {
+                hasLiquids = true;
+            }
+            if (product.outputItems != null) {
+                hasItems = true;
+            }
+            if (product.consPower != null) {
+                hasPower = true;
+                consume(new ConsumePowerDynamic(b -> b instanceof AnyMtiCrafterBuild tile ? tile.formulaPower() : 0));
             }
         }
         super.init();
@@ -120,14 +118,14 @@ public class AnyMtiCrafter extends Block {
             table.row();
 
             for (int i = 0; i < products.size; i++) {
-                var p = products.get(i);
+                Formula p = products.get(i);
                 int finalI = i + 1;
                 table.table(Styles.grayPanel, info -> {
                     info.left().defaults().left();
-                    info.add("[accent]配方[]" + finalI + ":").row();
+                    info.add("[accent]formula[]" + finalI + ":").row();
                     Stats stat = new Stats();
                     stat.timePeriod = p.craftTime;
-                    if (p.hasConsumers) for (var c : p.consumers) {
+                    for (Consume c : p.consumers) {
                         c.display(stat);
                     }
                     if ((hasItems && itemCapacity > 0) || p.outputItems != null) {
@@ -152,7 +150,7 @@ public class AnyMtiCrafter extends Block {
     public void load() {
         super.load();
         if (useBlockDrawer) drawer.load(this);
-        else if (products.size > 0) for (Formula p : products) {
+        else for (Formula p : products) {
             p.drawer.load(this);
         }
     }
@@ -170,7 +168,7 @@ public class AnyMtiCrafter extends Block {
     }
 
     public class AnyMtiCrafterBuild extends Building {
-        public Formula formula = products.size > 0 ? products.get(0) : null;
+        public @Nullable Formula formula = products.size > 0 ? products.get(0) : null;
         public float progress;
         public float totalProgress;
         public float warmup;
@@ -465,11 +463,13 @@ public class AnyMtiCrafter extends Block {
                 }
             }
             if (formula == null) return;
-            if (formula.barMap.size > 0) for (var bar : formula.listBars()) {
-                Bar result = bar.get(self());
-                if (result == null) continue;
-                table.add(result).growX();
-                table.row();
+            if (formula.barMap.size > 0) {
+                for (Func<Building, Bar> bar : formula.listBars()) {
+                    Bar result = bar.get(self());
+                    if (result == null) continue;
+                    table.add(result).growX();
+                    table.row();
+                }
             }
         }
 
@@ -557,14 +557,14 @@ public class AnyMtiCrafter extends Block {
                 }
 
                 cont.clearChildren();
-                if (products.size > 0) for (Formula f : products) {
+                for (Formula f : products) {
                     ImageButton button = new ImageButton();
                     button.table(info -> {
                         info.left();
                         info.table(from -> {
                             Stats stat = new Stats();
                             stat.timePeriod = f.craftTime;
-                            if (f.hasConsumers) for (Consume c : f.consumers) {
+                            for (Consume c : f.consumers) {
                                 c.display(stat);
                             }
                             TableUtils.statToTable(stat, from);
@@ -644,14 +644,21 @@ public class AnyMtiCrafter extends Block {
     }
 
     public static class Formula {
+        /** Array of consumers used by this block. Only populated after init(). */
         public Consume[] consumers = {}, optionalConsumers = {}, nonOptionalConsumers = {}, updateConsumers = {};
-        protected Seq<Consume> consumeBuilder = new Seq<>();
-        public @Nullable ConsumePower consPower;
-        public float craftTime;
+        /** Set to true if this block has any consumers in its array. */
         public boolean hasConsumers;
+        /** The single power consumer, if applicable. */
+        public @Nullable ConsumePower consPower;
 
-        public ItemStack[] outputItems;
-        public LiquidStack[] outputLiquids;
+        /** List for building up consumption before init(). */
+        protected Seq<Consume> consumeBuilder = new Seq<>();
+
+        public float craftTime;
+
+        public @Nullable ItemStack[] outputItems;
+        public @Nullable LiquidStack[] outputLiquids;
+
         public int[] liquidOutputDirections = {-1};
         public boolean ignoreLiquidFullness = false;
         public boolean dumpExtraLiquid = true;
@@ -666,6 +673,7 @@ public class AnyMtiCrafter extends Block {
 
         public DrawBlock drawer = new DrawDefault();
 
+        /** Consumption filters. */
         public ObjectMap<Item, Boolean> itemFilter = new ObjectMap<>();
         public ObjectMap<Liquid, Boolean> liquidFilter = new ObjectMap<>();
 

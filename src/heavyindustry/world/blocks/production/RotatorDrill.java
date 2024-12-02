@@ -12,7 +12,7 @@ import static arc.Core.*;
 
 /**
  * Draw the original drill bit rotation.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class RotatorDrill extends DrillF {
     public TextureRegion rotatorRegion, rimRegion;

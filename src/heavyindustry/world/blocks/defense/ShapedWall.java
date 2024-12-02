@@ -4,16 +4,16 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
-import mindustry.gen.*;
-import mindustry.world.blocks.defense.*;
-import mindustry.world.meta.*;
 import heavyindustry.content.*;
 import heavyindustry.graphics.*;
 import heavyindustry.world.meta.*;
+import mindustry.gen.*;
+import mindustry.world.blocks.defense.*;
+import mindustry.world.meta.*;
 
-import static mindustry.Vars.*;
 import static heavyindustry.util.SpriteUtils.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 /**
  * Shaped Wall

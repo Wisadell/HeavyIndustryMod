@@ -6,16 +6,16 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import heavyindustry.ui.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.meta.*;
-import heavyindustry.ui.*;
 
 import static arc.Core.*;
-import static mindustry.Vars.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
+import static mindustry.Vars.*;
 
 public class PowerAnalyzer extends PowerBlock {
     public float displayLength = 8f;

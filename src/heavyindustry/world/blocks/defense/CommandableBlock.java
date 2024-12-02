@@ -7,6 +7,7 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
+import heavyindustry.gen.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
@@ -18,7 +19,6 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.storage.CoreBlock.*;
 import mindustry.world.draw.*;
-import heavyindustry.gen.*;
 
 import static mindustry.Vars.*;
 
@@ -117,7 +117,7 @@ public abstract class CommandableBlock extends Block {
             Tile tile = world.tile(target);
             if (tile != null) {
                 return targetVec.set(tile);
-            }else return targetVec.set((Position)self());
+            } else return targetVec.set((Position)self());
         }
 
         @Override

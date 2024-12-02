@@ -10,8 +10,8 @@ import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.liquid.*;
 
-import static mindustry.Vars.*;
 import static heavyindustry.util.Utils.*;
+import static mindustry.Vars.*;
 
 public class BeltConduit extends Conduit {
     public static final float rotatePad = 6, hpad = rotatePad / 2f / 4f;

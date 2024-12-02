@@ -1,20 +1,20 @@
 package heavyindustry.world.blocks.production;
 
-import arc.math.*;
-import arc.util.*;
 import arc.audio.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.math.*;
+import arc.util.*;
+import heavyindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import heavyindustry.content.*;
 
 import static arc.Core.*;
 
 /**
  * Draw the animation of the original impact drill bit.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class ImplosionDrill extends DrillF {
     public float shake = 2f;

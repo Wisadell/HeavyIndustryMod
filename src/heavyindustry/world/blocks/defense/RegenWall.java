@@ -1,8 +1,8 @@
 package heavyindustry.world.blocks.defense;
 
 import arc.*;
-import arc.struct.*;
 import arc.math.*;
+import arc.struct.*;
 import arc.util.*;
 import mindustry.entities.*;
 import mindustry.game.EventType.*;
@@ -14,7 +14,7 @@ import static mindustry.Vars.*;
 
 /**
  * A wall that can self restore life.
- * @author Wisadell
+ * @author E-Nightingale
  */
 public class RegenWall extends Wall {
     protected static final IntSet taken = new IntSet();
