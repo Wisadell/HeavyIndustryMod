@@ -7,7 +7,6 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import heavyindustry.entities.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
 import mindustry.content.*;
@@ -285,11 +284,11 @@ public class LaserWall extends Wall {
             if (headless) return;
 
             if (b.timer(1, 18f) || Mathf.chanceDelta(0.02)) {
-                PosLightning.createEffect(b, build, lightningColor, 2, Mathf.random(1.25f, 2.25f));
+                PositionLightning.createEffect(b, build, lightningColor, 2, Mathf.random(1.25f, 2.25f));
             }
 
             if (Mathf.chanceDelta(0.075)) {
-                PosLightning.createEffect(b, build, lightningColor, 0, 0);
+                PositionLightning.createEffect(b, build, lightningColor, 0, 0);
             }
         }
 

@@ -8,7 +8,6 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import heavyindustry.content.*;
-import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
@@ -129,7 +128,7 @@ public class HyperGenerator extends ImpactReactor {
 
                 Effect.shake(10f, 30f, b);
 
-                if (b.timer(3, 8)) PosLightning.createRange(b, b, Team.derelict, lightningRange * 2f, 255, effectColor, true, lightningDamage, subNum + Mathf.random(subNumRand), PosLightning.WIDTH,updateLightning + Mathf.random(updateLightningRand), point -> {
+                if (b.timer(3, 8)) PositionLightning.createRange(b, b, Team.derelict, lightningRange * 2f, 255, effectColor, true, lightningDamage, subNum + Mathf.random(subNumRand), PositionLightning.WIDTH,updateLightning + Mathf.random(updateLightningRand), point -> {
                     HIFx.lightningHitSmall.at(point);
                     Damage.damage(point.getX(), point.getY(), splashDamageRadius, splashDamage);
                 });
@@ -191,7 +190,7 @@ public class HyperGenerator extends ImpactReactor {
                 Time.run(i * (3 + Mathf.random(2f)), () -> {
                     explodeSub.get(this);
                     Sounds.explosionbig.at(this);
-                    PosLightning.createRandomRange(Team.derelict, this, lightningRange * 3f, effectColor, true, lightningDamage, lightningLen + Mathf.random(lightningLenRand), PosLightning.WIDTH, subNum + Mathf.random(subNumRand),updateLightning + Mathf.random(updateLightningRand), point -> {
+                    PositionLightning.createRandomRange(Team.derelict, this, lightningRange * 3f, effectColor, true, lightningDamage, lightningLen + Mathf.random(lightningLenRand), PositionLightning.WIDTH, subNum + Mathf.random(subNumRand),updateLightning + Mathf.random(updateLightningRand), point -> {
                         HIFx.lightningHitLarge.at(point.getX(), point.getY(), effectColor);
                     });
                 });

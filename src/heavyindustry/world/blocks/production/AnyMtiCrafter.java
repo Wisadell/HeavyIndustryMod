@@ -413,10 +413,10 @@ public class AnyMtiCrafter extends Block {
                         float ly = realY + pad;
                         Draw.color();
                         Draw.rect(l.uiIcon, realX, ly);
-                        Utils.drawTiledFramesBar(vts, (height * liquids.get(l)/liquidCapacity), realX + vts/2f, ly, l, 1);
+                        Utils.drawTiledFramesBar(vts, (height * liquids.get(l) / liquidCapacity), realX + vts / 2f, ly, l, 1);
                         Draw.color();
                         Draw.alpha(1);
-                        Draw.rect(canBar, realX + vts, ly + height/2f, vts + boPad, height + boPad);
+                        Draw.rect(canBar, realX + vts, ly + height / 2f, vts + boPad, height + boPad);
                         Fonts.outline.draw(l.localizedName, realX, ly - 1, Color.white, 0.2f, false, Align.center);
                         realX += tw;
                     }
@@ -430,7 +430,7 @@ public class AnyMtiCrafter extends Block {
                         Utils.drawTiledFramesBar(vts, (height * liquids.get(ls.liquid)/liquidCapacity), realX + vts/2f, ly, ls.liquid, 1);
                         Draw.color();
                         Draw.alpha(1);
-                        Draw.rect(canBar, realX + vts/2f + vts/2f, ly + height/2f, vts + 1, height + 2);
+                        Draw.rect(canBar, realX + vts / 2f + vts / 2f, ly + height / 2f, vts + 1, height + 2);
                         Fonts.outline.draw(ls.liquid.localizedName, realX, ly - 1, Color.white, 0.2f, false, Align.center);
                         realX += tw;
                     }
