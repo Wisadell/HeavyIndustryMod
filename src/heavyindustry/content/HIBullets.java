@@ -6,7 +6,6 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.gen.*;
@@ -922,7 +921,7 @@ public final class HIBullets {
                     entites.truncate(15);
 
                     for (Teamc e : entites) {
-                        PosLightning.create(b, b.team, b, e, lightningColor, false, lightningDamage, 5 + Mathf.random(5), PosLightning.WIDTH, 1, p -> HIFx.lightningHitSmall.at(p.getX(), p.getY(), 0, lightningColor));
+                        PositionLightning.create(b, b.team, b, e, lightningColor, false, lightningDamage, 5 + Mathf.random(5), PositionLightning.WIDTH, 1, p -> HIFx.lightningHitSmall.at(p.getX(), p.getY(), 0, lightningColor));
                     }
                 }
 

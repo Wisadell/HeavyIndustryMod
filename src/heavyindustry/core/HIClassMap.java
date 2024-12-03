@@ -33,6 +33,7 @@ final class HIClassMap {
 
     static void load() {
         //ai
+        classes.put("CircleAi", CircleAi.class);
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
         classes.put("MinerPointAI", MinerPointAI.class);
@@ -219,9 +220,9 @@ final class HIClassMap {
         classes.put("AcceleratingCrafterBuild", AccelerationCrafter.AcceleratingCrafterBuild.class);
         classes.put("FuelCrafter", FuelCrafter.class);
         classes.put("FuelCrafterBuild", FuelCrafter.FuelCrafterBuild.class);
-        classes.put("MultiCrafter", MultiCrafter.class);
-        classes.put("MultiCrafterBuild", MultiCrafter.MultiCrafterBuild.class);
-        classes.put("Recipe", MultiCrafter.Recipe.class);
+        classes.put("Assembler", Assembler.class);
+        classes.put("AssemblerBuild", Assembler.AssemblerBuild.class);
+        classes.put("Recipe", Assembler.Recipe.class);
         classes.put("AnyMtiCrafter", AnyMtiCrafter.class);
         classes.put("AnyMtiCrafterBuild", AnyMtiCrafter.AnyMtiCrafterBuild.class);
         classes.put("Formula", AnyMtiCrafter.Formula.class);

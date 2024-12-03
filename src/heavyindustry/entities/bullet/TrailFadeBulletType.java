@@ -5,7 +5,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import heavyindustry.content.*;
-import heavyindustry.entities.*;
+import heavyindustry.graphics.*;
 import heavyindustry.struct.*;
 import mindustry.gen.*;
 
@@ -40,7 +40,7 @@ public class TrailFadeBulletType extends AccelBulletType {
             for (Vec2Seq points : pointsArr) {
                 points.add(b.x, b.y);
                 if (despawnBlinkTrail || (b.absorbed && hitBlinkTrail)) {
-                    PosLightning.createBoltEffect(hitColor, tracerStroke * 2f, points);
+                    PositionLightning.createBoltEffect(hitColor, tracerStroke * 2f, points);
                     Vec2 v = points.firstTmp();
                     HIFx.lightningHitSmall.at(v.x, v.y, hitColor);
                 } else {
@@ -71,7 +71,7 @@ public class TrailFadeBulletType extends AccelBulletType {
         for (Vec2Seq points : pointsArr) {
             points.add(b.x, b.y);
             if (hitBlinkTrail) {
-                PosLightning.createBoltEffect(hitColor, tracerStroke * 2f, points);
+                PositionLightning.createBoltEffect(hitColor, tracerStroke * 2f, points);
                 Vec2 v = points.firstTmp();
                 HIFx.lightningHitSmall.at(v.x, v.y, hitColor);
             } else {

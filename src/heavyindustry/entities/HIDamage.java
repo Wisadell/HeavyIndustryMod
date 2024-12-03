@@ -20,22 +20,22 @@ import mindustry.world.*;
 import static mindustry.Vars.*;
 
 public final class HIDamage {
-    public static final UnitDamageEvent bulletDamageEvent = new UnitDamageEvent();
-    public static final Rect rect = new Rect();
-    public static final Rect hitrect = new Rect();
-    public static final Vec2 tr = new Vec2(), seg1 = new Vec2(), seg2 = new Vec2();
-    public static final Seq<Building> builds = new Seq<>();
-    public static final Seq<Unit> units = new Seq<>();
-    public static final IntSet collidedBlocks = new IntSet();
-    public static final IntFloatMap damages = new IntFloatMap();
-    public static final Seq<Collided> collided = new Seq<>();
-    public static final Pool<Collided> collidePool = Pools.get(Collided.class, Collided::new);
-    public static final FloatSeq distances = new FloatSeq();
-    public static Tile furthest;
-    public static Building tmpBuilding;
-    public static Unit tmpUnit;
-    public static float tmpFloat;
-    public static boolean check;
+    private static final UnitDamageEvent bulletDamageEvent = new UnitDamageEvent();
+    private static final Rect rect = new Rect();
+    private static final Rect hitrect = new Rect();
+    private static final Vec2 tr = new Vec2(), seg1 = new Vec2(), seg2 = new Vec2();
+    private static final Seq<Building> builds = new Seq<>();
+    private static final Seq<Unit> units = new Seq<>();
+    private static final IntSet collidedBlocks = new IntSet();
+    private static final IntFloatMap damages = new IntFloatMap();
+    private static final Seq<Collided> collided = new Seq<>();
+    private static final Pool<Collided> collidePool = Pools.get(Collided.class, Collided::new);
+    private static final FloatSeq distances = new FloatSeq();
+    private static Tile furthest;
+    private static Building tmpBuilding;
+    private static Unit tmpUnit;
+    private static float tmpFloat;
+    private static boolean check;
 
     /** HIDamage should not be instantiated. */
     private HIDamage() {}

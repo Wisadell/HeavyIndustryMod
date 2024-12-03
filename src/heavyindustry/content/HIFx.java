@@ -6,11 +6,11 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.HailStoneBulletType.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.graphics.*;
 import heavyindustry.graphics.Draws.*;
+import heavyindustry.graphics.trail.*;
 import heavyindustry.math.*;
 import heavyindustry.struct.*;
 import heavyindustry.util.*;
@@ -917,7 +917,7 @@ public final class HIFx {
 
                 Fill.circle(e.x, e.y, 2.5f * e.fout());
             }),
-            lightningFade = (new Effect(PosLightning.lifetime, 1200f, e -> {
+            lightningFade = (new Effect(PositionLightning.lifetime, 1200f, e -> {
                 if (!(e.data instanceof Vec2Seq v)) return;
 
                 e.lifetime = v.size() < 2 ? 0 : 1000;
@@ -1209,8 +1209,8 @@ public final class HIFx {
                     Drawf.light(e.x + x, e.y + y, e.fout() * 12f, e.color, 0.7f);
                 });
             }),
-            /** {@link PosLightning} */
-            posLightning = (new Effect(PosLightning.lifetime, 1200f, e -> {
+            /** {@link PositionLightning} */
+            posLightning = (new Effect(PositionLightning.lifetime, 1200f, e -> {
                 if (!(e.data instanceof Vec2Seq v)) return;
 
                 Draw.color(e.color, Color.white, e.fout() * 0.6f);

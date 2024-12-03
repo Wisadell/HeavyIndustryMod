@@ -9,7 +9,6 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
-import heavyindustry.entities.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
@@ -3496,7 +3495,7 @@ public final class HIBlocks {
 
                     if (charged(b)) {
                         if (!headless && b.timer(3, 3)) {
-                            PosLightning.createEffect(b, Tmp.v1.set(b.aimX, b.aimY), getColor(b), 1, 2);
+                            PositionLightning.createEffect(b, Tmp.v1.set(b.aimX, b.aimY), getColor(b), 1, 2);
                             if (Mathf.chance(0.25)) HIFx.hitSparkLarge.at(b.x, b.y, tmpColor);
                         }
 

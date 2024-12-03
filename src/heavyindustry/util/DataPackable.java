@@ -78,7 +78,7 @@ public interface DataPackable {
      */
     static <T extends DataPackable> T readObject(byte[] bytes, Object... param) {
         long id = new Reads(new DataInputStream(new ByteArrayInputStream(bytes))).l();
-        Func<Object[], T> objProv = (Func<Object[], T>)objectProvMap.get(id);
+        Func<Object[], T> objProv = (Func<Object[], T>) objectProvMap.get(id);
         if (objProv == null)
             throw new SerializationException("type id: " + id + " was not assigned");
 

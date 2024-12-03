@@ -81,10 +81,9 @@ public class JavelinAbility extends Ability {
 
     @Override
     public void addStats(Table t) {
-        t.add(
-                "[lightgray]" + Stat.damage.localized() + ": [white]" +
-                        Strings.autoFixed(60f * minDamage / damageInterval, 2) + " - " +
-                        Strings.autoFixed(60f * damage / damageInterval, 2) + " " + StatUnit.perSecond.localized()
+        t.add("[lightgray]" + Stat.damage.localized() + ": [white]" +
+                Strings.autoFixed(60f * minDamage / damageInterval, 2) + " - " +
+                Strings.autoFixed(60f * damage / damageInterval, 2) + " " + StatUnit.perSecond.localized()
         ).row();
         t.add("[lightgray]" + Stat.range.localized() + ": [white]" + Strings.autoFixed(radius/8f, 2) + " " + StatUnit.blocks.localized()).row();
         t.add("[lightgray]" + HIStat.minSpeed.localized() + ": [white]" + Strings.autoFixed(minSpeed/8f, 2) + " " + StatUnit.tilesSecond.localized()).row();
