@@ -41,11 +41,11 @@ public final class Reflects {
     }
 
     public static <T> T[] newArray(Class<T> type, int length) {
-        return (T[])Array.newInstance(type, length);
+        return (T[]) Array.newInstance(type, length);
     }
 
     public static <T> T[] newArray(T[] oldType, int length) {
-        return (T[])Array.newInstance(oldType.getClass().getComponentType(), length);
+        return (T[]) Array.newInstance(oldType.getClass().getComponentType(), length);
     }
 
     public static boolean isWrapper(Class<?> type) {
@@ -55,7 +55,7 @@ public final class Reflects {
     public static <T> Prov<T> cons(Class<T> type) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         Constructor<T> c = type.getDeclaredConstructor();
         c.setAccessible(true);
-        return (Prov<T>)c.newInstance();
+        return (Prov<T>) c.newInstance();
     }
 
     public static <T> T get(Field field) throws IllegalAccessException {
@@ -63,13 +63,13 @@ public final class Reflects {
     }
 
     public static <T> T get(Object object, Field field) throws IllegalAccessException {
-        return (T)field.get(object);
+        return (T) field.get(object);
     }
 
     public static <T> T get(Class<?> type, Object object, String name) throws NoSuchFieldException, IllegalAccessException {
         Field field = type.getDeclaredField(name);
         field.setAccessible(true);
-        return (T)field.get(object);
+        return (T) field.get(object);
     }
 
     public static <T> T get(Object object, String name) throws NoSuchFieldException, IllegalAccessException {
@@ -101,7 +101,7 @@ public final class Reflects {
     public static <T> T invoke(Class<?> type, Object object, String name, Object[] args, Class<?>... parameterTypes) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method method = type.getDeclaredMethod(name, parameterTypes);
         method.setAccessible(true);
-        return (T)method.invoke(object, args);
+        return (T) method.invoke(object, args);
     }
 
     public static <T> T invoke(Class<?> type, String name, Object[] args, Class<?>... parameterTypes) throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
@@ -121,7 +121,7 @@ public final class Reflects {
     }
 
     public static <T> T make(String type) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-        Class<T> c = (Class<T>)Class.forName(type);
+        Class<T> c = (Class<T>) Class.forName(type);
         return c.getDeclaredConstructor().newInstance();
     }
 }

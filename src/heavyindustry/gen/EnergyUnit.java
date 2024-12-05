@@ -16,6 +16,7 @@ import mindustry.type.*;
 import static mindustry.Vars.*;
 
 public class EnergyUnit extends UnitEntity {
+    public static final float effectTriggerLen = 40f;
     public static Effect teleport = new Effect(90, 150, e -> {
         Draw.color(e.color, Color.white, e.fin() * 0.7f);
         Fill.circle(e.x, e.y, e.fout() * e.rotation * 1.25f);
@@ -24,16 +25,15 @@ public class EnergyUnit extends UnitEntity {
         Lines.stroke(e.fout() * 2.5f);
         Lines.circle(e.x, e.y, e.fin() * e.rotation * 1.5f);
         Lines.stroke(e.fout() * 3.2f);
-        Angles.randLenVectors(e.id, (int)e.rotation * 2, e.rotation / 1.5f + e.rotation * e.fin() * 2.75f, (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 5));
+        Angles.randLenVectors(e.id, (int) e.rotation * 2, e.rotation / 1.5f + e.rotation * e.fin() * 2.75f, (x, y) -> Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 14 + 5));
 
         Fx.rand.setSeed(e.id + 100);
 
-        Angles.randLenVectors(e.id + 100, (int)e.rotation, e.rotation / 2f + e.rotation * e.fin() * 3f, (x, y) -> Fill.circle(e.x + x, e.y + y, Fx.rand.random(e.rotation, e.rotation * 2f) * e.foutpow()));
+        Angles.randLenVectors(e.id + 100, (int) e.rotation, e.rotation / 2f + e.rotation * e.fin() * 3f, (x, y) -> Fill.circle(e.x + x, e.y + y, Fx.rand.random(e.rotation, e.rotation * 2f) * e.foutpow()));
 
         Draw.color(Color.black);
         Fill.circle(e.x, e.y, e.fout() * e.rotation * 0.7f);
     });
-
     public static Effect teleportTrans = new Effect(45, 600, e -> {
         if (!(e.data instanceof Vec2 v)) return;
 
@@ -51,13 +51,9 @@ public class EnergyUnit extends UnitEntity {
             }
         }
     });
-
     public float reload = 240;
     public float teleportMinRange = 180f;
     public float teleportRange = 400f;
-
-    public static final float effectTriggerLen = 40f;
-
     protected transient Vec2 lastPos = new Vec2();
     protected float reloadValue = 0;
     protected float lastHealth = 0;
@@ -117,7 +113,7 @@ public class EnergyUnit extends UnitEntity {
         Draw.z(Layer.bullet);
 
         for (int i = 0; i < trails.length; i++) {
-            Tmp.c1.set(team.color).mul(1 + i * 0.005f).lerp(Color.white, 0.015f * i + Mathf.absin(4f, 0.3f) +  Mathf.clamp(hitTime) / 5f);
+            Tmp.c1.set(team.color).mul(1 + i * 0.005f).lerp(Color.white, 0.015f * i + Mathf.absin(4f, 0.3f) + Mathf.clamp(hitTime) / 5f);
             trails[i].drawCap(Tmp.c1, type.trailScl);
             trails[i].draw(Tmp.c1, type.trailScl);
         }
@@ -136,16 +132,17 @@ public class EnergyUnit extends UnitEntity {
             reloadValue += Math.max(lastHealth - health, 0) / 2f;
             lastHealth = health;
 
-            if (timer.get(5f)) Groups.bullet.intersect(x - teleportRange, y - teleportRange, teleportRange * 2f, teleportRange * 2f, bullet -> {
-                if (bullet.team == team) return;
-                num[0]++;
-                damage[0] += bullet.damage();
-            });
+            if (timer.get(5f))
+                Groups.bullet.intersect(x - teleportRange, y - teleportRange, teleportRange * 2f, teleportRange * 2f, bullet -> {
+                    if (bullet.team == team) return;
+                    num[0]++;
+                    damage[0] += bullet.damage();
+                });
 
             if (teleportValid() && (target != null || ((hitTime > 0 || num[0] > 4 || damage[0] > reload / 2))) && (!isLocal() || mobile)) {
                 float dst = target == null ? teleportRange + teleportMinRange : dst(target) / 2f;
                 float angle = target == null ? rotation : angleTo(target);
-                Tmp.v2.trns(angle + Mathf.range(1) * 45,dst * Mathf.random(1, 2), Mathf.range(0.2f) * dst).clamp(teleportMinRange, teleportRange).add(this).clamp(-finalWorldBounds, -finalWorldBounds, world.unitHeight() + finalWorldBounds, world.unitWidth() + finalWorldBounds);
+                Tmp.v2.trns(angle + Mathf.range(1) * 45, dst * Mathf.random(1, 2), Mathf.range(0.2f) * dst).clamp(teleportMinRange, teleportRange).add(this).clamp(-finalWorldBounds, -finalWorldBounds, world.unitHeight() + finalWorldBounds, world.unitWidth() + finalWorldBounds);
 
                 teleport(Tmp.v2.x, Tmp.v2.y);
             }
@@ -201,9 +198,10 @@ public class EnergyUnit extends UnitEntity {
             }
         }
 
-        if (Mathf.chanceDelta(0.15) && healthf() < 0.6f) Drawn.randFadeLightningEffect(x, y, Mathf.range(hitSize, hitSize * 4), Mathf.range(hitSize / 4, hitSize / 2), team.color, Mathf.chance(0.5));
+        if (Mathf.chanceDelta(0.15) && healthf() < 0.6f)
+            Drawn.randFadeLightningEffect(x, y, Mathf.range(hitSize, hitSize * 4), Mathf.range(hitSize / 4, hitSize / 2), team.color, Mathf.chance(0.5));
 
-        if (!net.client() || isLocal())updateTeleport();
+        if (!net.client() || isLocal()) updateTeleport();
     }
 
     @Override

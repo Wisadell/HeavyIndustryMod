@@ -35,7 +35,7 @@ public final class HIPlanets {
             atmosphereRadOut = 0.3f;
             atmosphereColor = Blocks.water.mapColor;
 
-            Vec3 ringPos = new Vec3(0,1,0).rotate(Vec3.X, 25);
+            Vec3 ringPos = new Vec3(0, 1, 0).rotate(Vec3.X, 25);
 
             generator = new KeplerPlanetGenerator() {{
                 baseHeight = 0;
@@ -134,9 +134,9 @@ public final class HIPlanets {
                     new HexMesh(this, 7),
 
                     new CircleMesh(atlas.find(name("ring4")), this, 80, 2.55f, 2.6f, ringPos),
-                    new CircleMesh(atlas.find(name("ring3")), this,80, 2.2f, 2.5f, ringPos),
-                    new CircleMesh(atlas.find(name("ring2")), this,80, 1.9f, 2.1f, ringPos),
-                    new CircleMesh(atlas.find(name("ring1")), this,80, 1.8f, 1.85f, ringPos)
+                    new CircleMesh(atlas.find(name("ring3")), this, 80, 2.2f, 2.5f, ringPos),
+                    new CircleMesh(atlas.find(name("ring2")), this, 80, 1.9f, 2.1f, ringPos),
+                    new CircleMesh(atlas.find(name("ring1")), this, 80, 1.8f, 1.85f, ringPos)
             );
             cloudMeshLoader = () -> new MultiMesh(
                     new HexSkyMesh(this, 6, -0.5f, 0.14f, 6, Blocks.water.mapColor.cpy().a(0.2f), 2, 0.42f, 1f, 0.6f),

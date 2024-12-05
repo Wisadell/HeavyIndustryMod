@@ -24,18 +24,19 @@ import static mindustry.Vars.*;
 
 /**
  * Some preset bullets. Perhaps it will be used multiple times.
+ *
  * @author E-Nightingale
  */
 @SuppressWarnings("unchecked")
 public final class HIBullets {
     public static BulletType
             ancientArtilleryProjectile,
-            hitter,ncBlackHole,nuBlackHole,executor,
-            ultFireball,basicSkyFrag,annMissile,
-            hyperBlast,hyperBlastLinker,
-            arc9000frag,arc9000,arc9000hyper,
-            //It is not recommended to use it directly.
-            collapseFrag,collapse;
+            hitter, ncBlackHole, nuBlackHole, executor,
+            ultFireball, basicSkyFrag, annMissile,
+            hyperBlast, hyperBlastLinker,
+            arc9000frag, arc9000, arc9000hyper,
+        //It is not recommended to use it directly.
+        collapseFrag, collapse;
 
     /** HIBullets should not be instantiated. */
     private HIBullets() {}
@@ -71,7 +72,7 @@ public final class HIBullets {
 
             despawnShake = hitShake = 12f;
 
-            hitEffect = new MultiEffect(HIFx.square(hitColor, 200f, 20 ,splashDamageRadius + 80, 10), HIFx.lightningHitLarge, HIFx.hitSpark(hitColor, 130, 85, splashDamageRadius * 1.5f, 2.2f, 10f), HIFx.subEffect(140, splashDamageRadius + 12, 33, 34f, Interp.pow2Out, ((i, x, y, rot, fin) -> {
+            hitEffect = new MultiEffect(HIFx.square(hitColor, 200f, 20, splashDamageRadius + 80, 10), HIFx.lightningHitLarge, HIFx.hitSpark(hitColor, 130, 85, splashDamageRadius * 1.5f, 2.2f, 10f), HIFx.subEffect(140, splashDamageRadius + 12, 33, 34f, Interp.pow2Out, ((i, x, y, rot, fin) -> {
                 float fout = Interp.pow2Out.apply(1 - fin);
                 for (int s : Mathf.signs) {
                     Drawf.tri(x, y, 12 * fout, 45 * Mathf.curve(fin, 0, 0.1f) * HIFx.fout(fin, 0.25f), rot + s * 90);
@@ -197,7 +198,7 @@ public final class HIBullets {
             @Override
             public void draw(Bullet b) {
                 if (!(b.data instanceof Seq)) return;
-                Seq<Sized> data = (Seq<Sized>)b.data;
+                Seq<Sized> data = (Seq<Sized>) b.data;
 
                 Draw.color(lightColor, Color.white, b.fin() * 0.7f);
                 Draw.alpha(b.fin(Interp.pow3Out) * 1.1f);
@@ -249,11 +250,12 @@ public final class HIBullets {
 
                 if (!(b.data instanceof Seq)) return;
                 Entityc o = b.owner();
-                Seq<Sized> data = (Seq<Sized>)b.data;
+                Seq<Sized> data = (Seq<Sized>) b.data;
                 for (Sized s : data) {
                     float size = Math.min(s.hitSize(), 85);
                     Time.run(Mathf.random(44), () -> {
-                        if (Mathf.chance(0.32) || data.size < 8) HIFx.shuttle.at(s.getX(), s.getY(), 45, lightColor, Mathf.random(size * 3f, size * 12f));
+                        if (Mathf.chance(0.32) || data.size < 8)
+                            HIFx.shuttle.at(s.getX(), s.getY(), 45, lightColor, Mathf.random(size * 3f, size * 12f));
                         hitT(s, o, b.team, s.getX(), s.getY());
                     });
                 }
@@ -296,8 +298,8 @@ public final class HIBullets {
         }
             @Override
             public void draw(Bullet b) {
-                if (!(b.data instanceof Seq))return;
-                Seq<Sized> data = (Seq<Sized>)b.data;
+                if (!(b.data instanceof Seq)) return;
+                Seq<Sized> data = (Seq<Sized>) b.data;
 
                 Draw.color(lightColor, Color.white, b.fin() * 0.7f);
                 Draw.alpha(b.fin(Interp.pow3Out) * 1.1f);
@@ -326,8 +328,8 @@ public final class HIBullets {
                 super.update(b);
 
                 if (!(b.data instanceof Seq) || b.timer(0, 5)) return;
-                Seq<Sized> data = (Seq<Sized>)b.data;
-                data.remove(d -> !((Healthc)d).isValid());
+                Seq<Sized> data = (Seq<Sized>) b.data;
+                data.remove(d -> !((Healthc) d).isValid());
             }
 
             @Override
@@ -336,7 +338,7 @@ public final class HIBullets {
 
                 if (!(b.data instanceof Seq)) return;
                 Entityc o = b.owner();
-                Seq<Sized> data = (Seq<Sized>)b.data;
+                Seq<Sized> data = (Seq<Sized>) b.data;
                 for (Sized s : data) {
                     float size = Math.min(s.hitSize(), 75);
                     if (Mathf.chance(0.32) || data.size < 8) {
@@ -360,7 +362,7 @@ public final class HIBullets {
                 indexer.eachBlock(null, b.x, b.y, b.fdata, bu -> bu.team != b.team, data::add);
 
                 Groups.unit.intersect(b.x - b.fdata / 2, b.y - b.fdata / 2, b.fdata, b.fdata, u -> {
-                    if (u.team != b.team)data.add(u);
+                    if (u.team != b.team) data.add(u);
                 });
 
                 b.data = data;
@@ -630,7 +632,7 @@ public final class HIBullets {
             @Override
             public void draw(Bullet b) {
                 Draw.color(backColor);
-                Drawn.surround(b.id, b.x, b.y, size * 1.45f, 14, 7,11, (b.fin(HIInterp.parabola4Reversed) + 1f) / 2 * b.fout(0.1f));
+                Drawn.surround(b.id, b.x, b.y, size * 1.45f, 14, 7, 11, (b.fin(HIInterp.parabola4Reversed) + 1f) / 2 * b.fout(0.1f));
 
                 drawTrail(b);
 
@@ -783,7 +785,7 @@ public final class HIBullets {
                     Team team = b.team;
                     float mul = b.damageMultiplier();
                     Time.run(Mathf.random(6f, 24f) + Mathf.sqrt(x * x + y * y) / splashDamageRadius * 3f, () -> {
-                        if (Mathf.chanceDelta(0.4f))hitSound.at(vec2.x, vec2.y, hitSoundPitch, hitSoundVolume);
+                        if (Mathf.chanceDelta(0.4f)) hitSound.at(vec2.x, vec2.y, hitSoundPitch, hitSoundVolume);
                         despawnSound.at(vec2);
                         Effect.shake(hitShake, hitShake, vec2);
 
@@ -959,7 +961,7 @@ public final class HIBullets {
 
                 Rand rand = HIFx.rand0;
                 rand.setSeed(b.id);
-                for (int i = 0; i < (int)(rad / 3); i++) {
+                for (int i = 0; i < (int) (rad / 3); i++) {
                     Tmp.v1.trns(rand.random(360f) + rand.range(1f) * rad / 5 * b.fin(Interp.pow2Out), rad / 2.05f * circleF + rand.random(rad * (1 + b.fin(Interp.circleOut)) / 1.8f));
                     float angle = Tmp.v1.angle();
                     Drawn.tri(b.x + Tmp.v1.x, b.y + Tmp.v1.y, (b.fin() + 1) / 2 * 28 + rand.random(0, 8), rad / 16 * (b.fin(Interp.exp5In) + 0.25f), angle);

@@ -249,7 +249,9 @@ public final class HIDamage {
         return check;
     }
 
-    /** {@link Damage#collideLine} but only hits missile units. */
+    /**
+     * {@link Damage#collideLine} but only hits missile units.
+     */
     public static void missileCollideLine(Bullet hitter, Team team, Effect effect, float x, float y, float angle, float length, boolean large, boolean laser, int pierceCap) {
         if (pierceCap > 0) {
             length = findPierceLength(hitter, pierceCap, length);
@@ -294,7 +296,9 @@ public final class HIDamage {
         collided.clear();
     }
 
-    /** Like {@link Damage#findPierceLength}, but uses an (x, y) coord instead of bullet position */
+    /**
+     * Like {@link Damage#findPierceLength}, but uses an (x, y) coord instead of bullet position
+     */
     public static float findLaserLength(float x, float y, float angle, Team team, float length) {
         Tmp.v1.trns(angle, length);
 
@@ -306,7 +310,9 @@ public final class HIDamage {
         return found && furthest != null ? Math.max(6f, Mathf.dst(x, y, furthest.worldx(), furthest.worldy())) : length;
     }
 
-    /** {@link Damage#findPierceLength} but it returns the distance to the point of contact, not the distance to the center of the target. */
+    /**
+     * {@link Damage#findPierceLength} but it returns the distance to the point of contact, not the distance to the center of the target.
+     */
     public static float findPierceLength(Bullet b, int pierceCap, float length) {
         tr.trnsExact(b.rotation(), length);
         rect.setPosition(b.x, b.y).setSize(tr.x, tr.y).normalize().grow(3f);
@@ -368,6 +374,7 @@ public final class HIDamage {
 
     /**
      * Casts forward in a line.
+     *
      * @return the collision point of the first encountered object.
      */
     public static Vec2 linecast(boolean ground, boolean air, Team team, float x, float y, float angle, float length) {

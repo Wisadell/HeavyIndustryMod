@@ -51,7 +51,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
 
         for (Payload pay : payloads) {
             pay.set(x, y, rotation);
-            pay.update(self(), null);
+            pay.update(this, null);
         }
     }
 
@@ -106,7 +106,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         if (Vars.net.client()) {
             Vars.netClient.clearRemovedEntity(unit.id);
         }
-        Events.fire(new PickupEvent(self(), unit));
+        Events.fire(new PickupEvent(this, unit));
     }
 
     @Override
@@ -116,7 +116,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         tile.afterPickedUp();
         addPayload(new BuildPayload(tile));
         Fx.unitPickup.at(tile);
-        Events.fire(new PickupEvent(self(), tile));
+        Events.fire(new PickupEvent(this, tile));
     }
 
     @Override
@@ -182,12 +182,14 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         if (!u.isAdded()) u.team.data().updateCount(u.type, -1);
         u.add();
         u.unloaded();
-        Events.fire(new PayloadDropEvent(self(), u));
+        Events.fire(new PayloadDropEvent(this, u));
 
         return true;
     }
 
-    /** @return whether the tile has been successfully placed. */
+    /**
+     * @return whether the tile has been successfully placed.
+     */
     @Override
     public boolean dropBlock(BuildPayload payload) {
         Building tile = payload.build;
@@ -195,7 +197,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         Tile on = Vars.world.tile(tx, ty);
         if (on != null && Build.validPlace(tile.block, tile.team, tx, ty, tile.rotation, false)) {
             payload.place(on, tile.rotation);
-            Events.fire(new PayloadDropEvent(self(), tile));
+            Events.fire(new PayloadDropEvent(this, tile));
 
             if (getControllerName() != null) {
                 payload.build.lastAccessed = getControllerName();

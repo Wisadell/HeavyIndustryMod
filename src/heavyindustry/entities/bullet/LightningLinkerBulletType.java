@@ -15,6 +15,8 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 
 public class LightningLinkerBulletType extends BasicBulletType {
+    public static final Vec2 randVec = new Vec2();
+
     public float hitSpacing = 10f, size = 30f, linkRange = 240f, boltWidth = PositionLightning.WIDTH;
 
     public float randomGenerateRange = -1f, randomGenerateChance = 0.03f, randomLightningChance = 0.1f;
@@ -22,9 +24,7 @@ public class LightningLinkerBulletType extends BasicBulletType {
     public Sound randomGenerateSound = Sounds.plasmaboom;
 
     public Cons<Position> hitModifier = p -> {};
-
     public float range = -1;
-
     public int maxHit = 20;
     public int boltNum = 1;
 
@@ -32,12 +32,8 @@ public class LightningLinkerBulletType extends BasicBulletType {
     public float effectLightningChance = 0.35f, effectLightningLength = -1f, effectLightningLengthRand = -1f;
 
     public float trueHitChance = 0.66f;
-
     public boolean drawCircle = true;
-
     public Effect slopeEffect, liHitEffect, spreadEffect;
-
-    public static final Vec2 randVec = new Vec2();
 
     public LightningLinkerBulletType(float speed, float damage) {
         super(speed, damage);
@@ -77,16 +73,17 @@ public class LightningLinkerBulletType extends BasicBulletType {
         if (slopeEffect == null) slopeEffect = new Effect(25, e -> {
             if (!(e.data instanceof Integer i)) return;
             Draw.color(backColor);
-            Angles.randLenVectors(e.id, (int)(size / 8f), size / 4f + size * 2f * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * size / 1.65f));
+            Angles.randLenVectors(e.id, (int) (size / 8f), size / 4f + size * 2f * e.fin(), (x, y) -> Fill.circle(e.x + x, e.y + y, e.fout() * size / 1.65f));
             Lines.stroke((i < 0 ? e.fin() : e.fout()) * 3f);
             Lines.circle(e.x, e.y, (i > 0 ? e.fin() : e.fout()) * size * 1.1f);
         });
-        if (spreadEffect == null) spreadEffect = new Effect(32f, e -> Angles.randLenVectors(e.id, 2, 6 + 45 * e.fin(), (x, y) -> {
-            Draw.color(backColor);
-            Fill.circle(e.x + x, e.y + y, e.fout() * size / 2f);
-            Draw.color(frontColor);
-            Fill.circle(e.x + x, e.y + y, e.fout() * (size / 3f - 1f));
-        })).layer(Layer.effect + 0.00001f);
+        if (spreadEffect == null)
+            spreadEffect = new Effect(32f, e -> Angles.randLenVectors(e.id, 2, 6 + 45 * e.fin(), (x, y) -> {
+                Draw.color(backColor);
+                Fill.circle(e.x + x, e.y + y, e.fout() * size / 2f);
+                Draw.color(frontColor);
+                Fill.circle(e.x + x, e.y + y, e.fout() * (size / 3f - 1f));
+            })).layer(Layer.effect + 0.00001f);
 
         if (trailWidth < 0) trailWidth = size * 0.75f;
         if (trailLength < 0) trailLength = 12;
@@ -103,7 +100,8 @@ public class LightningLinkerBulletType extends BasicBulletType {
 
         Effect.shake(hitShake, hitShake, b);
         if (b.timer(4, hitSpacing)) {
-            for (int i : Mathf.signs)slopeEffect.at(b.x + Mathf.range(size / 4f), b.y + Mathf.range(size / 4f), b.rotation(), i);
+            for (int i : Mathf.signs)
+                slopeEffect.at(b.x + Mathf.range(size / 4f), b.y + Mathf.range(size / 4f), b.rotation(), i);
             spreadEffect.at(b);
             PositionLightning.setHitChance(trueHitChance);
             PositionLightning.createRange(b, collidesAir, collidesGround, b, b.team, linkRange, maxHit, backColor, Mathf.chanceDelta(randomLightningChance), lightningDamage, lightningLength, PositionLightning.WIDTH, boltNum, p -> {
@@ -114,12 +112,12 @@ public class LightningLinkerBulletType extends BasicBulletType {
 
         if (randomGenerateRange > 0f && Mathf.chance(Time.delta * randomGenerateChance) && b.lifetime - b.time > PositionLightning.lifetime)
             PositionLightning.createRandomRange(b, b.team, b, randomGenerateRange, backColor, Mathf.chanceDelta(randomLightningChance), 0, 0, boltWidth, boltNum, randomLightningNum, hitPos -> {
-            randomGenerateSound.at(hitPos, Mathf.random(0.9f, 1.1f));
-            Damage.damage(b.team, hitPos.getX(), hitPos.getY(), splashDamageRadius / 8, splashDamage * b.damageMultiplier() / 8, collidesAir, collidesGround);
-            HIFx.lightningHitLarge.at(hitPos.getX(), hitPos.getY(), lightningColor);
+                randomGenerateSound.at(hitPos, Mathf.random(0.9f, 1.1f));
+                Damage.damage(b.team, hitPos.getX(), hitPos.getY(), splashDamageRadius / 8, splashDamage * b.damageMultiplier() / 8, collidesAir, collidesGround);
+                HIFx.lightningHitLarge.at(hitPos.getX(), hitPos.getY(), lightningColor);
 
-            hitModifier.get(hitPos);
-        });
+                hitModifier.get(hitPos);
+            });
 
         if (Mathf.chanceDelta(effectLightningChance) && b.lifetime - b.time > Fx.chainLightning.lifetime) {
             for (int i = 0; i < effectLingtning; i++) {

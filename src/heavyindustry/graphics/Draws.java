@@ -20,25 +20,18 @@ import static heavyindustry.graphics.Drawn.*;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 public final class Draws {
-    private static final Rect rect = new Rect();
-
-    private static DrawTask[] drawTasks = new DrawTask[16];
-    private static FrameBuffer[] taskBuffer = new FrameBuffer[16];
-
-    private static Bloom[] blooms = new Bloom[16];
-
-    private static int idCount = 0;
-
-    public static int nextTaskId() {
-        return idCount++;
-    }
-
     public static final float mirrorField = 135f;
     public static final FrameBuffer effectBuffer = new FrameBuffer();
 
     public static final int sharedUnderBlockBloomId = nextTaskId();
     public static final int sharedUponFlyUnitBloomId = nextTaskId();
     public static final int sharedUnderFlyUnitBloomId = nextTaskId();
+
+    private static final Rect rect = new Rect();
+    private static DrawTask[] drawTasks = new DrawTask[16];
+    private static FrameBuffer[] taskBuffer = new FrameBuffer[16];
+    private static Bloom[] blooms = new Bloom[16];
+    private static int idCount = 0;
 
     static {
         Events.run(Trigger.draw, () -> {
@@ -66,13 +59,18 @@ public final class Draws {
     /** Draws should not be instantiated. */
     private Draws() {}
 
+    public static int nextTaskId() {
+        return idCount++;
+    }
+
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
-     * @param taskId The identification ID of the task, used to distinguish the task cache.
-     * @param target The data target passed to the drawing task is added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
+     *
+     * @param taskId    The identification ID of the task, used to distinguish the task cache.
+     * @param target    The data target passed to the drawing task is added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
      * @param drawFirst <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, used to declare the operation that this task group needs to perform before execution.
-     * @param drawLast <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, used to declare the operation that this task group will perform after completing the main drawing.
-     * @param draw The drawing task added to the task cache, which is the operation of this drawing.
+     * @param drawLast  <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, used to declare the operation that this task group will perform after completing the main drawing.
+     * @param draw      The drawing task added to the task cache, which is the operation of this drawing.
      */
     public static <T, D> void drawTask(int taskId, T target, D defTarget, DrawAcceptor<D> drawFirst, DrawAcceptor<D> drawLast, DrawAcceptor<T> draw) {
         while (taskId >= drawTasks.length) {
@@ -95,11 +93,12 @@ public final class Draws {
 
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
-     * @param taskId The identification ID of the task, used to distinguish the task cache.
-     * @param target Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
+     *
+     * @param taskId    The identification ID of the task, used to distinguish the task cache.
+     * @param target    Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
      * @param drawFirst <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, Used to declare the operations that this task group needs to perform before execution.
-     * @param drawLast <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, Used to declare the operations to be performed by this task group after completing the main drawing.
-     * @param draw The drawing task added to the task cache, which is the operation of this drawing
+     * @param drawLast  <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, Used to declare the operations to be performed by this task group after completing the main drawing.
+     * @param draw      The drawing task added to the task cache, which is the operation of this drawing
      */
     public static <T> void drawTask(int taskId, T target, DrawAcceptor<T> drawFirst, DrawAcceptor<T> drawLast, DrawAcceptor<T> draw) {
         drawTask(taskId, target, target, drawFirst, drawLast, draw);
@@ -107,10 +106,11 @@ public final class Draws {
 
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
+     *
      * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param target Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
      * @param shader <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, The shader used for drawing in this set of tasks.
-     * @param draw The drawing task added to the task cache, which is the operation of this drawing
+     * @param draw   The drawing task added to the task cache, which is the operation of this drawing
      */
     public static <T, S extends Shader> void drawTask(int taskId, T target, S shader, DrawAcceptor<T> draw) {
         while (taskId >= taskBuffer.length) {
@@ -133,11 +133,12 @@ public final class Draws {
 
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
-     * @param taskId The identification ID of the task, used to distinguish the task cache.
-     * @param target Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
-     * @param shader <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, The shader used for drawing in this set of tasks.
+     *
+     * @param taskId      The identification ID of the task, used to distinguish the task cache.
+     * @param target      Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
+     * @param shader      <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, The shader used for drawing in this set of tasks.
      * @param applyShader <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, Operations performed on the colorimeter before drawing.
-     * @param draw The drawing task added to the task cache, which is the operation of this drawing
+     * @param draw        The drawing task added to the task cache, which is the operation of this drawing
      */
     public static <T, S extends Shader> void drawTask(int taskId, T target, S shader, DrawAcceptor<S> applyShader, DrawAcceptor<T> draw) {
         drawTask(taskId, target, FrameBuffer::new, shader, applyShader, draw);
@@ -164,9 +165,10 @@ public final class Draws {
     /**
      * The task of publishing the cache and drawing it on the z-axis during the initial release, some of the parameters passed only have an effect during initialization and are selectively ignored afterwards.
      * <p><strong>If the calling frequency of this method is very high and the lambda expression describing the drawing behavior needs to access local variables, then in order to optimize heap occupancy, please use{@link Draws#drawTask(int, Object, Shader, DrawAcceptor)}</strong>
+     *
      * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param shader <strong>Selective parameter, if the task has already been initialized, this parameter is invalid</strong>, The shader used for drawing in this set of tasks.
-     * @param draw The drawing task added to the task cache, which is the operation of this drawing.
+     * @param draw   The drawing task added to the task cache, which is the operation of this drawing.
      */
     public static void drawTask(int taskId, Shader shader, DrawDef draw) {
         drawTask(taskId, null, shader, draw);
@@ -174,9 +176,10 @@ public final class Draws {
 
     /**
      * Publish the task of caching and draw it on the z-axis during the initial release.
+     *
      * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param target Handing over the data target for the drawing task, which was added to optimize the memory of lambda and avoid unnecessary memory usage caused by a large number of closure lambda instances.
-     * @param draw The drawing task added to the task cache, which is the operation of this drawing.
+     * @param draw   The drawing task added to the task cache, which is the operation of this drawing.
      */
     public static <T> void drawTask(int taskId, T target, DrawAcceptor<T> draw) {
         while (taskId >= drawTasks.length) {
@@ -198,8 +201,9 @@ public final class Draws {
     /**
      * Publish the task of caching and draw it on the z-axis during the initial release.
      * <p><strong>If the calling frequency of this method is very high and the lambda expression describing the drawing behavior needs to access local variables, then in order to optimize heap occupancy, please use{@link Draws#drawTask(int, Object, DrawAcceptor)}</strong>
+     *
      * @param taskId The identification ID of the task, used to distinguish the task cache.
-     * @param draw The drawing task added to the task cache, which is the operation of this drawing.
+     * @param draw   The drawing task added to the task cache, which is the operation of this drawing.
      */
     public static void drawTask(int taskId, DrawDef draw) {
         while (taskId >= drawTasks.length) {
@@ -219,7 +223,8 @@ public final class Draws {
     }
 
     public static <T, B extends FrameBuffer> void drawToBuffer(int taskId, B buffer, T target, DrawAcceptor<T> draw) {
-        drawToBuffer(taskId, buffer, target, b -> {}, draw);
+        drawToBuffer(taskId, buffer, target, b -> {
+        }, draw);
     }
 
     public static <T, B extends FrameBuffer> void drawToBuffer(int taskId, B buffer, T target, DrawAcceptor<B> endBuffer, DrawAcceptor<T> draw) {
@@ -234,9 +239,10 @@ public final class Draws {
 
     /**
      * Publish a flood drawing task based on{@link Draws#drawTask(int, Object, DrawAcceptor, DrawAcceptor, DrawAcceptor)}implementation.
+     *
      * @param taskId The identification ID of the task, used to distinguish the task cache.
-     * @param obj The data object passed to the drawing task.
-     * @param draw Draw task.
+     * @param obj    The data object passed to the drawing task.
+     * @param draw   Draw task.
      */
     public static <T> void drawBloom(int taskId, T obj, DrawAcceptor<T> draw) {
         while (taskId >= blooms.length) {
@@ -255,12 +261,12 @@ public final class Draws {
         }, Bloom::render, draw);
     }
 
-    /**@see Draws#drawBloom(int, Object, DrawAcceptor) */
+    /** @see Draws#drawBloom(int, Object, DrawAcceptor) */
     public static void drawBloom(int taskId, DrawDef draw) {
         drawBloom(taskId, (DrawAcceptor<Bloom>) draw);
     }
 
-    /**@see Draws#drawBloom(int, Object, DrawAcceptor) */
+    /** @see Draws#drawBloom(int, Object, DrawAcceptor) */
     public static void drawBloom(int taskId, DrawAcceptor<Bloom> draw) {
         while (taskId >= blooms.length) {
             blooms = Arrays.copyOf(blooms, blooms.length * 2);
@@ -279,15 +285,17 @@ public final class Draws {
         }, Bloom::render, draw);
     }
 
-    /**@see Draws#drawBloomUnderBlock(Object, DrawAcceptor)*/
+    /** @see Draws#drawBloomUnderBlock(Object, DrawAcceptor) */
     public static void drawBloomUnderBlock(DrawDef draw) {
         drawBloomUnderBlock(null, (DrawAcceptor<?>) draw);
     }
 
-    /**Publish a flood drawing task in the shared flood drawing group, with the drawn layer located below the square({@link Layer#block}-1, 29)
+    /**
+     * Publish a flood drawing task in the shared flood drawing group, with the drawn layer located below the square({@link Layer#block}-1, 29)
      * <p>Regarding the task of flood drawing, please refer to{@link Draws#drawBloom(int, Object, DrawAcceptor)}
+     *
      * @param target The data object passed to the drawing task.
-     * @param draw Draw task.
+     * @param draw   Draw task.
      */
     public static <T> void drawBloomUnderBlock(T target, DrawAcceptor<T> draw) {
         float z = Draw.z();
@@ -296,15 +304,19 @@ public final class Draws {
         Draw.z(z);
     }
 
-    /**@see Draws#drawBloomUponFlyUnit(Object, DrawAcceptor)*/
+    /**
+     * @see Draws#drawBloomUponFlyUnit(Object, DrawAcceptor)
+     */
     public static void drawBloomUponFlyUnit(DrawDef draw) {
         drawBloomUponFlyUnit(null, draw);
     }
 
-    /**Publish a flood drawing task in the shared flood drawing group, with the drawn layer located below the square({@link Layer#flyingUnit}+1, 116)
+    /**
+     * Publish a flood drawing task in the shared flood drawing group, with the drawn layer located below the square({@link Layer#flyingUnit}+1, 116)
      * <p>Regarding the task of flood drawing, please refer to{@link Draws#drawBloom(int, Object, DrawAcceptor)}
+     *
      * @param target The data object passed to the drawing task.
-     * @param draw Draw task.
+     * @param draw   Draw task.
      */
     public static <T> void drawBloomUponFlyUnit(T target, DrawAcceptor<T> draw) {
         float z = Draw.z();
@@ -313,7 +325,9 @@ public final class Draws {
         Draw.z(z);
     }
 
-    /** @see Draws#drawBloomUnderFlyUnit(Object, DrawAcceptor) */
+    /**
+     * @see Draws#drawBloomUnderFlyUnit(Object, DrawAcceptor)
+     */
     public static void drawBloomUnderFlyUnit(DrawDef draw) {
         drawBloomUnderFlyUnit(null, draw);
     }
@@ -321,8 +335,9 @@ public final class Draws {
     /**
      * Publish a flood drawing task in the shared flood drawing group, with the drawn layer located below the low altitude unit(86, {@link Layer#flyingUnitLow}-1)
      * <p>Regarding the task of flood drawing, please refer to{@link Draws#drawBloom(int, Object, DrawAcceptor)}
+     *
      * @param target The data object passed to the drawing task.
-     * @param draw Draw task.
+     * @param draw   Draw task.
      */
     public static <T> void drawBloomUnderFlyUnit(T target, DrawAcceptor<T> draw) {
         float z = Draw.z();
@@ -333,10 +348,11 @@ public final class Draws {
 
     /**
      * Publish a distorted drawing task based on{@link Draws#drawTask(int, Object, DrawAcceptor, DrawAcceptor, DrawAcceptor)}implementation.
-     * @param taskId The identification ID of the task, used to distinguish the task cache.
-     * @param target The data object passed to the drawing task.
+     *
+     * @param taskId     The identification ID of the task, used to distinguish the task cache.
+     * @param target     The data object passed to the drawing task.
      * @param distortion Twist drawing tool.
-     * @param draw Draw task.
+     * @param draw       Draw task.
      */
     public static <T> void drawDistortion(int taskId, T target, Distortion distortion, DrawAcceptor<T> draw) {
         drawTask(taskId, target, distortion, e -> {
@@ -347,10 +363,11 @@ public final class Draws {
 
     /**
      * Publish a Gaussian fuzzy mask layer drawing task based on{@link Draws#drawTask(int, Object, DrawAcceptor, DrawAcceptor, DrawAcceptor)}implementation.
+     *
      * @param taskId The identification ID of the task, used to distinguish the task cache.
      * @param target The data object passed to the drawing task.
-     * @param blur Blurring drawing objects.
-     * @param draw Draw task.
+     * @param blur   Blurring drawing objects.
+     * @param draw   Draw task.
      */
     public static <T> void drawBlur(int taskId, T target, Blur blur, DrawAcceptor<T> draw) {
         drawTask(taskId, target, blur, e -> {
@@ -505,12 +522,12 @@ public final class Draws {
     }
 
     private static void crystalEdge(float x, float y, boolean w, boolean r, float edgeLayer, float botLayer, Vec3 v) {
-        Draw.z(r || w? edgeLayer: botLayer - 0.01f);
+        Draw.z(r || w ? edgeLayer : botLayer - 0.01f);
 
         Lines.line(x + v.x, y + v.y, x + v31.x, y + v31.y);
         Lines.line(x + v.x, y + v.y, x - v31.x, y - v31.y);
 
-        Draw.z(!r || w? edgeLayer: botLayer - 0.01f);
+        Draw.z(!r || w ? edgeLayer : botLayer - 0.01f);
 
         Lines.line(x - v.x, y - v.y, x + v31.x, y + v31.y);
         Lines.line(x - v.x, y - v.y, x - v31.x, y - v31.y);
@@ -601,14 +618,14 @@ public final class Draws {
     }
 
     public static void gradientSqrt(float x, float y, float radius, float gradientCenterX, float gradientCenterY, float offset, Color gradientColor, float rotation) {
-        gradientPoly(x, y, 4, 1.41421f*(radius/2), Draw.getColor(), gradientCenterX, gradientCenterY, offset, gradientColor, rotation);
+        gradientPoly(x, y, 4, 1.41421f * (radius / 2), Draw.getColor(), gradientCenterX, gradientCenterY, offset, gradientColor, rotation);
     }
 
     public static void gradientPoly(float x, float y, int edges, float radius, Color color, float gradientCenterX, float gradientCenterY, float offset, Color gradientColor, float rotation) {
         gradientFan(x, y, edges, radius, color, gradientCenterX, gradientCenterY, offset, gradientColor, 360, rotation);
     }
 
-    public static  void drawFan(float x, float y, float radius, float fanAngle, float rotation) {
+    public static void drawFan(float x, float y, float radius, float fanAngle, float rotation) {
         gradientFan(x, y, radius, Draw.getColor().a, fanAngle, rotation);
     }
 
@@ -641,13 +658,13 @@ public final class Draws {
         float lastX = -1, lastY = -1;
         float lastGX = -1, lastGY = -1;
 
-        for (int i = 0; i < edges + (fanAngle == 360? 1: 0); i++) {
-            v1.setAngle(i*step + rotation - fanAngle%360/2);
+        for (int i = 0; i < edges + (fanAngle == 360 ? 1 : 0); i++) {
+            v1.setAngle(i * step + rotation - fanAngle % 360 / 2);
             v2.set(v1).sub(gradientCenterX - x, gradientCenterY - y);
 
             if (lastX != -1) {
-                v3.set(v2).setLength(offset).scl(offset < 0? -1: 1);
-                v4.set(lastGX, lastGY).setLength(offset).scl(offset < 0? -1: 1);
+                v3.set(v2).setLength(offset).scl(offset < 0 ? -1 : 1);
+                v4.set(lastGX, lastGY).setLength(offset).scl(offset < 0 ? -1 : 1);
                 Fill.quad(lastX, lastY, color.toFloatBits(), x + v1.x, y + v1.y, color.toFloatBits(), gradientCenterX + v2.x + v3.x, gradientCenterY + v2.y + v3.y, gradientColor.toFloatBits(), gradientCenterX + lastGX + v4.x, gradientCenterY + lastGY + v4.y, gradientColor.toFloatBits());
             }
 
@@ -679,15 +696,15 @@ public final class Draws {
         if (sides % 2 == 1) sides++;
 
         v1.set(0, 0);
-        float per = totalDashDeg < 0? -360f/sides: 360f/sides;
+        float per = totalDashDeg < 0 ? -360f / sides : 360f / sides;
         totalDashDeg = Math.min(Math.abs(totalDashDeg), 360);
 
         float rem = 360 - totalDashDeg;
-        float dashDeg = totalDashDeg/dashes;
-        float empDeg = rem/dashes;
+        float dashDeg = totalDashDeg / dashes;
+        float empDeg = rem / dashes;
 
         for (int i = 0; i < sides; i++) {
-            if (i * Math.abs(per) % (dashDeg+empDeg) > dashDeg) continue;
+            if (i * Math.abs(per) % (dashDeg + empDeg) > dashDeg) continue;
 
             v1.set(radius, 0).setAngle(rotate + per * i + 90);
             float x1 = v1.x;
@@ -755,10 +772,10 @@ public final class Draws {
         float c2 = gradientColor.toFloatBits();
 
         for (int i = 0; i < sides; i++) {
-            float dx = horLen * Mathf.cosDeg(i*step);
-            float dy = vertLen * Mathf.sinDeg(i*step);
-            float dx1 = horLen * Mathf.cosDeg((i + 1)*step);
-            float dy1 = vertLen * Mathf.sinDeg((i + 1)*step);
+            float dx = horLen * Mathf.cosDeg(i * step);
+            float dy = vertLen * Mathf.sinDeg(i * step);
+            float dx1 = horLen * Mathf.cosDeg((i + 1) * step);
+            float dy1 = vertLen * Mathf.sinDeg((i + 1) * step);
 
             v1.set(dx, dy).setAngle(rotation);
             v2.set(dx1, dy1).setAngle(rotation);
@@ -790,7 +807,7 @@ public final class Draws {
 
         cycRotation = Mathf.mod(cycRotation, 360);
 
-        float phaseDiff = 180 * rowWidth/(Mathf.pi*cycRadius);
+        float phaseDiff = 180 * rowWidth / (Mathf.pi * cycRadius);
         float rot = cycRotation + phaseDiff;
 
         v31.set(cycRadius, rowHeight / 2, 0).rotate(Vec3.Y, cycRotation);
@@ -846,11 +863,25 @@ public final class Draws {
         Fill.quad(x - v1.x, y - v1.y, x + v2.x, y + v2.y, x + v3.x, y + v3.y, x - v1.x, y - v1.y);
     }
 
+    public interface DrawAcceptor<T> {
+        void draw(T accept);
+    }
+
+    public interface DrawDef extends DrawAcceptor {
+        @Override
+        default void draw(Object accept) {
+            draw();
+        }
+
+        void draw();
+    }
+
     private static class DrawTask {
-        DrawAcceptor<?> defaultFirstTask, defaultLastTask;
         protected Object defaultTarget;
         protected DrawAcceptor<?>[] tasks = new DrawAcceptor<?>[16];
         protected Object[] dataTarget = new Object[16];
+
+        DrawAcceptor<?> defaultFirstTask, defaultLastTask;
         int taskCounter;
         boolean init;
 
@@ -878,19 +909,6 @@ public final class Draws {
         }
     }
 
-    public interface DrawAcceptor<T> {
-        void draw(T accept);
-    }
-
-    public interface DrawDef extends DrawAcceptor {
-        @Override
-        default void draw(Object accept) {
-            draw();
-        }
-
-        void draw();
-    }
-
     public static class Distortion implements Disposable {
         static final FrameBuffer tmpBuffer = new FrameBuffer();
 
@@ -904,6 +922,40 @@ public final class Draws {
             buffer = new FrameBuffer();
 
             init();
+        }
+
+        public static void drawVoidDistortion(float x, float y, float radius, float len) {
+            drawVoidDistortion(x, y, radius, len, true, Lines.circleVertices(radius));
+        }
+
+        public static void drawVoidDistortion(float x, float y, float radius, float len, boolean inside) {
+            drawVoidDistortion(x, y, radius, len, inside, Lines.circleVertices(radius));
+        }
+
+        public static void drawVoidDistortion(float x, float y, float radius, float len, boolean inside, int sides) {
+            v1.set(radius, 0);
+            v2.set(radius, 0);
+            v3.set(radius + len, 0);
+            v4.set(radius + len, 0);
+            v5.set(inside ? -1 : 1, 0);
+            v6.set(inside ? -1 : 1, 0);
+
+            float step = 360f / sides;
+            for (int i = 0; i < sides; i++) {
+                v1.setAngle(step * i);
+                v2.setAngle(step * (i + 1));
+                v3.setAngle(step * i);
+                v4.setAngle(step * (i + 1));
+                v5.setAngle(step * i);
+                v6.setAngle(step * (i + 1));
+
+                float cf1 = c1.set((v5.x + 1) / 2, (v5.y + 1) / 2, inside ? 1 : 0, inside ? 1 : 0).toFloatBits();
+                float cf2 = c1.set((v6.x + 1) / 2, (v6.y + 1) / 2, inside ? 1 : 0, inside ? 1 : 0).toFloatBits();
+                float cf3 = c1.set((v5.x + 1) / 2, (v5.y + 1) / 2, inside ? 0 : 1, inside ? 0 : 1).toFloatBits();
+                float cf4 = c1.set((v6.x + 1) / 2, (v6.y + 1) / 2, inside ? 0 : 1, inside ? 0 : 1).toFloatBits();
+
+                Fill.quad(x + v1.x, y + v1.y, cf1, x + v2.x, y + v2.y, cf2, x + v4.x, y + v4.y, cf4, x + v3.x, y + v3.y, cf3);
+            }
         }
 
         public void init() {
@@ -956,40 +1008,6 @@ public final class Draws {
         public boolean isDisposed() {
             return disposed;
         }
-
-        public static void drawVoidDistortion(float x, float y, float radius, float len) {
-            drawVoidDistortion(x, y, radius, len, true, Lines.circleVertices(radius));
-        }
-
-        public static void drawVoidDistortion(float x, float y, float radius, float len, boolean inside) {
-            drawVoidDistortion(x, y, radius, len, inside, Lines.circleVertices(radius));
-        }
-
-        public static void drawVoidDistortion(float x, float y, float radius, float len, boolean inside, int sides) {
-            v1.set(radius, 0);
-            v2.set(radius, 0);
-            v3.set(radius + len, 0);
-            v4.set(radius + len, 0);
-            v5.set(inside ? -1 : 1, 0);
-            v6.set(inside ? -1 : 1, 0);
-
-            float step = 360f / sides;
-            for (int i = 0; i < sides; i++) {
-                v1.setAngle(step * i);
-                v2.setAngle(step * (i + 1));
-                v3.setAngle(step * i);
-                v4.setAngle(step * (i + 1));
-                v5.setAngle(step * i);
-                v6.setAngle(step * (i + 1));
-
-                float cf1 = c1.set((v5.x + 1) / 2, (v5.y + 1) / 2, inside ? 1 : 0, inside ? 1 : 0).toFloatBits();
-                float cf2 = c1.set((v6.x + 1) / 2, (v6.y + 1) / 2, inside ? 1 : 0, inside ? 1 : 0).toFloatBits();
-                float cf3 = c1.set((v5.x + 1) / 2, (v5.y + 1) / 2, inside ? 0 : 1, inside ? 0 : 1).toFloatBits();
-                float cf4 = c1.set((v6.x + 1) / 2, (v6.y + 1) / 2, inside ? 0 : 1, inside ? 0 : 1).toFloatBits();
-
-                Fill.quad(x + v1.x, y + v1.y, cf1, x + v2.x, y + v2.y, cf2, x + v4.x, y + v4.y, cf4, x + v3.x, y + v3.y, cf3);
-            }
-        }
     }
 
     public static class Blur {
@@ -1033,14 +1051,11 @@ public final class Draws {
                 0.4876526883744f,
                 0.2561736558128f,
         };
-
-        Shader blurShader;
-        FrameBuffer buffer, pingpong;
-
-        boolean capturing;
-
         public int blurScl = 4;
         public float blurSpace = 2.16f;
+        Shader blurShader;
+        FrameBuffer buffer, pingpong;
+        boolean capturing;
 
         public Blur() {
             this(DEf_F);
@@ -1072,7 +1087,8 @@ public final class Draws {
                 varyings.append("varying vec2 v_texCoords").append(c).append(";").append(System.lineSeparator());
 
                 assignVar.append("v_texCoords").append(c).append(" = ").append("a_texCoord0");
-                if (c - half != 0) assignVar.append(c - half > 0 ? "+" : "-").append(Math.abs((float) c - half)).append(" * len");
+                if (c - half != 0)
+                    assignVar.append(c - half > 0 ? "+" : "-").append(Math.abs((float) c - half)).append(" * len");
 
                 assignVar.append(";").append(System.lineSeparator()).append("  ");
 
@@ -1186,7 +1202,10 @@ public final class Draws {
         private static FrameBuffer samplerBuffer = new FrameBuffer(), pingpong = new FrameBuffer();
         private static boolean setup = false;
 
-        /** Load Events for ScreenSampler. If you try to load it a second time, nothing will happen. */
+        /**
+         * Load Events for ScreenSampler.
+         * If you try to load it a second time, nothing will happen.
+         */
         public static void setup() {
             if (setup) return;
 
@@ -1223,6 +1242,7 @@ public final class Draws {
 
         /**
          * Get the current screen texture. The texture object is a reference or mapping of the current screen texture, which will change synchronously with the rendering process. Do not use this object to temporarily store screen data.
+         *
          * @return Reference object for screen sampling texture.
          */
         public static Texture getSampler() {
@@ -1232,8 +1252,9 @@ public final class Draws {
 
         /**
          * Transfer the current screen texture to a{@linkplain FrameBuffer frame buffer}, This will become a copy that can be used to temporarily store screen content.
+         *
          * @param target Target buffer for transferring screen textures.
-         * @param clear Is the frame buffer cleared before transferring.
+         * @param clear  Is the frame buffer cleared before transferring.
          */
         public static void getToBuffer(FrameBuffer target, boolean clear) {
             if (clear) target.begin(Color.clear);

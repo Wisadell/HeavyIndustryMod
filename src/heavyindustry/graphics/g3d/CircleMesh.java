@@ -64,6 +64,10 @@ public class CircleMesh extends PlanetMesh {
         mesh = MeshUtils.end();
     }
 
+    private static Shader shader() {
+        return HIShaders.planetTextureShader;
+    }
+
     @Override
     public void render(PlanetParams params, Mat3D projection, Mat3D transform) {
         //don't waste performance rendering 0-alpha
@@ -101,9 +105,5 @@ public class CircleMesh extends PlanetMesh {
         Vec3 position = planet.position;
         Shader shader = shader();
         shader.setUniformf(name, position.x, position.y, position.z, planet.radius);
-    }
-
-    private static Shader shader() {
-        return HIShaders.planetTextureShader;
     }
 }

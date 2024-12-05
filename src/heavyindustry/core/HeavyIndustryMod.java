@@ -20,9 +20,11 @@ import heavyindustry.graphics.*;
 import heavyindustry.ui.*;
 import heavyindustry.ui.dialogs.*;
 import heavyindustry.util.*;
+import mindustry.content.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
+import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
 
@@ -35,12 +37,12 @@ import static mindustry.Vars.*;
 
 /**
  * Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings.
+ *
  * @author E-Nightingale
  */
 public final class HeavyIndustryMod extends Mod {
     /** Commonly used static read-only String. do not change unless you know what you're doing. */
     public static final String modName = "heavy-industry";
-
     /** Omitting longer mod names is generally used to load mod sprites. */
     public static String name(String add) {
         return modName + "-" + add;
@@ -49,8 +51,7 @@ public final class HeavyIndustryMod extends Mod {
     public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode"), developer = settings.getBool("hi-developer-mode");
 
     private static final String linkGitHub = "https://github.com/E-Nightingale/HeavyIndustryMod", author = "E-Nightingale";
-
-    /** jar internal navigation. **/
+    /** jar internal navigation. */
     public static InternalFileTree internalTree = new InternalFileTree(HeavyIndustryMod.class);
 
     public HeavyIndustryMod() {
@@ -84,92 +85,19 @@ public final class HeavyIndustryMod extends Mod {
         });
     }
 
-    @Override
-    public void loadContent() {
-        EntityRegister.load();
-        WorldRegister.load();
-
-        if (onlyPlugIn) return;
-
-        HITeams.load();
-        HIItems.load();
-        HIStatusEffects.load();
-        HILiquids.load();
-        HIBullets.load();
-        HIUnitTypes.load();
-        HIBlocks.load();
-        HIWeathers.load();
-        HIOverride.loadReflect();
-        HIOverride.load();
-        HIPlanets.load();
-        HISectorPresets.load();
-        HITechTree.load();
-
-        Utils.loadItems();
+    public static void resetSaves(Planet planet) {
+        planet.sectors.each(sector -> {
+            if (sector.hasSave()) {
+                sector.save.delete();
+                sector.save = null;
+            }
+        });
     }
 
-    @Override
-    public void init() {
-        if (!headless) {
-            ScreenSampler.setup();
-
-            TableUtils.init();
-        }
-
-        settings.defaults("hi-closed-dialog", false);
-        settings.defaults("hi-closed-multiple-mods", false);
-        settings.defaults("hi-tesla-range", true);
-        settings.defaults("hi-plug-in-mode", false);
-
-        if (!onlyPlugIn && mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
-            HIOverride.loadAprilFoolsDay();
-            if (ui != null) Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
-        }
-
-        if (ui != null && ui.settings != null) {
-            BaseDialog dialog = new BaseDialog("tips");
-            Runnable exit = () -> {
-                dialog.hide();
-                app.exit();
-            };
-            dialog.cont.add(bundle.format("hi-reset-exit"));
-            dialog.buttons.button("@confirm", exit).center().size(150, 50);
-
-            ui.settings.addCategory(bundle.format("hi-settings"), HIIcon.reactionIcon, t -> {
-                t.checkPref("hi-closed-dialog", false);
-                t.checkPref("hi-closed-multiple-mods", false);
-                t.checkPref("hi-tesla-range", true);
-                t.checkPref("hi-enable-serpulo-sector-invasion", true);
-                t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting("hi-plug-in-mode", false, null) {
-                    @Override
-                    public void add(SettingsMenuDialog.SettingsTable table) {
-                        CheckBox box = new CheckBox(title);
-
-                        box.update(() -> box.setChecked(settings.getBool(name)));
-
-                        box.changed(() -> {
-                            settings.put(name, box.isChecked());
-                            dialog.show();
-                        });
-                        box.left();
-                        addDesc(table.add(box).left().padTop(3f).get());
-                        table.row();
-                    }
-                });
-                t.checkPref("hi-developer-mode", false);
-            });
-        }
-
-        //Replace the original technology tree
-        HIResearchDialog dialog = new HIResearchDialog();
-        ResearchDialog research = ui.research;
-        research.shown(() -> {
-            dialog.show();
-            Objects.requireNonNull(research);
-            Time.runTask(1f, research::hide);
-        });
-
-        setString();
+    public static void resetTree(TechTree.TechNode root) {
+        root.reset();
+        root.content.clearUnlock();
+        root.children.each(HeavyIndustryMod::resetTree);
     }
 
     public static boolean isAprilFoolsDay() {
@@ -237,10 +165,11 @@ public final class HeavyIndustryMod extends Mod {
 
         boolean announces = true;
 
-        for (LoadedMod mod : mods.orderedMods()) if (!modName.equals(mod.meta.name) && !mod.meta.hidden) {
-            announces = false;
-            break;
-        }
+        for (LoadedMod mod : mods.orderedMods())
+            if (!modName.equals(mod.meta.name) && !mod.meta.hidden) {
+                announces = false;
+                break;
+            }
 
         if (announces) return;
         BaseDialog dialog = new BaseDialog("oh-no") {
@@ -250,7 +179,8 @@ public final class HeavyIndustryMod extends Mod {
             update(() -> canClose = (time -= Time.delta) <= 0f);
             cont.add(bundle.get("hi-multiple-mods"));
             buttons.button("", this::hide).update(b -> {
-                b.setDisabled(!canClose);b.setText(canClose ? "@close" : String.format("%s(%ss)", "@close", Strings.fixed(time / 60f, 1)));
+                b.setDisabled(!canClose);
+                b.setText(canClose ? "@close" : String.format("%s(%ss)", "@close", Strings.fixed(time / 60f, 1)));
             }).size(210f, 64f);
         }};
         dialog.show();
@@ -268,6 +198,96 @@ public final class HeavyIndustryMod extends Mod {
 
         HIMenuFragment subTitle = new HIMenuFragment(massageRand);
         subTitle.build(ui.menuGroup);
+    }
+
+    @Override
+    public void loadContent() {
+        EntityRegister.load();
+        WorldRegister.load();
+
+        if (onlyPlugIn) return;
+
+        HITeams.load();
+        HIItems.load();
+        HIStatusEffects.load();
+        HILiquids.load();
+        HIBullets.load();
+        HIUnitTypes.load();
+        HIBlocks.load();
+        HIWeathers.load();
+        HIOverride.loadReflect();
+        HIOverride.load();
+        HIPlanets.load();
+        HISectorPresets.load();
+        HITechTree.load();
+
+        Utils.loadItems();
+    }
+
+    @Override
+    public void init() {
+        if (!headless) {
+            ScreenSampler.setup();
+
+            TableUtils.init();
+        }
+
+        settings.defaults("hi-closed-dialog", false);
+        settings.defaults("hi-closed-multiple-mods", false);
+        settings.defaults("hi-tesla-range", true);
+        settings.defaults("hi-plug-in-mode", false);
+
+        if (!onlyPlugIn && mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
+            HIOverride.loadAprilFoolsDay();
+            if (ui != null)
+                Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
+        }
+
+        if (ui != null && ui.settings != null) {
+            BaseDialog dialog = new BaseDialog("tips");
+            Runnable exit = () -> {
+                dialog.hide();
+                app.exit();
+            };
+            dialog.cont.add(bundle.format("hi-reset-exit"));
+            dialog.buttons.button("@confirm", exit).center().size(150, 50);
+
+            //add heavy-industry settings
+            ui.settings.addCategory(bundle.format("hi-settings"), HIIcon.reactionIcon, t -> {
+                t.checkPref("hi-closed-dialog", false);
+                t.checkPref("hi-closed-multiple-mods", false);
+                t.checkPref("hi-tesla-range", true);
+                t.checkPref("hi-enable-serpulo-sector-invasion", true);
+                t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting("hi-plug-in-mode", false, null) {
+                    @Override
+                    public void add(SettingsMenuDialog.SettingsTable table) {
+                        CheckBox box = new CheckBox(title);
+
+                        box.update(() -> box.setChecked(settings.getBool(name)));
+
+                        box.changed(() -> {
+                            settings.put(name, box.isChecked());
+                            dialog.show();
+                        });
+                        box.left();
+                        addDesc(table.add(box).left().padTop(3f).get());
+                        table.row();
+                    }
+                });
+                t.checkPref("hi-developer-mode", false);
+            });
+        }
+
+        //Replace the original technology tree
+        HIResearchDialog dialog = new HIResearchDialog();
+        ResearchDialog research = ui.research;
+        research.shown(() -> {
+            dialog.show();
+            Objects.requireNonNull(research);
+            Time.runTask(1f, research::hide);
+        });
+
+        setString();
     }
 
     public static class HIMenuFragment {
@@ -288,15 +308,15 @@ public final class HeavyIndustryMod extends Mod {
                 float width = graphics.getWidth(), height = graphics.getHeight() - scene.marginTop;
                 float logoscl = Scl.scl(1) * logo.scale;
                 float logow = Math.min(logo.width * logoscl, graphics.getWidth() - Scl.scl(20));
-                float logoh = logow * (float)logo.height / logo.width;
+                float logoh = logow * (float) logo.height / logo.width;
 
-                float fx = (int)(width / 2f);
-                float fy = (int)(height - 6 - logoh) + logoh / 2 - (graphics.isPortrait() ? Scl.scl(30f) : 0f);
+                float fx = (int) (width / 2f);
+                float fy = (int) (height - 6 - logoh) + logoh / 2 - (graphics.isPortrait() ? Scl.scl(30f) : 0f);
                 if (settings.getBool("macnotch")) {
                     fy -= Scl.scl(macNotchHeight);
                 }
 
-                float ex = fx + logow/3 - Scl.scl(1f), ey = fy - logoh / 3f - Scl.scl(2f);
+                float ex = fx + logow / 3 - Scl.scl(1f), ey = fy - logoh / 3f - Scl.scl(2f);
                 float ang = 12 + Mathf.sin(Time.time, 8, 2f);
 
                 float dst = Mathf.dst(ex, ey, 0, 0);

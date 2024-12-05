@@ -151,7 +151,7 @@ public class LightningEffect extends Effect {
         float l = links;
         if (extend) l *= Mathf.curve(fin, 0f, 0.5f);
 
-        for (int i = 0; i < l; i ++) {
+        for (int i = 0; i < l; i++) {
             float nx, ny;
             if (i == links - 1) {
                 nx = ex;
@@ -176,13 +176,13 @@ public class LightningEffect extends Effect {
     public static class LightningEffectState extends EffectState {
         public float ex, ey;
 
-        @Override
-        public void draw() {
-            lifetime = ((LightningEffect)effect).render(id, color, time, lifetime, x, y, ex, ey, data);
-        }
-
         public static LightningEffectState create() {
             return Pools.obtain(LightningEffectState.class, LightningEffectState::new);
+        }
+
+        @Override
+        public void draw() {
+            lifetime = ((LightningEffect) effect).render(id, color, time, lifetime, x, y, ex, ey, data);
         }
     }
 }

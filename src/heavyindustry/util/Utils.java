@@ -32,16 +32,35 @@ import static mindustry.Vars.*;
 
 /**
  * Input-output utilities, providing very specific functions that aren't really commonly used, but often enough to require me to write a class for it.
+ *
  * @author E-Nightingale
  */
 public final class Utils {
+    public static final TextureRegion[] EMP_REGIONS = new TextureRegion[0];
+
+    private static final String DONOR = bundle.get("hi-donor-item");
+    private static final String DEVELOPER = bundle.get("hi-developer-item");
+
+    public static Color
+            c1 = new Color(), c2 = new Color(), c3 = new Color(), c4 = new Color(), c5 = new Color(),
+            c6 = new Color(), c7 = new Color(), c8 = new Color(), c9 = new Color(), c10 = new Color();
+
+    public static Vec2
+            v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2();
+
+    public static Seq<UnlockableContent> donorItems = new Seq<>();
+    public static Seq<UnlockableContent> developerItems = new Seq<>();
+
     /** Utils should not be instantiated. */
     private Utils() {}
 
     @Contract(pure = true)
     public static int reverse(int rotation) {
         return switch (rotation) {
-            case 0 -> 2; case 2 -> 0; case 1 -> 3; case 3 -> 1;
+            case 0 -> 2;
+            case 2 -> 0;
+            case 1 -> 3;
+            case 3 -> 1;
             default -> throw new IllegalStateException("Unexpected value: " + rotation);
         };
     }
@@ -69,7 +88,8 @@ public final class Utils {
 
     /**
      * Gets multiple regions inside a {@link TextureRegion}.
-     * @param width The amount of regions horizontally.
+     *
+     * @param width  The amount of regions horizontally.
      * @param height The amount of regions vertically.
      */
     public static TextureRegion[] split(String name, int size, int width, int height) {
@@ -99,9 +119,7 @@ public final class Utils {
         return regions;
     }
 
-    /**
-     * {@link Tile#relativeTo(int, int)} does not account for building rotation.
-     */
+    /** {@link Tile#relativeTo(int, int)} does not account for building rotation. */
     public static int relativeDirection(Building from, Building to) {
         if (from == null || to == null) return -1;
         if (from.x == to.x && from.y > to.y) return (7 - from.rotation) % 4;
@@ -110,21 +128,6 @@ public final class Utils {
         if (from.x < to.x && from.y == to.y) return (4 - from.rotation) % 4;
         return -1;
     }
-
-    public static Color
-            c1 = new Color(), c2 = new Color(), c3 = new Color(), c4 = new Color(), c5 = new Color(),
-            c6 = new Color(), c7 = new Color(), c8 = new Color(), c9 = new Color(), c10 = new Color();
-
-    public static Vec2
-            v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2();
-
-    public static Seq<UnlockableContent> donorItems = new Seq<>();
-    public static Seq<UnlockableContent> developerItems = new Seq<>();
-
-    private static final String DONOR = bundle.get("hi-donor-item");
-    private static final String DEVELOPER = bundle.get("hi-developer-item");
-
-    public static final TextureRegion[] EMP_REGIONS = new TextureRegion[0];
 
     public static void loadItems() {
         for (UnlockableContent c : donorItems) {
@@ -141,26 +144,6 @@ public final class Utils {
 
     public static DrawBlock base(float rotatorSpeed) {
         return new DrawMulti(new DrawRegion("-rotator", rotatorSpeed), new DrawDefault(), new DrawRegion("-top"));
-    }
-
-    public static class ExtendedPosition implements Position {
-        public float x, y;
-
-        public ExtendedPosition set(float x, float y) {
-            this.x = x;
-            this.y = y;
-            return this;
-        }
-
-        @Override
-        public float getX() {
-            return x;
-        }
-
-        @Override
-        public float getY() {
-            return y;
-        }
     }
 
     @Contract(value = "_, _ -> new", pure = true)
@@ -187,13 +170,13 @@ public final class Utils {
     }
 
     public static float posx(float x, float length, float angle) {
-        float a = (float) ((Math.PI * angle)/180);
+        float a = (float) ((Math.PI * angle) / 180);
         float cos = (float) Math.cos(a);
         return x + length * cos;
     }
 
     public static float posy(float y, float length, float angle) {
-        float a = (float) ((Math.PI * angle)/180);
+        float a = (float) ((Math.PI * angle) / 180);
         float sin = (float) Math.sin(a);
         return y + length * sin;
     }
@@ -306,7 +289,7 @@ public final class Utils {
     }
 
     public static void liquid(ObjectMap<Integer, Cons<Liquid>> cons, String name, Color color, float exp, float fla, float htc, float vis, float temp) {
-        for (int i = 1 ; i < 10 ; i++) {
+        for (int i = 1; i < 10; i++) {
             int index = i;
             var l = new Liquid(name + index, color) {{
                 explosiveness = exp * index;
@@ -326,7 +309,7 @@ public final class Utils {
     }
 
     public static void item(ObjectMap<Integer, Cons<Item>> cons, String name, Color color, float exp, float fla, float cos, float radio, float chg, float health) {
-        for (int i = 1 ; i < 10 ; i++) {
+        for (int i = 1; i < 10; i++) {
             int index = i;
             Item item = new Item(name + index, color) {{
                 explosiveness = exp * index;
@@ -345,6 +328,7 @@ public final class Utils {
     /**
      * 1. Cannot use {@link mindustry.Vars#content}
      * 2. Cannot be used for init() anymore
+     *
      * @author guiY
      */
     public static void test() {
@@ -426,5 +410,25 @@ public final class Utils {
         Draw.color(liquid.color, liquid.color.a * alpha);
         Draw.rect(region, x + w / 2f, y + h / 2f, w, h);
         Draw.color();
+    }
+
+    public static class ExtendedPosition implements Position {
+        public float x, y;
+
+        public ExtendedPosition set(float x, float y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        }
+
+        @Override
+        public float getX() {
+            return x;
+        }
+
+        @Override
+        public float getY() {
+            return y;
+        }
     }
 }

@@ -56,15 +56,16 @@ import java.io.*;
  * Data d2 = new Data();
  * d2.read(dataArr);//Instantiate first, then read properties from the array.
  * }</pre>
- * */
+ */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public interface DataPackable {
     LongMap<Func> objectProvMap = new LongMap<>();
 
     /**
-     * Register a constructor of a wrapper type that takes an array of objects as a parameter and returns the object in its initial state.
+     * Register a constructor of a wrapper type that takes an array of objects
+     * as a parameter and returns the object in its initial state.
      *
-     * @param typeID Construct an ID for this type
+     * @param typeID      Construct an ID for this type
      * @param constructor Method for creating raw objects when performing data parsing using this ID
      */
     static void assignType(long typeID, Func<Object[], Object> constructor) {
@@ -74,7 +75,8 @@ public interface DataPackable {
 
     /**
      * Read and return a new object with wrapper information from a packaged byte array.
-     * Note that the passed constructor parameters do not have type checking, and it is generally not recommended to use and register constructors that contain parameters.
+     * Note that the passed constructor parameters do not have type checking,
+     * and it is generally not recommended to use and register constructors that contain parameters.
      */
     static <T extends DataPackable> T readObject(byte[] bytes, Object... param) {
         long id = new Reads(new DataInputStream(new ByteArrayInputStream(bytes))).l();
@@ -87,18 +89,23 @@ public interface DataPackable {
         return result;
     }
 
-    /** The type identifier ID of this object, for a class, the method of its instance must return the same ID at any time. */
+    /**
+     * The type identifier ID of this object, for a class,
+     * the method of its instance must return the same ID at any time.
+     */
     long typeID();
 
     /**
-     * The method of packaging this instance to write object information should be implemented by writing the information that the object needs to be packaged in this method.
+     * The method of packaging this instance to write object information should be implemented by
+     * writing the information that the object needs to be packaged in this method.
      *
      * @param write Tools used to write data
      */
     void write(Writes write);
 
     /**
-     * The method used to read packaging information when opening the package should be the reverse operation of {@link DataPackable#write(Writes)}, which sets the data back into the object.
+     * The method used to read packaging information when opening the package should be the reverse
+     * operation of {@link DataPackable#write(Writes)}, which sets the data back into the object.
      *
      * @param read Incoming data reading tool
      */

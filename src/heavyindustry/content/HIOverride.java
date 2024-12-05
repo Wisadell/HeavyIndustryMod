@@ -33,6 +33,7 @@ import static mindustry.type.ItemStack.*;
 
 /**
  * Covering the original content.
+ *
  * @author E-Nightingale
  */
 public final class HIOverride {
@@ -207,38 +208,34 @@ public final class HIOverride {
         Blocks.diffuse.armor = 3f;
         Blocks.sublimate.armor = 4f;
         ((ContinuousLiquidTurret) Blocks.sublimate).range = 120f;
-        ((ContinuousLiquidTurret) Blocks.sublimate).ammo(
-                HILiquids.methane, new ContinuousFlameBulletType() {{
-                    damage = 40f;
-                    length = 120f;
-                    knockback = 1f;
-                    pierceCap = 2;
-                    buildingDamageMultiplier = 0.3f;
-                    colors = new Color[]{Color.valueOf("ffd37fa1"), Color.valueOf("ffd37fcc"), Color.valueOf("ffd37f"), Color.valueOf("ffe6b7"), Color.valueOf("d8e2ff")};
-                    lightColor = flareColor = Color.valueOf("fbd367");
-                    hitColor = Color.valueOf("ffd367");
-                }},
-                Liquids.hydrogen, new ContinuousFlameBulletType() {{
-                    damage = 60f;
-                    rangeChange = 10f;
-                    length = 130f;
-                    knockback = 1f;
-                    pierceCap = 2;
-                    buildingDamageMultiplier = 0.3f;
-                    colors = new Color[]{Color.valueOf("92abff7f"), Color.valueOf("92abffa2"), Color.valueOf("92abffd3"), Color.valueOf("92abff"), Color.valueOf("d4e0ff")};
-                    lightColor = hitColor = flareColor = Color.valueOf("92abff");
-                }},
-                Liquids.cyanogen, new ContinuousFlameBulletType() {{
-                    damage = 130f;
-                    rangeChange = 80f;
-                    length = 200f;
-                    knockback = 2f;
-                    pierceCap = 3;
-                    buildingDamageMultiplier = 0.3f;
-                    colors = new Color[]{Color.valueOf("465ab888"), Color.valueOf("66a6d2a0"), Color.valueOf("89e8b6b0"), Color.valueOf("cafcbe"), Color.white};
-                    lightColor = hitColor = flareColor = Color.valueOf("89e8b6");
-                }}
-        );
+        ((ContinuousLiquidTurret) Blocks.sublimate).ammo(HILiquids.methane, new ContinuousFlameBulletType() {{
+            damage = 40f;
+            length = 120f;
+            knockback = 1f;
+            pierceCap = 2;
+            buildingDamageMultiplier = 0.3f;
+            colors = new Color[]{Color.valueOf("ffd37fa1"), Color.valueOf("ffd37fcc"), Color.valueOf("ffd37f"), Color.valueOf("ffe6b7"), Color.valueOf("d8e2ff")};
+            lightColor = flareColor = Color.valueOf("fbd367");
+            hitColor = Color.valueOf("ffd367");
+        }}, Liquids.hydrogen, new ContinuousFlameBulletType() {{
+            damage = 60f;
+            rangeChange = 10f;
+            length = 130f;
+            knockback = 1f;
+            pierceCap = 2;
+            buildingDamageMultiplier = 0.3f;
+            colors = new Color[]{Color.valueOf("92abff7f"), Color.valueOf("92abffa2"), Color.valueOf("92abffd3"), Color.valueOf("92abff"), Color.valueOf("d4e0ff")};
+            lightColor = hitColor = flareColor = Color.valueOf("92abff");
+        }}, Liquids.cyanogen, new ContinuousFlameBulletType() {{
+            damage = 130f;
+            rangeChange = 80f;
+            length = 200f;
+            knockback = 2f;
+            pierceCap = 3;
+            buildingDamageMultiplier = 0.3f;
+            colors = new Color[]{Color.valueOf("465ab888"), Color.valueOf("66a6d2a0"), Color.valueOf("89e8b6b0"), Color.valueOf("cafcbe"), Color.white};
+            lightColor = hitColor = flareColor = Color.valueOf("89e8b6");
+        }});
         Blocks.titan.armor = 13f;
         Blocks.titan.researchCost = with(Items.thorium, 4000, Items.silicon, 3000, Items.tungsten, 2500);
         Blocks.disperse.armor = 9f;
@@ -390,7 +387,7 @@ public final class HIOverride {
         Planets.serpulo.allowSectorInvasion = settings.getBool("hi-enable-serpulo-sector-invasion");
     }
 
-    /** special changes on April Fool's Day */
+    /** special changes on April Fool's Day. */
     public static void loadAprilFoolsDay() {
         Seq<Block> sc = content.blocks().copy();
         sc.removeAll(b -> b.localizedName == null || b.description == null);
@@ -480,7 +477,7 @@ public final class HIOverride {
     public static void loadReflect() {
         try {
             removeConsumeItems(Blocks.disassembler);
-            ((Separator)Blocks.disassembler).results = ItemStack.with(Items.copper, 1, Items.lead, 1, Items.graphite, 1, Items.titanium, 1, Items.thorium, 1);
+            ((Separator) Blocks.disassembler).results = ItemStack.with(Items.copper, 1, Items.lead, 1, Items.graphite, 1, Items.titanium, 1, Items.thorium, 1);
 
             removeConsumeLiquids(Blocks.cyanogenSynthesizer);
             Blocks.cyanogenSynthesizer.consumeLiquid(Liquids.arkycite, 15f / 60f);

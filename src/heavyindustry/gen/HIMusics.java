@@ -18,7 +18,8 @@ public final class HIMusics {
 
     /**
      * Loads a set of music tracks from a specified base path.
-     * @param basePath Base path for the music files.
+     *
+     * @param basePath   Base path for the music files.
      * @param trackNames Array of track names to load.
      */
     public static void loadMusicSet(String basePath, String[] trackNames) {
@@ -34,6 +35,7 @@ public final class HIMusics {
 
     /**
      * Mixes two music sets and assigns the result to a target set.
+     *
      * @param target Target sequence to store the mixed music.
      */
     public static void mixMusicSets(String vanillaSetName, String modSetName, Seq<Music> target) {
@@ -48,8 +50,9 @@ public final class HIMusics {
 
     /**
      * Sets a music set to a target sequence.
+     *
      * @param setName Name of the music set to use.
-     * @param target Target sequence to update.
+     * @param target  Target sequence to update.
      */
     public static void setMusicSet(String setName, Seq<Music> target) {
         Seq<Music> set = musicSets.get(setName);

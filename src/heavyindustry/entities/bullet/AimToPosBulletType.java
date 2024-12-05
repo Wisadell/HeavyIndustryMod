@@ -15,6 +15,7 @@ public class AimToPosBulletType extends BulletType {
         homingRange = 80f;
         homingDelay = 15f;
     }
+
     @Override
     public void updateHoming(Bullet b) {
         float realAimX = b.aimX < 0 ? b.x : b.aimX;
@@ -43,6 +44,7 @@ public class AimToPosBulletType extends BulletType {
         if (!(b.data instanceof Position[] pos)) return;
         b.initVel(b.rotation(), b.time < before ? speed * (1 - b.time / (before + 10)) : speed * b.fin());
         if (target != null) return;
-        if (b.time > homingDelay) b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(pos[1]), rotSpeed * Time.delta));
+        if (b.time > homingDelay)
+            b.vel.setAngle(Angles.moveToward(b.rotation(), b.angleTo(pos[1]), rotSpeed * Time.delta));
     }
 }

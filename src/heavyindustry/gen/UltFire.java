@@ -19,15 +19,17 @@ import static heavyindustry.util.Utils.*;
 import static mindustry.Vars.*;
 
 public class UltFire extends Fire {
+    public static final float baseLifetime = 1200f;
     public static TextureRegion[] ultRegion;
-
     public static final Effect remove = new Effect(70f, e -> {
         Draw.alpha(e.fout());
-        Draw.rect(ultRegion[((int)(e.rotation + e.fin() * Fire.frames)) % Fire.frames], e.x + Mathf.randomSeedRange((int)e.y, 2), e.y + Mathf.randomSeedRange((int)e.x, 2));
-        Drawf.light(e.x, e.y, 50f + Mathf.absin(5f, 5f), Pal.techBlue, 0.6f  * e.fout());
+        Draw.rect(ultRegion[((int) (e.rotation + e.fin() * Fire.frames)) % Fire.frames], e.x + Mathf.randomSeedRange((int) e.y, 2), e.y + Mathf.randomSeedRange((int) e.x, 2));
+        Drawf.light(e.x, e.y, 50f + Mathf.absin(5f, 5f), Pal.techBlue, 0.6f * e.fout());
     });
 
-    public static final float baseLifetime = 1200f;
+    static {
+        ultRegion = split(name("ult-fire"), 160, 10, 4);
+    }
 
     public static void create(float x, float y, Team team) {
         Tile tile = world.tile(World.toTile(x), World.toTile(y));
@@ -85,8 +87,8 @@ public class UltFire extends Fire {
         }
     }
 
-    static {
-        ultRegion = split(name("ult-fire"), 160, 10, 4);
+    public static UltFire create() {
+        return Pools.obtain(UltFire.class, UltFire::new);
     }
 
     @Override
@@ -162,10 +164,6 @@ public class UltFire extends Fire {
             remove();
         }
 
-    }
-
-    public static UltFire create() {
-        return Pools.obtain(UltFire.class, UltFire::new);
     }
 
     @Override

@@ -13,6 +13,7 @@ import java.io.*;
 public final class UrlDownloader {
     private static final OrderedMap<String, String> urlReplacers = new OrderedMap<>();
 
+    /** UrlDownloader should not be instantiated. */
     private UrlDownloader() {}
 
     public static void setMirror(String source, String to) {
@@ -39,7 +40,7 @@ public final class UrlDownloader {
 
         String realUrl = url;
         get[0] = () -> Http.get(realUrl, resultHandler, e -> {
-            if(counter[0]++ <= maxRetry) get[0].run();
+            if (counter[0]++ <= maxRetry) get[0].run();
             else errHandler.get(e);
         });
         get[0].run();

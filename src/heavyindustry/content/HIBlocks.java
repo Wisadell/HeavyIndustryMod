@@ -65,86 +65,87 @@ import static mindustry.type.ItemStack.*;
 
 /**
  * Defines the {@linkplain Block blocks} this mod offers.
+ *
  * @author E-Nightingale
  */
 public final class HIBlocks {
     public static Block
             //environment
-            darkPanel7,darkPanel8,darkPanel9,darkPanel10,darkPanel11,darkPanelDamaged,
-            stoneVent,basaltVent,shaleVent,basaltWall,basaltGraphiticWall,basaltPyratiticWall,snowySand,snowySandWall,arkyciteSand,arkyciteSandWall,arkyciteSandBoulder,darksandBoulder,asphalt,asphaltSide,
-            metalClear,metalLight,metalGround,metalVent,metalScarp,metaWall,metalTower,metalFloorGroove,metalFloorPlain,labFloor,labFloorDark,
-            brine,nanofluid,
-            metalFloorWater,metalFloorWater2,metalFloorWater3,metalFloorWater4,metalFloorWater5,metalFloorDamagedWater,
-            stoneWater,shaleWater,basaltWater,mudWater,
-            overgrownGrass,overgrownShrubs,overgrownPine,
-            corruptedMoss,corruptedSporeMoss,corruptedSporeRocks,corruptedSporePine,corruptedSporeFern,corruptedSporePlant,corruptedSporeTree,
-            mycelium,myceliumSpore,myceliumShrubs,myceliumPine,
-            softRareEarth,patternRareEarth,softRareEarthWall,
-            oreUranium,oreChromium,
+            darkPanel7, darkPanel8, darkPanel9, darkPanel10, darkPanel11, darkPanelDamaged,
+            stoneVent, basaltVent, shaleVent, basaltWall, basaltGraphiticWall, basaltPyratiticWall, snowySand, snowySandWall, arkyciteSand, arkyciteSandWall, arkyciteSandBoulder, darksandBoulder, asphalt, asphaltSide,
+            metalClear, metalLight, metalGround, metalVent, metalScarp, metaWall, metalTower, metalFloorGroove, metalFloorPlain, labFloor, labFloorDark,
+            brine, nanofluid,
+            metalFloorWater, metalFloorWater2, metalFloorWater3, metalFloorWater4, metalFloorWater5, metalFloorDamagedWater,
+            stoneWater, shaleWater, basaltWater, mudWater,
+            overgrownGrass, overgrownShrubs, overgrownPine,
+            corruptedMoss, corruptedSporeMoss, corruptedSporeRocks, corruptedSporePine, corruptedSporeFern, corruptedSporePlant, corruptedSporeTree,
+            mycelium, myceliumSpore, myceliumShrubs, myceliumPine,
+            softRareEarth, patternRareEarth, softRareEarthWall,
+            oreUranium, oreChromium,
             //wall
-            copperWallHuge,copperWallGigantic,titaniumWallHuge,titaniumWallGigantic,armoredWall,armoredWallLarge,armoredWallHuge,armoredWallGigantic,
-            uraniumWall,uraniumWallLarge,chromiumWall,chromiumWallLarge,chromiumDoor,chromiumDoorLarge,heavyAlloyWall,heavyAlloyWallLarge,nanoCompositeWall,nanoCompositeWallLarge,shapedWall,
+            copperWallHuge, copperWallGigantic, titaniumWallHuge, titaniumWallGigantic, armoredWall, armoredWallLarge, armoredWallHuge, armoredWallGigantic,
+            uraniumWall, uraniumWallLarge, chromiumWall, chromiumWallLarge, chromiumDoor, chromiumDoorLarge, heavyAlloyWall, heavyAlloyWallLarge, nanoCompositeWall, nanoCompositeWallLarge, shapedWall,
             //wall-erekir
-            berylliumWallHuge,berylliumWallGigantic,tungstenWallHuge,tungstenWallGigantic,blastDoorLarge,blastDoorHuge,reinforcedSurgeWallHuge,reinforcedSurgeWallGigantic,carbideWallHuge,carbideWallGigantic,shieldedWallLarge,shieldedWallHuge,
-            aparajito,aparajitoLarge,
+            berylliumWallHuge, berylliumWallGigantic, tungstenWallHuge, tungstenWallGigantic, blastDoorLarge, blastDoorHuge, reinforcedSurgeWallHuge, reinforcedSurgeWallGigantic, carbideWallHuge, carbideWallGigantic, shieldedWallLarge, shieldedWallHuge,
+            aparajito, aparajitoLarge,
             //drill
-            titaniumDrill,largeWaterExtractor,slagExtractor,oilRig,cuttingDrill,beamDrill,implosionDrill,speedModule,refineModule,deliveryModule,
+            titaniumDrill, largeWaterExtractor, slagExtractor, oilRig, cuttingDrill, beamDrill, implosionDrill, speedModule, refineModule, deliveryModule,
             //drill-erekir
-            largeCliffCrusher,heavyPlasmaBore,minerPoint,minerCenter,
+            largeCliffCrusher, heavyPlasmaBore, minerPoint, minerCenter,
             //distribution
-            invertedJunction,itemLiquidJunction,multiSorter,plastaniumRouter,plastaniumBridge,stackHelper,chromiumEfficientConveyor,chromiumArmorConveyor,chromiumTubeConveyor,chromiumTubeDistributor,chromiumStackConveyor,chromiumStackRouter,chromiumStackBridge,chromiumJunction,chromiumRouter,chromiumItemBridge,
-            phaseItemNode,rapidDirectionalUnloader,
+            invertedJunction, itemLiquidJunction, multiSorter, plastaniumRouter, plastaniumBridge, stackHelper, chromiumEfficientConveyor, chromiumArmorConveyor, chromiumTubeConveyor, chromiumTubeDistributor, chromiumStackConveyor, chromiumStackRouter, chromiumStackBridge, chromiumJunction, chromiumRouter, chromiumItemBridge,
+            phaseItemNode, rapidDirectionalUnloader,
             //distribution-erekir
-            ductJunction,ductDistributor,ductMultiSorter,armoredDuctBridge,rapidDuctUnloader,
+            ductJunction, ductDistributor, ductMultiSorter, armoredDuctBridge, rapidDuctUnloader,
             //liquid
-            liquidSorter,liquidValve,liquidOverflowValve,liquidUnderflowValve,liquidUnloader,liquidMassDriver,turboPump,phaseLiquidNode,chromiumArmorConduit,chromiumLiquidBridge,chromiumArmorLiquidContainer,chromiumArmorLiquidTank,
+            liquidSorter, liquidValve, liquidOverflowValve, liquidUnderflowValve, liquidUnloader, liquidMassDriver, turboPump, phaseLiquidNode, chromiumArmorConduit, chromiumLiquidBridge, chromiumArmorLiquidContainer, chromiumArmorLiquidTank,
             //liquid-erekir
-            reinforcedLiquidOverflowValve,reinforcedLiquidUnderflowValve,reinforcedLiquidUnloader,reinforcedLiquidSorter,reinforcedLiquidValve,smallReinforcedPump,largeReinforcedPump,
+            reinforcedLiquidOverflowValve, reinforcedLiquidUnderflowValve, reinforcedLiquidUnloader, reinforcedLiquidSorter, reinforcedLiquidValve, smallReinforcedPump, largeReinforcedPump,
             //power
-            smartPowerNode,powerNodePhase,powerNodeHuge,powerAnalyzer,uraniumReactor,hypermagneticReactor,hugeBattery,armoredCoatedBattery,
+            smartPowerNode, powerNodePhase, powerNodeHuge, powerAnalyzer, uraniumReactor, hypermagneticReactor, hugeBattery, armoredCoatedBattery,
             //power-erekir
-            smartBeamNode,beamDiode,beamInsulator,reinforcedPowerAnalyzer,liquidConsumeGenerator,
+            smartBeamNode, beamDiode, beamInsulator, reinforcedPowerAnalyzer, liquidConsumeGenerator,
             //production
-            largeKiln,largePulverizer,largeMelter,largeCryofluidMixer,largePyratiteMixer,largeBlastMixer,largeCultivator,sporeFarm,largePlastaniumCompressor,largeSurgeSmelter,blastSiliconSmelter,
-            nanocoreConstructor,nanocorePrinter,nanocoreActivator,largePhaseWeaver,phaseFusionInstrument,clarifier,uraniumSynthesizer,chromiumSynthesizer,heavyAlloySmelter,metalAnalyzer,nitrificationReactor,nitratedOilSedimentationTank,
+            largeKiln, largePulverizer, largeMelter, largeCryofluidMixer, largePyratiteMixer, largeBlastMixer, largeCultivator, sporeFarm, largePlastaniumCompressor, largeSurgeSmelter, blastSiliconSmelter,
+            nanocoreConstructor, nanocorePrinter, nanocoreActivator, largePhaseWeaver, phaseFusionInstrument, clarifier, uraniumSynthesizer, chromiumSynthesizer, heavyAlloySmelter, metalAnalyzer, nitrificationReactor, nitratedOilSedimentationTank,
             //production-erekir
-            ventHeater,chemicalSiliconSmelter,largeElectricHeater,liquidFuelHeater,heatDriver,largeOxidationChamber,largeSurgeCrucible,largeCarbideCrucible,nanocoreConstructorErekir,nanocorePrinterErekir,uraniumFuser,chromiumFuser,
+            ventHeater, chemicalSiliconSmelter, largeElectricHeater, liquidFuelHeater, heatDriver, largeOxidationChamber, largeSurgeCrucible, largeCarbideCrucible, nanocoreConstructorErekir, nanocorePrinterErekir, uraniumFuser, chromiumFuser,
             //defense
-            lighthouse,mendDome,sectorStructureMender,assignOverdrive,largeShieldGenerator,paralysisMine,detonator,bombLauncher,
+            lighthouse, mendDome, sectorStructureMender, assignOverdrive, largeShieldGenerator, paralysisMine, detonator, bombLauncher,
             //defense-erekir
             largeRadar,
             //storage
-            cargo,bin,machineryUnloader,rapidUnloader,coreStorage,
+            cargo, bin, machineryUnloader, rapidUnloader, coreStorage,
             //storage-erekir
             reinforcedCoreStorage,
             //payload
-            payloadJunction,payloadRail,
+            payloadJunction, payloadRail,
             //payload-erekir
-            reinforcedPayloadJunction,reinforcedPayloadRail,
+            reinforcedPayloadJunction, reinforcedPayloadRail,
             //unit
-            unitMaintenanceDepot,titanReconstructor,experimentalUnitFactory,
+            unitMaintenanceDepot, titanReconstructor, experimentalUnitFactory,
             //unit-erekir
-            largeUnitRepairTower,seniorAssemblerModule,
+            largeUnitRepairTower, seniorAssemblerModule,
             //logic
-            matrixProcessor,hugeLogicDisplay,buffrerdMemoryCell,buffrerdMemoryBank,heatSink,heatFan,heatSinkLarge,
+            matrixProcessor, hugeLogicDisplay, buffrerdMemoryCell, buffrerdMemoryBank, heatSink, heatFan, heatSinkLarge,
             //turret
-            dissipation,rocketLauncher,multipleRocketLauncher,largeRocketLauncher,rocketSilo,coilBlaster,dragonBreath,cloudbreaker,minigun,blaze,
-            spike,fissure,
-            hurricane,judgement,
+            dissipation, rocketLauncher, multipleRocketLauncher, largeRocketLauncher, rocketSilo, coilBlaster, dragonBreath, cloudbreaker, minigun, blaze,
+            spike, fissure,
+            hurricane, judgement,
             //turret-erekir
             rupture,
             //sandbox
-            reinforcedItemSource,reinforcedLiquidSource,reinforcedPowerSource,reinforcedPayloadSource,randomSource,
-            omniNode,ultraAssignOverdrive,
-            teamChanger,barrierProjector,invincibleWall,invincibleWallLarge,invincibleWallHuge,invincibleRefractionWallHuge,
-            mustDieTurret,oneShotTurret,pointTurret,
+            reinforcedItemSource, reinforcedLiquidSource, reinforcedPowerSource, reinforcedPayloadSource, randomSource,
+            omniNode, ultraAssignOverdrive,
+            teamChanger, barrierProjector, invincibleWall, invincibleWallLarge, invincibleWallHuge, invincibleRefractionWallHuge,
+            mustDieTurret, oneShotTurret, pointTurret,
             nextWave;
-
-    /** Key is component itself, value is its inferior. */
-    public static final ObjectMap<UnlockableContent, Block> compositeMap = new ObjectMap<>();
 
     /** HIBlocks should not be instantiated. */
     private HIBlocks() {}
+
+    /** Key is component itself, value is its inferior.  */
+    public static final ObjectMap<UnlockableContent, Block> compositeMap = new ObjectMap<>();
 
     public static void load() {
         //environment
@@ -729,17 +730,6 @@ public final class HIBlocks {
             consumePower(3.5f);
         }
             public TextureRegion rotatorRegion1;
-
-            @Override
-            public void load() {
-                super.load();
-                rotatorRegion1 = atlas.find(name + "-rotator1");
-            }
-
-            @Override
-            public TextureRegion[] icons() {
-                return new TextureRegion[]{region};
-            }
         {
             buildType = () -> new SolidPumpBuild() {
                 @Override
@@ -755,7 +745,18 @@ public final class HIBlocks {
                     Draw.rect(topRegion, x, y);
                 }
             };
-        }};
+        }
+            @Override
+            public void load() {
+                super.load();
+                rotatorRegion1 = atlas.find(name + "-rotator1");
+            }
+
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region};
+            }
+        };
         oilRig = new Fracker("oil-rig") {{
             requirements(Category.production, with(Items.lead, 220, Items.graphite, 200, Items.silicon, 100, Items.thorium, 180, Items.plastanium, 120, Items.phaseFabric, 30));
             size = 4;
@@ -798,7 +799,7 @@ public final class HIBlocks {
             }
         };
         beamDrill = new LaserBeamDrill("beam-drill") {{
-            requirements(Category.production, with(Items.lead, 160, Items.silicon, 120,  HIItems.chromium, 60, HIItems.nanocore, 35,Items.phaseFabric, 25));
+            requirements(Category.production, with(Items.lead, 160, Items.silicon, 120, HIItems.chromium, 60, HIItems.nanocore, 35, Items.phaseFabric, 25));
             size = 4;
             health = 960;
             mineTier = 11;
@@ -1012,7 +1013,7 @@ public final class HIBlocks {
             ((TubeConveyor) chromiumTubeConveyor).bridgeReplacement = this;
         }};
         phaseItemNode = new NodeBridge("phase-item-node") {{
-            requirements(Category.distribution, with( Items.lead, 30, HIItems.chromium , 10, Items.silicon, 15, Items.phaseFabric, 10));
+            requirements(Category.distribution, with(Items.lead, 30, HIItems.chromium, 10, Items.silicon, 15, Items.phaseFabric, 10));
             size = 1;
             health = 320;
             armor = 3f;
@@ -1177,7 +1178,7 @@ public final class HIBlocks {
             consumePower(1.8f);
         }};
         turboPump = new Pump("turbo-pump") {{
-            requirements(Category.liquid, with(Items.titanium, 40,Items.thorium, 50, Items.metaglass, 80, Items.silicon, 60, HIItems.chromium, 30));
+            requirements(Category.liquid, with(Items.titanium, 40, Items.thorium, 50, Items.metaglass, 80, Items.silicon, 60, HIItems.chromium, 30));
             size = 2;
             consumePower(1.75f);
             pumpAmount = 0.8f;
@@ -1187,7 +1188,7 @@ public final class HIBlocks {
             buildCostMultiplier = 0.8f;
         }};
         phaseLiquidNode = new NodeBridge("phase-liquid-node") {{
-            requirements(Category.liquid, with(Items.metaglass, 20, HIItems.chromium , 10, Items.silicon, 15, Items.phaseFabric, 10));
+            requirements(Category.liquid, with(Items.metaglass, 20, HIItems.chromium, 10, Items.silicon, 15, Items.phaseFabric, 10));
             size = 1;
             health = 320;
             armor = 3f;
@@ -1282,7 +1283,7 @@ public final class HIBlocks {
             absorbLasers = true;
             maxNodes = 20;
             laserRange = 30f;
-            timers ++;
+            timers++;
             update = true;
             buildType = () -> new PowerNodeBuild() {
                 @Override
@@ -1333,7 +1334,7 @@ public final class HIBlocks {
                     Fx.rand.setSeed(b.id * 2l + i);
                     float lenScl = Fx.rand.random(0.25f, 1f);
                     int fi = i;
-                    b.scaled(b.lifetime * lenScl, e -> Angles.randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.8f * intensity), 25f * intensity, (x, y, in, out) -> {
+                    b.scaled(b.lifetime * lenScl, e -> Angles.randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int) (2.8f * intensity), 25f * intensity, (x, y, in, out) -> {
                         float fout = e.fout(Interp.pow5Out) * Fx.rand.random(0.5f, 1f);
                         float rad = fout * ((2f + intensity) * 2.35f);
 
@@ -1345,7 +1346,7 @@ public final class HIBlocks {
                 b.scaled(baseLifetime, e -> {
                     Draw.color();
                     e.scaled(5 + intensity * 2f, i -> {
-                        Lines.stroke((3.1f + intensity/5f) * i.fout());
+                        Lines.stroke((3.1f + intensity / 5f) * i.fout());
                         Lines.circle(e.x, e.y, (3f + i.fin() * 14f) * intensity);
                         Drawf.light(e.x, e.y, i.fin() * 14f * 2f * intensity, Color.white, 0.9f * e.fout());
                     });
@@ -1354,7 +1355,7 @@ public final class HIBlocks {
                     Lines.stroke((2f * e.fout()));
 
                     Draw.z(Layer.effect + 0.001f);
-                    Angles.randLenVectors(e.id + 1, e.finpow() + 0.001f, (int)(8 * intensity), 30f * intensity, (x, y, in, out) -> {
+                    Angles.randLenVectors(e.id + 1, e.finpow() + 0.001f, (int) (8 * intensity), 30f * intensity, (x, y, in, out) -> {
                         Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1f + out * 4 * (4f + intensity));
                         Drawf.light(e.x + x, e.y + y, (out * 4 * (3f + intensity)) * 3.5f, Draw.getColor(), 0.8f);
                     });
@@ -1364,6 +1365,12 @@ public final class HIBlocks {
             ambientSoundVolume = 0.24f;
             consumeItem(HIItems.uranium);
             consumeLiquid(Liquids.cryofluid, heating / coolantPower).update(false);
+        }
+            public final Blending blending = Blending.additive;
+            public final float alpha = 0.9f, glowScale = 10f, glowIntensity = 0.5f, layer = Layer.blockAdditive;
+            public final Color color = Color.red.cpy();
+            public TextureRegion bottomRegion, glowRegion;
+        {
             buildType = () -> new NuclearReactorBuild() {
                 @Override
                 public void draw() {
@@ -1406,12 +1413,6 @@ public final class HIBlocks {
                 }
             };
         }
-            public TextureRegion bottomRegion, glowRegion;
-
-            public final Blending blending = Blending.additive;
-            public final float alpha = 0.9f, glowScale = 10f, glowIntensity = 0.5f, layer = Layer.blockAdditive;
-            public final Color color = Color.red.cpy();
-
             @Override
             public void load() {
                 super.load();
@@ -1551,6 +1552,7 @@ public final class HIBlocks {
             ambientSoundVolume = 0.12f;
             consumePower(1.5f);
             consumeItem(Items.scrap, 2);
+            hideDetails = false;
         }};
         largeMelter = new GenericCrafter("large-melter") {{
             requirements(Category.crafting, with(Items.lead, 60, Items.graphite, 45, Items.silicon, 30, Items.titanium, 20));
@@ -1563,6 +1565,7 @@ public final class HIBlocks {
             drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.slag), new DrawDefault());
             consumePower(1.5f);
             consumeItem(Items.scrap, 2);
+            hideDetails = false;
         }};
         largeCryofluidMixer = new GenericCrafter("large-cryofluid-mixer") {{
             requirements(Category.crafting, with(Items.lead, 120, Items.silicon, 60, Items.titanium, 150, Items.thorium, 110));
@@ -1581,6 +1584,7 @@ public final class HIBlocks {
             consumePower(2f);
             consumeItem(Items.titanium);
             consumeLiquid(Liquids.water, 36f / 60f);
+            hideDetails = false;
         }};
         largePyratiteMixer = new GenericCrafter("large-pyratite-mixer") {{
             requirements(Category.crafting, with(Items.copper, 100, Items.lead, 50, Items.titanium, 25, Items.silicon, 20));
@@ -1590,6 +1594,7 @@ public final class HIBlocks {
             itemCapacity = 20;
             consumePower(0.5f);
             consumeItems(with(Items.coal, 3, Items.lead, 4, Items.sand, 5));
+            hideDetails = false;
         }};
         largeBlastMixer = new GenericCrafter("large-blast-mixer") {{
             requirements(Category.crafting, with(Items.lead, 60, Items.titanium, 40, Items.silicon, 20));
@@ -1599,6 +1604,7 @@ public final class HIBlocks {
             envEnabled |= Env.space;
             consumeItems(with(Items.pyratite, 3, Items.sporePod, 3));
             consumePower(1f);
+            hideDetails = false;
         }};
         largeCultivator = new AttributeCrafter("large-cultivator") {{
             requirements(Category.production, with(Items.lead, 40, Items.titanium, 30, Items.plastanium, 20, Items.silicon, 30, Items.metaglass, 60));
@@ -1711,6 +1717,7 @@ public final class HIBlocks {
             consumePower(25f);
             consumeLiquid(Liquids.cryofluid, 6f / 60f);
             consumeItems(with(Items.titanium, 6, Items.silicon, 9));
+            hideDetails = false;
         }};
         nanocoreActivator = new GenericCrafter("nanocore-activator") {{
             requirements(Category.crafting, with(Items.titanium, 90, Items.silicon, 80, HIItems.nanocore, 30, Items.plastanium, 60));
@@ -1733,7 +1740,7 @@ public final class HIBlocks {
             consumeItem(HIItems.nanocore, 1);
         }};
         largePhaseWeaver = new GenericCrafter("large-phase-weaver") {{
-            requirements(Category.crafting, with(Items.lead, 160,Items.thorium, 100, Items.silicon, 80, Items.plastanium, 50, Items.phaseFabric, 15));
+            requirements(Category.crafting, with(Items.lead, 160, Items.thorium, 100, Items.silicon, 80, Items.plastanium, 50, Items.phaseFabric, 15));
             size = 3;
             itemCapacity = 40;
             craftTime = 60f;
@@ -2067,7 +2074,7 @@ public final class HIBlocks {
             consumePower(1);
         }};
         largeCarbideCrucible = new HeatCrafter("large-carbide-crucible") {{
-            requirements(Category.crafting, with( Items.thorium, 300, Items.tungsten, 400, Items.oxide, 100, Items.carbide, 60));
+            requirements(Category.crafting, with(Items.thorium, 300, Items.tungsten, 400, Items.oxide, 100, Items.carbide, 60));
             size = 5;
             health = 2950;
             armor = 10f;
@@ -2082,7 +2089,7 @@ public final class HIBlocks {
             consumePower(1);
         }};
         nanocoreConstructorErekir = new GenericCrafter("nanocore-constructor-erekir") {{
-            requirements(Category.crafting, with( Items.beryllium, 120, Items.tungsten, 100, Items.silicon, 150, Items.oxide, 50));
+            requirements(Category.crafting, with(Items.beryllium, 120, Items.tungsten, 100, Items.silicon, 150, Items.oxide, 50));
             size = 2;
             itemCapacity = 15;
             craftTime = 120f;
@@ -2096,7 +2103,7 @@ public final class HIBlocks {
             squareSprite = false;
         }};
         nanocorePrinterErekir = new HeatCrafter("nanocore-printer-erekir") {{
-            requirements(Category.crafting, with( Items.beryllium, 400, Items.tungsten, 300, Items.silicon, 250, Items.oxide, 150, Items.carbide, 50, Items.phaseFabric, 50));
+            requirements(Category.crafting, with(Items.beryllium, 400, Items.tungsten, 300, Items.silicon, 250, Items.oxide, 150, Items.carbide, 50, Items.phaseFabric, 50));
             size = 4;
             health = 2500;
             itemCapacity = 40;
@@ -2151,18 +2158,9 @@ public final class HIBlocks {
             consumePower(12f);
             squareSprite = false;
         }
-            public TextureRegion lightRegion, heatRegion, shadowRegion;
-
             public final float sizeScl = 15 * 6f;
             public final Color color1 = Pal.lancerLaser, color2 = Pal.sapBullet;
-
-            @Override
-            public void load() {
-                super.load();
-                lightRegion = atlas.find(name + "-light");
-                heatRegion = atlas.find(name + "-light-heat");
-                shadowRegion = atlas.find("circle-shadow");
-            }
+            public TextureRegion lightRegion, heatRegion, shadowRegion;
         {
             buildType = () -> new GenericCrafterBuild() {
                 public boolean nextFlash;
@@ -2215,7 +2213,15 @@ public final class HIBlocks {
                     tmp.set(color1).lerp(color2, Mathf.absin(Time.time + Mathf.randomSeed(pos(), 0f, 9f * 6.29f), 9f, 1f));
                 }
             };
-        }};
+        }
+            @Override
+            public void load() {
+                super.load();
+                lightRegion = atlas.find(name + "-light");
+                heatRegion = atlas.find(name + "-light-heat");
+                shadowRegion = atlas.find("circle-shadow");
+            }
+        };
         //defense
         lighthouse = new LightBlock("lighthouse") {{
             requirements(Category.effect, BuildVisibility.lightingOnly, with(Items.graphite, 20, Items.silicon, 10, Items.lead, 30, Items.titanium, 15));
@@ -2264,7 +2270,7 @@ public final class HIBlocks {
             consumeItem(HIItems.nanocore, 10).boost();
         }};
         assignOverdrive = new AssignOverdrive("assign-overdrive") {{
-            requirements(Category.effect, with(Items.silicon, 150,Items.thorium, 120, Items.plastanium, 100, Items.surgeAlloy, 60, HIItems.chromium, 80));
+            requirements(Category.effect, with(Items.silicon, 150, Items.thorium, 120, Items.plastanium, 100, Items.surgeAlloy, 60, HIItems.chromium, 80));
             size = 3;
             range = 240f;
             phaseRangeBoost = 0f;
@@ -2544,7 +2550,7 @@ public final class HIBlocks {
             memoryCapacity = 64;
         }};
         buffrerdMemoryBank = new CopyMemoryBlock("buffrerd-memory-bank") {{
-            requirements(Category.logic, with(Items.titanium, 40 ,Items.graphite, 90, Items.silicon, 90, Items.phaseFabric, 30));
+            requirements(Category.logic, with(Items.titanium, 40, Items.graphite, 90, Items.silicon, 90, Items.phaseFabric, 30));
             size = 2;
             memoryCapacity = 512;
         }};
@@ -2640,44 +2646,40 @@ public final class HIBlocks {
         }};
         multipleRocketLauncher = new ItemTurret("multiple-rocket-launcher") {{
             requirements(Category.turret, with(Items.copper, 100, Items.lead, 80, Items.graphite, 60, Items.titanium, 30));
-            ammo(
-                    Items.graphite, new MissileBulletType(5f, 24f) {{
-                        splashDamage = 12f;
-                        splashDamageRadius = 18f;
-                        backColor = trailColor = HIPal.brightSteelBlue;
-                        frontColor = HIPal.lightGrey;
-                        lifetime = 55;
-                        homingPower = 0.36f;
-                        homingRange = 40f;
-                        hitEffect = Fx.flakExplosion;
-                        ammoMultiplier = 2f;
-                    }},
-                    Items.pyratite, new MissileBulletType(6f, 12f) {{
-                        splashDamage = 32f;
-                        splashDamageRadius = 22f;
-                        backColor = trailColor = Color.valueOf("ffb90f");
-                        frontColor = HIPal.lightGrey;
-                        status = StatusEffects.burning;
-                        statusDuration = 360f;
-                        lifetime = 45;
-                        homingPower = 0.036f;
-                        homingRange = 40f;
-                        hitEffect = Fx.flakExplosion;
-                        ammoMultiplier = 3f;
-                    }},
-                    Items.blastCompound, new MissileBulletType(4.5f, 12f) {{
-                        splashDamage = 40f;
-                        splashDamageRadius = 32f;
-                        backColor = trailColor = HIPal.orangeBack;
-                        frontColor = HIPal.lightGrey;
-                        status = StatusEffects.blasted;
-                        lifetime = 60;
-                        homingPower = 0.036f;
-                        homingRange = 40f;
-                        hitEffect = Fx.flakExplosionBig;
-                        ammoMultiplier = 3f;
-                    }}
-            );
+            ammo(Items.graphite, new MissileBulletType(5f, 24f) {{
+                splashDamage = 12f;
+                splashDamageRadius = 18f;
+                backColor = trailColor = HIPal.brightSteelBlue;
+                frontColor = HIPal.lightGrey;
+                lifetime = 55;
+                homingPower = 0.36f;
+                homingRange = 40f;
+                hitEffect = Fx.flakExplosion;
+                ammoMultiplier = 2f;
+            }}, Items.pyratite, new MissileBulletType(6f, 12f) {{
+                splashDamage = 32f;
+                splashDamageRadius = 22f;
+                backColor = trailColor = Color.valueOf("ffb90f");
+                frontColor = HIPal.lightGrey;
+                status = StatusEffects.burning;
+                statusDuration = 360f;
+                lifetime = 45;
+                homingPower = 0.036f;
+                homingRange = 40f;
+                hitEffect = Fx.flakExplosion;
+                ammoMultiplier = 3f;
+            }}, Items.blastCompound, new MissileBulletType(4.5f, 12f) {{
+                splashDamage = 40f;
+                splashDamageRadius = 32f;
+                backColor = trailColor = HIPal.orangeBack;
+                frontColor = HIPal.lightGrey;
+                status = StatusEffects.blasted;
+                lifetime = 60;
+                homingPower = 0.036f;
+                homingRange = 40f;
+                hitEffect = Fx.flakExplosionBig;
+                ammoMultiplier = 3f;
+            }});
             size = 2;
             health = 720;
             range = 270;
@@ -2771,103 +2773,98 @@ public final class HIBlocks {
         }};
         rocketSilo = new ItemTurret("rocket-silo") {{
             requirements(Category.turret, with(Items.lead, 300, Items.graphite, 150, Items.titanium, 120, Items.silicon, 120, Items.plastanium, 50));
-            ammo(
-                    Items.graphite, new MissileBulletType(8f, 22f, name("missile")) {{
-                        buildingDamageMultiplier = 0.3f;
-                        splashDamage = 15f;
-                        splashDamageRadius = 18f;
-                        knockback = 0.7f;
-                        lifetime = 135f;
-                        homingDelay = 10f;
-                        homingRange = 800f;
-                        homingPower = 0.15f;
-                        backColor = HIPal.brightSteelBlue;
-                        frontColor = HIPal.lightGrey;
-                        trailLength = 15;
-                        trailWidth = 1.5f;
-                        trailColor = Color.white.cpy().a(0.5f);
-                        trailEffect = Fx.none;
-                        width = 10f;
-                        height = 40f;
-                        hitShake = 1f;
-                        ammoMultiplier = 2f;
-                        smokeEffect = Fx.shootSmallFlame;
-                        hitEffect = Fx.flakExplosion;
-                    }},
-                    Items.pyratite, new MissileBulletType(7f, 14f, name("missile")) {{
-                        buildingDamageMultiplier = 0.3f;
-                        splashDamage = 39f;
-                        splashDamageRadius = 32f;
-                        status = StatusEffects.burning;
-                        statusDuration = 600;
-                        makeFire = true;
-                        lifetime = 145f;
-                        homingPower = 0.15f;
-                        homingDelay = 10f;
-                        homingRange = 800f;
-                        backColor = Color.valueOf("ffb90f");
-                        frontColor = HIPal.lightGrey;
-                        trailLength = 15;
-                        trailWidth = 1.5f;
-                        trailColor = Color.white.cpy().a(0.5f);
-                        trailEffect = Fx.none;
-                        width = 10f;
-                        height = 40f;
-                        hitShake = 1f;
-                        ammoMultiplier = 2f;
-                        smokeEffect = Fx.shootSmallFlame;
-                        hitEffect = Fx.flakExplosionBig;
-                    }},
-                    Items.blastCompound, new MissileBulletType(7f, 17f, name("missile")) {{
-                        buildingDamageMultiplier = 0.3f;
-                        splashDamage = 55f;
-                        splashDamageRadius = 45f;
-                        knockback = 3;
-                        status = StatusEffects.blasted;
-                        lifetime = 145f;
-                        homingPower = 0.15f;
-                        homingDelay = 10f;
-                        homingRange = 800f;
-                        backColor = Color.valueOf("ff7055");
-                        frontColor = HIPal.lightGrey;
-                        trailLength = 15;
-                        trailWidth = 1.5f;
-                        trailColor = Color.white.cpy().a(0.5f);
-                        trailEffect = Fx.none;
-                        width = 10f;
-                        height = 40f;
-                        hitShake = 1f;
-                        ammoMultiplier = 2f;
-                        smokeEffect = Fx.shootSmallFlame;
-                        hitEffect = Fx.flakExplosionBig;
-                    }},
-                    Items.surgeAlloy, new MissileBulletType(9f, 47f, name("missile")) {{
-                        buildingDamageMultiplier = 0.3f;
-                        splashDamage = 75f;
-                        splashDamageRadius = 45f;
-                        lightningDamage = 17;
-                        lightning = 3;
-                        lightningLength = 8;
-                        knockback = 3;
-                        status = StatusEffects.blasted;
-                        lifetime = 125f;
-                        homingPower = 0.15f;
-                        homingDelay = 10f;
-                        homingRange = 800f;
-                        backColor = Color.valueOf("f2e770");
-                        frontColor = HIPal.lightGrey;
-                        trailLength = 16;
-                        trailWidth = 2.5f;
-                        trailColor = Color.white.cpy().a(0.5f);
-                        trailEffect = Fx.none;
-                        width = 13f;
-                        height = 48f;
-                        hitShake = 1f;
-                        ammoMultiplier = 3f;
-                        smokeEffect = Fx.shootSmallFlame;
-                        hitEffect = Fx.flakExplosionBig;
-                    }}
-            );
+            ammo(Items.graphite, new MissileBulletType(8f, 22f, name("missile")) {{
+                buildingDamageMultiplier = 0.3f;
+                splashDamage = 15f;
+                splashDamageRadius = 18f;
+                knockback = 0.7f;
+                lifetime = 135f;
+                homingDelay = 10f;
+                homingRange = 800f;
+                homingPower = 0.15f;
+                backColor = HIPal.brightSteelBlue;
+                frontColor = HIPal.lightGrey;
+                trailLength = 15;
+                trailWidth = 1.5f;
+                trailColor = Color.white.cpy().a(0.5f);
+                trailEffect = Fx.none;
+                width = 10f;
+                height = 40f;
+                hitShake = 1f;
+                ammoMultiplier = 2f;
+                smokeEffect = Fx.shootSmallFlame;
+                hitEffect = Fx.flakExplosion;
+            }}, Items.pyratite, new MissileBulletType(7f, 14f, name("missile")) {{
+                buildingDamageMultiplier = 0.3f;
+                splashDamage = 39f;
+                splashDamageRadius = 32f;
+                status = StatusEffects.burning;
+                statusDuration = 600;
+                makeFire = true;
+                lifetime = 145f;
+                homingPower = 0.15f;
+                homingDelay = 10f;
+                homingRange = 800f;
+                backColor = Color.valueOf("ffb90f");
+                frontColor = HIPal.lightGrey;
+                trailLength = 15;
+                trailWidth = 1.5f;
+                trailColor = Color.white.cpy().a(0.5f);
+                trailEffect = Fx.none;
+                width = 10f;
+                height = 40f;
+                hitShake = 1f;
+                ammoMultiplier = 2f;
+                smokeEffect = Fx.shootSmallFlame;
+                hitEffect = Fx.flakExplosionBig;
+            }}, Items.blastCompound, new MissileBulletType(7f, 17f, name("missile")) {{
+                buildingDamageMultiplier = 0.3f;
+                splashDamage = 55f;
+                splashDamageRadius = 45f;
+                knockback = 3;
+                status = StatusEffects.blasted;
+                lifetime = 145f;
+                homingPower = 0.15f;
+                homingDelay = 10f;
+                homingRange = 800f;
+                backColor = Color.valueOf("ff7055");
+                frontColor = HIPal.lightGrey;
+                trailLength = 15;
+                trailWidth = 1.5f;
+                trailColor = Color.white.cpy().a(0.5f);
+                trailEffect = Fx.none;
+                width = 10f;
+                height = 40f;
+                hitShake = 1f;
+                ammoMultiplier = 2f;
+                smokeEffect = Fx.shootSmallFlame;
+                hitEffect = Fx.flakExplosionBig;
+            }}, Items.surgeAlloy, new MissileBulletType(9f, 47f, name("missile")) {{
+                buildingDamageMultiplier = 0.3f;
+                splashDamage = 75f;
+                splashDamageRadius = 45f;
+                lightningDamage = 17;
+                lightning = 3;
+                lightningLength = 8;
+                knockback = 3;
+                status = StatusEffects.blasted;
+                lifetime = 125f;
+                homingPower = 0.15f;
+                homingDelay = 10f;
+                homingRange = 800f;
+                backColor = Color.valueOf("f2e770");
+                frontColor = HIPal.lightGrey;
+                trailLength = 16;
+                trailWidth = 2.5f;
+                trailColor = Color.white.cpy().a(0.5f);
+                trailEffect = Fx.none;
+                width = 13f;
+                height = 48f;
+                hitShake = 1f;
+                ammoMultiplier = 3f;
+                smokeEffect = Fx.shootSmallFlame;
+                hitEffect = Fx.flakExplosionBig;
+            }});
             size = 3;
             health = 1850;
             range = 760;
@@ -3002,62 +2999,58 @@ public final class HIBlocks {
         }};
         cloudbreaker = new ItemTurret("cloudbreaker") {{
             requirements(Category.turret, with(Items.graphite, 230, Items.titanium, 220, Items.thorium, 150));
-            ammo(
-                    Items.titanium, new CritBulletType(14f, 220f) {{
-                        lifetime = 25f;
-                        knockback = 5f;
-                        width = 7f;
-                        height = 12f;
-                        pierce = pierceArmor = true;
-                        pierceCap = 3;
-                        critChance = 0.08f;
-                        critMultiplier = 2.5f;
-                    }},
-                    Items.thorium, new CritBulletType(17.5f, 280f) {{
-                        lifetime = 25f;
-                        rangeChange = 70f;
-                        knockback = 5f;
-                        width = 8f;
-                        height = 14f;
-                        pierce = pierceArmor = true;
-                        pierceCap = 5;
-                        critChance = 0.05f;
-                        critMultiplier = 4.5f;
-                    }},
-                    HIItems.uranium, new CritBulletType(20f, 360f) {{
-                        lifetime = 25f;
-                        rangeChange = 120f;
-                        knockback = 4f;
-                        width = 9f;
-                        height = 16f;
-                        pierce = pierceArmor = true;
-                        pierceCap = 8;
-                        critChance = 0.05f;
-                        critMultiplier = 3f;
-                        despawnHitEffects = false;
-                        setDefaults = false;
-                        fragOnHit = false;
-                        fragBullets = 5;
-                        fragVelocityMin = 0.8f;
-                        fragVelocityMax = 1.2f;
-                        fragRandomSpread = 30f;
-                        fragBullet = new CritBulletType(12f, 80f) {{
-                            lifetime = 5f;
-                            knockback = 3f;
-                            width = 6f;
-                            height = 14f;
-                            pierceCap = 3;
-                            critMultiplier = 3f;
-                            critEffect = HIFx.miniCrit;
-                        }};
-                    }
-                        @Override
-                        public void removed(Bullet b) {
-                            super.removed(b);
-                            if (b.fdata != 1f) createFrags(b, b.x, b.y);
-                        }
-                    }
-            );
+            ammo(Items.titanium, new CritBulletType(14f, 220f) {{
+                lifetime = 25f;
+                knockback = 5f;
+                width = 7f;
+                height = 12f;
+                pierce = pierceArmor = true;
+                pierceCap = 3;
+                critChance = 0.08f;
+                critMultiplier = 2.5f;
+            }}, Items.thorium, new CritBulletType(17.5f, 280f) {{
+                lifetime = 25f;
+                rangeChange = 70f;
+                knockback = 5f;
+                width = 8f;
+                height = 14f;
+                pierce = pierceArmor = true;
+                pierceCap = 5;
+                critChance = 0.05f;
+                critMultiplier = 4.5f;
+            }}, HIItems.uranium, new CritBulletType(20f, 360f) {{
+                lifetime = 25f;
+                rangeChange = 120f;
+                knockback = 4f;
+                width = 9f;
+                height = 16f;
+                pierce = pierceArmor = true;
+                pierceCap = 8;
+                critChance = 0.05f;
+                critMultiplier = 3f;
+                despawnHitEffects = false;
+                setDefaults = false;
+                fragOnHit = false;
+                fragBullets = 5;
+                fragVelocityMin = 0.8f;
+                fragVelocityMax = 1.2f;
+                fragRandomSpread = 30f;
+                fragBullet = new CritBulletType(12f, 80f) {{
+                    lifetime = 5f;
+                    knockback = 3f;
+                    width = 6f;
+                    height = 14f;
+                    pierceCap = 3;
+                    critMultiplier = 3f;
+                    critEffect = HIFx.miniCrit;
+                }};
+            }
+                @Override
+                public void removed(Bullet b) {
+                    super.removed(b);
+                    if (b.fdata != 1f) createFrags(b, b.x, b.y);
+                }
+            });
             size = 3;
             range = 330f;
             hideDetails = false;
@@ -3071,59 +3064,52 @@ public final class HIBlocks {
         }};
         minigun = new MinigunTurret("minigun") {{
             requirements(Category.turret, with(Items.copper, 350, Items.graphite, 300, Items.titanium, 150, Items.plastanium, 175, Items.surgeAlloy, 120));
-            ammo(
-                    Items.copper, new BasicBulletType(11f, 19f) {{
-                        width = 5f;
-                        height = 7f;
-                        lifetime = 25f;
-                        ammoMultiplier = 2;
-                    }},
-                    Items.graphite, new BasicBulletType(13f, 37f) {{
-                        width = 5.5f;
-                        height = 9f;
-                        reloadMultiplier = 0.6f;
-                        ammoMultiplier = 4;
-                        lifetime = 23f;
-                    }},
-                    Items.pyratite, new BasicBulletType(13f, 24f) {{
-                        width = 5f;
-                        height = 8f;
-                        frontColor = Pal.lightishOrange;
-                        backColor = Pal.lightOrange;
-                        status = StatusEffects.burning;
-                        hitEffect = new MultiEffect(Fx.hitBulletSmall, Fx.fireHit);
-                        homingPower = 0.07f;
-                        reloadMultiplier = 1.3f;
-                        ammoMultiplier = 5;
-                        lifetime = 23f;
-                        makeFire = true;
-                    }},
-                    Items.silicon, new BasicBulletType(12f, 21f) {{
-                        width = 5f;
-                        height = 8f;
-                        homingPower = 0.07f;
-                        reloadMultiplier = 1.3f;
-                        ammoMultiplier = 5;
-                        lifetime = 24f;
-                    }},
-                    Items.thorium, new BasicBulletType(15f, 47f) {{
-                        width = 6f;
-                        height = 11f;
-                        shootEffect = Fx.shootBig;
-                        smokeEffect = Fx.shootBigSmoke;
-                        ammoMultiplier = 4f;
-                        lifetime = 20f;
-                    }},
-                    HIItems.uranium, new BasicBulletType(17f, 65f) {{
-                        width = 7f;
-                        height = 13f;
-                        shootEffect = Fx.shootBig;
-                        smokeEffect = Fx.shootBigSmoke;
-                        status = StatusEffects.melting;
-                        ammoMultiplier = 6f;
-                        lifetime = 18f;
-                    }}
-            );
+            ammo(Items.copper, new BasicBulletType(11f, 19f) {{
+                width = 5f;
+                height = 7f;
+                lifetime = 25f;
+                ammoMultiplier = 2;
+            }}, Items.graphite, new BasicBulletType(13f, 37f) {{
+                width = 5.5f;
+                height = 9f;
+                reloadMultiplier = 0.6f;
+                ammoMultiplier = 4;
+                lifetime = 23f;
+            }}, Items.pyratite, new BasicBulletType(13f, 24f) {{
+                width = 5f;
+                height = 8f;
+                frontColor = Pal.lightishOrange;
+                backColor = Pal.lightOrange;
+                status = StatusEffects.burning;
+                hitEffect = new MultiEffect(Fx.hitBulletSmall, Fx.fireHit);
+                homingPower = 0.07f;
+                reloadMultiplier = 1.3f;
+                ammoMultiplier = 5;
+                lifetime = 23f;
+                makeFire = true;
+            }}, Items.silicon, new BasicBulletType(12f, 21f) {{
+                width = 5f;
+                height = 8f;
+                homingPower = 0.07f;
+                reloadMultiplier = 1.3f;
+                ammoMultiplier = 5;
+                lifetime = 24f;
+            }}, Items.thorium, new BasicBulletType(15f, 47f) {{
+                width = 6f;
+                height = 11f;
+                shootEffect = Fx.shootBig;
+                smokeEffect = Fx.shootBigSmoke;
+                ammoMultiplier = 4f;
+                lifetime = 20f;
+            }}, HIItems.uranium, new BasicBulletType(17f, 65f) {{
+                width = 7f;
+                height = 13f;
+                shootEffect = Fx.shootBig;
+                smokeEffect = Fx.shootBigSmoke;
+                status = StatusEffects.melting;
+                ammoMultiplier = 6f;
+                lifetime = 18f;
+            }});
             size = 4;
             range = 280f;
             maxSpeed = 27f;
@@ -3185,211 +3171,197 @@ public final class HIBlocks {
             size = 2;
             shootSound = Sounds.shootSnap;
             shake = 1f;
-            ammo(
-                    Items.titanium, new BasicBulletType(5f, 24f) {{
-                        width = 8f;
-                        height = 25f;
-                        hitColor = backColor = lightColor = trailColor = Items.titanium.color.cpy().lerp(Color.white, 0.1f);
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        hitEffect = HIFx.crossBlast(hitColor, height + width);
-                        shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 12f, 2f);
-                        ammoMultiplier = 8;
-                    }},
-                    Items.plastanium, new BasicBulletType(5f, 26f) {{
-                        width = 8f;
-                        height = 25f;
-                        fragBullets = 4;
-                        fragBullet = new BasicBulletType(2f, 26f) {{
-                            width = 3f;
-                            lifetime = 10f;
-                            height = 12f;
-                            ammoMultiplier = 12;
-                            hitColor = backColor = lightColor = trailColor = Items.plastanium.color.cpy().lerp(Color.white, 0.1f);
-                            frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                            hitEffect = HIFx.lightningHitSmall(backColor);
-                            shootEffect = despawnEffect = HIFx.square45_4_45;
-                        }};
-                        fragAngle = 130f;
-                        fragVelocityMax = 1.1f;
-                        fragVelocityMin = 0.5f;
-                        fragLifeMax = 1.25f;
-                        fragLifeMin = 0.25f;
-                        ammoMultiplier = 12;
-                        hitColor = backColor = lightColor = trailColor = Items.plastanium.color.cpy().lerp(Color.white, 0.1f);
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        hitEffect = HIFx.crossBlast(hitColor, height + width);
-                        shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
-                    }},
-                    Items.thorium, new BasicBulletType(5f, 38f) {{
-                        width = 8f;
-                        height = 25f;
-                        status = StatusEffects.shocked;
-                        statusDuration = 15f;
-                        ammoMultiplier = 12;
-                        lightningColor = hitColor = backColor = lightColor = trailColor = Items.thorium.color.cpy().lerp(Color.white, 0.1f);
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        hitEffect = HIFx.crossBlast(hitColor, height + width);
-                        shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
-                    }},
-                    Items.pyratite, new BasicBulletType(5f, 18f) {{
-                        width = 8f;
-                        height = 25f;
-                        incendAmount = 4;
-                        incendChance = 0.25f;
-                        incendSpread = 12f;
-                        status = StatusEffects.burning;
-                        statusDuration = 15f;
-                        ammoMultiplier = 12f;
-                        hitColor = backColor = lightColor = trailColor = Items.pyratite.color.cpy().lerp(Color.white, 0.1f);
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        hitEffect = HIFx.crossBlast(hitColor, height + width);
-                        despawnEffect = Fx.blastExplosion;
-                        shootEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
-                    }},
-                    Items.blastCompound, new BasicBulletType(5f, 22f) {{
-                        width = 8f;
-                        height = 25f;
-                        status = StatusEffects.blasted;
-                        statusDuration = 15f;
-                        splashDamageRadius = 12f;
-                        splashDamage = 36f;
-                        ammoMultiplier = 8;
-                        hitColor = backColor = lightColor = trailColor = Items.blastCompound.color.cpy().lerp(Color.white, 0.1f);
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        hitEffect = HIFx.crossBlast(hitColor, height + width);
-                        despawnEffect = Fx.blastExplosion;
-                        shootEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
-                    }}
-            );
+            ammo(Items.titanium, new BasicBulletType(5f, 24f) {{
+                width = 8f;
+                height = 25f;
+                hitColor = backColor = lightColor = trailColor = Items.titanium.color.cpy().lerp(Color.white, 0.1f);
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                hitEffect = HIFx.crossBlast(hitColor, height + width);
+                shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 12f, 2f);
+                ammoMultiplier = 8;
+            }}, Items.plastanium, new BasicBulletType(5f, 26f) {{
+                width = 8f;
+                height = 25f;
+                fragBullets = 4;
+                fragBullet = new BasicBulletType(2f, 26f) {{
+                    width = 3f;
+                    lifetime = 10f;
+                    height = 12f;
+                    ammoMultiplier = 12;
+                    hitColor = backColor = lightColor = trailColor = Items.plastanium.color.cpy().lerp(Color.white, 0.1f);
+                    frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                    hitEffect = HIFx.lightningHitSmall(backColor);
+                    shootEffect = despawnEffect = HIFx.square45_4_45;
+                }};
+                fragAngle = 130f;
+                fragVelocityMax = 1.1f;
+                fragVelocityMin = 0.5f;
+                fragLifeMax = 1.25f;
+                fragLifeMin = 0.25f;
+                ammoMultiplier = 12;
+                hitColor = backColor = lightColor = trailColor = Items.plastanium.color.cpy().lerp(Color.white, 0.1f);
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                hitEffect = HIFx.crossBlast(hitColor, height + width);
+                shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
+            }}, Items.thorium, new BasicBulletType(5f, 38f) {{
+                width = 8f;
+                height = 25f;
+                status = StatusEffects.shocked;
+                statusDuration = 15f;
+                ammoMultiplier = 12;
+                lightningColor = hitColor = backColor = lightColor = trailColor = Items.thorium.color.cpy().lerp(Color.white, 0.1f);
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                hitEffect = HIFx.crossBlast(hitColor, height + width);
+                shootEffect = despawnEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
+            }}, Items.pyratite, new BasicBulletType(5f, 18f) {{
+                width = 8f;
+                height = 25f;
+                incendAmount = 4;
+                incendChance = 0.25f;
+                incendSpread = 12f;
+                status = StatusEffects.burning;
+                statusDuration = 15f;
+                ammoMultiplier = 12f;
+                hitColor = backColor = lightColor = trailColor = Items.pyratite.color.cpy().lerp(Color.white, 0.1f);
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                hitEffect = HIFx.crossBlast(hitColor, height + width);
+                despawnEffect = Fx.blastExplosion;
+                shootEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
+            }}, Items.blastCompound, new BasicBulletType(5f, 22f) {{
+                width = 8f;
+                height = 25f;
+                status = StatusEffects.blasted;
+                statusDuration = 15f;
+                splashDamageRadius = 12f;
+                splashDamage = 36f;
+                ammoMultiplier = 8;
+                hitColor = backColor = lightColor = trailColor = Items.blastCompound.color.cpy().lerp(Color.white, 0.1f);
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                hitEffect = HIFx.crossBlast(hitColor, height + width);
+                despawnEffect = Fx.blastExplosion;
+                shootEffect = HIFx.square(hitColor, 20f, 3, 20f, 2f);
+            }});
             limitRange();
             maxAmmo = 120;
             ammoPerShot = 12;
         }};
         fissure = new ItemTurret("fissure") {{
             requirements(Category.turret, with(Items.titanium, 110, Items.thorium, 90, Items.graphite, 150, Items.silicon, 120, Items.plastanium, 80));
-            ammo(
-                    Items.titanium, new BasicBulletType(8f, 45f) {{
-                        lifetime = 48f;
-                        width = 8f;
-                        height = 42f;
-                        shrinkX = 0;
-                        trailWidth = 1.7f;
-                        trailLength = 9;
-                        trailColor = backColor = hitColor = lightColor = lightningColor = Items.titanium.color;
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                        smokeEffect = Fx.shootBigSmoke;
-                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                        hitEffect = HIFx.hitSparkLarge;
-                        ammoMultiplier = 4;
-                    }},
-                    Items.thorium, new BasicBulletType(8f, 65f) {{
-                        lifetime = 48f;
-                        width = 8f;
-                        height = 42f;
-                        shrinkX = 0;
-                        trailWidth = 1.7f;
-                        trailLength = 9;
-                        trailColor = backColor = hitColor = lightColor = lightningColor = Items.thorium.color;
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                        smokeEffect = Fx.shootBigSmoke;
-                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                        hitEffect = HIFx.hitSparkLarge;
-                        ammoMultiplier = 4;
-                    }},
-                    Items.plastanium, new BasicBulletType(8f, 60f) {{
-                        lifetime = 48f;
-                        width = 8f;
-                        height = 42f;
-                        shrinkX = 0;
-                        splashDamage = 25f;
-                        splashDamageRadius = 20f;
-                        trailWidth = 1.7f;
-                        trailLength = 9;
-                        trailColor = backColor = hitColor = lightColor = lightningColor = Pal.plastanium;
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                        smokeEffect = Fx.shootBigSmoke;
-                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                        hitEffect = HIFx.hitSparkLarge;
-                        ammoMultiplier = 4;
-                    }},
-                    Items.pyratite, new BasicBulletType(8f, 40f) {{
-                        lifetime = 48f;
-                        width = 8f;
-                        height = 42f;
-                        shrinkX = 0;
-                        splashDamage = 35f;
-                        splashDamageRadius = 25f;
-                        trailWidth = 1.7f;
-                        trailLength = 9;
-                        status = StatusEffects.burning;
-                        trailColor = backColor = hitColor = lightColor = lightningColor = Items.pyratite.color;
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                        smokeEffect = Fx.shootBigSmoke;
-                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                        hitEffect = HIFx.hitSparkLarge;
-                        ammoMultiplier = 4;
-                    }},
-                    Items.blastCompound, new BasicBulletType(8f, 40f) {{
-                        lifetime = 48f;
-                        width = 8f;
-                        height = 42f;
-                        shrinkX = 0;
-                        splashDamage = 55f;
-                        splashDamageRadius = 35f;
-                        trailWidth = 1.7f;
-                        trailLength = 9;
-                        status = StatusEffects.blasted;
-                        trailColor = backColor = hitColor = lightColor = lightningColor = Items.blastCompound.color;
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                        smokeEffect = Fx.shootBigSmoke;
-                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                        hitEffect = HIFx.hitSparkLarge;
-                        ammoMultiplier = 4;
-                    }},
-                    HIItems.chromium, new BasicBulletType(8f, 125f) {{
-                        lifetime = 48f;
-                        width = 8f;
-                        height = 42f;
-                        shrinkX = 0;
-                        pierce = true;
-                        pierceCap = 3;
-                        pierceArmor = true;
-                        trailWidth = 1.7f;
-                        trailLength = 9;
-                        status = HIStatusEffects.breached;
-                        trailColor = backColor = hitColor = lightColor = lightningColor = HIPal.chromiumGrey;
-                        frontColor = backColor.cpy().lerp(Color.white, 0.35f);
-                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                        smokeEffect = Fx.shootBigSmoke;
-                        despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
-                        hitEffect = HIFx.hitSparkLarge;
-                        ammoMultiplier = 4;
-                    }},
-                    Items.phaseFabric, new BasicBulletType(8f, 65f) {{
-                        lifetime = 48f;
-                        width = 8f;
-                        height = 42f;
-                        shrinkX = 0;
-                        trailWidth = 1.7f;
-                        trailLength = 9;
-                        trailColor = backColor = hitColor = lightColor = lightningColor = Pal.accent;
-                        frontColor = Color.white;
-                        shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
-                        smokeEffect = Fx.shootBigSmoke;
-                        splashDamage = damage;
-                        splashDamageRadius = 32f;
-                        despawnEffect = hitEffect = new MultiEffect(HIFx.circleOut(backColor, splashDamageRadius * 1.25f), HIFx.hitSparkLarge);
-                        ammoMultiplier = 6;
-                        reloadMultiplier = 0.9f;
-                        status = StatusEffects.melting;
-                        statusDuration = 120f;
-                    }}
-            );
+            ammo(Items.titanium, new BasicBulletType(8f, 45f) {{
+                lifetime = 48f;
+                width = 8f;
+                height = 42f;
+                shrinkX = 0;
+                trailWidth = 1.7f;
+                trailLength = 9;
+                trailColor = backColor = hitColor = lightColor = lightningColor = Items.titanium.color;
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                smokeEffect = Fx.shootBigSmoke;
+                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                hitEffect = HIFx.hitSparkLarge;
+                ammoMultiplier = 4;
+            }}, Items.thorium, new BasicBulletType(8f, 65f) {{
+                lifetime = 48f;
+                width = 8f;
+                height = 42f;
+                shrinkX = 0;
+                trailWidth = 1.7f;
+                trailLength = 9;
+                trailColor = backColor = hitColor = lightColor = lightningColor = Items.thorium.color;
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                smokeEffect = Fx.shootBigSmoke;
+                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                hitEffect = HIFx.hitSparkLarge;
+                ammoMultiplier = 4;
+            }}, Items.plastanium, new BasicBulletType(8f, 60f) {{
+                lifetime = 48f;
+                width = 8f;
+                height = 42f;
+                shrinkX = 0;
+                splashDamage = 25f;
+                splashDamageRadius = 20f;
+                trailWidth = 1.7f;
+                trailLength = 9;
+                trailColor = backColor = hitColor = lightColor = lightningColor = Pal.plastanium;
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                smokeEffect = Fx.shootBigSmoke;
+                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                hitEffect = HIFx.hitSparkLarge;
+                ammoMultiplier = 4;
+            }}, Items.pyratite, new BasicBulletType(8f, 40f) {{
+                lifetime = 48f;
+                width = 8f;
+                height = 42f;
+                shrinkX = 0;
+                splashDamage = 35f;
+                splashDamageRadius = 25f;
+                trailWidth = 1.7f;
+                trailLength = 9;
+                status = StatusEffects.burning;
+                trailColor = backColor = hitColor = lightColor = lightningColor = Items.pyratite.color;
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                smokeEffect = Fx.shootBigSmoke;
+                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                hitEffect = HIFx.hitSparkLarge;
+                ammoMultiplier = 4;
+            }}, Items.blastCompound, new BasicBulletType(8f, 40f) {{
+                lifetime = 48f;
+                width = 8f;
+                height = 42f;
+                shrinkX = 0;
+                splashDamage = 55f;
+                splashDamageRadius = 35f;
+                trailWidth = 1.7f;
+                trailLength = 9;
+                status = StatusEffects.blasted;
+                trailColor = backColor = hitColor = lightColor = lightningColor = Items.blastCompound.color;
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                smokeEffect = Fx.shootBigSmoke;
+                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                hitEffect = HIFx.hitSparkLarge;
+                ammoMultiplier = 4;
+            }}, HIItems.chromium, new BasicBulletType(8f, 125f) {{
+                lifetime = 48f;
+                width = 8f;
+                height = 42f;
+                shrinkX = 0;
+                pierce = true;
+                pierceCap = 3;
+                pierceArmor = true;
+                trailWidth = 1.7f;
+                trailLength = 9;
+                status = HIStatusEffects.breached;
+                trailColor = backColor = hitColor = lightColor = lightningColor = HIPal.chromiumGrey;
+                frontColor = backColor.cpy().lerp(Color.white, 0.35f);
+                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                smokeEffect = Fx.shootBigSmoke;
+                despawnEffect = HIFx.square(backColor, 85f, 5, 52, 5);
+                hitEffect = HIFx.hitSparkLarge;
+                ammoMultiplier = 4;
+            }}, Items.phaseFabric, new BasicBulletType(8f, 65f) {{
+                lifetime = 48f;
+                width = 8f;
+                height = 42f;
+                shrinkX = 0;
+                trailWidth = 1.7f;
+                trailLength = 9;
+                trailColor = backColor = hitColor = lightColor = lightningColor = Pal.accent;
+                frontColor = Color.white;
+                shootEffect = HIFx.square(backColor, 45f, 5, 38, 4);
+                smokeEffect = Fx.shootBigSmoke;
+                splashDamage = damage;
+                splashDamageRadius = 32f;
+                despawnEffect = hitEffect = new MultiEffect(HIFx.circleOut(backColor, splashDamageRadius * 1.25f), HIFx.hitSparkLarge);
+                ammoMultiplier = 6;
+                reloadMultiplier = 0.9f;
+                status = StatusEffects.melting;
+                statusDuration = 120f;
+            }});
             size = 3;
             health = 1420;
             reload = 12f;
@@ -3484,7 +3456,7 @@ public final class HIBlocks {
                     boolean cool = false;
 
                     if (b.data == null) cool = true;
-                    else if (b.data instanceof Healthc h && (!h.isValid() || !h.within(b.aimX, b.aimY, ((Sized)h).hitSize() + 4))) {
+                    else if (b.data instanceof Healthc h && (!h.isValid() || !h.within(b.aimX, b.aimY, ((Sized) h).hitSize() + 4))) {
                         b.data = null;
                         cool = true;
                     }
@@ -3508,7 +3480,7 @@ public final class HIBlocks {
                 @Override
                 public void draw(Bullet b) {
                     float darkenPartWarmup = warmup(b);
-                    float stroke =  b.fslope() * (1f - oscMag + Mathf.absin(Time.time, oscScl, oscMag)) * (darkenPartWarmup + 1) * 5;
+                    float stroke = b.fslope() * (1f - oscMag + Mathf.absin(Time.time, oscScl, oscMag)) * (darkenPartWarmup + 1) * 5;
 
                     if (trailLength > 0 && b.trail != null) {
                         float z = Draw.z();
@@ -3574,7 +3546,7 @@ public final class HIBlocks {
 
                 @Override
                 public void hit(Bullet b, float x, float y) {
-                    if (Mathf.chance(0.4))hitEffect.at(x, y, b.rotation(), getColor(b));
+                    if (Mathf.chance(0.4)) hitEffect.at(x, y, b.rotation(), getColor(b));
                     hitSound.at(x, y, hitSoundPitch, hitSoundVolume);
 
                     Effect.shake(hitShake, hitShake, b);
@@ -3606,27 +3578,28 @@ public final class HIBlocks {
                 @Override
                 public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
                     super.hitTile(b, build, x, y, initialHealth, direct);
-                    if (build == b.data)b.fdata += Time.delta;
+                    if (build == b.data) b.fdata += Time.delta;
                     else b.fdata = 0;
                     b.data = build;
                 }
             };
-            drawer = new DrawTurret() {{parts.addAll(new RegionPart("-charger") {{
-                mirror = true;
-                under = true;
-                moveRot = 10;
-                moveX = 4.677f;
-                moveY = 6.8f;
-            }}, new RegionPart("-side") {{
-                mirror = true;
-                under = true;
-                moveRot = 10;
-                moveX = 2.75f;
-                moveY = 2;
-            }}, new RegionPart("-barrel") {{
-                moveY = -7.5f;
-                progress = progress.curve(Interp.pow2Out);
-            }});
+            drawer = new DrawTurret() {{
+                parts.addAll(new RegionPart("-charger") {{
+                    mirror = true;
+                    under = true;
+                    moveRot = 10;
+                    moveX = 4.677f;
+                    moveY = 6.8f;
+                }}, new RegionPart("-side") {{
+                    mirror = true;
+                    under = true;
+                    moveRot = 10;
+                    moveX = 2.75f;
+                    moveY = 2;
+                }}, new RegionPart("-barrel") {{
+                    moveY = -7.5f;
+                    progress = progress.curve(Interp.pow2Out);
+                }});
             }};
             shootSound = Sounds.none;
             loopSoundVolume = 1f;
@@ -3652,61 +3625,57 @@ public final class HIBlocks {
         //turrets-erekir
         rupture = new ItemTurret("rupture") {{
             requirements(Category.turret, with(Items.graphite, 360, Items.silicon, 250, Items.beryllium, 380, Items.tungsten, 180, Items.oxide, 45));
-            ammo(
-                    Items.beryllium, new BasicBulletType(12f, 72f) {{
-                        buildingDamageMultiplier = 0.33f;
-                        ammoMultiplier = 3f;
-                        knockback = 1.1f;
-                        lifetime = 56f / 3;
-                        width = 13f;
-                        height = 22f;
-                        pierce = pierceBuilding = true;
-                        pierceCap = 3;
-                        hitColor = backColor = trailColor = Pal.berylShot;
-                        frontColor = Color.white;
-                        trailLength = 11;
-                        trailWidth = 2.2f;
-                        hitEffect = despawnEffect = Fx.hitBulletColor;
-                        smokeEffect = Fx.shootBigSmoke;
-                        shootEffect = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
-                    }},
-                    Items.tungsten, new BasicBulletType(13f, 96.8f) {{
-                        buildingDamageMultiplier = 0.33f;
-                        ammoMultiplier = 4f;
-                        knockback = 1.5f;
-                        lifetime = 21.3f;
-                        rangeChange = 22f;
-                        width = 13f;
-                        height = 23f;
-                        pierce = pierceBuilding = true;
-                        pierceCap = 4;
-                        hitColor = backColor = trailColor = Pal.tungstenShot;
-                        frontColor = Color.white;
-                        trailLength = 11;
-                        trailWidth = 2.3f;
-                        hitEffect = despawnEffect = Fx.hitBulletColor;
-                        smokeEffect = Fx.shootBigSmoke;
-                        shootEffect = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
-                    }},
-                    Items.thorium, new BasicBulletType(15f, 126.3f) {{
-                        buildingDamageMultiplier = 0.33f;
-                        ammoMultiplier = 5f;
-                        knockback = 1.5f;
-                        lifetime = 17.84f;
-                        rangeChange = 44f;
-                        width = 14f;
-                        height = 22.5f;
-                        pierce = pierceBuilding = true;
-                        pierceCap = 5;
-                        hitColor = backColor = trailColor = Pal.thoriumPink;
-                        frontColor = Color.white;
-                        trailLength = 11;
-                        trailWidth = 2.4f;
-                        hitEffect = despawnEffect = Fx.hitBulletColor;
-                        smokeEffect = Fx.shootBigSmoke;
-                        shootEffect = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
-                    }}
-            );
+            ammo(Items.beryllium, new BasicBulletType(12f, 72f) {{
+                buildingDamageMultiplier = 0.33f;
+                ammoMultiplier = 3f;
+                knockback = 1.1f;
+                lifetime = 56f / 3;
+                width = 13f;
+                height = 22f;
+                pierce = pierceBuilding = true;
+                pierceCap = 3;
+                hitColor = backColor = trailColor = Pal.berylShot;
+                frontColor = Color.white;
+                trailLength = 11;
+                trailWidth = 2.2f;
+                hitEffect = despawnEffect = Fx.hitBulletColor;
+                smokeEffect = Fx.shootBigSmoke;
+                shootEffect = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
+            }}, Items.tungsten, new BasicBulletType(13f, 96.8f) {{
+                buildingDamageMultiplier = 0.33f;
+                ammoMultiplier = 4f;
+                knockback = 1.5f;
+                lifetime = 21.3f;
+                rangeChange = 22f;
+                width = 13f;
+                height = 23f;
+                pierce = pierceBuilding = true;
+                pierceCap = 4;
+                hitColor = backColor = trailColor = Pal.tungstenShot;
+                frontColor = Color.white;
+                trailLength = 11;
+                trailWidth = 2.3f;
+                hitEffect = despawnEffect = Fx.hitBulletColor;
+                smokeEffect = Fx.shootBigSmoke;
+                shootEffect = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
+            }}, Items.thorium, new BasicBulletType(15f, 126.3f) {{
+                buildingDamageMultiplier = 0.33f;
+                ammoMultiplier = 5f;
+                knockback = 1.5f;
+                lifetime = 17.84f;
+                rangeChange = 44f;
+                width = 14f;
+                height = 22.5f;
+                pierce = pierceBuilding = true;
+                pierceCap = 5;
+                hitColor = backColor = trailColor = Pal.thoriumPink;
+                frontColor = Color.white;
+                trailLength = 11;
+                trailWidth = 2.4f;
+                hitEffect = despawnEffect = Fx.hitBulletColor;
+                smokeEffect = Fx.shootBigSmoke;
+                shootEffect = new MultiEffect(Fx.shootSmallColor, Fx.colorSpark);
+            }});
             health = 2330;
             size = 4;
             armor = 8f;
@@ -3812,7 +3781,8 @@ public final class HIBlocks {
             configurable = true;
             buildType = () -> new CoreBuild() {
                 @Override
-                public void damage(float damage) {}
+                public void damage(float damage) {
+                }
 
                 @Override
                 public float handleDamage(float amount) {
@@ -3827,7 +3797,8 @@ public final class HIBlocks {
                     int i = 0;
                     for (; i < PayloadSourceF.teams.length; i++) {
                         Team team1 = PayloadSourceF.teams[i];
-                        ImageButton button = cont.button(((TextureRegionDrawable)Tex.whiteui).tint(team1.color), Styles.clearTogglei, 35, () -> {}).group(g).get();
+                        ImageButton button = cont.button(((TextureRegionDrawable) Tex.whiteui).tint(team1.color), Styles.clearTogglei, 35, () -> {
+                        }).group(g).get();
                         button.changed(() -> {
                             if (button.isChecked()) {
                                 if (player.team() == team) {
@@ -4277,7 +4248,8 @@ public final class HIBlocks {
                                 else logic.runWave();
                             }
                         }
-                        default -> {}
+                        default -> {
+                        }
                     }
                 }
             };

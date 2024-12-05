@@ -29,7 +29,7 @@ import static mindustry.mod.ClassMap.*;
 /** Generated class. Maps simple class names to concrete classes. For use in JSON attached mods. */
 final class HIClassMap {
     /** HIClassMap should not be instantiated. */
-    HIClassMap() {}
+    private HIClassMap() {}
 
     static void load() {
         //ai
@@ -200,6 +200,10 @@ final class HIClassMap {
         classes.put("UnitBoostBuild", UnitBoost.UnitBoostBuild.class);
         classes.put("PayloadSourceF", PayloadSourceF.class);
         classes.put("PayloadSourceBuildF", PayloadSourceF.PayloadSourceBuildF.class);
+        classes.put("WindGenerator", WindGenerator.class);
+        classes.put("WindGeneratorBuild", WindGenerator.WindGeneratorBuild.class);
+        classes.put("ImpulseNode", ImpulseNode.class);
+        classes.put("ImpulseNodeBuild", ImpulseNode.ImpulseNodeBuild.class);
         classes.put("PowerAnalyzer", PowerAnalyzer.class);
         classes.put("PowerAnalyzerBuild", PowerAnalyzer.PowerAnalyzerBuild.class);
         classes.put("BeamDiode", BeamDiode.class);
@@ -250,6 +254,8 @@ final class HIClassMap {
         classes.put("MinerPointBuild", MinerPoint.MinerPointBuild.class);
         classes.put("UnloaderF", UnloaderF.class);
         classes.put("UnloaderBuildF", UnloaderF.UnloaderBuildF.class);
+        classes.put("CoreBlockF", CoreBlockF.class);
+        classes.put("CoreBuildF", CoreBlockF.CoreBuildF.class);
         classes.put("CoreStorageBlock", CoreStorageBlock.class);
         classes.put("CoreStorageBuild", CoreStorageBlock.CoreStorageBuild.class);
         classes.put("RandomSource", RandomSource.class);
@@ -266,6 +272,7 @@ final class HIClassMap {
         classes.put("RunningLight", RunningLight.class);
         classes.put("ArcCharge", ArcCharge.class);
         //draw
+        classes.put("Draw3dSpin", Draw3dSpin.class);
         classes.put("DrawFactories", DrawFactories.class);
         classes.put("DrawPowerLight", DrawPowerLight.class);
         classes.put("DrawPrinter", DrawPrinter.class);

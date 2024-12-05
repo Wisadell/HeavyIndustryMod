@@ -15,9 +15,7 @@ import mindustry.graphics.*;
 
 import static heavyindustry.core.HeavyIndustryMod.*;
 
-/**
- * Draw the effect of bullet fireworks. Although its memory usage may be slightly high.
- */
+/** Draw the effect of bullet fireworks. Although its memory usage may be slightly high. */
 public class FireWorkBulletType extends BulletType {
     public String sprite;
     public boolean colorful = false, childColorful = true, outline = false;
@@ -114,7 +112,7 @@ public class FireWorkBulletType extends BulletType {
         if (fire == null) return;
         for (int i = 0; i < num; i++) {
             if (colorful && childColorful) {
-                Color c = colors[(int) Mathf.random(0, colors.length-0.01f)];
+                Color c = colors[(int) Mathf.random(0, colors.length - 0.01f)];
                 fire.create(b, b.team, b.x, b.y, Mathf.random(360), -1, 1, 1, c);
             } else fire.create(b, b.team, b.x, b.y, Mathf.random(360), -1, 1, 1, color);
         }
@@ -151,7 +149,8 @@ public class FireWorkBulletType extends BulletType {
         @Override
         public void update(Bullet b) {
             super.update(b);
-            if (stop) b.initVel(b.rotation(), speed * Math.max(b.fout() - Mathf.random(stopFrom, stopTo), 0) * Mathf.random(speedRod, 1));
+            if (stop)
+                b.initVel(b.rotation(), speed * Math.max(b.fout() - Mathf.random(stopFrom, stopTo), 0) * Mathf.random(speedRod, 1));
             else {
                 b.initVel(b.rotation(), speed * b.fout() * Mathf.random(speedRod, 1));
                 b.rotation(Angles.moveToward(b.rotation(), -90, rotSpeed * Math.max(b.fin() - Mathf.random(stopFrom, stopTo), 0)));
@@ -162,7 +161,7 @@ public class FireWorkBulletType extends BulletType {
         public void draw(Bullet b) {
             super.draw(b);
             if (!(b.data instanceof Color)) return;
-            Draw.color(b.data == Color.white ? Utils.c8.set(HIPal.rainBowRed).shiftHue(b.time * 2) : (Color)b.data);
+            Draw.color(b.data == Color.white ? Utils.c8.set(HIPal.rainBowRed).shiftHue(b.time * 2) : (Color) b.data);
             Draw.z(Layer.bullet);
             for (int i = 0; i < 4; i++) {
                 Drawf.tri(b.x, b.y, 1.6f, 2.2f, b.rotation() + 90 * i);
@@ -210,7 +209,7 @@ public class FireWorkBulletType extends BulletType {
             if (!(b.data instanceof Color data)) return;
             Draw.z(Layer.bullet);
             Draw.color(data == Color.white ? Utils.c10.set(HIPal.rainBowRed).shiftHue(b.time * 2) : data);
-            Draw.rect(Core.atlas.find(sprite), b.x, b.y,  width * b.fout(), height * b.fout(), 0);
+            Draw.rect(Core.atlas.find(sprite), b.x, b.y, width * b.fout(), height * b.fout(), 0);
         }
     }
 }

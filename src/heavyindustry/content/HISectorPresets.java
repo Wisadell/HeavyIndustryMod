@@ -6,12 +6,13 @@ import static mindustry.content.Planets.*;
 
 /**
  * Defines the {@linkplain SectorPreset maps} this mod offers.
+ *
  * @author E-Nightingale
  */
 public final class HISectorPresets {
     public static SectorPreset
             //serpulo
-            volcanicArchipelago,ironBridgeCoast,moltenRiftValley,frozenPlateau
+            volcanicArchipelago, ironBridgeCoast, moltenRiftValley, frozenPlateau
             //erekir
             ;
 

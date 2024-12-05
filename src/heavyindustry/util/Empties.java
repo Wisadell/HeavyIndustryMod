@@ -25,6 +25,7 @@ public final class Empties {
     private static final ObjectSet NIL_OBJECT_SET = new ObjectSet();
     private static final OrderedSet NIL_ORDERED_SET = new OrderedSet();
 
+    /** Empties should not be instantiated. */
     private Empties() {}
 
     public static <T> List<T> nilList() {

@@ -19,8 +19,6 @@ public class DelayedPointBulletType extends BulletType {
     protected static Position result;
     protected static Color[] colors = {new Color(1, 1, 1, 0f).a(-5f), new Color(1, 1, 1, 1f), new Color(1, 1, 1, 1f)};
 
-    public float errorCorrectionRadius = 16f, width = 8f, trailSpacing = 10f, delayEffectLifeTime = 30f;
-
     public static Effect laser = new Effect(60f, 2000f, b -> {
         if (!(b.data instanceof Position p)) return;
 
@@ -43,6 +41,8 @@ public class DelayedPointBulletType extends BulletType {
 
         Drawf.light(b.x, b.y, tX, tY, cwidth * 1.4f * b.fout(), colors[0], 0.6f);
     }).followParent(false);
+
+    public float errorCorrectionRadius = 16f, width = 8f, trailSpacing = 10f, delayEffectLifeTime = 30f;
 
     public DelayedPointBulletType() {
         scaleLife = true;
@@ -73,7 +73,7 @@ public class DelayedPointBulletType extends BulletType {
         cdist = 0f;
         result = null;
 
-        Units.nearbyEnemies(b.team, px - errorCorrectionRadius, py - errorCorrectionRadius, errorCorrectionRadius*2f, errorCorrectionRadius*2f, e -> {
+        Units.nearbyEnemies(b.team, px - errorCorrectionRadius, py - errorCorrectionRadius, errorCorrectionRadius * 2f, errorCorrectionRadius * 2f, e -> {
             if (e.dead() || !e.checkTarget(collidesAir, collidesGround) || !e.hittable()) return;
 
             e.hitbox(Tmp.r1);
@@ -142,7 +142,7 @@ public class DelayedPointBulletType extends BulletType {
 
         if (p instanceof Hitboxc h) {
             hitEntity(b, h, 0);
-            if (!despawnHit)hit(b, tX, tY);
+            if (!despawnHit) hit(b, tX, tY);
         } else if (collidesTiles) {
             Building build = world.buildWorld(tX, tY);
             if (build != null && build.team != b.team) {
@@ -190,7 +190,8 @@ public class DelayedPointBulletType extends BulletType {
     }
 
     @Override
-    public void handlePierce(Bullet b, float initialHealth, float x, float y) {}
+    public void handlePierce(Bullet b, float initialHealth, float x, float y) {
+    }
 
     public static class BulletF extends Bullet {
         static {

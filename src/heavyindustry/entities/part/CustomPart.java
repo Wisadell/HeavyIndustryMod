@@ -7,18 +7,17 @@ import arc.struct.*;
 import mindustry.entities.part.*;
 
 public class CustomPart extends DrawPart {
+    protected final Vec2 vec = new Vec2();
+    protected final Vec2 vec2 = new Vec2();
+
     public Drawer draw;
     public Seq<PartMove> moves = new Seq<>();
-
     public PartProgress progress = p -> 1;
-    public float layer = -1;
 
+    public float layer = -1;
     public float x, y, drawRadius, rotation;
     public float moveX, moveY, drawRadiusTo, moveRot;
     public boolean mirror;
-
-    protected final Vec2 vec = new Vec2();
-    protected final Vec2 vec2 = new Vec2();
 
     @Override
     public void draw(PartParams params) {
@@ -26,7 +25,7 @@ public class CustomPart extends DrawPart {
         float z = Draw.z();
 
         float dx = 0, dy = 0, dr = 0;
-        for (PartMove move: moves) {
+        for (PartMove move : moves) {
             dx += move.x * move.progress.get(params);
             dy += move.y * move.progress.get(params);
             dr += move.rot * move.progress.get(params);
@@ -53,7 +52,8 @@ public class CustomPart extends DrawPart {
     }
 
     @Override
-    public void load(String name) {}
+    public void load(String name) {
+    }
 
     public interface Drawer {
         void draw(float x, float y, float rotation, float progress);

@@ -5,7 +5,7 @@ import arc.graphics.*;
 import heavyindustry.core.*;
 
 public final class HITextures {
-    public static Texture smooth,particle,darker,armor;
+    public static Texture smooth, particle, darker, armor;
 
     /** HITextures should not be instantiated. */
     private HITextures() {}

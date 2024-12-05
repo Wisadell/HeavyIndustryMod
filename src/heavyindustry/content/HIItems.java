@@ -5,13 +5,14 @@ import mindustry.type.*;
 
 /**
  * Defines the {@linkplain Item item} this mod offers.
+ *
  * @author E-Nightingale
  */
 public final class HIItems {
     public static Item
-            salt,rareEarth,
-            nanocore,nanocoreErekir,
-            uranium,chromium,heavyAlloy;
+            salt, rareEarth,
+            nanocore, nanocoreErekir,
+            uranium, chromium, heavyAlloy;
 
     /** HIItems should not be instantiated. */
     private HIItems() {}

@@ -13,8 +13,10 @@ final class MeshUtils {
     static final float[] floats = new float[8]; //3 + 3 + 2
     static Mesh mesh;
 
-    /** MeshUtils should not be instantiated. */
-    MeshUtils() {}
+    /**
+     * MeshUtils should not be instantiated.
+     */
+    private MeshUtils() {}
 
     static void begin(int count) {
         mesh = new Mesh(true, count, 0,

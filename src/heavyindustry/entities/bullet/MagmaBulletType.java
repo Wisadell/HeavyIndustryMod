@@ -69,7 +69,8 @@ public class MagmaBulletType extends BulletType {
         //damage every 5 ticks
         if (b.timer(1, 5f) && b.data instanceof IntSeq tiles) {
             Damage.damage(b.team, b.x, b.y, radius * b.fout(), damage * b.damageMultiplier(), true, collidesAir, collidesGround);
-            if (status != StatusEffects.none) Damage.status(b.team, b.x, b.y, radius * b.fout(), status, statusDuration, collidesAir, collidesGround);
+            if (status != StatusEffects.none)
+                Damage.status(b.team, b.x, b.y, radius * b.fout(), status, statusDuration, collidesAir, collidesGround);
 
             Tmp.r1.setSize(radius * 2f * b.fout()).setCenter(b.x, b.y);
             Units.nearbyEnemies(b.team, Tmp.r1, u -> {

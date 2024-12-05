@@ -15,23 +15,19 @@ import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
 public class ArcCharge extends DrawPart {
-    public TextureRegion arrowRegion, pointerRegion;
-
     protected static final Rand rand = new Rand();
+    protected final static Vec2 tr = new Vec2(), tr2 = new Vec2();
+    public TextureRegion arrowRegion, pointerRegion;
     public float size = 13.75f;
     public Color color;
     public PartProgress progress;
-
     public float chargeCircleFrontRad = 18;
     public float chargeCircleBackRad = 8;
-
     public Interp curve = Interp.pow3;
     public float lightningCircleInScl = 0.85f, lightningCircleOutScl = 1.1f;
     public Interp lightningCircleCurve = Interp.pow3Out;
     public Floatf<PartParams> chargeY = t -> 1;
     public Floatf<PartParams> shootY = t -> 1;
-
-    protected final static Vec2 tr = new Vec2(), tr2 = new Vec2();
 
     @Override
     public void draw(PartParams params) {

@@ -19,9 +19,10 @@ import mindustry.world.meta.*;
 import static mindustry.Vars.*;
 
 public class JavelinAbility extends Ability {
+    protected final Seq<Healthc> targets = new Seq<>();
+
     public String suffix = "-overlay";
     public String name;
-
     /** Base damaged applied when this ability is active. */
     public float damage = 1;
     /** Min damage that this ability will apply. */
@@ -30,39 +31,30 @@ public class JavelinAbility extends Ability {
     public float damageInterval = 5f;
     /** Radius of ability. Set to unit's hitSize by default. */
     public float radius = -1;
-
     public boolean targetAir = true, targetGround = true;
-
     /** Min speed that the abiility functions. */
     public float minSpeed = 0.8f;
     /** Max speed where it stops getting better. */
     public float maxSpeed = 1.2f;
-
     /** Position offset relative to the unit. */
     public float x, y;
-
     /** Layer offset relative to unit. */
     public float layerOffset = 0f;
-
     /** Position offset based on sine wave. Purely visual. */
     public float sclX = 1, magX = 0;
     public float sclY = 1, magY = 0;
     public float sinOffset = Mathf.PI;
-
     /** Overlay region and effect tint. */
     public Color color = Color.white;
     /** Overaly blending mode. */
     public Blending blending = Blending.additive;
     /** When true, draws an overlay sprite on top of the unit. */
     public boolean drawOverlay = true;
-
     /** Effect applied on every target that has been damaged by this ability. uses the unit's rotation. */
     public Effect hitEffect = Fx.none;
-
     public TextureRegion overlayRegion;
 
     protected float timer;
-    protected final Seq<Healthc> targets = new Seq<>();
 
     public JavelinAbility(float damage, float damageInterval, float radius, String suffix) {
         this.damage = damage;
@@ -85,9 +77,9 @@ public class JavelinAbility extends Ability {
                 Strings.autoFixed(60f * minDamage / damageInterval, 2) + " - " +
                 Strings.autoFixed(60f * damage / damageInterval, 2) + " " + StatUnit.perSecond.localized()
         ).row();
-        t.add("[lightgray]" + Stat.range.localized() + ": [white]" + Strings.autoFixed(radius/8f, 2) + " " + StatUnit.blocks.localized()).row();
-        t.add("[lightgray]" + HIStat.minSpeed.localized() + ": [white]" + Strings.autoFixed(minSpeed/8f, 2) + " " + StatUnit.tilesSecond.localized()).row();
-        t.add("[lightgray]" + HIStat.maxSpeed.localized() + ": [white]" + Strings.autoFixed(maxSpeed/8f, 2) + " " + StatUnit.tilesSecond.localized()).row();
+        t.add("[lightgray]" + Stat.range.localized() + ": [white]" + Strings.autoFixed(radius / 8f, 2) + " " + StatUnit.blocks.localized()).row();
+        t.add("[lightgray]" + HIStat.minSpeed.localized() + ": [white]" + Strings.autoFixed(minSpeed / 8f, 2) + " " + StatUnit.tilesSecond.localized()).row();
+        t.add("[lightgray]" + HIStat.maxSpeed.localized() + ": [white]" + Strings.autoFixed(maxSpeed / 8f, 2) + " " + StatUnit.tilesSecond.localized()).row();
         t.add("[lightgray]" + Stat.targetsAir.localized() + ": [white]" + Core.bundle.get(targetAir ? "yes" : "no")).row();
         t.add("[lightgray]" + Stat.targetsGround.localized() + ": [white]" + Core.bundle.get(targetGround ? "yes" : "no")).row();
     }

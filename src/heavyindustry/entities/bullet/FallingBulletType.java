@@ -18,18 +18,21 @@ import static mindustry.Vars.*;
 public class FallingBulletType extends BulletType {
     public float fallTime = 50f;
     public float fallSpread = 60;
+
     public String sprite;
     public TextureRegion region;
     public Color regionColor = Color.white;
+
     public boolean canCollideFalling = false;
     public float fallingRadius = 20f;
     public float fallingDamage = 100f;
+    public boolean fallingHitCollideGround = false;
+
     public Effect hitFallingEffect = Fx.none;
     public Color hitFallingColor = Color.white;
-    public boolean fallingHitCollideGround = false;
+
     public boolean immovable = true;
     public float minDistanceFallingCollide = 10f;
-
 
     public FallingBulletType(String sprite) {
         super(1f, 0f);

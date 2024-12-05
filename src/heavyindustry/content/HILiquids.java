@@ -8,11 +8,12 @@ import mindustry.type.*;
 
 /**
  * Defines the {@linkplain Liquid liquid} this mod offers.
+ *
  * @author E-Nightingale
  */
 public final class HILiquids {
     public static Liquid
-            brine,methane,nanofluid,nitratedOil;
+            brine, methane, nanofluid, nitratedOil;
 
     /** HILiquids should not be instantiated. */
     private HILiquids() {}

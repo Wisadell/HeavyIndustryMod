@@ -13,7 +13,7 @@ import mindustry.logic.*;
 
 import static mindustry.Vars.*;
 
-public interface Linkablec extends Buildingc, Ranged{
+public interface Linkablec extends Buildingc, Ranged {
     Seq<Building> tmpSeq = new Seq<>(1);
 
     @Override

@@ -12,6 +12,7 @@ import mindustry.graphics.*;
 public class HailStoneBulletType extends FallingBulletType {
     public TextureRegion[] variantsRegion;
     public int variants;
+
     public HailStoneBulletType(String sprite, int variants) {
         super(sprite);
         this.variants = variants;
@@ -88,7 +89,7 @@ public class HailStoneBulletType extends FallingBulletType {
         createSplashDamage(b, x, y);
 
         for (int i = 0; i < lightning; i++) {
-            Lightning.create(b, lightningColor, lightningDamage < 0 ? damage : lightningDamage, b.x, b.y, b.rotation() + Mathf.range(lightningCone/2) + lightningAngle, lightningLength + Mathf.random(lightningLengthRand));
+            Lightning.create(b, lightningColor, lightningDamage < 0 ? damage : lightningDamage, b.x, b.y, b.rotation() + Mathf.range(lightningCone / 2) + lightningAngle, lightningLength + Mathf.random(lightningLengthRand));
         }
     }
 

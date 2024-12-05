@@ -15,13 +15,14 @@ import static mindustry.Vars.*;
 
 /**
  * Defines the {@linkplain Shader shader}s this mod offers.
+ *
  * @author E-Nightingale
  */
 public final class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
     public static AlphaShader alphaShader;
-    public static HISurfaceShader dalani,brine,nanofluid,boundWater;
+    public static HISurfaceShader dalani, brine, nanofluid, boundWater;
     public static MaskShader alphaMask;
     public static WaveShader wave;
     public static MirrorFieldShader mirrorField;
@@ -75,6 +76,7 @@ public final class HIShaders {
 
     /**
      * Resolves shader files from this mod via {@link Vars#tree}.
+     *
      * @param name The shader file name, e.g. {@code my-shader.frag}.
      * @return The shader file, located inside {@code shaders/}.
      */
@@ -93,7 +95,7 @@ public final class HIShaders {
         public BetterPlanet planet;
 
         public DepthAtmosphereShader() {
-            super("depth-atmosphere","depth-atmosphere");
+            super("depth-atmosphere", "depth-atmosphere");
         }
 
         @Override

@@ -75,13 +75,13 @@ public class ElectricStormBulletType extends BulletType {
         Fill.circle(b.x, b.y, baseRange);
 
         Draw.z(Layer.bullet);
-        Lines.stroke(splashDamageRadius/12 * b.finpow(), color);
+        Lines.stroke(splashDamageRadius / 12 * b.finpow(), color);
         Lines.circle(b.x, b.y, baseRange);
 
         Draw.color(color);
         for (int i = 0; i < 2; i++) {
             Drawf.tri(b.x, b.y, 12 * b.finpow(), baseRange * 1.5f, i * 180);
-            Drawf.tri(b.x, b.y, 6 * b.finpow(), baseRange/3, i * 180 + 90);
+            Drawf.tri(b.x, b.y, 6 * b.finpow(), baseRange / 3, i * 180 + 90);
         }
 
         if (b.timer.get(1, 27 * b.foutpow() + 3)) {

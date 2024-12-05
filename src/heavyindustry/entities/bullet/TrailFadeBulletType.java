@@ -12,9 +12,11 @@ import mindustry.gen.*;
 import static mindustry.Vars.*;
 
 public class TrailFadeBulletType extends AccelBulletType {
+    protected static final Vec2 v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2();
+    protected static final Rand rand = new Rand();
+
     public int tracers = 2, tracerFadeOffset = 10, tracerStrokeOffset = 15;
     public float tracerStroke = 3f, tracerSpacing = 8f, tracerRandX = 6f, tracerUpdateSpacing = 0.3f;
-
     public boolean addBeginPoint = false, hitBlinkTrail = true, despawnBlinkTrail = false;
 
     public TrailFadeBulletType() {
@@ -30,9 +32,6 @@ public class TrailFadeBulletType extends AccelBulletType {
     public TrailFadeBulletType(float speed, float damage) {
         this(speed, damage, "bullet");
     }
-
-    protected static final Vec2 v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2();
-    protected static final Rand rand = new Rand();
 
     @Override
     public void despawned(Bullet b) {
@@ -67,7 +66,7 @@ public class TrailFadeBulletType extends AccelBulletType {
         super.hit(b);
 
         if (headless || !(b.data instanceof Vec2Seq[])) return;
-        Vec2Seq[] pointsArr = (Vec2Seq[])b.data();
+        Vec2Seq[] pointsArr = (Vec2Seq[]) b.data();
         for (Vec2Seq points : pointsArr) {
             points.add(b.x, b.y);
             if (hitBlinkTrail) {

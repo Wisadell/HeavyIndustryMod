@@ -20,10 +20,14 @@ import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
 
 public final class Drawn {
+    public static final int[] oneArr = {1};
+    public static final float sinScl = 1f;
+
     static final Vec2
             v1 = new Vec2(), v2 = new Vec2(), v3 = new Vec2(), v4 = new Vec2(), v5 = new Vec2(),
             v6 = new Vec2(), v7 = new Vec2(), v8 = new Vec2(), v9 = new Vec2(), v10 = new Vec2(),
             rv = new Vec2();
+
     static final Vec3
             v31 = new Vec3(), v32 = new Vec3(), v33 = new Vec3(), v34 = new Vec3(), v35 = new Vec3(),
             v36 = new Vec3(), v37 = new Vec3(), v38 = new Vec3(), v39 = new Vec3(), v310 = new Vec3();
@@ -34,10 +38,6 @@ public final class Drawn {
 
     static final Rand rand = new Rand();
 
-    public static final int[] oneArr = {1};
-
-    public static final float sinScl = 1f;
-
     /** Drawn should not be instantiated. */
     private Drawn() {}
 
@@ -45,8 +45,8 @@ public final class Drawn {
         Draw.color(color);
         for (int i = 0; i < 6; i++) {
             float angle = 60 * i + rot;
-            Drawf.tri(x + Angles.trnsx(angle, rad), y + Angles.trnsy(angle, rad), rad/3, rad, angle - 180);
-            Drawf.tri(x + Angles.trnsx(angle, rad), y + Angles.trnsy(angle, rad), rad/3, rad/4, angle);
+            Drawf.tri(x + Angles.trnsx(angle, rad), y + Angles.trnsy(angle, rad), rad / 3, rad, angle - 180);
+            Drawf.tri(x + Angles.trnsx(angle, rad), y + Angles.trnsy(angle, rad), rad / 3, rad / 4, angle);
         }
         Draw.reset();
     }
@@ -149,7 +149,7 @@ public final class Drawn {
     public static void randLenVectors(long seed, int amount, float length, float minLength, float angle, float range, Floatc2 cons) {
         rand.setSeed(seed);
         for (int i = 0; i < amount; i++) {
-            v6.trns(angle + rand.range(range), minLength  + rand.random(length));
+            v6.trns(angle + rand.range(range), minLength + rand.random(length));
             cons.get(v6.x, v6.y);
         }
     }
@@ -162,7 +162,7 @@ public final class Drawn {
         return 90 * Interp.pow5.apply(Mathf.curve(cycle_100(), 0.15f, 0.85f));
     }
 
-    public static float rotator_120(float in , float margin) {
+    public static float rotator_120(float in, float margin) {
         return 120 * HIInterp.pow10.apply(Mathf.curve(in, margin, 1 - margin));
     }
 
@@ -174,7 +174,9 @@ public final class Drawn {
         return 360 * Interp.pow5.apply(Mathf.curve(cycle(0, 270), 0.15f, 0.85f));
     }
 
-    /** @return AN interpolation in (0, 1) */
+    /**
+     * @return AN interpolation in (0, 1)
+     */
     public static float cycle(float phaseOffset, float T) {
         return (Time.time + phaseOffset) % T / T;
     }
@@ -282,7 +284,7 @@ public final class Drawn {
             for (Position p : pos) {
                 if (p == null) continue;
                 Draw.color(c == 1 ? color : Pal.gray);
-                Fill.square(p.getX(), p.getY(), size + 1 -c / 1.5f, 45);
+                Fill.square(p.getX(), p.getY(), size + 1 - c / 1.5f, 45);
                 Draw.reset();
             }
         }
@@ -398,7 +400,9 @@ public final class Drawn {
         Draw.alpha(1f);
     }
 
-    /** Draws a sprite that should be light-wise correct. Provided sprites must be similar in shape and face towards the right. */
+    /**
+     * Draws a sprite that should be light-wise correct. Provided sprites must be similar in shape and face towards the right.
+     */
     public static void spinSprite(TextureRegion[] regions, float x, float y, float w, float h, float r, float alpha) {
         if (alpha < 0.99f) {
             FrameBuffer buffer = renderer.effectBuffer;
@@ -418,18 +422,27 @@ public final class Drawn {
         }
     }
 
-    /** Draws a sprite that should be light-wise correct. Provided sprites must be similar in shape and face towards the right. */
+    /**
+     * Draws a sprite that should be light-wise correct.
+     * Provided sprites must be similar in shape and face towards the right.
+     */
     public static void spinSprite(TextureRegion[] regions, float x, float y, float w, float h, float r) {
         spinSprite(regions, x, y, w, h, r, 1f);
     }
 
 
-    /** Draws a sprite that should be light-wise correct. Provided sprites must be similar in shape and face towards the right. */
+    /**
+     * Draws a sprite that should be light-wise correct.
+     * Provided sprites must be similar in shape and face towards the right.
+     */
     public static void spinSprite(TextureRegion[] regions, float x, float y, float r, float alpha) {
         spinSprite(regions, x, y, regions[0].width / 4f, regions[0].height / 4f, r, alpha);
     }
 
-    /** Draws a sprite that should be light-wise correct. Provided sprites must be similar in shape and face towards the right. */
+    /**
+     * Draws a sprite that should be light-wise correct.
+     * Provided sprites must be similar in shape and face towards the right.
+     */
     public static void spinSprite(TextureRegion[] regions, float x, float y, float r) {
         spinSprite(regions, x, y, regions[0].width / 4f, regions[0].height / 4f, r);
     }

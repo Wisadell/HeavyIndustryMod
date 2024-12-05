@@ -10,10 +10,6 @@ public class AccelBulletType extends BasicBulletType {
 
     public Interp accelInterp = Interp.linear;
 
-    public void disableAccel() {
-        accelerateBegin = 10;
-    }
-
     public AccelBulletType() {
         super();
     }
@@ -35,6 +31,10 @@ public class AccelBulletType extends BasicBulletType {
 
     public AccelBulletType(float damage, String bulletSprite) {
         super(1, damage, bulletSprite);
+    }
+
+    public void disableAccel() {
+        accelerateBegin = 10;
     }
 
     @Override
@@ -64,7 +64,8 @@ public class AccelBulletType extends BasicBulletType {
 
     @Override
     public void update(Bullet b) {
-        if (accelerateBegin < 1) b.vel.setLength((velocityBegin + accelInterp.apply(Mathf.curve(b.fin(), accelerateBegin, accelerateEnd)) * velocityIncrease) * (drag != 0 ? (1 * Mathf.pow(b.drag, b.fin() * b.lifetime() / 6)) : 1));
+        if (accelerateBegin < 1)
+            b.vel.setLength((velocityBegin + accelInterp.apply(Mathf.curve(b.fin(), accelerateBegin, accelerateEnd)) * velocityIncrease) * (drag != 0 ? (1 * Mathf.pow(b.drag, b.fin() * b.lifetime() / 6)) : 1));
         super.update(b);
     }
 }

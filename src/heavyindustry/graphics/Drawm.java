@@ -56,8 +56,10 @@ public final class Drawm {
         b.load();
     }
 
-    /** ONly for blocks with 2 or more team regions.
-     * Generates all team regions for this region. Call #loadCustomTeamRegion(String) in load() afterward to get the region. Must be followed by a #generateTeamRegion. */
+    /**
+     * ONly for blocks with 2 or more team regions.
+     * Generates all team regions for this region. Call #loadCustomTeamRegion(String) in load() afterward to get the region. Must be followed by a #generateTeamRegion.
+     */
     public static void customTeamRegion(MultiPacker packer, String name) {
         PixmapRegion teamr = Core.atlas.getPixmap(name + "-team");
 
@@ -111,10 +113,12 @@ public final class Drawm {
         Draw.alpha(1f);
     }
 
-    /** Filps a sprite like a coin.
-     * @param region Note that this region is flipped left-right, the y-axis being the axis.
+    /**
+     * Filps a sprite like a coin.
+     *
+     * @param region   Note that this region is flipped left-right, the y-axis being the axis.
      * @param rotation Technically the yaw.
-     * @param roll Negative values tilt the sprite to the east (cw), positive to the west (ccw).
+     * @param roll     Negative values tilt the sprite to the east (cw), positive to the west (ccw).
      */
     public static void flipSprite(TextureRegion region, float x, float y, float rotation, float roll) {
         flipSprite(region, x, y, rotation, roll, Color.white, Pal.darkestGray);
@@ -183,8 +187,8 @@ public final class Drawm {
             }
         }
 
-        Texture texture  = new Texture(out);
-        return Core.atlas.addRegion(name + "-blended-" + (int)(f * 100), new TextureRegion(texture));
+        Texture texture = new Texture(out);
+        return Core.atlas.addRegion(name + "-blended-" + (int) (f * 100), new TextureRegion(texture));
     }
 
     public static void dashPoly(float partSize, Color color, float... cords) {

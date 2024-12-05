@@ -14,8 +14,10 @@ public class PartBow extends DrawPart {
     public float bowMoveY = -40 + 8, bowFY = -8;
     public float bowWidth = 36, bowHeight = 15, bowTk = 8, turretTk = 15;
     public float visRad = 12;
+
     public Color color = Items.surgeAlloy.color;
     public String arrowSp = null;
+
     public PartProgress progressWarmup = PartProgress.warmup;
     public PartProgress progressReload = PartProgress.reload;
 
@@ -50,11 +52,11 @@ public class PartBow extends DrawPart {
         Lines.circle(pullx, pully, 4);
         float sin = Mathf.absin(Time.time, 6, 1.5f);
         for (int i = 0; i < 3; i++) {
-            float angle = i* 360f / 3;
+            float angle = i * 360f / 3;
             Drawf.tri(pullx + Angles.trnsx(angle - Time.time, 5f + sin), pully + Angles.trnsy(angle - Time.time, 5f + sin), 4f, -2f * warmup, angle - Time.time);
         }
 
-        float arx = rx + Angles.trnsx(rot, 0, -bowMoveY/2), ary = ry + Angles.trnsy(rot, 0, -bowMoveY/2);
+        float arx = rx + Angles.trnsx(rot, 0, -bowMoveY / 2), ary = ry + Angles.trnsy(rot, 0, -bowMoveY / 2);
         //arrow
         Draw.color(color.cpy().a(p));
         if (arrowSp != null) Draw.rect(Core.atlas.find(arrowSp), arx, ary, 32 * warmup, 50, rot);
@@ -64,5 +66,6 @@ public class PartBow extends DrawPart {
     }
 
     @Override
-    public void load(String s) {}
+    public void load(String s) {
+    }
 }

@@ -10,9 +10,6 @@ import mindustry.gen.*;
 import static mindustry.Vars.*;
 
 public class ShieldBreakerType extends BasicBulletType {
-    public float fragSpawnSpacing = 5;
-    public float maxShieldDamage;
-
     protected static BulletType breakType = new EffectBulletType(3f) {{
         absorbable = true;
         collides = false;
@@ -29,6 +26,9 @@ public class ShieldBreakerType extends BasicBulletType {
             }
         }
     };
+
+    public float fragSpawnSpacing = 5;
+    public float maxShieldDamage;
 
     public ShieldBreakerType(float speed, float damage, String bulletSprite, float shieldDamage) {
         super(speed, damage, bulletSprite);
@@ -53,6 +53,6 @@ public class ShieldBreakerType extends BasicBulletType {
     @Override
     public void update(Bullet b) {
         super.update(b);
-        if (b.timer(5, fragSpawnSpacing))breakType.create(b, b.team, b.x, b.y, 0, maxShieldDamage, 0, 1, backColor);
+        if (b.timer(5, fragSpawnSpacing)) breakType.create(b, b.team, b.x, b.y, 0, maxShieldDamage, 0, 1, backColor);
     }
 }

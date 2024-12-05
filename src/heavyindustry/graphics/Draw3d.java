@@ -4,9 +4,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 
-/**
- * Draws 2d region with applying {@link Mat3D}
- */
+/** Draws 2d region with applying {@link Mat3D}. */
 public final class Draw3d {
     public static final Mat3D tmpMat1 = new Mat3D();
     public static final Mat3D tmpMat2 = new Mat3D();
@@ -73,7 +71,7 @@ public final class Draw3d {
         idx = 0;
         idx = vertex(idx, v4, u2, v, color, mixColor);
         idx = vertex(idx, v1, u, v, color, mixColor);
-        doubleLast(idx,v6 , color, mixColor, u5, _v5);
+        doubleLast(idx, v6, color, mixColor, u5, _v5);
         Draw.vert(region.texture, vertices, 0, vertices.length);
     }
 

@@ -22,19 +22,16 @@ import static mindustry.Vars.*;
  * {@code Tmp} <b>var</b> is available.<p>
  * Completely independent class.<p>
  *
+ * @author Yuria
  * @implNote The method implements the generation of random lightning effect <b>from point to point</b> and complete certain action at <b>target point</b> through {@link Cons}.<p>
- * @apiNote
- * <li> {@code hitPointMovement} {@link Cons} used to run specific action at the target point.
+ * @apiNote <li> {@code hitPointMovement} {@link Cons} used to run specific action at the target point.
  * <li> {@code WIDTH}: {@value WIDTH} used to control the stroke of the lightning.
  * <li> {@code RANGE_RAND}: {@value RANGE_RAND} used to control the base xRand range of every part of the lightning.
  * <li> {@code ROT_DST}: {@value ROT_DST} used to control the length of every part of the lightning.<p>
- *
  * @see Position
  * @see Vec2
  * @see Geometry
  * @see Cons
- *
- * @author Yuria
  */
 public final class PositionLightning {
     public static final BulletType hitter = new EffectBulletType(5f) {{
@@ -61,7 +58,7 @@ public final class PositionLightning {
     /** PositionLightning should not be instantiated. */
     private PositionLightning() {}
 
-    /** (0, 1] */
+    /** [0, 1] */
     public static void setHitChance(float f) {
         trueHitChance = f;
     }
@@ -96,7 +93,8 @@ public final class PositionLightning {
     public static void createRange(Bullet owner, boolean hitAir, boolean hitGround, Position from, Team team, float range, int maxHit, Color color, boolean createSubLightning, float damage, int subLightningLength, float width, int lightningNum, Cons<Position> hitPointMovement) {
         Seq<Healthc> entities = new Seq<>();
         whetherAdd(entities, team, rect.setSize(range * 2f).setCenter(from.getX(), from.getY()), maxHit, hitGround, hitAir);
-        for (Healthc p : entities)create(owner, team, from, p, color, createSubLightning, damage, subLightningLength, width, lightningNum, hitPointMovement);
+        for (Healthc p : entities)
+            create(owner, team, from, p, color, createSubLightning, damage, subLightningLength, width, lightningNum, hitPointMovement);
     }
 
     public static void createRange(Bullet owner, Position from, Team team, float range, int maxHit, Color color, boolean createSubLightning, float damage, int subLightningLength, float width, int lightningNum, Cons<Position> hitPointMovement) {
@@ -109,14 +107,16 @@ public final class PositionLightning {
 
     /** A create method that with a Bullet owner. */
     public static void create(Entityc owner, Team team, Position from, Position target, Color color, boolean createSubLightning, float damage, int subLightningLength, float lightningWidth, int lightningNum, Cons<Position> hitPointMovement) {
-        if (!Mathf.chance(trueHitChance))return;
+        if (!Mathf.chance(trueHitChance)) return;
         Position sureTarget = findInterceptedPoint(from, target, team);
         hitPointMovement.get(sureTarget);
 
         if (createSubLightning) {
             if (owner instanceof Bullet b) {
-                for (int i = 0; i < b.type.lightning; i++) Lightning.create(b, color, b.type.lightningDamage < 0f ? b.damage : b.type.lightningDamage, sureTarget.getX(), sureTarget.getY(), b.rotation() + Mathf.range(b.type.lightningCone / 2f) + b.type.lightningAngle, b.type.lightningLength + Mathf.random(b.type.lightningLengthRand));
-            } else for (int i = 0; i < 3; i++) Lightning.create(team, color, damage <= 0f ? 1f : damage, sureTarget.getX(), sureTarget.getY(), Mathf.random(360f), subLightningLength);
+                for (int i = 0; i < b.type.lightning; i++)
+                    Lightning.create(b, color, b.type.lightningDamage < 0f ? b.damage : b.type.lightningDamage, sureTarget.getX(), sureTarget.getY(), b.rotation() + Mathf.range(b.type.lightningCone / 2f) + b.type.lightningAngle, b.type.lightningLength + Mathf.random(b.type.lightningLengthRand));
+            } else for (int i = 0; i < 3; i++)
+                Lightning.create(team, color, damage <= 0f ? 1f : damage, sureTarget.getX(), sureTarget.getY(), Mathf.random(360f), subLightningLength);
         }
 
         float realDamage = damage;
@@ -155,7 +155,7 @@ public final class PositionLightning {
     }
 
     public static void createEffect(Position from, float length, float angle, Color color, int lightningNum, float width) {
-        if (headless)return;
+        if (headless) return;
         createEffect(from, tmp2.trns(angle, length).add(from), color, lightningNum, width);
     }
 
@@ -213,7 +213,7 @@ public final class PositionLightning {
     /** create lightning effect. */
     public static void createBoltEffect(Color color, float width, Vec2Seq vets) {
         vets.each(((x, y) -> {
-            if (Mathf.chance(0.0855))HIFx.lightningSpark.at(x, y, rand.random(2f + width, 4f + width), color);
+            if (Mathf.chance(0.0855)) HIFx.lightningSpark.at(x, y, rand.random(2f + width, 4f + width), color);
         }));
         HIFx.posLightning.at((vets.firstTmp().x + vets.peekTmp().x) / 2f, (vets.firstTmp().y + vets.peekTmp().y) / 2f, width, color, vets);
     }
@@ -226,7 +226,8 @@ public final class PositionLightning {
         tmp1.trns(angle, from.dst(to) / (param - 1));
 
         lines.add(from);
-        for (int i = 1; i < param - 2; i ++) lines.add(tmp3.trns(angle - 90, randomVec.get(i)).add(tmp1, i).add(from.getX(), from.getY()));
+        for (int i = 1; i < param - 2; i++)
+            lines.add(tmp3.trns(angle - 90, randomVec.get(i)).add(tmp1, i).add(from.getX(), from.getY()));
         lines.add(to);
 
         return lines;

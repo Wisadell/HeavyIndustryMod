@@ -1,12 +1,15 @@
 package heavyindustry.util;
 
-/** A practical toolkit for converting numbers into strings according to certain criteria. */
+/**
+ * A practical toolkit for converting numbers into strings according to certain criteria.
+ */
 public final class NumberString {
-    private NumberString() {}
-
     private static final String[] byteUnit = {
             "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB", "BB"
     };
+
+    /** NumberString should not be instantiated. */
+    private NumberString() {}
 
     /**
      * Convert numbers to computer storage capacity count representation without units.
@@ -37,7 +40,7 @@ public final class NumberString {
             end.append("0");
         }
 
-        return (isNegative? "-": "") + arr[0] + (retain == 0? "": "." + arr[1].substring(0, realRetain) + end);
+        return (isNegative ? "-" : "") + arr[0] + (retain == 0 ? "" : "." + arr[1].substring(0, realRetain) + end);
     }
 
     /**
@@ -46,7 +49,6 @@ public final class NumberString {
      * @param number The number to be converted
      * @param retain Reserved decimal places
      */
-    @SuppressWarnings("StringRepeatCanBeUsed")
     public static String toByteFix(double number, int retain) {
         boolean isNegative = false;
         if (number < 0) {
@@ -64,7 +66,7 @@ public final class NumberString {
             index++;
         }
 
-        String[] arr = Double.toString(number/base).split("\\.");
+        String[] arr = Double.toString(number / base).split("\\.");
         int realRetain = Math.min(retain, arr[1].length());
 
         StringBuilder end = new StringBuilder();
@@ -72,6 +74,6 @@ public final class NumberString {
             end.append("0");
         }
 
-        return (isNegative? "-": "") + arr[0] + (retain == 0? "": "." + arr[1].substring(0, realRetain) + end + byteUnit[index]);
+        return (isNegative ? "-" : "") + arr[0] + (retain == 0 ? "" : "." + arr[1].substring(0, realRetain) + end + byteUnit[index]);
     }
 }

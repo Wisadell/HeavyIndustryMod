@@ -23,8 +23,24 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class BatteryAbility extends Ability {
+    public static Effect absorb = Fx.none;
+    public static float rangeS;
+
     public float capacity, shieldRange, range, px, py;
     public Effect abilityEffect = HIFx.shieldDefense;
+
+    protected static Unit paramUnit;
+    protected static final Cons<Bullet> cons = b -> {
+        if (b.team != paramUnit.team && b.type.absorbable && Intersector.isInsideHexagon(paramUnit.x, paramUnit.y, rangeS * 2, b.getX(), b.getY()) && paramUnit.shield > 0) {
+            b.absorb();
+            absorb.at(b.getX(), b.getY(), Pal.heal);
+            paramUnit.shield = Math.max(paramUnit.shield - b.damage, 0);
+        }
+    };
+
+    protected Building target = null;
+    protected float timerRetarget = 0;
+    protected float amount = 0;
 
     public BatteryAbility(float capacity, float shieldRange, float range, float px, float py) {
         this.capacity = capacity;
@@ -41,22 +57,6 @@ public class BatteryAbility extends Ability {
         t.row();
         t.add(bundle.format("ability.battery-ability-range", Strings.autoFixed(range, 2)));
     }
-
-    public static Effect absorb;
-    protected static Unit paramUnit;
-    public static float rangeS;
-
-    protected static final Cons<Bullet> cons = b -> {
-        if (b.team != paramUnit.team && b.type.absorbable && Intersector.isInsideHexagon(paramUnit.x, paramUnit.y, rangeS * 2, b.getX(), b.getY()) && paramUnit.shield > 0) {
-            b.absorb();
-            absorb.at(b.getX(), b.getY(), Pal.heal);
-            paramUnit.shield = Math.max(paramUnit.shield - b.damage, 0);
-        }
-    };
-
-    protected Building target = null;
-    protected float timerRetarget = 0;
-    protected float amount = 0;
 
     protected void setupColor(float satisfaction) {
         Draw.color(Color.white, Pal.powerLight, (1 - satisfaction) * 0.86f + Mathf.absin(3, 0.1f));
@@ -100,7 +100,7 @@ public class BatteryAbility extends Ability {
         if (Mathf.zero(Renderer.laserOpacity)) return;
         Draw.z(Layer.power);
         setupColor(target.power.graph.getSatisfaction());
-        ((PowerNode)target.block).drawLaser(x, y, target.x, target.y, 2, target.block.size);
+        ((PowerNode) target.block).drawLaser(x, y, target.x, target.y, 2, target.block.size);
     }
 
     @Override

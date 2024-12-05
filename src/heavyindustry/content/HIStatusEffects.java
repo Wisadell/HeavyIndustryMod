@@ -15,12 +15,13 @@ import static mindustry.content.StatusEffects.*;
 
 /**
  * Sets up content {@link StatusEffect status effects}. Loaded after every other content is instantiated.
+ *
  * @author E-Nightingale
  */
 public final class HIStatusEffects {
     public static StatusEffect
-            overheat,regenerating,breached,flamePoint,ultFireBurn,
-            territoryFieldIncrease,territoryFieldSuppress;
+            overheat, regenerating, breached, flamePoint, ultFireBurn,
+            territoryFieldIncrease, territoryFieldSuppress;
 
     /** HIStatusEffects should not be instantiated. */
     private HIStatusEffects() {}

@@ -51,7 +51,7 @@ public class CritTrail extends Trail {
         Draw.color(color);
         float[] items = points.items;
 
-        for (int i = 0; i < points.size - 4; i+= 4) {
+        for (int i = 0; i < points.size - 4; i += 4) {
             float x1 = items[i], y1 = items[i + 1], w1 = items[i + 2], a1 = items[i + 3],
                     x2 = items[i + 4], y2 = items[i + 5], w2 = items[i + 6], a2 = items[i + 7];
             float size = width / ((float) points.size / 4);
@@ -65,7 +65,9 @@ public class CritTrail extends Trail {
         Draw.reset();
     }
 
-    /** Removes the last point from the trail at intervals. */
+    /**
+     * Removes the last point from the trail at intervals.
+     */
     @Override
     public void shorten() {
         if ((counter += Time.delta) >= 0.99f) {
@@ -77,24 +79,32 @@ public class CritTrail extends Trail {
         }
     }
 
-    /** Adds a new point to the trail at intervals. */
+    /**
+     * Adds a new point to the trail at intervals.
+     */
     @Override
     public void update(float x, float y) {
         updateRot(x, y, Angles.angle(x, y, lastX, lastY));
     }
 
-    /** Adds a new point with a width multiplier to the trail at intervals. */
+    /**
+     * Adds a new point with a width multiplier to the trail at intervals.
+     */
     @Override
     public void update(float x, float y, float width) {
         update(x, y, width, Angles.angle(x, y, lastX, lastY));
     }
 
-    /** Adds a new point with a specific rotation to the trail at intervals. */
+    /**
+     * Adds a new point with a specific rotation to the trail at intervals.
+     */
     public void updateRot(float x, float y, float rotation) {
         update(x, y, 1f, rotation);
     }
 
-    /** Adds a new point with a width multiplier and specific rotation to the trail at intervals. */
+    /**
+     * Adds a new point with a width multiplier and specific rotation to the trail at intervals.
+     */
     public void update(float x, float y, float width, float rotation) {
         if ((counter += Time.delta) >= 0.99f) {
             if (points.size > length * 4) {

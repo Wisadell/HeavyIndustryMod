@@ -16,6 +16,7 @@ import static mindustry.content.UnitTypes.*;
 
 /**
  * Sets up content {@link TechNode tech tree nodes}. Loaded after every other content is instantiated.
+ *
  * @author E-Nightingale
  */
 public final class HITechTree {
@@ -176,7 +177,7 @@ public final class HITechTree {
         vanillaNode(blastMixer, () -> node(largeBlastMixer, () -> {}));
         vanillaNode(cultivator, () -> node(largeCultivator, Seq.with(new SectorComplete(taintedWoods)), () -> {}));
         vanillaNode(plastaniumCompressor, () -> node(largePlastaniumCompressor, Seq.with(new SectorComplete(facility32m)), () -> {}));
-        vanillaNode(surgeSmelter, ()-> node(largeSurgeSmelter, () -> {}));
+        vanillaNode(surgeSmelter, () -> node(largeSurgeSmelter, () -> {}));
         vanillaNode(siliconCrucible, () -> node(blastSiliconSmelter, () -> {}));
         vanillaNode(siliconSmelter, () -> node(nanocoreConstructor, Seq.with(new SectorComplete(impact0078)), () -> node(nanocorePrinter, () -> {})));
         vanillaNode(sporePress, () -> node(nitrificationReactor, () -> node(nitratedOilSedimentationTank, () -> {})));
@@ -192,7 +193,7 @@ public final class HITechTree {
             node(largeElectricHeater, ItemStack.with(Items.tungsten, 3000, Items.oxide, 2400, Items.carbide, 800), () -> {});
             node(liquidFuelHeater, () -> {});
             node(heatReactor, () -> {});
-            node(uraniumFuser, Seq.with(new OnSector(origin)), () ->  node(chromiumFuser, () -> {}));
+            node(uraniumFuser, Seq.with(new OnSector(origin)), () -> node(chromiumFuser, () -> {}));
         });
         vanillaNode(oxidationChamber, () -> node(largeOxidationChamber, ItemStack.with(Items.tungsten, 3600, Items.graphite, 4400, Items.silicon, 4400, Items.beryllium, 6400, Items.oxide, 600, Items.carbide, 1400), () -> {}));
         vanillaNode(surgeCrucible, () -> node(largeSurgeCrucible, ItemStack.with(Items.graphite, 4400, Items.silicon, 4000, Items.tungsten, 4800, Items.oxide, 960, Items.surgeAlloy, 1600), () -> {}));
@@ -238,7 +239,8 @@ public final class HITechTree {
             node(heatSinkLarge, () -> {});
         }));
         //turret
-        vanillaNode(segment, () -> node(dissipation, () -> {}));
+        vanillaNode(segment, () -> node(dissipation, () -> {
+        }));
         vanillaNode(duo, () -> {
             node(rocketLauncher, Seq.with(new SectorComplete(ruinousShores)), () -> node(multipleRocketLauncher, Seq.with(new SectorComplete(windsweptIslands)), () -> {
                 node(largeRocketLauncher, Seq.with(new SectorComplete(facility32m)), () -> {});

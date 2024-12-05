@@ -8,6 +8,7 @@ import java.util.*;
 
 /**
  * Struct utilities, providing some stateless iterative utilities such as reduce.
+ *
  * @author E-Nightingale
  */
 @SuppressWarnings("unchecked")
@@ -20,7 +21,7 @@ public final class StructUtils {
 
     public static <T> Empty<T> empty() {
         // SAFETY: Has no references or casts to T, so type erasure shouldn't mess everything up.
-        return (Empty<T>)empty;
+        return (Empty<T>) empty;
     }
 
     public static <T> T[] emptyArray() {
@@ -146,7 +147,7 @@ public final class StructUtils {
         public void each(Cons<? super T> cons) {}
     }
 
-    public static class Single<T> implements Iterable<T>, Iterator<T>, Eachable<T>{
+    public static class Single<T> implements Iterable<T>, Iterator<T>, Eachable<T> {
         protected final T item;
         protected boolean done;
 

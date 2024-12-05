@@ -29,7 +29,9 @@ public final class HISounds {
             bigHailstoneHit = new Sound(),
             giantHailstoneHit = new Sound();
 
-    /** HISounds should not be instantiated. */
+    /**
+     * HISounds should not be instantiated.
+     */
     private HISounds() {}
 
     public static void load() {

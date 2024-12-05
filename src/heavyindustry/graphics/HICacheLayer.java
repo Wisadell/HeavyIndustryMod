@@ -9,10 +9,11 @@ import static mindustry.Vars.*;
 
 /**
  * Defines the {@linkplain CacheLayer cache layer}s this mod offers.
+ *
  * @author E-Nightingale
  */
 public final class HICacheLayer {
-    public static ShaderLayer dalani,brine,nanofluid,armor;
+    public static ShaderLayer dalani, brine, nanofluid, armor;
 
     /** HICacheLayer should not be instantiated. */
     private HICacheLayer() {}
@@ -46,6 +47,6 @@ public final class HICacheLayer {
             }
         };
 
-        CacheLayer.add(dalani,brine,nanofluid,armor);
+        CacheLayer.add(dalani, brine, nanofluid, armor);
     }
 }

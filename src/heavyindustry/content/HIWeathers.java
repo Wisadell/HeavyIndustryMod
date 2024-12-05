@@ -16,10 +16,11 @@ import static heavyindustry.core.HeavyIndustryMod.*;
 
 /**
  * Defines the {@linkplain Weather weather} this mod offers.
+ *
  * @author E-Nightingale
  */
 public final class HIWeathers {
-    public static Weather wind,blizzard,hailStone,stoneStorm;
+    public static Weather wind, blizzard, hailStone, stoneStorm;
 
     /** HIWeathers should not be instantiated. */
     private HIWeathers() {}

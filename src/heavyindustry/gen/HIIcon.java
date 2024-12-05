@@ -8,13 +8,15 @@ import static mindustry.gen.Icon.*;
 
 public final class HIIcon {
     public static TextureRegionDrawable
-            keplerIcon,aboutIcon,artistIcon,configureIcon,contributeIcon,databaseIcon,debuggingIcon,defaultShowIcon,gasesIcon,
-            holdIcon,matrixIcon,nuclearIcon,programIcon,publicInfoIcon,reactionIcon,showInfosIcon,showRangeIcon,soundsIcon,
-            startIcon,telegramIcon,timeIcon,translateIcon,unShowInfosIcon,
+            keplerIcon, aboutIcon, artistIcon, configureIcon, contributeIcon, databaseIcon, debuggingIcon, defaultShowIcon, gasesIcon,
+            holdIcon, matrixIcon, nuclearIcon, programIcon, publicInfoIcon, reactionIcon, showInfosIcon, showRangeIcon, soundsIcon,
+            startIcon, telegramIcon, timeIcon, translateIcon, unShowInfosIcon,
             //small
-            resetIconSmall,timeIconSmall;
+            resetIconSmall, timeIconSmall;
 
-    /** HIIcon should not be instantiated. */
+    /**
+     * HIIcon should not be instantiated.
+     */
     private HIIcon() {}
 
     public static void load() {

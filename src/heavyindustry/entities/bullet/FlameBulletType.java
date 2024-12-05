@@ -16,7 +16,7 @@ public class FlameBulletType extends BulletType {
 
     public float damageBoost = 3f;
 
-    public FlameBulletType(Color colorBegin, Color colorTo, Color colorEnd, float length,  float cone, int number, float lifetime) {
+    public FlameBulletType(Color colorBegin, Color colorTo, Color colorEnd, float length, float cone, int number, float lifetime) {
         flameLength = length;
         flameCone = cone;
         particleNumber = number;

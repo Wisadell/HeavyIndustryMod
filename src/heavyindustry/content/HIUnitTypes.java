@@ -41,9 +41,27 @@ import static mindustry.gen.EntityMapping.*;
 
 /**
  * Defines the {@linkplain UnitType units} this mod offers.
+ *
  * @author E-Nightingale
  */
 public final class HIUnitTypes {
+    public static UnitType
+            //vanilla-tank
+            vanguard, striker, counterattack, crush, destruction, purgatory,
+            //vanilla-tier6
+            suzerain, supernova, cancer, sunlit, windstorm, mosasaur, killerWhale,
+            //vanilla-tier6-erekir
+            dominate, oracle, havoc,
+            //miner-erekir
+            miner, largeMiner, legsMiner,
+            //other
+            armoredCarrierVehicle, pioneer, vulture,
+            burner, shadowBlade, artilleryFirePioneer,
+            //elite
+            tiger, thunder,
+            //boss
+            vast;
+
     //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
     static {
         //vanilla-tank
@@ -71,7 +89,6 @@ public final class HIUnitTypes {
         nameMap.put(name("legs-miner"), BuildingTetherPayloadLegsUnit::new);
         //other
         nameMap.put(name("armored-carrier-vehicle"), idMap[43]);
-        nameMap.put(name("sage"), idMap[3]);
         nameMap.put(name("pioneer"), PayloadLegsUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
         nameMap.put(name("burner"), idMap[4]);
@@ -84,24 +101,9 @@ public final class HIUnitTypes {
         nameMap.put(name("vast"), EnergyUnit::new);
     }
 
-    public static UnitType
-            //vanilla-tank
-            vanguard,striker,counterattack,crush,destruction,purgatory,
-            //vanilla-tier6
-            suzerain,supernova,cancer,sunlit,windstorm,mosasaur,killerWhale,
-            //vanilla-tier6-erekir
-            dominate,oracle,havoc,
-            //miner-erekir
-            miner,largeMiner,legsMiner,
-            //other
-            armoredCarrierVehicle,sage,pioneer,vulture,
-            burner,shadowBlade,artilleryFirePioneer,
-            //elite
-            tiger,thunder,
-            //boss
-            vast;
-
-    /** HIUnitTypes should not be instantiated. */
+    /**
+     * HIUnitTypes should not be instantiated.
+     */
     private HIUnitTypes() {}
 
     public static void load() {
@@ -779,7 +781,7 @@ public final class HIUnitTypes {
                     trailEffect = new Effect(16f, e -> {
                         Draw.color(Pal.heal);
                         for (int s : Mathf.signs) {
-                            Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f*s);
+                            Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f * s);
                         }
                     });
                     hitEffect = new Effect(50f, 100f, e -> {
@@ -793,7 +795,7 @@ public final class HIUnitTypes {
                         int points = 10;
                         float offset = Mathf.randomSeed(e.id, 360f);
                         for (int i = 0; i < points; i++) {
-                            float angle = i* 360f / points + offset;
+                            float angle = i * 360f / points + offset;
                             Drawf.tri(e.x + Angles.trnsx(angle, rad), e.y + Angles.trnsy(angle, rad), 6f, 50f * e.fout(), angle);
                         }
                         Fill.circle(e.x, e.y, 12f * e.fout());
@@ -955,7 +957,7 @@ public final class HIUnitTypes {
                     trailEffect = new Effect(16f, e -> {
                         Draw.color(Pal.heal);
                         for (int s : Mathf.signs) {
-                            Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f*s);
+                            Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f * s);
                         }
                     });
                     hitEffect = new Effect(50f, 100f, e -> {
@@ -969,7 +971,7 @@ public final class HIUnitTypes {
                         int points = 10;
                         float offset = Mathf.randomSeed(e.id, 360f);
                         for (int i = 0; i < points; i++) {
-                            float angle = i* 360f / points + offset;
+                            float angle = i * 360f / points + offset;
                             Drawf.tri(e.x + Angles.trnsx(angle, rad), e.y + Angles.trnsy(angle, rad), 6f, 50f * e.fout(), angle);
                         }
                         Fill.circle(e.x, e.y, 12f * e.fout());
@@ -1196,7 +1198,7 @@ public final class HIUnitTypes {
             }});
             int i = 0;
             for (float f : new float[]{19f, -19f}) {
-                int fi = i ++;
+                int fi = i++;
                 weapons.add(new Weapon(name("dominate-weapon-small")) {{
                     reload = 35f + fi * 5;
                     x = 18f;
@@ -1686,60 +1688,6 @@ public final class HIUnitTypes {
             lightRadius = 60f;
             fogRadius = 30f;
             deathExplosionEffect = new MultiEffect(HIFx.explodeImpWave);
-        }};
-        sage = new UnitType("sage") {{
-            flying = lowAltitude = true;
-            health = 3500f;
-            armor = 6f;
-            hitSize = 35f;
-            speed = 0.8f;
-            accel = 0.04f;
-            drag = 0.04f;
-            rotateSpeed = 1.9f;
-            engineOffset = 16f;
-            engineSize = 6f;
-            setEnginesMirror(new UnitEngine(10, -14f, 3, -45));
-            BulletType shootType = new CtrlMissileBulletType("anthicus-missile", 2f, 5f) {{
-                speed = 3.3f;
-                lifetime = 75f;
-                damage = 65f;
-                splashDamage = 85f;
-                splashDamageRadius = 32f;
-                width = height = 8f;
-                shrinkY = 0f;
-                trailWidth = 2f;
-                trailLength = 5;
-                frontColor = Color.valueOf("d1efff");
-                backColor = trailColor = Color.valueOf("8ca9e8");
-                hitEffect = despawnEffect = new Effect(30f, e -> {
-                    Lines.stroke(3f * e.fout(), backColor);
-                    Lines.circle(e.x, e.y, 32f * e.finpow());
-                    for (int i = 0; i < 4; i++) {
-                        Draw.color(frontColor);
-                        Drawf.tri(e.x, e.y, 6f * e.fout(), 24f * e.finpow(), e.rotation + i * 90f + 45f);
-                    }
-                });
-                hitSound = despawnSound = Sounds.plasmaboom;
-            }};
-            weapons.addAll(new Weapon(name("sage-salvo")) {{
-                reload = 90f;
-                rotate = true;
-                rotateSpeed = 12f;
-                x = 6.5f;
-                y = 1f;
-                shoot.firstShotDelay = 40f;
-                shootCone = 45f;
-                shootSound = Sounds.missile;
-                bullet = shootType;
-            }}, new Weapon(name("sage-salvo")) {{
-                reload = 90f;
-                rotate = true;
-                rotateSpeed = 14f;
-                x = -10.25f;
-                y = -8f;
-                shootSound = Sounds.missile;
-                bullet = shootType;
-            }});
         }};
         pioneer = new UnitType("pioneer") {{
             drag = 0.1f;
@@ -2429,7 +2377,7 @@ public final class HIUnitTypes {
             });
             int i = 0;
             for (float f : new float[]{11f, -13f}) {
-                int fi = i ++;
+                int fi = i++;
                 weapons.add(new Weapon(name("thunder-laser")) {{
                     reload = 35f + fi * 5;
                     x = 18.5f;
@@ -2442,7 +2390,7 @@ public final class HIUnitTypes {
                     autoTarget = true;
                     controllable = false;
                     shootSound = HISounds.gauss;
-                    bullet = new BasicBulletType(12f,220f) {{
+                    bullet = new BasicBulletType(12f, 220f) {{
                         width = 9f;
                         height = 28f;
                         trailWidth = 1.3f;
@@ -2515,14 +2463,11 @@ public final class HIUnitTypes {
             abilities.add(new DeathAbility());
             hidden = true;
         }
-            public Effect slopeEffect = HIFx.boolSelector;
-
             public final float outerEyeScl = 0.25f;
             public final float innerEyeScl = 0.18f;
-
             public final float[][] rotator = {{75f, 0, 8.5f, 1.35f, 0.1f}, {55f, 0, 6.5f, -1.7f, 0.1f}, {25, 0, 13, 0.75f, 0.3f}, {100f, 33.5f, 11, 0.75f, 0.7f}, {60f, -20, 6f, -0.5f, 1.25f}};
-
             public final float bodySize = 24f;
+            public Effect slopeEffect = HIFx.boolSelector;
 
             @Override
             public void load() {
@@ -2558,7 +2503,7 @@ public final class HIUnitTypes {
                 Draw.color(Color.black);
                 Fill.circle(unit.x, unit.y, bodySize * sizeF * 0.71f * unit.healthf());
 
-                Drawf.light(unit.x,unit.y, unit.hitSize * 4.05f, unit.team.color, 0.68f);
+                Drawf.light(unit.x, unit.y, unit.hitSize * 4.05f, unit.team.color, 0.68f);
                 Draw.z(Layer.effect + 0.001f);
                 Draw.color(unit.team.color, Color.white, Mathf.absin(4f, 0.3f) + Mathf.clamp(unit.hitTime) / 5f * 3f);
                 Draw.alpha(0.65f);
@@ -2591,7 +2536,8 @@ public final class HIUnitTypes {
             @Override
             public void update(Unit unit) {
                 super.update(unit);
-                if (Mathf.chanceDelta(0.1)) for (int i : Mathf.signs) slopeEffect.at(unit.x + Mathf.range(bodySize), unit.y + Mathf.range(bodySize), bodySize, unit.team.color, i);
+                if (Mathf.chanceDelta(0.1)) for (int i : Mathf.signs)
+                    slopeEffect.at(unit.x + Mathf.range(bodySize), unit.y + Mathf.range(bodySize), bodySize, unit.team.color, i);
             }
 
             @Override
@@ -2600,7 +2546,7 @@ public final class HIUnitTypes {
             @Override
             public void drawControl(Unit unit) {
                 Draw.z(Layer.effect + 0.001f);
-                Draw.color(unit.team.color, Color.white, Mathf.absin(4f, 0.3f) +  Mathf.clamp(unit.hitTime) / 5f);
+                Draw.color(unit.team.color, Color.white, Mathf.absin(4f, 0.3f) + Mathf.clamp(unit.hitTime) / 5f);
                 for (int i = 0; i < 4; i++) {
                     float rotation = Time.time * 1.5f + i * 90;
                     Tmp.v1.trns(rotation, bodySize * 1.5f).add(unit);

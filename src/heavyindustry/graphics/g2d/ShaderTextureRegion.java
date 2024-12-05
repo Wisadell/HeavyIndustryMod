@@ -11,22 +11,19 @@ import mindustry.game.EventType.*;
 public class ShaderTextureRegion extends TextureRegion {
     public static final Seq<ShaderTextureRegion> regions = new Seq<>();
 
-    public Texture original;
-
-    /** Texture update frequency, in frames **/
-    public int frequency = 5;
-    public Shader shader;
-    private final Cons2<Shader, Object[]> shaderPrepare;
-
-    private int counter = 0;
-    private final FrameBuffer frameBuffer = new FrameBuffer();
-
-    /** Use to transfer shader parameters to {@link ShaderTextureRegion#shaderPrepare} **/
-    public Object[] shaderPrepareParams;
-
     static {
         Events.run(Trigger.update, () -> regions.each(ShaderTextureRegion::updateShader));
     }
+
+    private final Cons2<Shader, Object[]> shaderPrepare;
+    private final FrameBuffer frameBuffer = new FrameBuffer();
+    public Texture original;
+    /** Texture update frequency, in frames. */
+    public int frequency = 5;
+    public Shader shader;
+    /** Use to transfer shader parameters to {@link ShaderTextureRegion#shaderPrepare}. */
+    public Object[] shaderPrepareParams;
+    private int counter = 0;
 
     public ShaderTextureRegion(Shader shader, Texture original, Cons2<Shader, Object[]> shaderPrepare, int shaderPrepareParamsSize) {
         regions.add(this);
