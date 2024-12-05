@@ -9,7 +9,6 @@ import mindustry.type.*;
 import mindustry.ui.*;
 
 public class ItemImage extends Stack {
-
     public ItemImage(TextureRegion region, int amount) {
 
         add(new Table(o -> {

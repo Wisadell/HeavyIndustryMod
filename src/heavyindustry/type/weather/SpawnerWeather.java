@@ -67,7 +67,7 @@ public class SpawnerWeather extends ParticleWeather {
 
     //Spawn on the world
     public void spawn(WeatherState state) {
-        Tmp.r2.set(0f,0f, world.unitWidth(), world.unitHeight());
+        Tmp.r2.set(0f, 0f, world.unitWidth(), world.unitHeight());
         rand.setSeed((long) Time.time);
 
         int total = (int) Mathf.clamp(Tmp.r2.area() / density * state.intensity, 0f, maxSpawn);
@@ -82,7 +82,8 @@ public class SpawnerWeather extends ParticleWeather {
         }
     }
 
-    public void spawnAt(WeatherState state, float x, float y) {}
+    public void spawnAt(WeatherState state, float x, float y) {
+    }
 
     public boolean canSpawn(WeatherState state) {
         return true;

@@ -11,7 +11,7 @@ public final class HIInterp {
             artilleryPlusReversed = x -> -3 * x + 3 * x * x + 1,
             zero = a -> 0,
             inOut = a -> 2 * (0.9f * a + 0.31f) + 1f / (5f * (a + 0.1f)) - 1.6f,
-            inOut2 = x -> 1.6243f * (0.9f * x + 0.46f) + 1 / (10 * (x + 0.1f)) -1.3f,
+            inOut2 = x -> 1.6243f * (0.9f * x + 0.46f) + 1 / (10 * (x + 0.1f)) - 1.3f,
             parabola4 = x -> 4 * (x - 0.5f) * (x - 0.5f),
             parabola4Reversed = x -> -4 * (x - 0.5f) * (x - 0.5f) + 1,
             parabola4Reversed_X4 = x -> (-4 * (x - 0.5f) * (x - 0.5f) + 1) * 2.75f,

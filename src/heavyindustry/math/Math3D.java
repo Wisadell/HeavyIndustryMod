@@ -19,11 +19,12 @@ public final class Math3D {
 
     /**
      * Properly rotates and tilts up a 3D vector.
-     * @param vec3 Vec3 to write output to.
-     * @param length Length of the vector.
-     * @param yaw Angle of the main angle.
+     *
+     * @param vec3      Vec3 to write output to.
+     * @param length    Length of the vector.
+     * @param yaw       Angle of the main angle.
      * @param yawOffset Rotational offset from the main angle.
-     * @param pitch Pitch. Tilts around the axis 90* of the main angle.
+     * @param pitch     Pitch. Tilts around the axis 90* of the main angle.
      */
     public static Vec3 rotate(Vec3 vec3, float length, float yaw, float yawOffset, float pitch) {
         return vec3.set(Angles.trnsx(yawOffset, length), Angles.trnsy(yawOffset, length), 0f)
@@ -56,7 +57,7 @@ public final class Math3D {
         rim.set(rad, 0, 0).rotate(Vec3.Y, tilt).rotate(Vec3.Z, -rotation);
         rim.rotate(axis, rotation - startAngle);
 
-        for (int i = 0; i <= verts; i ++) {
+        for (int i = 0; i <= verts; i++) {
             diskVerts[i * 3] = x + rim.x;
             diskVerts[i * 3 + 1] = y + rim.y;
             diskVerts[i * 3 + 2] = z + rim.z;
@@ -81,14 +82,15 @@ public final class Math3D {
 
     /**
      * Calculates of intercept of a stationary and moving target. Do not call from multiple threads!
-     * @param srcx X of shooter
-     * @param srcy Y of shooter
-     * @param dstx X of target
-     * @param dsty Y of target
+     *
+     * @param srcx  X of shooter
+     * @param srcy  Y of shooter
+     * @param dstx  X of target
+     * @param dsty  Y of target
      * @param dstvx X velocity of target (subtract shooter X velocity if needed)
      * @param dstvy Y velocity of target (subtract shooter Y velocity if needed)
-     * @param ba constant acceleration of the bullet
-     * @param bv initial velocity of the bullet
+     * @param ba    constant acceleration of the bullet
+     * @param bv    initial velocity of the bullet
      * @return the intercept location
      */
     public static Vec2 intercept(float srcx, float srcy, float dstx, float dsty, float dstvx, float dstvy, float ba, float bv) {
@@ -130,13 +132,13 @@ public final class Math3D {
             ddx -= h.deltaX();
             ddy -= h.deltaY();
         }
-        if (ddx == 0 && ddy == 0) return vresult.set(dst); //Don't bother performing unnecessary math if no prediction is needed.
+        if (ddx == 0 && ddy == 0)
+            return vresult.set(dst); //Don't bother performing unnecessary math if no prediction is needed.
         return intercept(src.getX(), src.getY(), dst.getX(), dst.getY(), ddx, ddy, ba, bv);
     }
 
     public static Vec2 inaccuracy(float inaccuracy) {
-        Mathm.randomCirclePoint(vec, inaccuracy);
-        return vec;
+        return Mathm.randomCirclePoint(vec, inaccuracy);
     }
 
     //See my notebook for half the calculation. Oh wait, you don't have access to it because I physically hold it.
@@ -169,7 +171,7 @@ public final class Math3D {
     public static float tubeStartAngle(float x1, float y1, float x2, float y2, float rad1, float rad2) {
         if (x1 == x2 && y1 == y2) return 0f;
 
-        float d = Mathf.dst(x2 - x1,y2 - y1);
+        float d = Mathf.dst(x2 - x1, y2 - y1);
         float f = Mathf.sqrt(d * d - Mathf.sqr(rad2 - rad1));
         float a = rad1 > rad2 ? Mathf.atan2(rad1 - rad2, f) : (rad1 < rad2 ? Mathf.pi - Mathf.atan2(rad2 - rad1, f) : Mathf.halfPi);
         Tmp.v1.set(x2 - x1, y2 - y1).scl(1f / d); //normal

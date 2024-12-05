@@ -26,7 +26,7 @@ public interface ExtraVariableComp {
     /**
      * Get the value of a dynamic variable, return null if the variable does not exist.
      *
-     * @param <T> Get the type of variable
+     * @param <T>   Get the type of variable
      * @param field Variable name
      */
     default <T> T getVar(String field) {
@@ -37,9 +37,9 @@ public interface ExtraVariableComp {
      * Retrieve the value of a dynamic variable, and if the variable does not exist, return the default value given.
      * <br><strong>Note: </strong>If the variable does not exist, the default value is returned directly and will not be added to the variable table.
      *
-     * @param <T> Get the type of variable
+     * @param <T>   Get the type of variable
      * @param field Variable name
-     * @param def Default value
+     * @param def   Default value
      */
     default <T> T getVar(String field, T def) {
         return (T) extra().getOrDefault(field, def);
@@ -50,8 +50,8 @@ public interface ExtraVariableComp {
      * return the return value of the given initialization function and assign this value to the given variable.
      * This is usually used for convenient variable value initialization.
      *
-     * @param <T> Get the type of variable
-     * @param field Variable name
+     * @param <T>     Get the type of variable
+     * @param field   Variable name
      * @param initial Initial value function
      */
     default <T> T getVar(String field, Prov<T> initial) {
@@ -61,9 +61,8 @@ public interface ExtraVariableComp {
     /**
      * Get the value of a dynamic variable, throw an exception if the variable does not exist
      *
-     * @param <T> Get the type of variable
+     * @param <T>   Get the type of variable
      * @param field Variable name
-     *
      * @throws NoSuchFieldException If the obtained variable does not exist
      */
     default <T> T getVarThr(String field) throws NoSuchFieldException {
@@ -76,7 +75,7 @@ public interface ExtraVariableComp {
     /**
      * Set the value of the specified variable
      *
-     * @param <T> Set the type of variable
+     * @param <T>   Set the type of variable
      * @param field Variable name
      * @param value Variable values set
      * @return The original value of the variable before it was set
@@ -88,10 +87,10 @@ public interface ExtraVariableComp {
     /**
      * Use a function to process the value of a variable and update the value of the variable with the return value
      *
-     * @param <T> Set the type of variable
+     * @param <T>   Set the type of variable
      * @param field Variable name
-     * @param cons Variable handling function
-     * @param def Default value of variable
+     * @param cons  Variable handling function
+     * @param def   Default value of variable
      * @return The updated variable value, which is the return value of the function
      */
     default <T> T handleVar(String field, Function<T, T> cons, T def) {
@@ -110,8 +109,8 @@ public interface ExtraVariableComp {
     /**
      * Set boolean type variable value
      *
-     * @see ExtraVariableComp#setVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not a boolean wrapper type or atomized reference
+     * @see ExtraVariableComp#setVar(String, Object)
      */
     default boolean setVar(String field, boolean value) {
         Object res = getVar(field);
@@ -134,8 +133,8 @@ public interface ExtraVariableComp {
     /**
      * Get boolean variable value.
      *
-     * @see ExtraVariableComp#getVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not a boolean wrapper type or atomized reference
+     * @see ExtraVariableComp#getVar(String, Object)
      */
     default boolean getVar(String field, boolean def) {
         Object res = getVar(field);
@@ -150,8 +149,8 @@ public interface ExtraVariableComp {
     /**
      * Retrieve the boolean variable value and initialize the variable value when it does not exist.
      *
-     * @see ExtraVariableComp#getVar(String, Prov)
      * @throws ClassCastException If the variable already exists and is not a boolean wrapper type or atomized reference
+     * @see ExtraVariableComp#getVar(String, Prov)
      */
     default boolean getVar(String field, Boolp initial) {
         Object res = getVar(field);
@@ -170,8 +169,8 @@ public interface ExtraVariableComp {
     /**
      * Use processing functions to handle boolean variable values and update variable values with return values.
      *
-     * @see ExtraVariableComp#handleVar(String, Function, Object)
      * @throws ClassCastException If the variable already exists and is not a boolean wrapper type or atomized reference
+     * @see ExtraVariableComp#handleVar(String, Function, Object)
      */
     default boolean handleVar(String field, BoolTrans handle, boolean def) {
         boolean b;
@@ -183,8 +182,8 @@ public interface ExtraVariableComp {
     /**
      * Set the value of an int type variable.
      *
-     * @see ExtraVariableComp#setVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not an int wrapper type or atomized reference
+     * @see ExtraVariableComp#setVar(String, Object)
      */
     default int setVar(String field, int value) {
         Object res = getVar(field);
@@ -207,8 +206,8 @@ public interface ExtraVariableComp {
     /**
      * Get the value of the int variable.
      *
-     * @see ExtraVariableComp#getVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not an int wrapper type or atomized reference
+     * @see ExtraVariableComp#getVar(String, Object)
      */
     default int getVar(String field, int def) {
         Object res = getVar(field);
@@ -223,8 +222,8 @@ public interface ExtraVariableComp {
     /**
      * Retrieve the value of an int variable and initialize the variable value when it does not exist.
      *
-     * @see ExtraVariableComp#getVar(String, Prov)
      * @throws ClassCastException If the variable already exists and is not an int wrapper type or atomized reference
+     * @see ExtraVariableComp#getVar(String, Prov)
      */
     default int getVar(String field, Intp initial) {
         Object res = getVar(field);
@@ -243,8 +242,8 @@ public interface ExtraVariableComp {
     /**
      * Use processing functions to handle int variable values and update variable values with return values.
      *
-     * @see ExtraVariableComp#handleVar(String, Function, Object)
      * @throws ClassCastException If the variable already exists and is not an int wrapper type or atomized reference
+     * @see ExtraVariableComp#handleVar(String, Function, Object)
      */
     default int handleVar(String field, IntTrans handle, int def) {
         int i;
@@ -256,8 +255,8 @@ public interface ExtraVariableComp {
     /**
      * Set the value of a long type variable.
      *
-     * @see ExtraVariableComp#setVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not a long wrapper type or atomized reference
+     * @see ExtraVariableComp#setVar(String, Object)
      */
     default long setVar(String field, long value) {
         Object res = getVar(field);
@@ -280,8 +279,8 @@ public interface ExtraVariableComp {
     /**
      * Get the value of a long variable.
      *
-     * @see ExtraVariableComp#getVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not a long wrapper type or atomized reference
+     * @see ExtraVariableComp#getVar(String, Object)
      */
     default long getVar(String field, long def) {
         Object res = getVar(field);
@@ -296,8 +295,8 @@ public interface ExtraVariableComp {
     /**
      * Retrieve the value of a long variable and initialize the variable value when it does not exist.
      *
-     * @see ExtraVariableComp#getVar(String, Prov)
      * @throws ClassCastException If the variable already exists and is not a long wrapper type or atomized reference
+     * @see ExtraVariableComp#getVar(String, Prov)
      */
     default long getVar(String field, Longp initial) {
         Object res = getVar(field);
@@ -316,8 +315,8 @@ public interface ExtraVariableComp {
     /**
      * Use processing functions to handle long variable values and update variable values with return values.
      *
-     * @see ExtraVariableComp#handleVar(String, Function, Object)
      * @throws ClassCastException If the variable already exists and is not a long wrapper type or atomized reference
+     * @see ExtraVariableComp#handleVar(String, Function, Object)
      */
     default long handleVar(String field, LongTrans handle, long def) {
         long l;
@@ -329,8 +328,8 @@ public interface ExtraVariableComp {
     /**
      * Set float type variable value.
      *
-     * @see ExtraVariableComp#setVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not a float wrapper type or a single element float array
+     * @see ExtraVariableComp#setVar(String, Object)
      */
     default float setVar(String field, float value) {
         Object res = getVar(field);
@@ -353,8 +352,8 @@ public interface ExtraVariableComp {
     /**
      * Get float variable value.
      *
-     * @see ExtraVariableComp#getVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not a float wrapper type or a single element float array
+     * @see ExtraVariableComp#getVar(String, Object)
      */
     default float getVar(String field, float def) {
         Object res = getVar(field);
@@ -369,8 +368,8 @@ public interface ExtraVariableComp {
     /**
      * Retrieve the float variable value and initialize the variable value when it does not exist.
      *
-     * @see ExtraVariableComp#getVar(String, Prov)
      * @throws ClassCastException If the variable already exists and is not a float wrapper type or a single element float array
+     * @see ExtraVariableComp#getVar(String, Prov)
      */
     default float getVar(String field, Floatp initial) {
         Object res = getVar(field);
@@ -389,8 +388,8 @@ public interface ExtraVariableComp {
     /**
      * Use processing functions to handle float variable values and update variable values with return values.
      *
-     * @see ExtraVariableComp#handleVar(String, Function, Object)
      * @throws ClassCastException If the variable already exists and is not a float wrapper type or a single element float array
+     * @see ExtraVariableComp#handleVar(String, Function, Object)
      */
     default float handleVar(String field, FloatTrans handle, float def) {
         float trans;
@@ -402,8 +401,8 @@ public interface ExtraVariableComp {
     /**
      * Set the value of a double type variable.
      *
-     * @see ExtraVariableComp#setVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not a float wrapper type or a single element double array
+     * @see ExtraVariableComp#setVar(String, Object)
      */
     default double setVar(String field, double value) {
         Object res = getVar(field);
@@ -426,8 +425,8 @@ public interface ExtraVariableComp {
     /**
      * Get double variable value.
      *
-     * @see ExtraVariableComp#getVar(String, Object)
      * @throws ClassCastException If the variable already exists and is not a float wrapper type or a single element double array
+     * @see ExtraVariableComp#getVar(String, Object)
      */
     default double getVar(String field, double def) {
         Object res = getVar(field);
@@ -442,8 +441,8 @@ public interface ExtraVariableComp {
     /**
      * Retrieve the value of a double variable and initialize the variable value when it does not exist.
      *
-     * @see ExtraVariableComp#getVar(String, Prov)
      * @throws ClassCastException If the variable already exists and is not a double wrapper type or a single element double array
+     * @see ExtraVariableComp#getVar(String, Prov)
      */
     default double getVar(String field, Doublep initial) {
         Object res = getVar(field);
@@ -462,8 +461,8 @@ public interface ExtraVariableComp {
     /**
      * Use processing functions to handle double variable values and update variable values with return values.
      *
-     * @see ExtraVariableComp#handleVar(String, Function, Object)
      * @throws ClassCastException If the variable already exists and is not a double wrapper type or a single element double array
+     * @see ExtraVariableComp#handleVar(String, Function, Object)
      */
     default double handleVar(String field, DoubleTrans handle, double def) {
         double d;

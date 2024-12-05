@@ -43,14 +43,14 @@ public class DrawEdgeLinkBits<T extends Building> extends DrawBlock {
                 if ((linkBits[dir] & 1 << i) == 0) continue;
                 float dx = 0, dy = 0;
 
-                Draw.scl(1, dir == 1 || dir == 2? -1: 1);
+                Draw.scl(1, dir == 1 || dir == 2 ? -1 : 1);
                 switch (dir) {
                     case 0 -> dx = -1;
                     case 1 -> dy = -1;
                     case 2 -> dx = 1;
                     case 3 -> dy = 1;
                 }
-                Draw.rect(linker, (build.tileX() + arr[i].x + dx)*tilesize, (build.tileY() + arr[i].y + dy)*tilesize, 90*dir);
+                Draw.rect(linker, (build.tileX() + arr[i].x + dx) * tilesize, (build.tileY() + arr[i].y + dy) * tilesize, 90 * dir);
             }
         }
 

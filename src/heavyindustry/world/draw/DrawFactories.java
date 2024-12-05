@@ -33,10 +33,10 @@ public class DrawFactories extends DrawDefault {
         if (drawRotator2 != 0) Draw.rect(rotator2, entity.x, entity.y, drawRotator2 * entity.totalProgress());
 
         if (pressorSet.length == 4) {
-            for (int arm = 0; arm < 4; arm ++) {
+            for (int arm = 0; arm < 4; arm++) {
                 int offest = arm - 1;
                 Vec2 armVec = new Vec2();
-                armVec.trns(pressorSet[2] + 90 * offest, Mathf.absin(entity.totalProgress(), pressorSet[0], pressorSet[1] * entity.warmup()) );
+                armVec.trns(pressorSet[2] + 90 * offest, Mathf.absin(entity.totalProgress(), pressorSet[0], pressorSet[1] * entity.warmup()));
                 Draw.rect(pressor, entity.x + armVec.x, entity.y + armVec.y, 90 * offest + pressorSet[3]);
             }
         }

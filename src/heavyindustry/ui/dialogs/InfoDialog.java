@@ -32,15 +32,16 @@ import static mindustry.Vars.*;
  * See {@link mindustry.ui.dialogs.ResearchDialog}
  */
 public final class InfoDialog extends BaseDialog {
-    private final View view;
-    private Rect bounds = new Rect();
-    private final OrderedSet<InfoTreeNode> nodes = new OrderedSet<>();
-    private InfoTreeNode root = new InfoTreeNode(InfoTree.roots.first(), null);
-    private InfoNode lastNode = root.node;
-
+    public static final InfoDialog dialog = new InfoDialog();
     private static final float nodeSize = Scl.scl(70f);
     private static final float nodeSpacing = 40f;
-    public static final InfoDialog dialog = new InfoDialog();
+
+    private final View view;
+    private final OrderedSet<InfoTreeNode> nodes = new OrderedSet<>();
+
+    private Rect bounds = new Rect();
+    private InfoTreeNode root = new InfoTreeNode(InfoTree.roots.first(), null);
+    private InfoNode lastNode = root.node;
 
     private InfoDialog() {
         super("");
@@ -236,11 +237,54 @@ public final class InfoDialog extends BaseDialog {
         }
     }
 
+    public static class InfoTree {
+        public static final Seq<InfoNode> all = new Seq<>();
+        public static final Seq<InfoNode> roots = new Seq<>();
+        private static InfoNode context;
+    }
+
+    public static class InfoNode {
+        private final short depth;
+        private final UnlockableContent content;
+        private final Seq<InfoNode> children = new Seq<>();
+
+        private InfoNode(@Nullable InfoNode parent, UnlockableContent content) {
+            if (parent != null) parent.children.add(this);
+
+            this.content = content;
+            this.depth = (short) (parent == null ? 0 : parent.depth + 1);
+
+            InfoTree.all.add(this);
+        }
+
+        public static InfoNode dnode(UnlockableContent content) {
+            return dnode(content, () -> {
+            });
+        }
+
+        public static InfoNode dnode(UnlockableContent content, Runnable children) {
+            return dnode(content, false, children);
+        }
+
+        public static InfoNode dnode(UnlockableContent content, boolean isRoot, Runnable children) {
+            if (isRoot) InfoTree.roots.add(dnode(content, children));
+
+            InfoNode node = new InfoNode(InfoTree.context, content);
+            InfoNode prev = InfoTree.context;
+
+            InfoTree.context = node;
+            children.run();
+            InfoTree.context = prev;
+
+            return node;
+        }
+    }
+
     private class View extends Group {
+        private final Table infoTable = new Table();
         private float panX = 0f, panY = -200f, lastZoom = -1f;
         private boolean moved = false;
         private ImageButton hoverNode;
-        private final Table infoTable = new Table();
 
         private View() {
             rebuildAll();
@@ -458,7 +502,6 @@ public final class InfoDialog extends BaseDialog {
     }
 
     public class InfoTreeNode extends TreeNode<InfoTreeNode> {
-
         private final InfoNode node;
         private boolean visible = true, selectable = true;
 
@@ -472,49 +515,6 @@ public final class InfoDialog extends BaseDialog {
             for (int i = 0; i < children.length; i++) {
                 children[i] = new InfoTreeNode(node.children.get(i), this);
             }
-        }
-    }
-
-
-    public static class InfoTree {
-        public static final Seq<InfoNode> all = new Seq<>();
-        public static final Seq<InfoNode> roots = new Seq<>();
-        private static InfoNode context;
-    }
-
-    public static class InfoNode {
-        private final short depth;
-        private final UnlockableContent content;
-        private final Seq<InfoNode> children = new Seq<>();
-
-        private InfoNode(@Nullable InfoNode parent, UnlockableContent content) {
-            if (parent != null) parent.children.add(this);
-
-            this.content = content;
-            this.depth = (short) (parent == null ? 0 : parent.depth + 1);
-
-            InfoTree.all.add(this);
-        }
-
-        public static InfoNode dnode(UnlockableContent content) {
-            return dnode(content, () -> {});
-        }
-
-        public static InfoNode dnode(UnlockableContent content, Runnable children) {
-            return dnode(content, false, children);
-        }
-
-        public static InfoNode dnode(UnlockableContent content, boolean isRoot, Runnable children) {
-            if (isRoot) InfoTree.roots.add(dnode(content, children));
-
-            InfoNode node = new InfoNode(InfoTree.context, content);
-            InfoNode prev = InfoTree.context;
-
-            InfoTree.context = node;
-            children.run();
-            InfoTree.context = prev;
-
-            return node;
         }
     }
 }

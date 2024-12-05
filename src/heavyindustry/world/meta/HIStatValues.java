@@ -81,7 +81,7 @@ public final class HIStatValues {
                             sep(bt, bundle.format("bullet.splashdamage", (int) type.splashDamage, Strings.fixed(type.splashDamageRadius / tilesize, 1)));
                         }
 
-                        if (!compact && !Mathf.equal(type.ammoMultiplier, 1f) && type.displayAmmoMultiplier && (!(t instanceof Turret) || ((Turret)t).displayAmmoMultiplier)) {
+                        if (!compact && !Mathf.equal(type.ammoMultiplier, 1f) && type.displayAmmoMultiplier && (!(t instanceof Turret) || ((Turret) t).displayAmmoMultiplier)) {
                             sep(bt, bundle.format("bullet.multiplier", (int) type.ammoMultiplier));
                         }
 
@@ -98,7 +98,7 @@ public final class HIStatValues {
                         }
 
                         if (type.healAmount > 0f) {
-                            sep(bt,bundle.format("bullet.healamount", Strings.autoFixed(type.healAmount, 2)));
+                            sep(bt, bundle.format("bullet.healamount", Strings.autoFixed(type.healAmount, 2)));
                         }
 
                         if (type.pierce || type.pierceCap != -1) {
@@ -168,7 +168,7 @@ public final class HIStatValues {
         return table -> {
             table.row();
             table.table(c -> {
-                c.image(((TextureRegionDrawable)Tex.whiteui).tint(color)).size(32).scaling(Scaling.fit).padRight(4).left().top();
+                c.image(((TextureRegionDrawable) Tex.whiteui).tint(color)).size(32).scaling(Scaling.fit).padRight(4).left().top();
                 c.add(s).padRight(10).left().top();
             }).left();
             table.row();
@@ -221,7 +221,8 @@ public final class HIStatValues {
                                 }
                             }
                             bt.row();
-                            if (rangeBoost != 0) bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
+                            if (rangeBoost != 0)
+                                bt.add("[lightgray]+[stat]" + Strings.autoFixed(rangeBoost / tilesize, 2) + "[lightgray] " + StatUnit.blocks.localized()).row();
                         }).right().grow().pad(10f).padRight(15f);
                     }).growX().pad(5).padBottom(-5).row();
                 }
@@ -271,7 +272,7 @@ public final class HIStatValues {
 
                                 if (blocks.any()) {
                                     int i = 0;
-                                    for (Floor block: blocks) {
+                                    for (Floor block : blocks) {
                                         fuelEfficiency(block, block.attributes.get(crafter.attribute) * crafter.fuelUseReduction / -100f).display(at);
                                         if (++i % 5 == 0) {
                                             at.row();

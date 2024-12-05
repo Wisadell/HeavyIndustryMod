@@ -14,7 +14,7 @@ public interface BFSPathFinder<V> extends PathFinder<V> {
      * <p>2.If the vertex is already associated with a backtracking pointer, then do nothing.
      * <p>3.If vertex association is performed in this operation, it should return true; otherwise, it should return false.
      *
-     * @param vert Vertex for traversal check
+     * @param vert     Vertex for traversal check
      * @param previous The previous backtracking pointer of this pointer can be empty
      * @return If the vertex has not been associated with a pointer, return true; otherwise, return false
      */
@@ -79,7 +79,7 @@ public interface BFSPathFinder<V> extends PathFinder<V> {
         V next;
         while ((next = queueNext()) != null) {
             PathPointer<V> pointer = getPointer(next);
-            for (V vert: getLinkVertices(next)) {
+            for (V vert : getLinkVertices(next)) {
                 if (!exclude(vert) && relateToPointer(vert, pointer)) {
                     queueAdd(vert);
                 }
@@ -112,7 +112,7 @@ public interface BFSPathFinder<V> extends PathFinder<V> {
 
         V v;
         while ((v = queueNext()) != null) {
-            for (V vert: getLinkVertices(v)) {
+            for (V vert : getLinkVertices(v)) {
                 if (!exclude(vert) && relateToPointer(vert, null)) {
                     queueAdd(vert);
                 }

@@ -10,20 +10,15 @@ public abstract class ColorPass {
 
     /**
      * A pass that paints points inside a sphere.
+     *
      * @see HeightPass.SphereHeight SphereHeight
      */
     public static class SphereColorPass extends ColorPass {
-        /**
-         * Position of the sphere relative to the planet.
-         */
+        /** Position of the sphere relative to the planet. */
         public Vec3 pos;
-        /**
-         * Radius of the sphere.
-         */
+        /** Radius of the sphere. */
         public float radius;
-        /**
-         * Color painted inside the sphere.
-         */
+        /** Color painted inside the sphere. */
         public Color out;
 
         public SphereColorPass(Vec3 pos, float radius, Color out) {
@@ -38,42 +33,28 @@ public abstract class ColorPass {
             return null;
         }
     }
+
     /**
      * A pass that uses noise to fill regions on the planet.
+     *
      * @see HeightPass.NoiseHeight NoiseHeight
      */
     public static class NoiseColorPass extends ColorPass {
-        /**
-         * Offset for the noise sample relative to the planet. Values far away from the origin are reccomended.
-         */
+        /** Offset for the noise sample relative to the planet. Values far away from the origin are reccomended. */
         public Vec3 offset = new Vec3();
-        /**
-         * Noise seed.
-         */
+        /** Noise seed. */
         public int seed;
-        /**
-         * The amount of octves added to the noise.
-         */
+        /** The amount of octves added to the noise. */
         public double octaves = 1.0;
-        /**
-         * Intensity multiplier for each octave.
-         */
+        /** Intensity multiplier for each octave. */
         public double persistence = 1.0;
-        /**
-         * Noise scale.
-         */
+        /** Noise scale. */
         public double scale = 1.0;
-        /**
-         * Noise magnitude.
-         */
+        /** Noise magnitude. */
         public float magnitude = 1;
-        /**
-         * Min and max treshold values of noise that paint will apply
-         */
+        /** Min and max treshold values of noise that paint will apply. */
         public float min = 0f, max = 1f;
-        /**
-         * Color painted based on the noise.
-         */
+        /** Color painted based on the noise. */
         public Color out = Color.white;
 
         @Override
@@ -83,8 +64,10 @@ public abstract class ColorPass {
             return null;
         }
     }
+
     /**
      * A pass that paints regions whose height is within a boundary.
+     *
      * @see HeightPass.ClampHeight ClampHeight
      */
     public static class FlatColorPass extends ColorPass {

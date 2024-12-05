@@ -10,6 +10,7 @@ import mindustry.type.*;
 public class KeplerPlanetGenerator extends PlanetGenerator {
     public Seq<HeightPass> heights = new Seq<>();
     public Seq<ColorPass> colors = new Seq<>();
+
     public float baseHeight = 1;
     public Color baseColor = Color.white;
 

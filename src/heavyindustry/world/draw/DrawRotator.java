@@ -12,6 +12,7 @@ import mindustry.world.draw.*;
 public class DrawRotator extends DrawBlock {
     public String suffix = "-rotator";
     public TextureRegion rotator;
+
     public float x, y;
     public float rotateSpeed = 1.25f;
     public float primaryRotation = 0;
@@ -46,11 +47,13 @@ public class DrawRotator extends DrawBlock {
         this.primaryRotation = primaryRotation;
     }
 
-    public DrawRotator() {}
+    public DrawRotator() {
+    }
 
     @Override
     public void draw(Building build) {
-        if (usesSpinDraw)Drawf.spinSprite(rotator, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + primaryRotation);
+        if (usesSpinDraw)
+            Drawf.spinSprite(rotator, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + primaryRotation);
         else Draw.rect(rotator, build.x + x, build.y + y, build.totalProgress() * rotateSpeed + primaryRotation);
     }
 

@@ -19,9 +19,10 @@ public class ConsumerPowerF extends ConsumePower {
     }
 
     @Override
-    public void display(Stats stats) {}
+    public void display(Stats stats) {
+    }
 
     public float efficiency(Building build) {
-        return usage.get(build) != 0? build.power.status : 1f;
+        return usage.get(build) != 0 ? build.power.status : 1f;
     }
 }

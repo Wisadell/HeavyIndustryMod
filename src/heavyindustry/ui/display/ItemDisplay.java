@@ -6,7 +6,9 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.meta.*;
 
-/** An item image with text. */
+/**
+ * An item image with text.
+ */
 public class ItemDisplay extends Table {
     public final Item item;
     public final int amount;

@@ -22,14 +22,29 @@ import java.util.*;
  * Comes with controllable trailing.
  */
 public class Particle extends Decal implements ExtraVariableComp, Iterable<Particle.Cloud> {
-    public Map<String, Object> extraVar = new CollectionObjectMap<>();
-
-    private static int counter = 0;
-    /** The maximum number of coexisting particles, when the total amount is greater than this number, creating new particles will clear the first generated particle. */
-    public static int maxAmount = 1024;
-
     protected static final ObjectSet<Particle> all = new ObjectSet<>();
     protected static final Seq<Particle> temp = new Seq<>();
+
+    /**
+     * The maximum number of coexisting particles,
+     * when the total amount is greater than this number, creating new particles will clear the first generated particle.
+     */
+    public static int maxAmount = 1024;
+
+    private static int counter = 0;
+
+    public Map<String, Object> extraVar = new CollectionObjectMap<>();
+    public int maxCloudCounts = -1;
+    public Particle parent;
+    /** Particle velocity, vector. */
+    public Vec2 speed = new Vec2();
+    /** The current size of the particle. */
+    public float size;
+    public float defSpeed;
+    public float defSize;
+    /** The particle model determines the behavior of the particle. */
+    public ParticleModel model;
+    public float layer;
 
     protected Vec2 startPos = new Vec2();
     protected float clipSize;
@@ -37,28 +52,8 @@ public class Particle extends Decal implements ExtraVariableComp, Iterable<Parti
     Cloud currentCloud, firstCloud;
     int cloudCount;
 
-    public int maxCloudCounts = -1;
-
-    public Particle parent;
-
-    /** Particle velocity, vector. */
-    public Vec2 speed = new Vec2();
-    /** The current size of the particle. */
-    public float size;
-
-    public float defSpeed;
-    public float defSize;
-
-    /** The particle model determines the behavior of the particle. */
-    public ParticleModel model;
-    public float layer;
-
     public static int count() {
         return all.size;
-    }
-
-    public float cloudCount() {
-        return cloudCount;
     }
 
     public static Seq<Particle> get(Boolf<Particle> filter) {
@@ -67,6 +62,10 @@ public class Particle extends Decal implements ExtraVariableComp, Iterable<Parti
             if (filter.get(particle)) temp.add(particle);
         }
         return temp;
+    }
+
+    public float cloudCount() {
+        return cloudCount;
     }
 
     @Override
@@ -260,17 +259,17 @@ public class Particle extends Decal implements ExtraVariableComp, Iterable<Parti
 
             if (perCloud != null && nextCloud != null) {
                 float angle = Angles.angle(x - perCloud.x, y - perCloud.y);
-                float dx1 = Angles.trnsx(angle + 90, size*modulate);
-                float dy1 = Angles.trnsy(angle + 90, size*modulate);
+                float dx1 = Angles.trnsx(angle + 90, size * modulate);
+                float dy1 = Angles.trnsy(angle + 90, size * modulate);
                 angle = Angles.angle(nextCloud.x - x, nextCloud.y - y);
-                float dx2 = Angles.trnsx(angle + 90, nextCloud.size*modulateNext);
-                float dy2 = Angles.trnsy(angle + 90, nextCloud.size*modulateNext);
+                float dx2 = Angles.trnsx(angle + 90, nextCloud.size * modulateNext);
+                float dy2 = Angles.trnsy(angle + 90, nextCloud.size * modulateNext);
 
                 Fill.quad(x + dx1, y + dy1, x - dx1, y - dy1, nextCloud.x - dx2, nextCloud.y - dy2, nextCloud.x + dx2, nextCloud.y + dy2);
             } else if (perCloud == null && nextCloud != null) {
                 float angle = Angles.angle(nextCloud.x - x, nextCloud.y - y);
-                float dx2 = Angles.trnsx(angle + 90, nextCloud.size*modulate);
-                float dy2 = Angles.trnsy(angle + 90, nextCloud.size*modulate);
+                float dx2 = Angles.trnsx(angle + 90, nextCloud.size * modulate);
+                float dy2 = Angles.trnsy(angle + 90, nextCloud.size * modulate);
 
                 Fill.quad(x, y, x, y, nextCloud.x - dx2, nextCloud.y - dy2, nextCloud.x + dx2, nextCloud.y + dy2);
             }

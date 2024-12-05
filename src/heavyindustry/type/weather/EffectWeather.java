@@ -7,6 +7,7 @@ import mindustry.gen.*;
 
 public class EffectWeather extends SpawnerWeather {
     public Effect weatherFx = Fx.none;
+
     public EffectWeather(String name) {
         super(name);
         useWindVector = true;

@@ -12,9 +12,10 @@ import java.util.*;
  * Used Mainly for {@link mindustry.entities.Effect} that need a cached sequence of vec2s to avoid constructing too much {@link Vec2} instances.
  * <p>
  * Similar implemented in {@link mindustry.graphics.Trail};
+ *
  * @see FloatSeq
  * @see Vec2
- * */
+ */
 public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
     private final FloatSeq coordinates;
 
@@ -120,7 +121,7 @@ public class Vec2Seq implements Iterable<Vec2>, Eachable<Vec2> {
         Vec2 vec2 = new Vec2();
         for (int j = 0; j < size(); j++) {
             setVec2(j, vec2);
-            if (bf.get(vec2))return true;
+            if (bf.get(vec2)) return true;
         }
 
         return false;

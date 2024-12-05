@@ -8,12 +8,12 @@ public class ParticleModel {
     /**
      * Create an instance of a particle using this model.
      *
-     * @param x The x-coordinate at the time of particle creation
-     * @param y The y-coordinate at the time of particle creation
+     * @param x     The x-coordinate at the time of particle creation
+     * @param y     The y-coordinate at the time of particle creation
      * @param color Particle Color
-     * @param sx The x-component of the initial velocity of particle motion
-     * @param sy The y-component of the initial velocity of particle motion
-     * @param size Particle size
+     * @param sx    The x-component of the initial velocity of particle motion
+     * @param sy    The y-component of the initial velocity of particle motion
+     * @param size  Particle size
      */
     public Particle create(float x, float y, Color color, float sx, float sy, float size) {
         return create(x, y, color, sx, sy, size, Layer.effect);
@@ -23,12 +23,12 @@ public class ParticleModel {
      * Create an instance of a particle using this model.
      *
      * @param parent The parent particle to which the particle belongs
-     * @param x The x-coordinate at the time of particle creation
-     * @param y The y-coordinate at the time of particle creation
-     * @param color Particle Color
-     * @param sx The x-component of the initial velocity of particle motion
-     * @param sy The y-component of the initial velocity of particle motion
-     * @param size Particle size
+     * @param x      The x-coordinate at the time of particle creation
+     * @param y      The y-coordinate at the time of particle creation
+     * @param color  Particle Color
+     * @param sx     The x-component of the initial velocity of particle motion
+     * @param sy     The y-component of the initial velocity of particle motion
+     * @param size   Particle size
      */
     public Particle create(Particle parent, float x, float y, Color color, float sx, float sy, float size) {
         return create(parent, x, y, color, sx, sy, size, Layer.effect);
@@ -37,12 +37,12 @@ public class ParticleModel {
     /**
      * Create an instance of a particle using this model.
      *
-     * @param x The x-coordinate at the time of particle creation
-     * @param y The y-coordinate at the time of particle creation
+     * @param x     The x-coordinate at the time of particle creation
+     * @param y     The y-coordinate at the time of particle creation
      * @param color Particle Color
-     * @param sx The x-component of the initial velocity of particle motion
-     * @param sy The y-component of the initial velocity of particle motion
-     * @param size Particle size
+     * @param sx    The x-component of the initial velocity of particle motion
+     * @param sy    The y-component of the initial velocity of particle motion
+     * @param size  Particle size
      * @param layer The layer where the particles are located is only used in the drawing process
      */
     public Particle create(float x, float y, Color color, float sx, float sy, float size, float layer) {
@@ -53,13 +53,13 @@ public class ParticleModel {
      * Create an instance of a particle using this model.
      *
      * @param parent The parent particle to which the particle belongs
-     * @param x The x-coordinate at the time of particle creation
-     * @param y The y-coordinate at the time of particle creation
-     * @param color Particle Color
-     * @param sx The x-component of the initial velocity of particle motion
-     * @param sy The y-component of the initial velocity of particle motion
-     * @param size Particle size
-     * @param layer The layer where the particles are located is only used in the drawing process
+     * @param x      The x-coordinate at the time of particle creation
+     * @param y      The y-coordinate at the time of particle creation
+     * @param color  Particle Color
+     * @param sx     The x-component of the initial velocity of particle motion
+     * @param sy     The y-component of the initial velocity of particle motion
+     * @param size   Particle size
+     * @param layer  The layer where the particles are located is only used in the drawing process
      */
     public Particle create(Particle parent, float x, float y, Color color, float sx, float sy, float size, float layer) {
         Particle ent = Pools.obtain(Particle.class, Particle::new);

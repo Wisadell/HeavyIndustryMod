@@ -17,7 +17,7 @@ public class TargetMoveParticle extends ParticleModel {
         float to = Tmp.v1.set(dest.x, dest.y).sub(e.x, e.y).angle();
         float r = to - from;
         r = r > 180 ? r - 360 : r < -180 ? r + 360 : r;
-        e.speed.rotate( r* deflection.get(e) * Time.delta);
+        e.speed.rotate(r * deflection.get(e) * Time.delta);
     }
 
     @Override

@@ -123,7 +123,6 @@ public final class HIResearchDialog extends BaseDialog {
                     }
                 }
             }
-
                 @Override
                 public void add(Item item, int amount) {
                     if (amount < 0) {
@@ -247,8 +246,8 @@ public final class HIResearchDialog extends BaseDialog {
         float spacing = 20f;
         LayoutNode node = new LayoutNode(root, null);
         LayoutNode[] children = node.children;
-        LayoutNode[] leftHalf = Arrays.copyOfRange(node.children, 0, Mathf.ceil(node.children.length/2f));
-        LayoutNode[] rightHalf = Arrays.copyOfRange(node.children, Mathf.ceil(node.children.length/2f), node.children.length);
+        LayoutNode[] leftHalf = Arrays.copyOfRange(node.children, 0, Mathf.ceil(node.children.length / 2f));
+        LayoutNode[] rightHalf = Arrays.copyOfRange(node.children, Mathf.ceil(node.children.length / 2f), node.children.length);
 
         node.children = leftHalf;
         new BranchTreeLayout() {{
@@ -282,7 +281,7 @@ public final class HIResearchDialog extends BaseDialog {
             maxy = Math.max(n.y + n.height / 2f, maxy);
         }
         bounds = new Rect(minx, miny, maxx - minx, maxy - miny);
-        bounds.y += nodeSize*1.5f;
+        bounds.y += nodeSize * 1.5f;
     }
 
     void shift(LayoutNode[] children, float amount) {
@@ -359,7 +358,7 @@ public final class HIResearchDialog extends BaseDialog {
         public ImageButton hoverNode;
         public Table infoTable = new Table();
 
-        {
+        public View() {
             rebuildAll();
         }
 
@@ -440,7 +439,7 @@ public final class HIResearchDialog extends BaseDialog {
         void clamp() {
             float pad = nodeSize;
 
-            float ox = width/2f, oy = height/2f;
+            float ox = width / 2f, oy = height / 2f;
             float rx = bounds.x + panX + ox, ry = panY + oy + bounds.y;
             float rw = bounds.width, rh = bounds.height;
             rx = Mathf.clamp(rx, -rw + pad, Core.graphics.getWidth() - pad);
@@ -533,7 +532,7 @@ public final class HIResearchDialog extends BaseDialog {
 
             if (button == null) return;
 
-            TechNode node = (TechNode)button.userObject;
+            TechNode node = (TechNode) button.userObject;
 
             infoTable.exited(() -> {
                 if (hoverNode == button && !infoTable.hasMouse() && !hoverNode.hasMouse()) {
@@ -638,13 +637,13 @@ public final class HIResearchDialog extends BaseDialog {
                 if (mobile && locked(node)) {
                     b.row();
                     b.button("@research", Icon.ok, new TextButtonStyle() {{
-                                disabled = Tex.button;
-                                font = Fonts.def;
-                                fontColor = Color.white;
-                                disabledFontColor = Color.gray;
-                                up = buttonOver;
-                                over = buttonDown;
-                            }}, () -> spend(node)).disabled(i -> !canSpend(node)).growX().height(44f).colspan(3);
+                        disabled = Tex.button;
+                        font = Fonts.def;
+                        fontColor = Color.white;
+                        disabledFontColor = Color.gray;
+                        up = buttonOver;
+                        over = buttonDown;
+                    }}, () -> spend(node)).disabled(i -> !canSpend(node)).growX().height(44f).colspan(3);
                 }
             });
 

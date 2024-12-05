@@ -13,6 +13,18 @@ public class DrawPartsParticle extends ParticleModel {
 
     DrawPart.PartParams params = new DrawPart.PartParams();
 
+    public static DrawPartsParticle getSimpleCircle(float size, Color cc) {
+        return new DrawPartsParticle() {{
+            parts.add(new ShapePart() {{
+                progress = PartProgress.warmup;
+                this.color = cc;
+                circle = true;
+                radius = 0;
+                radiusTo = size;
+            }});
+        }};
+    }
+
     @Override
     public void draw(Particle p) {
         float z = Draw.z();
@@ -29,17 +41,5 @@ public class DrawPartsParticle extends ParticleModel {
         }
 
         Draw.z(z);
-    }
-
-    public static DrawPartsParticle getSimpleCircle(float size, Color cc) {
-        return new DrawPartsParticle() {{
-            parts.add(new ShapePart() {{
-                progress = PartProgress.warmup;
-                this.color = cc;
-                circle = true;
-                radius = 0;
-                radiusTo = size;
-            }});
-        }};
     }
 }

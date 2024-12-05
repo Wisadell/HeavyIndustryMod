@@ -21,6 +21,7 @@ public class DrawRegionDynamic<E extends Building> extends DrawBlock {
 
     public TextureRegion region;
     public String suffix = "";
+
     public boolean spinSprite = false;
     public boolean drawPlan = false;
     public boolean planRotate = true;

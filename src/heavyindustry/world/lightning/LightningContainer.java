@@ -14,6 +14,7 @@ import java.util.*;
  * usually used for storing a type of lightning in the same container.
  */
 public class LightningContainer implements Iterable<Lightning> {
+    protected final Seq<Lightning> lightnings = new Seq<>();
     /**
      * The time required for lightning to occur from generation to complete appearance will be evenly distributed among each lightning segment, with fps being the current frame rate.
      * But if this value is 0, lightning will appear immediately.
@@ -21,7 +22,10 @@ public class LightningContainer implements Iterable<Lightning> {
     public float time = 0;
     /** The existence time of lightning. */
     public float lifeTime = 30;
-    /** The transition time of lightning disappearance, if not set, the disappearance transition time is equal to the existence time of lightning. */
+    /**
+     * The transition time of lightning disappearance, if not set,
+     * the disappearance transition time is equal to the existence time of lightning.
+     */
     public float fadeTime = -1;
     /** Does the overall width of lightning fade out with the duration of lightning. */
     public boolean fade = true;
@@ -31,17 +35,16 @@ public class LightningContainer implements Iterable<Lightning> {
     public float minWidth = 2.5f, maxWidth = 4.5f;
     /** The attenuation transformer of lightning receives the value of the duration of lightning existence. */
     public Interp lerp = Interp.pow2Out;
-
     /** The callback function called when creating a lightning branch is generally used to define the sub container properties of the lightning branch. */
     public Cons<Lightning> branchCreated;
-
-    /** Lightning vertex trigger, triggered when a lightning node has arrived, passes in the previous vertex and this vertex. */
+    /**
+     * Lightning vertex trigger, triggered when a lightning node has arrived,
+     * passes in the previous vertex and this vertex.
+     */
     public Cons2<LightningVertex, LightningVertex> trigger;
     public boolean headClose, endClose;
 
     protected float clipSize;
-
-    protected final Seq<Lightning> lightnings = new Seq<>();
 
     /** Create a new lightning bolt in the container using the provided lightning generator. */
     public void create(LightningGenerator generator) {
@@ -83,7 +86,7 @@ public class LightningContainer implements Iterable<Lightning> {
      * @param y Draw the origin y-coordinate of lightning
      */
     public void draw(float x, float y) {
-        for (Lightning lightning: lightnings) {
+        for (Lightning lightning : lightnings) {
             lightning.draw(x, y);
         }
     }

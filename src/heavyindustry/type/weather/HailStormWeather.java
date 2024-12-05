@@ -60,7 +60,7 @@ public class HailStormWeather extends SpawnerWeather {
             }
         }
 
-        return bullets[bullets.length -1].bullet;
+        return bullets[bullets.length - 1].bullet;
     }
 
     public void setBullets(Object... items) {
@@ -86,7 +86,8 @@ public class HailStormWeather extends SpawnerWeather {
 
     @Override
     public void drawUnder(WeatherState state) {
-        if (drawRain) drawSplashes(splashes, sizeMax, density, state.intensity, state.opacity, splashTimeScale, stroke, color, liquid);
+        if (drawRain)
+            drawSplashes(splashes, sizeMax, density, state.intensity, state.opacity, splashTimeScale, stroke, color, liquid);
     }
 
     public static class BulletStack {

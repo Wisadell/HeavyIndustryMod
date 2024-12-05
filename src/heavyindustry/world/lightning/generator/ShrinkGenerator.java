@@ -4,7 +4,9 @@ import arc.math.geom.*;
 import arc.util.*;
 import heavyindustry.world.lightning.*;
 
-/** Shrink the generator of lightning, which will generate lightning that spreads inward to the center within a certain range. */
+/**
+ * Shrink the generator of lightning, which will generate lightning that spreads inward to the center within a certain range.
+ */
 public class ShrinkGenerator extends LightningGenerator {
     public float minRange, maxRange;
 

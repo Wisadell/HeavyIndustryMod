@@ -5,21 +5,21 @@ package heavyindustry.struct;
  * <a href="https://github.com/Zelaux/MindustryModCore">...</a>
  */
 public class BitWordList {
+    public final int initialWordsAmount;
     final byte wordLen;
     final short wordMask;
-    public final  int initialWordsAmount;
-
     long[] bits = {0};
 
 
     /**
      * Creates a bit set whose initial size is large enough to explicitly represent bits with indices in the range 0 through.
      * nbits-1.
+     *
      * @param nwords the initial size of the word set
      */
     public BitWordList(int nwords, WordLength wordLen) {
         checkCapacity(nwords * wordLen.value >>> 6);
-        this.initialWordsAmount =nwords;
+        this.initialWordsAmount = nwords;
 
         this.wordLen = wordLen.value;
         wordMask = (short) ~(~1 << (wordLen.value - 1));
@@ -56,8 +56,8 @@ public class BitWordList {
         index = (index * wordLen) & 63;
         number &= wordMask;
         checkCapacity(wordIndex);
-        bits[wordIndex] &= ~((long)wordMask << index);
-        bits[wordIndex] |= (long)number << index;
+        bits[wordIndex] &= ~((long) wordMask << index);
+        bits[wordIndex] |= (long) number << index;
     }
 
     private void checkCapacity(int len) {
@@ -68,7 +68,7 @@ public class BitWordList {
         }
     }
 
-    /** Clears the entire bitset */
+    /** Clears the entire bitset. */
     public void clear() {
         long[] bits = this.bits;
         int length = bits.length;
@@ -79,12 +79,13 @@ public class BitWordList {
 
     /** @return the number of bits currently stored, <b>not</b> the highset set bit! */
     public int size() {
-        return bits.length << 6 / wordLen ;
+        return bits.length << 6 / wordLen;
     }
 
     /**
      * Returns the "logical size" of this bitset: the index of the highest set bit in the bitset plus one. Returns zero if the
      * bitset contains no set bits.
+     *
      * @return the logical size of this bitset
      */
     public int nonZeroLength() {
@@ -92,9 +93,9 @@ public class BitWordList {
         for (int word = bits.length - 1; word >= 0; --word) {
             long bitsAtWord = bits[word];
             if (bitsAtWord != 0) {
-                for (int bit = 63; bit >= 0; bit-=wordLen) {
-                    if ((bitsAtWord & ((long)wordMask << bit)) != 0l) {
-                        return ((word << 6) + bit + 1)/wordLen;
+                for (int bit = 63; bit >= 0; bit -= wordLen) {
+                    if ((bitsAtWord & ((long) wordMask << bit)) != 0l) {
+                        return ((word << 6) + bit + 1) / wordLen;
                     }
                 }
             }
@@ -102,7 +103,7 @@ public class BitWordList {
         return 0;
     }
 
-    /** @return true if this bitset contains no bits that are set to true */
+    /** @return true if this bitset contains no bits that are set to true. */
     public boolean isEmpty() {
         long[] bits = this.bits;
         for (long bit : bits) {
@@ -129,7 +130,7 @@ public class BitWordList {
         if (obj == null) return false;
         if (getClass() != obj.getClass()) return false;
 
-        BitWordList other = (BitWordList)obj;
+        BitWordList other = (BitWordList) obj;
         long[] otherBits = other.bits;
 
         int commonWords = Math.min(bits.length, otherBits.length);
@@ -158,7 +159,7 @@ public class BitWordList {
         public final byte value;
 
         WordLength(int value) {
-            this.value = (byte)value;
+            this.value = (byte) value;
         }
     }
 }

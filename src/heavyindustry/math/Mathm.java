@@ -9,13 +9,13 @@ public final class Mathm {
     private static final int aSinMask = ~(-1 << aSinBits);
     private static final int aSinCount = aSinMask + 1;
     private static final float[] aSinTable = new float[aSinCount];
-    private static final float radFull = Mathf.PI * 2;
     private static final float sinToIndex = aSinCount / 2f;
-
+    private static final float radFull = Mathf.PI * 2;
     private static final Vec2 bezOut = new Vec2(), p1 = new Vec2(), p2 = new Vec2(), p3 = new Vec2(), p4 = new Vec2(), tmp = new Vec2();
 
     static {
-        for (int i = 0; i < aSinCount; i++) aSinTable[i] = (float) (Math.asin((i + 0.5f) / aSinCount * 2 - 1) + radFull);
+        for (int i = 0; i < aSinCount; i++)
+            aSinTable[i] = (float) (Math.asin((i + 0.5f) / aSinCount * 2 - 1) + radFull);
 
         aSinTable[0] = radFull - Mathf.halfPi;
         aSinTable[aSinTable.length - 1] = radFull + Mathf.halfPi;
@@ -118,7 +118,7 @@ public final class Mathm {
         return (-b - Mathf.sqrt(b * b - 4)) / 2;
     }
 
-    /** Pulled out of {@link Angles#moveToward(float, float, float)} */
+    /** Pulled out of {@link Angles#moveToward(float, float, float)}. */
     public static int angleMoveDirection(float from, float to) {
         from = Mathf.mod(from, 360f);
         to = Mathf.mod(to, 360f);
@@ -154,7 +154,7 @@ public final class Mathm {
     }
 
     public static int index(float sin) {
-        return (int)((sin + 1) * sinToIndex) & aSinMask;
+        return (int) ((sin + 1) * sinToIndex) & aSinMask;
     }
 
     public static float cosToSin(float x) {
@@ -162,7 +162,7 @@ public final class Mathm {
     }
 
     public static float acosRad(float cos) {
-        return aSinTable[index((float)Math.sqrt(1 - cos * cos))];
+        return aSinTable[index((float) Math.sqrt(1 - cos * cos))];
     }
 
     public static float asinDeg(float sin) {
@@ -171,18 +171,19 @@ public final class Mathm {
 
     /**
      * Calculate vector coordinates using Fourier series in polar coordinate form.
-     * @param time Parameters (or interpolation) passed in for Fourier series.
+     *
+     * @param time   Parameters (or interpolation) passed in for Fourier series.
      * @param params Parameterf group, determine a sin function for every three data points, parameter format:{@code {Angular velocity, initial phase, extremum,...}}
      * @return The vector calculated by the specified Fourier series under given interpolation is in the form of an orthogonal coordinate system.
      */
     public static Vec2 fourierSeries(float time, float... params) {
         tmp.setZero();
-        for (int i = 0; i < params.length; i+=3) {
+        for (int i = 0; i < params.length; i += 3) {
             float w = params[i];
             float f = params[i + 1];
             float l = params[i + 2];
 
-            tmp.add(Angles.trnsx(f + time*w, l), Angles.trnsy(f + time*w, l));
+            tmp.add(Angles.trnsx(f + time * w, l), Angles.trnsy(f + time * w, l));
         }
 
         return tmp;
@@ -190,9 +191,10 @@ public final class Mathm {
 
     /**
      * Use Fourier series in polar coordinate form to calculate vector coordinates, and call back the calculation result through a function.
+     *
      * @param transRecall The callback function for calculating the result.
-     * @param time Parameters (or interpolation) passed in for Fourier series.
-     * @param params Parameterf group, determine a sin function for every three data points, parameter format:{@code {Angular velocity, initial phase, extremum, ...}}
+     * @param time        Parameters (or interpolation) passed in for Fourier series.
+     * @param params      Parameterf group, determine a sin function for every three data points, parameter format:{@code {Angular velocity, initial phase, extremum, ...}}
      */
     public static void fourierSeries(Floatc2 transRecall, float time, float... params) {
         Vec2 v = fourierSeries(time, params);
@@ -204,15 +206,15 @@ public final class Mathm {
     }
 
     public static float gradientRotate(float rad, float fine, int sides) {
-        return gradientRotate(rad, fine, 1f/sides, 4);
+        return gradientRotate(rad, fine, 1f / sides, 4);
     }
 
     public static float gradientRotate(float rad, float fine, float off, int sides) {
-        return rad - off* Mathf.sin(rad*sides + fine) + fine/sides;
+        return rad - off * Mathf.sin(rad * sides + fine) + fine / sides;
     }
 
     public static float gradientRotateDeg(float deg, float fine) {
-        return gradientRotate(deg*Mathf.degRad, fine * Mathf.degRad, 0.25f, 4)*Mathf.radDeg;
+        return gradientRotate(deg * Mathf.degRad, fine * Mathf.degRad, 0.25f, 4) * Mathf.radDeg;
     }
 
     public static float gradientRotateDeg(float deg, float fine, int sides) {
@@ -226,7 +228,7 @@ public final class Mathm {
     public static float innerAngle(float a, float b) {
         a %= 360;
         b %= 360;
-        return b - a > 180? b - a - 360: b - a < -180? b - a + 360: b - a;
+        return b - a > 180 ? b - a - 360 : b - a < -180 ? b - a + 360 : b - a;
     }
 
     public static boolean confine(double d, double min, double max) {
@@ -240,7 +242,7 @@ public final class Mathm {
 
         double powered = Math.pow(a, x - 1);
 
-        return origin*powered + (b*powered - b / a) / (1 - 1 / a);
+        return origin * powered + (b * powered - b / a) / (1 - 1 / a);
     }
 
     /** The function corresponding to an S-shaped curve. */
@@ -257,6 +259,6 @@ public final class Mathm {
      */
     public static double lerpIncrease(double lerpLeft, double lerpRight, double max, double optimal, double x) {
         if (x < 0) return 0;
-        return x >= 0 && x < optimal ? -max * Math.pow(1 - x / optimal, lerpLeft) + max: -max * Math.pow(1 - optimal / x, lerpRight) + max;
+        return x >= 0 && x < optimal ? -max * Math.pow(1 - x / optimal, lerpLeft) + max : -max * Math.pow(1 - optimal / x, lerpRight) + max;
     }
 }

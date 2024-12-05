@@ -16,11 +16,11 @@ public class DrawFramesF extends DrawFrames {
     public TextureRegion[] splitRegion;
 
     /** Block size. */
-    public int size = 32;
+    public int size = 1;
 
     @Override
     public void draw(Building build) {
-        Draw.rect(sine ? splitRegion[(int) Mathf.absin(build.totalProgress(), interval, splitRegion.length - 0.001f)] : splitRegion[(int)((build.totalProgress() / interval) % splitRegion.length)], build.x, build.y);
+        Draw.rect(sine ? splitRegion[(int) Mathf.absin(build.totalProgress(), interval, splitRegion.length - 0.001f)] : splitRegion[(int) ((build.totalProgress() / interval) % splitRegion.length)], build.x, build.y);
     }
 
     @Override

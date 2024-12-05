@@ -36,8 +36,8 @@ public class BoostWeapon extends Weapon {
 
         //rotate if applicable
         if (rotate && (mount.rotate || mount.shoot) && can) {
-            float axisX = unit.x + Angles.trnsx(unit.rotation - 90,  x, y),
-                    axisY = unit.y + Angles.trnsy(unit.rotation - 90,  x, y);
+            float axisX = unit.x + Angles.trnsx(unit.rotation - 90, x, y),
+                    axisY = unit.y + Angles.trnsy(unit.rotation - 90, x, y);
 
             mount.targetRotation = Angles.angle(axisX, axisY, mount.aimX, mount.aimY) - unit.rotation;
             mount.rotation = Angles.moveToward(mount.rotation, mount.targetRotation, rotateSpeed * Time.delta);

@@ -93,9 +93,12 @@ public class PowerGraphInfoDialog extends BaseDialog {
         if (graph == null) return "";
 
         return switch (type) {
-            case producer -> bundle.get("hi-power-info-producer") + " - " + bundle.format("hi-power-info-persec", "[#98ffa9]+" + formatAmount(graph.getLastScaledPowerIn() * 60));
-            case consumer -> bundle.get("hi-power-info-consumer") + " - " + bundle.format("hi-power-info-persec", "[#e55454]-" + formatAmount(graph.getLastScaledPowerOut() * 60));
-            case battery -> bundle.get("hi-power-info-battery") + " - [#fbad67]" + formatAmount(graph.getLastPowerStored()) + "[gray]/[]" + formatAmount(graph.getLastCapacity());
+            case producer ->
+                    bundle.get("hi-power-info-producer") + " - " + bundle.format("hi-power-info-persec", "[#98ffa9]+" + formatAmount(graph.getLastScaledPowerIn() * 60));
+            case consumer ->
+                    bundle.get("hi-power-info-consumer") + " - " + bundle.format("hi-power-info-persec", "[#e55454]-" + formatAmount(graph.getLastScaledPowerOut() * 60));
+            case battery ->
+                    bundle.get("hi-power-info-battery") + " - [#fbad67]" + formatAmount(graph.getLastPowerStored()) + "[gray]/[]" + formatAmount(graph.getLastCapacity());
         };
     }
 

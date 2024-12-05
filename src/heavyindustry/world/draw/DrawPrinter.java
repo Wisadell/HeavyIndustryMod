@@ -13,6 +13,15 @@ import mindustry.world.*;
 import mindustry.world.draw.*;
 
 public class DrawPrinter extends DrawDefault {
+    public Color printColor;
+    public Color lightColor;
+
+    public float moveLength = 8f;
+    public Item toPrint;
+    public float time;
+
+    public TextureRegion bottom, lightRegion;
+
     public DrawPrinter(Item item) {
         this.toPrint = item;
     }
@@ -20,13 +29,6 @@ public class DrawPrinter extends DrawDefault {
     public DrawPrinter() {
         this.toPrint = Items.copper;
     }
-
-    public Color printColor;
-    public Color lightColor;
-    public float moveLength = 8f;
-    public Item toPrint;
-    public float time;
-    public TextureRegion bottom, lightRegion;
 
     public void draw(Building entity) {
         Draw.rect(bottom, entity.x, entity.y);
@@ -68,6 +70,6 @@ public class DrawPrinter extends DrawDefault {
 
     @Override
     public TextureRegion[] icons(Block block) {
-        return new TextureRegion[] {bottom, block.region};
+        return new TextureRegion[]{bottom, block.region};
     }
 }

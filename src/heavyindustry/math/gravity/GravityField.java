@@ -25,7 +25,7 @@ public class GravityField {
     /**
      * Set another associated field, which will reset the current field state and then create a new association relationship with the given field output criteria.
      *
-     * @param itr This iterator needs to iterate over all the objects that need to be processed to bind to a gravitational field.
+     * @param itr    This iterator needs to iterate over all the objects that need to be processed to bind to a gravitational field.
      * @param filter Element filter
      * @param getter Method for creating an associated gravitational field for a certain target
      */
@@ -42,7 +42,7 @@ public class GravityField {
      * Set associations with all other fields,
      * which will reset the current field state and create new associations with the given field output criteria.
      *
-     * @param itr This iterator needs to iterate over all other gravitational fields that need to be processed
+     * @param itr    This iterator needs to iterate over all other gravitational fields that need to be processed
      * @param filter Element filter
      */
     public <T extends GravityField> void setAssociatedFields(Iterable<T> itr, Boolf<T> filter) {
@@ -70,7 +70,7 @@ public class GravityField {
 
     /** Unlink oneself from all other gravitational fields associated with it. */
     public void remove() {
-        for (GravityField field: otherFields) {
+        for (GravityField field : otherFields) {
             remove(field);
         }
     }
@@ -94,8 +94,8 @@ public class GravityField {
                 distance = speedDelta.set(sys.position()).sub(system.position()).len();
                 force = GRAV_CONST * sys.mass() * system.mass() / (distance * distance);
                 delta = 60 / Time.delta;
-                bufferAccelerations.put(field, speedDelta.setLength(force/system.mass() / delta));
-                field.bufferAccelerations.get(this, Vec2::new).set(speedDelta).setLength(force/sys.mass() / delta).scl(-1);
+                bufferAccelerations.put(field, speedDelta.setLength(force / system.mass() / delta));
+                field.bufferAccelerations.get(this, Vec2::new).set(speedDelta).setLength(force / sys.mass() / delta).scl(-1);
             }
             tmp.add(speedDelta);
         }

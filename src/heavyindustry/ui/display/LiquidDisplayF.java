@@ -10,9 +10,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-/**
- * An ItemDisplay, but for liquids.
- */
+/** An ItemDisplay, but for liquids. */
 public class LiquidDisplayF extends Table {
     public final Liquid liquid;
     public final float amount;

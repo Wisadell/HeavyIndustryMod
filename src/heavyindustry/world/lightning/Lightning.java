@@ -35,7 +35,10 @@ public class Lightning implements Pool.Poolable {
 
     /** Interpolation function for lightning width. */
     public Interp lerp = Interp.linear;
-    /** The trigger for each segment of lightning will be called once each segment of lightning is partially generated, passing in the current vertex and the previous vertex. */
+    /**
+     * The trigger for each segment of lightning will be called once each segment of lightning is partially generated,
+     * passing in the current vertex and the previous vertex.
+     */
     public Cons2<LightningVertex, LightningVertex> trigger;
 
     /** The time from the generation of lightning to its full manifestation. */
@@ -50,7 +53,9 @@ public class Lightning implements Pool.Poolable {
 
     boolean enclosed;
 
-    public static Lightning create(LightningGenerator generator, float width, float lifeTime, Interp lerp, float time,  Cons2<LightningVertex, LightningVertex> trigger) {
+    private Lightning() {}
+
+    public static Lightning create(LightningGenerator generator, float width, float lifeTime, Interp lerp, float time, Cons2<LightningVertex, LightningVertex> trigger) {
         return create(generator, width, lifeTime, lifeTime, lerp, time, true, false, trigger);
     }
 
@@ -82,13 +87,11 @@ public class Lightning implements Pool.Poolable {
         return result;
     }
 
-    private Lightning() {}
-
     /** Update the lightning status once. */
     public void update() {
         if (time == 0 && cursor < vertices.size) {
             LightningVertex per = null;
-            for (LightningVertex vertex: vertices) {
+            for (LightningVertex vertex : vertices) {
                 if (per != null) {
                     per.progress = 1;
                     vertex.valid = true;
@@ -98,7 +101,7 @@ public class Lightning implements Pool.Poolable {
             }
             cursor = vertices.size;
         } else {
-            float increase = vertices.size/time*Time.delta;
+            float increase = vertices.size / time * Time.delta;
 
             while (increase > 0) {
                 if (cursor == 0) {
@@ -130,7 +133,7 @@ public class Lightning implements Pool.Poolable {
      *
      * @param x Draw the origin x-coordinate of lightning
      * @param y Draw the origin y-coordinate of lightning
-     * */
+     */
     public void draw(float x, float y) {
         float lerp = Mathf.clamp(this.lerp.apply(Mathf.clamp((lifeTime - (Time.time - startTime)) / fadeTime)));
         float del = backFade ? (1 - lerp) * vertices.size : 0;
@@ -187,8 +190,8 @@ public class Lightning implements Pool.Poolable {
             Tmp.v1.set(self).scl(v2.progress);
             if ((v2.isStart && !headClose) || (v3.isEnd && !endClose)) {
                 float l = v2.isStart ? v2.progress : 1 - v2.progress;
-                float f = v2.isStart ? fade: 1 - fade;
-                Fill.quad(orgX + fadX + lastOffX * f, orgY + fadY + lastOffY*f, orgX + fadX - lastOffX * f, orgY + fadY - lastOffY * f, orgX + Tmp.v1.x - nextOffX * l, orgY + Tmp.v1.y - nextOffY * l, orgX + Tmp.v1.x + nextOffX * l, orgY + Tmp.v1.y + nextOffY * l);
+                float f = v2.isStart ? fade : 1 - fade;
+                Fill.quad(orgX + fadX + lastOffX * f, orgY + fadY + lastOffY * f, orgX + fadX - lastOffX * f, orgY + fadY - lastOffY * f, orgX + Tmp.v1.x - nextOffX * l, orgY + Tmp.v1.y - nextOffY * l, orgX + Tmp.v1.x + nextOffX * l, orgY + Tmp.v1.y + nextOffY * l);
             } else {
                 Fill.quad(orgX + fadX + lastOffX, orgY + fadY + lastOffY, orgX + fadX - lastOffX, orgY + fadY - lastOffY, orgX + Tmp.v1.x - nextOffX, orgY + Tmp.v1.y - nextOffY, orgX + Tmp.v1.x + nextOffX, orgY + Tmp.v1.y + nextOffY);
             }

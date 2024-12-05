@@ -18,7 +18,7 @@ open class CircleAi : FlyingAI() {
     @JvmField var rand = 0f
 
     /** timer. */
-    @JvmField var time = 0
+    @JvmField var timer2 = 0
     @JvmField var reversal = false
 
     /** inversion time. */
@@ -34,9 +34,9 @@ open class CircleAi : FlyingAI() {
 
     override fun circle(target: Position?, circleLength: Float, speed: Float) {
         if (target == null) return
-        time++
-        if (time / 60 >= reversalTime) {
-            time = 0
+        timer2++
+        if (timer2 / 60 >= reversalTime) {
+            timer2 = 0
             reversal = !reversal
         }
         vec.set(target).sub(unit)

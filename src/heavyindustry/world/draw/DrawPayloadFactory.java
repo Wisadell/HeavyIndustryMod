@@ -39,7 +39,7 @@ public class DrawPayloadFactory<E extends Building> extends DrawDirSpliceBlock<E
             regions[i] = getSpliceRegion(splicers, i);
         }
 
-        for (Pixmap p: splicers) {
+        for (Pixmap p : splicers) {
             p.dispose();
         }
     }
@@ -48,7 +48,7 @@ public class DrawPayloadFactory<E extends Building> extends DrawDirSpliceBlock<E
     public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {
         Draw.rect(block.region, plan.drawx(), plan.drawy());
         super.drawPlan(block, plan, list);
-        Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation*90);
+        Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);
         Draw.rect(topRegion, plan.drawx(), plan.drawy());
     }
 

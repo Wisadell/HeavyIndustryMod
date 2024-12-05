@@ -92,9 +92,10 @@ public class DrawDirSpliceBlock<E extends Building> extends DrawBlock {
         int bits = 0;
         Block planBlock = plan.block;
 
-        t: for (int i=0; i<4; i++) {
+        t:
+        for (int i = 0; i < 4; i++) {
             Block other = null;
-            for (Point2 p: DirEdges.get(plan.block.size, i)) {
+            for (Point2 p : DirEdges.get(plan.block.size, i)) {
                 int x = plan.x + p.x;
                 int y = plan.y + p.y;
                 BuildPlan[] target = {null};

@@ -12,6 +12,7 @@ import static heavyindustry.util.Utils.*;
 
 /**
  * Display multi-layer textures in sequence according to the progress of the building.
+ *
  * @author E-Nightingale
  */
 public class DrawSpecConstruct extends DrawBlock {
@@ -50,7 +51,6 @@ public class DrawSpecConstruct extends DrawBlock {
     @Override
     public void load(Block block) {
         super.load(block);
-        if (size < 1) size = 1;
-        stageRegions = split(block.name + "-construct", size * 32, 0);
+        stageRegions = split(block.name + "-construct", Math.abs(size) * 32, 0);
     }
 }

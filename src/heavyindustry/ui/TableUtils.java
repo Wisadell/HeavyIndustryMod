@@ -31,31 +31,38 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public final class TableUtils {
-    private static final Vec2 ctrlVec = new Vec2();
-
-    private static final DecimalFormat df = new DecimalFormat("######0.0");
-    private static final Vec2 point = new Vec2(-1, -1);
-    private static long lastToast;
-
-    private static Table pTable = new Table(), floatTable = new Table();
-
     public static final float LEN = 60f;
     public static final float OFFSET = 12f;
+    public static final TextArea textArea = headless ? null : new TextArea("");
+
+    public static PowerGraphInfoDialog powerInfoDialog;
+
+    private static final Vec2 ctrlVec = new Vec2();
+    private static final DecimalFormat df = new DecimalFormat("######0.0");
+    private static final Vec2 point = new Vec2(-1, -1);
+    private static final Table starter = new Table(Tex.paneSolid) {
+
+    };
+
+    private static long lastToast;
+    private static Table pTable = new Table(), floatTable = new Table();
+
+    /**
+     * TableUtils should not be instantiated.
+     */
+    private TableUtils() {}
 
     public static String format(float value) {
         return df.format(value);
     }
 
-    /** TableUtils should not be instantiated. */
-    private TableUtils() {}
-
-    public static PowerGraphInfoDialog powerInfoDialog;
-
     public static void init() {
         powerInfoDialog = new PowerGraphInfoDialog();
     }
 
-    /** Based on {@link UI#formatAmount(long)} but for floats. */
+    /**
+     * Based on {@link UI#formatAmount(long)} but for floats.
+     */
     public static String formatAmount(float number) {
         if (number == Float.MAX_VALUE) return "infinite";
         if (number == Float.MIN_VALUE) return "-infinite";
@@ -151,31 +158,6 @@ public final class TableUtils {
         return point.x >= 0 && point.y >= 0 && point.x <= world.width() * tilesize && point.y <= world.height() * tilesize;
     }
 
-    private static class Inner extends Table {
-        Inner() {
-            name = "INNER";
-            background(Tex.paneSolid);
-
-            left();
-            table(table -> {
-                table.button(Icon.cancel, Styles.cleari, () -> {
-                    actions(Actions.touchable(Touchable.disabled), Actions.moveBy(-width, 0, 0.4f, Interp.pow3In), Actions.remove());
-                }).width(LEN).growY();
-            }).growY().fillX().padRight(OFFSET);
-        }
-
-        public void init(float width) {
-            setSize(width, starter.getHeight());
-            setPosition(-this.width, starter.originY);
-        }
-    }
-
-    private static final Table starter = new Table(Tex.paneSolid) {
-
-    };
-
-    public static final TextArea textArea = headless ? null : new TextArea("");
-
     public static int getLineNum(String string) {
         String dex = string.replaceAll("\r", "\n");
         return dex.split("\n").length;
@@ -208,7 +190,8 @@ public final class TableUtils {
     }
 
     public static Table tableImageShrink(TextureRegion tex, float size, Table table) {
-        return tableImageShrink(tex, size, table, c -> {});
+        return tableImageShrink(tex, size, table, c -> {
+        });
     }
 
     public static Table tableImageShrink(TextureRegion tex, float size, Table table, Cons<Image> modifier) {
@@ -247,16 +230,18 @@ public final class TableUtils {
 
         if (!pTable.hasParent()) ctrlVec.set(camera.unproject(input.mouse()));
 
-        if (!pTable.hasParent()) pTable = new Table(Tex.clear) {{
-            update(() -> {
-                if (state.isMenu()) {
-                    remove();
-                } else {
-                    Vec2 v = camera.project(World.toTile(ctrlVec.x) * tilesize, World.toTile(ctrlVec.y) * tilesize);
-                    setPosition(v.x, v.y, 0);
-                }
-            });
-        }
+        if (!pTable.hasParent()) pTable = new Table(Tex.clear) {
+            {
+                update(() -> {
+                    if (state.isMenu()) {
+                        remove();
+                    } else {
+                        Vec2 v = camera.project(World.toTile(ctrlVec.x) * tilesize, World.toTile(ctrlVec.y) * tilesize);
+                        setPosition(v.x, v.y, 0);
+                    }
+                });
+            }
+
             @Override
             public void draw() {
                 super.draw();
@@ -361,14 +346,28 @@ public final class TableUtils {
         parent.add(new LinkTable(link)).size(LinkTable.w + OFFSET * 2f, LinkTable.h).padTop(OFFSET / 2f).row();
     }
 
+    private static class Inner extends Table {
+        Inner() {
+            name = "INNER";
+            background(Tex.paneSolid);
+
+            left();
+            table(table -> {
+                table.button(Icon.cancel, Styles.cleari, () -> {
+                    actions(Actions.touchable(Touchable.disabled), Actions.moveBy(-width, 0, 0.4f, Interp.pow3In), Actions.remove());
+                }).width(LEN).growY();
+            }).growY().fillX().padRight(OFFSET);
+        }
+
+        public void init(float width) {
+            setSize(width, starter.getHeight());
+            setPosition(-this.width, starter.originY);
+        }
+    }
+
     public static class LinkTable extends Table {
         protected static float h = graphics.isPortrait() ? 90f : 80f;
         protected static float w = graphics.isPortrait() ? 330f : 600f;
-
-        public static void sync() {
-            h = graphics.isPortrait() ? 90f : 80f;
-            w = graphics.isPortrait() ? 300f : 600f;
-        }
 
         public LinkTable(Links.LinkEntry link) {
             background(Tex.underline);
@@ -396,6 +395,11 @@ public final class TableUtils {
                     app.setClipboardText(link.link);
                 }
             }).size(h);
+        }
+
+        public static void sync() {
+            h = graphics.isPortrait() ? 90f : 80f;
+            w = graphics.isPortrait() ? 300f : 600f;
         }
     }
 }
