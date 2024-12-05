@@ -25,13 +25,14 @@ import static mindustry.Vars.*;
  * A bridge with the same connection method as the power node.
  */
 public class TubeItemBridge extends ItemBridge {
-    public Prov<Seq<Block>> connectBlocksGetter = Seq::new;
-    Seq<Block> connectibleBlocks = new Seq<>();
-    public Boolf<Building> connectFilter = (building) -> connectibleBlocks.contains(building.block());
-    public byte maxConnections = 3;
-
     public final int timerAccept;
+    public Prov<Seq<Block>> connectBlocksGetter = Seq::new;
+    public byte maxConnections = 3;
     public int bufferCapacity;
+
+    protected Seq<Block> connectibleBlocks = new Seq<>();
+
+    public Boolf<Building> connectFilter = (building) -> connectibleBlocks.contains(building.block());
 
     public TubeItemBridge(String name) {
         super(name);
@@ -90,7 +91,7 @@ public class TubeItemBridge extends ItemBridge {
 
         if (angle >= 0f && angle < 180f) Draw.yscl = -1f;
 
-        Tmp.v1.set(pos2.x, pos2.y).sub(pos1.x, pos1.y).setLength(tilesize/2f);
+        Tmp.v1.set(pos2.x, pos2.y).sub(pos1.x, pos1.y).setLength(tilesize / 2f);
 
         Lines.stroke(8 * Draw.yscl);
         Lines.line(bridgeRegion, pos1.x + Tmp.v1.x, pos1.y + Tmp.v1.y, pos2.x - Tmp.v1.x, pos2.y - Tmp.v1.y, false);
@@ -169,7 +170,8 @@ public class TubeItemBridge extends ItemBridge {
                 return false;
             }
         } else {
-            check: {
+            check:
+            {
                 if (!(other != null && tile != null) || other.build == null || tile.build == null) break check;
                 other = other.build.tile;
                 tile = tile.build.tile;
@@ -177,7 +179,8 @@ public class TubeItemBridge extends ItemBridge {
                 boolean b2 = tile.pos() != other.pos();
                 if (tile.block() == this) {
                     Vec2 offVec = Tmp.v1.trns(tile.angleTo(other) + 90f, offset, offset);
-                    if (!positionsValid(tile.x, tile.y, Mathf.ceil(other.x + offVec.x), Mathf.ceil(other.y + offVec.y))) break check;
+                    if (!positionsValid(tile.x, tile.y, Mathf.ceil(other.x + offVec.x), Mathf.ceil(other.y + offVec.y)))
+                        break check;
                     TubeItemBridge block = (TubeItemBridge) tile.block();
                     boolean connected = false;
                     if (other.build instanceof ItemBridgeBuild) {
@@ -278,7 +281,7 @@ public class TubeItemBridge extends ItemBridge {
             drawBridge(bridgeRegion, endRegion, pos1, pos2);
 
             Draw.color();
-            int arrows = Mathf.round(pos1.dst(pos2)/arrowSpacing);
+            int arrows = Mathf.round(pos1.dst(pos2) / arrowSpacing);
             float angle = pos1.angleTo(pos2);
             Tmp.v2.trns(angle - 45f, 1f, 1f);
             for (float a = 0; a < arrows - 2; ++a) {

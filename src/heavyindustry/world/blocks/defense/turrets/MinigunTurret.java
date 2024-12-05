@@ -19,9 +19,7 @@ import mindustry.world.meta.*;
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
-/**
- * Realize muzzle rotation and firing of Minigun.
- */
+/** Realize muzzle rotation and firing of Minigun. */
 public class MinigunTurret extends ItemTurret {
     public float windupSpeed = 0.2f, windDownSpeed = 0.1f, minFiringSpeed = 3f, logicSpeedScl = 0.25f, maxSpeed = 30f;
     public float barX, barY, barStroke, barLength;
@@ -45,6 +43,61 @@ public class MinigunTurret extends ItemTurret {
     public void setBars() {
         super.setBars();
         addBar("hi-minigun-speed", (MinigunTurretBuild tile) -> new Bar(() -> bundle.format("bar.hi-minigun-speed", Strings.autoFixed(tile.speedf() * 100f, 2)), tile::barColor, tile::speedf));
+    }
+
+    public static class DrawMinigun extends DrawTurret {
+        public TextureRegion barrel, barrelOutline;
+
+        @Override
+        public void getRegionsToOutline(Block block, Seq<TextureRegion> out) {
+            super.getRegionsToOutline(block, out);
+            out.add(barrel);
+        }
+
+        @Override
+        public void load(Block block) {
+            super.load(block);
+
+            barrel = atlas.find(block.name + "-barrel");
+            barrelOutline = atlas.find(block.name + "-barrel-outline");
+        }
+
+        @Override
+        public void drawTurret(Turret block, TurretBuild build) {
+            if (!(block instanceof MinigunTurret bl && build instanceof MinigunTurretBuild bu)) return;
+
+            Vec2 v = Tmp.v1;
+
+            Draw.z(Layer.turret - 0.01f);
+            Draw.rect(outline, build.x + bu.recoilOffset.x, build.y + bu.recoilOffset.y, build.drawrot());
+            for (int i = 0; i < 4; i++) {
+                Draw.z(Layer.turret - 0.01f);
+                v.trns(bu.rotation - 90f, bl.barWidth * Mathf.cosDeg(bu.spin - 90 * i), bl.barHeight * Mathf.sinDeg(bu.spin - 90 * i)).add(bu.recoilOffset);
+                Draw.rect(barrelOutline, bu.x + v.x, bu.y + v.y, bu.drawrot());
+                Draw.z(Layer.turret - 0.005f - Mathf.sinDeg(bu.spin - 90 * i) / 1000f);
+                Draw.rect(barrel, bu.x + v.x, bu.y + v.y, bu.drawrot());
+                if (bu.heats[i] > 0.001f) {
+                    Drawf.additive(heat, bl.heatColor.write(Tmp.c1).a(bu.heats[i]), bu.x + v.x, bu.y + v.y, bu.drawrot(), Draw.z());
+                }
+            }
+
+            Draw.z(Layer.turret);
+            super.drawTurret(block, build);
+
+            if (bu.speedf() > 0.0001f) {
+                Draw.color(bu.barColor());
+                Lines.stroke(bl.barStroke);
+                for (int i = 0; i < 2; i++) {
+                    v.trns(bu.drawrot(), bl.barX * Mathf.signs[i], bl.barY).add(bu.recoilOffset);
+                    Lines.lineAngle(bu.x + v.x, bu.y + v.y, bu.rotation, bl.barLength * Mathf.clamp(bu.speedf()), false);
+                }
+            }
+        }
+
+        @Override
+        public void drawHeat(Turret block, TurretBuild build) {
+            //Don't
+        }
     }
 
     public class MinigunTurretBuild extends ItemTurretBuild {
@@ -139,61 +192,6 @@ public class MinigunTurret extends ItemTurret {
         @Override
         public byte version() {
             return 3;
-        }
-    }
-
-    public static class DrawMinigun extends DrawTurret {
-        public TextureRegion barrel, barrelOutline;
-
-        @Override
-        public void getRegionsToOutline(Block block, Seq<TextureRegion> out) {
-            super.getRegionsToOutline(block, out);
-            out.add(barrel);
-        }
-
-        @Override
-        public void load(Block block) {
-            super.load(block);
-
-            barrel = atlas.find(block.name + "-barrel");
-            barrelOutline = atlas.find(block.name + "-barrel-outline");
-        }
-
-        @Override
-        public void drawTurret(Turret block, TurretBuild build) {
-            if (!(block instanceof MinigunTurret bl && build instanceof MinigunTurretBuild bu)) return;
-
-            Vec2 v = Tmp.v1;
-
-            Draw.z(Layer.turret- 0.01f);
-            Draw.rect(outline, build.x + bu.recoilOffset.x, build.y + bu.recoilOffset.y, build.drawrot());
-            for (int i = 0; i < 4; i++) {
-                Draw.z(Layer.turret - 0.01f);
-                v.trns(bu.rotation - 90f, bl.barWidth * Mathf.cosDeg(bu.spin - 90 * i), bl.barHeight * Mathf.sinDeg(bu.spin - 90 * i)).add(bu.recoilOffset);
-                Draw.rect(barrelOutline, bu.x + v.x, bu.y + v.y, bu.drawrot());
-                Draw.z(Layer.turret - 0.005f - Mathf.sinDeg(bu.spin - 90 * i) / 1000f);
-                Draw.rect(barrel, bu.x + v.x, bu.y + v.y, bu.drawrot());
-                if (bu.heats[i] > 0.001f) {
-                    Drawf.additive(heat, bl.heatColor.write(Tmp.c1).a(bu.heats[i]), bu.x + v.x, bu.y + v.y, bu.drawrot(), Draw.z());
-                }
-            }
-
-            Draw.z(Layer.turret);
-            super.drawTurret(block, build);
-
-            if (bu.speedf() > 0.0001f) {
-                Draw.color(bu.barColor());
-                Lines.stroke(bl.barStroke);
-                for (int i = 0; i < 2; i++) {
-                    v.trns(bu.drawrot(), bl.barX * Mathf.signs[i], bl.barY).add(bu.recoilOffset);
-                    Lines.lineAngle(bu.x + v.x, bu.y + v.y, bu.rotation, bl.barLength * Mathf.clamp(bu.speedf()), false);
-                }
-            }
-        }
-
-        @Override
-        public void drawHeat(Turret block, TurretBuild build) {
-            //Don't
         }
     }
 }

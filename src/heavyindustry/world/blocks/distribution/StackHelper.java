@@ -50,7 +50,8 @@ public class StackHelper extends Block {
         public void updateTile() {
             for (int i = 0; i < 4; i++) {
                 Building b = nearby(i);
-                if (b instanceof StackConveyorBuild sc && b.block instanceof StackConveyor && b.team == team && sc.state == 1) sc.cooldown = 0;
+                if (b instanceof StackConveyorBuild sc && b.block instanceof StackConveyor && b.team == team && sc.state == 1)
+                    sc.cooldown = 0;
             }
         }
 

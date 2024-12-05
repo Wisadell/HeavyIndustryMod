@@ -23,6 +23,7 @@ import static mindustry.Vars.*;
  * Combining the characteristics of laser nodes and diodes.
  * <p>
  * Stitching it up is enough.
+ *
  * @author E-Nightingale
  */
 public class BeamDiode extends Block {
@@ -138,7 +139,8 @@ public class BeamDiode extends Block {
                 updateDirections();
             }
 
-            if (tile == null || links[0] == null || links[1] == null || !links[1].block.hasPower || !links[0].block.hasPower || links[1].team != team || links[0].team != team) return;
+            if (tile == null || links[0] == null || links[1] == null || !links[1].block.hasPower || !links[0].block.hasPower || links[1].team != team || links[0].team != team)
+                return;
 
             PowerGraph backGraph = links[1].power.graph;
             PowerGraph frontGraph = links[0].power.graph;
@@ -176,13 +178,13 @@ public class BeamDiode extends Block {
 
             for (int i = 0; i < 2; i++) {
                 if (dests[i] != null) {
-                    int dst = Math.max(Math.abs(dests[i].x - tile.x),  Math.abs(dests[i].y - tile.y));
+                    int dst = Math.max(Math.abs(dests[i].x - tile.x), Math.abs(dests[i].y - tile.y));
 
                     if (dst > 1 + size / 2) {
                         Point2 point = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
                         float poff = tilesize / 2f;
                         Draw.color(laserColor1, laserColor2, (1f - links[i].power.graph.getSatisfaction()) * 0.86f + Mathf.absin(3f, 0.1f));
-                        Drawf.laser(laser, laserEnds[1 - i], laserEnds[i], x + poff*size*point.x, y + poff*size*point.y, dests[i].worldx() - poff*point.x, dests[i].worldy() - poff*point.y, w);
+                        Drawf.laser(laser, laserEnds[1 - i], laserEnds[i], x + poff * size * point.x, y + poff * size * point.y, dests[i].worldx() - poff * point.x, dests[i].worldy() - poff * point.y, w);
                     }
                 }
             }
@@ -197,7 +199,7 @@ public class BeamDiode extends Block {
         }
 
         public void updateDirections() {
-            for (int i = 0; i < 2; i ++) {
+            for (int i = 0; i < 2; i++) {
                 Point2 dir = Geometry.d4[Mathf.mod(rotation + 2 * i, 4)];
                 links[i] = null;
                 dests[i] = null;

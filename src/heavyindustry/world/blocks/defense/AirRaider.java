@@ -17,14 +17,11 @@ public class AirRaider extends CommandableAttackerBlock {
 
     public Sound shootSound = Sounds.artillery;
     public float shake = 4f;
-
-    protected int totalShots = 0;
-
     public float velocityRnd = 0.015f;
     public float inaccuracy = 3f;
-
     public float cooldownSpeed = 0.075f;
 
+    protected int totalShots = 0;
     protected Vec2 tr = new Vec2();
 
     public AirRaider(String name) {
@@ -71,9 +68,9 @@ public class AirRaider extends CommandableAttackerBlock {
                     lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, Tmp.v5.x, Tmp.v5.y) / bullet.range) : 1f,
                     angle = aimAngle + Mathf.range(inaccuracy);
 
-            Bullet shootBullet = bullet.create(self(), team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, Tmp.v5.x, Tmp.v5.y);
+            Bullet shootBullet = bullet.create(this, team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, Tmp.v5.x, Tmp.v5.y);
 
-            Effect.shake(shake, shake, self());
+            Effect.shake(shake, shake, this);
 
 //			ejectEffect.at(x, y, angle * Mathf.sign(this.x));
             bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);

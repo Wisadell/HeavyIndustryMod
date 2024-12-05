@@ -14,10 +14,12 @@ import static arc.Core.*;
  * <p>
  * You are already a mature GenericCrafter,
  * it's time to learn how to generate electricity on your own.
+ *
  * @author E-Nightingale
  */
 public class GeneratorCrafter extends GenericCrafter {
     public float powerProduction = 1f;
+
     public GeneratorCrafter(String name) {
         super(name);
         hasPower = true;

@@ -14,6 +14,7 @@ import static mindustry.Vars.*;
 
 /**
  * A wall that can self restore life.
+ *
  * @author E-Nightingale
  */
 public class RegenWall extends Wall {
@@ -21,11 +22,17 @@ public class RegenWall extends Wall {
     protected static final IntFloatMap mendMap = new IntFloatMap();
     protected static long lastUpdateFrame = -1l;
 
-    /** per frame. */
+    /**
+     * per frame.
+     */
     public float healPercent = 12f / 60f;
-    /** Chance of wall to heal itself on collision. -1 to disable. */
+    /**
+     * Chance of wall to heal itself on collision. -1 to disable.
+     */
     public float chanceHeal = -1f;
-    /** How much wall heals at collision. Based on bullet damage. */
+    /**
+     * How much wall heals at collision. Based on bullet damage.
+     */
     public float regenPercent = 0.1f;
 
     public RegenWall(String name) {
@@ -53,14 +60,14 @@ public class RegenWall extends Wall {
     }
 
     public class RegenWallBuild extends WallBuild {
-        protected float healAmount, hit;
-        protected boolean heals;
-
         public Seq<Building> targets = new Seq<>();
         public int lastChange = -2;
         public float warmup, totalTime;
         public boolean anyTargets = false;
         public boolean didRegen = false;
+
+        protected float healAmount, hit;
+        protected boolean heals;
 
         public void updateTargets() {
             targets.clear();
@@ -135,10 +142,10 @@ public class RegenWall extends Wall {
             }
 
             damage(bullet.team, damage);
-            Events.fire(bulletDamageEvent.set(self(), bullet));
+            Events.fire(bulletDamageEvent.set(this, bullet));
 
             if (health <= 0 && !wasDead) {
-                Events.fire(new BuildingBulletDestroyEvent(self(), bullet));
+                Events.fire(new BuildingBulletDestroyEvent(this, bullet));
             }
 
             hit = 1f;

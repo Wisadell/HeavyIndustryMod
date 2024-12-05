@@ -109,6 +109,7 @@ public class EruptorTurret extends PowerTurret {
 
             super.updateCooling();
         }
+
         @Override
         protected void updateShooting() {
             if (bulletLife > 0 && bullet != null) {

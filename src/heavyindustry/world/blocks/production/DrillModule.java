@@ -26,12 +26,15 @@ import static mindustry.Vars.*;
 public abstract class DrillModule extends Block {
     public TextureRegion baseRegion;
     public TextureRegion[] topRotRegions;
+
     public Seq<Item[]> convertList = new Seq<>();
     public ObjectFloatMap<Item> convertMul = new ObjectFloatMap<>();
+
     public float boostSpeed = 0f;
     public float boostFinalMul = 0f;
     public float powerMul = 0f;
     public float powerExtra = 0f;
+
     public boolean coreSend = false;
     public boolean stackable = false;
 
@@ -70,8 +73,10 @@ public abstract class DrillModule extends Block {
     @Override
     public void setStats() {
         super.setStats();
-        if (powerMul != 0 || powerExtra != 0) stats.add(HIStat.powerConsModifier, bundle.get("stat.hi-f-power-cons-modifier"), Strings.autoFixed(powerMul * 100, 0), Strings.autoFixed(powerExtra, 0));
-        if (boostSpeed != 0 || boostFinalMul != 0) stats.add(HIStat.minerBoosModifier, bundle.get("stat.hi-f-miner-boost-modifier"), Strings.autoFixed(boostSpeed * 100, 0), Strings.autoFixed(boostFinalMul * 100, 0));
+        if (powerMul != 0 || powerExtra != 0)
+            stats.add(HIStat.powerConsModifier, bundle.get("stat.hi-f-power-cons-modifier"), Strings.autoFixed(powerMul * 100, 0), Strings.autoFixed(powerExtra, 0));
+        if (boostSpeed != 0 || boostFinalMul != 0)
+            stats.add(HIStat.minerBoosModifier, bundle.get("stat.hi-f-miner-boost-modifier"), Strings.autoFixed(boostSpeed * 100, 0), Strings.autoFixed(boostFinalMul * 100, 0));
         if (convertList.size > 0) stats.add(HIStat.itemConvertList, getConvertList());
     }
 
@@ -79,7 +84,7 @@ public abstract class DrillModule extends Block {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < convertList.size; i++) {
             Item[] convert = convertList.get(i);
-            String cvt = Fonts.getUnicodeStr(convert[0].name) + convert[0].localizedName + " -> " + Fonts.getUnicodeStr(convert[1].name) + convert[1].localizedName + "(" + Strings.autoFixed((convertMul.get(convert[0], boostFinalMul)) * 100, 0) + "%)" + (i == convertList.size - 1?"": "\n");
+            String cvt = Fonts.getUnicodeStr(convert[0].name) + convert[0].localizedName + " -> " + Fonts.getUnicodeStr(convert[1].name) + convert[1].localizedName + "(" + Strings.autoFixed((convertMul.get(convert[0], boostFinalMul)) * 100, 0) + "%)" + (i == convertList.size - 1 ? "" : "\n");
             builder.append(cvt);
         }
         return builder.toString();
@@ -134,7 +139,7 @@ public abstract class DrillModule extends Block {
 
         public boolean checkConvert(DrillFc drill) {
             if (convertList.size == 0) return true;
-            for (Item[] convert: convertList) {
+            for (Item[] convert : convertList) {
                 if (drill.dominantItem() == convert[0]) {
                     return true;
                 }
@@ -155,7 +160,7 @@ public abstract class DrillModule extends Block {
             drill.powerConsMul(drill.powerConsMul() + powerMul);
             drill.powerConsExtra(drill.powerConsExtra() + powerExtra);
             drill.boostMul(drill.boostMul() + boostSpeed);
-            for (Item[] convert: convertList) {
+            for (Item[] convert : convertList) {
                 if (drill.dominantItem() == convert[0]) {
                     drill.convertItem(convert[1]);
                     drill.boostFinalMul(drill.boostFinalMul() + convertMul.get(convert[0], boostFinalMul));

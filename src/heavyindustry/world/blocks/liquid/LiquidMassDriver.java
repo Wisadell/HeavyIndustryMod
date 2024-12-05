@@ -99,6 +99,14 @@ public class LiquidMassDriver extends Block {
         Draw.reset();
     }
 
+    public enum DriverState {
+        idle,
+        accepting,
+        shooting;
+
+        public static final DriverState[] all = values();
+    }
+
     public static class LiquidBulletData implements Poolable {
         public LiquidMassDriverBuild from, to;
         public Liquid liquid = Liquids.water;
@@ -189,7 +197,7 @@ public class LiquidMassDriver extends Block {
                 float targetRotation = angleTo(link);
 
                 if (liquidTotal() >= minDistribute && link.block.liquidCapacity - link.liquids.get(link.liquids.current()) >= minDistribute) {
-                    LiquidMassDriverBuild other = (LiquidMassDriverBuild)link;
+                    LiquidMassDriverBuild other = (LiquidMassDriverBuild) link;
                     other.waitingShooters.add(this);
 
                     if (reloadCounter <= 0.0001f) {
@@ -343,7 +351,7 @@ public class LiquidMassDriver extends Block {
             super.write(write);
             write.i(link);
             write.f(rotation);
-            write.b((byte)state.ordinal());
+            write.b((byte) state.ordinal());
         }
 
         @Override
@@ -353,14 +361,6 @@ public class LiquidMassDriver extends Block {
             rotation = read.f();
             state = DriverState.all[read.b()];
         }
-    }
-
-    public enum DriverState {
-        idle,
-        accepting,
-        shooting;
-
-        public static final DriverState[] all = values();
     }
 
     public static class DrawLiquidMassDriver extends DrawBlock {

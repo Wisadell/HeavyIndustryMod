@@ -22,12 +22,9 @@ import static mindustry.Vars.*;
  * Inverted Junction
  */
 public class InvertedJunction extends Junction {
-    public String placeSprite;
-
-    public DrawBlock drawer = new DrawInvertedJunction();
-
     public final int size = 1;
-
+    public String placeSprite;
+    public DrawBlock drawer = new DrawInvertedJunction();
     public Color[] colors = {Color.valueOf("bf92f9"), Color.valueOf("c0ecff"), Color.valueOf("84f491"), Color.valueOf("fffa763")};
 
     public TextureRegion arrow1, arrow2;
@@ -45,6 +42,15 @@ public class InvertedJunction extends Junction {
         super.load();
         arrow1 = atlas.find(name("arrow-1"));
         arrow2 = atlas.find(name("arrow-2"));
+    }
+
+    public static class DrawInvertedJunction extends DrawBlock {
+        @Override
+        public void draw(Building build) {
+            if (!(build instanceof InvertedJunctionBuild bu && build.block instanceof InvertedJunction bl)) return;
+            Draw.rect(atlas.find(bl.placeSprite), build.x, build.y);
+            Draw.rect(atlas.find(modName + "-junction-" + bu.loc), build.x, build.y);
+        }
     }
 
     public class InvertedJunctionBuild extends JunctionBuild {
@@ -76,7 +82,7 @@ public class InvertedJunction extends Junction {
 
                         dest.handleItem(this, item);
                         System.arraycopy(buffer.buffers[i], 1, buffer.buffers[i], 0, buffer.indexes[i] - 1);
-                        buffer.indexes[i] --;
+                        buffer.indexes[i]--;
                     }
                 }
             }
@@ -138,15 +144,6 @@ public class InvertedJunction extends Junction {
         public void read(Reads read, byte revision) {
             super.read(read, revision);
             loc = read.i();
-        }
-    }
-
-    public static class DrawInvertedJunction extends DrawBlock {
-        @Override
-        public void draw(Building build) {
-            if (!(build instanceof InvertedJunctionBuild bu && build.block instanceof InvertedJunction bl)) return;
-            Draw.rect(atlas.find(bl.placeSprite), build.x, build.y);
-            Draw.rect(atlas.find(modName + "-junction-" + bu.loc), build.x, build.y);
         }
     }
 }

@@ -18,6 +18,7 @@ import static mindustry.Vars.*;
 
 /**
  * Will Anuken actually install it in V8?
+ *
  * @author E-Nightingale
  */
 public class DuctJunction extends Block {

@@ -40,7 +40,10 @@ public class AnyMtiCrafter extends Block {
     public DrawBlock drawer = new DrawDefault();
     /** Do you want to use the {@link AnyMtiCrafter#drawer} inside the block itself. */
     public boolean useBlockDrawer = true;
-    /** Whether multiple liquid outputs require different directions, please refer to {@link Formula#liquidOutputDirections} to determine the value of this parameter. */
+    /**
+     * Whether multiple liquid outputs require different directions,
+     * please refer to {@link Formula#liquidOutputDirections} to determine the value of this parameter.
+     */
     public boolean hasDoubleOutput = false;
     /** Automatically add bar to liquid. */
     public boolean autoAddBar = true;
@@ -427,7 +430,7 @@ public class AnyMtiCrafter extends Block {
                         float ly = realY + pad;
                         Draw.color();
                         Draw.rect(ls.liquid.uiIcon, realX, ly);
-                        Utils.drawTiledFramesBar(vts, (height * liquids.get(ls.liquid)/liquidCapacity), realX + vts/2f, ly, ls.liquid, 1);
+                        Utils.drawTiledFramesBar(vts, (height * liquids.get(ls.liquid) / liquidCapacity), realX + vts / 2f, ly, ls.liquid, 1);
                         Draw.color();
                         Draw.alpha(1);
                         Draw.rect(canBar, realX + vts / 2f + vts / 2f, ly + height / 2f, vts + 1, height + 2);
@@ -465,7 +468,7 @@ public class AnyMtiCrafter extends Block {
             if (formula == null) return;
             if (formula.barMap.size > 0) {
                 for (Func<Building, Bar> bar : formula.listBars()) {
-                    Bar result = bar.get(self());
+                    Bar result = bar.get(this);
                     if (result == null) continue;
                     table.add(result).growX();
                     table.row();
@@ -651,9 +654,6 @@ public class AnyMtiCrafter extends Block {
         /** The single power consumer, if applicable. */
         public @Nullable ConsumePower consPower;
 
-        /** List for building up consumption before init(). */
-        protected Seq<Consume> consumeBuilder = new Seq<>();
-
         public float craftTime;
 
         public @Nullable ItemStack[] outputItems;
@@ -670,13 +670,14 @@ public class AnyMtiCrafter extends Block {
         public float updateEffectChance = 0.05f;
         public Effect updateEffect = Fx.none;
         public Effect craftEffect = Fx.none;
-
         public DrawBlock drawer = new DrawDefault();
 
         /** Consumption filters. */
         public ObjectMap<Item, Boolean> itemFilter = new ObjectMap<>();
         public ObjectMap<Liquid, Boolean> liquidFilter = new ObjectMap<>();
 
+        /** List for building up consumption before init(). */
+        protected Seq<Consume> consumeBuilder = new Seq<>();
         protected OrderedMap<String, Func<Building, Bar>> barMap = new OrderedMap<>();
 
         public void init() {

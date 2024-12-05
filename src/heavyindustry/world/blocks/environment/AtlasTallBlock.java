@@ -12,7 +12,9 @@ import static heavyindustry.util.Utils.*;
 public class AtlasTallBlock extends TallBlock {
     public TextureRegion[] splitRegion, splitShadowRegion;
 
-    /** The pixel size of each atlas section, It must be the same as the source file. */
+    /**
+     * The pixel size of each atlas section, It must be the same as the source file.
+     */
     public int atlasSize = 32;
 
     public AtlasTallBlock(String name) {

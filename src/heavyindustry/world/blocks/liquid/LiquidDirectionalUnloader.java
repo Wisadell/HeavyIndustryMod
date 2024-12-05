@@ -55,7 +55,7 @@ public class LiquidDirectionalUnloader extends Block {
                 () -> tile.sortLiquid == null ? Color.black : tile.sortLiquid.color,
                 () -> {
                     if (tile.sortLiquid != null && tile.back() != null && tile.back().block != null && tile.back().block.hasLiquids && tile.back().block.liquidCapacity > 0) {
-                        return (tile.back().liquids.get(tile.sortLiquid)/tile.back().block.liquidCapacity);
+                        return (tile.back().liquids.get(tile.sortLiquid) / tile.back().block.liquidCapacity);
                     } else return 0;
                 }
         ));
@@ -64,7 +64,7 @@ public class LiquidDirectionalUnloader extends Block {
                 () -> tile.sortLiquid == null ? Color.black : tile.sortLiquid.color,
                 () -> {
                     if (tile.sortLiquid != null && tile.front() != null && tile.front().block != null && tile.front().block.hasLiquids && tile.front().block.liquidCapacity > 0) {
-                        return (tile.front().liquids.get(tile.sortLiquid)/tile.front().block.liquidCapacity);
+                        return (tile.front().liquids.get(tile.sortLiquid) / tile.front().block.liquidCapacity);
                     } else return 0;
                 }
         ));
@@ -92,7 +92,7 @@ public class LiquidDirectionalUnloader extends Block {
             if (front != null && back != null && front.block != null && back.block != null && back.liquids != null && front.team == team && back.team == team && sortLiquid != null) {
                 if (front.acceptLiquid(this, sortLiquid)) {
                     float fl = front.liquids.get(sortLiquid), bl = back.liquids.get(sortLiquid), fc = front.block.liquidCapacity, bc = back.block.liquidCapacity;
-                    if (bl > 0 && bl/bc > fl/fc) {
+                    if (bl > 0 && bl / bc > fl / fc) {
                         float amount = Math.min(speed, back.liquids.get(sortLiquid));
                         float a = Math.min(amount, front.block.liquidCapacity - front.liquids.get(sortLiquid));
                         float balance = Math.min(a, (bl / bc - fl / fc) * bc);

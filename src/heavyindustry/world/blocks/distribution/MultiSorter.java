@@ -16,7 +16,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class MultiSorter extends Block{
+public class MultiSorter extends Block {
     protected static byte selectionDir;
 
     public TextureRegion topRegion, itemRegion;
@@ -109,7 +109,7 @@ public class MultiSorter extends Block{
         }
     }
 
-    public class MultiSorterBuild extends Building{
+    public class MultiSorterBuild extends Building {
         public @Nullable Item leftSort, frontSort, rightSort;
         public byte outDir;
 
@@ -139,6 +139,7 @@ public class MultiSorter extends Block{
             Building to = getTileTarget(item, source, false);
             return to != null && to.team == team && to.acceptItem(this, item);
         }
+
         @Override
         public void handleItem(Building source, Item item) {
             getTileTarget(item, source, true).handleItem(this, item);
@@ -249,9 +250,9 @@ public class MultiSorter extends Block{
 
         public int[] config() {
             return new int[]{
-                leftSort == null ? -1 : leftSort.id,
-                frontSort == null ? -1 : frontSort.id,
-                rightSort == null ? -1 : rightSort.id
+                    leftSort == null ? -1 : leftSort.id,
+                    frontSort == null ? -1 : frontSort.id,
+                    rightSort == null ? -1 : rightSort.id
             };
         }
 

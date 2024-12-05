@@ -80,7 +80,8 @@ public class PayloadSourceF extends PayloadSource {
             int i = 0;
             for (; i < teams.length; i++) {
                 Team team1 = teams[i];
-                ImageButton button = cont.button(((TextureRegionDrawable)Tex.whiteui).tint(team1.color), Styles.clearTogglei, 35, () -> {}).group(g).get();
+                ImageButton button = cont.button(((TextureRegionDrawable) Tex.whiteui).tint(team1.color), Styles.clearTogglei, 35, () -> {
+                }).group(g).get();
                 button.changed(() -> {
                     if (button.isChecked()) {
                         if (player.team() == team) {
@@ -95,7 +96,7 @@ public class PayloadSourceF extends PayloadSource {
             ItemSelection.buildTable(PayloadSourceF.this, table,
                     content.blocks().select(PayloadSourceF.this::canProduce).<UnlockableContent>as()
                             .add(content.units().select(PayloadSourceF.this::canProduce).as()),
-                    () -> (UnlockableContent)config(), this::configure, false, selectionRows, selectionColumns);
+                    () -> (UnlockableContent) config(), this::configure, false, selectionRows, selectionColumns);
         }
 
         @Override
@@ -132,7 +133,8 @@ public class PayloadSourceF extends PayloadSource {
         }
 
         @Override
-        public void damage(float damage) {}
+        public void damage(float damage) {
+        }
 
         @Override
         public boolean canPickup() {

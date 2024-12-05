@@ -52,7 +52,7 @@ public class UnitBoost extends Block {
         super.setBars();
 
         addBar("heat", (UnitBoostBuild entity) -> new Bar(
-                () -> bundle.format("bar.heatpercent", (int)(entity.heat + 0.01f), (int)(entity.efficiencyScale() * 100 + 0.01f)),
+                () -> bundle.format("bar.heatpercent", (int) (entity.heat + 0.01f), (int) (entity.efficiencyScale() * 100 + 0.01f)),
                 () -> Pal.lightOrange,
                 () -> entity.heat / heatRequirement));
     }
@@ -64,8 +64,8 @@ public class UnitBoost extends Block {
 
         stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
         stats.add(Stat.range, range, StatUnit.blocks);
-        stats.add(new Stat("rangeboost", StatCat.crafting), (int)(maxRangeBoost * 100f), StatUnit.percent);
-        if (status.length >0) stats.add(Stat.abilities, t -> {
+        stats.add(new Stat("rangeboost", StatCat.crafting), (int) (maxRangeBoost * 100f), StatUnit.percent);
+        if (status.length > 0) stats.add(Stat.abilities, t -> {
             t.row();
             t.add(bundle.get("hi-stat-value-show-status")).left();
             t.row();
@@ -112,6 +112,9 @@ public class UnitBoost extends Block {
     }
 
     public class UnitBoostBuild extends Building implements HeatConsumer {
+        protected final Seq<Float[]> pos = new Seq<>();
+        protected final Pool<ExtendedPosition> posPool = Pools.get(ExtendedPosition.class, ExtendedPosition::new);
+
         public float[] sideHeat = new float[4];
         public float heat = 0f;
         public float realRange = 0;
@@ -120,9 +123,6 @@ public class UnitBoost extends Block {
 
         protected boolean can, show, change1_2 = false;
         protected float rotation, ps, lp1 = 0, lp2 = 1;
-        protected final Seq<Float[]> pos = new Seq<>();
-
-        protected final Pool<ExtendedPosition> posPool = Pools.get(ExtendedPosition.class, ExtendedPosition::new);
 
         // for drawer
         public boolean canShow() {
@@ -202,7 +202,7 @@ public class UnitBoost extends Block {
             for (int i = 0; i < 3; i++) {
                 float rt = 360 / 3f * i - rotation;
 
-                if (phaseHeat < 0.99f) Lines.arc(x, y, rd, 1/3f * (1 - phaseHeat + 0.05f), rt);
+                if (phaseHeat < 0.99f) Lines.arc(x, y, rd, 1 / 3f * (1 - phaseHeat + 0.05f), rt);
                 float ex = x + Angles.trnsx(rt, rd), ey = y + Angles.trnsy(rt, rd);
                 Float[] p = {ex, ey};
                 pos.add(p);
@@ -274,7 +274,7 @@ public class UnitBoost extends Block {
 
         @Override
         public float efficiencyScale() {
-            return Math.min(maxRangeBoost, heat/heatRequirement);
+            return Math.min(maxRangeBoost, heat / heatRequirement);
         }
 
         @Override

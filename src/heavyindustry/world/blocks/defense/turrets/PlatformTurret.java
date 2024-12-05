@@ -8,6 +8,7 @@ import mindustry.world.meta.*;
 
 /**
  * Suitable for sandbox turrets without any consumption.
+ *
  * @author E-Nightingale
  */
 public class PlatformTurret extends Turret {

@@ -57,7 +57,9 @@ public class HyperGenerator extends ImpactReactor {
         super(name);
         baseExplosiveness = 1000f;
 
-        destroyed = new EffectBulletType(600f) {{
+        destroyed = new EffectBulletType(600f) {
+            private final Effect updateEffect1, updateEffect2;
+        {
             absorbable = hittable = false;
             speed = 0;
             lightningLen = lightningLenRand = 4;
@@ -76,8 +78,6 @@ public class HyperGenerator extends ImpactReactor {
             hitShake = despawnShake = 80f;
             despawnSound = HISounds.hugeBlast;
         }
-            private final Effect updateEffect1, updateEffect2;
-
             @Override
             public void init(Bullet b) {
                 super.init(b);
@@ -128,10 +128,11 @@ public class HyperGenerator extends ImpactReactor {
 
                 Effect.shake(10f, 30f, b);
 
-                if (b.timer(3, 8)) PositionLightning.createRange(b, b, Team.derelict, lightningRange * 2f, 255, effectColor, true, lightningDamage, subNum + Mathf.random(subNumRand), PositionLightning.WIDTH,updateLightning + Mathf.random(updateLightningRand), point -> {
-                    HIFx.lightningHitSmall.at(point);
-                    Damage.damage(point.getX(), point.getY(), splashDamageRadius, splashDamage);
-                });
+                if (b.timer(3, 8))
+                    PositionLightning.createRange(b, b, Team.derelict, lightningRange * 2f, 255, effectColor, true, lightningDamage, subNum + Mathf.random(subNumRand), PositionLightning.WIDTH, updateLightning + Mathf.random(updateLightningRand), point -> {
+                        HIFx.lightningHitSmall.at(point);
+                        Damage.damage(point.getX(), point.getY(), splashDamageRadius, splashDamage);
+                    });
 
                 if (b.timer(4, 5)) {
                     float range = size * tilesize / 1.5f;
@@ -190,7 +191,7 @@ public class HyperGenerator extends ImpactReactor {
                 Time.run(i * (3 + Mathf.random(2f)), () -> {
                     explodeSub.get(this);
                     Sounds.explosionbig.at(this);
-                    PositionLightning.createRandomRange(Team.derelict, this, lightningRange * 3f, effectColor, true, lightningDamage, lightningLen + Mathf.random(lightningLenRand), PositionLightning.WIDTH, subNum + Mathf.random(subNumRand),updateLightning + Mathf.random(updateLightningRand), point -> {
+                    PositionLightning.createRandomRange(Team.derelict, this, lightningRange * 3f, effectColor, true, lightningDamage, lightningLen + Mathf.random(lightningLenRand), PositionLightning.WIDTH, subNum + Mathf.random(subNumRand), updateLightning + Mathf.random(updateLightningRand), point -> {
                         HIFx.lightningHitLarge.at(point.getX(), point.getY(), effectColor);
                     });
                 });
@@ -200,7 +201,7 @@ public class HyperGenerator extends ImpactReactor {
             Effect.shake(6f, 16f, x, y);
 
             for (i = 0; i < 7; ++i) {
-                Time.run((float)Mathf.random(80), () -> {
+                Time.run((float) Mathf.random(80), () -> {
                     HIFx.hyperExplode.at(x + Mathf.range(size * tilesize), y + Mathf.range(size * tilesize), effectColor);
                     HIFx.hyperCloud.at(x + Mathf.range(size * tilesize), y + Mathf.range(size * tilesize), effectColor);
                     HIFx.circle.at(x + Mathf.range(size * tilesize), y + Mathf.range(size * tilesize), explosionRadius, effectColor);

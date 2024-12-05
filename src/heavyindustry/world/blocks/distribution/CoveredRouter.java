@@ -74,6 +74,7 @@ public class CoveredRouter extends Router {
                 progress = 0;
             }
         }
+
         @Override
         public void draw() {
             Draw.z(Layer.blockUnder + 0.3f);

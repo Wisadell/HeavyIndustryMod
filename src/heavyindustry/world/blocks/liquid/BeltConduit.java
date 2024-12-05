@@ -18,7 +18,6 @@ public class BeltConduit extends Conduit {
     public static final float[][] rotateOffsets = {{hpad, hpad}, {-hpad, hpad}, {-hpad, -hpad}, {hpad, -hpad}};
 
     public boolean fireproof = false;
-
     public TextureRegion[] topParts, botParts;
 
     public BeltConduit(String name) {
@@ -91,4 +90,6 @@ public class BeltConduit extends Conduit {
             Draw.rect(sliced(topParts[bits], slice), x, y, angle);
         }
     }
+
+
 }

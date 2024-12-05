@@ -16,6 +16,7 @@ import static mindustry.Vars.*;
 /**
  * A {@link SteamVent} that can be of any size. Spans multiple tiles; only the middle tile (or in case of {@code size % 2 == 0},
  * the bottom-left middle) should update and draw the actual sprite.
+ *
  * @author E-Nightingale
  */
 public class TileVent extends SteamVent {
@@ -38,6 +39,33 @@ public class TileVent extends SteamVent {
         super(name);
         this.size = size;
         this.border = border;
+    }
+
+    public static Point2[] getOffsets(int size) {
+        if (size < 1) throw new IllegalArgumentException("Size may not < 1 (" + size + " < 1).");
+
+        int index = size - 1;
+        if (index >= offsets.length) {
+            int from = offsets.length;
+            offsets = resize(offsets, index + 1, null);
+
+            for (int i = from; i < offsets.length; i++) offsets[i] = createOffsets(i + 1);
+        }
+
+        return offsets[index];
+    }
+
+    protected static Point2[] createOffsets(int size) {
+        if (size == 1) return new Point2[]{new Point2(0, 0)};
+        int offset = (size - 1) / 2;
+
+        Point2[] out = new Point2[size * size];
+        for (int y = 0; y < size; y++) {
+            int row = y * size;
+            for (int x = 0; x < size; x++) out[row + x] = new Point2(x - offset, y - offset);
+        }
+
+        return out;
     }
 
     @Override
@@ -101,32 +129,5 @@ public class TileVent extends SteamVent {
         }
 
         return true;
-    }
-
-    public static Point2[] getOffsets(int size) {
-        if (size < 1) throw new IllegalArgumentException("Size may not < 1 (" + size + " < 1).");
-
-        int index = size - 1;
-        if (index >= offsets.length) {
-            int from = offsets.length;
-            offsets = resize(offsets, index + 1, null);
-
-            for (int i = from; i < offsets.length; i++) offsets[i] = createOffsets(i + 1);
-        }
-
-        return offsets[index];
-    }
-
-    protected static Point2[] createOffsets(int size) {
-        if (size == 1) return new Point2[]{new Point2(0, 0)};
-        int offset = (size - 1) / 2;
-
-        Point2[] out = new Point2[size * size];
-        for (int y = 0; y < size; y++) {
-            int row = y * size;
-            for (int x = 0; x < size; x++) out[row + x] = new Point2(x - offset, y - offset);
-        }
-
-        return out;
     }
 }

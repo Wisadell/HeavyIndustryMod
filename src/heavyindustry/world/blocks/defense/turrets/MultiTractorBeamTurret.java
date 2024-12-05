@@ -19,7 +19,7 @@ import mindustry.world.meta.*;
 import static arc.Core.*;
 
 public class MultiTractorBeamTurret extends TractorBeamTurret {
-    static final float OFFSET = 12f;
+    protected static final float OFFSET = 12f;
 
     public int maxAttract = 5;
     public StatusEffect status = StatusEffects.slow;
@@ -51,8 +51,8 @@ public class MultiTractorBeamTurret extends TractorBeamTurret {
     @Override
     public void load() {
         super.load();
-        laser = atlas.find( "parallax-laser");
-        laserEnd = atlas.find( "parallax-laser-end");
+        laser = atlas.find("parallax-laser");
+        laserEnd = atlas.find("parallax-laser-end");
     }
 
     public class MultiTractorBeamBuild extends TractorBeamBuild {

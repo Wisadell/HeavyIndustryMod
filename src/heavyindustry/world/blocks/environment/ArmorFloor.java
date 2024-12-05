@@ -14,16 +14,15 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class ArmorFloor extends Floor {
-    public Floor solidReact;
-    public boolean useDynamicLight = false;
-    public Color[] colors;
-
-    public TextureRegion large;
-    public TextureRegion[][] split;
-
     protected static final int scanStep = 5;
     protected static final Color tmpColor = new Color();
     protected static final Seq<Color> collectedColors = new Seq<>();
+
+    public Floor solidReact;
+    public boolean useDynamicLight = false;
+    public Color[] colors;
+    public TextureRegion large;
+    public TextureRegion[][] split;
 
     public ArmorFloor(String name, int variants, Floor solidReact) {
         super(name, variants);

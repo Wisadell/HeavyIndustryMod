@@ -66,7 +66,8 @@ public class Detonator extends Block {
         public void draw() {
             super.draw();
             Draw.z(Layer.endPixeled);
-            if (counter < 180f) Fonts.def.draw(Strings.fixed(Mathf.ceil(counter / 60f), 0), x, y + 2, counterColor, 0.2f, false, Align.center);
+            if (counter < 180f)
+                Fonts.def.draw(Strings.fixed(Mathf.ceil(counter / 60f), 0), x, y + 2, counterColor, 0.2f, false, Align.center);
         }
 
         @Override

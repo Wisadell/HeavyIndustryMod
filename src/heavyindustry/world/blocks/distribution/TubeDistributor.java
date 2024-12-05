@@ -39,6 +39,37 @@ public class TubeDistributor extends Router {
         return new TextureRegion[]{region};
     }
 
+    public static class DrawTubeDistributor extends DrawBlock {
+        public TextureRegion bottomRegion, topRegion, rotatorRegion, lockedRegion1, lockedRegion2;
+
+        @Override
+        public void draw(Building build) {
+            if (!(build instanceof TubeDistributorBuild bu)) return;
+            Draw.z(Layer.blockUnder);
+            Draw.rect(bottomRegion, bu.x, bu.y);
+            Draw.z(Layer.block - 0.2f);
+            bu.drawItem();
+            Draw.z(Layer.block - 0.15f);
+            Drawf.spinSprite(rotatorRegion, bu.x, bu.y, bu.rot % 360);
+            Draw.rect(topRegion, bu.x, bu.y);
+            Draw.rect(bu.rotation > 1 ? lockedRegion2 : lockedRegion1, bu.x, bu.y, bu.rotdeg());
+        }
+
+        @Override
+        public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {
+            Draw.rect(block.region, plan.drawx(), plan.drawy(), plan.rotation * 90f);
+        }
+
+        @Override
+        public void load(Block block) {
+            bottomRegion = atlas.find(block.name + "-bottom");
+            topRegion = atlas.find(block.name + "-top");
+            rotatorRegion = atlas.find(block.name + "-rotator");
+            lockedRegion1 = atlas.find(block.name + "-locked-side1");
+            lockedRegion2 = atlas.find(block.name + "-locked-side2");
+        }
+    }
+
     public class TubeDistributorBuild extends RouterBuild {
         public Item lastItem;
         public Tile lastInput;
@@ -180,44 +211,13 @@ public class TubeDistributor extends Router {
             int counter = lastRotation;
             for (int i = 0; i < proximity.size; i++) {
                 Building other = proximity.get((i + counter) % proximity.size);
-                if (set) lastRotation = ((byte)((lastRotation + 1) % proximity.size));
+                if (set) lastRotation = ((byte) ((lastRotation + 1) % proximity.size));
                 if (other.tile == from && from.block() == Blocks.overflowGate) continue;
                 if (other.acceptItem(this, item)) {
                     return other;
                 }
             }
             return null;
-        }
-    }
-
-    public static class DrawTubeDistributor extends DrawBlock {
-        public TextureRegion bottomRegion,topRegion, rotatorRegion, lockedRegion1, lockedRegion2;
-
-        @Override
-        public void draw(Building build) {
-            if (!(build instanceof TubeDistributorBuild bu)) return;
-            Draw.z(Layer.blockUnder);
-            Draw.rect(bottomRegion, bu.x, bu.y);
-            Draw.z(Layer.block - 0.2f);
-            bu.drawItem();
-            Draw.z(Layer.block - 0.15f);
-            Drawf.spinSprite(rotatorRegion, bu.x, bu.y, bu.rot % 360);
-            Draw.rect(topRegion, bu.x, bu.y);
-            Draw.rect(bu.rotation > 1 ? lockedRegion2 : lockedRegion1, bu.x, bu.y, bu.rotdeg());
-        }
-
-        @Override
-        public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) {
-            Draw.rect(block.region, plan.drawx(), plan.drawy(), plan.rotation * 90f);
-        }
-
-        @Override
-        public void load(Block block) {
-            bottomRegion = atlas.find(block.name + "-bottom");
-            topRegion = atlas.find(block.name + "-top");
-            rotatorRegion = atlas.find(block.name + "-rotator");
-            lockedRegion1 = atlas.find(block.name + "-locked-side1");
-            lockedRegion2 = atlas.find(block.name + "-locked-side2");
         }
     }
 }

@@ -118,8 +118,8 @@ public class Assembler extends Block {
 
             for (Recipe r : recipeSeq) {
                 table.table(Styles.grayPanel, info -> {
-                    info.label(() -> "[accent]" + r.recipeName).pad(5,5,0,0).left().row();
-                    info.label(() -> "[white]" + r.recipeDescription).pad(5,10,5,10).size(480, 0).wrap().left().row();
+                    info.label(() -> "[accent]" + r.recipeName).pad(5, 5, 0, 0).left().row();
+                    info.label(() -> "[white]" + r.recipeDescription).pad(5, 10, 5, 10).size(480, 0).wrap().left().row();
                     info.table(recipeInfo -> {
                         recipeInfo.table(time -> {
                             time.left();
@@ -130,41 +130,41 @@ public class Assembler extends Block {
                                 t.add(Strings.autoFixed(r.craftTime / 60f, 1) + "s").style(Styles.outlineLabel);
                                 add(t);
                             }});
-                        }).size(40,0);
-                        recipeInfo.image().growY().pad(0,10,0,10).width(5).color(Pal.gray);
+                        }).size(40, 0);
+                        recipeInfo.image().growY().pad(0, 10, 0, 10).width(5).color(Pal.gray);
                         recipeInfo.table(input -> {
                             input.left();
                             if (r.inputItems != null) {
-                                for (ItemStack stack: r.inputItems) {
+                                for (ItemStack stack : r.inputItems) {
                                     input.add(new ItemDisplay(stack.item, stack.amount, false));
                                 }
                             }
                             if (r.inputLiquids != null) {
-                                for (LiquidStack stack: r.inputLiquids) {
+                                for (LiquidStack stack : r.inputLiquids) {
                                     input.add(new LiquidDisplay(stack.liquid, stack.amount * r.craftTime, false));
                                 }
                             }
-                        }).size(160,0);
+                        }).size(160, 0);
 
                         recipeInfo.table(middle -> middle.add(new ArrowDisplay(0, true))).grow();
 
                         recipeInfo.table(output -> {
                             output.right();
                             if (r.outputItems != null) {
-                                for (ItemStack stack: r.outputItems) {
+                                for (ItemStack stack : r.outputItems) {
                                     output.add(new ItemDisplay(stack.item, stack.amount, false));
                                 }
                             }
                             if (r.outputLiquids != null) {
-                                for (LiquidStack stack: r.outputLiquids) {
+                                for (LiquidStack stack : r.outputLiquids) {
                                     output.add(new LiquidDisplay(stack.liquid, stack.amount * r.craftTime, false));
                                 }
                             }
-                        }).size(160,0);
+                        }).size(160, 0);
                     }).right().grow().pad(20f).row();
                     if (bundle.has(r.recipeDetail)) {
                         Table detail = new Table();
-                        detail.label(() -> "[gray]" + r.recipeDetail).pad(0,15,8,15).size(460, 0).wrap().left().row();
+                        detail.label(() -> "[gray]" + r.recipeDetail).pad(0, 15, 8, 15).size(460, 0).wrap().left().row();
                         Collapser coll = new Collapser(detail, true);
                         coll.setDuration(0.1f);
 
@@ -172,7 +172,7 @@ public class Assembler extends Block {
                             ft.left();
                             ft.label(() -> bundle.get("recipe.expand-detail"));
                             ft.button(Icon.downOpen, Styles.emptyi, () -> coll.toggle(false)).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).size(8).padLeft(16f).expandX();
-                        }).pad(0,10,5,0).left();
+                        }).pad(0, 10, 5, 0).left();
                         info.row();
                         info.add(coll);
                     }
@@ -195,6 +195,38 @@ public class Assembler extends Block {
     @Override
     public void getRegionsToOutline(Seq<TextureRegion> out) {
         drawer.getRegionsToOutline(this, out);
+    }
+
+    public static class Recipe {
+        public String name;
+        public @Nullable ItemStack[] inputItems;
+        public @Nullable ItemStack[] outputItems;
+        public @Nullable LiquidStack[] inputLiquids;
+        public @Nullable LiquidStack[] outputLiquids;
+        public float inputPower = 0f;
+        public float outputPower = 0f;
+        public float craftTime = 60f;
+        public int[] liquidOutputDirections = {-1};
+        public boolean dumpExtraLiquid = true;
+        public boolean ignoreLiquidFullness = false;
+        public Effect craftEffect = Fx.none;
+        public Effect updateEffect = Fx.none;
+        public float updateEffectChance = 0.04f;
+        public String recipeName = "";
+        public String recipeDescription = "";
+        public String recipeDetail = "";
+        public Recipe() {
+            this("default");
+        }
+        public Recipe(String name) {
+            this.name = name;
+        }
+
+        public void init() {
+            recipeName = bundle.get("recipe." + name + ".name");
+            recipeDescription = bundle.get("recipe." + name + ".description");
+            recipeDetail = bundle.get("recipe." + name + ".details");
+        }
     }
 
     public class AssemblerBuild extends Building {
@@ -295,7 +327,7 @@ public class Assembler extends Block {
                                 add(new Image(timeIconSmall).setScaling(Scaling.fit));
 
                                 Table t = new Table().left().bottom();
-                                t.add(Strings.autoFixed(r.craftTime / 60f , 1)+ "s").style(Styles.outlineLabel);
+                                t.add(Strings.autoFixed(r.craftTime / 60f, 1) + "s").style(Styles.outlineLabel);
                                 add(t);
                             }}).size(iconMed).padRight(12);
                             t.left();
@@ -521,44 +553,6 @@ public class Assembler extends Block {
             currentRecipeIndex = read.i();
             progress = read.f();
             warmup = read.f();
-        }
-    }
-
-    public static class Recipe {
-        public Recipe() {
-            this("default");
-        }
-
-        public Recipe(String name) {
-            this.name = name;
-        }
-
-        public String name;
-
-        public @Nullable ItemStack[] inputItems;
-        public @Nullable ItemStack[] outputItems;
-        public @Nullable LiquidStack[] inputLiquids;
-        public @Nullable LiquidStack[] outputLiquids;
-        public float inputPower = 0f;
-        public float outputPower = 0f;
-        public float craftTime = 60f;
-
-        public int[] liquidOutputDirections = {-1};
-        public boolean dumpExtraLiquid = true;
-        public boolean ignoreLiquidFullness = false;
-
-        public Effect craftEffect = Fx.none;
-        public Effect updateEffect = Fx.none;
-        public float updateEffectChance = 0.04f;
-
-        public String recipeName = "";
-        public String recipeDescription = "";
-        public String recipeDetail = "";
-
-        public void init() {
-            recipeName = bundle.get("recipe." + name + ".name");
-            recipeDescription = bundle.get("recipe." + name + ".description");
-            recipeDetail = bundle.get("recipe." + name + ".details");
         }
     }
 }

@@ -13,6 +13,7 @@ import static mindustry.Vars.*;
 
 /**
  * Compared to the original conveyor belt, there is an additional sprites on top of the item layer.
+ *
  * @author E-Nightingale
  */
 public class CoveredConveyor extends BeltConveyor {

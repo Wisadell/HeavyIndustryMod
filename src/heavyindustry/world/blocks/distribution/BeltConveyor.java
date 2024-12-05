@@ -17,6 +17,7 @@ import static mindustry.Vars.*;
  * Are you still troubled by the 20 sprites of traditional conveyor belts?
  * <p>
  * This Type only sprites 3 textures to handle!
+ *
  * @author E-Nightingale
  */
 public class BeltConveyor extends Conveyor {
@@ -68,7 +69,7 @@ public class BeltConveyor extends Conveyor {
 
         @Override
         public void draw() {
-            int frame = enabled && clogHeat <= 0.5f ? (int)(((Time.time * speed * 8f * timeScale * efficiency)) % 4) : 0;
+            int frame = enabled && clogHeat <= 0.5f ? (int) (((Time.time * speed * 8f * timeScale * efficiency)) % 4) : 0;
 
             //draw extra conveyors facing this one for non-square tiling purposes
             Draw.z(Layer.blockUnder);

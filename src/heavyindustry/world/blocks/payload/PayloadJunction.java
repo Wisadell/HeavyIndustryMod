@@ -17,6 +17,7 @@ import static mindustry.Vars.*;
 
 /**
  * The bridge where two PayloadJunction intersect.
+ *
  * @author E-Nightingale
  */
 public class PayloadJunction extends Block {
@@ -165,9 +166,11 @@ public class PayloadJunction extends Block {
             }
         }
 
-        public void moved() {}
+        public void moved() {
+        }
 
-        public void moveFailed() {}
+        public void moveFailed() {
+        }
 
         @Override
         public void draw() {
@@ -202,7 +205,7 @@ public class PayloadJunction extends Block {
             super.onProximityUpdate();
 
             for (int i = 0; i < 4; i++) {
-                Building accept = nearby(Geometry.d4(i).x * (size/2+1), Geometry.d4(i).y * (size/2+1));
+                Building accept = nearby(Geometry.d4(i).x * (size / 2 + 1), Geometry.d4(i).y * (size / 2 + 1));
                 //next block must be aligned and of the same size
                 if (accept != null && (
                         //same size
@@ -210,15 +213,15 @@ public class PayloadJunction extends Block {
                                 //differing sizes
                                 (accept.block.size > size &&
                                         (i % 2 == 0 ? //check orientation
-                                                Math.abs(accept.y - y) <= (accept.block.size * tilesize - size * tilesize)/2f : //check Y alignment
-                                                Math.abs(accept.x - x) <= (accept.block.size * tilesize - size * tilesize)/2f   //check X alignment
+                                                Math.abs(accept.y - y) <= (accept.block.size * tilesize - size * tilesize) / 2f : //check Y alignment
+                                                Math.abs(accept.x - x) <= (accept.block.size * tilesize - size * tilesize) / 2f   //check X alignment
                                         )))) {
                     surrounding[i] = accept;
                 } else {
                     surrounding[i] = null;
                 }
 
-                int ntrns = 1 + size/2;
+                int ntrns = 1 + size / 2;
                 Tile next = tile.nearby(Geometry.d4(rotation).x * ntrns, Geometry.d4(rotation).y * ntrns);
                 blocked[i] = (next != null && next.solid() && !(next.block().outputsPayload || next.block().acceptsPayload)) || (surrounding[i] != null && surrounding[i].payloadCheck(rotation));
             }

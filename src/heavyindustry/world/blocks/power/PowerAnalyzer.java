@@ -72,9 +72,9 @@ public class PowerAnalyzer extends PowerBlock {
             Draw.rect(region, x, y);
 
             float produced = power.graph.getLastScaledPowerIn() * 60f, //per tick -> per sec
-                consumed = power.graph.getLastScaledPowerOut() * 60f,
-                stored = power.graph.getLastPowerStored(),
-                cap = power.graph.getLastCapacity();
+                    consumed = power.graph.getLastScaledPowerOut() * 60f,
+                    stored = power.graph.getLastPowerStored(),
+                    cap = power.graph.getLastCapacity();
 
             Lines.stroke(displayThickness);
             if (produced + consumed > 0.001f) drawUsage(produced, consumed);
@@ -107,8 +107,8 @@ public class PowerAnalyzer extends PowerBlock {
             float powLen = displayLength * (stored / capacity);
             float alpha = Mathf.absin(25f / Mathf.PI2, 1f);
             boolean changing = !Mathf.zero(net, changeTolerance)
-                && !(net > 0 && Mathf.equal(stored, capacity, changeTolerance))
-                && !(net < 0 && Mathf.equal(stored, 0, changeTolerance));
+                    && !(net > 0 && Mathf.equal(stored, capacity, changeTolerance))
+                    && !(net < 0 && Mathf.equal(stored, 0, changeTolerance));
 
             Draw.color(storedColor);
             if (horizontal) {
@@ -118,7 +118,8 @@ public class PowerAnalyzer extends PowerBlock {
                 netLen = Math.max(-powLen, netLen);
 
                 Draw.color(net < 0 ? consumeColor : produceColor);
-                if (changing) Draw.rect(arrowRegion, x - displayLength / 2f + powLen, y - displaySpacing / 2f, Mathf.sign(net) * 90f - 90f);
+                if (changing)
+                    Draw.rect(arrowRegion, x - displayLength / 2f + powLen, y - displaySpacing / 2f, Mathf.sign(net) * 90f - 90f);
                 Draw.alpha(alpha);
                 Lines.lineAngle(x - displayLength / 2f + powLen, y - displaySpacing / 2f, 0f, netLen, false);
             } else {
@@ -128,7 +129,8 @@ public class PowerAnalyzer extends PowerBlock {
                 netLen = Math.max(-powLen, netLen);
 
                 Draw.color(net < 0 ? consumeColor : produceColor);
-                if (changing) Draw.rect(arrowRegion, x + displaySpacing / 2f, y - displayLength / 2f + powLen, Mathf.sign(net) * 90f);
+                if (changing)
+                    Draw.rect(arrowRegion, x + displaySpacing / 2f, y - displayLength / 2f + powLen, Mathf.sign(net) * 90f);
                 Draw.alpha(alpha);
                 Lines.lineAngle(x + displaySpacing / 2f, y - displayLength / 2f + powLen, 90f, netLen, false);
             }

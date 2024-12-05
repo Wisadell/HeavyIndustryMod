@@ -148,7 +148,7 @@ public class ShapedWallF extends ShapedWall {
                 return;
             }
 
-            topIdx = (tileX() + tileY()) % 2 == 0? 3: 4;
+            topIdx = (tileX() + tileY()) % 2 == 0 ? 3 : 4;
         }
 
         public void drawTop() {

@@ -137,7 +137,7 @@ public class TubeLiquidBridge extends TubeItemBridge {
 
             Draw.alpha(Renderer.bridgeOpacity);
             drawBridge(bridgeBottomRegion, endBottomRegion, pos1, pos2);
-            Draw.color(liquids.current().color, liquids.currentAmount()/liquidCapacity * liquids.current().color.a * Renderer.bridgeOpacity);
+            Draw.color(liquids.current().color, liquids.currentAmount() / liquidCapacity * liquids.current().color.a * Renderer.bridgeOpacity);
             drawBridge(bridgeLiquidRegion, endLiquidRegion, pos1, pos2);
             Draw.color();
             Draw.alpha(Renderer.bridgeOpacity);

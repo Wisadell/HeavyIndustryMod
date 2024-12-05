@@ -62,11 +62,11 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
         addBar("storage", (CommandableAttackerBlockBuild tile) -> new Bar(
                 () -> bundle.format("bar.capacity", UI.formatAmount(tile.ammo())),
                 () -> Pal.ammo,
-                () -> (float)tile.ammo() / storage
+                () -> (float) tile.ammo() / storage
         ));
     }
 
-    public abstract class CommandableAttackerBlockBuild extends CommandableBlockBuild{
+    public abstract class CommandableAttackerBlockBuild extends CommandableBlockBuild {
         @Override
         public boolean isCharging() {
             return efficiency > 0 && reload < reloadTime * storage && !initiateConfigure;
@@ -135,7 +135,9 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
             HIFx.attackWarningPos.at(lastConfirmedTarget.x, lastConfirmedTarget.y, configureChargeTime, team.color, tile);
         }
 
-        /** Should Be Overridden. */
+        /**
+         * Should Be Overridden.
+         */
         public void shoot(Vec2 target) {
             configureChargeProgress = 0;
             initiateConfigure = false;
@@ -168,7 +170,8 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
             }
 
             if (canCommand(targetVec)) builds.add(this);
-            if (builds.any()) Drawn.overlayText(bundle.format("hi-participants", builds.size), targetVec.x, targetVec.y, tilesize * 2f, Pal.accent, true);
+            if (builds.any())
+                Drawn.overlayText(bundle.format("hi-participants", builds.size), targetVec.x, targetVec.y, tilesize * 2f, Pal.accent, true);
         }
 
         public void commandAll(Vec2 pos) {
@@ -183,7 +186,8 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
             }
 
             if (!headless && participantsTmp.any()) {
-                if (team != player.team()) TableUtils.showToast(Icon.warning, "[#ff7b69]Caution: []Attack " +  (int)(pos.x / 8) + ", " + (int)(pos.y / 8), HISounds.alert2);
+                if (team != player.team())
+                    TableUtils.showToast(Icon.warning, "[#ff7b69]Caution: []Attack " + (int) (pos.x / 8) + ", " + (int) (pos.y / 8), HISounds.alert2);
                 HIFx.attackWarningRange.at(pos.x, pos.y, 80, team.color);
             }
         }

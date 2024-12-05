@@ -60,7 +60,18 @@ public class MinerPoint extends Block {
         buildCostMultiplier = 0;
         flags = EnumSet.of(BlockFlag.factory);
 
-        config(Integer.class , (MinerPointBuild tile, Integer sort) -> tile.sort = sort);
+        config(Integer.class, (MinerPointBuild tile, Integer sort) -> tile.sort = sort);
+    }
+
+    public static void minerPointDroneSpawned(Tile tile, int id) {
+        if ((net.server() || !net.active()) && tile != null && tile.build instanceof MinerPointBuild ti) ti.spawned(id);
+
+        if (net.server()) {
+            MinerPointDroneSpawnedCallPacket packet = new MinerPointDroneSpawnedCallPacket();
+            packet.tile = tile;
+            packet.id = id;
+            net.send(packet, true);
+        }
     }
 
     @Override
@@ -127,14 +138,32 @@ public class MinerPoint extends Block {
         return true;
     }
 
-    public static void minerPointDroneSpawned(Tile tile, int id) {
-        if ((net.server() || !net.active()) && tile != null && tile.build instanceof MinerPointBuild ti) ti.spawned(id);
+    public static class MinerPointDroneSpawnedCallPacket extends Packet {
+        public Tile tile;
+        public int id;
+        private byte[] data;
 
-        if (net.server()) {
-            MinerPointDroneSpawnedCallPacket packet = new MinerPointDroneSpawnedCallPacket();
-            packet.tile = tile;
-            packet.id = id;
-            net.send(packet, true);
+        public MinerPointDroneSpawnedCallPacket() {
+            this.data = NODATA;
+        }
+
+        public void write(Writes write) {
+            TypeIO.writeTile(write, tile);
+            write.i(id);
+        }
+
+        public void read(Reads read, int length) {
+            this.data = read.b(length);
+        }
+
+        public void handled() {
+            BAIS.setBytes(data);
+            tile = TypeIO.readTile(READ);
+            id = READ.i();
+        }
+
+        public void handleClient() {
+            minerPointDroneSpawned(tile, id);
         }
     }
 
@@ -143,16 +172,18 @@ public class MinerPoint extends Block {
 
         public int sort = -1;
         public int lastSort = -1;
-        public Seq<Tile> tiles = new Seq<>();
-        protected IntSeq readUnits = new IntSeq();
-        protected IntSeq whenSyncedUnits = new IntSeq();
 
+        public Seq<Tile> tiles = new Seq<>();
         public Seq<Unit> units = new Seq<>();
+
         public float droneWarmup, powerWarmup;
         public float warmup, readyness;
         public float droneProgress, totalDroneProgress;
 
         public boolean placeInAir = false;
+
+        protected IntSeq readUnits = new IntSeq();
+        protected IntSeq whenSyncedUnits = new IntSeq();
 
         @Override
         public void updateTile() {
@@ -405,35 +436,6 @@ public class MinerPoint extends Block {
             whenSyncedUnits.clear();
 
             sort = read.i();
-        }
-    }
-
-    public static class MinerPointDroneSpawnedCallPacket extends Packet {
-        private byte[] data;
-        public Tile tile;
-        public int id;
-
-        public MinerPointDroneSpawnedCallPacket() {
-            this.data = NODATA;
-        }
-
-        public void write(Writes write) {
-            TypeIO.writeTile(write, tile);
-            write.i(id);
-        }
-
-        public void read(Reads read, int length) {
-            this.data = read.b(length);
-        }
-
-        public void handled() {
-            BAIS.setBytes(data);
-            tile = TypeIO.readTile(READ);
-            id = READ.i();
-        }
-
-        public void handleClient() {
-            minerPointDroneSpawned(tile, id);
         }
     }
 }

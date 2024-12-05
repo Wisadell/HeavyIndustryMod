@@ -16,12 +16,13 @@ import static mindustry.Vars.*;
 
 /**
  * Connect the core warehouse.
+ *
  * @author E-Nightingale
  */
 public class CoreStorageBlock extends StorageBlock {
-    protected CoreBuild tmpCoreBuild;
-
     public int range = 15;
+
+    protected CoreBuild tmpCoreBuild;
 
     public CoreStorageBlock(String name) {
         super(name);
@@ -50,7 +51,7 @@ public class CoreStorageBlock extends StorageBlock {
         addBar("items", (CoreStorageBuild tile) -> new Bar(
                 () -> bundle.format("bar.items", tile.items.total()),
                 () -> Pal.items,
-                () -> (float)(tile.items.total() / ((tmpCoreBuild = tile.core()) == null ? Integer.MAX_VALUE : tmpCoreBuild.storageCapacity))));
+                () -> (float) (tile.items.total() / ((tmpCoreBuild = tile.core()) == null ? Integer.MAX_VALUE : tmpCoreBuild.storageCapacity))));
     }
 
     @Override
@@ -79,7 +80,8 @@ public class CoreStorageBlock extends StorageBlock {
         if (state.rules.infiniteResources) return true;
 
         CoreBlock.CoreBuild core = team.core();
-        if (core == null || (!state.rules.infiniteResources && !core.items.has(requirements, state.rules.buildCostMultiplier))) return false;
+        if (core == null || (!state.rules.infiniteResources && !core.items.has(requirements, state.rules.buildCostMultiplier)))
+            return false;
 
         Rect rect = getRect(Tmp.r1, tile.worldx() + offset, tile.worldy() + offset, range).grow(0.1f);
         return !indexer.getFlagged(team, BlockFlag.storage).contains(b -> {
@@ -110,6 +112,7 @@ public class CoreStorageBlock extends StorageBlock {
         }
 
         @Override
-        public void drawSelect() {}
+        public void drawSelect() {
+        }
     }
 }

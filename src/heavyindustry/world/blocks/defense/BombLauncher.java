@@ -42,7 +42,8 @@ public class BombLauncher extends CommandableAttackerBlock {
     @Override
     public void init() {
         super.init();
-        if (bullet.shootEffect == HIFx.boolSelector) bullet.shootEffect = HIFx.square(baseColor, 50f, 6, size * tilesize * 2f, size);
+        if (bullet.shootEffect == HIFx.boolSelector)
+            bullet.shootEffect = HIFx.square(baseColor, 50f, 6, size * tilesize * 2f, size);
     }
 
     @Override
@@ -58,7 +59,8 @@ public class BombLauncher extends CommandableAttackerBlock {
             Draw.draw(Draw.z(), () -> {
                 if (reload / reloadTime > 1) {
                     Draw.rect(bombRegion, x, y);
-                } else Drawf.construct(x, y, bombRegion, baseColor, 0, reload / reloadTime, Mathf.curve(1 - reload / reloadTime, 0, 0.15f) * warmup, totalProgress);
+                } else
+                    Drawf.construct(x, y, bombRegion, baseColor, 0, reload / reloadTime, Mathf.curve(1 - reload / reloadTime, 0, 0.15f) * warmup, totalProgress);
             });
         }
 
@@ -177,7 +179,7 @@ public class BombLauncher extends CommandableAttackerBlock {
         public void update() {
             time = Math.min(time + Time.delta, lifetime);
             trail.update(cx(), cy());
-            if (Mathf.chance(bullet.trailChance))bullet.trailEffect.at(cx(), cy(), bullet.trailParam, baseColor);
+            if (Mathf.chance(bullet.trailChance)) bullet.trailEffect.at(cx(), cy(), bullet.trailParam, baseColor);
             if (time >= lifetime) {
                 remove();
             }

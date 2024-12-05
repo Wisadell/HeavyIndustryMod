@@ -26,8 +26,10 @@ import static arc.Core.*;
 import static mindustry.Vars.*;
 
 public class TeslaTurret extends Block {
-    private final Seq<Healthc> targets = new Seq<>();
     public final int timerCheck = timers++;
+
+    private final Seq<Healthc> targets = new Seq<>();
+
     public int checkInterval = 20;
 
     public Seq<TeslaRing> rings = new Seq<>();
@@ -36,7 +38,9 @@ public class TeslaTurret extends Block {
 
     public float reload;
     public float coolantMultiplier = 5f;
-    /** If not null, this consumer will be used for coolant. */
+    /**
+     * If not null, this consumer will be used for coolant.
+     */
     public ConsumeLiquidBase coolant;
 
     public int maxTargets;

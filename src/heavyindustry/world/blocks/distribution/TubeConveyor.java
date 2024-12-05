@@ -15,6 +15,7 @@ import static mindustry.Vars.*;
 
 /**
  * Compared to CoveredConverter, its upper layer texture has been changed to one that can have light and shadow effects.
+ *
  * @author E-Nightingale
  */
 public class TubeConveyor extends BeltConveyor {
@@ -65,7 +66,7 @@ public class TubeConveyor extends BeltConveyor {
             int i = 0;
             for (Point2 point : Geometry.d4) {
                 int x = plan.x + point.x, y = plan.y + point.y;
-                if (x >= other.x -(other.block.size - 1) / 2 && x <= other.x + (other.block.size / 2) && y >= other.y -(other.block.size - 1) / 2 && y <= other.y + (other.block.size / 2)) {
+                if (x >= other.x - (other.block.size - 1) / 2 && x <= other.x + (other.block.size / 2) && y >= other.y - (other.block.size - 1) / 2 && y <= other.y + (other.block.size / 2)) {
                     if ((other.block instanceof Conveyor ? (plan.rotation == i || (other.rotation + 2) % 4 == i) : ((plan.rotation == i && other.block.acceptsItems) || (plan.rotation != i && other.block.outputsItems())))) {
                         directionals[i] = other;
                     }
@@ -157,7 +158,7 @@ public class TubeConveyor extends BeltConveyor {
         public int acceptStack(Item item, int amount, Teamc source) {
             if (isEnd(reverse(rotation)) && items.total() >= 2) return 0;
             if (isEnd(reverse(rotation)) && isEnd(rotation) && items.total() >= 1) return 0;
-            return Math.min((int)(minitem / itemSpace), amount);
+            return Math.min((int) (minitem / itemSpace), amount);
         }
 
         @Override

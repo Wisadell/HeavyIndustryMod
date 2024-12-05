@@ -32,14 +32,16 @@ public class NodeBridge extends ItemBridge {
         Drawf.dashCircle(x * tilesize, y * tilesize, range * tilesize, Pal.accent);
     }
 
-    /** Change its connection method to range connection. */
+    /**
+     * Change its connection method to range connection.
+     */
     @Override
     public boolean linkValid(Tile tile, Tile other, boolean checkDouble) {
         if (other == null || tile == null || other == tile) return false;
         if (!tile.within(other, range * tilesize + 0.1f)) return false;
         return ((other.block() == tile.block() && tile.block() == this) || (!(tile.block() instanceof NodeBridge) && other.block() == this))
                 && (other.team() == tile.team() || tile.block() != this)
-                && (!checkDouble || ((NodeBridgeBuild)other.build).link != tile.pos());
+                && (!checkDouble || ((NodeBridgeBuild) other.build).link != tile.pos());
     }
 
     @Override
@@ -62,6 +64,41 @@ public class NodeBridge extends ItemBridge {
     @Override
     public TextureRegion[] icons() {
         return drawer.finalIcons(this);
+    }
+
+    public static class DrawNodeBridge extends DrawBlock {
+        public TextureRegion bridgeRegion, endRegion;
+
+        @Override
+        public void draw(Building build) {
+            if (!(build instanceof NodeBridgeBuild bu)) return;
+
+            Draw.z(Layer.power);
+            Building other = world.build(bu.link);
+            if (other == null) return;
+            float op = settings.getInt("bridgeopacity") / 100f;
+            if (Mathf.zero(op)) return;
+
+            Draw.color(Color.white);
+            if (bu.block.hasPower) Draw.alpha(Math.max(bu.power.status, 0.25f) * op);
+            else Draw.alpha(op);
+
+            Draw.rect(endRegion, bu.x, bu.y);
+            Draw.rect(endRegion, other.x, other.y);
+
+            Lines.stroke(8);
+
+            Tmp.v1.set(bu.x, bu.y).sub(other.x, other.y).setLength(tilesize / 2f).scl(-1);
+
+            Lines.line(bridgeRegion, bu.x, bu.y, other.x, other.y, false);
+            Draw.reset();
+        }
+
+        @Override
+        public void load(Block block) {
+            bridgeRegion = atlas.find(block.name + "-bridge");
+            endRegion = atlas.find(block.name + "-end");
+        }
     }
 
     public class NodeBridgeBuild extends ItemBridgeBuild {
@@ -110,7 +147,9 @@ public class NodeBridge extends ItemBridge {
             drawer.draw(this);
         }
 
-        /** Modify its items and output items to be omnidirectional. */
+        /**
+         * Modify its items and output items to be omnidirectional.
+         */
         @Override
         protected boolean checkAccept(Building source, Tile other) {
             if (tile == null || linked(source)) return true;
@@ -120,41 +159,6 @@ public class NodeBridge extends ItemBridge {
         @Override
         protected boolean checkDump(Building to) {
             return true;
-        }
-    }
-
-    public static class DrawNodeBridge extends DrawBlock {
-        public TextureRegion bridgeRegion, endRegion;
-
-        @Override
-        public void draw(Building build) {
-            if (!(build instanceof NodeBridgeBuild bu)) return;
-
-            Draw.z(Layer.power);
-            Building other = world.build(bu.link);
-            if (other == null) return;
-            float op = settings.getInt("bridgeopacity") / 100f;
-            if (Mathf.zero(op)) return;
-
-            Draw.color(Color.white);
-            if (bu.block.hasPower) Draw.alpha(Math.max(bu.power.status, 0.25f) * op);
-            else Draw.alpha(op);
-
-            Draw.rect(endRegion, bu.x, bu.y);
-            Draw.rect(endRegion, other.x, other.y);
-
-            Lines.stroke(8);
-
-            Tmp.v1.set(bu.x, bu.y).sub(other.x, other.y).setLength(tilesize / 2f).scl(-1);
-
-            Lines.line(bridgeRegion, bu.x, bu.y, other.x, other.y, false);
-            Draw.reset();
-        }
-
-        @Override
-        public void load(Block block) {
-            bridgeRegion = atlas.find(block.name + "-bridge");
-            endRegion = atlas.find(block.name + "-end");
         }
     }
 }

@@ -24,14 +24,13 @@ import static mindustry.Vars.*;
 
 public abstract class CommandableBlock extends Block {
     protected static final Seq<CommandableBlockBuild> participantsTmp = new Seq<>();
-    protected int commandPos = -1;
-
     public DrawBlock drawer = new DrawDefault();
     public float warmupSpeed = 0.02f;
     public float warmupFallSpeed = 0.0075f;
     public float range;
     public float reloadTime = 60;
     public float configureChargeTime = 60;
+    protected int commandPos = -1;
 
     public CommandableBlock(String name) {
         super(name);
@@ -85,20 +84,23 @@ public abstract class CommandableBlock extends Block {
         public int target = -1;
         public float logicControlTime = -1;
 
+        public int getTarget() {
+            return target;
+        }
+
         public void setTarget(Point2 point2) {
             target = point2.pack();
             target();
         }
 
-        public int getTarget() {
-            return target;
-        }
-
         public abstract void command(Vec2 pos);
+
         public abstract void commandAll(Vec2 pos);
 
         public abstract boolean canCommand(Vec2 target);
+
         public abstract boolean isCharging();
+
         public abstract boolean shouldCharge();
 
         public boolean isChargingConfigure() {
@@ -115,9 +117,7 @@ public abstract class CommandableBlock extends Block {
 
         public Vec2 target() {
             Tile tile = world.tile(target);
-            if (tile != null) {
-                return targetVec.set(tile);
-            } else return targetVec.set((Position)self());
+            return tile != null ? targetVec.set(tile) : targetVec.set(this);
         }
 
         @Override
@@ -139,13 +139,15 @@ public abstract class CommandableBlock extends Block {
             } else warmup = Mathf.lerpDelta(warmup, 0, warmupFallSpeed);
         }
 
-        public void updateShoot() {}
+        public void updateShoot() {
+        }
 
-        public void updateControl() {}
+        public void updateControl() {
+        }
 
         @Override
         public void created() {
-            unit = (BlockUnitc)UnitTypes.block.create(team);
+            unit = (BlockUnitc) UnitTypes.block.create(team);
             unit.tile(this);
         }
 
@@ -286,12 +288,12 @@ public abstract class CommandableBlock extends Block {
 
         @Override
         public <T extends Entityc> T self() {
-            return (T)this;
+            return (T) this;
         }
 
         @Override
         public <T> T as() {
-            return (T)this;
+            return (T) this;
         }
 
         @Override

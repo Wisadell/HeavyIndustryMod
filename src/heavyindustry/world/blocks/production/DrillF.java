@@ -33,40 +33,39 @@ import static mindustry.Vars.*;
  * A drill bit that can enhance and expand its functionality through an external module.
  */
 public abstract class DrillF extends Block {
+    protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
+    protected final Seq<Item> itemArray = new Seq<>();
+
     /** output speed in items/sec. */
     public float mineSpeed = 5;
     /** output count once. */
     public int mineCount = 2;
     /** Whether to draw the item this drill is mining. */
     public boolean drawMineItem = false;
-
     /** yeah, I want to make whitelist. */
     public int mineTier;
     /** Special exemption item that this drill can't mine. */
     public Seq<Item> blockedItem = new Seq<>();
 
-    /** return variables for countOre. */
-    protected int maxOreTileReq = -1;
-
-    protected @Nullable Item returnItem;
-    protected int returnCount;
-    protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
-    protected final Seq<Item> itemArray = new Seq<>();
-
     public TextureRegion baseRegion, topRegion, oreRegion;
+
     public float powerConsBase;
 
     /** Chance of displaying the effect. Useful for extremely fast drills. */
     public float updateEffectChance = 0.02f;
     /** Effect randomly played while drilling. */
     public Effect updateEffect = Fx.none;
-
     /** Effect played when an item is produced. This is colored. */
     public Effect drillEffect = Fx.none;
     /** Drill effect randomness. Block size by default. */
     public float drillEffectRnd = -1f;
 
     public float maxBoost = 0f;
+
+    /** return variables for countOre. */
+    protected int maxOreTileReq = -1;
+    protected @Nullable Item returnItem;
+    protected int returnCount;
 
     public DrillF(String name) {
         super(name);
@@ -150,8 +149,10 @@ public abstract class DrillF extends Block {
             table.table(c -> {
                 int i = 0;
                 for (Block block : content.blocks()) {
-                    if (block.itemDrop == null || (blockedItem.contains(block.itemDrop) || block.itemDrop.hardness > mineTier)) continue;
-                    if ((block instanceof Prop) || (block instanceof TallBlock) || (block instanceof Floor floor) && floor.wallOre) continue;
+                    if (block.itemDrop == null || (blockedItem.contains(block.itemDrop) || block.itemDrop.hardness > mineTier))
+                        continue;
+                    if ((block instanceof Prop) || (block instanceof TallBlock) || (block instanceof Floor floor) && floor.wallOre)
+                        continue;
 
                     c.table(Styles.grayPanel, b -> {
                         b.image(block.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
@@ -207,9 +208,9 @@ public abstract class DrillF extends Block {
         countOre(tile);
 
         if (returnItem != null) {
-            String oreCountText = (returnCount < maxOreTileReq ? "[sky](": "[green](") + returnCount + "/" +  maxOreTileReq + ")[] " + Strings.autoFixed(mineSpeed * Mathf.clamp((float) returnCount / maxOreTileReq) * getMineSpeedHardnessMul(returnItem), 1) + "/s";
+            String oreCountText = (returnCount < maxOreTileReq ? "[sky](" : "[green](") + returnCount + "/" + maxOreTileReq + ")[] " + Strings.autoFixed(mineSpeed * Mathf.clamp((float) returnCount / maxOreTileReq) * getMineSpeedHardnessMul(returnItem), 1) + "/s";
             float width = drawPlaceText(oreCountText, x, y, valid);
-            float dx = x * tilesize + offset - width/2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
+            float dx = x * tilesize + offset - width / 2f - 4f, dy = y * tilesize + offset + size * tilesize / 2f + 5, s = iconSmall / 4f;
             Draw.mixcol(Color.darkGray, 1f);
             Draw.rect(returnItem.fullIcon, dx, dy - 1, s, s);
             Draw.reset();
@@ -339,7 +340,8 @@ public abstract class DrillF extends Block {
                 }
                 progress %= mineInterval();
 
-                if (wasVisible && Mathf.chanceDelta(updateEffectChance * warmup)) drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
+                if (wasVisible && Mathf.chanceDelta(updateEffectChance * warmup))
+                    drillEffect.at(x + Mathf.range(drillEffectRnd), y + Mathf.range(drillEffectRnd), dominantItem.color);
             }
         }
 
@@ -380,7 +382,8 @@ public abstract class DrillF extends Block {
             drawTeamTop();
         }
 
-        public void drawMining() {}
+        public void drawMining() {
+        }
 
         protected void tryDump() {
             if (timer(timerDump, dumpTime)) {
@@ -414,14 +417,14 @@ public abstract class DrillF extends Block {
         @Override
         public void remove() {
             super.remove();
-            for (DrillModulec module: modules) {
+            for (DrillModulec module : modules) {
                 module.drillBuild(null);
             }
         }
 
         public void updateDrillModule() {
             resetModule();
-            for (Building building: proximity) {
+            for (Building building : proximity) {
                 if (building instanceof DrillModulec module) {
                     if (module.canApply(this)) {
                         module.drillBuild(this);

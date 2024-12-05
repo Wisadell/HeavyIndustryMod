@@ -19,13 +19,12 @@ import static mindustry.Vars.*;
  * Shaped Wall
  */
 public class ShapedWall extends Wall {
-    public TextureRegion[][] orthogonalRegion;
-
-    public float damageReduction = 0.1f;
-    public float maxShareStep = 1;
-
     protected final Seq<Building> toDamage = new Seq<>();
     protected final Queue<Building> queue = new Queue<>();
+
+    public TextureRegion[][] orthogonalRegion;
+    public float damageReduction = 0.1f;
+    public float maxShareStep = 1;
 
     public ShapedWall(String name) {
         super(name);
@@ -113,7 +112,7 @@ public class ShapedWall extends Wall {
                 }
             }
             for (Building tile : tmpTiles) {
-                ShapedWallBuild shapeWall = (ShapedWallBuild)tile;
+                ShapedWallBuild shapeWall = (ShapedWallBuild) tile;
                 connectedWalls.add(shapeWall);
             }
 
@@ -137,7 +136,7 @@ public class ShapedWall extends Wall {
         public float handleDamage(float amount) {
             findLinkWalls();
             float shareDamage = (amount / toDamage.size) * (1 - damageReduction);
-            for (Building b: toDamage) {
+            for (Building b : toDamage) {
                 damageShared(b, shareDamage);
             }
             return shareDamage;
@@ -158,7 +157,7 @@ public class ShapedWall extends Wall {
             if (building.health <= 0) {
                 Call.buildDestroyed(building);
             }
-            HIFx.shareDamage.at(building.x, building.y, building.block.size * tilesize / 2f, team.color, Mathf.clamp(damage/(block.health * 0.1f)));
+            HIFx.shareDamage.at(building.x, building.y, building.block.size * tilesize / 2f, team.color, Mathf.clamp(damage / (block.health * 0.1f)));
         }
 
         @Override
@@ -176,7 +175,7 @@ public class ShapedWall extends Wall {
             super.drawSelect();
             findLinkWalls();
             int i = 0;
-            for (Building wall: toDamage) {
+            for (Building wall : toDamage) {
                 Fill.square(wall.x, wall.y, 2);
                 Drawn.drawText(i + "", wall.x, wall.y);
                 i++;

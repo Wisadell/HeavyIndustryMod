@@ -9,12 +9,14 @@ import mindustry.entities.pattern.*;
 import mindustry.type.*;
 import mindustry.world.blocks.defense.turrets.*;
 
-/**
- * Shoot Match Turret
- */
+/** Shoot Match Turret */
 public class ShootMatchTurret extends ItemTurret {
     public float lifeRnd = 0;
     public IntMap<ShootPattern> shooterMap = new IntMap<>();
+
+    public ShootMatchTurret(String name) {
+        super(name);
+    }
 
     public void shooter(Object... objects) {
         ObjectMap<Item, ShootPattern> mapper = ObjectMap.of(objects);
@@ -22,10 +24,6 @@ public class ShootMatchTurret extends ItemTurret {
         for (ObjectMap.Entry<Item, BulletType> entry : ammoTypes.entries()) {
             shooterMap.put(entry.value.id, mapper.get(entry.key, shoot));
         }
-    }
-
-    public ShootMatchTurret(String name) {
-        super(name);
     }
 
     public class ShootMatchTurretBuild extends ItemTurretBuild {
@@ -62,7 +60,7 @@ public class ShootMatchTurret extends ItemTurret {
         }
 
         protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover) {
-            queuedBullets --;
+            queuedBullets--;
 
             if (dead || (!consumeAmmoOnce && !hasAmmo())) return;
 
@@ -74,7 +72,7 @@ public class ShootMatchTurret extends ItemTurret {
 
             float lifeScl = type.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, targetPos.x, targetPos.y) / type.range, minRange / type.range, range() / type.range) : 1f;
 
-            if (lifeRnd > 0)lifeScl += Mathf.range(lifeRnd);
+            if (lifeRnd > 0) lifeScl += Mathf.range(lifeRnd);
 
             //TODO aimX / aimY for multi shot turrets?
             handleBullet(type.create(this, team, bulletX, bulletY, shootAngle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, targetPos.x, targetPos.y), xOffset, yOffset, shootAngle - rotation);

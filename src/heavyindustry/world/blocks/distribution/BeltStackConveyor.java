@@ -67,13 +67,13 @@ public class BeltStackConveyor extends StackConveyor {
                     int dir = rotation - i;
                     Building near = nearby(dir);
                     if ((blendprox & (1 << i)) != 0 && i != 0 && near != null && !near.block.squareSprite) {
-                        Draw.rect(sliced(fullRegion[0], SliceMode.bottom), x + Geometry.d4x(dir) * tilesize*0.75f, y + Geometry.d4y(dir) * tilesize*0.75f, (float)(dir*90));
+                        Draw.rect(sliced(fullRegion[0], SliceMode.bottom), x + Geometry.d4x(dir) * tilesize * 0.75f, y + Geometry.d4y(dir) * tilesize * 0.75f, (float) (dir * 90));
                     }
                 }
             } else if (state == stateUnload) { //front unload
                 //TOOD hacky front check
                 if ((blendprox & (1)) != 0 && !front().block.squareSprite) {
-                    Draw.rect(sliced(fullRegion[0], SliceMode.top), x + Geometry.d4x(rotation) * tilesize*0.75f, y + Geometry.d4y(rotation) * tilesize*0.75f, rotation * 90f);
+                    Draw.rect(sliced(fullRegion[0], SliceMode.top), x + Geometry.d4x(rotation) * tilesize * 0.75f, y + Geometry.d4y(rotation) * tilesize * 0.75f, rotation * 90f);
                 }
             }
 
@@ -105,7 +105,7 @@ public class BeltStackConveyor extends StackConveyor {
             float a = (fromRot % 4) * 90;
             float b = (rotation % 4) * 90;
             if ((fromRot % 4) == 3 && (rotation % 4) == 0) a = -1 * 90;
-            if ((fromRot % 4) == 0 && (rotation % 4) == 3) a =  4 * 90;
+            if ((fromRot % 4) == 0 && (rotation % 4) == 3) a = 4 * 90;
 
             if (glowRegion.found()) {
                 Draw.z(Layer.blockAdditive + 0.01f);
@@ -115,7 +115,7 @@ public class BeltStackConveyor extends StackConveyor {
             Draw.rect(fullRegion[4], Tmp.v1.x, Tmp.v1.y, Mathf.lerp(a, b, Interp.smooth.apply(1f - Mathf.clamp(cooldown * 2, 0f, 1f))));
 
             //item
-            float size = itemSize * Mathf.lerp(Math.min((float)items.total() / itemCapacity, 1), 1f, 0.4f);
+            float size = itemSize * Mathf.lerp(Math.min((float) items.total() / itemCapacity, 1), 1f, 0.4f);
             Drawf.shadow(Tmp.v1.x, Tmp.v1.y, size * 1.2f);
             Draw.rect(lastItem.fullIcon, Tmp.v1.x, Tmp.v1.y, size, size, 0);
         }

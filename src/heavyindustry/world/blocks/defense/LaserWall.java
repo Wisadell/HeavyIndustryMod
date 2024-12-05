@@ -80,12 +80,104 @@ public class LaserWall extends Wall {
         stats.add(Stat.range, (int) (range / tilesize), StatUnit.blocks);
     }
 
+    public static class Shooter extends BulletType {
+        public Color[] colors = {Pal.techBlue.cpy().mul(0.9f, 0.95f, 0.95f, 0.3f), Pal.techBlue.cpy().mul(1f, 1f, 1f, 0.6f), Pal.techBlue, Color.white};
+        public float[] strokes = {1.25f, 1.05f, 0.65f, 0.3f};
+        public float width = 6f, oscScl = 1.25f, oscMag = 0.85f;
+
+        public Shooter(float damage) {
+            super(0, damage);
+
+            hitEffect = Fx.hitBeam;
+            despawnEffect = Fx.none;
+            hitSize = 4;
+            drawSize = 420f;
+            lifetime = 36f;
+
+            incendAmount = 3;
+            incendSpread = 8;
+            incendChance = 0.6f;
+            hitColor = lightColor = lightningColor = Pal.techBlue;
+            impact = true;
+            keepVelocity = false;
+            collides = false;
+            pierce = true;
+            hittable = false;
+            absorbable = false;
+
+            status = StatusEffects.shocked;
+            statusDuration = 300f;
+
+            lightning = 0;
+            lightningDamage = 120f;
+            lightningLength = 12;
+            lightningLengthRand = 12;
+
+            hitShake = 0.25f;
+        }
+
+        public Shooter() {
+            this(1);
+        }
+
+        @Override
+        public float estimateDPS() {
+            return damage * 100f / 5f * 3f;
+        }
+
+        @Override
+        public void update(Bullet b) {
+            if (!(b.data instanceof Building build)) return;
+
+            //damage every 5 ticks
+            if (b.timer(1, 5f)) {
+                Damage.collideLine(b, b.team, hitEffect, b.x, b.y, b.rotation(), b.dst(build), true, false);
+            }
+
+            if (hitShake > 0) {
+                Effect.shake(hitShake, hitShake, b);
+            }
+
+            if (headless) return;
+
+            if (b.timer(1, 18f) || Mathf.chanceDelta(0.02)) {
+                PositionLightning.createEffect(b, build, lightningColor, 2, Mathf.random(1.25f, 2.25f));
+            }
+
+            if (Mathf.chanceDelta(0.075)) {
+                PositionLightning.createEffect(b, build, lightningColor, 0, 0);
+            }
+        }
+
+        @Override
+        public void draw(Bullet b) {
+            if (!(b.data instanceof LaserWallBuild build)) return;
+
+            for (int s = 0; s < colors.length; s++) {
+                Draw.color(Tmp.c1.set(colors[s]).mul(1f + Mathf.absin(Time.time, 1f, 0.1f)));
+                Draw.z(Layer.bullet);
+                Lines.stroke((width + Mathf.absin(Time.time, oscScl, oscMag)) * b.fdata * b.fout() * strokes[s]);
+                Lines.line(b.x, b.y, build.x, build.y, false);
+
+                Draw.z(Layer.bullet + 0.1f);
+                Fill.circle(b.x, b.y, Lines.getStroke() * 0.75f);
+                Fill.circle(build.x, build.y, Lines.getStroke() * 0.75f);
+            }
+
+            Drawf.light(b.x, b.y, build.x, build.y, width * strokes[0] * 1.5f, lightColor, 0.7f);
+            Draw.reset();
+        }
+
+        @Override
+        public void drawLight(Bullet b) {
+        }
+    }
+
     public class LaserWallBuild extends Building implements Linkablec {
+        public float warmup;
         protected transient LaserWallBuild target;
         protected int linkPos = -1;
         protected Bullet shooter;
-
-        public float warmup;
 
         @Override
         public void updateTile() {
@@ -189,7 +281,7 @@ public class LaserWall extends Wall {
         public void linkPos(int value) {
             linkPos = value;
             if (linkValid(world.build(linkPos))) {
-                target = (LaserWallBuild)world.build(linkPos);
+                target = (LaserWallBuild) world.build(linkPos);
             } else {
                 target = null;
                 linkPos = -1;
@@ -212,7 +304,8 @@ public class LaserWall extends Wall {
 
             if (canActivate() && warmup > minActivate) for (int i = 0; i < 8; i++) {
                 Time.run(i * 5, () -> {
-                    for (int j = 0; j < 3; j++) Lightning.create(Team.derelict, generateType.lightningColor, generateType.lightningDamage, x, y, Mathf.random(360), generateType.lightningLength + Mathf.random(generateType.lightningLengthRand));
+                    for (int j = 0; j < 3; j++)
+                        Lightning.create(Team.derelict, generateType.lightningColor, generateType.lightningDamage, x, y, Mathf.random(360), generateType.lightningLength + Mathf.random(generateType.lightningLengthRand));
                 });
             }
         }
@@ -221,97 +314,5 @@ public class LaserWall extends Wall {
         public float warmup() {
             return warmup;
         }
-    }
-
-    public static class Shooter extends BulletType {
-        public Color[] colors = {Pal.techBlue.cpy().mul(0.9f, 0.95f, 0.95f, 0.3f), Pal.techBlue.cpy().mul(1f, 1f, 1f, 0.6f), Pal.techBlue, Color.white};
-        public float[] strokes = {1.25f, 1.05f, 0.65f, 0.3f};
-        public float width = 6f, oscScl = 1.25f, oscMag = 0.85f;
-
-        public Shooter(float damage) {
-            super(0, damage);
-
-            hitEffect = Fx.hitBeam;
-            despawnEffect = Fx.none;
-            hitSize = 4;
-            drawSize = 420f;
-            lifetime = 36f;
-
-            incendAmount = 3;
-            incendSpread = 8;
-            incendChance = 0.6f;
-            hitColor = lightColor = lightningColor = Pal.techBlue;
-            impact = true;
-            keepVelocity = false;
-            collides = false;
-            pierce = true;
-            hittable = false;
-            absorbable = false;
-
-            status = StatusEffects.shocked;
-            statusDuration = 300f;
-
-            lightning = 0;
-            lightningDamage = 120f;
-            lightningLength = 12;
-            lightningLengthRand = 12;
-
-            hitShake = 0.25f;
-        }
-
-        public Shooter() {
-            this(1);
-        }
-
-        @Override
-        public float estimateDPS() {
-            return damage * 100f / 5f * 3f;
-        }
-
-        @Override
-        public void update(Bullet b) {
-            if (!(b.data instanceof Building build)) return;
-
-            //damage every 5 ticks
-            if (b.timer(1, 5f)) {
-                Damage.collideLine(b, b.team, hitEffect, b.x, b.y, b.rotation(), b.dst(build), true, false);
-            }
-
-            if (hitShake > 0) {
-                Effect.shake(hitShake, hitShake, b);
-            }
-
-            if (headless) return;
-
-            if (b.timer(1, 18f) || Mathf.chanceDelta(0.02)) {
-                PositionLightning.createEffect(b, build, lightningColor, 2, Mathf.random(1.25f, 2.25f));
-            }
-
-            if (Mathf.chanceDelta(0.075)) {
-                PositionLightning.createEffect(b, build, lightningColor, 0, 0);
-            }
-        }
-
-        @Override
-        public void draw(Bullet b) {
-            if (!(b.data instanceof LaserWallBuild build)) return;
-
-            for (int s = 0; s < colors.length; s++) {
-                Draw.color(Tmp.c1.set(colors[s]).mul(1f + Mathf.absin(Time.time, 1f, 0.1f)));
-                Draw.z(Layer.bullet);
-                Lines.stroke((width + Mathf.absin(Time.time, oscScl, oscMag)) * b.fdata * b.fout() * strokes[s]);
-                Lines.line(b.x, b.y, build.x, build.y, false);
-
-                Draw.z(Layer.bullet + 0.1f);
-                Fill.circle(b.x, b.y, Lines.getStroke() * 0.75f);
-                Fill.circle(build.x, build.y, Lines.getStroke() * 0.75f);
-            }
-
-            Drawf.light(b.x, b.y, build.x, build.y, width * strokes[0] * 1.5f, lightColor, 0.7f);
-            Draw.reset();
-        }
-
-        @Override
-        public void drawLight(Bullet b) {}
     }
 }

@@ -14,6 +14,7 @@ import static arc.Core.*;
 
 /**
  * Draw the animation of the original impact drill bit.
+ *
  * @author E-Nightingale
  */
 public class ImplosionDrill extends DrillF {

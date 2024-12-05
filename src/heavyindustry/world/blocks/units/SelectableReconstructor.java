@@ -85,6 +85,15 @@ public class SelectableReconstructor extends Reconstructor {
         });
     }
 
+    public static class DynamicUnitPlan extends UnitPlan {
+        public UnitType resultUnit;
+
+        public DynamicUnitPlan(UnitType unit, UnitType resultUnit, float time, ItemStack[] requirements) {
+            super(unit, time, requirements);
+            this.resultUnit = resultUnit;
+        }
+    }
+
     public class SelectableReconstructorBuild extends ReconstructorBuild {
         public int currentPlan = -1;
 
@@ -197,14 +206,6 @@ public class SelectableReconstructor extends Reconstructor {
         public float fraction() {
             if (currentPlan == -1) return 0;
             return progress / plans.get(currentPlan).time;
-        }
-    }
-
-    public static class DynamicUnitPlan extends UnitPlan {
-        public UnitType resultUnit;
-        public DynamicUnitPlan(UnitType unit, UnitType resultUnit, float time, ItemStack[] requirements) {
-            super(unit, time, requirements);
-            this.resultUnit = resultUnit;
         }
     }
 }

@@ -58,7 +58,6 @@ public class LiquidUnloader extends Block {
         drawPlanConfigCenter(plan, plan.config, name + "-center", true);
     }
 
-
     public class LiquidUnloaderBuild extends Building {
         public Liquid sortLiquid = null;
         public Liquid lastSort = null;
@@ -85,7 +84,7 @@ public class LiquidUnloader extends Block {
                 }
             }
             if (proximity.size > 0) {
-                offset ++;
+                offset++;
                 offset %= proximity.size;
             }
             dumpLiquid(liquids.current());

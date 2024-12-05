@@ -14,6 +14,7 @@ public class TubeConduit extends BeltConduit {
     protected static final float[][] rotateOffsets = new float[][]{{0.75f, 0.75f}, {-0.75f, 0.75f}, {-0.75f, -0.75f}, {0.75f, -0.75f}};
 
     public TextureRegion[][] regions;
+
     public TubeConduit(String name) {
         super(name);
     }

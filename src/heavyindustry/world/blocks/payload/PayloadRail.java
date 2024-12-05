@@ -56,6 +56,14 @@ public class PayloadRail extends PayloadBlock {
         });
     }
 
+    /**
+     * Convert hitbox side length to corner dist.
+     */
+    public static float payRadius(Payload p) {
+        float a = p.size() / 2f;
+        return Mathf.sqrt(2 * a * a);
+    }
+
     @Override
     public void init() {
         super.init();
@@ -65,7 +73,8 @@ public class PayloadRail extends PayloadBlock {
     }
 
     public boolean linkValid(Tile tile, Tile other) {
-        if (tile == null || other == null || tile.build == null || other.build == null || tile.build.pos() == other.build.pos() || positionsValid(tile.build.tileX(), tile.build.tileY(), other.build.tileX(), other.build.tileY()) || !(other.build instanceof PayloadRailBuild b)) return false;
+        if (tile == null || other == null || tile.build == null || other.build == null || tile.build.pos() == other.build.pos() || positionsValid(tile.build.tileX(), tile.build.tileY(), other.build.tileX(), other.build.tileY()) || !(other.build instanceof PayloadRailBuild b))
+            return false;
 
         return tile.block() == other.block() && (b.incoming == -1 || b.incoming == tile.build.pos()) && b.link != tile.build.pos();
     }
@@ -80,12 +89,6 @@ public class PayloadRail extends PayloadBlock {
         Draw.color(Pal.accent);
         Drawf.circles(x, y, range);
         Draw.reset();
-    }
-
-    /** Convert hitbox side length to corner dist. */
-    public static float payRadius(Payload p) {
-        float a = p.size() / 2f;
-        return Mathf.sqrt(2 * a * a);
     }
 
     @Override
@@ -225,7 +228,7 @@ public class PayloadRail extends PayloadBlock {
             Tmp.v2.trns(tile.angleTo(other), 2f);
             float tx = tile.drawx(), ty = tile.drawy();
             float ox = other.drawx(), oy = other.drawy();
-            float alpha = Math.abs((linked ? 100 : 0)-(Time.time * 2f) % 100f) / 100f;
+            float alpha = Math.abs((linked ? 100 : 0) - (Time.time * 2f) % 100f) / 100f;
             float x = Mathf.lerp(ox, tx, alpha);
             float y = Mathf.lerp(oy, ty, alpha);
 
@@ -304,7 +307,7 @@ public class PayloadRail extends PayloadBlock {
         }
 
         public void updateRail() {
-            PayloadRailBuild other = (PayloadRailBuild)world.build(link);
+            PayloadRailBuild other = (PayloadRailBuild) world.build(link);
 
             for (int i = 0; i < items.size; i++) {
                 Position target = i == 0 ? other : items.get(i - 1);
@@ -336,7 +339,7 @@ public class PayloadRail extends PayloadBlock {
             updatePayload();
 
             if (rotate) {
-                PayloadRailBuild other = (PayloadRailBuild)world.build(link);
+                PayloadRailBuild other = (PayloadRailBuild) world.build(link);
                 float rotTarget = other != null ? angleTo(other) : block.rotate ? rotdeg() : 90f;
                 payRotation = Angles.moveToward(payRotation, rotTarget, payloadRotateSpeed * delta());
             }
@@ -378,7 +381,9 @@ public class PayloadRail extends PayloadBlock {
             return true;
         }
 
-        /** @return true if link invalid */
+        /**
+         * @return true if link invalid
+         */
         public boolean checkLink() {
             if (link == -1) return true;
             Building other = world.build(link);
@@ -444,7 +449,8 @@ public class PayloadRail extends PayloadBlock {
             this.y = y;
         }
 
-        public RailPayload() {}
+        public RailPayload() {
+        }
 
         @Override
         public float getX() {

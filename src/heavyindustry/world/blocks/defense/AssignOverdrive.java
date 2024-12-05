@@ -50,7 +50,7 @@ public class AssignOverdrive extends OverdriveProjector {
     @Override
     public void setBars() {
         super.setBars();
-        addBar("boost", (AssignOverdriveBuild tile) -> new Bar(() -> bundle.format("bar.boost", (int)(tile.realBoost() * 100)), () -> Pal.accent, () -> tile.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
+        addBar("boost", (AssignOverdriveBuild tile) -> new Bar(() -> bundle.format("bar.boost", (int) (tile.realBoost() * 100)), () -> Pal.accent, () -> tile.realBoost() / (hasBoost ? speedBoost + speedBoostPhase : speedBoost)));
     }
 
     public class AssignOverdriveBuild extends OverdriveBuild implements LinkGroupc {
@@ -68,7 +68,7 @@ public class AssignOverdrive extends OverdriveProjector {
         @Override
         public void draw() {
             if (block.variants != 0 && block.variantRegions != null) {
-                Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0,block.variantRegions.length - 1))], x, y, drawrot());
+                Draw.rect(block.variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, block.variantRegions.length - 1))], x, y, drawrot());
             } else {
                 Draw.rect(block.region, x, y, drawrot());
             }
@@ -87,7 +87,8 @@ public class AssignOverdrive extends OverdriveProjector {
             Lines.beginLine();
             for (int i = 0; i < 4; i++) {
                 Lines.linePoint(x + Geometry.d4(i).x * r + Geometry.d4(i).y * w, y + Geometry.d4(i).y * r - Geometry.d4(i).x * w);
-                if (f < 0.5f) Lines.linePoint(x + Geometry.d4(i).x * r - Geometry.d4(i).y * w, y + Geometry.d4(i).y * r + Geometry.d4(i).x * w);
+                if (f < 0.5f)
+                    Lines.linePoint(x + Geometry.d4(i).x * r - Geometry.d4(i).y * w, y + Geometry.d4(i).y * r + Geometry.d4(i).x * w);
             }
             Lines.endLine(true);
 
@@ -186,7 +187,7 @@ public class AssignOverdrive extends OverdriveProjector {
                 Draw.color(baseColor);
                 Lines.stroke(1);
                 Lines.line(fromX, fromY, Tmp.v1.x, Tmp.v1.y, false);
-                Lines.line(Tmp.v1.x, Tmp.v1.y,toX, toY, false);
+                Lines.line(Tmp.v1.x, Tmp.v1.y, toX, toY, false);
                 Fill.square(Tmp.v1.x, Tmp.v1.y, 0.5f);
                 Draw.alpha(0.35f);
                 Draw.mixcol(Color.white, Mathf.absin(4f, 0.45f));
@@ -251,14 +252,15 @@ public class AssignOverdrive extends OverdriveProjector {
             super.read(read, revision);
             heat = read.f();
             phaseHeat = read.f();
-            targets = (IntSeq)mindustry.io.TypeIO.readObject(read);
+            targets = (IntSeq) mindustry.io.TypeIO.readObject(read);
         }
 
         @Override
         public void linkPos(int value) {
             Building other = world.build(value);
 
-            if (other != null && !targets.removeValue(value) && targets.size < maxLink - 1 && within(other, range()))targets.add(value);
+            if (other != null && !targets.removeValue(value) && targets.size < maxLink - 1 && within(other, range()))
+                targets.add(value);
         }
 
         @Override

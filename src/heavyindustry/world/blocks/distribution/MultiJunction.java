@@ -10,9 +10,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-/**
- * junction which allow both liquid and item to go through.
- */
+/** junction which allow both liquid and item to go through. */
 public class MultiJunction extends LiquidJunction {
     /** frames taken to go through this junction. */
     public float speed = 26;
@@ -65,7 +63,7 @@ public class MultiJunction extends LiquidJunction {
 
                         dest.handleItem(this, item);
                         System.arraycopy(buffer.buffers[i], 1, buffer.buffers[i], 0, buffer.indexes[i] - 1);
-                        buffer.indexes[i] --;
+                        buffer.indexes[i]--;
                     }
                 }
             }

@@ -16,16 +16,14 @@ import static mindustry.Vars.*;
 
 /**
  * e.
+ *
  * @author E-Nightingale
  */
 public class SporeFarm extends Block {
     protected static final int frames = 5;
 
-    protected int gTimer;
-
     public TextureRegion[] sporeRegions, groundRegions, fenceRegions;
     public TextureRegion cageFloor;
-
     /** Regarding the growth rate. */
     public float speed1 = 0.05f, speed2 = 0.15f, speed3 = 0.45f;
     /** Production time after growth. */
@@ -36,6 +34,8 @@ public class SporeFarm extends Block {
     public Liquid growthLiquid = Liquids.water;
     /** Output Item. */
     public Item dumpItem = Items.sporePod;
+
+    protected int gTimer;
 
     public SporeFarm(String name) {
         super(name);

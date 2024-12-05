@@ -11,10 +11,12 @@ import static arc.Core.*;
 
 /**
  * Same as GeneratorCrafter, but power output is affected by Attribute.
+ *
  * @author E-Nightingale
  */
 public class AttributeGenerator extends AttributeCrafter {
     public float powerProduction = 1f;
+
     public AttributeGenerator(String name) {
         super(name);
         hasPower = true;

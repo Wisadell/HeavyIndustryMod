@@ -20,23 +20,23 @@ import static mindustry.Vars.*;
 
 public class SpaceGenerator extends PowerGenerator {
     public int space = 3;
-    protected int edgeSpace;
     public Color validColor = Pal.accent;
     public Color invalidColor = Pal.remove;
 
     public boolean blockedOnlySolid = false;
     public boolean haveBasicPowerOutput = true;
-
     public Attribute attribute;
     public Color attributeColor = Pal.accent;
     public Color negativeAttributeColor = Pal.accent;
+
     public float efficiencyScale = 1f;
     public boolean display = true;
-
     public Effect outputEffect = Fx.none;
     public float outputTimer = 30;
     public Effect tileEffect = Fx.none;
     public float tileTimer = 30;
+
+    protected int edgeSpace;
 
     public SpaceGenerator(String name) {
         super(name);
@@ -57,11 +57,13 @@ public class SpaceGenerator extends PowerGenerator {
         super.setStats();
         stats.remove(generationType);
         stats.add(generationType, powerProduction * 60f, StatUnit.powerSecond);
-        if (haveBasicPowerOutput) stats.add(Stat.tiles, HIStatValues.colorString(validColor, bundle.get("stat.hi-valid")));
+        if (haveBasicPowerOutput)
+            stats.add(Stat.tiles, HIStatValues.colorString(validColor, bundle.get("stat.hi-valid")));
         stats.add(Stat.tiles, HIStatValues.colorString(invalidColor, bundle.get("stat.hi-invalid")));
         if (attribute != null) {
             stats.add(Stat.tiles, HIStatValues.colorString(attributeColor, bundle.get("stat.hi-attribute")));
-            if (negativeAttributeColor != attributeColor) stats.add(Stat.tiles, HIStatValues.colorString(negativeAttributeColor, bundle.get("stat.hi-negative-attribute")));
+            if (negativeAttributeColor != attributeColor)
+                stats.add(Stat.tiles, HIStatValues.colorString(negativeAttributeColor, bundle.get("stat.hi-negative-attribute")));
             stats.add(haveBasicPowerOutput ? Stat.affinities : Stat.tiles, attribute, true, efficiencyScale, !display);
         }
         stats.add(Stat.range, edgeSpace, StatUnit.blocks);
@@ -91,6 +93,7 @@ public class SpaceGenerator extends PowerGenerator {
         public Seq<Tile> solids = new Seq<>();
         public int tileNum = 0;
         public transient Interval timer = new Interval(6);
+
         protected float totalProgress;
 
         @Override
@@ -146,7 +149,8 @@ public class SpaceGenerator extends PowerGenerator {
                     Tile other = world.tile(x + tx, y + ty);
                     if (other != null) {
                         tiles.addUnique(other);
-                        if ((blockedOnlySolid && other.block().solid) || (!blockedOnlySolid && other.block() != Blocks.air)) solids.addUnique(other);
+                        if ((blockedOnlySolid && other.block().solid) || (!blockedOnlySolid && other.block() != Blocks.air))
+                            solids.addUnique(other);
                     }
                 }
             }

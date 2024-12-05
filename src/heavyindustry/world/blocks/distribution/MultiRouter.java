@@ -10,9 +10,7 @@ import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.liquid.*;
 import mindustry.world.meta.*;
 
-/**
- * router which allow both liquid and item to go through.
- */
+/** router which allow both liquid and item to go through. */
 public class MultiRouter extends LiquidRouter {
     public float speed = 8f;
 
@@ -90,7 +88,7 @@ public class MultiRouter extends LiquidRouter {
                 unit.team(team);
                 unit.set(x, y);
 
-                int angle = Mathf.mod((int)((angleTo(unit.aimX(), unit.aimY()) + 45) / 90), 4);
+                int angle = Mathf.mod((int) ((angleTo(unit.aimX(), unit.aimY()) + 45) / 90), 4);
 
                 if (unit.isShooting()) {
                     Building other = nearby(rotation = angle);
@@ -105,7 +103,7 @@ public class MultiRouter extends LiquidRouter {
             int counter = rotation;
             for (int i = 0; i < proximity.size; i++) {
                 Building other = proximity.get((i + counter) % proximity.size);
-                if (set) rotation = ((byte)((rotation + 1) % proximity.size));
+                if (set) rotation = ((byte) ((rotation + 1) % proximity.size));
                 if (other.tile == from && from.block() == Blocks.overflowGate) continue;
                 if (other.acceptItem(this, item)) {
                     return other;

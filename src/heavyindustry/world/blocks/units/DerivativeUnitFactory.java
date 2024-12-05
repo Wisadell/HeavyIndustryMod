@@ -76,15 +76,15 @@ public class DerivativeUnitFactory extends UnitFactory {
     }
 
     public class DerivativeUnitFactoryBuild extends UnitFactoryBuild {
+        protected final Object[] objects = new Object[4];
+        protected final Effect espEffect = HIFx.edessp(24);
+
         public Vec2 v1 = new Vec2();
         public Vec2 v2 = new Vec2();
         public Vec2 offset = new Vec2(), end = new Vec2();
 
-        protected final Object[] objects = new Object[4];
-        protected final Effect espEffect = HIFx.edessp(24);
-
         public Vec2 getUnitSpawn() {
-            float len = tilesize * (areaSize + size)/2f;
+            float len = tilesize * (areaSize + size) / 2f;
             float unitX = x + Geometry.d4x(rotation) * len, unitY = y + Geometry.d4y(rotation) * len;
             v2.set(unitX, unitY);
             return v2;
@@ -172,7 +172,7 @@ public class DerivativeUnitFactory extends UnitFactory {
                         for (int i = 1; i <= 3; i++) {
                             end.set(v).sub(x, y);
                             end.setLength(Math.max(2f, end.len()));
-                            end.add(offset.trns(time/2 + 60 * i, Mathf.sin(time * 2 + 30 * i, 50f, plan.unit.hitSize * 0.6f)));
+                            end.add(offset.trns(time / 2 + 60 * i, Mathf.sin(time * 2 + 30 * i, 50f, plan.unit.hitSize * 0.6f)));
                             end.add(x, y);
                             Lines.line(x, y, end.x, end.y);
                             aboveEffect.at(end.x, end.y, 2, Pal.accent);
@@ -183,7 +183,7 @@ public class DerivativeUnitFactory extends UnitFactory {
                         }
                         Draw.color(team.color);
                         Lines.arc(v.x, v.y, plan.unit.hitSize * 1.2f, 1 - progress / plan.time, rotation * 90);
-                        control.sound.loop(ambientSound, self(), ambientSoundVolume * speedScl * efficiency);
+                        control.sound.loop(ambientSound, this, ambientSoundVolume * speedScl * efficiency);
                         for (int i = 0; i < 2; i++) {
                             float rot = rotation * 90 - 90 + 180 * i;
                             float ax = v.x + Angles.trnsx(rot, plan.unit.hitSize * 1.1f);

@@ -12,13 +12,16 @@ import mindustry.world.meta.*;
 
 import static arc.Core.*;
 
-/** A smelter uses fuel to craft. Attribute tiles make it use less fuel. */
+/**
+ * A smelter uses fuel to craft. Attribute tiles make it use less fuel.
+ */
 public class FuelCrafter extends GenericCrafter {
     public Attribute attribute = Attribute.heat;
     public Item fuelItem;
+
     public int fuelPerItem = 10, fuelPerCraft = -1;
     public int fuelCapacity = 30;
-    /** 1 affinity = this amount removed from fuel use */
+    /** 1 affinity = this amount removed from fuel use. */
     public float fuelUseReduction = 1.5f;
 
     public FuelCrafter(String name) {

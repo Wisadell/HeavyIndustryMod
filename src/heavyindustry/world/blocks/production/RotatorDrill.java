@@ -12,12 +12,13 @@ import static arc.Core.*;
 
 /**
  * Draw the original drill bit rotation.
+ *
  * @author E-Nightingale
  */
 public class RotatorDrill extends DrillF {
     public TextureRegion rotatorRegion, rimRegion;
 
-    /** Speed the drill bit rotates at.  */
+    /** Speed the drill bit rotates at. */
     public float rotateSpeed = 2f;
 
     public Color heatColor = Color.valueOf("ff5512");

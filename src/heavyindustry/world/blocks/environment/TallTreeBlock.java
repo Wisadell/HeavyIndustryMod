@@ -32,8 +32,8 @@ public class TallTreeBlock extends TreeBlock {
 
         Draw.z(Layer.darkness - 1);
         Draw.rectv(reg, x, y, w, h, rot, vec -> vec.add(
-                Mathf.sin(vec.y*3 + Time.time, scl, mag) + Mathf.sin(vec.x*3 - Time.time, 70, 0.8f),
-                Mathf.cos(vec.x*3 + Time.time + 8, scl + 6f, mag * 1.1f) + Mathf.sin(vec.y*3 - Time.time, 50, 0.2f)
+                Mathf.sin(vec.y * 3 + Time.time, scl, mag) + Mathf.sin(vec.x * 3 - Time.time, 70, 0.8f),
+                Mathf.cos(vec.x * 3 + Time.time + 8, scl + 6f, mag * 1.1f) + Mathf.sin(vec.y * 3 - Time.time, 50, 0.2f)
         ));
     }
 }

@@ -21,20 +21,20 @@ public class StackBridge extends BufferedItemBridge {
     }
 
     public class StackBridgeBuild extends BufferedItemBridgeBuild {
-        protected void setLastItem(Item v) {
-            lastItem = v;
-        }
-
         protected Item getLastItem() {
             return lastItem;
         }
 
-        protected void setAmount(int v) {
-            amount = v;
+        protected void setLastItem(Item v) {
+            lastItem = v;
         }
 
         protected int getAmount() {
             return amount;
+        }
+
+        protected void setAmount(int v) {
+            amount = v;
         }
 
         @Override
@@ -58,7 +58,7 @@ public class StackBridge extends BufferedItemBridge {
         public void doDump() {
             for (int i = 0; i < 4; i++) {
                 Building other = nearby(i);
-                if (other instanceof StackConveyorBuild ot && ot.team == team &&  ot.link == -1) ot.cooldown = 0;
+                if (other instanceof StackConveyorBuild ot && ot.team == team && ot.link == -1) ot.cooldown = 0;
                 dumpAccumulate();
             }
         }

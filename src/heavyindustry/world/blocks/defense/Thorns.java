@@ -7,6 +7,7 @@ import mindustry.world.meta.*;
 
 /**
  * Causing damage to units walking on it.
+ *
  * @author E-Nightingale
  */
 public class Thorns extends Block {

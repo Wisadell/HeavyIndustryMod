@@ -115,7 +115,8 @@ public class ProcessorCooler extends Block {
         public void draw() {
             super.draw();
             if (liquids != null) {
-                if (liquids.currentAmount() > 0.01f) LiquidBlock.drawTiledFrames(size, x, y, 0f, 0f, 0f, 0f, liquids.current(), liquids.get(liquids.current()) / liquidCapacity);
+                if (liquids.currentAmount() > 0.01f)
+                    LiquidBlock.drawTiledFrames(size, x, y, 0f, 0f, 0f, 0f, liquids.current(), liquids.get(liquids.current()) / liquidCapacity);
             }
             if (useTopRegion) Draw.rect(topRegion, x, y);
             if (heat > 0.01f) {
