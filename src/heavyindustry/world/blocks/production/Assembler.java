@@ -7,7 +7,7 @@ import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
-import heavyindustry.ui.display.*;
+import heavyindustry.ui.displays.*;
 import heavyindustry.world.consumers.*;
 import mindustry.content.*;
 import mindustry.entities.*;
