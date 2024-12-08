@@ -8,7 +8,7 @@ uniform vec4 u_color;
 uniform vec4 u_sun_info;
 uniform vec4 u_planet_info;
 
-void main(){
+void main() {
     vec4 color = texture2D(u_texture, v_texCoords);
 
     vec3 p1 = u_sun_info.xyz;
@@ -37,10 +37,10 @@ void main(){
     float unitDistance = b / (k * dot_);
     vec4 col = vec4(1.0);
 
-    if (length(point - p4) > length(p2 - p4)){
+    if (length(point - p4) > length(p2 - p4)) {
     } else {
         float ci = clamp(i, -1.0, 1.0);
-        if (i <= 0.0){
+        if (i <= 0.0) {
             float aip = -ip;
             float scale = 0.75;
             float a = abs(unitDistance) - 0.5;

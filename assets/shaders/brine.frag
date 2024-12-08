@@ -19,7 +19,7 @@ uniform float u_time;
 
 varying vec2 v_texCoords;
 
-void main(){
+void main() {
     vec2 c = v_texCoords.xy;
     vec2 coords = vec2(c.x * u_resolution.x + u_campos.x, c.y * u_resolution.y + u_campos.y);
 
@@ -39,19 +39,19 @@ void main(){
 
     vec4 color = texture2D(u_texture, c);
 
-    if(noise1 > 0.54 && noise1 < 0.57){
+    if (noise1 > 0.54 && noise1 < 0.57) {
         color.rgb = S2;
-    }else if (noise1 > 0.49 && noise1 < 0.62){
+    } else if (noise1 > 0.49 && noise1 < 0.62) {
         color.rgb = S1;
     }
-    if(noise2 > 0.54 && noise2 < 0.57){
+    if (noise2 > 0.54 && noise2 < 0.57) {
         color.rgb = S4;
-    }else if (noise2 > 0.49 && noise2 < 0.62){
+    } else if (noise2 > 0.49 && noise2 < 0.62) {
         color.rgb = S3;
     }
-    if(noise3 > 0.54 && noise3 < 0.57){
+    if (noise3 > 0.54 && noise3 < 0.57) {
         color.rgb = S6;
-    }else if (noise3 > 0.49 && noise3 < 0.62){
+    } else if (noise3 > 0.49 && noise3 < 0.62) {
         color.rgb = S5;
     }
 

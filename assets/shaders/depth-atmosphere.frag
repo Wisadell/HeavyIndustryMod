@@ -28,12 +28,12 @@ uniform float u_outerRadius;
 uniform sampler2D u_topology;
 uniform vec2 u_viewport;
 
-vec2 intersect(vec3 ray_origin, vec3 ray_dir, float radius){
+vec2 intersect(vec3 ray_origin, vec3 ray_dir, float radius) {
     float b = dot(ray_origin, ray_dir);
     float c = dot(ray_origin, ray_origin) - radius * radius;
 
     float d = b * b - c;
-    if(d < 0.0) discard;
+    if (d < 0.0) discard;
 
     d = sqrt(d);
     float near = -b - d;
@@ -42,7 +42,7 @@ vec2 intersect(vec3 ray_origin, vec3 ray_dir, float radius){
     return vec2(near, far);
 }
 
-float miePhase(float g, float c, float cc){
+float miePhase(float g, float c, float cc) {
     float gg = g * g;
 
     float a = (1.0 - gg) * (1.0 + cc);
@@ -54,20 +54,20 @@ float miePhase(float g, float c, float cc){
     return 1.5 * a / b;
 }
 
-float rayleighPhase(float cc){
+float rayleighPhase(float cc) {
     return 0.75 * (1.0 + cc);
 }
 
-float density(vec3 p){
+float density(vec3 p) {
     return exp(-(length(p) - u_innerRadius) * (4.0 / (u_outerRadius - u_innerRadius)));
 }
 
-float optic(vec3 p, vec3 q){
+float optic(vec3 p, vec3 q) {
     vec3 step = (q - p) / fNumOutScatter;
     vec3 v = p + step * 0.5;
 
     float sum = 0.0;
-    for(int i = 0; i < numOutScatter; i++){
+    for (int i = 0; i < numOutScatter; i++) {
         sum += density(v);
         v += step;
     }
@@ -75,14 +75,14 @@ float optic(vec3 p, vec3 q){
     return sum;
 }
 
-vec3 inScatter(vec3 eye, vec3 ray, vec2 bound, vec3 light){
+vec3 inScatter(vec3 eye, vec3 ray, vec2 bound, vec3 light) {
     float len = (bound.y - bound.x) / fNumInScatter;
     vec3 step = ray * len;
     vec3 start = eye + ray * bound.x;
     vec3 march = start + ray * (len * 0.5);
 
     vec3 sum = vec3(0.0);
-    for(int i = 0; i < numInScatter; i++){
+    for (int i = 0; i < numInScatter; i++) {
         vec2 f = intersect(march, light, u_outerRadius);
         vec3 u = march + light * f.y;
         float n = (optic(start, march) + optic(march, u)) * (pi * 4.0);
@@ -96,11 +96,11 @@ vec3 inScatter(vec3 eye, vec3 ray, vec2 bound, vec3 light){
     return sum * (peak * u_color * rayleighPhase(cc) + flare * miePhase(gm, c, cc)) * intensity;
 }
 
-float unpack(vec4 pack){
+float unpack(vec4 pack) {
     return dot(pack, 1.0 / vec4(1.0, 255.0, 65025.0, 16581375.0)) * u_camRange.y + u_camRange.x;
 }
 
-void main(){
+void main() {
     vec3 eye = u_relCamPos;
     vec3 ray = normalize(v_position - u_camPos);
     vec3 normal = normalize(v_position - u_center);
