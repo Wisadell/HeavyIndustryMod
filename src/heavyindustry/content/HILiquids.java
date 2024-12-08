@@ -5,7 +5,6 @@ import heavyindustry.entities.effect.*;
 import mindustry.content.*;
 import mindustry.type.*;
 
-
 /**
  * Defines the {@linkplain Liquid liquid} this mod offers.
  *

@@ -34,37 +34,55 @@ final class HIClassMap {
     static void load() {
         //ai
         classes.put("CircleAi", CircleAi.class);
+        classes.put("HealingDefenderAI", HealingDefenderAI.class);
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
         classes.put("MinerPointAI", MinerPointAI.class);
         //ability
         classes.put("BatteryAbility", BatteryAbility.class);
-        classes.put("JavelinAbility", JavelinAbility.class);
-        classes.put("TerritoryFieldAbility", TerritoryFieldAbility.class);
         classes.put("DeathAbility", DeathAbility.class);
+        classes.put("JavelinAbility", JavelinAbility.class);
+        classes.put("SuicideExplosionAbility", SuicideExplosionAbility.class);
+        classes.put("SuspiciousAbility", SuspiciousAbility.class);
+        classes.put("TerritoryFieldAbility", TerritoryFieldAbility.class);
         //bullets
         classes.put("AccelBulletType", AccelBulletType.class);
-        classes.put("LightningBulletTypeF", LightningBulletTypeF.class);
         classes.put("AimToPosBulletType", AimToPosBulletType.class);
+        classes.put("AntiBulletFlakBulletType", AntiBulletFlakBulletType.class);
+        classes.put("ArrowBulletType", ArrowBulletType.class);
+        classes.put("BoidBulletType", BoidBulletType.class);
         classes.put("CritBulletType", CritBulletType.class);
         classes.put("CtrlMissileBulletType", CtrlMissileBulletType.class);
+        classes.put("CygnusBulletType", CygnusBulletType.class);
         classes.put("DelayedPointBulletType", DelayedPointBulletType.class);
+        classes.put("DistFieldBulletType", DistFieldBulletType.class);
         classes.put("EffectBulletType", EffectBulletType.class);
         classes.put("ElectricStormBulletType", ElectricStormBulletType.class);
         classes.put("FallingBulletType", FallingBulletType.class);
         classes.put("FireWorkBulletType", FireWorkBulletType.class);
+        classes.put("FlameBulletType", FlameBulletType.class);
+        classes.put("FlameBulletTypeF", FlameBulletTypeF.class);
         classes.put("ColorFireBulletType", FireWorkBulletType.ColorFireBulletType.class);
         classes.put("SpriteBulletType", FireWorkBulletType.SpriteBulletType.class);
-        classes.put("FlameBulletType", FlameBulletType.class);
+        classes.put("GeyserBulletType", GeyserBulletType.class);
+        classes.put("GeyserLaserBulletType", GeyserLaserBulletType.class);
+        classes.put("GrenadeBulletType", GrenadeBulletType.class);
+        classes.put("GuidedMissileBulletType", GuidedMissileBulletType.class);
         classes.put("HailStoneBulletType", HailStoneBulletType.class);
+        classes.put("HealingConeBulletType", HealingConeBulletType.class);
+        classes.put("HealingNukeBulletType", HealingNukeBulletType.class);
+        classes.put("LightningBulletTypeF", LightningBulletTypeF.class);
         classes.put("LightningLinkerBulletType", LightningLinkerBulletType.class);
-        classes.put("MagmaBulletType", MagmaBulletType.class);
-        classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
-        classes.put("ShieldBreakerType", ShieldBreakerType.class);
-        classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
-        classes.put("MagmaBulletType", MagmaBulletType.class);
         classes.put("LiquidMassDriverBolt", LiquidMassDriverBolt.class);
+        classes.put("MagmaBulletType", MagmaBulletType.class);
+        classes.put("MortarBulletType", MortarBulletType.class);
+        classes.put("MultiBulletType", MultiBulletType.class);
+        classes.put("PositionLightningBulletType", PositionLightningBulletType.class);
+        classes.put("ReflectingLaserBulletType", ReflectingLaserBulletType.class);
+        classes.put("ShieldBreakerType", ShieldBreakerType.class);
         classes.put("Shooter", LaserWall.Shooter.class);
+        classes.put("SlowRailBulletType", SlowRailBulletType.class);
+        classes.put("TrailFadeBulletType", TrailFadeBulletType.class);
         //effects
         classes.put("LightningEffect", LightningEffect.class);
         classes.put("WrapperEffect", WrapperEffect.class);
@@ -72,9 +90,17 @@ final class HIClassMap {
         classes.put("HIDrawPart", HIPartProgress.class);
         classes.put("ConstructPart", ConstructPart.class);
         classes.put("CustomPart", CustomPart.class);
-        //types
+        //types-weapon
+        classes.put("AcceleratingWeapon", AcceleratingWeapon.class);
         classes.put("BoostWeapon", BoostWeapon.class);
+        classes.put("EnergyChargeWeapon", EnergyChargeWeapon.class);
+        classes.put("LimitedAngleWeapon", LimitedAngleWeapon.class);
+        classes.put("MortarWeapon", MortarWeapon.class);
+        classes.put("MultiBarrelWeapon", MultiBarrelWeapon.class);
+        classes.put("PointDefenceMultiBarrelWeapon", PointDefenceMultiBarrelWeapon.class);
+        //types-planet
         classes.put("BetterPlanet", BetterPlanet.class);
+        //types-weather
         classes.put("EffectWeather", EffectWeather.class);
         classes.put("HailStormWeather", HailStormWeather.class);
         classes.put("SpawnerWeather", SpawnerWeather.class);
@@ -82,11 +108,12 @@ final class HIClassMap {
         classes.put("AtlasFloor", AtlasFloor.class);
         classes.put("AtlasProp", AtlasProp.class);
         classes.put("AtlasTallBlock", AtlasTallBlock.class);
-        classes.put("TileOreBlock", TileOreBlock.class);
-        classes.put("TileStaticWall", TileStaticWall.class);
+        classes.put("OreBlockF", OreBlockF.class);
+        classes.put("StaticWallE", StaticWallE.class);
+        classes.put("StaticWallF", StaticWallF.class);
         classes.put("GrooveFloor", GrooveFloor.class);
         classes.put("TiledFloor", TiledFloor.class);
-        classes.put("SizedVent", TileVent.class);
+        classes.put("SteamVentF", SteamVentF.class);
         classes.put("ArmorFloor", ArmorFloor.class);
         classes.put("TallTreeBlock", TallTreeBlock.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);

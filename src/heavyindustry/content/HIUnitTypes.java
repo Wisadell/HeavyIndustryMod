@@ -101,9 +101,7 @@ public final class HIUnitTypes {
         nameMap.put(name("vast"), EnergyUnit::new);
     }
 
-    /**
-     * HIUnitTypes should not be instantiated.
-     */
+    /** HIUnitTypes should not be instantiated. */
     private HIUnitTypes() {}
 
     public static void load() {
@@ -366,7 +364,46 @@ public final class HIUnitTypes {
                 open = true;
             }});
             immunities = ObjectSet.with(HIStatusEffects.territoryFieldSuppress);
-            weapons.add(new Weapon(name("suzerain-weapon")) {{
+            weapons.add(new LimitedAngleWeapon(name("suzerain-mount")) {{
+                x = 20.75f;
+                y = 10f;
+                shootY = 6.25f;
+                rotate = true;
+                rotateSpeed = 7f;
+                angleCone = 60f;
+                reload = 60f;
+                shootCone = 30f;
+                shootSound = Sounds.missile;
+                bullet = new MissileBulletType(2.5f, 22f) {{
+                    lifetime = 40f;
+                    drag = -0.005f;
+                    width = 14f;
+                    height = 15f;
+                    shrinkY = 0f;
+                    splashDamageRadius = 55f;
+                    splashDamage = 85f;
+                    homingRange = 90f;
+                    weaveMag = 2f;
+                    weaveScale = 8f;
+                    hitEffect = despawnEffect = HIFx.hitExplosionLarge;
+                    status = StatusEffects.blasted;
+                    statusDuration = 60f;
+                    fragBullets = 5;
+                    fragLifeMin = 0.9f;
+                    fragLifeMax = 1.1f;
+                    fragBullet = new ShrapnelBulletType() {{
+                        damage = 200f;
+                        length = 60f;
+                        width = 12f;
+                        toColor = Pal.missileYellow;
+                        hitColor = Pal.bulletYellow;
+                        hitEffect = HIFx.coloredHitSmall;
+                        serrationLenScl = 5f;
+                        serrationSpaceOffset = 45f;
+                        serrationSpacing = 5f;
+                    }};
+                }};
+            }}, new Weapon(name("suzerain-cannon")){{
                 y = -1f;
                 x = 28f;
                 shootY = 17f;
@@ -377,13 +414,13 @@ public final class HIUnitTypes {
                 shoot.shotDelay = 4f;
                 ejectEffect = Fx.casing4;
                 shootSound = Sounds.bang;
-                bullet = new BasicBulletType(15f, 210f) {{
+                bullet = new BasicBulletType(15f, 225f) {{
                     pierceArmor = true;
                     pierce = true;
                     pierceCap = 10;
-                    width = 14f;
-                    height = 33f;
-                    lifetime = 21f;
+                    width = 16f;
+                    height = 37f;
+                    lifetime = 22f;
                     shootEffect = Fx.shootBig;
                     fragVelocityMin = 0.4f;
                     hitEffect = Fx.blastExplosion;
@@ -394,9 +431,9 @@ public final class HIUnitTypes {
                     fragBullets = 1;
                     fragLifeMin = 0f;
                     fragRandomSpread = 30f;
-                    fragBullet = new BasicBulletType(9f, 70) {{
+                    fragBullet = new BasicBulletType(9f, 70f) {{
                         width = 10f;
-                        height = 10f;
+                        height = 11f;
                         pierceArmor = true;
                         pierce = true;
                         pierceBuilding = true;
@@ -439,37 +476,29 @@ public final class HIUnitTypes {
                 hitUnits = false;
                 y = -20;
             }});
-            weapons.add(new Weapon(name("supernova-weapon")) {{
+            weapons.add(new Weapon() {{
                 mirror = false;
-                top = false;
-                y = 0f;
                 x = 0f;
-                shootY = 14f;
+                y = 0f;
+                shootY = 16.75f;
                 reload = 170f;
-                shake = 4f;
-                parentizeEffects = true;
+                shootSound = Sounds.beam;
+                shoot.firstShotDelay = 59f;
                 continuous = true;
                 cooldownTime = 200f;
-                shoot.firstShotDelay = 59f;
                 chargeSound = Sounds.lasercharge2;
-                shootSound = Sounds.beam;
                 recoil = 0f;
-                bullet = new ContinuousLaserBulletType() {{
-                    damage = 110f;
-                    length = 340f;
-                    hitEffect = Fx.hitMeltHeal;
-                    drawSize = 420f;
+                bullet = new ContinuousLaserBulletType(110f) {{
+                    width = 22f;
                     lifetime = 200f;
-                    shake = 1f;
-                    despawnEffect = Fx.smokeCloud;
-                    smokeEffect = Fx.none;
-                    chargeEffect = Fx.greenLaserChargeSmall;
-                    incendChance = 0.1f;
-                    incendSpread = 8f;
-                    incendAmount = 1;
-                    healPercent = 1.3f;
                     collidesTeam = true;
-                    colors = new Color[]{Pal.heal.cpy().a(.2f), Pal.heal.cpy().a(.5f), Pal.heal.cpy().mul(1.2f), Color.white};
+                    healPercent = 0.4f;
+                    splashDamage = 4f;
+                    splashDamageRadius = 25f;
+                    knockback = 3f;
+                    buildingDamageMultiplier = 0.6f;
+                    status = StatusEffects.electrified;
+                    statusDuration = 30f;
                 }
                     @Override
                     public void hitEntity(Bullet b, Hitboxc entity, float health) {
@@ -494,6 +523,36 @@ public final class HIUnitTypes {
                         handlePierce(b, health, entity.x(), entity.y());
                     }
                 };
+            }}, new AcceleratingWeapon(name("supernova-mount")) {{
+                x = 18.25f;
+                y = -7.25f;
+                shootY = 17f;
+                reload = 30f;
+                accelCooldownWaitTime = 31f;
+                minReload = 5f;
+                accelPerShot = 0.5f;
+                rotateSpeed = 5f;
+                inaccuracy = 5f;
+                rotate = true;
+                alternate = false;
+                shoot.shots = 2;
+                shootSound = Sounds.lasercharge2;
+                bullet = new ArrowBulletType(7f, 25f) {{
+                    lifetime = 60f;
+                    pierce = true;
+                    pierceBuilding = true;
+                    pierceCap = 4;
+                    backColor = trailColor = hitColor = lightColor = lightningColor = Pal.heal;
+                    frontColor = Color.white;
+                    trailWidth = 4f;
+                    width = 9f;
+                    height = 15f;
+                    splashDamage = 15f;
+                    splashDamageRadius = 25f;
+                    healPercent = 3f;
+                    homingRange = 70f;
+                    homingPower = 0.05f;
+                }};
             }}, new RepairBeamWeapon("repair-beam-weapon-center-large") {{
                 x = 10.5f;
                 y = -4.5f;
@@ -529,89 +588,97 @@ public final class HIUnitTypes {
             shadowElevation = 0.95f;
             groundLayer = Layer.legUnit;
             itemCapacity = 200;
-            weapons.add(new Weapon("large-purple-mount") {{
-                y = -5f;
-                x = 14f;
-                shootY = 7f;
-                reload = 30f;
-                shake = 4f;
-                rotateSpeed = 2f;
-                ejectEffect = Fx.casing1;
-                shootSound = Sounds.shootBig;
+            weapons.add(new LimitedAngleWeapon(name("cancer-launcher")) {{
+                layerOffset = -0.01f;
+                x = 33f;
+                y = 8.5f;
+                shootY = 6.25f - 1f;
+                reload = 7f;
+                recoil = 1f;
                 rotate = true;
-                shadow = 12f;
-                recoil = 3f;
-                shoot = new ShootSpread(3, 14f);
-                bullet = new ShrapnelBulletType() {{
-                    length = 120f;
-                    damage = 190f;
-                    width = 25f;
-                    serrationLenScl = 7f;
-                    serrationSpaceOffset = 60f;
-                    serrationFadeOffset = 0f;
-                    serrations = 10;
-                    serrationWidth = 6f;
-                    ammoMultiplier = 2f;
-                    fromColor = Pal.sapBullet;
-                    toColor = Pal.sapBulletBack;
-                    shootEffect = smokeEffect = Fx.sparkShoot;
+                shootCone = 20f;
+                angleCone = 60f;
+                angleOffset = 45f;
+                inaccuracy = 25f;
+                xRand = 2.25f; //TODO use something else instead? -Anuke
+                shoot.shots = 2;
+                shootSound = Sounds.missile;
+                bullet = new MissileBulletType(3.7f, 15f) {{
+                    width = 10f;
+                    height = 12f;
+                    shrinkY = 0f;
+                    drag = -0.01f;
+                    splashDamageRadius = 30f;
+                    splashDamage = 55f;
+                    ammoMultiplier = 5f;
+                    hitEffect = Fx.blastExplosion;
+                    despawnEffect = Fx.blastExplosion;
+                    backColor = trailColor = Pal.sapBulletBack;
+                    frontColor = lightningColor = lightColor = Pal.sapBullet;
+                    trailLength = 13;
+                    homingRange = 80f;
+                    weaveScale = 8f;
+                    weaveMag = 2f;
+                    lightning = 2;
+                    lightningLength = 2;
+                    lightningLengthRand = 1;
+                    lightningCone = 15f;
+                    status = StatusEffects.blasted;
+                    statusDuration = 60f;
                 }};
-            }}, new Weapon(name("cancer-cannon")) {{
-                y = -9f;
-                x = 0f;
-                shootY = 28f;
-                mirror = false;
-                reload = 210;
-                shake = 10f;
-                recoil = 10f;
-                rotateSpeed = 1f;
-                ejectEffect = Fx.casing3;
-                shootSound = Sounds.artillery;
+            }}, new LimitedAngleWeapon(name("cancer-mount")) {{
+                x = 17.75f;
+                y = 7.5f;
+                shootY = 10.25f - 5f;
+                reload = 120f;
+                angleCone = 60f;
                 rotate = true;
-                shadow = 30f;
-                rotationLimit = 80f;
-                bullet = new ArtilleryBulletType(3.5f, 150) {{
+                continuous = true;
+                alternate = false;
+                rotateSpeed = 1.5f;
+                recoil = 5f;
+                shootSound = Sounds.laserbeam;
+                bullet = HIBullets.continuousSapLaser;
+            }}, new Weapon(name("cancer-railgun")) {{
+                x = 14.5f;
+                y = -10f;
+                shootY = 20.5f - 4f;
+                shootSound = Sounds.shotgun;
+                rotate = true;
+                alternate = true;
+                rotateSpeed = 0.9f;
+                cooldownTime = 90f;
+                reload = 90f;
+                shake = 6f;
+                recoil = 8f;
+                bullet = new SlowRailBulletType(15f, 95f){{
+                    lifetime = 23f;
+                    splashDamageRadius = 110f;
+                    splashDamage = 90f;
                     hitEffect = Fx.sapExplosion;
-                    knockback = 0.8f;
-                    lifetime = 80f;
-                    width = height = 35f;
-                    collidesTiles = collides = true;
                     ammoMultiplier = 4f;
-                    splashDamageRadius = 140f;
-                    splashDamage = 125f;
-                    backColor = Pal.sapBulletBack;
+                    trailEffect = HIFx.coloredRailgunSmallTrail;
+                    trailSpacing = 15f;
+                    backColor = trailColor = Pal.sapBulletBack;
                     frontColor = lightningColor = Pal.sapBullet;
-                    lightning = 5;
+                    lightning = 3;
                     lightningLength = 20;
                     smokeEffect = Fx.shootBigSmoke2;
                     hitShake = 10f;
                     lightRadius = 40f;
                     lightColor = Pal.sap;
                     lightOpacity = 0.6f;
+                    width = 13f;
+                    height = 27f;
+                    shrinkY = 0f;
+                    collidesAir = false;
+                    scaleLife = true;
+                    pierceCap = 3;
                     status = StatusEffects.sapped;
                     statusDuration = 60f * 10;
                     fragLifeMin = 0.3f;
-                    fragBullets = 9;
-                    fragBullet = new ArtilleryBulletType(2.5f, 50) {{
-                        hitEffect = Fx.sapExplosion;
-                        knockback = 0.8f;
-                        lifetime = 90f;
-                        width = height = 25f;
-                        collidesTiles = false;
-                        splashDamageRadius = 70f;
-                        splashDamage = 40f;
-                        backColor = Pal.sapBulletBack;
-                        frontColor = lightningColor = Pal.sapBullet;
-                        lightning = 2;
-                        lightningLength = 5;
-                        smokeEffect = Fx.shootBigSmoke2;
-                        hitShake = 5f;
-                        lightRadius = 30f;
-                        lightColor = Pal.sap;
-                        lightOpacity = 0.5f;
-                        status = StatusEffects.sapped;
-                        statusDuration = 60f * 10;
-                    }};
+                    fragBullets = 4;
+                    fragBullet = HIBullets.sapArtilleryFrag;
                 }};
             }});
         }};
@@ -638,7 +705,7 @@ public final class HIUnitTypes {
                 maxTargets = 30;
                 healPercent = 0.8f;
             }});
-            weapons.add(new Weapon(name("sunlit-weapon")) {{
+            weapons.add(new Weapon() {{
                 shake = 1f;
                 shootY = 18f;
                 x = 18f;
@@ -667,7 +734,7 @@ public final class HIUnitTypes {
                     incendAmount = 1;
                     collidesTeam = true;
                 }};
-            }}, new Weapon(name("sunlit-weapon-small")) {{
+            }}, new Weapon(name("sunlit-mount")) {{
                 x = 16f;
                 y = 18f;
                 rotateSpeed = 2f;
@@ -686,7 +753,7 @@ public final class HIUnitTypes {
                     lifetime = 32f;
                     status = StatusEffects.blasted;
                 }};
-            }}, new Weapon(name("sunlit-weapon-small")) {{
+            }}, new Weapon(name("sunlit-mount")) {{
                 y = 32f;
                 x = -16f;
                 reload = 8f;
@@ -714,7 +781,7 @@ public final class HIUnitTypes {
             }});
         }};
         windstorm = new UnitType("windstorm") {{
-            aiController = FlyingFollowAI::new;
+            aiController = HealingDefenderAI::new;
             armor = 41f;
             health = 61000f;
             speed = 0.8f;
@@ -734,75 +801,48 @@ public final class HIUnitTypes {
             itemCapacity = 540;
             abilities.add(new ForceFieldAbility(180f, 6f, 12000f, 60f * 8, 6, 0f), new RepairFieldAbility(290f, 60f * 2, 160f));
             ammoType = new PowerAmmoType(2500);
-            weapons.add(new Weapon("emp-cannon-mount") {{
-                rotate = true;
-                x = 25f;
-                y = 3f;
-                reload = 65f;
-                shake = 3f;
-                rotateSpeed = 2f;
-                shadow = 30f;
-                shootY = 7f;
-                recoil = 4f;
-                cooldownTime = reload - 10f;
-                shootSound = Sounds.laser;
-                bullet = new EmpBulletType() {{
-                    float rad = 100f;
-                    scaleLife = true;
-                    lightOpacity = 0.7f;
-                    unitDamageScl = 0.8f;
+            weapons.add(new Weapon("windstorm-heal-mount") {{
+                x = 33.5f;
+                y = -7.75f;
+                shootY = 10.25f;
+                reload = 220f;
+                recoil = 3f;
+                shadow = 22f;
+                continuous = rotate = true;
+                alternate = false;
+                rotateSpeed = 3.5f;
+                shootSound = Sounds.tractorbeam;
+                bullet = new HealingConeBulletType(3f) {{
+                    healPercent = 3f;
+                    cone = 15f;
+                    scanAccuracy = 25;
+                    allyStatus = StatusEffects.overclock;
+                    allyStatusDuration = 9f * 60f;
+                    status = StatusEffects.sapped;
+                    statusDuration = 40f;
+                    lifetime = 6f * 60f;
+                }};
+            }}, new EnergyChargeWeapon() {{
+                mirror = false;
+                x = 0f;
+                y = 10.75f;
+                shootY = 0f;
+                reload = 30f * 60f;
+                shootCone = 360f;
+                ignoreRotation = true;
+                drawCharge = (unit, mount, charge) -> {
+                    float rotation = unit.rotation - 90f, wx = unit.x + Angles.trnsx(rotation, x, y), wy = unit.y + Angles.trnsy(rotation, x, y);
+                    Draw.color(Pal.heal);
+                    Drawn.shiningCircle(unit.id, Time.time, wx, wy, 13f * charge, 5, 70f, 15f, 6f * charge, 360f);
+                    Draw.color(Color.white);
+                    Drawn.shiningCircle(unit.id, Time.time, wx, wy, 6.5f * charge, 5, 70f, 15f, 4f * charge, 360f);
+                };
+                bullet = new HealingNukeBulletType() {{
+                    allyStatus = StatusEffects.overclock;
+                    allyStatusDuration = 15f * 60f;
+                    status = HIStatusEffects.breached;
+                    statusDuration = 120f;
                     healPercent = 20f;
-                    timeIncrease = 3f;
-                    timeDuration = 60f * 20f;
-                    powerDamageScl = 3f;
-                    damage = 120f;
-                    hitColor = lightColor = Pal.heal;
-                    lightRadius = 70f;
-                    shootEffect = Fx.hitEmpSpark;
-                    smokeEffect = Fx.shootBigSmoke2;
-                    lifetime = 80f;
-                    sprite = "circle-bullet";
-                    backColor = Pal.heal;
-                    frontColor = Color.white;
-                    width = height = 12f;
-                    shrinkY = 0f;
-                    speed = 5f;
-                    trailLength = 20;
-                    trailWidth = 6f;
-                    trailColor = Pal.heal;
-                    trailInterval = 3f;
-                    splashDamage = 140f;
-                    splashDamageRadius = rad;
-                    hitShake = 4f;
-                    trailRotation = true;
-                    status = StatusEffects.electrified;
-                    hitSound = Sounds.plasmaboom;
-                    clipSize = 250f;
-                    trailEffect = new Effect(16f, e -> {
-                        Draw.color(Pal.heal);
-                        for (int s : Mathf.signs) {
-                            Drawf.tri(e.x, e.y, 4f, 30f * e.fslope(), e.rotation + 90f * s);
-                        }
-                    });
-                    hitEffect = new Effect(50f, 100f, e -> {
-                        e.scaled(7f, b -> {
-                            Draw.color(Pal.heal, b.fout());
-                            Fill.circle(e.x, e.y, rad);
-                        });
-                        Draw.color(Pal.heal);
-                        Lines.stroke(e.fout() * 3f);
-                        Lines.circle(e.x, e.y, rad);
-                        int points = 10;
-                        float offset = Mathf.randomSeed(e.id, 360f);
-                        for (int i = 0; i < points; i++) {
-                            float angle = i * 360f / points + offset;
-                            Drawf.tri(e.x + Angles.trnsx(angle, rad), e.y + Angles.trnsy(angle, rad), 6f, 50f * e.fout(), angle);
-                        }
-                        Fill.circle(e.x, e.y, 12f * e.fout());
-                        Draw.color();
-                        Fill.circle(e.x, e.y, 6f * e.fout());
-                        Drawf.light(e.x, e.y, rad * 1.6f, Pal.heal, e.fout());
-                    });
                 }};
             }});
         }};
@@ -824,71 +864,143 @@ public final class HIUnitTypes {
                 active = false;
             }});
             immunities = ObjectSet.with(HIStatusEffects.territoryFieldSuppress);
-            weapons.addAll(new Weapon(name("mosasaur-weapon-rail")) {{
-                shake = 6f;
-                shootY = 23f;
-                bullet = new RailBulletType() {{
-                    shootEffect = Fx.railShoot;
-                    length = 600f;
-                    pierceEffect = Fx.railHit;
-                    hitEffect = Fx.massiveExplosion;
-                    smokeEffect = Fx.shootBig2;
-                    damage = 1750f;
-                    pointEffectSpace = 30f;
-                    pointEffect = Fx.railTrail;
-                    pierceDamageFactor = 0.6f;
-                }};
-                mirror = false;
-                top = false;
-                rotate = true;
-                rotateSpeed = 2f;
-                x = 0f;
-                y = 5f;
-                ejectEffect = Fx.none;
-                shootSound = Sounds.railgun;
-                reload = 110f;
-                cooldownTime = 90f;
+            weapons.addAll(new LimitedAngleWeapon(name("mosasaur-front-cannon")) {{
+                layerOffset = -0.01f;
+                x = 22.25f;
+                y = 30.25f;
+                shootY = 9.5f;
                 recoil = 5f;
-            }}, new Weapon("sei-launcher") {{
-                x = 24f;
-                y = 1f;
+                shoot.shots = 5;
+                shoot.shotDelay = 3f;
+                inaccuracy = 5f;
+                shootCone = 15f;
                 rotate = true;
-                rotateSpeed = 4f;
-                mirror = true;
-                shadow = 20f;
-                shootY = 4.5f;
-                recoil = 4f;
-                reload = 45f;
-                velocityRnd = 0.4f;
-                inaccuracy = 7f;
-                ejectEffect = Fx.none;
-                shake = 1f;
-                shootSound = Sounds.missile;
-                shoot = new ShootAlternate() {{
-                    shots = 6;
-                    shotDelay = 1.5f;
-                    spread = 4f;
-                    barrels = 3;
+                shootSound = Sounds.artillery;
+                reload = 25f;
+                bullet = new BasicBulletType(8f, 80, "bullet"){{
+                    hitSize = 5;
+                    width = 16f;
+                    height = 23f;
+                    shootEffect = Fx.shootBig;
+                    pierceCap = 2;
+                    pierceBuilding = true;
+                    knockback = 0.7f;
                 }};
-                bullet = new MissileBulletType(10f, 60f) {{
-                    sprite = "missile";
-                    trailColor = backColor = Pal.bulletYellowBack;
-                    frontColor = Pal.bulletYellow;
+            }}, new LimitedAngleWeapon(name("mosasaur-side-silo")) {{
+                layerOffset = -0.01f;
+                x = 29.75f;
+                y = -13f;
+                shootY = 7f;
+                xRand = 9f; //TODO use something else instead? -Anuke
+                defaultAngle = angleOffset = 90f;
+                angleCone = 0f;
+                shootCone = 125f;
+                alternate = false;
+                rotate = true;
+                reload = 50f;
+                shoot.shots = 12;
+                shoot.shotDelay = 3f;
+                inaccuracy = 5f;
+                shootSound = Sounds.missile;
+                bullet = new GuidedMissileBulletType(3f, 20f) {{
+                    homingPower = 0.09f;
                     width = 8f;
-                    height = 32f;
-                    trailChance = 0.8f;
-                    trailInterval = 1f;
-                    trailRotation = true;
-                    splashDamage = 86f;
-                    splashDamageRadius = 45f;
-                    buildingDamageMultiplier = 1.33f;
-                    status = StatusEffects.blasted;
-                    shootEffect = Fx.shootSmallFlame;
-                    lifetime = 56.8f;
-                    hitShake = 2;
-                    hitSound = Sounds.explosion;
+                    height = 8f;
+                    shrinkX = shrinkY = 0f;
+                    drag = -0.003f;
+                    keepVelocity = false;
+                    splashDamageRadius = 40f;
+                    splashDamage = 45f;
+                    lifetime = 65f;
+                    trailColor = Pal.missileYellowBack;
                     hitEffect = Fx.blastExplosion;
-                    despawnEffect = Fx.flakExplosionBig;
+                    despawnEffect = Fx.blastExplosion;
+                }};
+            }
+                @Override
+                public void handleBullet(Unit unit, WeaponMount mount, Bullet b) {
+                    if (b.type instanceof GuidedMissileBulletType) {
+                        b.data = mount;
+                    }
+                }
+            }, new LimitedAngleWeapon(name("mosasaur-launcher")) {{
+                x = 0f;
+                y = 21f;
+                shootY = 8f;
+                rotate = true;
+                mirror = false;
+                inaccuracy = 15f;
+                reload = 7f;
+                xRand = 2.25f; //TODO use something else instead? -Anuke
+                shootSound = Sounds.missile;
+                angleCone = 135f;
+                bullet = HIBullets.basicMissile;
+            }}, new PointDefenceMultiBarrelWeapon(name("mosasaur-flak-turret")) {{
+                x = 26.5f;
+                y = 15f;
+                shootY = 15.75f;
+                barrels = 2;
+                barrelOffset = 5.25f;
+                barrelSpacing = 6.5f;
+                barrelRecoil = 4f;
+                rotate = true;
+                mirrorBarrels = true;
+                alternate = false;
+                reload = 6f;
+                recoil = 0.5f;
+                shootCone = 7f;
+                shadow = 30f;
+                targetInterval = 20f;
+                autoTarget = true;
+                controllable = false;
+                bullet = new AntiBulletFlakBulletType(8f, 6f) {{
+                    lifetime = 45f;
+                    splashDamage = 12f;
+                    splashDamageRadius = 60f;
+                    bulletRadius = 60f;
+                    explodeRange = 45f;
+                    bulletDamage = 18f;
+                    width = 8f;
+                    height = 12f;
+                    scaleLife = true;
+                    collidesGround = false;
+                    status = StatusEffects.blasted;
+                    statusDuration = 60f;
+                }};
+            }}, new Weapon(name("mosasaur-railgun")) {{
+                x = 0f;
+                y = 0f;
+                shootY = 38.5f;
+                mirror = false;
+                rotate = true;
+                rotateSpeed = 0.7f;
+                shadow = 46f;
+                reload = 60f * 2.5f;
+                shootSound = Sounds.railgun;
+                bullet = new SlowRailBulletType(70f, 2100f){{
+                    lifetime = 10f;
+                    width = 20f;
+                    height = 38f;
+                    splashDamage = 50f;
+                    splashDamageRadius = 30f;
+                    pierceDamageFactor = 0.15f;
+                    pierceCap = -1;
+                    fragBullet = new BasicBulletType(3.5f, 18){{
+                        width = 9f;
+                        height = 12f;
+                        reloadMultiplier = 0.6f;
+                        ammoMultiplier = 4;
+                        lifetime = 60f;
+                    }};
+                    fragBullets = 2;
+                    fragRandomSpread = 20f;
+                    fragLifeMin = 0.4f;
+                    fragLifeMax = 0.7f;
+                    trailSpacing = 40f;
+                    trailEffect = HIFx.coloredArrowTrail;
+                    backColor = trailColor = Pal.bulletYellowBack;
+                    frontColor = Pal.bulletYellow;
+                    collisionWidth = 12f;
                 }};
             }});
         }};

@@ -17,6 +17,7 @@ import heavyindustry.game.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.Draws.*;
 import heavyindustry.graphics.*;
+import heavyindustry.graphics.menu.*;
 import heavyindustry.ui.*;
 import heavyindustry.ui.dialogs.*;
 import heavyindustry.util.*;
@@ -27,6 +28,7 @@ import mindustry.mod.Mods.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
+import mindustry.ui.fragments.*;
 
 import java.time.*;
 import java.time.format.*;
@@ -51,6 +53,7 @@ public final class HeavyIndustryMod extends Mod {
     public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode"), developer = settings.getBool("hi-developer-mode");
 
     private static final String linkGitHub = "https://github.com/E-Nightingale/HeavyIndustryMod", author = "E-Nightingale";
+
     /** jar internal navigation. */
     public static InternalFileTree internalTree = new InternalFileTree(HeavyIndustryMod.class);
 
@@ -60,6 +63,12 @@ public final class HeavyIndustryMod extends Mod {
         HIClassMap.load();
 
         Events.on(ClientLoadEvent.class, e -> {
+            try {
+                Reflects.set(MenuFragment.class, ui.menufrag, "renderer", new HIMenuRenderer());
+            } catch (Exception ex) {
+                Log.err("Failed to replace renderer", ex);
+            }
+
             HIIcon.load();
 
             if (onlyPlugIn) return;
@@ -83,6 +92,12 @@ public final class HeavyIndustryMod extends Mod {
         Events.on(DisposeEvent.class, e -> {
             HIShaders.dispose();
         });
+
+        Utils.init();
+
+        JSBridge.init();
+        JSBridge.importDefaults(JSBridge.defScope);
+        JSBridge.importDefaults(JSBridge.modScope);
     }
 
     public static void resetSaves(Planet planet) {

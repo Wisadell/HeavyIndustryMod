@@ -73,6 +73,7 @@ public final class HIBlocks {
             //environment
             darkPanel7, darkPanel8, darkPanel9, darkPanel10, darkPanel11, darkPanelDamaged,
             stoneVent, basaltVent, shaleVent, basaltWall, basaltGraphiticWall, basaltPyratiticWall, snowySand, snowySandWall, arkyciteSand, arkyciteSandWall, arkyciteSandBoulder, darksandBoulder, asphalt, asphaltSide,
+            concreteBlank, concreteFill, concreteNumber, concreteStripe, concrete, stoneFullTiles, stoneFull, stoneHalf, stoneTiles, concreteWall, pit, waterPit,
             metalClear, metalLight, metalGround, metalVent, metalScarp, metaWall, metalTower, metalFloorGroove, metalFloorPlain, labFloor, labFloorDark,
             brine, nanofluid,
             metalFloorWater, metalFloorWater2, metalFloorWater3, metalFloorWater4, metalFloorWater5, metalFloorDamagedWater,
@@ -129,7 +130,8 @@ public final class HIBlocks {
             //logic
             matrixProcessor, hugeLogicDisplay, buffrerdMemoryCell, buffrerdMemoryBank, heatSink, heatFan, heatSinkLarge,
             //turret
-            dissipation, rocketLauncher, multipleRocketLauncher, largeRocketLauncher, rocketSilo, coilBlaster, dragonBreath, cloudbreaker, minigun, blaze,
+            dissipation, rocketLauncher, multipleRocketLauncher, largeRocketLauncher, rocketSilo,
+            coilBlaster, dragonBreath, inferno, breakthrough, cloudbreaker, minigun, blaze,
             spike, fissure,
             hurricane, judgement,
             //turret-erekir
@@ -216,6 +218,77 @@ public final class HIBlocks {
         asphaltSide = new GrooveFloor("asphalt-side") {{
             blendGroup = asphalt;
         }};
+        concreteBlank = new Floor("concrete-blank") {{
+            attributes.set(Attribute.water, -0.85f);
+        }};
+        concreteFill = new Floor("concrete-fill") {{
+            variants = 0;
+            attributes.set(Attribute.water, -0.85f);
+        }};
+        concreteNumber = new Floor("concrete-number") {{
+            variants = 10;
+            attributes.set(Attribute.water, -0.85f);
+        }};
+        concreteStripe = new Floor("concrete-stripe") {{
+            attributes.set(Attribute.water, -0.85f);
+        }};
+        concrete = new Floor("concrete") {{
+            attributes.set(Attribute.water, -0.85f);
+        }};
+        stoneFullTiles = new Floor("stone-full-tiles") {{
+            attributes.set(Attribute.water, -0.75f);
+        }};
+        stoneFull = new Floor("stone-full") {{
+            attributes.set(Attribute.water, -0.75f);
+        }};
+        stoneHalf = new Floor("stone-half") {{
+            attributes.set(Attribute.water, -0.5f);
+        }};
+        stoneTiles = new Floor("stone-tiles") {{
+            attributes.set(Attribute.water, -0.5f);
+        }};
+        concreteWall = new StaticWallE("concrete-wall") {{
+            variants = 0;
+        }
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region};
+            }
+        };
+        pit = new Floor("pit") {{
+            buildVisibility = BuildVisibility.editorOnly;
+            cacheLayer = HICacheLayer.pit;
+            placeableOn = false;
+            solid = true;
+            variants = 0;
+            canShadow = false;
+            mapColor = Color.black;
+        }
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region};
+            }
+        };
+        waterPit = new Floor("water-pit") {{
+            buildVisibility = BuildVisibility.editorOnly;
+            cacheLayer = HICacheLayer.waterPit;
+            placeableOn = true;
+            isLiquid = true;
+            drownTime = 20f;
+            speedMultiplier = 0.1f;
+            liquidMultiplier = 2f;
+            status = StatusEffects.wet;
+            statusDuration = 120f;
+            variants = 0;
+            liquidDrop = Liquids.water;
+            canShadow = false;
+            mapColor = Liquids.water.color.cpy().lerp(Color.black,0.5f);
+        }
+            @Override
+            public TextureRegion[] icons() {
+                return new TextureRegion[]{region};
+            }
+        };
         metalClear = new ArmorFloor("metal-clear");
         metalLight = new ArmorFloor("metal-light", 3, metalClear.asFloor()) {{
             useDynamicLight = true;
@@ -2996,6 +3069,42 @@ public final class HIBlocks {
             shootSound = Sounds.flame;
             coolantMultiplier = 1.5f;
             coolant = consumeCoolant(0.1f);
+        }};
+        breakthrough = new PowerTurret("breakthrough") {{
+            requirements(Category.turret, with(Items.silicon, 130, Items.thorium, 150));
+            size = 4;
+            health = 2800;
+            range = 500f;
+            coolantMultiplier = 1.5f;
+            targetAir = true;
+            reload = 500f;
+            shoot.firstShotDelay = 100f;
+            recoil = 5f;
+            shake = 4f;
+            shootEffect = HIFx.laserBreakthroughShoot;
+            smokeEffect = Fx.none;
+            heatColor = Pal.lancerLaser;
+            shootSound = Sounds.laserblast;
+            chargeSound = Sounds.lasercharge;
+            shootType = new LaserBulletType(1200f) {{
+                ammoMultiplier = 1;
+                drawSize = length * 2f;
+                hitEffect = Fx.hitLiquid;
+                shootEffect = Fx.hitLiquid;
+                despawnEffect = Fx.none;
+                keepVelocity = false;
+                collides = false;
+                pierce = true;
+                hittable = false;
+                absorbable = false;
+                length = 500f;
+                largeHit = true;
+                width = 80f;
+                lifetime = 65f;
+                sideLength = 0f;
+                sideWidth = 0f;
+                chargeEffect = HIFx.laserBreakthroughChargeBegin2;
+            }};
         }};
         cloudbreaker = new ItemTurret("cloudbreaker") {{
             requirements(Category.turret, with(Items.graphite, 230, Items.titanium, 220, Items.thorium, 150));
