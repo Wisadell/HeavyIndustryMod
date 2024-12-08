@@ -9,7 +9,7 @@ import java.util.*;
  * such as the getDefault and default initialization usage of maps, etc.
  * <p><strong>Do not manually manipulate any of these collections, it is very foolish, very foolish</strong>
  */
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings({"unchecked", "rawtypes", "unused"})
 public final class Empties {
     private static final ArrayList NIL_ARRAY_LIST = new ArrayList();
     private static final LinkedList NIL_LINKED_LIST = new LinkedList();

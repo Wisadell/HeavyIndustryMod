@@ -11,7 +11,8 @@ public final class Mathm {
     private static final float[] aSinTable = new float[aSinCount];
     private static final float sinToIndex = aSinCount / 2f;
     private static final float radFull = Mathf.PI * 2;
-    private static final Vec2 bezOut = new Vec2(), p1 = new Vec2(), p2 = new Vec2(), p3 = new Vec2(), p4 = new Vec2(), tmp = new Vec2();
+    private static final Vec2 bezOut = new Vec2(), p1 = new Vec2(), p2 = new Vec2(), p3 = new Vec2(), p4 = new Vec2(), p5 = new Vec2(), tmp = new Vec2();
+    private static final Rand seedr = new Rand();
 
     static {
         for (int i = 0; i < aSinCount; i++)
@@ -260,5 +261,33 @@ public final class Mathm {
     public static double lerpIncrease(double lerpLeft, double lerpRight, double max, double optimal, double x) {
         if (x < 0) return 0;
         return x >= 0 && x < optimal ? -max * Math.pow(1 - x / optimal, lerpLeft) + max : -max * Math.pow(1 - optimal / x, lerpRight) + max;
+    }
+
+    public static float hyperbolicLimit(float t) {
+        return 1f - 1f / (t + 1);
+    }
+
+    public static void randLenVectors(long seed, int amount, float in, float inRandMin, float inRandMax, float lengthRand, FloatFloatf length, UParticleConsumer cons) {
+        seedr.setSeed(seed);
+        for (int i = 0; i < amount; i++) {
+            float r = seedr.random(inRandMin, inRandMax);
+            float offset = r > 0 ? seedr.nextFloat() * r : 0f;
+
+            float fin = Mathf.curve(in, offset, (1f - r) + offset);
+            float f = length.get(fin) * (lengthRand <= 0f ? 1f : seedr.random(1f - lengthRand, 1f));
+            p5.trns(seedr.random(360f), f);
+            cons.get(p5.x, p5.y, fin);
+        }
+    }
+
+    public static Vec2 addLength(Vec2 vec, float add) {
+        float len = vec.len();
+        vec.x += add * (vec.x / len);
+        vec.y += add * (vec.y / len);
+        return vec;
+    }
+
+    public interface UParticleConsumer {
+        void get(float x, float y, float fin);
     }
 }

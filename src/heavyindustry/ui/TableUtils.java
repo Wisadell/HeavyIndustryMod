@@ -47,9 +47,7 @@ public final class TableUtils {
     private static long lastToast;
     private static Table pTable = new Table(), floatTable = new Table();
 
-    /**
-     * TableUtils should not be instantiated.
-     */
+    /** TableUtils should not be instantiated. */
     private TableUtils() {}
 
     public static String format(float value) {
@@ -60,9 +58,7 @@ public final class TableUtils {
         powerInfoDialog = new PowerGraphInfoDialog();
     }
 
-    /**
-     * Based on {@link UI#formatAmount(long)} but for floats.
-     */
+    /** Based on {@link UI#formatAmount(long)} but for floats. */
     public static String formatAmount(float number) {
         if (number == Float.MAX_VALUE) return "infinite";
         if (number == Float.MIN_VALUE) return "-infinite";

@@ -11,7 +11,7 @@ import java.util.*;
  *
  * @author E-Nightingale
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "unused"})
 public final class StructUtils {
     private static final Object[] emptyArray = new Object[0];
     private static final Empty<?> empty = new Empty<>();

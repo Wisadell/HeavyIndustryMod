@@ -28,7 +28,7 @@ public final class SpriteUtils {
     public static final int[] atlasIndex412 = new int[atlasIndex412raw.length];
     public static final IntIntMap atlasIndex412map = new IntIntMap();
 
-    public static final byte[] atlasIndex412tile = {
+    public static final byte[] tileMap = {
             39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
             38, 37, 38, 37, 17, 41, 17, 43, 38, 37, 38, 37, 26, 21, 26, 25,
             39, 36, 39, 36, 27, 16, 27, 24, 39, 36, 39, 36, 27, 16, 27, 24,
@@ -81,7 +81,7 @@ public final class SpriteUtils {
             {-1, -1}, {0, -1}, {1, -1},
     };
 
-    static int[] joinsMap = {
+    public static int[] joinsMap = {//not sure how to format this.
             39, 39, 27, 27, 39, 39, 27, 27, 38, 38, 17, 26, 38, 38, 17, 26, 36,
             36, 16, 16, 36, 36, 24, 24, 37, 37, 41, 21, 37, 37, 43, 25, 39,
             39, 27, 27, 39, 39, 27, 27, 38, 38, 17, 26, 38, 38, 17, 26, 36,
@@ -275,5 +275,5 @@ public final class SpriteUtils {
 
     public static void l(float layer) {
         Draw.z(layer);
-    }
+    };
 }
