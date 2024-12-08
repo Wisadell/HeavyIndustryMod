@@ -5,13 +5,12 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import mindustry.content.*;
 import mindustry.entities.*;
-import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 
 import java.util.*;
 
-public class FlameBulletTypeF extends BulletType {
+public class FlameBulletTypeF extends FlameBulletType {
     private final Color tc = new Color(), tc2 = new Color();
     public Color[] colors = {Pal.lightFlame, Pal.darkFlame, Color.gray};
     public Color[] smokeColors = {};
@@ -19,8 +18,8 @@ public class FlameBulletTypeF extends BulletType {
     public int particleAmount = 8;
     private Color[] hitColors;
 
-    public FlameBulletTypeF(float speed, float damage) {
-        super(speed, damage);
+    public FlameBulletTypeF(float length, float cone, int number) {
+        super(length, cone, number);
         pierce = true;
         lifetime = 12f;
         despawnEffect = Fx.none;

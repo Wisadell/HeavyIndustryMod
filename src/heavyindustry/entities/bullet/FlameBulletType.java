@@ -16,14 +16,14 @@ public class FlameBulletType extends BulletType {
 
     public float damageBoost = 3f;
 
-    public FlameBulletType(Color colorBegin, Color colorTo, Color colorEnd, float length, float cone, int number, float lifetime) {
+    public FlameBulletType(float length, float cone, int number) {
         super();
         flameLength = length;
         flameCone = cone;
         particleNumber = number;
-        this.lifetime = 0;
-        damage = 22;
-        speed = 0;
+        lifetime = 8f;
+        damage = 22f;
+        speed = 0f;
         hitEffect = Fx.none;
         smokeEffect = Fx.none;
         trailEffect = Fx.none;
@@ -37,6 +37,10 @@ public class FlameBulletType extends BulletType {
         statusDuration = 60 * 4;
         buildingDamageMultiplier = 0.4f;
         despawnHit = true;
+    }
+
+    public FlameBulletType(Color colorBegin, Color colorTo, Color colorEnd, float length, float cone, int number, float lifetime) {
+        this(length, cone, number);
         shootEffect = HIFx.flameShoot(colorBegin, colorTo, colorEnd, length, cone, number, lifetime);
     }
 

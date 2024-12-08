@@ -1784,7 +1784,7 @@ public final class HIBlocks {
             craftTime = 150f;
             outputItem = new ItemStack(HIItems.nanocore, 12);
             craftEffect = Fx.none;
-            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.cryofluid, 28f / 4f), new DrawRegion("-mid"), new DrawSpecConstruct() {{
+            drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.cryofluid), new DrawRegion("-mid"), new DrawSpecConstruct() {{
                 constructColor1 = constructColor2 = HIPal.nanocoreGreen;
             }}, new DrawDefault());
             consumePower(25f);

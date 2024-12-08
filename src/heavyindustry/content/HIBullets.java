@@ -30,7 +30,7 @@ import static mindustry.Vars.*;
 @SuppressWarnings("unchecked")
 public final class HIBullets {
     public static BulletType
-            basicMissile, boidMissle, citadelFlame, sapArtilleryFrag, continuousSapLaser,
+            basicMissile, boidMissle, sapArtilleryFrag, continuousSapLaser,
             ancientArtilleryProjectile,
             hitter, ncBlackHole, nuBlackHole, executor,
             ultFireball, basicSkyFrag, annMissile,
@@ -59,10 +59,6 @@ public final class HIBullets {
             despawnEffect = Fx.blastExplosion;
             weaveScale = 8f;
             weaveMag = 2f;
-        }};
-        citadelFlame = new FlameBulletTypeF(4.2f, 50f) {{
-            lifetime = 20f;
-            particleAmount = 17;
         }};
         sapArtilleryFrag = new ArtilleryBulletType(2.3f, 30) {{
             hitEffect = Fx.sapExplosion;

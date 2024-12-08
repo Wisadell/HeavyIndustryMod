@@ -53,7 +53,6 @@ final class HIClassMap {
         classes.put("BoidBulletType", BoidBulletType.class);
         classes.put("CritBulletType", CritBulletType.class);
         classes.put("CtrlMissileBulletType", CtrlMissileBulletType.class);
-        classes.put("CygnusBulletType", CygnusBulletType.class);
         classes.put("DelayedPointBulletType", DelayedPointBulletType.class);
         classes.put("DistFieldBulletType", DistFieldBulletType.class);
         classes.put("EffectBulletType", EffectBulletType.class);

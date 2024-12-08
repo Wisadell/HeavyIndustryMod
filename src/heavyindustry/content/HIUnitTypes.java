@@ -489,16 +489,22 @@ public final class HIUnitTypes {
                 chargeSound = Sounds.lasercharge2;
                 recoil = 0f;
                 bullet = new ContinuousLaserBulletType(110f) {{
-                    width = 22f;
+                    length = 340f;
                     lifetime = 200f;
+                    despawnEffect = Fx.smokeCloud;
+                    smokeEffect = Fx.none;
+                    chargeEffect = Fx.greenLaserChargeSmall;
                     collidesTeam = true;
-                    healPercent = 0.4f;
+                    incendChance = 0.1f;
+                    incendSpread = 8f;
+                    incendAmount = 1;
+                    healPercent = 1.3f;
                     splashDamage = 4f;
                     splashDamageRadius = 25f;
                     knockback = 3f;
-                    buildingDamageMultiplier = 0.6f;
                     status = StatusEffects.electrified;
                     statusDuration = 30f;
+                    colors = new Color[]{Pal.heal.cpy().a(.2f), Pal.heal.cpy().a(.5f), Pal.heal.cpy().mul(1.2f), Color.white};
                 }
                     @Override
                     public void hitEntity(Bullet b, Hitboxc entity, float health) {
@@ -590,7 +596,7 @@ public final class HIUnitTypes {
             itemCapacity = 200;
             weapons.add(new LimitedAngleWeapon(name("cancer-launcher")) {{
                 layerOffset = -0.01f;
-                x = 33f;
+                x = 19.7f;
                 y = 8.5f;
                 shootY = 6.25f - 1f;
                 reload = 7f;
