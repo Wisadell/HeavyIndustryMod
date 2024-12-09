@@ -6,6 +6,7 @@ import heavyindustry.entities.bullet.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.entities.part.*;
 import heavyindustry.type.*;
+import heavyindustry.type.unit.*;
 import heavyindustry.type.weapons.*;
 import heavyindustry.type.weather.*;
 import heavyindustry.world.blocks.defense.*;
@@ -37,6 +38,7 @@ final class HIClassMap {
         classes.put("HealingDefenderAI", HealingDefenderAI.class);
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
+        classes.put("MillipedeAI", MillipedeAI.class);
         classes.put("MinerPointAI", MinerPointAI.class);
         //ability
         classes.put("BatteryAbility", BatteryAbility.class);
@@ -89,16 +91,23 @@ final class HIClassMap {
         classes.put("HIDrawPart", HIPartProgress.class);
         classes.put("ConstructPart", ConstructPart.class);
         classes.put("CustomPart", CustomPart.class);
+        //types-unit
+        classes.put("CopterUnitType", CopterUnitType.class);
+        classes.put("MillipedeUnitType", MillipedeUnitType.class);
+        classes.put("OrnitopterUnitType", OrnitopterUnitType.class);
         //types-weapon
         classes.put("AcceleratingWeapon", AcceleratingWeapon.class);
         classes.put("BoostWeapon", BoostWeapon.class);
         classes.put("EnergyChargeWeapon", EnergyChargeWeapon.class);
+        classes.put("FilterWeapon", FilterWeapon.class);
         classes.put("LimitedAngleWeapon", LimitedAngleWeapon.class);
         classes.put("MortarWeapon", MortarWeapon.class);
         classes.put("MultiBarrelWeapon", MultiBarrelWeapon.class);
         classes.put("PointDefenceMultiBarrelWeapon", PointDefenceMultiBarrelWeapon.class);
         //types-planet
         classes.put("BetterPlanet", BetterPlanet.class);
+        //types-sector
+        classes.put("ExtraSectorPreset", ExtraSectorPreset.class);
         //types-weather
         classes.put("EffectWeather", EffectWeather.class);
         classes.put("HailStormWeather", HailStormWeather.class);

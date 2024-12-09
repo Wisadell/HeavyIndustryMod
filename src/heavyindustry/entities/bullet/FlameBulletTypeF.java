@@ -11,12 +11,14 @@ import mindustry.graphics.*;
 import java.util.*;
 
 public class FlameBulletTypeF extends FlameBulletType {
-    private final Color tc = new Color(), tc2 = new Color();
+    protected final Color tc = new Color(), tc2 = new Color();
+
     public Color[] colors = {Pal.lightFlame, Pal.darkFlame, Color.gray};
     public Color[] smokeColors = {};
     public float particleSpread = 10f, particleSizeScl = 1.5f;
     public int particleAmount = 8;
-    private Color[] hitColors;
+
+    protected Color[] hitColors;
 
     public FlameBulletTypeF(float length, float cone, int number) {
         super(length, cone, number);

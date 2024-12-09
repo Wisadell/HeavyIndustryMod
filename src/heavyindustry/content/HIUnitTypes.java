@@ -14,6 +14,7 @@ import heavyindustry.entities.effect.*;
 import heavyindustry.entities.part.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.*;
+import heavyindustry.type.unit.*;
 import heavyindustry.type.weapons.*;
 import heavyindustry.ui.*;
 import mindustry.ai.*;
@@ -44,6 +45,7 @@ import static mindustry.gen.EntityMapping.*;
  *
  * @author E-Nightingale
  */
+@SuppressWarnings("unchecked")
 public final class HIUnitTypes {
     public static UnitType
             //vanilla-tank
@@ -55,7 +57,7 @@ public final class HIUnitTypes {
             //miner-erekir
             miner, largeMiner, legsMiner,
             //other
-            armoredCarrierVehicle, pioneer, vulture,
+            collector, armoredCarrierVehicle, pioneer, vulture, vespula,
             burner, shadowBlade, artilleryFirePioneer,
             //elite
             tiger, thunder,
@@ -88,9 +90,11 @@ public final class HIUnitTypes {
         nameMap.put(name("large-miner"), idMap[36]);
         nameMap.put(name("legs-miner"), BuildingTetherPayloadLegsUnit::new);
         //other
+        nameMap.put(name("collector"), MillipedeLegsUnit::new);
         nameMap.put(name("armored-carrier-vehicle"), idMap[43]);
         nameMap.put(name("pioneer"), PayloadLegsUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
+        nameMap.put(name("vespula"), CopterUnit::new);
         nameMap.put(name("burner"), idMap[4]);
         nameMap.put(name("shadow-blade"), idMap[4]);
         nameMap.put(name("artillery-fire-pioneer"), idMap[3]);
@@ -403,7 +407,7 @@ public final class HIUnitTypes {
                         serrationSpacing = 5f;
                     }};
                 }};
-            }}, new Weapon(name("suzerain-cannon")){{
+            }}, new Weapon(name("suzerain-cannon")) {{
                 y = -1f;
                 x = 28f;
                 shootY = 17f;
@@ -657,7 +661,7 @@ public final class HIUnitTypes {
                 reload = 90f;
                 shake = 6f;
                 recoil = 8f;
-                bullet = new SlowRailBulletType(15f, 95f){{
+                bullet = new SlowRailBulletType(15f, 95f) {{
                     lifetime = 23f;
                     splashDamageRadius = 110f;
                     splashDamage = 90f;
@@ -883,7 +887,7 @@ public final class HIUnitTypes {
                 rotate = true;
                 shootSound = Sounds.artillery;
                 reload = 25f;
-                bullet = new BasicBulletType(8f, 80, "bullet"){{
+                bullet = new BasicBulletType(8f, 80, "bullet") {{
                     hitSize = 5;
                     width = 16f;
                     height = 23f;
@@ -983,7 +987,7 @@ public final class HIUnitTypes {
                 shadow = 46f;
                 reload = 60f * 2.5f;
                 shootSound = Sounds.railgun;
-                bullet = new SlowRailBulletType(70f, 2100f){{
+                bullet = new SlowRailBulletType(70f, 2100f) {{
                     lifetime = 10f;
                     width = 20f;
                     height = 38f;
@@ -991,7 +995,7 @@ public final class HIUnitTypes {
                     splashDamageRadius = 30f;
                     pierceDamageFactor = 0.15f;
                     pierceCap = -1;
-                    fragBullet = new BasicBulletType(3.5f, 18){{
+                    fragBullet = new BasicBulletType(3.5f, 18) {{
                         width = 9f;
                         height = 12f;
                         reloadMultiplier = 0.6f;
@@ -1783,6 +1787,63 @@ public final class HIUnitTypes {
             }});
         }};
         //other
+        collector = new MillipedeUnitType("collector") {{
+            aiController = MillipedeAI::new;
+            speed = 0.6f;
+            health = 200f;
+            regenTime = 15f * 60f;
+            chainable = true;
+            omniMovement = false;
+            angleLimit = 65f;
+            segmentLength = 5;
+            segmentDamageScl = 8f;
+            segmentCast = 8;
+            segmentOffset = 7.3f;
+            maxSegments = 20;
+            preventDrifting = true;
+            legLength = 8f;
+            lockLegBase = true;
+            legContinuousMove = true;
+            legExtension = -2f;
+            legBaseOffset = 3f;
+            legMaxLength = 1.1f;
+            legMinLength = 0.2f;
+            legLengthScl = 0.96f;
+            legForwardScl = 0.7f;
+            legGroupSize = 2;
+            rippleScale = 0.7f;
+            headLegCount = segmentLegCount = tailLegCount = 2;
+            legMoveSpace = 2f;
+            allowLegStep = true;
+            hovering = false;
+            legPhysicsLayer = true;
+            Seq<Weapon> weaponSeq = Seq.with(new Weapon(name("collector-beam")) {{
+                x = 0f;
+                y = 1f;
+                rotate = true;
+                mirror = false;
+                reload = 60f;
+                bullet = new ArtilleryBulletType(5f, 7) {{
+                    maxRange = 40f;
+                    collidesTiles = collidesAir = collidesGround = true;
+                    width = height = 11f;
+                    splashDamage = 25f;
+                    splashDamageRadius = 25f;
+                    trailColor = hitColor = lightColor = backColor = Pal.thoriumPink;
+                    frontColor = Pal.thoriumPink;
+                }};
+            }});
+            segmentWeapons = new Seq[] {
+                    Seq.with(),
+                    weaponSeq, weaponSeq, weaponSeq,
+                    weaponSeq, weaponSeq, weaponSeq,
+                    weaponSeq, weaponSeq, weaponSeq,
+                    weaponSeq, weaponSeq, weaponSeq,
+                    weaponSeq, weaponSeq, weaponSeq,
+                    weaponSeq, weaponSeq, weaponSeq,
+                    Seq.with()
+            };
+        }};
         armoredCarrierVehicle = new UnitType("armored-carrier-vehicle") {{
             healFlash = false;
             treadFrames = 16;
@@ -1909,8 +1970,8 @@ public final class HIUnitTypes {
             engineOffset = 14f;
             engineSize = 4f;
             speed = 5f;
-            accel = 0.04F;
-            drag = 0.0075F;
+            accel = 0.04f;
+            drag = 0.0075f;
             circleTarget = true;
             hitSize = 14f;
             health = 1000f;
@@ -1918,6 +1979,76 @@ public final class HIUnitTypes {
             rotateSpeed = 2.5f;
             armor = 10.5f;
             flying = true;
+        }};
+        vespula = new CopterUnitType("vespula") {{
+            aiController = FlyingAI::new;
+            circleTarget = false;
+            speed = 3.5f;
+            drag = 0.07f;
+            accel = 0.03f;
+            fallSpeed = 0.003f;
+            health = 4000;
+            engineSize = 0f;
+            flying = true;
+            hitSize = 30f;
+            range = 165f;
+            lowAltitude = true;
+            rotateSpeed = 3.5f;
+            weapons.add(new Weapon(name("vespula-gun-big")) {{
+                layerOffset = -0.01f;
+                x = 8.25f;
+                y = 9.5f;
+                shootX = -1f;
+                shootY = 7.25f;
+                reload = 12f;
+                shootSound = Sounds.shootBig;
+                bullet = new BasicBulletType(6f, 60f) {{
+                    lifetime = 30f;
+                    width = 16f;
+                    height = 20f;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootBigSmoke;
+                }};
+            }}, new Weapon(name("vespula-gun")) {{
+                layerOffset = -0.01f;
+                x = 6.5f;
+                y = 21.5f;
+                shootX = -0.25f;
+                shootY = 5.75f;
+                reload = 20f;
+                shoot.shots = 4;
+                shoot.shotDelay = 2f;
+                shootSound = Sounds.shootSnap;
+                bullet = new BasicBulletType(4f, 29, "bullet") {{
+                    width = 10f;
+                    height = 13f;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootBigSmoke;
+                    ammoMultiplier = 4;
+                    lifetime = 60f;
+                }};
+            }}, new Weapon(name("vespula-laser-gun")) {{
+                x = 13.5f;
+                y = 15.5f;
+                shootY = 4.5f;
+                reload = 60f;
+                shootSound = Sounds.laser;
+                bullet = new LaserBulletType(240f) {{
+                    sideAngle = 45f;
+                    length = 200f;
+                }};
+            }});
+            for (int i : Mathf.signs) {
+                rotors.add(new Rotor(name("vespula-rotor")) {{
+                    mirror = true;
+                    x = 15f;
+                    y = 6.75f;
+                    speed = 29f * i;
+                    ghostAlpha = 0.4f;
+                    shadowAlpha = 0.2f;
+                    shadeSpeed = 3f * i;
+                }});
+            }
         }};
         burner = new UnitType("burner") {{
             speed = 0.36f;
