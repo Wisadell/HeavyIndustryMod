@@ -57,7 +57,7 @@ import java.io.*;
  * d2.read(dataArr);//Instantiate first, then read properties from the array.
  * }</pre>
  */
-@SuppressWarnings({"rawtypes", "unchecked", "unused"})
+@SuppressWarnings({"rawtypes", "unchecked"})
 public interface DataPackable {
     LongMap<Func> objectProvMap = new LongMap<>();
 

@@ -9,7 +9,7 @@ import java.lang.reflect.*;
 
 import static mindustry.Vars.*;
 
-@SuppressWarnings({"unchecked", "unused"})
+@SuppressWarnings("unchecked")
 public final class Reflects {
     /** Reflects should not be instantiated. */
     private Reflects() {}

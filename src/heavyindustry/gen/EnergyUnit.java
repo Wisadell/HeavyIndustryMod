@@ -15,8 +15,9 @@ import mindustry.type.*;
 
 import static mindustry.Vars.*;
 
-public class EnergyUnit extends UnitEntity {
+public class EnergyUnit extends UnitEntity implements Energyc {
     public static final float effectTriggerLen = 40f;
+
     public static Effect teleport = new Effect(90, 150, e -> {
         Draw.color(e.color, Color.white, e.fin() * 0.7f);
         Fill.circle(e.x, e.y, e.fout() * e.rotation * 1.25f);
@@ -51,9 +52,11 @@ public class EnergyUnit extends UnitEntity {
             }
         }
     });
+
     public float reload = 240;
     public float teleportMinRange = 180f;
     public float teleportRange = 400f;
+
     protected transient Vec2 lastPos = new Vec2();
     protected float reloadValue = 0;
     protected float lastHealth = 0;
@@ -103,7 +106,23 @@ public class EnergyUnit extends UnitEntity {
 
     @Override
     public void add() {
-        super.add();
+        if (added) return;
+        index__all = Groups.all.addIndex(this);
+        index__unit = Groups.unit.addIndex(this);
+        index__sync = Groups.sync.addIndex(this);
+        index__draw = Groups.draw.addIndex(this);
+
+        added = true;
+
+        updateLastPosition();
+
+        team.data().updateCount(type, 1);
+
+        //check if over unit cap
+        if (type.useUnitCap && count() > cap() && !spawnedByCore && !dead && !state.rules.editor) {
+            Call.unitCapDeath(this);
+            team.data().updateCount(type, -1);
+        }
 
         lastPos.set(this);
     }
@@ -149,10 +168,12 @@ public class EnergyUnit extends UnitEntity {
         }
     }
 
+    @Override
     public boolean teleportValid() {
         return reloadValue > reload;
     }
 
+    @Override
     public void teleport(float x, float y) {
         Drawn.teleportUnitNet(this, x, y, angleTo(x, y), isPlayer() ? getPlayer() : null);
         reloadValue = 0;
@@ -207,5 +228,85 @@ public class EnergyUnit extends UnitEntity {
     @Override
     public void damage(float amount, boolean withEffect) {
         super.damage(amount, withEffect);
+    }
+
+    @Override
+    public float reload() {
+        return reload;
+    }
+
+    @Override
+    public float teleportMinRange() {
+        return teleportMinRange;
+    }
+
+    @Override
+    public float teleportRange() {
+        return teleportRange;
+    }
+
+    @Override
+    public Vec2 lastPos() {
+        return lastPos;
+    }
+
+    @Override
+    public float reloadValue() {
+        return reloadValue;
+    }
+
+    @Override
+    public float lastHealth() {
+        return lastHealth;
+    }
+
+    @Override
+    public Interval timer() {
+        return timer;
+    }
+
+    @Override
+    public Trail[] trails() {
+        return trails;
+    }
+
+    @Override
+    public void reload(float value) {
+        reload = value;
+    }
+
+    @Override
+    public void teleportMinRange(float value) {
+        teleportMinRange = value;
+    }
+
+    @Override
+    public void teleportRange(float value) {
+        teleportRange = value;
+    }
+
+    @Override
+    public void lastPos(Vec2 value) {
+        lastPos = value;
+    }
+
+    @Override
+    public void reloadValue(float value) {
+        reloadValue = value;
+    }
+
+    @Override
+    public void lastHealth(float value) {
+        lastHealth = value;
+    }
+
+    @Override
+    public void timer(Interval value) {
+        timer = value;
+    }
+
+    @Override
+    public void trails(Trail[] value) {
+        trails = value;
     }
 }

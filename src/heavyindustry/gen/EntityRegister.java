@@ -24,6 +24,11 @@ public final class EntityRegister {
     public static void load() {
         reg("PayloadLegsUnit", PayloadLegsUnit.class, PayloadLegsUnit::new);
         reg("BuildingTetherPayloadLegsUnit", BuildingTetherPayloadLegsUnit.class, BuildingTetherPayloadLegsUnit::new);
+        reg("MillipedeSegmentUnit", MillipedeSegmentUnit.class, MillipedeSegmentUnit::new);
+        reg("MillipedeDefaultUnit", MillipedeDefaultUnit.class, MillipedeDefaultUnit::new);
+        reg("MillipedeLegsUnit", MillipedeLegsUnit.class, MillipedeLegsUnit::new);
+        reg("OrnitopterUnit", OrnitopterUnit.class, OrnitopterUnit::new);
+        reg("CopterUnit", CopterUnit.class, CopterUnit::new);
         reg("EnergyUnit", EnergyUnit.class, EnergyUnit::new);
         reg("UltFire", UltFire.class, UltFire::new);
     }

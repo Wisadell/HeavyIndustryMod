@@ -90,10 +90,7 @@ public final class Utils {
     @Contract(pure = true)
     public static int reverse(int rotation) {
         return switch (rotation) {
-            case 0 -> 2;
-            case 2 -> 0;
-            case 1 -> 3;
-            case 3 -> 1;
+            case 0 -> 2; case 2 -> 0; case 1 -> 3; case 3 -> 1;
             default -> throw new IllegalStateException("Unexpected value: " + rotation);
         };
     }
@@ -477,6 +474,12 @@ public final class Utils {
     public static float angleDist(float a, float b) {
         float d = Math.abs(a - b) % 360f;
         return (d > 180f ? 360f - d : d);
+    }
+
+    public static void shotgun(int points, float spacing, float offset, Floatc cons) {
+        for (int i = 0; i < points; i++) {
+            cons.get(i * spacing - (points - 1) * spacing / 2f + offset);
+        }
     }
 
     public static float clampedAngle(float angle, float relative, float limit) {
@@ -932,21 +935,6 @@ public final class Utils {
 
     public interface HitHandler {
         boolean get(float x, float y, Healthc ent, boolean direct);
-    }
-
-    public static void add(ValueMap o,String key, float f) {
-        if (!o.has(key)) {
-            o.put(key,f);
-            return;
-        }
-        o.put(key,o.getFloat(key)+f);
-    }
-
-    public static float getFloat(ValueMap o,String key, float defaultVal) {
-        if (!o.has(key))
-            return defaultVal;
-
-        return o.getFloat(key);
     }
 
     public static boolean isCrash = false;
