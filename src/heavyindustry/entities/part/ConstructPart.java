@@ -10,7 +10,7 @@ import mindustry.graphics.*;
 /**
  * Draws a region with a construct animation, is meant to be used only on units.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class ConstructPart extends DrawPart {
     /** Appended to unit/weapon/block name and drawn. */
