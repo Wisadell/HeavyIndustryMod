@@ -17,7 +17,7 @@ import static heavyindustry.core.HeavyIndustryMod.*;
 /**
  * Defines the {@linkplain Weather weather} this mod offers.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HIWeathers {
     public static Weather wind, blizzard, hailStone, stoneStorm;
@@ -25,6 +25,10 @@ public final class HIWeathers {
     /** HIWeathers should not be instantiated. */
     private HIWeathers() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         wind = new EffectWeather("wind") {{
             weatherFx = HIFx.windTail;

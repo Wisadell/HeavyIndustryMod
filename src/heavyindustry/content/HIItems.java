@@ -6,7 +6,7 @@ import mindustry.type.*;
 /**
  * Defines the {@linkplain Item item} this mod offers.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HIItems {
     public static Item
@@ -17,6 +17,10 @@ public final class HIItems {
     /** HIItems should not be instantiated. */
     private HIItems() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         salt = new Item("salt", Color.white) {{
             cost = 1.1f;

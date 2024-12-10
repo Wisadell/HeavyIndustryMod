@@ -27,6 +27,10 @@ public final class HIPlanets {
     /** HIPlanets should not be instantiated. */
     private HIPlanets() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         kepler = new BetterPlanet("kepler", sun, 1f, 3) {{
             icon = "kepler-icon";

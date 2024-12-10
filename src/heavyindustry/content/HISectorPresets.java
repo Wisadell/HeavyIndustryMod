@@ -7,7 +7,7 @@ import static mindustry.content.Planets.*;
 /**
  * Defines the {@linkplain SectorPreset maps} this mod offers.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HISectorPresets {
     public static SectorPreset
@@ -19,6 +19,10 @@ public final class HISectorPresets {
     /** HISectorPresets should not be instantiated. */
     private HISectorPresets() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         //serpulo
         volcanicArchipelago = new SectorPreset("volcanicArchipelago", serpulo, 111) {{

@@ -43,9 +43,8 @@ import static mindustry.gen.EntityMapping.*;
 /**
  * Defines the {@linkplain UnitType units} this mod offers.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
-@SuppressWarnings("unchecked")
 public final class HIUnitTypes {
     public static UnitType
             //vanilla-tank
@@ -57,7 +56,7 @@ public final class HIUnitTypes {
             //miner-erekir
             miner, largeMiner, legsMiner,
             //other
-            collector, armoredCarrierVehicle, pioneer, vulture, vespula,
+            armoredCarrierVehicle, pioneer, vulture, vespula,
             burner, shadowBlade, artilleryFirePioneer,
             //elite
             tiger, thunder,
@@ -90,7 +89,6 @@ public final class HIUnitTypes {
         nameMap.put(name("large-miner"), idMap[36]);
         nameMap.put(name("legs-miner"), BuildingTetherPayloadLegsUnit::new);
         //other
-        nameMap.put(name("collector"), MillipedeLegsUnit::new);
         nameMap.put(name("armored-carrier-vehicle"), idMap[43]);
         nameMap.put(name("pioneer"), PayloadLegsUnit::new);
         nameMap.put(name("vulture"), idMap[3]);
@@ -108,6 +106,10 @@ public final class HIUnitTypes {
     /** HIUnitTypes should not be instantiated. */
     private HIUnitTypes() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         //vanilla-tank
         vanguard = new UnitType("vanguard") {{
@@ -1787,63 +1789,6 @@ public final class HIUnitTypes {
             }});
         }};
         //other
-        collector = new MillipedeUnitType("collector") {{
-            aiController = MillipedeAI::new;
-            speed = 0.6f;
-            health = 200f;
-            regenTime = 15f * 60f;
-            chainable = true;
-            omniMovement = false;
-            angleLimit = 65f;
-            segmentLength = 5;
-            segmentDamageScl = 8f;
-            segmentCast = 8;
-            segmentOffset = 7.3f;
-            maxSegments = 20;
-            preventDrifting = true;
-            legLength = 8f;
-            lockLegBase = true;
-            legContinuousMove = true;
-            legExtension = -2f;
-            legBaseOffset = 3f;
-            legMaxLength = 1.1f;
-            legMinLength = 0.2f;
-            legLengthScl = 0.96f;
-            legForwardScl = 0.7f;
-            legGroupSize = 2;
-            rippleScale = 0.7f;
-            headLegCount = segmentLegCount = tailLegCount = 2;
-            legMoveSpace = 2f;
-            allowLegStep = true;
-            hovering = false;
-            legPhysicsLayer = true;
-            Seq<Weapon> weaponSeq = Seq.with(new Weapon(name("collector-beam")) {{
-                x = 0f;
-                y = 1f;
-                rotate = true;
-                mirror = false;
-                reload = 60f;
-                bullet = new ArtilleryBulletType(5f, 7) {{
-                    maxRange = 40f;
-                    collidesTiles = collidesAir = collidesGround = true;
-                    width = height = 11f;
-                    splashDamage = 25f;
-                    splashDamageRadius = 25f;
-                    trailColor = hitColor = lightColor = backColor = Pal.thoriumPink;
-                    frontColor = Pal.thoriumPink;
-                }};
-            }});
-            segmentWeapons = new Seq[] {
-                    Seq.with(),
-                    weaponSeq, weaponSeq, weaponSeq,
-                    weaponSeq, weaponSeq, weaponSeq,
-                    weaponSeq, weaponSeq, weaponSeq,
-                    weaponSeq, weaponSeq, weaponSeq,
-                    weaponSeq, weaponSeq, weaponSeq,
-                    weaponSeq, weaponSeq, weaponSeq,
-                    Seq.with()
-            };
-        }};
         armoredCarrierVehicle = new UnitType("armored-carrier-vehicle") {{
             healFlash = false;
             treadFrames = 16;

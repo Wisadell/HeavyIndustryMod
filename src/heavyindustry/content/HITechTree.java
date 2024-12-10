@@ -17,7 +17,7 @@ import static mindustry.content.UnitTypes.*;
 /**
  * Sets up content {@link TechNode tech tree nodes}. Loaded after every other content is instantiated.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HITechTree {
     public static TechNode context = null;
@@ -25,6 +25,10 @@ public final class HITechTree {
     /** HITechTree should not be instantiated. */
     private HITechTree() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         //items,liquids
         vanillaNode(Liquids.water, () -> nodeProduce(HILiquids.brine, () -> {}));

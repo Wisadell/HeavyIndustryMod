@@ -10,7 +10,7 @@ import static mindustry.Vars.*;
 /**
  * Defines the {@linkplain CacheLayer cache layer}s this mod offers.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HICacheLayer {
     public static ShaderLayer dalani, brine, nanofluid, armor, pit, waterPit;

@@ -8,7 +8,7 @@ import mindustry.type.*;
 /**
  * Defines the {@linkplain Liquid liquid} this mod offers.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HILiquids {
     public static Liquid
@@ -17,6 +17,10 @@ public final class HILiquids {
     /** HILiquids should not be instantiated. */
     private HILiquids() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         brine = new Liquid("brine", Color.valueOf("b8c89f")) {{
             coolant = false;

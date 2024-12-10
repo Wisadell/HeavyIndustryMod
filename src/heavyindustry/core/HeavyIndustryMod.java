@@ -40,7 +40,7 @@ import static mindustry.Vars.*;
 /**
  * Main entry point of the mod. Handles startup things like content loading, entity registering, and utility bindings.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HeavyIndustryMod extends Mod {
     /** Commonly used static read-only String. do not change unless you know what you're doing. */
@@ -52,7 +52,7 @@ public final class HeavyIndustryMod extends Mod {
 
     public static final boolean onlyPlugIn = settings.getBool("hi-plug-in-mode"), developer = settings.getBool("hi-developer-mode");
 
-    private static final String linkGitHub = "https://github.com/E-Nightingale/HeavyIndustryMod", author = "E-Nightingale";
+    private static final String linkGitHub = "https://github.com/Eipusino/HeavyIndustryMod", author = "Eipusino";
 
     /** jar internal navigation. */
     public static InternalFileTree internalTree = new InternalFileTree(HeavyIndustryMod.class);
@@ -217,8 +217,8 @@ public final class HeavyIndustryMod extends Mod {
 
     @Override
     public void loadContent() {
-        EntityRegister.load();
-        WorldRegister.load();
+        EntityRegister.register();
+        WorldRegister.register();
 
         if (onlyPlugIn) return;
 
@@ -230,7 +230,6 @@ public final class HeavyIndustryMod extends Mod {
         HIUnitTypes.load();
         HIBlocks.load();
         HIWeathers.load();
-        HIOverride.loadReflect();
         HIOverride.load();
         HIPlanets.load();
         HISectorPresets.load();

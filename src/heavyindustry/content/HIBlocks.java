@@ -65,16 +65,17 @@ import static mindustry.type.ItemStack.*;
 
 /**
  * Defines the {@linkplain Block blocks} this mod offers.
+ * <p>It is now quite large in scale, even approaching the size of vanilla's {@link Blocks}.
+ * But I don't want to divide it into multiple classes.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HIBlocks {
     public static Block
             //environment
             darkPanel7, darkPanel8, darkPanel9, darkPanel10, darkPanel11, darkPanelDamaged,
-            stoneVent, basaltVent, shaleVent, basaltWall, basaltGraphiticWall, basaltPyratiticWall, snowySand, snowySandWall, arkyciteSand, arkyciteSandWall, arkyciteSandBoulder, darksandBoulder, asphalt, asphaltSide,
+            stoneVent, basaltVent, shaleVent, basaltWall, basaltGraphiticWall, basaltPyratiticWall, snowySand, snowySandWall, arkyciteSand, arkyciteSandWall, arkyciteSandBoulder, darksandBoulder,
             concreteBlank, concreteFill, concreteNumber, concreteStripe, concrete, stoneFullTiles, stoneFull, stoneHalf, stoneTiles, concreteWall, pit, waterPit,
-            metalClear, metalLight, metalGround, metalVent, metalScarp, metaWall, metalTower, metalFloorGroove, metalFloorPlain, labFloor, labFloorDark,
             brine, nanofluid,
             metalFloorWater, metalFloorWater2, metalFloorWater3, metalFloorWater4, metalFloorWater5, metalFloorDamagedWater,
             stoneWater, shaleWater, basaltWater, mudWater,
@@ -131,7 +132,7 @@ public final class HIBlocks {
             matrixProcessor, hugeLogicDisplay, buffrerdMemoryCell, buffrerdMemoryBank, heatSink, heatFan, heatSinkLarge,
             //turret
             dissipation, rocketLauncher, multipleRocketLauncher, largeRocketLauncher, rocketSilo,
-            coilBlaster, dragonBreath, inferno, breakthrough, cloudbreaker, minigun, blaze,
+            coilBlaster, dragonBreath, breakthrough, cloudbreaker, minigun, blaze,
             spike, fissure,
             hurricane, judgement,
             //turret-erekir
@@ -149,6 +150,10 @@ public final class HIBlocks {
     /** Key is component itself, value is its inferior.  */
     public static final ObjectMap<UnlockableContent, Block> compositeMap = new ObjectMap<>();
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         //environment
         darkPanel7 = new Floor("dark-panel-7", 0);
@@ -213,10 +218,6 @@ public final class HIBlocks {
         darksandBoulder = new Prop("darksand-boulder") {{
             variants = 2;
             Blocks.darksand.asFloor().decoration = this;
-        }};
-        asphalt = new Floor("asphalt", 0);
-        asphaltSide = new GrooveFloor("asphalt-side") {{
-            blendGroup = asphalt;
         }};
         concreteBlank = new Floor("concrete-blank") {{
             attributes.set(Attribute.water, -0.85f);
@@ -289,54 +290,6 @@ public final class HIBlocks {
                 return new TextureRegion[]{region};
             }
         };
-        metalClear = new ArmorFloor("metal-clear");
-        metalLight = new ArmorFloor("metal-light", 3, metalClear.asFloor()) {{
-            useDynamicLight = true;
-            lightRadius = 7f;
-            emitLight = true;
-        }};
-        metalGround = new Floor("metal-ground", 6);
-        metalVent = new SteamVent("metal-vent") {{
-            variants = 2;
-            parent = blendGroup = metalGround;
-            attributes.set(Attribute.steam, 1.5f);
-            effectColor = Pal.darkerMetal;
-            effect = new Effect(140f, e -> {
-                Draw.color(e.color, Pal.techBlue, e.fin() * 0.86f);
-
-                Draw.alpha(e.fslope() * 0.78f);
-
-                float length = 3f + e.finpow() * 10f;
-                Fx.rand.setSeed(e.id);
-                for (int i = 0; i < Fx.rand.random(3, 5); i++) {
-                    Fx.v.trns(Fx.rand.random(360f), Fx.rand.random(length));
-                    Fill.circle(e.x + Fx.v.x, e.y + Fx.v.y, Fx.rand.random(1.2f, 3.5f) + e.fslope() * 1.1f);
-                }
-            }).layer(Layer.darkness - 1f);
-        }};
-        metalScarp = new Prop("metal-scrap") {{
-            variants = 3;
-            breakEffect = new Effect(23, e -> {
-                float scl = Math.max(e.rotation, 1);
-                Fx.rand.setSeed(e.id);
-                Angles.randLenVectors(e.id, 6, 19f * e.finpow() * scl, (x, y) -> {
-                    Draw.color(Tmp.c1.set(e.color).mul(1 + Fx.rand.range(0.125f)));
-                    Fill.square(e.x + x, e.y + y, e.fout() * 3.5f * scl + 0.3f);
-                });
-            }).layer(Layer.debris);
-            breakSound = HISounds.metalWalk;
-        }};
-        metaWall = new StaticWall("metal-wall") {{
-            variants = 6;
-        }};
-        metalTower = new StaticWall("metal-tower") {{
-            variants = 3;
-            layer = Layer.blockOver + 1;
-        }};
-        metalFloorGroove = new GrooveFloor("metal-floor-groove");
-        metalFloorPlain = new TiledFloor("metal-floor-plating");
-        labFloor = new TiledFloor("lab-floor", 8, 1);
-        labFloorDark = new TiledFloor("lab-floor-dark", 8, 1);
         softRareEarth = new Floor("soft-rare-earth", 3) {{
             itemDrop = HIItems.rareEarth;
             playerUnmineable = true;

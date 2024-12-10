@@ -38,7 +38,6 @@ final class HIClassMap {
         classes.put("HealingDefenderAI", HealingDefenderAI.class);
         classes.put("SniperAI", SniperAI.class);
         classes.put("SurroundAI", SurroundAI.class);
-        classes.put("MillipedeAI", MillipedeAI.class);
         classes.put("MinerPointAI", MinerPointAI.class);
         //ability
         classes.put("BatteryAbility", BatteryAbility.class);
@@ -93,7 +92,6 @@ final class HIClassMap {
         classes.put("CustomPart", CustomPart.class);
         //types-unit
         classes.put("CopterUnitType", CopterUnitType.class);
-        classes.put("MillipedeUnitType", MillipedeUnitType.class);
         classes.put("OrnitopterUnitType", OrnitopterUnitType.class);
         //types-weapon
         classes.put("AcceleratingWeapon", AcceleratingWeapon.class);

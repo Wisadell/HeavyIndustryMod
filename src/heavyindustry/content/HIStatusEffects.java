@@ -16,7 +16,7 @@ import static mindustry.content.StatusEffects.*;
 /**
  * Sets up content {@link StatusEffect status effects}. Loaded after every other content is instantiated.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HIStatusEffects {
     public static StatusEffect
@@ -26,6 +26,10 @@ public final class HIStatusEffects {
     /** HIStatusEffects should not be instantiated. */
     private HIStatusEffects() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         overheat = new StatusEffect("overheat") {{
             color = Color.valueOf("ffdcd8");

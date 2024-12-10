@@ -18,7 +18,7 @@ import static mindustry.Vars.*;
 /**
  * Defines the {@linkplain Shader shader}s this mod offers.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HIShaders {
     public static DepthShader depth;

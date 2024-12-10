@@ -25,7 +25,7 @@ import static mindustry.Vars.*;
 /**
  * Some preset bullets. Perhaps it will be used multiple times.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 @SuppressWarnings("unchecked")
 public final class HIBullets {
@@ -42,6 +42,10 @@ public final class HIBullets {
     /** HIBullets should not be instantiated. */
     private HIBullets() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         basicMissile = new MissileBulletType(4.2f, 15) {{
             homingPower = 0.12f;

@@ -1,9 +1,6 @@
 package heavyindustry.util;
 
 import arc.func.*;
-import arc.struct.*;
-import mindustry.world.*;
-import mindustry.world.consumers.*;
 
 import java.lang.reflect.*;
 
@@ -14,32 +11,11 @@ public final class Reflects {
     /** Reflects should not be instantiated. */
     private Reflects() {}
 
-    public static void removeAllConsumes(Block block) throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-        getBlockConsumeBuilder(block).clear();
-        block.consPower = null;
-    }
+    public static <T> T getDec(T object, String clazz, String field) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
+        Field fi = object.getClass().getClassLoader().loadClass(clazz).getDeclaredField(field);
+        fi.setAccessible(true);
 
-    public static void removeConsumeItems(Block block) throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-        getBlockConsumeBuilder(block).removeAll(b -> b instanceof ConsumeItems);
-    }
-
-    public static void removeConsumeLiquids(Block block) throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-        getBlockConsumeBuilder(block).removeAll(b -> b instanceof ConsumeLiquidBase);
-    }
-
-    public static Seq<Consume> getBlockConsumeBuilder(Block block) throws ClassNotFoundException, NoSuchFieldException, IllegalAccessException {
-        return (Seq<Consume>) getfBlock(block, "consumeBuilder").get(block);
-    }
-
-    public static <T extends Block> Field getfBlock(T block, String typeField) throws ClassNotFoundException, NoSuchFieldException {
-        return getf(block, "mindustry.world.Block", typeField);
-    }
-
-    public static <T> Field getf(T object, String typeName, String typeField) throws ClassNotFoundException, NoSuchFieldException {
-        Field field = object.getClass().getClassLoader().loadClass(typeName).getDeclaredField(typeField);
-        field.setAccessible(true);
-
-        return field;
+        return (T) fi.get(object);
     }
 
     public static <T> T[] newArray(Class<T> type, int length) {

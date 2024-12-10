@@ -4,7 +4,6 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
-import arc.util.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.graphics.*;
 import heavyindustry.world.meta.*;
@@ -24,22 +23,26 @@ import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.*;
+import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
 import static arc.Core.*;
-import static heavyindustry.util.Reflects.*;
 import static mindustry.Vars.*;
 import static mindustry.type.ItemStack.*;
 
 /**
  * Covering the original content.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public final class HIOverride {
     /** HIOverride should not be instantiated. */
     private HIOverride() {}
 
+    /**
+     * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
+     * <p>Remember not to execute it a second time, I did not take any precautionary measures.
+     */
     public static void load() {
         //Blocks-Environment
         Blocks.sandWater.itemDrop = Blocks.darksandWater.itemDrop = Blocks.darksandTaintedWater.itemDrop = Items.sand;
@@ -97,11 +100,15 @@ public final class HIOverride {
         Blocks.neoplasiaReactor.canOverdrive = true;
         //Blocks-Production
         Blocks.phaseWeaver.itemCapacity = 30;
+        Blocks.disassembler.removeConsumers(c -> c instanceof ConsumeItems);
+        ((Separator) Blocks.disassembler).results = ItemStack.with(Items.copper, 1, Items.lead, 1, Items.graphite, 1, Items.titanium, 1, Items.thorium, 1);
         //Blocks-Production-Erekir
         Blocks.oxidationChamber.canOverdrive = true;
         Blocks.heatReactor.buildVisibility = BuildVisibility.shown;
         ((AttributeCrafter) Blocks.ventCondenser).maxBoost = 3f;
         ((GenericCrafter) Blocks.electrolyzer).outputLiquids = LiquidStack.with(Liquids.ozone, 4f / 60f, Liquids.hydrogen, 8f / 60f);
+        Blocks.cyanogenSynthesizer.removeConsumers(c -> c instanceof ConsumeLiquidBase);
+        Blocks.cyanogenSynthesizer.consumeLiquid(Liquids.arkycite, 15f / 60f);
         ((HeatCrafter) Blocks.cyanogenSynthesizer).outputLiquid = new LiquidStack(Liquids.cyanogen, 4f / 60f);
         //Blocks-Defense
         Blocks.shockMine.underBullets = true;
@@ -471,18 +478,6 @@ public final class HIOverride {
                     b1.description = n;
                 }
             }
-        }
-    }
-
-    public static void loadReflect() {
-        try {
-            removeConsumeItems(Blocks.disassembler);
-            ((Separator) Blocks.disassembler).results = ItemStack.with(Items.copper, 1, Items.lead, 1, Items.graphite, 1, Items.titanium, 1, Items.thorium, 1);
-
-            removeConsumeLiquids(Blocks.cyanogenSynthesizer);
-            Blocks.cyanogenSynthesizer.consumeLiquid(Liquids.arkycite, 15f / 60f);
-        } catch (Exception e) {
-            Log.err(e);
         }
     }
 }
