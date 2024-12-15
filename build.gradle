@@ -37,17 +37,17 @@ java{
 
 allprojects{
     tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
         options.compilerArgs.addAll(['--release', '8'])
     }
 }
 
 dependencies{
     implementation "org.jetbrains:annotations:24.0.1"
+    implementation "org.tomlj:tomlj:1.1.1"
 
-    compileOnly files("F:\\anuken\\Mindustry-BE-Desktop-25445.jar")
+    compileOnly files("libs/mindustry.jar")
 
-    annotationProcessor files("F:\\anuken\\jabel.jar")
+    annotationProcessor files("libs/jabel.jar")
 }
 
 configurations.all{
