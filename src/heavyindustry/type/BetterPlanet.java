@@ -8,12 +8,16 @@ import arc.math.geom.*;
 import arc.util.*;
 import heavyindustry.graphics.*;
 import mindustry.graphics.*;
+import mindustry.graphics.Shaders.*;
 import mindustry.graphics.g3d.*;
 import mindustry.type.*;
 
 import static arc.Core.*;
 import static mindustry.Vars.*;
 
+/**
+ * Just a regular planet, but with a fixed atmosphere shader at the little cost of performance.
+ */
 public class BetterPlanet extends Planet {
     public @Nullable FrameBuffer depthBuffer;
 
@@ -80,7 +84,7 @@ public class BetterPlanet extends Planet {
                 depthBuffer.end();
             }
 
-            var shader = Shaders.planet;
+            PlanetShader shader = Shaders.planet;
             shader.planet = BetterPlanet.this;
             shader.lightDir.set(solarSystem.position).sub(position).rotate(Vec3.Y, getRotation()).nor();
             shader.ambientColor.set(solarSystem.lightColor);

@@ -81,10 +81,8 @@ public final class PositionLightning {
 
     /**
      * METHODS
-     * <p>
-     * create lightning to the enemies in range.
-     * <p>
-     * A radius create method that with a Bullet owner.
+     * <p>create lightning to the enemies in range.
+     * <p>A radius create method that with a Bullet owner.
      */
     public static void createRange(Bullet owner, float range, int maxHit, Color color, boolean createSubLightning, float width, int lightningNum, Cons<Position> hitPointMovement) {
         createRange(owner, owner, owner.team, range, maxHit, color, createSubLightning, 0, 0, width, lightningNum, hitPointMovement);

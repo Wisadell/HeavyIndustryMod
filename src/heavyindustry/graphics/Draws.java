@@ -1077,18 +1077,18 @@ public final class Draws {
 
             int convLen = convolutions.length;
 
-            StringBuilder varyings = new StringBuilder();
+            StringBuilder varying = new StringBuilder();
             StringBuilder assignVar = new StringBuilder();
             StringBuilder convolution = new StringBuilder();
 
             int c = 0;
             int half = convLen / 2;
             for (float v : convolutions) {
-                varyings.append("varying vec2 v_texCoords").append(c).append(";").append(System.lineSeparator());
+                varying.append("varying vec2 v_texCoords").append(c).append(";").append(System.lineSeparator());
 
                 assignVar.append("v_texCoords").append(c).append(" = ").append("a_texCoord0");
                 if (c - half != 0)
-                    assignVar.append(c - half > 0 ? "+" : "-").append(Math.abs((float) c - half)).append(" * len");
+                    assignVar.append(c - half > 0 ? "+" : "-").append(Math.abs(c - half)).append(" * len");
 
                 assignVar.append(";").append(System.lineSeparator()).append("  ");
 
@@ -1115,7 +1115,7 @@ public final class Draws {
                         %assignVar%
                         gl_Position = a_position;
                     }
-                    """.replace("%varying%", varyings).replace("%assignVar%", assignVar);
+                    """.replace("%varying%", varying).replace("%assignVar%", assignVar);
             String fragmentShader = """
                     uniform lowp sampler2D u_texture0;
                     uniform lowp sampler2D u_texture1;
@@ -1139,7 +1139,7 @@ public final class Draws {
                             gl_FragColor.a = def_alpha;
                         }
                     }
-                    """.replace("%varying%", varyings).replace("%convolution%", convolution);
+                    """.replace("%varying%", varying).replace("%convolution%", convolution);
 
             return new Shader(vertexShader, fragmentShader);
         }

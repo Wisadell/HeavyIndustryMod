@@ -2,6 +2,7 @@ package heavyindustry.graphics.g3d.model.obj;
 
 import arc.files.*;
 import arc.graphics.*;
+import arc.graphics.gl.*;
 import arc.struct.*;
 import arc.util.*;
 import heavyindustry.graphics.g3d.model.obj.mtl.*;
@@ -19,7 +20,7 @@ public class ObjectModelFactory {
      * @param objFile .obj file
      * @param shader  model's shaders
      */
-    public static Seq<OBJModel> create(Fi objFile, ObjectShader shader) {
+    public static Seq<OBJModel> create(Fi objFile, Shader shader) {
         Seq<OBJModel> out = new Seq<>();
         Seq<OBJ> objs = OBJParser.parse(objFile);
         for (int i = 0; i < objs.size; i++) {

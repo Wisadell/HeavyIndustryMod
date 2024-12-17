@@ -156,6 +156,7 @@ public class BitWordList {
      */
     public enum WordLength {
         two(2), four(4);
+
         public final byte value;
 
         WordLength(int value) {

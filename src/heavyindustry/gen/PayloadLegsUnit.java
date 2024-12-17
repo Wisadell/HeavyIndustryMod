@@ -22,6 +22,8 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
 
     protected transient @Nullable PowerGraph payloadPower;
 
+    protected PayloadLegsUnit() {}
+
     @Override
     public int classId() {
         return EntityRegister.getId(PayloadLegsUnit.class);
@@ -187,9 +189,7 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         return true;
     }
 
-    /**
-     * @return whether the tile has been successfully placed.
-     */
+    /** @return whether the tile has been successfully placed. */
     @Override
     public boolean dropBlock(BuildPayload payload) {
         Building tile = payload.build;
@@ -270,5 +270,9 @@ public class PayloadLegsUnit extends LegsUnit implements Payloadc {
         for (int i = 0; i < payloads.size; i++) {
             TypeIO.writePayload(write, payloads.get(i));
         }
+    }
+
+    public static PayloadLegsUnit create() {
+        return new PayloadLegsUnit();
     }
 }

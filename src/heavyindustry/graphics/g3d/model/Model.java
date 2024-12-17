@@ -1,5 +1,6 @@
 package heavyindustry.graphics.g3d.model;
 
+import arc.graphics.gl.*;
 import arc.math.geom.*;
 import arc.util.*;
 import heavyindustry.graphics.g3d.model.obj.*;
@@ -16,16 +17,13 @@ public interface Model extends Disposable {
      **/
     void render(Renderer3D renderer);
 
-    /** Dispose model. */
-    default void dispose() {}
-
     /** Clone this models. */
     Model cloneModel();
 
 
-    ObjectShader getShader();
+    Shader getShader();
 
-    void setShader(ObjectShader shader);
+    void setShader(Shader shader);
 
     Mat3D getTransformation();
 

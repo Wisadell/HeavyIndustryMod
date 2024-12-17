@@ -16,6 +16,8 @@ public class OrnitopterUnit extends UnitEntity implements Ornitopterc {
     protected float driftAngle;
     protected boolean hasDriftAngle = false;
 
+    protected OrnitopterUnit() {}
+
     @Override
     public int classId() {
         return EntityRegister.getId(OrnitopterUnit.class);
@@ -119,5 +121,9 @@ public class OrnitopterUnit extends UnitEntity implements Ornitopterc {
     @Override
     public void drawSeed(long value) {
         drawSeed = value;
+    }
+
+    public static OrnitopterUnit create() {
+        return new OrnitopterUnit();
     }
 }

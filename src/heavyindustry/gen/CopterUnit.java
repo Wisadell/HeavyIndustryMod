@@ -12,6 +12,8 @@ public class CopterUnit extends UnitEntity implements Copterc {
     protected transient RotorMount[] rotors = {};
     protected transient float rotorSpeedScl = 1f;
 
+    protected CopterUnit() {}
+
     @Override
     public int classId() {
         return EntityRegister.getId(CopterUnit.class);
@@ -89,5 +91,9 @@ public class CopterUnit extends UnitEntity implements Copterc {
     @Override
     public void rotorSpeedScl(float value) {
         rotorSpeedScl = value;
+    }
+
+    public static CopterUnit create() {
+        return new CopterUnit();
     }
 }

@@ -9,18 +9,14 @@ import heavyindustry.graphics.g3d.model.obj.*;
 
 import java.io.*;
 
-/**
- * For models parsing use {@link ObjectModelFactory}
- **/
+/** For models parsing use {@link ObjectModelFactory}. */
 public class OBJParser {
     static Seq<Vec3> vs = new Seq<>(), vns = new Seq<>();
     static Seq<Vec2> vts = new Seq<>();
     static IntSeq facesIndexes = new IntSeq();
     static FloatSeq vertices = new FloatSeq();
 
-    /**
-     * @param file file for parsing
-     **/
+    /** @param file file for parsing */
     public static Seq<OBJ> parse(Fi file) {
         Seq<OBJ> out = new Seq<>();
         OBJ currentObj = null;
@@ -112,9 +108,7 @@ public class OBJParser {
         vertices.clear();
     }
 
-    /**
-     * Parse floats from list of strings.
-     **/
+    /** Parse floats from list of strings. */
     private static float[] getFloats(String[] args) {
         float[] floats = new float[args.length];
         for (int i = 0; i < floats.length; i++) {
@@ -123,9 +117,7 @@ public class OBJParser {
         return floats;
     }
 
-    /**
-     * Constructs object's vertices.
-     **/
+    /** Constructs object's vertices. */
     static void constructObj(OBJ obj) {
         vertices.clear();
         for (int i = 0; i < facesIndexes.size; i += 3) {
@@ -143,9 +135,7 @@ public class OBJParser {
     }
 
 
-    /**
-     * Parse integers from list of strings.
-     **/
+    /** Parse integers from list of strings. */
     public static IntSeq toIntegers(IntSeq out, String... strings) {
         for (String string : strings) {
             out.add(Integer.parseInt(string));
@@ -153,9 +143,7 @@ public class OBJParser {
         return out;
     }
 
-    /**
-     * Parse integers from string.
-     **/
+    /** Parse integers from string. */
     public static IntSeq parseIntegers(IntSeq out, String v, String sep) {
         return toIntegers(out, v.split(sep));
     }

@@ -7,8 +7,10 @@ import arc.graphics.g3d.*;
 import arc.graphics.gl.*;
 import arc.math.geom.*;
 import arc.util.*;
+import heavyindustry.graphics.gl.*;
 import heavyindustry.type.*;
 import mindustry.*;
+import mindustry.graphics.Shaders.*;
 import mindustry.type.*;
 
 import static arc.Core.*;
@@ -23,6 +25,8 @@ import static mindustry.Vars.*;
 public final class HIShaders {
     public static DepthShader depth;
     public static DepthAtmosphereShader depthAtmosphere;
+    public static BlackHoleShader blackHole;
+    public static BlackHoleStencilShader blackHoleStencil;
     public static AlphaShader alphaShader;
     public static SurfaceShaderF dalani, brine, nanofluid, boundWater, pit, waterPit;
     public static MaskShader alphaMask;
@@ -30,6 +34,8 @@ public final class HIShaders {
     public static MirrorFieldShader mirrorField;
     public static LoadShaderF baseShader;
     public static Tiler tiler;
+    public static CelestialShader celestial;
+    public static ModelPropShader modelProp;
     public static PlanetTextureShader planetTextureShader;
 
     /** HIShaders should not be instantiated. */
@@ -40,11 +46,11 @@ public final class HIShaders {
         String prevVert = Shader.prependVertexCode, prevFrag = Shader.prependFragmentCode;
         Shader.prependVertexCode = Shader.prependFragmentCode = "";
 
-        if (graphics.getGLVersion().type == GLVersion.GlType.OpenGL)
-            Shader.prependFragmentCode = "#define HAS_GL_FRAGDEPTH\n";
-
         depth = new DepthShader();
         depthAtmosphere = new DepthAtmosphereShader();
+
+        blackHole = new BlackHoleShader();
+        blackHoleStencil = new BlackHoleStencilShader();
 
         alphaShader = new AlphaShader();
 
@@ -62,6 +68,8 @@ public final class HIShaders {
 
         tiler = new Tiler();
 
+        celestial = new CelestialShader();
+        modelProp = new ModelPropShader();
         planetTextureShader = new PlanetTextureShader();
 
         Shader.prependVertexCode = prevVert;
@@ -69,12 +77,10 @@ public final class HIShaders {
     }
 
     public static void dispose() {
-        if (!headless) {
-            dalani.dispose();
-            brine.dispose();
-            nanofluid.dispose();
-            boundWater.dispose();
-        }
+        dalani.dispose();
+        brine.dispose();
+        nanofluid.dispose();
+        boundWater.dispose();
     }
 
     /**
@@ -91,13 +97,14 @@ public final class HIShaders {
      * An atmosphere shader that incorporates the planet shape in a form of depth texture. Better quality, but at the little
      * cost of performance.
      */
-    public static class DepthAtmosphereShader extends LoadShaderF {
+    public static final class DepthAtmosphereShader extends LoadShaderF {
         private static final Mat3D mat = new Mat3D();
 
         public Camera3D camera;
         public BetterPlanet planet;
 
-        public DepthAtmosphereShader() {
+        /** This class only requires one instance. Please use {@link HIShaders#depthAtmosphere}. */
+        private DepthAtmosphereShader() {
             super("depth-atmosphere", "depth-atmosphere");
         }
 
@@ -123,10 +130,11 @@ public final class HIShaders {
     }
 
     /** Specialized mesh shader to capture fragment depths. */
-    public static class DepthShader extends LoadShaderF {
+    public static final class DepthShader extends LoadShaderF {
         public Camera3D camera;
 
-        public DepthShader() {
+        /** This class only requires one instance. Please use {@link HIShaders#depth}. */
+        private DepthShader() {
             super("depth", "depth");
         }
 
@@ -137,14 +145,15 @@ public final class HIShaders {
         }
     }
 
-    public static class PlanetTextureShader extends LoadShaderF {
+    public static final class PlanetTextureShader extends LoadShaderF {
         public Vec3 lightDir = new Vec3(1, 1, 1).nor();
         public Color ambientColor = Color.white.cpy();
         public Vec3 camDir = new Vec3();
         public float alpha = 1f;
         public Planet planet;
 
-        public PlanetTextureShader() {
+        /** This class only requires one instance. Please use {@link HIShaders#planetTextureShader}. */
+        private PlanetTextureShader() {
             super("circle-mesh", "circle-mesh");
         }
 
@@ -165,6 +174,94 @@ public final class HIShaders {
             Vec3 position = planet.position;
             Shader shader = this;
             shader.setUniformf(name, position.x, position.y, position.z, planet.radius);
+        }
+    }
+
+    /** Similar to {@link PlanetShader}, but properly calculates the light normals. */
+    public static final class CelestialShader extends LoadShaderF {
+        public Vec3 light = new Vec3();
+        public Color ambientColor = new Color();
+        public Vec3 camPos = new Vec3();
+
+        /** This class only requires one instance. Please use {@link HIShaders#celestial}. */
+        public CelestialShader() {
+            super("celestial", "celestial");
+        }
+
+        @Override
+        public void apply() {
+            setUniformf("u_light", light);
+            setUniformf("u_ambientColor", ambientColor.r, ambientColor.g, ambientColor.b);
+            setUniformf("u_camPos", camPos);
+        }
+    }
+
+    public static final class ModelPropShader extends LoadShaderF {
+        public Camera3D camera;
+        public Vec3 lightDir = new Vec3();
+        public Color reflectColor = new Color();
+
+        /** This class only requires one instance. Please use {@link HIShaders#modelProp}. */
+        public ModelPropShader() {
+            super("model-prop", "model-prop");
+        }
+
+        @Override
+        public void apply() {
+            setUniformMatrix4("u_proj", camera.combined.val);
+            setUniformf("u_camPos", camera.position);
+            setUniformf("u_lightDir", lightDir);
+            setUniformf("u_reflectColor", reflectColor);
+        }
+    }
+
+    public static final class BlackHoleShader extends LoadShaderF {
+        private static final Mat3D mat = new Mat3D();
+
+        public Camera3D camera;
+        public BlackHole planet;
+
+        /** This class only requires one instance. Please use {@link HIShaders#blackHole}. */
+        private BlackHoleShader() {
+            super("black-hole", "black-hole");
+        }
+
+        @Override
+        public void apply() {
+            setUniformMatrix4("u_proj", camera.combined.val);
+            setUniformMatrix4("u_invProj", camera.invProjectionView.val);
+            setUniformf("u_far", camera.far);
+            setUniformMatrix4("u_trans", planet.getTransform(mat).val);
+
+            setUniformf("u_camPos", camera.position);
+            setUniformf("u_relCamPos", Tmp.v31.set(camera.position).sub(planet.position));
+            setUniformf("u_center", planet.position);
+
+            setUniformf("u_radius", planet.radius);
+            setUniformf("u_horizon", planet.horizon);
+
+            planet.ref.getTexture().bind(0);
+            setUniformi("u_ref", 0);
+        }
+    }
+
+    public static final class BlackHoleStencilShader extends LoadShaderF {
+        public FrameBufferF src, ref;
+
+        /** This class only requires one instance. Please use {@link HIShaders#blackHoleStencil}. */
+        private BlackHoleStencilShader() {
+            super("screenspace", "black-hole-stencil");
+        }
+
+        @Override
+        public void apply() {
+            src.getTexture().bind(2);
+            src.getDepthTexture().bind(1);
+            ref.getDepthTexture().bind(0);
+
+            setUniformi("u_src", 2);
+            setUniformi("u_srcDepth", 1);
+            setUniformi("u_ref", 0);
         }
     }
 
@@ -189,10 +286,11 @@ public final class HIShaders {
         }
     }
 
-    public static class AlphaShader extends LoadShaderF {
+    public static final class AlphaShader extends LoadShaderF {
         public float alpha = 1f;
 
-        public AlphaShader() {
+        /** This class only requires one instance. Please use {@link HIShaders#alphaShader}. */
+        private AlphaShader() {
             super("screenspace", "postalpha");
         }
 
@@ -202,7 +300,7 @@ public final class HIShaders {
         }
     }
 
-    public static class WaveShader extends LoadShaderF {
+    public static final class WaveShader extends LoadShaderF {
         public Color waveMix = Color.white;
         public float mixAlpha = 0.4f;
         public float mixOmiga = 0.75f;
@@ -210,7 +308,8 @@ public final class HIShaders {
         public float minThreshold = 0.6f;
         public float waveScl = 0.2f;
 
-        public WaveShader() {
+        /** This class only requires one instance. Please use {@link HIShaders#wave}. */
+        private WaveShader() {
             super("screenspace", "wave");
         }
 
@@ -229,7 +328,7 @@ public final class HIShaders {
         }
     }
 
-    public static class MirrorFieldShader extends LoadShaderF {
+    public static final class MirrorFieldShader extends LoadShaderF {
         public Color waveMix = Color.white;
         public Vec2 offset = new Vec2(0, 0);
         public float stroke = 2;
@@ -241,7 +340,8 @@ public final class HIShaders {
         public float waveScl = 0.03f;
         public float sideLen = 10;
 
-        public MirrorFieldShader() {
+        /** This class only requires one instance. Please use {@link HIShaders#mirrorField}. */
+        private MirrorFieldShader() {
             super("screenspace", "mirrorfield");
         }
 
@@ -264,10 +364,11 @@ public final class HIShaders {
         }
     }
 
-    public static class MaskShader extends LoadShaderF {
+    public static final class MaskShader extends LoadShaderF {
         public Texture texture;
 
-        public MaskShader() {
+        /** This class only requires one instance. Please use {@link HIShaders#alphaMask}. */
+        private MaskShader() {
             super("screenspace", "alphamask");
         }
 
@@ -294,7 +395,7 @@ public final class HIShaders {
 
         @Override
         public void apply() {
-            var texture = atlas.find("grass1").texture;
+            Texture texture = atlas.find("grass1").texture;
             if (topLayer == null)
                 topLayer = atlas.find(topLayerName);
 
@@ -359,6 +460,14 @@ public final class HIShaders {
 
                 setUniformi("u_noise", 1);
             }
+        }
+    }
+
+    /** @deprecated Mindustry automatically replaces the gl30 syntax, and this class is no longer used. */
+    @Deprecated
+    public static class LoadShaderE extends ShaderF {
+        public LoadShaderE(String vertex, String fragment) {
+            super(file(vertex + ".vert"), file(fragment + ".frag"));
         }
     }
 

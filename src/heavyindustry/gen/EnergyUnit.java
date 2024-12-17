@@ -64,6 +64,8 @@ public class EnergyUnit extends UnitEntity implements Energyc {
 
     protected Trail[] trails = {};
 
+    protected EnergyUnit() {}
+
     @Override
     public int classId() {
         return EntityRegister.getId(EnergyUnit.class);
@@ -308,5 +310,9 @@ public class EnergyUnit extends UnitEntity implements Energyc {
     @Override
     public void trails(Trail[] value) {
         trails = value;
+    }
+
+    public static EnergyUnit create() {
+        return new EnergyUnit();
     }
 }

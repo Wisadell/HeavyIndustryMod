@@ -1,6 +1,7 @@
 package heavyindustry.graphics.g3d.model.obj;
 
 import arc.graphics.*;
+import arc.graphics.gl.*;
 import arc.math.geom.*;
 import heavyindustry.graphics.g3d.model.*;
 import heavyindustry.graphics.g3d.model.obj.mtl.*;
@@ -12,13 +13,13 @@ public class OBJModel implements Model {
     private final MTL mtl;
     public Texture texture;
     public Mesh mesh;
-    public ObjectShader shader;
+    public Shader shader;
     /** Transformation matrix. */
     public Mat3D transformation = new Mat3D();
     /** Translation vector. */
     public Vec3 translation = new Vec3();
 
-    public OBJModel(OBJ obj, MTL mtl, Texture texture, ObjectShader shader) {
+    public OBJModel(OBJ obj, MTL mtl, Texture texture, Shader shader) {
         this.mtl = mtl;
         this.obj = obj;
         this.texture = texture;
@@ -65,7 +66,6 @@ public class OBJModel implements Model {
 
     @Override
     public void dispose() {
-        Model.super.dispose();
         disposeTexture();
         disposeShader();
         disposeMesh();
@@ -78,12 +78,12 @@ public class OBJModel implements Model {
     }
 
     @Override
-    public ObjectShader getShader() {
+    public Shader getShader() {
         return shader;
     }
 
     @Override
-    public void setShader(ObjectShader shader) {
+    public void setShader(Shader shader) {
         this.shader = shader;
     }
 

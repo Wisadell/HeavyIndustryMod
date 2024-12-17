@@ -1,8 +1,6 @@
 package heavyindustry.graphics.g3d;
 
-import arc.*;
 import arc.graphics.*;
-import arc.graphics.g2d.*;
 import arc.graphics.gl.*;
 import arc.math.*;
 import arc.math.geom.*;
@@ -13,13 +11,12 @@ import mindustry.type.*;
 
 public class CircleMesh extends PlanetMesh {
     public final Mesh mesh;
-    public TextureRegion region;
     public Texture texture;
     public Color color = Color.white.cpy();
 
-    public CircleMesh(TextureRegion region, Planet planet, int sides, float radiusIn, float radiusOut, Vec3 axis) {
+    public CircleMesh(Texture texture, Planet planet, int sides, float radiusIn, float radiusOut, Vec3 axis) {
         this.planet = planet;
-        this.region = region;
+        this.texture = texture;
 
         MeshUtils.begin(sides * 6 * (3 + 3 + 2) * 2);
 
@@ -74,9 +71,6 @@ public class CircleMesh extends PlanetMesh {
         if (params.planet == planet && Mathf.zero(1f - params.uiAlpha, 0.01f)) return;
 
         preRender(params);
-        if (texture == null) {
-            texture = new Texture(Core.atlas.getPixmap(region).crop());
-        }
 
         Shader shader = shader();
         shader.bind();

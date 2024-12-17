@@ -30,7 +30,7 @@ public final class HITextures {
     }
 
     public static Texture loadTexture(String name, Cons<Texture> modifier) {
-        Texture tex = new Texture(HeavyIndustryMod.internalTree.child("textures").child(name + (name.endsWith(".png") ? "" : ".png")));
+        Texture tex = new Texture(HeavyIndustryMod.internalTree.child("sprites").child(name + (name.endsWith(".png") ? "" : ".png")));
         modifier.get(tex);
 
         return tex;

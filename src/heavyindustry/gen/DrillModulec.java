@@ -3,19 +3,19 @@ package heavyindustry.gen;
 import mindustry.gen.*;
 
 public interface DrillModulec extends Buildingc {
-    DrillFc drillBuild();
+    Drillc drillBuild();
 
     float smoothWarmup();
 
     float targetWarmup();
 
-    void drillBuild(DrillFc drillBuild);
+    void drillBuild(Drillc drillBuild);
 
     void smoothWarmup(float value);
 
     void targetWarmup(float value);
 
-    void apply(DrillFc value);
+    void apply(Drillc value);
 
-    boolean canApply(DrillFc value);
+    boolean canApply(Drillc value);
 }

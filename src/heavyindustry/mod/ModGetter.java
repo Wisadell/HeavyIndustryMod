@@ -61,8 +61,7 @@ public final class ModGetter {
                 if (filter.get(file, info)) {
                     result.add(new ModInfo(file));
                 }
-            } catch (IllegalArgumentException ignored) {
-            }
+            } catch (IllegalArgumentException ignored) {}
         }
 
         return result;
