@@ -21,10 +21,9 @@ import static mindustry.Vars.*;
 
 /**
  * Combining the characteristics of laser nodes and diodes.
- * <p>
- * Stitching it up is enough.
+ * <p>Stitching it up is enough.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class BeamDiode extends Block {
     public int range = 5;

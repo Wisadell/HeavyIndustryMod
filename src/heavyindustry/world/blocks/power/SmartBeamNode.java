@@ -16,7 +16,7 @@ public class SmartBeamNode extends BeamNode {
     }
 
     public class SmartBeamNodeBuild extends BeamNodeBuild {
-        public int lastID = -1;
+        public int lastId = -1;
         public Color darkColor = new Color(), lightColor = new Color();
 
         @Override
@@ -27,11 +27,11 @@ public class SmartBeamNode extends BeamNode {
 
         public void updatePowerColor() {
             int id = power.graph.getID();
-            if (id != lastID) {
+            if (id != lastId) {
                 float hue = Mathf.randomSeed(id, 360f);
                 lightColor.fromHsv(hue, 1f, 1f);
                 darkColor.fromHsv(hue + 6f, 1f, 1f).mul(0.75f);
-                lastID = id;
+                lastId = id;
             }
         }
 
@@ -55,7 +55,7 @@ public class SmartBeamNode extends BeamNode {
                     int dst = Math.max(Math.abs(dests[i].x - tile.x), Math.abs(dests[i].y - tile.y));
                     //don't draw lasers for adjacent blocks
                     if (dst > 1 + size / 2) {
-                        var point = Geometry.d4[i];
+                        Point2 point = Geometry.d4[i];
                         float poff = tilesize / 2f;
                         Drawf.laser(laser, laserEnd, x + poff * size * point.x, y + poff * size * point.y, dests[i].worldx() - poff * point.x, dests[i].worldy() - poff * point.y, w);
                     }

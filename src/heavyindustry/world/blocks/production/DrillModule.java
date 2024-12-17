@@ -106,7 +106,7 @@ public abstract class DrillModule extends Block {
     }
 
     public abstract class DrillModuleBuild extends Building implements DrillModulec {
-        public @Nullable DrillFc drillBuild;
+        public @Nullable Drillc drillBuild;
         public float smoothWarmup, targetWarmup;
 
         @Override
@@ -126,7 +126,7 @@ public abstract class DrillModule extends Block {
         }
 
         @Override
-        public boolean canApply(DrillFc drill) {
+        public boolean canApply(Drillc drill) {
             for (int i = 0; i < size; i++) {
                 Point2 p = Edges.getEdges(size)[rotation * size + i];
                 Building t = world.build(tileX() + p.x, tileY() + p.y);
@@ -137,7 +137,7 @@ public abstract class DrillModule extends Block {
             return (drill.boostMul() + boostSpeed <= drill.maxBoost() + 1) && checkConvert(drill) && checkSameModule(drill);
         }
 
-        public boolean checkConvert(DrillFc drill) {
+        public boolean checkConvert(Drillc drill) {
             if (convertList.size == 0) return true;
             for (Item[] convert : convertList) {
                 if (drill.dominantItem() == convert[0]) {
@@ -147,7 +147,7 @@ public abstract class DrillModule extends Block {
             return false;
         }
 
-        public boolean checkSameModule(DrillFc drill) {
+        public boolean checkSameModule(Drillc drill) {
             if (stackable) return true;
             for (DrillModulec module : drill.modules()) {
                 if (module.block() == block) return false;
@@ -156,7 +156,7 @@ public abstract class DrillModule extends Block {
         }
 
         @Override
-        public void apply(DrillFc drill) {
+        public void apply(Drillc drill) {
             drill.powerConsMul(drill.powerConsMul() + powerMul);
             drill.powerConsExtra(drill.powerConsExtra() + powerExtra);
             drill.boostMul(drill.boostMul() + boostSpeed);
@@ -172,7 +172,7 @@ public abstract class DrillModule extends Block {
         }
 
         @Override
-        public DrillFc drillBuild() {
+        public Drillc drillBuild() {
             return drillBuild;
         }
 
@@ -187,7 +187,7 @@ public abstract class DrillModule extends Block {
         }
 
         @Override
-        public void drillBuild(DrillFc value) {
+        public void drillBuild(Drillc value) {
             drillBuild = value;
         }
 

@@ -170,8 +170,7 @@ public class TubeItemBridge extends ItemBridge {
                 return false;
             }
         } else {
-            check:
-            {
+            check: {
                 if (!(other != null && tile != null) || other.build == null || tile.build == null) break check;
                 other = other.build.tile;
                 tile = tile.build.tile;

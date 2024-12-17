@@ -11,11 +11,11 @@ import static arc.Core.*;
 
 /**
  * A factory that can produce electricity.
- * <p>
- * You are already a mature GenericCrafter,
+ * <p>You are already a mature GenericCrafter,
  * it's time to learn how to generate electricity on your own.
+ * <p>Please do not set {@link GeneratorCrafter#consumePower(float)} for it, it is foolish.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class GeneratorCrafter extends GenericCrafter {
     public float powerProduction = 1f;

@@ -269,7 +269,7 @@ public abstract class DrillF extends Block {
         return tile.drop();
     }
 
-    public abstract class DrillBuildF extends Building implements DrillFc {
+    public abstract class DrillBuildF extends Building implements Drillc {
         public float progress;
 
         //only for visual

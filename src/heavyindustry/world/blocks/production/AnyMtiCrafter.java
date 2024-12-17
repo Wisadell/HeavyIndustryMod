@@ -3,6 +3,7 @@ package heavyindustry.world.blocks.production;
 import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.graphics.g2d.TextureAtlas.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.scene.style.*;
@@ -142,7 +143,7 @@ public class AnyMtiCrafter extends Block {
                     if (p.outputLiquids != null) {
                         stat.add(Stat.output, StatValues.liquids(1f, p.outputLiquids));
                     }
-                    info.table(st -> TableUtils.statTurnTable(stat, st)).pad(8).left();
+                    info.table(st -> UIUtils.statTurnTable(stat, st)).pad(8).left();
                 }).growX().left().pad(10);
                 table.row();
             }
@@ -399,7 +400,7 @@ public class AnyMtiCrafter extends Block {
                 }
             }
 
-            var canBar = atlas.find(name("can"));
+            AtlasRegion canBar = atlas.find(name("can"));
             float width = 0, height = 32, pad = 4, tw = 32;
             for (int i = 0; i < formula.liquidFilter.size; i++) width += tw;
             if (formula.outputLiquids != null) for (int i = 0; i < formula.outputLiquids.length; i++) width += tw;
@@ -525,7 +526,6 @@ public class AnyMtiCrafter extends Block {
                             cons.update(this);
                         }
                     }
-
                 }
             } else {
                 potentialEfficiency = enabled && productionValid() ? 1f : 0f;
@@ -570,7 +570,7 @@ public class AnyMtiCrafter extends Block {
                             for (Consume c : f.consumers) {
                                 c.display(stat);
                             }
-                            TableUtils.statToTable(stat, from);
+                            UIUtils.statToTable(stat, from);
                         }).left().pad(6);
                         info.row();
                         info.table(to -> {

@@ -11,8 +11,9 @@ import static arc.Core.*;
 
 /**
  * Same as GeneratorCrafter, but power output is affected by Attribute.
+ * <p>Please do not set {@link AttributeGenerator#consumePower(float)} for it, it is foolish.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class AttributeGenerator extends AttributeCrafter {
     public float powerProduction = 1f;

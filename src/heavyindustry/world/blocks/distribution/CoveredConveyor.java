@@ -3,6 +3,7 @@ package heavyindustry.world.blocks.distribution;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
+import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -14,7 +15,7 @@ import static mindustry.Vars.*;
 /**
  * Compared to the original conveyor belt, there is an additional sprites on top of the item layer.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class CoveredConveyor extends BeltConveyor {
     public TextureRegion inputRegion, outputRegion;

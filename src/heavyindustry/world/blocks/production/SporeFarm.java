@@ -17,7 +17,7 @@ import static mindustry.Vars.*;
 /**
  * e.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class SporeFarm extends Block {
     protected static final int frames = 5;

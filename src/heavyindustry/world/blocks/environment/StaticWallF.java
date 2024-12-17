@@ -59,7 +59,7 @@ public class StaticWallF extends StaticWall {
         }
     }
 
-    private boolean eq(int rx, int ry) {
+    protected boolean eq(int rx, int ry) {
         return rx < world.width() - 1 && ry < world.height() - 1
                 && world.tile(rx + 1, ry).block() == this
                 && world.tile(rx, ry + 1).block() == this

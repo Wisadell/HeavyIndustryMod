@@ -16,7 +16,7 @@ import static mindustry.Vars.*;
 /**
  * Compared to CoveredConverter, its upper layer texture has been changed to one that can have light and shadow effects.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class TubeConveyor extends BeltConveyor {
     public static final float itemSpace = 0.4f;
@@ -67,7 +67,7 @@ public class TubeConveyor extends BeltConveyor {
             for (Point2 point : Geometry.d4) {
                 int x = plan.x + point.x, y = plan.y + point.y;
                 if (x >= other.x - (other.block.size - 1) / 2 && x <= other.x + (other.block.size / 2) && y >= other.y - (other.block.size - 1) / 2 && y <= other.y + (other.block.size / 2)) {
-                    if ((other.block instanceof Conveyor ? (plan.rotation == i || (other.rotation + 2) % 4 == i) : ((plan.rotation == i && other.block.acceptsItems) || (plan.rotation != i && other.block.outputsItems())))) {
+                    if ((other.block instanceof Conveyor ? (plan.rotation == i || (other.rotation + 2) % 4 == i) : !noSideBlend && ((plan.rotation == i && other.block.acceptsItems) || (plan.rotation != i && other.block.outputsItems())))) {
                         directionals[i] = other;
                     }
                 }

@@ -17,7 +17,7 @@ import static mindustry.Vars.*;
 /**
  * Connect the core warehouse.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class CoreStorageBlock extends StorageBlock {
     public int range = 15;

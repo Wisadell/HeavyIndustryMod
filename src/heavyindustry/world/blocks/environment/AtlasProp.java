@@ -10,6 +10,9 @@ import static heavyindustry.util.Utils.*;
 public class AtlasProp extends Prop {
     public TextureRegion[] splitRegion;
 
+    /** The pixel size of each atlas section, It must be the same as the source file. */
+    public int atlasSize = 32;
+
     public AtlasProp(String name) {
         super(name);
     }
@@ -17,7 +20,7 @@ public class AtlasProp extends Prop {
     @Override
     public void load() {
         super.load();
-        splitRegion = split(name + "-full", 32, 0);
+        splitRegion = split(name + "-full", atlasSize, 0);
     }
 
     @Override

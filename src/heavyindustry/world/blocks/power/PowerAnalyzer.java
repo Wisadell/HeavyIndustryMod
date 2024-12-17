@@ -174,7 +174,7 @@ public class PowerAnalyzer extends PowerBlock {
 
         @Override
         public void tapped() {
-            TableUtils.powerInfoDialog.show(power.graph);
+            UIUtils.powerInfoDialog.show(power.graph);
         }
     }
 }

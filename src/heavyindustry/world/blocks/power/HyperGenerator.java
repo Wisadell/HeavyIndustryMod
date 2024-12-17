@@ -152,8 +152,10 @@ public class HyperGenerator extends ImpactReactor {
             public void despawned(Bullet b) {
                 super.despawned(b);
                 Units.nearby(Tmp.r1.setCenter(b.x, b.y).setSize(lightningRange * 4), unit -> {
-                    unit.vel.set(Tmp.v1.set(unit).sub(b).nor().scl(6));
-                    unit.kill();
+                    if (unit.hittable()) {
+                        unit.vel.set(Tmp.v1.set(unit).sub(b).nor().scl(6));
+                        unit.kill();
+                    }
                 });
 
                 for (int i = 0; i < 7; ++i) {

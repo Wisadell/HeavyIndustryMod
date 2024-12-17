@@ -19,7 +19,7 @@ import static mindustry.Vars.*;
 /**
  * Will Anuken actually install it in V8?
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class DuctJunction extends Block {
     public float speed = 5f;
