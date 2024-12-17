@@ -12,7 +12,7 @@ import heavyindustry.entities.bullet.HailStoneBulletType.*;
 import heavyindustry.entities.effect.*;
 import heavyindustry.graphics.*;
 import heavyindustry.graphics.Draws.*;
-import heavyindustry.graphics.trail.*;
+import heavyindustry.graphics.HITrails.*;
 import heavyindustry.math.*;
 import heavyindustry.struct.*;
 import heavyindustry.util.*;

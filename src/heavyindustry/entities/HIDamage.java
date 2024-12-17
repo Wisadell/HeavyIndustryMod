@@ -21,8 +21,7 @@ import static mindustry.Vars.*;
 
 public final class HIDamage {
     private static final UnitDamageEvent bulletDamageEvent = new UnitDamageEvent();
-    private static final Rect rect = new Rect();
-    private static final Rect hitrect = new Rect();
+    private static final Rect rect = new Rect(), hitrect = new Rect();
     private static final Vec2 tr = new Vec2(), seg1 = new Vec2(), seg2 = new Vec2();
     private static final Seq<Building> builds = new Seq<>();
     private static final Seq<Unit> units = new Seq<>();
@@ -249,9 +248,7 @@ public final class HIDamage {
         return check;
     }
 
-    /**
-     * {@link Damage#collideLine} but only hits missile units.
-     */
+    /** {@link Damage#collideLine} but only hits missile units. */
     public static void missileCollideLine(Bullet hitter, Team team, Effect effect, float x, float y, float angle, float length, boolean large, boolean laser, int pierceCap) {
         if (pierceCap > 0) {
             length = findPierceLength(hitter, pierceCap, length);
@@ -296,9 +293,7 @@ public final class HIDamage {
         collided.clear();
     }
 
-    /**
-     * Like {@link Damage#findPierceLength}, but uses an (x, y) coord instead of bullet position
-     */
+    /** Like {@link Damage#findPierceLength}, but uses an (x, y) coord instead of bullet position. */
     public static float findLaserLength(float x, float y, float angle, Team team, float length) {
         Tmp.v1.trns(angle, length);
 
@@ -310,9 +305,7 @@ public final class HIDamage {
         return found && furthest != null ? Math.max(6f, Mathf.dst(x, y, furthest.worldx(), furthest.worldy())) : length;
     }
 
-    /**
-     * {@link Damage#findPierceLength} but it returns the distance to the point of contact, not the distance to the center of the target.
-     */
+    /** {@link Damage#findPierceLength} but it returns the distance to the point of contact, not the distance to the center of the target. */
     public static float findPierceLength(Bullet b, int pierceCap, float length) {
         tr.trnsExact(b.rotation(), length);
         rect.setPosition(b.x, b.y).setSize(tr.x, tr.y).normalize().grow(3f);

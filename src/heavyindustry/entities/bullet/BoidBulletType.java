@@ -21,7 +21,7 @@ public class BoidBulletType extends BasicBulletType {
     public void update(Bullet b) {
         super.update(b);
         float radius = sep * 8;
-        var vel = b.vel().cpy();
+        Vec2 vel = b.vel().cpy();
         Vec2 CoM = new Vec2();
         ///grabs all nearby boids, we sort of need the size of the neighbours beforehand.
         close.clear();
@@ -33,7 +33,7 @@ public class BoidBulletType extends BasicBulletType {
         if (close.isEmpty()) {
             return;
         }
-        for (var other : close) {
+        for (Bullet other : close) {
             //velocity alignment
             vel.add((other.vel.x - vel.x) / (close.size * 100f / alignrate), (other.vel.y - vel.y) / (close.size * 100f / alignrate));
 

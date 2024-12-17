@@ -51,10 +51,10 @@ open class CircleAi : FlyingAI() {
         unloadPayloads()
         if (maxHealth) {
             if (target == null) {
-                /** Find a target. */
+                //Find a target.
                 target = Groups.unit.find { it.team != unit.team }
             } else if (unit.health <= unit.maxHealth * 0.2) {
-                /** Determine health value. */
+                //Determine health value.
                 maxHealth = false
             }
         } else {
@@ -62,10 +62,10 @@ open class CircleAi : FlyingAI() {
         }
 
         if (target != null && unit.hasWeapons()) {
-            /** Attack if there is a target. */
+            //Attack if there is a target.
             circle(target, rand)
         }
-        /** Return without a goal. */
+        //Return without a goal.
         if (target == null && Vars.state.rules.waves) {
             val find = Groups.build.find { it.block == Blocks.repairTurret || it.block == Blocks.repairPoint }
             val core = unit.team.core()

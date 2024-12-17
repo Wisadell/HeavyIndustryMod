@@ -5,7 +5,7 @@ package heavyindustry.files;
  * <p>This search<strong> has no weight value</strong>, and the generated path should be the equal shortest path. Generally, the path found in a graph without weights must be the optimal solution or one of the optimal solutions.
  */
 public interface BFSPathFinder<V> extends PathFinder<V> {
-    /** Reset search state or (and) temporary cache, including resetting already traversed vertices and edges, etc. */
+    /** Reset search state or (and) temporary cache, including resetting already traversed vertices and edges. */
     void reset();
 
     /**

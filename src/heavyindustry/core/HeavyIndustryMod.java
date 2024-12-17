@@ -17,17 +17,22 @@ import heavyindustry.game.*;
 import heavyindustry.gen.*;
 import heavyindustry.graphics.Draws.*;
 import heavyindustry.graphics.*;
-import heavyindustry.graphics.menu.*;
+import heavyindustry.graphics.g3d.*;
+import heavyindustry.input.*;
+import heavyindustry.net.*;
 import heavyindustry.ui.*;
 import heavyindustry.ui.dialogs.*;
 import heavyindustry.util.*;
 import mindustry.content.*;
+import mindustry.ctype.*;
 import mindustry.game.EventType.*;
 import mindustry.mod.*;
 import mindustry.mod.Mods.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.ui.dialogs.*;
+import mindustry.ui.dialogs.SettingsMenuDialog.*;
+import mindustry.ui.dialogs.SettingsMenuDialog.SettingsTable.*;
 import mindustry.ui.fragments.*;
 
 import java.time.*;
@@ -45,6 +50,7 @@ import static mindustry.Vars.*;
 public final class HeavyIndustryMod extends Mod {
     /** Commonly used static read-only String. do not change unless you know what you're doing. */
     public static final String modName = "heavy-industry";
+
     /** Omitting longer mod names is generally used to load mod sprites. */
     public static String name(String add) {
         return modName + "-" + add;
@@ -57,14 +63,32 @@ public final class HeavyIndustryMod extends Mod {
     /** jar internal navigation. */
     public static InternalFileTree internalTree = new InternalFileTree(HeavyIndustryMod.class);
 
+    /** Modules present in both servers and clients. */
+    public static InputAggregator inputAggregator;
+
+    /** Modules only present in clients, typically rendering or auxiliary input utilities. */
+    public static RenderContext renderContext;
+    public static ModelPropDrawer modelPropDrawer;
+
+    private static LoadedMod mod;
+
+    private static boolean noRunEnv = false;
+
     public HeavyIndustryMod() {
+        if (!headless && gl30 == null) {
+            noRunEnv = true;
+            Log.warn("HeavyIndustryMod only runs with OpenGL 3.0 (on desktop) or OpenGL ES 3.0 (on android) and above!");
+        }
+
+        if (noRunEnv()) return;
+
         Log.info("Loaded HeavyIndustry Mod constructor.");
 
         HIClassMap.load();
 
         Events.on(ClientLoadEvent.class, e -> {
             try {
-                Reflects.set(MenuFragment.class, ui.menufrag, "renderer", new HIMenuRenderer());
+                ReflectUtils.set(MenuFragment.class, ui.menufrag, "renderer", new MenuRendererF());
             } catch (Exception ex) {
                 Log.err("Failed to replace renderer", ex);
             }
@@ -77,27 +101,146 @@ public final class HeavyIndustryMod extends Mod {
             showMultipleMods();
         });
 
+        app.post(() -> mod = mods.getMod(HeavyIndustryMod.class));
+
         Events.on(FileTreeInitEvent.class, e -> {
-            HISounds.load();
-            app.post(() -> {
-                HIShaders.init();
-                HICacheLayer.init();
-            });
+            if (!headless) {
+                HISounds.load();
+                HIModels.load();
+                app.post(() -> {
+                    HIShaders.init();
+                    HICacheLayer.init();
+
+                    inputAggregator = new InputAggregator();
+                    renderContext = new RenderContext();
+                    modelPropDrawer = new ModelPropDrawer(HIShaders.modelProp, 8192, 16384);
+                });
+            }
         });
 
         Events.on(MusicRegisterEvent.class, e -> {
-            HIMusics.load();
+            if (!headless)
+                HIMusics.load();
         });
 
         Events.on(DisposeEvent.class, e -> {
-            HIShaders.dispose();
+            if (!headless)
+                HIShaders.dispose();
         });
 
         Utils.init();
+    }
 
-        JSBridge.init();
-        JSBridge.importDefaults(JSBridge.defScope);
-        JSBridge.importDefaults(JSBridge.modScope);
+    @Override
+    public void loadContent() {
+        if (noRunEnv()) return;
+        HICall.init();
+
+        EntityRegister.register();
+        WorldRegister.register();
+
+        if (onlyPlugIn) return;
+
+        HITeams.load();
+        HIItems.load();
+        HIStatusEffects.load();
+        HILiquids.load();
+        HIBullets.load();
+        HIUnitTypes.load();
+        HIBlocks.load();
+        HIWeathers.load();
+        HIOverride.load();
+        HIPlanets.load();
+        HISectorPresets.load();
+        HITechTree.load();
+
+        Utils.loadItems();
+    }
+
+    @Override
+    public void init() {
+        if (noRunEnv()) return;
+        if (!headless) {
+            ScreenSampler.setup();
+
+            UIUtils.init();
+        }
+
+        settings.defaults("hi-closed-dialog", false);
+        settings.defaults("hi-closed-multiple-mods", false);
+        settings.defaults("hi-tesla-range", true);
+        settings.defaults("hi-plug-in-mode", false);
+
+        if (!onlyPlugIn && mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
+            HIOverride.loadAprilFoolsDay();
+            if (ui != null)
+                Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
+        }
+
+        if (ui != null) {
+            if (ui.settings != null) {
+                BaseDialog dialog = new BaseDialog("tips");
+                Runnable exit = () -> {
+                    dialog.hide();
+                    app.exit();
+                };
+                dialog.cont.add(bundle.format("hi-reset-exit"));
+                dialog.buttons.button("@confirm", exit).center().size(150, 50);
+
+                //add heavy-industry settings
+                ui.settings.addCategory(bundle.format("hi-settings"), HIIcon.reactionIcon, t -> {
+                    t.checkPref("hi-closed-dialog", false);
+                    t.checkPref("hi-closed-multiple-mods", false);
+                    t.checkPref("hi-tesla-range", true);
+                    t.checkPref("hi-enable-serpulo-sector-invasion", true);
+                    t.pref(new CheckSetting("hi-plug-in-mode", false, null) {
+                        @Override
+                        public void add(SettingsTable table) {
+                            CheckBox box = new CheckBox(title);
+
+                            box.update(() -> box.setChecked(settings.getBool(name)));
+
+                            box.changed(() -> {
+                                settings.put(name, box.isChecked());
+                                dialog.show();
+                            });
+                            box.left();
+                            addDesc(table.add(box).left().padTop(3f).get());
+                            table.row();
+                        }
+                    });
+                    t.checkPref("hi-developer-mode", false);
+                });
+            }
+
+            //Replace the original technology tree
+            HIResearchDialog dialog = new HIResearchDialog();
+            ResearchDialog research = ui.research;
+            research.shown(() -> {
+                dialog.show();
+                Objects.requireNonNull(research);
+                Time.runTask(1f, research::hide);
+            });
+        }
+
+        setString();
+    }
+
+    public static boolean isHeavyIndustry(@Nullable Content content) {
+        return content != null && isHeavyIndustry(content.minfo.mod);
+    }
+
+    public static boolean isHeavyIndustry(@Nullable LoadedMod mod) {
+        return mod != null && mod == mod();
+    }
+
+    public static LoadedMod mod() {
+        if (mod == null) mod = mods.getMod(modName);
+        return mod;
+    }
+
+    public static boolean noRunEnv() {
+        return noRunEnv;
     }
 
     public static void resetSaves(Planet planet) {
@@ -213,95 +356,6 @@ public final class HeavyIndustryMod extends Mod {
 
         HIMenuFragment subTitle = new HIMenuFragment(massageRand);
         subTitle.build(ui.menuGroup);
-    }
-
-    @Override
-    public void loadContent() {
-        EntityRegister.register();
-        WorldRegister.register();
-
-        if (onlyPlugIn) return;
-
-        HITeams.load();
-        HIItems.load();
-        HIStatusEffects.load();
-        HILiquids.load();
-        HIBullets.load();
-        HIUnitTypes.load();
-        HIBlocks.load();
-        HIWeathers.load();
-        HIOverride.load();
-        HIPlanets.load();
-        HISectorPresets.load();
-        HITechTree.load();
-
-        Utils.loadItems();
-    }
-
-    @Override
-    public void init() {
-        if (!headless) {
-            ScreenSampler.setup();
-
-            TableUtils.init();
-        }
-
-        settings.defaults("hi-closed-dialog", false);
-        settings.defaults("hi-closed-multiple-mods", false);
-        settings.defaults("hi-tesla-range", true);
-        settings.defaults("hi-plug-in-mode", false);
-
-        if (!onlyPlugIn && mods.getMod("extra-utilities") == null && isAprilFoolsDay()) {
-            HIOverride.loadAprilFoolsDay();
-            if (ui != null)
-                Events.on(ClientLoadEvent.class, e -> Time.runTask(10f, HeavyIndustryMod::showAprilFoolsDayDialog));
-        }
-
-        if (ui != null && ui.settings != null) {
-            BaseDialog dialog = new BaseDialog("tips");
-            Runnable exit = () -> {
-                dialog.hide();
-                app.exit();
-            };
-            dialog.cont.add(bundle.format("hi-reset-exit"));
-            dialog.buttons.button("@confirm", exit).center().size(150, 50);
-
-            //add heavy-industry settings
-            ui.settings.addCategory(bundle.format("hi-settings"), HIIcon.reactionIcon, t -> {
-                t.checkPref("hi-closed-dialog", false);
-                t.checkPref("hi-closed-multiple-mods", false);
-                t.checkPref("hi-tesla-range", true);
-                t.checkPref("hi-enable-serpulo-sector-invasion", true);
-                t.pref(new SettingsMenuDialog.SettingsTable.CheckSetting("hi-plug-in-mode", false, null) {
-                    @Override
-                    public void add(SettingsMenuDialog.SettingsTable table) {
-                        CheckBox box = new CheckBox(title);
-
-                        box.update(() -> box.setChecked(settings.getBool(name)));
-
-                        box.changed(() -> {
-                            settings.put(name, box.isChecked());
-                            dialog.show();
-                        });
-                        box.left();
-                        addDesc(table.add(box).left().padTop(3f).get());
-                        table.row();
-                    }
-                });
-                t.checkPref("hi-developer-mode", false);
-            });
-        }
-
-        //Replace the original technology tree
-        HIResearchDialog dialog = new HIResearchDialog();
-        ResearchDialog research = ui.research;
-        research.shown(() -> {
-            dialog.show();
-            Objects.requireNonNull(research);
-            Time.runTask(1f, research::hide);
-        });
-
-        setString();
     }
 
     public static class HIMenuFragment {

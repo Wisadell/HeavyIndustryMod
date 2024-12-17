@@ -43,7 +43,7 @@ public class HealingNukeBulletType extends BulletType {
 
     @Override
     public void init(Bullet b) {
-        float[] data = Utils.castCircle(b.x, b.y, radius, rays, bd -> true, building -> {
+        float[] data = Utils.castCircle(b.x, b.y, radius, rays, building -> true, building -> {
             if (building.team == b.team) {
                 Fx.healBlockFull.at(building.x, building.y, building.block.size, Pal.heal);
                 building.heal((healPercent / 100f) * building.maxHealth);
@@ -52,19 +52,19 @@ public class HealingNukeBulletType extends BulletType {
             }
         }, tile -> tile.block().absorbLasers && tile.team() != b.team);
 
-        Units.nearby(Tmp.r1.setCentered(b.x, b.y, radius * 2f), u -> {
-            float ang = b.angleTo(u);
-            float dst = u.dst2(b) - ((u.hitSize * u.hitSize) / 2f);
+        Units.nearby(Tmp.r1.setCentered(b.x, b.y, radius * 2f), unit -> {
+            float ang = b.angleTo(unit);
+            float dst = unit.dst2(b) - ((unit.hitSize * unit.hitSize) / 2f);
             int idx = Mathf.mod(Mathf.round((ang % 360f) / (360f / data.length)), data.length);
             float d = data[idx];
 
-            if (b.within(u, radius + (u.hitSize / 2f)) && dst <= d * d) {
-                if (u.team == b.team) {
-                    u.heal((healPercent / 100f) * u.maxHealth);
-                    u.apply(allyStatus, allyStatusDuration);
-                } else {
-                    u.damage(damage * b.damageMultiplier());
-                    u.apply(status, statusDuration);
+            if (b.within(unit, radius + (unit.hitSize / 2f)) && dst <= d * d) {
+                if (unit.team == b.team) {
+                    unit.heal((healPercent / 100f) * unit.maxHealth);
+                    unit.apply(allyStatus, allyStatusDuration);
+                } else if (unit.hittable()) {
+                    unit.damage(damage * b.damageMultiplier());
+                    unit.apply(status, statusDuration);
                 }
             }
         });

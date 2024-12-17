@@ -7,7 +7,6 @@ import arc.math.geom.*;
 import arc.scene.style.*;
 import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
-import arc.struct.*;
 import arc.util.*;
 import heavyindustry.entities.bullet.*;
 import heavyindustry.gen.*;
@@ -29,7 +28,6 @@ import heavyindustry.world.blocks.units.*;
 import heavyindustry.world.draw.*;
 import heavyindustry.world.meta.*;
 import mindustry.content.*;
-import mindustry.ctype.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
@@ -73,6 +71,7 @@ import static mindustry.type.ItemStack.*;
 public final class HIBlocks {
     public static Block
             //environment
+            cliff,
             darkPanel7, darkPanel8, darkPanel9, darkPanel10, darkPanel11, darkPanelDamaged,
             stoneVent, basaltVent, shaleVent, basaltWall, basaltGraphiticWall, basaltPyratiticWall, snowySand, snowySandWall, arkyciteSand, arkyciteSandWall, arkyciteSandBoulder, darksandBoulder,
             concreteBlank, concreteFill, concreteNumber, concreteStripe, concrete, stoneFullTiles, stoneFull, stoneHalf, stoneTiles, concreteWall, pit, waterPit,
@@ -147,15 +146,13 @@ public final class HIBlocks {
     /** HIBlocks should not be instantiated. */
     private HIBlocks() {}
 
-    /** Key is component itself, value is its inferior.  */
-    public static final ObjectMap<UnlockableContent, Block> compositeMap = new ObjectMap<>();
-
     /**
      * Instantiates all contents. Called in the main thread in {@link heavyindustry.core.HeavyIndustryMod#loadContent()}.
      * <p>Remember not to execute it a second time, I did not take any precautionary measures.
      */
     public static void load() {
         //environment
+        cliff = new CliffF("cliff");
         darkPanel7 = new Floor("dark-panel-7", 0);
         darkPanel8 = new Floor("dark-panel-8", 0);
         darkPanel9 = new Floor("dark-panel-9", 0);
@@ -219,33 +216,31 @@ public final class HIBlocks {
             variants = 2;
             Blocks.darksand.asFloor().decoration = this;
         }};
-        concreteBlank = new Floor("concrete-blank") {{
+        concreteBlank = new Floor("concrete-blank", 3) {{
             attributes.set(Attribute.water, -0.85f);
         }};
-        concreteFill = new Floor("concrete-fill") {{
-            variants = 0;
+        concreteFill = new Floor("concrete-fill", 0) {{
             attributes.set(Attribute.water, -0.85f);
         }};
-        concreteNumber = new Floor("concrete-number") {{
-            variants = 10;
+        concreteNumber = new Floor("concrete-number", 10) {{
             attributes.set(Attribute.water, -0.85f);
         }};
-        concreteStripe = new Floor("concrete-stripe") {{
+        concreteStripe = new Floor("concrete-stripe", 3) {{
             attributes.set(Attribute.water, -0.85f);
         }};
-        concrete = new Floor("concrete") {{
+        concrete = new Floor("concrete", 3) {{
             attributes.set(Attribute.water, -0.85f);
         }};
-        stoneFullTiles = new Floor("stone-full-tiles") {{
+        stoneFullTiles = new Floor("stone-full-tiles", 3) {{
             attributes.set(Attribute.water, -0.75f);
         }};
-        stoneFull = new Floor("stone-full") {{
+        stoneFull = new Floor("stone-full", 3) {{
             attributes.set(Attribute.water, -0.75f);
         }};
-        stoneHalf = new Floor("stone-half") {{
+        stoneHalf = new Floor("stone-half", 3) {{
             attributes.set(Attribute.water, -0.5f);
         }};
-        stoneTiles = new Floor("stone-tiles") {{
+        stoneTiles = new Floor("stone-tiles", 3) {{
             attributes.set(Attribute.water, -0.5f);
         }};
         concreteWall = new StaticWallE("concrete-wall") {{
@@ -256,21 +251,20 @@ public final class HIBlocks {
                 return new TextureRegion[]{region};
             }
         };
-        pit = new Floor("pit") {{
+        pit = new Floor("pit", 0) {{
             buildVisibility = BuildVisibility.editorOnly;
             cacheLayer = HICacheLayer.pit;
             placeableOn = false;
             solid = true;
-            variants = 0;
             canShadow = false;
             mapColor = Color.black;
         }
             @Override
             public TextureRegion[] icons() {
-                return new TextureRegion[]{region};
+                return new TextureRegion[]{fullIcon};
             }
         };
-        waterPit = new Floor("water-pit") {{
+        waterPit = new Floor("water-pit", 0) {{
             buildVisibility = BuildVisibility.editorOnly;
             cacheLayer = HICacheLayer.waterPit;
             placeableOn = true;
@@ -280,7 +274,6 @@ public final class HIBlocks {
             liquidMultiplier = 2f;
             status = StatusEffects.wet;
             statusDuration = 120f;
-            variants = 0;
             liquidDrop = Liquids.water;
             canShadow = false;
             mapColor = Liquids.water.color.cpy().lerp(Color.black,0.5f);
@@ -970,6 +963,7 @@ public final class HIBlocks {
             noSideBlend = true;
             placeableLiquid = true;
             displayFlow = true;
+            hideDetails = false;
         }};
         chromiumTubeDistributor = new TubeDistributor("chromium-tube-distributor") {{
             requirements(Category.distribution, with(Items.copper, 1, Items.metaglass, 1, HIItems.chromium, 1));
@@ -1121,6 +1115,7 @@ public final class HIBlocks {
         liquidUnloader = new LiquidUnloader("liquid-unloader") {{
             requirements(Category.liquid, with(Items.titanium, 15, Items.metaglass, 10));
             health = 70;
+            hideDetails = false;
         }};
         chromiumArmorConduit = new BeltConduit("chromium-armor-conduit") {{
             requirements(Category.liquid, with(Items.metaglass, 2, HIItems.chromium, 2));
@@ -1329,6 +1324,7 @@ public final class HIBlocks {
             displayThickness = 9f / 4f;
             displaySpacing = 18f / 4f;
             displayLength = 24f / 4f;
+            hideDetails = false;
         }};
         uraniumReactor = new NuclearReactor("uranium-reactor") {{
             requirements(Category.power, with(Items.lead, 400, Items.metaglass, 120, Items.graphite, 350, Items.silicon, 300, HIItems.uranium, 100));
@@ -2489,7 +2485,8 @@ public final class HIBlocks {
                     new UnitType[]{UnitTypes.corvus, HIUnitTypes.supernova},
                     new UnitType[]{UnitTypes.omura, HIUnitTypes.mosasaur},
                     new UnitType[]{UnitTypes.navanax, HIUnitTypes.killerWhale},
-                    new UnitType[]{HIUnitTypes.destruction, HIUnitTypes.purgatory}
+                    new UnitType[]{HIUnitTypes.destruction, HIUnitTypes.purgatory},
+                    new UnitType[]{HIUnitTypes.lepidoptera, HIUnitTypes.mantodea}
             );
             consumePower(35f);
             consumeLiquid(Liquids.cryofluid, 4f);
@@ -3058,6 +3055,10 @@ public final class HIBlocks {
                 sideWidth = 0f;
                 chargeEffect = HIFx.laserBreakthroughChargeBegin2;
             }};
+            rotateSpeed /= 1.66f;
+            consumePower(7.2f);
+            coolant = consumeCoolant(0.6f);
+            coolantMultiplier /= 1.22f;
         }};
         cloudbreaker = new ItemTurret("cloudbreaker") {{
             requirements(Category.turret, with(Items.graphite, 230, Items.titanium, 220, Items.thorium, 150));
@@ -3843,8 +3844,7 @@ public final class HIBlocks {
             configurable = true;
             buildType = () -> new CoreBuild() {
                 @Override
-                public void damage(float damage) {
-                }
+                public void damage(float damage) {}
 
                 @Override
                 public float handleDamage(float amount) {
@@ -3853,7 +3853,7 @@ public final class HIBlocks {
 
                 @Override
                 public void buildConfiguration(Table table) {
-                    ButtonGroup<ImageButton> g = new ButtonGroup<>();
+                    var g = new ButtonGroup<>();
                     Table cont = new Table();
                     cont.defaults().size(55);
                     int i = 0;
@@ -3870,7 +3870,7 @@ public final class HIBlocks {
                         });
                         button.update(() -> button.setChecked(team == team1));
                     }
-                    ScrollPane pane = new ScrollPane(cont, Styles.smallPane);
+                    var pane = new ScrollPane(cont, Styles.smallPane);
                     pane.setScrollingDisabled(true, false);
                     pane.setOverscroll(false, false);
                     table.add(pane).maxHeight(Scl.scl(40 * 2)).left();
@@ -3890,6 +3890,7 @@ public final class HIBlocks {
                     }
                 }
             };
+            unitType = UnitTypes.evoke;
         }
             @Override
             public boolean canBreak(Tile tile) {
@@ -4309,8 +4310,6 @@ public final class HIBlocks {
                                 if (net.client()) Call.adminRequest(player, Packets.AdminAction.wave, null);
                                 else logic.runWave();
                             }
-                        }
-                        default -> {
                         }
                     }
                 }

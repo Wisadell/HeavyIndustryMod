@@ -1,9 +1,11 @@
 package heavyindustry.content;
 
+import arc.graphics.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import heavyindustry.core.*;
 import heavyindustry.graphics.g3d.*;
 import heavyindustry.maps.ColorPass.*;
 import heavyindustry.maps.*;
@@ -16,13 +18,9 @@ import mindustry.graphics.g3d.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
-import static arc.Core.*;
-import static heavyindustry.core.HeavyIndustryMod.*;
-import static mindustry.content.Planets.*;
-
 /** Defines the {@linkplain Planet planets} and other celestial objects this mod offers. */
 public final class HIPlanets {
-    public static Planet kepler;
+    public static Planet kepler, blackHole;
 
     /** HIPlanets should not be instantiated. */
     private HIPlanets() {}
@@ -32,7 +30,10 @@ public final class HIPlanets {
      * <p>Remember not to execute it a second time, I did not take any precautionary measures.
      */
     public static void load() {
-        kepler = new BetterPlanet("kepler", sun, 1f, 3) {{
+        blackHole = new BlackHole("black-hole", 12f) {{
+            orbitSpacing = 24f;
+        }};
+        kepler = new BetterPlanet("kepler", blackHole, 1f, 3) {{
             icon = "kepler-icon";
             orbitRadius = 40f;
             atmosphereRadIn = 0f;
@@ -137,15 +138,19 @@ public final class HIPlanets {
                     new AtmosphereHexMesh(7),
                     new HexMesh(this, 7),
 
-                    new CircleMesh(atlas.find(name("ring4")), this, 80, 2.55f, 2.6f, ringPos),
-                    new CircleMesh(atlas.find(name("ring3")), this, 80, 2.2f, 2.5f, ringPos),
-                    new CircleMesh(atlas.find(name("ring2")), this, 80, 1.9f, 2.1f, ringPos),
-                    new CircleMesh(atlas.find(name("ring1")), this, 80, 1.8f, 1.85f, ringPos)
+                    new CircleMesh(circle("ring4.png"), this, 80, 2.55f, 2.6f, ringPos),
+                    new CircleMesh(circle("ring3.png"), this, 80, 2.2f, 2.5f, ringPos),
+                    new CircleMesh(circle("ring2.png"), this, 80, 1.9f, 2.1f, ringPos),
+                    new CircleMesh(circle("ring1.png"), this, 80, 1.8f, 1.85f, ringPos)
             );
             cloudMeshLoader = () -> new MultiMesh(
                     new HexSkyMesh(this, 6, -0.5f, 0.14f, 6, Blocks.water.mapColor.cpy().a(0.2f), 2, 0.42f, 1f, 0.6f),
                     new HexSkyMesh(this, 1, 0.6f, 0.15f, 6, Blocks.water.mapColor.cpy().a(0.2f), 2, 0.42f, 1.2f, 0.5f)
             );
         }};
+    }
+
+    static Texture circle(String name) {
+        return new Texture(HeavyIndustryMod.internalTree.child("sprites/planets/kepler/rings/" + name));
     }
 }

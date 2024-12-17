@@ -35,6 +35,7 @@ public final class HITechTree {
         vanillaNode(Liquids.oil, () -> nodeProduce(HILiquids.nitratedOil, () -> {}));
         vanillaNode(Liquids.ozone, () -> nodeProduce(HILiquids.methane, () -> {}));
         vanillaNode(Items.sand, () -> {
+            nodeProduce(HIItems.stone, () -> {});
             nodeProduce(HIItems.rareEarth, () -> {});
             nodeProduce(HIItems.salt, () -> {});
         });
@@ -266,6 +267,7 @@ public final class HITechTree {
         vanillaNode(breach, () -> node(rupture, () -> {}));
         //tier6
         vanillaNode(dagger, () -> node(vanguard, () -> node(striker, () -> node(counterattack, () -> node(crush, () -> node(destruction, () -> node(purgatory, () -> {})))))));
+        vanillaNode(flare, () -> node(caelifera, () -> node(schistocerca, () -> node(anthophila, () -> node(vespula, () -> node(lepidoptera, () -> node(mantodea, () -> {})))))));
         vanillaNode(reign, () -> node(suzerain, () -> {}));
         vanillaNode(corvus, () -> node(supernova, () -> {}));
         vanillaNode(toxopid, () -> node(cancer, () -> {}));

@@ -23,6 +23,8 @@ import mindustry.world.blocks.payloads.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.*;
+import mindustry.world.blocks.units.UnitAssembler.*;
+import mindustry.world.blocks.units.UnitFactory.*;
 import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
@@ -45,6 +47,8 @@ public final class HIOverride {
      */
     public static void load() {
         //Blocks-Environment
+        Blocks.stone.itemDrop = Blocks.craters.itemDrop = Blocks.charr.itemDrop = HIItems.stone;
+        Blocks.stone.playerUnmineable = Blocks.craters.playerUnmineable = Blocks.charr.playerUnmineable = true;
         Blocks.sandWater.itemDrop = Blocks.darksandWater.itemDrop = Blocks.darksandTaintedWater.itemDrop = Items.sand;
         Blocks.sandWater.playerUnmineable = Blocks.darksandWater.playerUnmineable = Blocks.darksandTaintedWater.playerUnmineable = true;
         ((Floor) Blocks.deepTaintedWater).liquidMultiplier = 1.5f;
@@ -256,16 +260,17 @@ public final class HIOverride {
         ((PowerTurret) Blocks.malign).minWarmup = 0.98f;
         ((PowerTurret) Blocks.malign).warmupMaintainTime = 45f;
         //Blocks-Units
-        ((UnitFactory) Blocks.groundFactory).plans.add(new UnitFactory.UnitPlan(HIUnitTypes.vanguard, 1200f, with(Items.lead, 25, Items.titanium, 25, Items.silicon, 30)));
-        ((Reconstructor) Blocks.additiveReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.vanguard, HIUnitTypes.striker});
-        ((Reconstructor) Blocks.multiplicativeReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.striker, HIUnitTypes.counterattack});
-        ((Reconstructor) Blocks.exponentialReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.counterattack, HIUnitTypes.crush});
-        ((Reconstructor) Blocks.tetrativeReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.crush, HIUnitTypes.destruction});
+        ((UnitFactory) Blocks.groundFactory).plans.add(new UnitPlan(HIUnitTypes.vanguard, 1200f, with(Items.lead, 25, Items.titanium, 25, Items.silicon, 30)));
+        ((UnitFactory) Blocks.airFactory).plans.add(new UnitPlan(HIUnitTypes.caelifera, 1200f, with(Items.lead, 35, Items.titanium, 15, Items.silicon, 30)));
+        ((Reconstructor) Blocks.additiveReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.vanguard, HIUnitTypes.striker}, new UnitType[]{HIUnitTypes.caelifera, HIUnitTypes.schistocerca});
+        ((Reconstructor) Blocks.multiplicativeReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.striker, HIUnitTypes.counterattack}, new UnitType[]{HIUnitTypes.schistocerca, HIUnitTypes.anthophila});
+        ((Reconstructor) Blocks.exponentialReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.counterattack, HIUnitTypes.crush}, new UnitType[]{HIUnitTypes.anthophila, HIUnitTypes.vespula});
+        ((Reconstructor) Blocks.tetrativeReconstructor).upgrades.add(new UnitType[]{HIUnitTypes.crush, HIUnitTypes.destruction}, new UnitType[]{HIUnitTypes.vespula, HIUnitTypes.lepidoptera});
         //Blocks-Units-Erekir
         ((Constructor) Blocks.constructor).filter = Seq.with();
-        ((UnitAssembler) Blocks.tankAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.dominate, 60f * 60f * 4f, PayloadStack.list(UnitTypes.precept, 4, HIBlocks.aparajitoLarge, 20)));
-        ((UnitAssembler) Blocks.shipAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.havoc, 60f * 60f * 4f, PayloadStack.list(UnitTypes.obviate, 4, HIBlocks.aparajitoLarge, 20)));
-        ((UnitAssembler) Blocks.mechAssembler).plans.add(new UnitAssembler.AssemblerUnitPlan(HIUnitTypes.oracle, 60f * 60f * 4f, PayloadStack.list(UnitTypes.anthicus, 4, HIBlocks.aparajitoLarge, 20)));
+        ((UnitAssembler) Blocks.tankAssembler).plans.add(new AssemblerUnitPlan(HIUnitTypes.dominate, 60f * 60f * 4f, PayloadStack.list(UnitTypes.precept, 4, HIBlocks.aparajitoLarge, 20)));
+        ((UnitAssembler) Blocks.shipAssembler).plans.add(new AssemblerUnitPlan(HIUnitTypes.havoc, 60f * 60f * 4f, PayloadStack.list(UnitTypes.obviate, 4, HIBlocks.aparajitoLarge, 20)));
+        ((UnitAssembler) Blocks.mechAssembler).plans.add(new AssemblerUnitPlan(HIUnitTypes.oracle, 60f * 60f * 4f, PayloadStack.list(UnitTypes.anthicus, 4, HIBlocks.aparajitoLarge, 20)));
         //UnitTypes
         UnitTypes.alpha.coreUnitDock = true;
         UnitTypes.beta.coreUnitDock = true;

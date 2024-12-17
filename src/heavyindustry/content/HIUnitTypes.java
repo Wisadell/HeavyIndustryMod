@@ -38,7 +38,6 @@ import mindustry.world.meta.*;
 import static arc.Core.*;
 import static heavyindustry.core.HeavyIndustryMod.*;
 import static mindustry.Vars.*;
-import static mindustry.gen.EntityMapping.*;
 
 /**
  * Defines the {@linkplain UnitType units} this mod offers.
@@ -49,6 +48,8 @@ public final class HIUnitTypes {
     public static UnitType
             //vanilla-tank
             vanguard, striker, counterattack, crush, destruction, purgatory,
+            //vanilla-copter
+            caelifera, schistocerca, anthophila, vespula, lepidoptera, mantodea,
             //vanilla-tier6
             suzerain, supernova, cancer, sunlit, windstorm, mosasaur, killerWhale,
             //vanilla-tier6-erekir
@@ -56,52 +57,12 @@ public final class HIUnitTypes {
             //miner-erekir
             miner, largeMiner, legsMiner,
             //other
-            armoredCarrierVehicle, pioneer, vulture, vespula,
+            armoredCarrierVehicle, pioneer, vulture,
             burner, shadowBlade, artilleryFirePioneer,
             //elite
             tiger, thunder,
             //boss
             vast;
-
-    //one day, someone asks me : why not use xxxUnit::new? ha, I say : I don't know...
-    static {
-        //vanilla-tank
-        nameMap.put(name("vanguard"), idMap[43]);
-        nameMap.put(name("striker"), idMap[43]);
-        nameMap.put(name("counterattack"), idMap[43]);
-        nameMap.put(name("crush"), idMap[43]);
-        nameMap.put(name("destruction"), idMap[43]);
-        nameMap.put(name("purgatory"), idMap[43]);
-        //vanilla-tier6
-        nameMap.put(name("suzerain"), idMap[4]);
-        nameMap.put(name("supernova"), idMap[24]);
-        nameMap.put(name("cancer"), idMap[33]);
-        nameMap.put(name("sunlit"), idMap[3]);
-        nameMap.put(name("windstorm"), idMap[5]);
-        nameMap.put(name("mosasaur"), idMap[20]);
-        nameMap.put(name("killer-whale"), idMap[20]);
-        //vanilla-erekir-tier6
-        nameMap.put(name("dominate"), idMap[43]);
-        nameMap.put(name("oracle"), idMap[24]);
-        nameMap.put(name("havoc"), idMap[5]);
-        //miner-erekir
-        nameMap.put(name("miner"), idMap[36]);
-        nameMap.put(name("large-miner"), idMap[36]);
-        nameMap.put(name("legs-miner"), BuildingTetherPayloadLegsUnit::new);
-        //other
-        nameMap.put(name("armored-carrier-vehicle"), idMap[43]);
-        nameMap.put(name("pioneer"), PayloadLegsUnit::new);
-        nameMap.put(name("vulture"), idMap[3]);
-        nameMap.put(name("vespula"), CopterUnit::new);
-        nameMap.put(name("burner"), idMap[4]);
-        nameMap.put(name("shadow-blade"), idMap[4]);
-        nameMap.put(name("artillery-fire-pioneer"), idMap[3]);
-        //elite
-        nameMap.put(name("tiger"), idMap[4]);
-        nameMap.put(name("thunder"), idMap[43]);
-        //boss
-        nameMap.put(name("vast"), EnergyUnit::new);
-    }
 
     /** HIUnitTypes should not be instantiated. */
     private HIUnitTypes() {}
@@ -113,6 +74,7 @@ public final class HIUnitTypes {
     public static void load() {
         //vanilla-tank
         vanguard = new UnitType("vanguard") {{
+            constructor = TankUnit::create;
             squareShape = true;
             omniMovement = false;
             rotateMoveFirst = false;
@@ -151,6 +113,7 @@ public final class HIUnitTypes {
             }});
         }};
         striker = new UnitType("striker") {{
+            constructor = TankUnit::create;
             squareShape = true;
             omniMovement = false;
             rotateMoveFirst = false;
@@ -182,6 +145,7 @@ public final class HIUnitTypes {
             }});
         }};
         counterattack = new UnitType("counterattack") {{
+            constructor = TankUnit::create;
             treadFrames = 8;
             treadPullOffset = 8;
             treadRects = new Rect[]{new Rect(-45f, -45f, 24f, 88f)};
@@ -226,6 +190,7 @@ public final class HIUnitTypes {
             }});
         }};
         crush = new UnitType("crush") {{
+            constructor = TankUnit::create;
             squareShape = true;
             omniMovement = false;
             rotateMoveFirst = false;
@@ -267,6 +232,7 @@ public final class HIUnitTypes {
             }});
         }};
         destruction = new UnitType("destruction") {{
+            constructor = TankUnit::create;
             squareShape = true;
             omniMovement = false;
             rotateMoveFirst = false;
@@ -310,6 +276,7 @@ public final class HIUnitTypes {
             }});
         }};
         purgatory = new UnitType("purgatory") {{
+            constructor = TankUnit::create;
             squareShape = true;
             omniMovement = false;
             rotateMoveFirst = false;
@@ -350,8 +317,444 @@ public final class HIUnitTypes {
                 bullet = Bullets.placeholder;
             }});
         }};
+        //vanilla-copter
+        caelifera = new CopterUnitType("caelifera") {{
+            constructor = CopterUnit::create;
+            aiController = FlyingAI::new;
+            circleTarget = false;
+            speed = 5f;
+            drag = 0.08f;
+            accel = 0.04f;
+            fallSpeed = 0.005f;
+            health = 75;
+            armor = 1f;
+            engineSize = 0f;
+            flying = true;
+            hitSize = 12f;
+            range = 140f;
+            weapons.add(new Weapon(name("caelifera-gun")) {{
+                layerOffset = -0.01f;
+                reload = 6f;
+                x = 5.25f;
+                y = 6.5f;
+                shootY = 1.5f;
+                shootSound = Sounds.pew;
+                ejectEffect = Fx.casing1;
+                bullet = new BasicBulletType(5f, 7f) {{
+                    lifetime = 30f;
+                    shrinkY = 0.2f;
+                }};
+            }}, new Weapon(name("caelifera-launcher")) {{
+                layerOffset = -0.01f;
+                reload = 30f;
+                x = 4.5f;
+                y = 0.5f;
+                shootY = 2.25f;
+                shootSound = Sounds.shootSnap;
+                ejectEffect = Fx.casing2;
+                bullet = new MissileBulletType(3f, 1f) {{
+                    speed = 3f;
+                    lifetime = 45f;
+                    splashDamage = 40f;
+                    splashDamageRadius = 8f;
+                    drag = -0.01f;
+                }};
+            }});
+            rotors.add(new Rotor(name("caelifera-rotor")) {{
+                x = 0f;
+                y = 6f;
+            }});
+            hideDetails = false;
+        }};
+        schistocerca = new CopterUnitType("schistocerca") {{
+            constructor = CopterUnit::create;
+            aiController = FlyingAI::new;
+            circleTarget = false;
+            speed = 4.5f;
+            drag = 0.07f;
+            accel = 0.03f;
+            fallSpeed = 0.005f;
+            health = 150;
+            armor = 2f;
+            engineSize = 0f;
+            flying = true;
+            hitSize = 13f;
+            range = 165f;
+            rotateSpeed = 4.6f;
+            weapons.add(new Weapon(name("schistocerca-gun")) {{
+                layerOffset = -0.01f;
+                top = false;
+                x = 1.5f;
+                y = 11f;
+                shootX = -0.75f;
+                shootY = 3f;
+                shootSound = Sounds.pew;
+                ejectEffect = Fx.casing1;
+                reload = 8f;
+                bullet = new BasicBulletType(4f, 5f) {{
+                    lifetime = 36;
+                    shrinkY = 0.2f;
+                }};
+            }}, new Weapon(name("schistocerca-gun")) {{
+                top = false;
+                x = 4f;
+                y = 8.75f;
+                shootX = -0.75f;
+                shootY = 3f;
+                shootSound = Sounds.shootSnap;
+                ejectEffect = Fx.casing1;
+                reload = 12f;
+                bullet = new BasicBulletType(4f, 8f) {{
+                    width = 7f;
+                    height = 9f;
+                    lifetime = 36f;
+                    shrinkY = 0.2f;
+                }};
+            }}, new Weapon(name("schistocerca-gun-big")) {{
+                top = false;
+                x = 6.75f;
+                y = 5.75f;
+                shootX = -0.5f;
+                shootY = 2f;
+                shootSound = Sounds.shootSnap;
+                ejectEffect = Fx.casing1;
+                reload = 30f;
+                bullet = new BasicBulletType(3.2f, 16, "bullet") {{
+                    width = 10f;
+                    height = 12f;
+                    frontColor = Pal.lightishOrange;
+                    backColor = Pal.lightOrange;
+                    status = StatusEffects.burning;
+                    hitEffect = new MultiEffect(Fx.hitBulletSmall, Fx.fireHit);
+                    ammoMultiplier = 5;
+                    splashDamage = 10f;
+                    splashDamageRadius = 22f;
+                    makeFire = true;
+                    lifetime = 60f;
+                }};
+            }});
+            for (int i : Mathf.signs) {
+                rotors.add(new Rotor(name("schistocerca-rotor")) {{
+                    x = 0f;
+                    y = 6.5f;
+                    bladeCount = 3;
+                    ghostAlpha = 0.4f;
+                    shadowAlpha = 0.2f;
+                    shadeSpeed = 3f * i;
+                    speed = 29f * i;
+                }});
+            }
+            hideDetails = false;
+        }};
+        anthophila = new CopterUnitType("anthophila") {{
+            constructor = CopterUnit::create;
+            aiController = FlyingAI::new;
+            circleTarget = false;
+            speed = 4f;
+            drag = 0.07f;
+            accel = 0.03f;
+            fallSpeed = 0.005f;
+            health = 450;
+            armor = 4f;
+            engineSize = 0f;
+            flying = true;
+            hitSize = 15f;
+            range = 165f;
+            fallRotateSpeed = 2f;
+            rotateSpeed = 3.8f;
+            ammoType = new ItemAmmoType(Items.graphite);
+            weapons.add(new Weapon(name("anthophila-gun")) {{
+                layerOffset = -0.01f;
+                x = 4.25f;
+                y = 14f;
+                shootX = -1f;
+                shootY = 2.75f;
+                reload = 15;
+                shootSound = Sounds.shootBig;
+                bullet = new BasicBulletType(6f, 60f) {{
+                    lifetime = 30f;
+                    width = 16f;
+                    height = 20f;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootBigSmoke;
+                }};
+            }}, new Weapon(name("anthophila-tesla")) {{
+                x = 7.75f;
+                y = 8.25f;
+                shootY = 5.25f;
+                reload = 30f;
+                shoot.shots = 3;
+                shootSound = Sounds.spark;
+                bullet = new LightningBulletType() {{
+                    damage = 15f;
+                    lightningLength = 12;
+                    lightningColor = Pal.surge;
+                }};
+            }});
+            for (int i : Mathf.signs) {
+                rotors.add(new Rotor(name("anthophila-rotor2")) {{
+                    x = 0f;
+                    y = -13f;
+                    bladeCount = 2;
+                    ghostAlpha = 0.4f;
+                    shadowAlpha = 0.2f;
+                    shadeSpeed = 3f * i;
+                    speed = 29f * i;
+                }});
+            }
+            rotors.add(new Rotor(name("anthophila-rotor1")) {{
+                mirror = true;
+                x = 13f;
+                y = 3f;
+                bladeCount = 3;
+            }});
+            hideDetails = false;
+        }};
+        vespula = new CopterUnitType("vespula") {{
+            constructor = CopterUnit::create;
+            aiController = FlyingAI::new;
+            circleTarget = false;
+            speed = 3.5f;
+            drag = 0.07f;
+            accel = 0.03f;
+            fallSpeed = 0.003f;
+            health = 4000;
+            armor = 10f;
+            engineSize = 0f;
+            flying = true;
+            hitSize = 30f;
+            range = 165f;
+            lowAltitude = true;
+            rotateSpeed = 3.5f;
+            ammoType = new ItemAmmoType(Items.thorium);
+            weapons.add(new Weapon(name("vespula-gun-big")) {{
+                layerOffset = -0.01f;
+                x = 8.25f;
+                y = 9.5f;
+                shootX = -1f;
+                shootY = 7.25f;
+                reload = 12f;
+                shootSound = Sounds.shootBig;
+                bullet = new BasicBulletType(6f, 60f) {{
+                    lifetime = 30f;
+                    width = 16f;
+                    height = 20f;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootBigSmoke;
+                }};
+            }}, new Weapon(name("vespula-gun")) {{
+                layerOffset = -0.01f;
+                x = 6.5f;
+                y = 21.5f;
+                shootX = -0.25f;
+                shootY = 5.75f;
+                reload = 20f;
+                shoot.shots = 4;
+                shoot.shotDelay = 2f;
+                shootSound = Sounds.shootSnap;
+                bullet = new BasicBulletType(4f, 29, "bullet") {{
+                    width = 10f;
+                    height = 13f;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootBigSmoke;
+                    ammoMultiplier = 4;
+                    lifetime = 60f;
+                }};
+            }}, new Weapon(name("vespula-laser-gun")) {{
+                x = 13.5f;
+                y = 15.5f;
+                shootY = 4.5f;
+                reload = 60f;
+                shootSound = Sounds.laser;
+                bullet = new LaserBulletType(240f) {{
+                    sideAngle = 45f;
+                    length = 200f;
+                }};
+            }});
+            for (int i : Mathf.signs) {
+                rotors.add(new Rotor(name("vespula-rotor")) {{
+                    mirror = true;
+                    x = 15f;
+                    y = 6.75f;
+                    speed = 29f * i;
+                    ghostAlpha = 0.4f;
+                    shadowAlpha = 0.2f;
+                    shadeSpeed = 3f * i;
+                }});
+            }
+            hideDetails = false;
+        }};
+        lepidoptera = new CopterUnitType("lepidoptera") {{
+            constructor = CopterUnit::create;
+            aiController = FlyingAI::new;
+            circleTarget = false;
+            speed = 3f;
+            drag = 0.07f;
+            accel = 0.03f;
+            fallSpeed = 0.003f;
+            health = 9500;
+            armor = 14f;
+            engineSize = 0f;
+            flying = true;
+            hitSize = 45f;
+            range = 300f;
+            lowAltitude = true;
+            fallRotateSpeed = 0.8f;
+            rotateSpeed = 2.7f;
+            ammoType = new ItemAmmoType(Items.thorium);
+            weapons.add(new Weapon(name("lepidoptera-gun")) {{
+                layerOffset = -0.01f;
+                x = 14f;
+                y = 27f;
+                shootY = 5.5f;
+                shootSound = Sounds.shootBig;
+                ejectEffect = Fx.casing3Double;
+                reload = 10f;
+                bullet = new BasicBulletType(7f, 80f) {{
+                    lifetime = 30f;
+                    width = 18f;
+                    height = 22f;
+                    shootEffect = Fx.shootBig;
+                    smokeEffect = Fx.shootBigSmoke;
+                }};
+            }}, new Weapon(name("lepidoptera-launcher")) {{
+                x = 17f;
+                y = 14f;
+                shootY = 5.75f;
+                shootSound = Sounds.shootSnap;
+                ejectEffect = Fx.casing2;
+                shoot = new ShootSpread(2, 2f);
+                reload = 20f;
+                bullet = new MissileBulletType(6f, 15f) {{
+                    width = 8f;
+                    height = 14f;
+                    trailColor = Pal.missileYellowBack;
+                    weaveScale = 2f;
+                    weaveMag = 2f;
+                    lifetime = 35f;
+                    drag = -0.01f;
+                    splashDamage = 48f;
+                    splashDamageRadius = 12f;
+                    frontColor = Pal.missileYellow;
+                    backColor = Pal.missileYellowBack;
+                }};
+            }}, new Weapon(name("lepidoptera-gun-big")) {{
+                rotate = true;
+                rotateSpeed = 3f;
+                x = 8f;
+                y = 3f;
+                shootY = 6.75f;
+                shootSound = Sounds.shotgun;
+                ejectEffect = Fx.none;
+                shoot = new ShootSpread(3, 15f);
+                reload = 45f;
+                bullet = new ShrapnelBulletType() {{
+                    toColor = Pal.accent;
+                    damage = 150f;
+                    keepVelocity = false;
+                    length = 150f;
+                }};
+            }});
+            for (int i : Mathf.signs) {
+                rotors.add(new Rotor(name("lepidoptera-rotor1")) {{
+                    mirror = true;
+                    x = 22.5f;
+                    y = 21.25f;
+                    bladeCount = 3;
+                    speed = 19f * i;
+                    ghostAlpha = 0.4f;
+                    shadowAlpha = 0.2f;
+                    shadeSpeed = 3f * i;
+                }}, new Rotor(name("lepidoptera-rotor2")) {{
+                    mirror = true;
+                    x = 17.25f;
+                    y = 1f;
+                    bladeCount = 2;
+                    speed = 23f * i;
+                    ghostAlpha = 0.4f;
+                    shadowAlpha = 0.2f;
+                    shadeSpeed = 4f * i;
+                }});
+            }
+            hideDetails = false;
+        }};
+        mantodea = new CopterUnitType("mantodea") {{
+            constructor = CopterUnit::create;
+            aiController = FlyingAI::new;
+            circleTarget = false;
+            speed = 5f;
+            drag = 0.1f;
+            accel = 0.03f;
+            fallSpeed = 0.0025f;
+            armor = 22f;
+            health = 25500f;
+            engineSize = 0f;
+            flying = true;
+            hitSize = 45f;
+            lowAltitude = true;
+            fallRotateSpeed = 0.8f;
+            rotateSpeed = 2.2f;
+            ammoType = new ItemAmmoType(Items.surgeAlloy);
+            for (float[] i : new float[][]{{14.25f, 26.5f, 25f}, {26.25f, 19.5f, 15f}}) {
+                weapons.add(new Weapon(name("mantodea-gun")) {{
+                    mirror = true;
+                    rotate = false;
+                    x = i[0];
+                    y = i[1];
+                    recoil = 2.5f;
+                    shootY = 10f;
+                    shootSound = Sounds.shootBig;
+                    shoot.shots = 3;
+                    shoot.shotDelay = 3f;
+                    reload = i[2];
+                    bullet = new FlakBulletType(13f, 130f) {{
+                        width = 12f;
+                        height = 20f;
+                        pierce = true;
+                        pierceCap = 2;
+                        lifetime = 20f;
+                        collidesGround = true;
+                        lightning = 3;
+                        lightningLength = 4;
+                        lightningLengthRand = 2;
+                        lightningDamage = 25f;
+                        lightningColor = Pal.surge;
+                        shootEffect = Fx.shootBig;
+                        smokeEffect = Fx.shootBigSmoke;
+                    }};
+                }});
+            }
+            for (int i : Mathf.signs) {
+                rotors.add(new Rotor(name("mantodea-rotor2")) {{
+                    y = -31.25f;
+                    bladeCount = 4;
+                    speed = 19f * i;
+                    ghostAlpha = 0.4f;
+                    shadowAlpha = 0.2f;
+                    shadeSpeed = 4f * i;
+                }}, new Rotor(name("mantodea-rotor3")) {{
+                    mirror = true;
+                    x = 28.5f;
+                    y = -11.75f;
+                    bladeCount = 3;
+                    speed = 23f * i;
+                    ghostAlpha = 0.4f;
+                    shadowAlpha = 0.2f;
+                    shadeSpeed = 3f * i;
+                }});
+            }
+            rotors.add(new Rotor(name("mantodea-rotor1")) {{
+                y = 9.25f;
+                bladeCount = 3;
+                speed = 29f;
+                shadeSpeed = 5f;
+                bladeFade = 0.8f;
+            }});
+            hideDetails = false;
+        }};
         //vanilla-tier6
         suzerain = new UnitType("suzerain") {{
+            constructor = MechUnit::create;
             speed = 0.4f;
             hitSize = 40f;
             rotateSpeed = 1.65f;
@@ -409,9 +812,10 @@ public final class HIUnitTypes {
                         serrationSpacing = 5f;
                     }};
                 }};
-            }}, new Weapon(name("suzerain-cannon")) {{
+            }}, new LimitedAngleWeapon(name("suzerain-cannon")) {{
                 y = -1f;
                 x = 28f;
+                angleCone = 15f;
                 shootY = 17f;
                 reload = 36f;
                 recoil = 5f;
@@ -453,6 +857,7 @@ public final class HIUnitTypes {
             }});
         }};
         supernova = new UnitType("supernova") {{
+            constructor = LegsUnit::create;
             hitSize = 41f;
             health = 59000f;
             armor = 32f;
@@ -577,6 +982,7 @@ public final class HIUnitTypes {
             }});
         }};
         cancer = new UnitType("cancer") {{
+            constructor = LegsUnitLegacyToxopid::create;
             speed = 0.5f;
             hitSize = 33f;
             health = 54000f;
@@ -655,7 +1061,7 @@ public final class HIUnitTypes {
                 x = 14.5f;
                 y = -10f;
                 shootY = 20.5f - 4f;
-                shootSound = Sounds.shotgun;
+                shootSound = Sounds.artillery;
                 rotate = true;
                 alternate = true;
                 rotateSpeed = 0.9f;
@@ -695,6 +1101,7 @@ public final class HIUnitTypes {
             }});
         }};
         sunlit = new UnitType("sunlit") {{
+            constructor = UnitEntity::create;
             speed = 0.55f;
             accel = 0.04f;
             drag = 0.04f;
@@ -793,6 +1200,7 @@ public final class HIUnitTypes {
             }});
         }};
         windstorm = new UnitType("windstorm") {{
+            constructor = PayloadUnit::create;
             aiController = HealingDefenderAI::new;
             armor = 41f;
             health = 61000f;
@@ -852,13 +1260,14 @@ public final class HIUnitTypes {
                 bullet = new HealingNukeBulletType() {{
                     allyStatus = StatusEffects.overclock;
                     allyStatusDuration = 15f * 60f;
-                    status = HIStatusEffects.breached;
+                    status = StatusEffects.sapped;
                     statusDuration = 120f;
                     healPercent = 20f;
                 }};
             }});
         }};
         mosasaur = new UnitType("mosasaur") {{
+            constructor = UnitWaterMove::create;
             trailLength = 70;
             waveTrailX = 25f;
             waveTrailY = -32f;
@@ -878,8 +1287,8 @@ public final class HIUnitTypes {
             immunities = ObjectSet.with(HIStatusEffects.territoryFieldSuppress);
             weapons.addAll(new LimitedAngleWeapon(name("mosasaur-front-cannon")) {{
                 layerOffset = -0.01f;
-                x = 22.25f;
-                y = 30.25f;
+                x = 22f;
+                y = 26f;
                 shootY = 9.5f;
                 recoil = 5f;
                 shoot.shots = 5;
@@ -900,7 +1309,7 @@ public final class HIUnitTypes {
                 }};
             }}, new LimitedAngleWeapon(name("mosasaur-side-silo")) {{
                 layerOffset = -0.01f;
-                x = 29.75f;
+                x = 24f;
                 y = -13f;
                 shootY = 7f;
                 xRand = 9f; //TODO use something else instead? -Anuke
@@ -948,7 +1357,7 @@ public final class HIUnitTypes {
                 angleCone = 135f;
                 bullet = HIBullets.basicMissile;
             }}, new PointDefenceMultiBarrelWeapon(name("mosasaur-flak-turret")) {{
-                x = 26.5f;
+                x = 23f;
                 y = 15f;
                 shootY = 15.75f;
                 barrels = 2;
@@ -1017,6 +1426,7 @@ public final class HIUnitTypes {
             }});
         }};
         killerWhale = new UnitType("killer-whale") {{
+            constructor = UnitWaterMove::create;
             armor = 48f;
             drag = 0.2f;
             speed = 0.7f;
@@ -1212,13 +1622,14 @@ public final class HIUnitTypes {
                 @Override
                 public void addStats(UnitType u, Table t) {
                     String text = bundle.get("unit.heavy-industry-killer-whale-weapon-1.description");
-                    TableUtils.collapseTextToTable(t, text);
+                    UIUtils.collapseTextToTable(t, text);
                     super.addStats(u, t);
                 }
             });
         }};
         //vanilla-tier6-erekir
         dominate = new TankUnitType("dominate") {{
+            constructor = TankUnit::create;
             hitSize = 57f;
             treadPullOffset = 1;
             speed = 0.48f;
@@ -1382,6 +1793,7 @@ public final class HIUnitTypes {
             }});
         }};
         oracle = new ErekirUnitType("oracle") {{
+            constructor = LegsUnit::create;
             drag = 0.1f;
             speed = 0.9f;
             hitSize = 50f;
@@ -1581,6 +1993,7 @@ public final class HIUnitTypes {
             }});
         }};
         havoc = new ErekirUnitType("havoc") {{
+            constructor = PayloadUnit::create;
             aiController = FlyingFollowAI::new;
             envDisabled = 0;
             lowAltitude = false;
@@ -1688,6 +2101,7 @@ public final class HIUnitTypes {
         }};
         //miner-erekir
         miner = new ErekirUnitType("miner") {{
+            constructor = BuildingTetherPayloadUnit::create;
             defaultCommand = UnitCommand.mineCommand;
             controller = u -> new MinerPointAI();
             flying = true;
@@ -1720,6 +2134,7 @@ public final class HIUnitTypes {
             setEnginesMirror(new UnitEngine(24 / 4f, -24 / 4f, 2.3f, 315f));
         }};
         largeMiner = new ErekirUnitType("large-miner") {{
+            constructor = BuildingTetherPayloadUnit::create;
             defaultCommand = UnitCommand.mineCommand;
             controller = u -> new MinerPointAI();
             flying = true;
@@ -1753,6 +2168,7 @@ public final class HIUnitTypes {
             setEnginesMirror(new UnitEngine(40 / 4f, -40 / 4f, 3f, 315f));
         }};
         legsMiner = new ErekirUnitType("legs-miner") {{
+            constructor = BuildingTetherPayloadLegsUnit::create;
             isEnemy = false;
             allowedInPayloads = false;
             logicControllable = false;
@@ -1790,6 +2206,7 @@ public final class HIUnitTypes {
         }};
         //other
         armoredCarrierVehicle = new UnitType("armored-carrier-vehicle") {{
+            constructor = TankUnit::create;
             healFlash = false;
             treadFrames = 16;
             treadPullOffset = 8;
@@ -1814,6 +2231,7 @@ public final class HIUnitTypes {
             deathExplosionEffect = new MultiEffect(HIFx.explodeImpWave);
         }};
         pioneer = new UnitType("pioneer") {{
+            constructor = PayloadLegsUnit::create;
             drag = 0.1f;
             speed = 0.62f;
             hitSize = 23f;
@@ -1865,6 +2283,7 @@ public final class HIUnitTypes {
             }});
         }};
         vulture = new UnitType("vulture") {{
+            constructor = UnitEntity::create;
             aiController = SurroundAI::new;
             weapons.add(new Weapon() {{
                 top = false;
@@ -1925,77 +2344,8 @@ public final class HIUnitTypes {
             armor = 10.5f;
             flying = true;
         }};
-        vespula = new CopterUnitType("vespula") {{
-            aiController = FlyingAI::new;
-            circleTarget = false;
-            speed = 3.5f;
-            drag = 0.07f;
-            accel = 0.03f;
-            fallSpeed = 0.003f;
-            health = 4000;
-            engineSize = 0f;
-            flying = true;
-            hitSize = 30f;
-            range = 165f;
-            lowAltitude = true;
-            rotateSpeed = 3.5f;
-            weapons.add(new Weapon(name("vespula-gun-big")) {{
-                layerOffset = -0.01f;
-                x = 8.25f;
-                y = 9.5f;
-                shootX = -1f;
-                shootY = 7.25f;
-                reload = 12f;
-                shootSound = Sounds.shootBig;
-                bullet = new BasicBulletType(6f, 60f) {{
-                    lifetime = 30f;
-                    width = 16f;
-                    height = 20f;
-                    shootEffect = Fx.shootBig;
-                    smokeEffect = Fx.shootBigSmoke;
-                }};
-            }}, new Weapon(name("vespula-gun")) {{
-                layerOffset = -0.01f;
-                x = 6.5f;
-                y = 21.5f;
-                shootX = -0.25f;
-                shootY = 5.75f;
-                reload = 20f;
-                shoot.shots = 4;
-                shoot.shotDelay = 2f;
-                shootSound = Sounds.shootSnap;
-                bullet = new BasicBulletType(4f, 29, "bullet") {{
-                    width = 10f;
-                    height = 13f;
-                    shootEffect = Fx.shootBig;
-                    smokeEffect = Fx.shootBigSmoke;
-                    ammoMultiplier = 4;
-                    lifetime = 60f;
-                }};
-            }}, new Weapon(name("vespula-laser-gun")) {{
-                x = 13.5f;
-                y = 15.5f;
-                shootY = 4.5f;
-                reload = 60f;
-                shootSound = Sounds.laser;
-                bullet = new LaserBulletType(240f) {{
-                    sideAngle = 45f;
-                    length = 200f;
-                }};
-            }});
-            for (int i : Mathf.signs) {
-                rotors.add(new Rotor(name("vespula-rotor")) {{
-                    mirror = true;
-                    x = 15f;
-                    y = 6.75f;
-                    speed = 29f * i;
-                    ghostAlpha = 0.4f;
-                    shadowAlpha = 0.2f;
-                    shadeSpeed = 3f * i;
-                }});
-            }
-        }};
         burner = new UnitType("burner") {{
+            constructor = MechUnit::create;
             speed = 0.36f;
             hitSize = 24f;
             rotateSpeed = 2.1f;
@@ -2018,6 +2368,7 @@ public final class HIUnitTypes {
                 shake = 1f;
                 shootSound = Sounds.flame;
                 inaccuracy = 3f;
+                shootCone = 8f;
                 bullet = new FlameBulletType(Pal.techBlue, Pal.techBlue.cpy().lerp(Color.gray, 0.3f), Color.gray, range + 8f, 8, 72, 22f) {{
                     damage = 225f;
                     collidesAir = true;
@@ -2054,12 +2405,13 @@ public final class HIUnitTypes {
                 @Override
                 public void addStats(UnitType u, Table t) {
                     String text = bundle.get("unit.heavy-industry-burner-weapon-0.description");
-                    TableUtils.collapseTextToTable(t, text);
+                    UIUtils.collapseTextToTable(t, text);
                     super.addStats(u, t);
                 }
             });
         }};
         shadowBlade = new UnitType("shadow-blade") {{
+            constructor = MechUnit::create;
             speed = 0.36f;
             hitSize = 24f;
             rotateSpeed = 2.1f;
@@ -2167,12 +2519,13 @@ public final class HIUnitTypes {
                 @Override
                 public void addStats(UnitType u, Table t) {
                     String text = bundle.get("unit.heavy-industry-shadow-blade-weapon-0.description");
-                    TableUtils.collapseTextToTable(t, text);
+                    UIUtils.collapseTextToTable(t, text);
                     super.addStats(u, t);
                 }
             });
         }};
         artilleryFirePioneer = new UnitType("artillery-fire-pioneer") {{
+            constructor = UnitEntity::create;
             hitSize = 28f;
             speed = 1.1f;
             accel = 0.05f;
@@ -2235,7 +2588,7 @@ public final class HIUnitTypes {
                     }};
                 }};
             }
-                final float rangeWeapon = 720f;
+                public final float rangeWeapon = 720f;
 
                 @Override
                 protected void shoot(Unit unit, WeaponMount mount, float shootX, float shootY, float rotation) {
@@ -2258,6 +2611,7 @@ public final class HIUnitTypes {
         }};
         //elite
         tiger = new UnitType("tiger") {{
+            constructor = MechUnit::create;
             drawShields = false;
             engineOffset = 18f;
             engineSize = 9f;
@@ -2355,7 +2709,7 @@ public final class HIUnitTypes {
                 @Override
                 public void addStats(UnitType u, Table t) {
                     String text = bundle.get("unit.heavy-industry-tiger-weapon-0.description");
-                    TableUtils.collapseTextToTable(t, text);
+                    UIUtils.collapseTextToTable(t, text);
                     super.addStats(u, t);
                 }
             }, new Weapon() {{
@@ -2452,6 +2806,12 @@ public final class HIUnitTypes {
             boostMultiplier = 2.5f;
         }};
         thunder = new UnitType("thunder") {{
+            constructor = () -> new TankUnit() {
+                @Override
+                public void rawDamage(float amount) {
+                    super.rawDamage(0.7f * amount);
+                }
+            };
             health = 226000f;
             armor = 115f;
             rotateSpeed = 1f;
@@ -2565,7 +2925,7 @@ public final class HIUnitTypes {
                 @Override
                 public void addStats(UnitType u, Table t) {
                     String text = bundle.get("unit.heavy-industry-thunder-weapon-0.description");
-                    TableUtils.collapseTextToTable(t, text);
+                    UIUtils.collapseTextToTable(t, text);
                     super.addStats(u, t);
                 }
             });
@@ -2623,7 +2983,7 @@ public final class HIUnitTypes {
                     @Override
                     public void addStats(UnitType u, Table t) {
                         String text = bundle.get("unit.heavy-industry-thunder-weapon-1.description");
-                        TableUtils.collapseTextToTable(t, text);
+                        UIUtils.collapseTextToTable(t, text);
                         super.addStats(u, t);
                     }
                 });
@@ -2631,6 +2991,7 @@ public final class HIUnitTypes {
             drownTimeMultiplier = 26f;
         }};
         vast = new UnitType("vast") {{
+            constructor = EnergyUnit::create;
             clipSize = 260f;
             engineLayer = Layer.effect;
             engineOffset = 5f;

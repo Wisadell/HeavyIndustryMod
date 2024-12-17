@@ -10,7 +10,7 @@ import mindustry.type.*;
  */
 public final class HIItems {
     public static Item
-            salt, rareEarth,
+            stone, salt, rareEarth,
             nanocore, nanocoreErekir,
             uranium, chromium, heavyAlloy;
 
@@ -22,6 +22,11 @@ public final class HIItems {
      * <p>Remember not to execute it a second time, I did not take any precautionary measures.
      */
     public static void load() {
+        stone = new Item("stone", Color.valueOf("8a8a8a")) {{
+            hardness = 1;
+            cost = 0.4f;
+            lowPriority = true;
+        }};
         salt = new Item("salt", Color.white) {{
             cost = 1.1f;
             hardness = 2;

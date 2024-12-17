@@ -10,6 +10,7 @@ import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.world.*;
 
 public class GrenadeBulletType extends BulletType {
     public float width, height;
@@ -28,8 +29,8 @@ public class GrenadeBulletType extends BulletType {
     }
 
     public boolean justBounced(Bullet b) {
-        var x = b.fin();
-        var px = (b.time - Time.delta * 2.0) / b.lifetime;
+        float x = b.fin();
+        double px = (b.time - Time.delta * 2.0) / b.lifetime;
         return Math.floor(5 * x) != Math.floor(5 * px);
     }
 
@@ -43,7 +44,7 @@ public class GrenadeBulletType extends BulletType {
         }
 
         float zh = getZ(b);
-        var tile = Vars.world.tileWorld(b.x, b.y);
+        Tile tile = Vars.world.tileWorld(b.x, b.y);
         if (tile == null || tile.build == null || zh > 0.2 || b.fin() < 0.05) return;
 
         if (tile.solid()) {
@@ -72,7 +73,7 @@ public class GrenadeBulletType extends BulletType {
     }
 
     public float getZ(Bullet b) {
-        var x = b.fin();
+        float x = b.fin();
         return Math.abs(Mathf.sin(5 * x * Mathf.pi)) / (Mathf.floor(x * 5) * Mathf.floor(x * 5) + 1);
     }
 
@@ -87,13 +88,13 @@ public class GrenadeBulletType extends BulletType {
             trailEffect.at(b.x, b.y, b.fslope() * 4.0f * Mathf.clamp(b.fout()), backColor);
         }
 
-        var scl = getZ(b) + 1;
-        var offset = Time.time * 3.0f;
-        var height = this.height * scl;
-        var width = this.width * scl;
-        var flash = Mathf.pow(2, 5 * b.fin() - 1) % 1.0 > 0.5;
+        float scl = getZ(b) + 1;
+        float offset = Time.time * 3.0f;
+        float height = this.height * scl;
+        float width = this.width * scl;
+        boolean flash = Mathf.pow(2, 5 * b.fin() - 1) % 1.0 > 0.5;
 
-        var mix = Tmp.c1.set(mixColorFrom).lerp(mixColorTo, b.fin());
+        Color mix = Tmp.c1.set(mixColorFrom).lerp(mixColorTo, b.fin());
 
         Draw.mixcol(mix, mix.a);
 

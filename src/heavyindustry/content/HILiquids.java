@@ -1,8 +1,12 @@
 package heavyindustry.content;
 
 import arc.graphics.*;
+import arc.math.*;
 import heavyindustry.entities.effect.*;
+import heavyindustry.graphics.*;
 import mindustry.content.*;
+import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
 
 /**
@@ -42,7 +46,20 @@ public final class HILiquids {
             particleEffect = WrapperEffect.wrap(HIFx.glowParticle, color);
             effect = StatusEffects.electrified;
             coolant = true;
-        }};
+        }
+            public final int taskId = Draws.nextTaskId();
+
+            @Override
+            public void drawPuddle(Puddle puddle) {
+                Draws.drawTask(taskId, puddle, HIShaders.wave, s -> {
+                    s.waveMix = Pal.heal;
+                    s.mixAlpha = 0.2f + Mathf.absin(5, 0.2f);
+                    s.waveScl = 0.2f;
+                    s.maxThreshold = 1f;
+                    s.minThreshold = 0.4f;
+                }, super::drawPuddle);
+            }
+        };
         nitratedOil = new Liquid("nitrated-oil", Color.valueOf("3c3e45")) {{
             temperature = 0.5f;
             viscosity = 0.8f;

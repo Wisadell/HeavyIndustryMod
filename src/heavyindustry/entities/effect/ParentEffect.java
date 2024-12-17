@@ -9,7 +9,7 @@ import arc.util.pooling.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
-import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.defense.turrets.BaseTurret.*;
 
 import static mindustry.Vars.*;
 
@@ -38,15 +38,15 @@ public class ParentEffect extends Effect {
                 entity.set(x, y);
                 entity.color.set(color);
                 float rotationA = 0f;
-                if (data instanceof Rotc) {
-                    rotationA = ((Rotc) data).rotation();
-                } else if (data instanceof BaseTurret.BaseTurretBuild) {
-                    rotationA = ((BaseTurret.BaseTurretBuild) data).rotation;
+                if (data instanceof Rotc rotc) {
+                    rotationA = rotc.rotation();
+                } else if (data instanceof BaseTurretBuild turret) {
+                    rotationA = turret.rotation;
                 }
-                if (data instanceof Posc) {
-                    entity.parent = ((Posc) data);
-                    //entity.positionRotation = (((Posc)data).angleTo(entity) - rotation);
-                    entity.positionRotation = (((Posc) data).angleTo(entity) - rotationA);
+                if (data instanceof Posc posc) {
+                    entity.parent = posc;
+                    //entity.positionRotation = (posc.angleTo(entity) - rotation);
+                    entity.positionRotation = (posc.angleTo(entity) - rotationA);
                 }
                 entity.add();
             }
@@ -77,10 +77,10 @@ public class ParentEffect extends Effect {
 
             if (parent != null) {
                 float rotationA = 0f;
-                if (parent instanceof Rotc) {
-                    rotationA = ((Rotc) parent).rotation();
-                } else if (parent instanceof BaseTurret.BaseTurretBuild) {
-                    rotationA = ((BaseTurret.BaseTurretBuild) parent).rotation;
+                if (parent instanceof Rotc rotc) {
+                    rotationA = rotc.rotation();
+                } else if (parent instanceof BaseTurretBuild turret) {
+                    rotationA = turret.rotation;
                 }
                 rotation = rotationA - originalRotation;
                 //float angle = Mathf.angle(offsetX, offsetY);

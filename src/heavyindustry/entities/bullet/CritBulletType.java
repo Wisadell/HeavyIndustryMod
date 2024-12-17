@@ -4,7 +4,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.util.*;
 import heavyindustry.content.*;
-import heavyindustry.graphics.trail.*;
+import heavyindustry.graphics.HITrails.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;

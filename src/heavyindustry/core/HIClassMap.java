@@ -122,6 +122,7 @@ final class HIClassMap {
         classes.put("SteamVentF", SteamVentF.class);
         classes.put("ArmorFloor", ArmorFloor.class);
         classes.put("TallTreeBlock", TallTreeBlock.class);
+        classes.put("ModelProp", ModelProp.class);
         classes.put("AssignOverdrive", AssignOverdrive.class);
         classes.put("AssignOverdriveBuild", AssignOverdrive.AssignOverdriveBuild.class);
         classes.put("InsulationWall", InsulationWall.class);
