@@ -20,7 +20,7 @@ import mindustry.ui.*;
 import mindustry.world.meta.*;
 
 import static arc.Core.*;
-import static heavyindustry.ui.TableUtils.*;
+import static heavyindustry.ui.UIUtils.*;
 import static mindustry.Vars.*;
 
 public abstract class CommandableAttackerBlock extends CommandableBlock {
@@ -187,7 +187,7 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
 
             if (!headless && participantsTmp.any()) {
                 if (team != player.team())
-                    TableUtils.showToast(Icon.warning, "[#ff7b69]Caution: []Attack " + (int) (pos.x / 8) + ", " + (int) (pos.y / 8), HISounds.alert2);
+                    UIUtils.showToast(Icon.warning, "[#ff7b69]Caution: []Attack " + (int) (pos.x / 8) + ", " + (int) (pos.y / 8), HISounds.alert2);
                 HIFx.attackWarningRange.at(pos.x, pos.y, 80, team.color);
             }
         }
@@ -203,7 +203,7 @@ public abstract class CommandableAttackerBlock extends CommandableBlock {
 
             table.table(Tex.paneSolid, t -> {
                 t.button(Icon.modeAttack, Styles.cleari, () -> configure(targetVec)).size(LEN).disabled(b -> targetVec.epsilonEquals(x, y, 0.1f));
-                t.button(bundle.get("hi-select-target"), Icon.move, Styles.cleart, LEN, () -> TableUtils.selectPos(t, this::configure)).size(LEN * 4, LEN).row();
+                t.button(bundle.get("hi-select-target"), Icon.move, Styles.cleart, LEN, () -> UIUtils.selectPos(t, this::configure)).size(LEN * 4, LEN).row();
             }).fill();
         }
     }

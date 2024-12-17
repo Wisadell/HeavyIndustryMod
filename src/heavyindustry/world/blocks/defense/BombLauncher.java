@@ -59,8 +59,9 @@ public class BombLauncher extends CommandableAttackerBlock {
             Draw.draw(Draw.z(), () -> {
                 if (reload / reloadTime > 1) {
                     Draw.rect(bombRegion, x, y);
-                } else
+                } else {
                     Drawf.construct(x, y, bombRegion, baseColor, 0, reload / reloadTime, Mathf.curve(1 - reload / reloadTime, 0, 0.15f) * warmup, totalProgress);
+                }
             });
         }
 

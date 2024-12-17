@@ -6,24 +6,24 @@ import java.util.*;
 
 /**
  * Storage classes for some empty collections, usually used when there is a need to reference empty collections,
- * such as the getDefault and default initialization usage of maps, etc.
+ * such as the getDefault and default initialization usage of maps.
  * <p><strong>Do not manually manipulate any of these collections, it is very foolish, very foolish</strong>
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public final class Empties {
-    private static final ArrayList NIL_ARRAY_LIST = new ArrayList();
-    private static final LinkedList NIL_LINKED_LIST = new LinkedList();
-    private static final Seq NIL_SEQ = new Seq();
+    private static final ArrayList NIL_ARRAY_LIST = new ArrayList<>();
+    private static final LinkedList NIL_LINKED_LIST = new LinkedList<>();
+    private static final Seq NIL_SEQ = new Seq<>();
 
-    private static final HashMap NIL_HASH_MAP = new HashMap();
-    private static final LinkedHashMap NIL_LINKED_HASH_MAP = new LinkedHashMap();
-    private static final ObjectMap NIL_OBJECT_MAP = new ObjectMap();
-    private static final OrderedMap NIL_ORDERED_MAP = new OrderedMap();
+    private static final HashMap NIL_HASH_MAP = new HashMap<>();
+    private static final LinkedHashMap NIL_LINKED_HASH_MAP = new LinkedHashMap<>();
+    private static final ObjectMap NIL_OBJECT_MAP = new ObjectMap<>();
+    private static final OrderedMap NIL_ORDERED_MAP = new OrderedMap<>();
 
-    private static final HashSet NIL_HASH_SET = new HashSet();
-    private static final LinkedHashSet NIL_LINKED_HASH_SET = new LinkedHashSet();
-    private static final ObjectSet NIL_OBJECT_SET = new ObjectSet();
-    private static final OrderedSet NIL_ORDERED_SET = new OrderedSet();
+    private static final HashSet NIL_HASH_SET = new HashSet<>();
+    private static final LinkedHashSet NIL_LINKED_HASH_SET = new LinkedHashSet<>();
+    private static final ObjectSet NIL_OBJECT_SET = new ObjectSet<>();
+    private static final OrderedSet NIL_ORDERED_SET = new OrderedSet<>();
 
     /** Empties should not be instantiated. */
     private Empties() {}

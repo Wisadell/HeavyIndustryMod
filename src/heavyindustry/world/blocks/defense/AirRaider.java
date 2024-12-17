@@ -68,11 +68,11 @@ public class AirRaider extends CommandableAttackerBlock {
                     lifeScl = bullet.scaleLife ? Mathf.clamp(Mathf.dst(bulletX, bulletY, Tmp.v5.x, Tmp.v5.y) / bullet.range) : 1f,
                     angle = aimAngle + Mathf.range(inaccuracy);
 
-            Bullet shootBullet = bullet.create(this, team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, Tmp.v5.x, Tmp.v5.y);
+            bullet.create(this, team, bulletX, bulletY, angle, -1f, (1f - velocityRnd) + Mathf.random(velocityRnd), lifeScl, null, mover, Tmp.v5.x, Tmp.v5.y);
 
             Effect.shake(shake, shake, this);
 
-//			ejectEffect.at(x, y, angle * Mathf.sign(this.x));
+//            ejectEffect.at(x, y, angle * Mathf.sign(x));
             bullet.shootEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);
             bullet.smokeEffect.at(bulletX, bulletY, angle, bullet.hitColor, unit);
 

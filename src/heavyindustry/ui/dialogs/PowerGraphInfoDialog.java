@@ -11,7 +11,7 @@ import mindustry.ui.dialogs.*;
 import mindustry.world.blocks.power.*;
 
 import static arc.Core.*;
-import static heavyindustry.ui.TableUtils.*;
+import static heavyindustry.ui.UIUtils.*;
 
 public class PowerGraphInfoDialog extends BaseDialog {
     protected final float updateInterval = 60; //Update every second

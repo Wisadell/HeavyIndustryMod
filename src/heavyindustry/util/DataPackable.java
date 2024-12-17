@@ -13,11 +13,11 @@ import java.io.*;
  * <p>Here is a use case:
  * <pre>{@code
  * //Declare a packable type
- * public class Data implements DataPackable {
+ * public class GltfData implements DataPackable {
  *     private final static long typeID = 1587541965784324577L;
  *
  *     static {
- *         DataPackable.assignType(typeID, args -> new Data());
+ *         DataPackable.assignType(typeID, args -> new GltfData());
  *     }
  *
  *     String name;
@@ -46,18 +46,18 @@ import java.io.*;
  * }</pre>
  * So, use this object and complete data packaging and disassembly:
  * <pre>{@code
- * Data d = new Data();
+ * GltfData d = new GltfData();
  * d.name = "Template";
  * d.health = 100;
  * d.alive = true;
  *
  * byte[] dataArr = a.pack();//Packaging data
- * Data d1 = DataPackable.readObject(dataArr);//Read directly as a new instance with the same properties.
- * Data d2 = new Data();
+ * GltfData d1 = DataPackable.readObject(dataArr);//Read directly as a new instance with the same properties.
+ * GltfData d2 = new GltfData();
  * d2.read(dataArr);//Instantiate first, then read properties from the array.
  * }</pre>
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 public interface DataPackable {
     LongMap<Func> objectProvMap = new LongMap<>();
 
@@ -124,7 +124,7 @@ public interface DataPackable {
     /**
      * Read a byte array of data, which must be the array obtained from the object wrapper or structurally consistent.
      *
-     * @param bytes Data array to be read
+     * @param bytes GltfData array to be read
      * @throws SerializationException If the given byte array is not packaged by this object
      */
     default void read(byte[] bytes) {

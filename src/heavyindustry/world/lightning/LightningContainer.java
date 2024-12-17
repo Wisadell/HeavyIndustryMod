@@ -5,6 +5,7 @@ import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.pooling.*;
+import arc.util.pooling.Pool.*;
 import heavyindustry.world.lightning.generator.*;
 
 import java.util.*;
@@ -96,7 +97,7 @@ public class LightningContainer implements Iterable<Lightning> {
     }
 
     /** Lightning branch container, used to draw branch lightning, recursively draws all sub-branches. */
-    public static class PoolLightningContainer extends LightningContainer implements Pool.Poolable {
+    public static class PoolLightningContainer extends LightningContainer implements Poolable {
         public static PoolLightningContainer create(float lifeTime, float minWidth, float maxWidth) {
             PoolLightningContainer result = Pools.obtain(PoolLightningContainer.class, PoolLightningContainer::new);
             result.lifeTime = lifeTime;

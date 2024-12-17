@@ -1,12 +1,13 @@
 package heavyindustry.world.lightning;
 
 import arc.util.pooling.*;
+import arc.util.pooling.Pool.*;
 
 /**
  * The lightning vertex container stores necessary information for a vertex and a drawing progress timer.
  * There are a large number of such instances, which should be reused.
  */
-public class LightningVertex implements Pool.Poolable {
+public class LightningVertex implements Poolable {
     public float x, y;
     public float angle;
 

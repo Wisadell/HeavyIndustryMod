@@ -93,7 +93,6 @@ public class MultiBulletTurret extends Turret {
     }
 
     public class MultiBulletTurretBuild extends TurretBuild {
-
         public Seq<ItemEntry> ammo = new Seq<>();
         public int bid = 0;
         public float resetBidTimer = 0;

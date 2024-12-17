@@ -15,24 +15,18 @@ import static mindustry.Vars.*;
 /**
  * A wall that can self restore life.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class RegenWall extends Wall {
     protected static final IntSet taken = new IntSet();
     protected static final IntFloatMap mendMap = new IntFloatMap();
     protected static long lastUpdateFrame = -1l;
 
-    /**
-     * per frame.
-     */
+    /** per frame. */
     public float healPercent = 12f / 60f;
-    /**
-     * Chance of wall to heal itself on collision. -1 to disable.
-     */
+    /** Chance of wall to heal itself on collision. -1 to disable. */
     public float chanceHeal = -1f;
-    /**
-     * How much wall heals at collision. Based on bullet damage.
-     */
+    /** How much wall heals at collision. Based on bullet damage. */
     public float regenPercent = 0.1f;
 
     public RegenWall(String name) {

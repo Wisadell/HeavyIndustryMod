@@ -9,7 +9,7 @@ import mindustry.world.meta.*;
 /**
  * Suitable for sandbox turrets without any consumption.
  *
- * @author E-Nightingale
+ * @author Eipusino
  */
 public class PlatformTurret extends Turret {
     public BulletType shootType = Bullets.placeholder;

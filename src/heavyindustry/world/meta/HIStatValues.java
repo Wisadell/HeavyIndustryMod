@@ -9,7 +9,7 @@ import arc.scene.ui.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
-import heavyindustry.ui.display.*;
+import heavyindustry.ui.displays.*;
 import heavyindustry.util.*;
 import heavyindustry.world.blocks.production.*;
 import mindustry.content.*;

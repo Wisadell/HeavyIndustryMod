@@ -8,8 +8,9 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.pooling.*;
+import arc.util.pooling.Pool.*;
 import heavyindustry.struct.*;
-import heavyindustry.world.comp.*;
+import heavyindustry.world.components.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 
@@ -242,7 +243,7 @@ public class Particle extends Decal implements ExtraVariableComp, Iterable<Parti
         return extraVar;
     }
 
-    public static class Cloud implements Pool.Poolable, Iterable<Cloud> {
+    public static class Cloud implements Poolable, Iterable<Cloud> {
         public final Color color = new Color();
 
         public float x, y, size;

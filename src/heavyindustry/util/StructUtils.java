@@ -11,7 +11,6 @@ import java.util.*;
  *
  * @author Eipusino
  */
-@SuppressWarnings("unchecked")
 public final class StructUtils {
     private static final Object[] emptyArray = new Object[0];
     private static final Empty<?> empty = new Empty<>();
@@ -19,11 +18,13 @@ public final class StructUtils {
     /** StructUtils should not be instantiated. */
     private StructUtils() {}
 
+    @SuppressWarnings("unchecked")
     public static <T> Empty<T> empty() {
         // SAFETY: Has no references or casts to T, so type erasure shouldn't mess everything up.
         return (Empty<T>) empty;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] emptyArray() {
         // SAFETY: If users require the type to be exactly T[], they can use reflection instead.
         return (T[]) emptyArray;
@@ -57,6 +58,7 @@ public final class StructUtils {
         return new Single<>(item);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Iter<T> iter(T... array) {
         return iter(array, 0, array.length);
     }
@@ -92,6 +94,7 @@ public final class StructUtils {
         return reducef(array, 0f, (item, accum) -> accum + extract.get(item)) / array.length;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T[] resize(T[] array, int newSize, T fill) {
         Class<?> type = array.getClass().getComponentType();
         return resize(array, size -> (T[]) Array.newInstance(type, size), newSize, fill);

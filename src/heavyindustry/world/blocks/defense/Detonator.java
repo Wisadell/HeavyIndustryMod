@@ -12,6 +12,7 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.ui.*;
 import mindustry.world.*;
+import mindustry.world.blocks.storage.CoreBlock.*;
 
 import static mindustry.Vars.*;
 
@@ -46,7 +47,7 @@ public class Detonator extends Block {
     @Override
     public boolean canPlaceOn(Tile tile, Team team, int rotation) {
         // no blowing up the core.
-        for (var core : team.data().cores) {
+        for (CoreBuild core : team.data().cores) {
             if (tile.within(core, range * tilesize * 3)) return false;
         }
 

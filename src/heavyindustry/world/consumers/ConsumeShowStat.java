@@ -2,7 +2,7 @@ package heavyindustry.world.consumers;
 
 import arc.func.*;
 import arc.scene.ui.layout.*;
-import heavyindustry.ui.display.*;
+import heavyindustry.ui.displays.*;
 import mindustry.*;
 import mindustry.gen.*;
 import mindustry.type.*;

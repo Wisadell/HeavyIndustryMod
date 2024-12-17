@@ -50,7 +50,7 @@ public class Draw3dSpin extends DrawBlock {
                 buffer.each(Runnable::run);
                 shadowBuffer.end();
                 Draw.color(Pal.shadow, Pal.shadow.a);
-                EDraw.drawBuffer(shadowBuffer);
+                Drawe.drawBuffer(shadowBuffer);
                 Draw.flush();
                 Draw.color();
             });
@@ -117,7 +117,7 @@ public class Draw3dSpin extends DrawBlock {
 
     @Override
     public void draw(Building build) {
-        final float startZ = Draw.z();
+        float startZ = Draw.z();
         try {
             float realWidth = rotorRegion.width * rotorRegion.scl() * Draw.xscl;
             float realHeight = rotorRegion.height * rotorRegion.scl() * Draw.yscl;

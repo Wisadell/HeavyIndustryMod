@@ -13,6 +13,7 @@ import arc.scene.ui.ImageButton.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.pooling.*;
+import arc.util.pooling.Pool.*;
 import heavyindustry.struct.*;
 import mindustry.content.*;
 import mindustry.core.*;
@@ -312,7 +313,7 @@ public final class Utils {
     public static void liquid(ObjectMap<Integer, Cons<Liquid>> cons, String name, Color color, float exp, float fla, float htc, float vis, float temp) {
         for (int i = 1; i < 10; i++) {
             int index = i;
-            var l = new Liquid(name + index, color) {{
+            Liquid l = new Liquid(name + index, color) {{
                 explosiveness = exp * index;
                 flammability = fla * index;
                 heatCapacity = htc * index;
@@ -922,7 +923,7 @@ public final class Utils {
         return tmpUnit;
     }
 
-    static class Hit implements Pool.Poolable {
+    static class Hit implements Poolable {
         Healthc ent;
         float x, y;
 
@@ -951,7 +952,7 @@ public final class Utils {
             defl.flush();
             defl.close();
 
-            var o = out.toByteArray();
+            byte[] o = out.toByteArray();
             out.close();
             return o;
         } catch (Exception e) {
@@ -967,7 +968,7 @@ public final class Utils {
             infl.write(in);
             infl.flush();
             infl.close();
-            var o = out.toByteArray();
+            byte[] o = out.toByteArray();
             out.close();
             return o;
         } catch (Exception e) {

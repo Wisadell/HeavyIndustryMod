@@ -11,7 +11,7 @@ import mindustry.world.*;
 import mindustry.world.consumers.*;
 
 import static arc.Core.*;
-import static heavyindustry.ui.TableUtils.*;
+import static heavyindustry.ui.UIUtils.*;
 
 public class PowerInfoGroup extends Table {
     public PowerInfoGroup(Seq<Building> buildings, PowerInfoType type, boolean isOpen, InfoToggled toggled) {

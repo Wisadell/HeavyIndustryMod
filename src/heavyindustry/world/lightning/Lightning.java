@@ -7,6 +7,7 @@ import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import arc.util.pooling.*;
+import arc.util.pooling.Pool.*;
 import heavyindustry.world.lightning.generator.*;
 import mindustry.graphics.*;
 
@@ -14,7 +15,7 @@ import mindustry.graphics.*;
  * A storage container for a single lightning bolt, which stores the start time and vertex information of the lightning bolt.
  * There are a large number of such instances, which should be reused.
  */
-public class Lightning implements Pool.Poolable {
+public class Lightning implements Poolable {
     private static final Vec2 last = new Vec2(), self = new Vec2(), next = new Vec2();
 
     public final Seq<LightningVertex> vertices = new Seq<>();
